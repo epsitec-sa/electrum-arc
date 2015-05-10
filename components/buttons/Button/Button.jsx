@@ -7,15 +7,14 @@ var E     = require ('e');
 
 module.exports = E.createClass({
 
-  handleClick: function () {
-    //  TODO: dispatch event to Electrum
+  handleClick: function (event) {
+    E.dispatchAction (this, event, this.props.action || this.props.id);
   },
 
   render: function () {
-    //  TODO: fetch text and style via Electrum
-    var text = this.props.id;
-    var style = {};
-    var disabled = false;
+    var text = E.getText (this);
+    var style = E.getStyle (this);
+    var disabled = E.getState (s => s.disabled);
 
     return (
       <button style={style}
