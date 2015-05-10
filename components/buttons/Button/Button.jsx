@@ -7,7 +7,7 @@ var E     = require ('e');
 
 module.exports = E.createClass({
 
-  handleClick: function (event) {
+  handleClick: function () {
     E.action.dispatch (this, this.props.action || this.props.id);
   },
 
