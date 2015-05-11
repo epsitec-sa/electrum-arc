@@ -13,8 +13,8 @@ module.exports = E.createClass({
     var placeholder = this.props.placeholder || '...';
     var style = E.getStyle (this, require ('./PasswordField.styles.js'));
     var value = E.getValue (this);
-    var disabled = E.getState (this, 'disable');
-
+    var disabled = E.getState (this, s => s.disabled);
+    
     return (
       <label style={style.label}>
         {labelText}

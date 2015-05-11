@@ -17,12 +17,14 @@ module.exports = E.createClass({
     var placeholder = this.props.placeholder || '...';
     var style = E.getStyle (this, require ('./TextField.styles.js'));
     var value = E.getValue (this);
-    var disabled = E.getState (this, 'disable');
+    var disabled = E.getState (this, s => s.disabled);
 
     return (
       <label style={style.label}>
         {labelText}
-        <input style={style.input}
+        <input
+          onChange={this.handleChange}
+          style={style.input}
           type="text"
           id={this.props.id}
           placeholder={placeholder}

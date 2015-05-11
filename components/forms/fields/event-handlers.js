@@ -10,7 +10,7 @@ var lastEventTimeStamp = 0;
 var processChangeEvent = function (event) {
 
   var oldValue  = E.getValue (this);
-  var oldSelect = E.getState (this, 'from,id,to'); // TODO: remove id
+  var oldSelect = E.getState (this, 'from,to');
 
   var newValue  = event.target.value;
   var newSelect = getTextSelection (event.target);
