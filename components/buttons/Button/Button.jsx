@@ -8,13 +8,13 @@ var E     = require ('e');
 module.exports = E.createClass({
 
   handleClick: function () {
-    E.action.dispatch (this, this.props.action || this.props.id);
+    E.bus.dispatch (this, this.props.action || this.props.id);
   },
 
   render: function () {
     var text = E.getText (this);
     var style = E.getStyle (this);
-    var disabled = E.getState (this, s => s.disabled);
+    var disabled = E.getState (this, 'disable');
 
     return (
       <button style={style}
