@@ -8,6 +8,7 @@ var E     = require ('e');
 module.exports = E.createClass({
 
   handleChange: function (event) {
+    event.stopPropagation ();
     E.setValue (this, event.target.checked ? 'on' : 'off');
   },
 
@@ -21,13 +22,13 @@ module.exports = E.createClass({
 
     return (
       <label style={style.label}>
-        {labelText}
         <input style={style.input}
           type="checkbox"
           id={this.props.id}
           disabled={disabled}
           checked={checked}
           ohchange={this.handleChange} />
+        {labelText}
       </label>
     );
   }
