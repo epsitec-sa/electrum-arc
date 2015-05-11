@@ -27,7 +27,7 @@ module.exports = E.createClass({
           id={this.props.id}
           disabled={disabled}
           checked={checked}
-          ohchange={this.handleChange} />
+          onChange={this.handleChange} />
         {labelText}
       </label>
     );
