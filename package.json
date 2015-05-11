@@ -1,0 +1,19 @@
+{
+  "name": "electrum-arc",
+  "version": "0.1.0",
+  "description": "Agnostic Reactive Components for Electrum",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Epsitec SA",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/epsitec-sa/electrum-arc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/epsitec-sa/electrum-arc/issues"
+  },
+  "homepage": "https://github.com/epsitec-sa/electrum-arc"
+}
