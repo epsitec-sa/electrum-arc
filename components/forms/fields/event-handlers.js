@@ -27,7 +27,7 @@ var processChangeEvent = function (event) {
   if ((oldValue !== newValue) ||
       (oldSelectJson !== newSelectJson)) {
 
-    E.setValueAndStates (this, newValue, [newSelect]);
+    E.setValue (this, newValue, newSelect);
   }
 };
 /*
