@@ -29,10 +29,6 @@ var processChangeEvent = function (obj, event) {
   var newValue  = event.target.value;
   var newSelect = getTextSelection (event.target);
 
-  if (window.shouldBreak) {
-    window.shouldBreak = false;
-    //debugger;
-  }
   if (debug) {
     var oldValue  = E.getValue (obj);
     var oldSelect = E.getState (obj, 'from,to');
@@ -78,6 +74,10 @@ module.exports = {
   },
 
   handleKeyDown: function (obj, event) {
+    eventNotify (obj, event, processChangeEvent);
+  },
+
+  handleKeyUp: function (obj, event) {
     eventNotify (obj, event, processChangeEvent);
   },
 

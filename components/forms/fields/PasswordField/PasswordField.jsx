@@ -24,6 +24,7 @@ module.exports = E.createClass({
           onChange={ev => eventHandlers.handleChange (this, ev)}
           onFocus={ev => eventHandlers.handleFocus (this, ev)}
           onKeyDown={ev => eventHandlers.handleKeyDown (this, ev)}
+          onKeyUp={ev => eventHandlers.handleKeyUp (this, ev)}
           onSelect={ev => eventHandlers.handleSelect (this, ev)}
           style={style.input}
           type="password"
