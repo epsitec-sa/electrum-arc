@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/epsitec-sa/electrum-arc/issues"
   },
-  "homepage": "https://github.com/epsitec-sa/electrum-arc"
+  "homepage": "https://github.com/epsitec-sa/electrum-arc",
+  "dependencies": {
+    "electrum-utils": "0.0.1"
+  }
 }

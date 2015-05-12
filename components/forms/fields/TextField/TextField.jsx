@@ -9,8 +9,6 @@ var E     = require ('e');
 
 module.exports = E.createClass({
 
-  handleChange: eventHandlers.handleChange,
-
   render: function () {
 
     var labelText = E.getText (this);
@@ -23,7 +21,10 @@ module.exports = E.createClass({
       <label style={style.label}>
         {labelText}
         <input
-          onChange={this.handleChange}
+          onChange={ev => eventHandlers.handleChange (this, ev)}
+          onFocus={ev => eventHandlers.handleFocus (this, ev)}
+          onKeyDown={ev => eventHandlers.handleKeyDown (this, ev)}
+          onSelect={ev => eventHandlers.handleSelect (this, ev)}
           style={style.input}
           type="text"
           id={this.props.id}

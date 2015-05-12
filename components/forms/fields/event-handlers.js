@@ -1,92 +1,89 @@
 'use strict';
 
 var E = require ('e');
-var getTextSelection = require ('../../../utils/get-text-selection.js');
+var getTextSelection = require ('electrum-utils/modules/get-text-selection.js');
 
 /*****************************************************************************/
 
-var lastEventTimeStamp = 0;
+var debug = true;
 
-var processChangeEvent = function (event) {
+var eventNotify = function eventNotify (obj, event, func) {
+  if (event.hasOwnProperty ('target')) {
+    func (obj, event);
+  }
+};
 
-  var oldValue  = E.getValue (this);
-  var oldSelect = E.getState (this, 'from,to');
+/*
+var lastTimeStamp = 0;
+var eventFilter = function eventFilter (obj, event, func) {
+  if (event.timeStamp > lastTimeStamp) {
+    eventNotify (obj, event, func);
+    lastTimeStamp = event.timeStamp;
+  }
+};
+*/
+/*****************************************************************************/
+
+var processChangeEvent = function (obj, event) {
 
   var newValue  = event.target.value;
   var newSelect = getTextSelection (event.target);
 
-  var oldSelectJson = JSON.stringify (oldSelect);
-  var newSelectJson = JSON.stringify (newSelect);
-
-  lastEventTimeStamp = event.timeStamp;
-
-  console.log ('OnChange ' + event.type + ': ' + event.timeStamp);
-  console.log ('Old: ' + oldValue + '/' + oldSelectJson);
-  console.log ('New: ' + newValue + '/' + newSelectJson);
-
-  if ((oldValue !== newValue) ||
-      (oldSelectJson !== newSelectJson)) {
-
-    E.setValue (this, newValue, newSelect);
+  if (window.shouldBreak) {
+    window.shouldBreak = false;
+    //debugger;
   }
+  if (debug) {
+    var oldValue  = E.getValue (obj);
+    var oldSelect = E.getState (obj, 'from,to');
+
+    var oldSelectJson = JSON.stringify (oldSelect);
+    var newSelectJson = JSON.stringify (newSelect);
+
+    console.log ('OnChange ' + event.type + ': ' + event.timeStamp);
+    console.log ('  Old => ' + oldValue + '/' + oldSelectJson);
+    console.log ('  New => ' + newValue + '/' + newSelectJson);
+  }
+
+  E.setValue (obj, newValue, newSelect);
 };
-/*
-var processFocusEvent = function (event) {
-  var fieldId = event.target.id;
-  var store  = this.getStore ();
-  if (store.isHandlingFocus) {
-    trace.log ('Skipping OnFocus');
-    return;
-  }
-  store.isHandlingFocus = true;
-  var modelId = store.modelId;
 
-  trace.log ('OnFocus ' + fieldId + ', ' + modelId);
-  event.stopPropagation ();
-  var proxy = hubs.getPresentationHubProxy ();
+var processFocusEvent = function (obj, event) {
+  if (debug) {
+    console.log ('OnFocus ' + event.type + ': ' + event.timeStamp);
+  }
+
+  E.bus.dispatch (obj, 'focus');
+/*  var proxy = hubs.getPresentationHubProxy ();
   proxy
     .invoke ('FocusField', modelId, fieldId)
     .fail (function (error) {
       trace.log ('FocusField failed: ' + error);
-    });
+    }); */
 };
-*/
+
 /*****************************************************************************/
 
 module.exports = {
-/*
-  handleFocus: function (event) {
-    if (event.target.id) {
-      if (event.timeStamp > lastEventTimeStamp) {
-        processChangeEvent.call (this, event);
-      }
-      processFocusEvent.call (this, event);
-    }
-  },
-*/
-  handleChange: function (event) {
-    if (event.target.id) {
-      processChangeEvent.call (this, event);
-      event.stopPropagation ();
-      event.preventDefault ();
-    }
-  },
-/*
-  handleKeyDown: function (event) {
-    if (event.target.id) {
-      if (event.timeStamp > lastEventTimeStamp) {
-        processChangeEvent.call (this, event);
-      }
-    }
+  handleFocus: function (obj, event) {
+    eventNotify (obj, event, processChangeEvent);
+    eventNotify (obj, event, processFocusEvent);
+    event.stopPropagation ();
   },
 
-  handleSelect: function (event) {
-    if (event.target.id) {
-      if (event.timeStamp > lastEventTimeStamp) {
-        processChangeEvent.call (this, event);
-      }
-    }
-  }*/
+  handleChange: function (obj, event) {
+    eventNotify (obj, event, processChangeEvent);
+    event.stopPropagation ();
+    event.preventDefault ();
+  },
+
+  handleKeyDown: function (obj, event) {
+    eventNotify (obj, event, processChangeEvent);
+  },
+
+  handleSelect: function (obj, event) {
+    eventNotify (obj, event, processChangeEvent);
+  },
 };
 
 /*****************************************************************************/
