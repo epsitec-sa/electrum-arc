@@ -6,20 +6,16 @@ var React      = require ('react');
 
 module.exports = {
 
-  handleClick: function () {
-    E.bus.dispatch (this, this.props.action || this.props.id);
-  },
-
   render: function () {
+    var text  = E.getText (this);
     var style = E.getStyle (this);
-    var state = E.getState (this, s => s.disabled);
-    console.log ('RENDER:', state);
+    // var disabled = E.getState (this, s => s.disabled);
+
     return (
-      <button style={style}
-        disabled={state.disabled}
-        onClick={this.handleClick}>
+      <label style={style}>
+        {text}
         {this.props.children}
-      </button>
+      </label>
     );
   }
 };

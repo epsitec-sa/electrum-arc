@@ -1,11 +1,9 @@
 'use strict';
 
-var React = require ('react');
-var E     = require ('e');
-
+var E          = require ('e');
+var React      = require ('react');
 /*****************************************************************************/
-
-module.exports = E.createClass({
+module.exports = {
 
   handleChange: function (event) {
     event.stopPropagation ();
@@ -32,6 +30,6 @@ module.exports = E.createClass({
       </label>
     );
   }
-});
+};
 
 /*****************************************************************************/

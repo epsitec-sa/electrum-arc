@@ -1,13 +1,12 @@
 'use strict';
 
+var E             = require ('e');
+var React         = require ('react');
 var eventHandlers = require ('../event-handlers.js');
-
-var React = require ('react');
-var E     = require ('e');
 
 /*****************************************************************************/
 
-module.exports = E.createClass({
+module.exports = {
 
   render: function () {
 
@@ -35,6 +34,6 @@ module.exports = E.createClass({
       </label>
     );
   }
-});
+};
 
 /*****************************************************************************/
