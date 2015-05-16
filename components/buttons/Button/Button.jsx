@@ -1,7 +1,8 @@
 'use strict';
 
-var E          = require ('e');
-var React      = require ('react');
+var React = require ('react');
+var E     = require ('e');
+
 /*****************************************************************************/
 
 module.exports = {
@@ -14,6 +15,7 @@ module.exports = {
     var style = E.getStyle (this);
     var state = E.getState (this, s => s.disabled);
     console.log ('RENDER:', state);
+
     return (
       <button style={style}
         disabled={state.disabled}

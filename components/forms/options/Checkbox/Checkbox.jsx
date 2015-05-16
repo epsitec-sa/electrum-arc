@@ -1,8 +1,10 @@
 'use strict';
 
-var E          = require ('e');
-var React      = require ('react');
+var React = require ('react');
+var E     = require ('e');
+
 /*****************************************************************************/
+
 module.exports = {
 
   handleChange: function (event) {
