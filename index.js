@@ -6,5 +6,5 @@ module.exports = {
   PasswordField: require ('./components/forms/fields/PasswordField/PasswordField.jsx'),
   TextField:     require ('./components/forms/fields/TextField/TextField.jsx'),
   Modal:         require ('./components/dialogs/Modal/Modal.jsx'),
-  ModalHeader:   require ('./components/dialogs/Modal/ModalHeader/ModalHeader.jsx')
+  ModalHeader:   require ('./components/dialogs/ModalHeader/ModalHeader.jsx')
 };
