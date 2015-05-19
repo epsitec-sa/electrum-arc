@@ -1,10 +1,9 @@
 'use strict';
+var container = require ('../../../layouts/LayoutItems.styles.js');
 
 module.exports = {
-  label: {
+  base: {
     display: 'block'
   },
-  input: {
-    display: 'block'
-  }
+  container: container
 };

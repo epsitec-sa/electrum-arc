@@ -10,16 +10,13 @@ var E     = require ('e');
 module.exports = E.createClass({
 
   render: function () {
-
-    var labelText = E.getText (this);
     var placeholder = this.props.placeholder || '...';
-    var style = E.getStyle (this, require ('./TextField.styles.js'));
-    var value = E.getValue (this);
-    var disabled = E.getState (this, s => s.disabled);
+    var style     = require ('./TextField.styles.js');
+    var value     = E.getValue (this);
+    var disabled  = E.getState (this, s => s.disabled);
 
     return (
-      <label style={style.label}>
-        {labelText}
+      <div style={style.container[this.props.layout]}>
         <input
           onChange={ev => eventHandlers.handleChange (this, ev)}
           onFocus={ev => eventHandlers.handleFocus (this, ev)}
@@ -32,7 +29,7 @@ module.exports = E.createClass({
           placeholder={placeholder}
           disabled={disabled}
           value={value} />
-      </label>
+      </div>
     );
   }
 });

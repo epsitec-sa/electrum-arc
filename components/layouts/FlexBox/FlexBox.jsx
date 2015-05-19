@@ -8,14 +8,18 @@ var E     = require ('e');
 module.exports = E.createClass({
 
   render: function () {
-    var text = E.getText (this);
-    var style = E.getStyle (this);
-    var disabled = E.getState (this, s => s.disabled);
-
+    var text      = E.getText (this);
+    var style     = require ('./FlexBox.styles.js');
+    var disabled  = E.getState (this, s => s.disabled);
     return (
-      <header style={style}>
+      <div style={[
+           style.base,
+           style.direction[this.props.direction],
+           style.wrap[this.props.wrap],
+           style.justify[this.props.justify]
+      ]}>
         {this.props.children}
-      </header>
+      </div>
     );
   }
 });
