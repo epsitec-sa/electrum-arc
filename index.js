@@ -5,6 +5,6 @@ module.exports = {
   Checkbox:      require ('./components/forms/options/Checkbox/Checkbox.jsx'),
   PasswordField: require ('./components/forms/fields/PasswordField/PasswordField.jsx'),
   TextField:     require ('./components/forms/fields/TextField/TextField.jsx'),
-  Modal:         require ('/components/dialogs/Modal/Modal.jsx'),
-  ModalHeader:   require ('/components/dialogs/Modal/ModalHeader/ModalHeader.jsx')
+  Modal:         require ('./components/dialogs/Modal/Modal.jsx'),
+  ModalHeader:   require ('./components/dialogs/Modal/ModalHeader/ModalHeader.jsx')
 };
