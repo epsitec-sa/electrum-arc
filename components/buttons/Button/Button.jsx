@@ -7,6 +7,8 @@ var E     = require ('e');
 
 module.exports = E.createClass({
 
+  theme: require ('./Button.styles.js'),
+
   handleClick: function () {
     E.bus.dispatch (this, this.props.action || this.props.id);
   },

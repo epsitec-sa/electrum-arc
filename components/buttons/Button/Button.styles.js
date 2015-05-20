@@ -1,5 +1,13 @@
 'use strict';
 
 module.exports = {
-  // TODO: add local styles here...
+  base: {
+    fontWeight: 'normal',
+  },
+  accept: {
+    fontWeight: 'bold',
+  },
+  cancel: {
+    fontStyle: 'italic',
+  }
 };
