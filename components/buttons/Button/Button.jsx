@@ -17,7 +17,9 @@ module.exports = E.createClass({
     var text = E.getText (this);
     var style = E.getStyle (this);
     var disabled = E.getState (this, s => s.disabled);
-    
+
+    console.log ('Style='+JSON.stringify (style));
+
     return (
       <button style={style}
         disabled={disabled}
