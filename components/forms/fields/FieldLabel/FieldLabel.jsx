@@ -2,6 +2,8 @@
 
 var React     = require ('react');
 var E         = require ('e');
+var Box   = require ('../../../layouts/Box/Box.jsx');
+
 /*****************************************************************************/
 
 module.exports = E.createClass({
@@ -12,12 +14,12 @@ module.exports = E.createClass({
     var style     = require ('./FieldLabel.styles.js');
     var disabled  = E.getState (this, s => s.disabled);
     return (
-      <div style={style.container[this.props.layout]}>
-        <label for={this.props.id} style={style}>
+      <Box container={this.props.container} boxstyle={this.props.boxstyle}>
+        <label htmlFor={this.props.id} style={style.base}>
           {labelText}
           {this.props.children}
         </label>
-      </div>
+      </Box>
     );
   }
 });

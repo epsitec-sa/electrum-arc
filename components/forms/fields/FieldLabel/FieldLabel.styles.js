@@ -1,5 +1,12 @@
 'use strict';
-var container = require ('../../../layouts/LayoutItems.styles.js');
+
 module.exports = {
-  container: container
+  base: {
+    fontSize: '16px',
+    marginLeft: '10px',
+    lineHeight: '1em',
+    color: '#858282',
+    fontFamily: '"Open Sans", sans-serif',
+    fontWeight: '600'
+  }
 };

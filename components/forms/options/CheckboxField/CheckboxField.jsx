@@ -2,7 +2,7 @@
 
 var React = require ('react');
 var E     = require ('e');
-
+var Box   = require ('../../../layouts/Box/Box.jsx');
 /*****************************************************************************/
 
 module.exports = E.createClass({
@@ -13,23 +13,20 @@ module.exports = E.createClass({
   },
 
   render: function () {
-
-    var labelText = E.getText (this);
-    var style = E.getStyle (this, require ('./Checkbox.styles.js'));
+    var style = E.getStyle (this, require ('./CheckboxField.styles.js'));
     var value = E.getValue (this);
     var checked  = value === 'on';
     var disabled = E.getState (this, s => s.disabled);
 
     return (
-      <label style={style.label}>
-        <input style={style.input}
-          type="checkbox"
-          id={this.props.id}
-          disabled={disabled}
-          checked={checked}
-          onChange={this.handleChange} />
-        {labelText}
-      </label>
+      <Box container={this.props.container} boxstyle={this.props.boxstyle}>
+          <input style={style.base}
+            type="checkbox"
+            id={this.props.id}
+            disabled={disabled}
+            checked={checked}
+            onChange={this.handleChange} />
+      </Box>
     );
   }
 });

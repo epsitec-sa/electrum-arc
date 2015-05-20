@@ -1,35 +1,24 @@
 'use strict';
 
-var eventHandlers = require ('../event-handlers.js');
-
-var React = require ('react');
-var E     = require ('e');
+var React   = require ('react');
+var E       = require ('e');
+var Box     = require ('../../../layouts/Box/Box.jsx');
+var FlexBox = require ('../../../layouts/FlexBox/FlexBox.jsx');
+var BasicField = require ('../BasicField.jsx');
+var FieldLabel = require ('../FieldLabel/FieldLabel.jsx');
 
 /*****************************************************************************/
 
 module.exports = E.createClass({
 
   render: function () {
-    var placeholder = this.props.placeholder || '...';
-    var style     = require ('./TextField.styles.js');
-    var value     = E.getValue (this);
-    var disabled  = E.getState (this, s => s.disabled);
-
     return (
-      <div style={style.container[this.props.layout]}>
-        <input
-          onChange={ev => eventHandlers.handleChange (this, ev)}
-          onFocus={ev => eventHandlers.handleFocus (this, ev)}
-          onKeyDown={ev => eventHandlers.handleKeyDown (this, ev)}
-          onKeyUp={ev => eventHandlers.handleKeyUp (this, ev)}
-          onSelect={ev => eventHandlers.handleSelect (this, ev)}
-          style={style.input}
-          type="text"
-          id={this.props.id}
-          placeholder={placeholder}
-          disabled={disabled}
-          value={value} />
-      </div>
+      <Box container={this.props.container} boxstyle={this.props.boxstyle}>
+        <FlexBox direction="row" align-items="baseline" space={[1,2]}>
+          <FieldLabel {...this.props} />
+          <BasicField type="text" {...this.props} />
+        </FlexBox>
+      </Box>
     );
   }
 });

@@ -1,5 +1,4 @@
 'use strict';
-var container = require ('../../layouts/LayoutItems.styles.js');
 
 module.exports = {
   base: {
@@ -7,6 +6,5 @@ module.exports = {
     display: 'block',
     float: 'left',
     color: '#87ac78'
-  },
-  container: container
+  }
 };

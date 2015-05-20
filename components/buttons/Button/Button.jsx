@@ -2,6 +2,7 @@
 
 var React = require ('react');
 var E     = require ('e');
+var Box   = require ('../../layouts/Box/Box.jsx');
 
 /*****************************************************************************/
 
@@ -18,14 +19,15 @@ module.exports = E.createClass({
     var style = E.getStyle (this);
     var disabled = E.getState (this, s => s.disabled);
 
-    console.log ('Style='+JSON.stringify (style));
-
     return (
-      <button style={style}
-        disabled={disabled}
-        onClick={this.handleClick}>
-        {text}
-      </button>
+      <Box container={this.props.container} boxstyle={this.props.boxstyle}>
+        <button style={style}
+          disabled={disabled}
+          onClick={this.handleClick}>
+          {text}
+        </button>
+      </Box>
+
     );
   }
 });

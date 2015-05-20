@@ -34,6 +34,11 @@ module.exports = {
       flexWrap: 'wrap-reverse'
     }
   },
+  'align-items': {
+      baseline: {
+        alignItems: 'baseline',
+      }
+  },
   justify: {
     start: {
       justifyContent: 'flex-start'
