@@ -8,7 +8,7 @@ var FieldLabel = require ('../FieldLabel/FieldLabel.jsx');
 
 /*****************************************************************************/
 
-module.exports = E.createClass({
+module.exports = E.createClass ('PasswordField', {
 
   render: function () {
     return (

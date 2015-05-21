@@ -5,7 +5,7 @@ var E         = require ('e');
 
 /*****************************************************************************/
 
-module.exports = E.createClass({
+module.exports = E.createClass ('FieldLaberl', {
 
   render: function () {
 
