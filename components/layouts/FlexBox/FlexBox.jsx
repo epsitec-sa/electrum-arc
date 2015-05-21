@@ -15,8 +15,9 @@ module.exports = E.createClass ('FlexBox', {
     var _setFlexItem = function (item, index) {
       var itemId = '<' + item.type.displayName + ' id="' + item.props.id + '">';
       if (typeof item.type === 'function') {
-        // space array available on flexbox
+        // React comp.
         if (self.props.space) {
+          // space array available on flexbox ?
           if (!self.props.space[index]) {
             console.warn ('Your Flexbox cannot apply space to ', itemId);
           } else {
@@ -56,7 +57,7 @@ module.exports = E.createClass ('FlexBox', {
         });
 
       } else {
-        console.log ('Skipping ', item.type);
+        // Native html comp.
         return item;
       }
     };
