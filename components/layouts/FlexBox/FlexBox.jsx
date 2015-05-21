@@ -13,14 +13,14 @@ module.exports = E.createClass ('FlexBox', {
     var disabled  = E.getState (this, s => s.disabled);
     var self      = this;
     var _setFlexItem = function (item, index) {
-
+      var itemId = '<' + item.type.displayName + ' id="' + item.props.id + '">';
       if (typeof item.type === 'function') {
         // space array available on flexbox
         if (self.props.space) {
           if (!self.props.space[index]) {
-            console.warn ('Your Flexbox cannot apply space to item', item.props.id);
+            console.warn ('Your Flexbox cannot apply space to ', itemId);
           } else {
-            console.log ('%s receive a flex of %s',item.props.id, self.props.space[index]);
+            console.log ('%s receive a basis of %s', itemId, self.props.space[index]);
             return React.addons.cloneWithProps(item, {
               boxstyle: {
                 flex: self.props.space[index]
@@ -31,7 +31,7 @@ module.exports = E.createClass ('FlexBox', {
 
         // split on first child with inherited splitter value
         if (self.props.split && index === 0) {
-          console.log ('Splitter set:', self.props.split);
+          console.log ('%s receive a basis of %s', itemId,  self.props.split);
           return React.addons.cloneWithProps(item, {
             boxstyle: {
               flexGrow: '0',
@@ -42,7 +42,7 @@ module.exports = E.createClass ('FlexBox', {
         }
 
         //
-        console.log ('Inherit...');
+        console.log ('%s receive default flex', itemId);
         return React.addons.cloneWithProps(item, {
           splitter: self.props.splitter,
           boxstyle: {
