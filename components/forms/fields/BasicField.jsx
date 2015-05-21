@@ -7,7 +7,7 @@ var E     = require ('e');
 
 /*****************************************************************************/
 
-module.exports = E.createClass({
+module.exports = E.createClass('BasicField', {
 
   render: function () {
     var placeholder = this.props.placeholder || '...';
