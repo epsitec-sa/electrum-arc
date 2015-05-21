@@ -3,6 +3,7 @@
 var React      = require ('react');
 var E          = require ('e');
 var BasicField = require ('../BasicField.jsx');
+var FlexBox    = require ('../../../layouts/FlexBox/FlexBox.jsx');
 var Icon       = require ('../../../icons/Icon/Icon.jsx');
 
 /*****************************************************************************/

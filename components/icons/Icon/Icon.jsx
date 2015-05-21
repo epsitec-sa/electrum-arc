@@ -20,7 +20,7 @@ module.exports = E.createClass ('Icon', {
     var text     = E.getText (this);
     var style    = E.getStyle (this);
     var disabled = E.getState (this, s => s.disabled);
-
+    var icon = this.props.fa || 'star';
     return (
       <div style={this.props.boxstyle}>
         <i

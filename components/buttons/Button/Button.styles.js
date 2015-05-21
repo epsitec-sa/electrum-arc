@@ -18,7 +18,10 @@ module.exports = {
     paddingTop: '5px',
     paddingBottom: '5px',
     background: '#87ac78',
-    borderRadius: '100px'
+    borderRadius: '100px',
+    ':hover': {
+      background: '#9cc78a'
+    }
   },
   small: {
     width: 'none',
