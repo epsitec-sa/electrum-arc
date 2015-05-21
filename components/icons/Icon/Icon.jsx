@@ -7,6 +7,8 @@ var E     = require ('e');
 
 module.exports = E.createClass ('Icon', {
 
+  theme: require ('./Icon.styles.js'),
+
   handleClick: function () {
     var disabled = E.getState (this, s => s.disabled);
     if (!disabled) {
@@ -16,14 +18,14 @@ module.exports = E.createClass ('Icon', {
 
   render: function () {
     var text     = E.getText (this);
-    var style    = require ('./Icon.styles.js');
+    var style    = E.getStyle (this);
     var disabled = E.getState (this, s => s.disabled);
 
     return (
       <div style={this.props.boxstyle}>
         <i
-          className={'fa fa-' + this.props.fa}
-          style={style.base}
+          className={'fa fa-' + icon}
+          style={style}
           onClick={this.handleClick}>
           {text}
           {this.props.children}

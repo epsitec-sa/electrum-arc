@@ -7,9 +7,10 @@ var E     = require ('e');
 
 module.exports = E.createClass ('FlexBox', {
 
+  theme: require ('./FlexBox.styles.js'),
+
   render: function () {
     var text      = E.getText (this);
-    var style     = require ('./FlexBox.styles.js');
     var disabled  = E.getState (this, s => s.disabled);
     var self      = this;
     var _setFlexItem = function (item, index) {
@@ -63,15 +64,22 @@ module.exports = E.createClass ('FlexBox', {
     };
 
     var flexItems = React.Children.map (this.props.children, _setFlexItem);
+    var style     = E.getStyle (this);
+    var tweaks    = require ('./FlexBox.tweaks.js');
+    style.push (tweaks.base);
+    style.push (tweaks.direction[this.props.direction]);
+    style.push (tweaks.wrap[this.props.wrap]);
+    style.push (tweaks.justify[this.props.justify]);
+    style.push (tweaks['align-items'][this.props['align-items']]);
+    style = style.concat (this.props.boxstyle);
+
+    if (this.props.boxstyle) {
+      console.log ('I:', this.props.boxstyle);
+      console.log ('R:', style);
+    }
+
     return (
-        <div style={[
-             style.base,
-             style.direction[this.props.direction],
-             style.wrap[this.props.wrap],
-             style.justify[this.props.justify],
-             style['align-items'][this.props['align-items']],
-             this.props.boxstyle
-        ]}>
+        <div style={style}>
           {flexItems}
         </div>
     );

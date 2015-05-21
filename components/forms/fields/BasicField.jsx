@@ -9,9 +9,11 @@ var E     = require ('e');
 
 module.exports = E.createClass('BasicField', {
 
+  theme: require ('./BasicField.styles.js'),
+
   render: function () {
     var placeholder = this.props.placeholder || '...';
-    var style     = require ('./BasicField.styles.js');
+    var style     = E.getStyle (this);
     var value     = E.getValue (this);
     var disabled  = E.getState (this, s => s.disabled);
     var fieldType = this.props.type || 'text';
@@ -24,7 +26,7 @@ module.exports = E.createClass('BasicField', {
           onKeyDown={ev => eventHandlers.handleKeyDown (this, ev)}
           onKeyUp={ev => eventHandlers.handleKeyUp (this, ev)}
           onSelect={ev => eventHandlers.handleSelect (this, ev)}
-          style={style.base}
+          style={style}
           type={fieldType}
           id={this.props.id}
           placeholder={placeholder}
