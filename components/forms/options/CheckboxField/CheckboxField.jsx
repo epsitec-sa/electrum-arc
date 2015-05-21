@@ -2,7 +2,7 @@
 
 var React = require ('react');
 var E     = require ('e');
-var Box   = require ('../../../layouts/Box/Box.jsx');
+
 /*****************************************************************************/
 
 module.exports = E.createClass({
@@ -19,14 +19,14 @@ module.exports = E.createClass({
     var disabled = E.getState (this, s => s.disabled);
 
     return (
-      <Box container={this.props.container} boxstyle={this.props.boxstyle}>
+      <div style={this.props.boxstyle}>
           <input style={style.base}
             type="checkbox"
             id={this.props.id}
             disabled={disabled}
             checked={checked}
             onChange={this.handleChange} />
-      </Box>
+      </div>
     );
   }
 });

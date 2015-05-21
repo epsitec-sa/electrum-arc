@@ -2,7 +2,7 @@
 
 var React = require ('react');
 var E     = require ('e');
-var Box   = require ('../../layouts/Box/Box.jsx');
+
 /*****************************************************************************/
 
 module.exports = E.createClass({
@@ -20,7 +20,7 @@ module.exports = E.createClass({
     var disabled = E.getState (this, s => s.disabled);
 
     return (
-      <Box container={this.props.container} boxstyle={this.props.boxstyle}>
+      <div style={this.props.boxstyle}>
         <i
           className={'fa fa-' + this.props.fa}
           style={style.base}
@@ -28,7 +28,7 @@ module.exports = E.createClass({
           {text}
           {this.props.children}
         </i>
-      </Box>
+      </div>
     );
   }
 });
