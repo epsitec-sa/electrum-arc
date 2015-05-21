@@ -5,12 +5,12 @@ var E         = require ('e');
 
 /*****************************************************************************/
 
-module.exports = E.createClass ('FieldLabel', {
+module.exports = E.createClass ('Label', {
 
   render: function () {
 
     var labelText = E.getText (this);
-    var style     = require ('./FieldLabel.styles.js');
+    var style     = require ('./Label.styles.js');
     var disabled  = E.getState (this, s => s.disabled);
     return (
       <div style={this.props.boxstyle}>
