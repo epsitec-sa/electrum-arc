@@ -22,8 +22,11 @@ module.exports = E.createClass ('FlexBox', {
           } else {
             console.log ('%s receive a basis of %s', itemId, self.props.space[index]);
             return React.addons.cloneWithProps(item, {
+              splitter: self.props.splitter,
               boxstyle: {
-                flex: self.props.space[index]
+                flexGrow: '0',
+                flexShrink: '1',
+                flexBasis: self.props.space[index]
               }
             });
           }
@@ -65,7 +68,8 @@ module.exports = E.createClass ('FlexBox', {
              style.direction[this.props.direction],
              style.wrap[this.props.wrap],
              style.justify[this.props.justify],
-             style['align-items'][this.props['align-items']]
+             style['align-items'][this.props['align-items']],
+             this.props.boxstyle
         ]}>
           {flexItems}
         </div>
