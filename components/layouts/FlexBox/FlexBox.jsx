@@ -12,9 +12,16 @@ module.exports = E.createClass ('FlexBox', {
   render: function () {
     var text      = E.getText (this);
     var disabled  = E.getState (this, s => s.disabled);
+    var splitter  = this.props.splitter;
     var self      = this;
     var _setFlexItem = function (item, index) {
-      var itemId = '<' + item.type.displayName + ' id="' + item.props.id + '">';
+      var itemId   = '<' + item.type.displayName + ' id="' + item.props.id + '">';
+
+      //Verify if child has a splitter
+      if (item.props.splitter) {
+        splitter = item.props.splitter;
+      }
+
       if (typeof item.type === 'function') {
         // React comp.
         if (self.props.space) {
@@ -24,10 +31,10 @@ module.exports = E.createClass ('FlexBox', {
           } else {
             console.log ('%s receive a basis of %s', itemId, self.props.space[index]);
             return React.addons.cloneWithProps(item, {
-              splitter: self.props.splitter,
+              splitter: splitter,
               boxstyle: {
                 flexGrow: '0',
-                flexShrink: '1',
+                flexShrink: '0',
                 flexBasis: self.props.space[index]
               }
             });
@@ -40,7 +47,7 @@ module.exports = E.createClass ('FlexBox', {
           return React.addons.cloneWithProps(item, {
             boxstyle: {
               flexGrow: '0',
-              flexShrink: '1',
+              flexShrink: '0',
               flexBasis: self.props.split
             }
           });
@@ -49,7 +56,7 @@ module.exports = E.createClass ('FlexBox', {
         //
         console.log ('%s receive default flex', itemId);
         return React.addons.cloneWithProps(item, {
-          splitter: self.props.splitter,
+          splitter: splitter,
           boxstyle: {
             flexGrow: '0',
             flexShrink: '1',
@@ -72,11 +79,6 @@ module.exports = E.createClass ('FlexBox', {
     style.push (tweaks.justify[this.props.justify]);
     style.push (tweaks['align-items'][this.props['align-items']]);
     style = style.concat (this.props.boxstyle);
-
-    if (this.props.boxstyle) {
-      console.log ('I:', this.props.boxstyle);
-      console.log ('R:', style);
-    }
 
     return (
         <div style={style}>
