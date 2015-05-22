@@ -5,7 +5,7 @@ var E     = require ('e');
 
 /*****************************************************************************/
 
-module.exports = E.createClass ('CheckboxField', {
+module.exports = {
 
   theme:  require ('./CheckboxField.styles.js'),
 
@@ -31,6 +31,6 @@ module.exports = E.createClass ('CheckboxField', {
       </div>
     );
   }
-});
+}
 
 /*****************************************************************************/

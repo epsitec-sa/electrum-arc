@@ -5,7 +5,7 @@ var E         = require ('e');
 
 /*****************************************************************************/
 
-module.exports = E.createClass ('Label', {
+module.exports = {
 
   theme: require ('./Label.styles.js'),
 
@@ -23,6 +23,6 @@ module.exports = E.createClass ('Label', {
       </div>
     );
   }
-});
+}
 
 /*****************************************************************************/

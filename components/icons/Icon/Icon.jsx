@@ -5,7 +5,7 @@ var E     = require ('e');
 
 /*****************************************************************************/
 
-module.exports = E.createClass ('Icon', {
+module.exports = {
 
   theme: require ('./Icon.styles.js'),
 
@@ -33,6 +33,6 @@ module.exports = E.createClass ('Icon', {
       </div>
     );
   }
-});
+}
 
 /*****************************************************************************/

@@ -1,13 +1,12 @@
 'use strict';
 
 var eventHandlers = require ('./event-handlers.js');
-
 var React = require ('react');
 var E     = require ('e');
 
 /*****************************************************************************/
 
-module.exports = E.createClass('BasicField', {
+module.exports = {
 
   theme: require ('./BasicField.styles.js'),
 
@@ -37,6 +36,6 @@ module.exports = E.createClass('BasicField', {
       </div>
     );
   }
-});
+}
 
 /*****************************************************************************/

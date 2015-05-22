@@ -5,7 +5,7 @@ var E     = require ('e');
 
 /*****************************************************************************/
 
-module.exports = E.createClass ('Modal', {
+module.exports = {
 
   render: function () {
     var text = E.getText (this);
@@ -20,6 +20,6 @@ module.exports = E.createClass ('Modal', {
       </div>
     );
   }
-});
+}
 
 /*****************************************************************************/

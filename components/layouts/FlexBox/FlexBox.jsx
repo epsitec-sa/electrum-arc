@@ -5,7 +5,7 @@ var E     = require ('e');
 
 /*****************************************************************************/
 
-module.exports = E.createClass ('FlexBox', {
+module.exports = {
 
   theme: require ('./FlexBox.styles.js'),
 
@@ -86,6 +86,6 @@ module.exports = E.createClass ('FlexBox', {
         </div>
     );
   }
-});
+}
 
 /*****************************************************************************/

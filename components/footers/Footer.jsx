@@ -5,7 +5,7 @@ var E     = require ('e');
 
 /*****************************************************************************/
 
-module.exports = E.createClass ('Footer', {
+module.exports = {
 
   theme: require ('./Footer.styles.js'),
 
@@ -22,6 +22,6 @@ module.exports = E.createClass ('Footer', {
       </div>
     );
   }
-});
+}
 
 /*****************************************************************************/

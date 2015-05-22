@@ -5,7 +5,7 @@ var E     = require ('e');
 
 /*****************************************************************************/
 
-module.exports = E.createClass ('Link', {
+module.exports = {
 
   theme: require ('./Link.styles.js'),
 
@@ -22,6 +22,6 @@ module.exports = E.createClass ('Link', {
       </div>
     );
   }
-});
+}
 
 /*****************************************************************************/

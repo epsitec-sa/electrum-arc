@@ -8,7 +8,7 @@ var Label = require ('../Label/Label.jsx');
 
 /*****************************************************************************/
 
-module.exports = E.createClass ('LabelField', {
+module.exports = {
 
   render: function () {
     var type = this.props.type || 'text';
@@ -21,6 +21,6 @@ module.exports = E.createClass ('LabelField', {
       </div>
     );
   }
-});
+}
 
 /*****************************************************************************/

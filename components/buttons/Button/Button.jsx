@@ -5,7 +5,7 @@ var E     = require ('e');
 
 /*****************************************************************************/
 
-module.exports = E.createClass ('Button', {
+module.exports = {
 
   theme: require ('./Button.styles.js'),
 
@@ -29,6 +29,6 @@ module.exports = E.createClass ('Button', {
 
     );
   }
-});
+}
 
 /*****************************************************************************/
