@@ -2,8 +2,11 @@
 
 module.exports = {
   base: {
-    color: '#fff',
+    color: '#000',
     fontSize: '.7em',
     padding: '1em'
+  },
+  footer: {
+    color: '#fff'
   }
 };
