@@ -2,15 +2,15 @@
 
 var React   = require ('react');
 var E       = require ('e');
-var FlexBox = require ('../../../layouts/FlexBox/FlexBox.jsx');
-var BasicField = require ('../BasicField.jsx');
-var Label = require ('../Label/Label.jsx');
 
 /*****************************************************************************/
 
 module.exports = {
 
   render: function () {
+    var FlexBox    = require ('arc').FlexBox;
+    var BasicField = require ('arc').BasicField;
+    var Label      = require ('arc').Label;
     var type = this.props.type || 'text';
     return (
       <div style={this.props.boxstyle}>
