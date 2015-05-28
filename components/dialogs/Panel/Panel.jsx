@@ -13,10 +13,19 @@ module.exports = {
     var text     = E.getText (this);
     var style    = E.getStyle (this);
     var disabled = E.getState (this, s => s.disabled);
+
     var zIndex   = this.props['z-index'] || 0;
+    var panelW   = this.props.width || '100%';
+    var panelH   = this.props.height || '100%';
+    var panelPos = this.props.position || 'absolute';
+    
     style.push ({
-      zIndex: zIndex
+      zIndex: zIndex,
+      width: panelW,
+      height: panelH,
+      position: panelPos
     });
+
     return (
       <div style={style}>
         {this.props.children}
