@@ -18,9 +18,11 @@ module.exports = {
     var style = E.getStyle (this);
     var disabled = E.getState (this, s => s.disabled);
     var zIndex   = this.props['z-index'] || 1;
+
     style.push ({
       zIndex: zIndex
     });
+
     return (
       <div style={style} onClick={this.handleClick}>
       </div>
