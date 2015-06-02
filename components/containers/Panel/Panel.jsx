@@ -18,13 +18,15 @@ module.exports = {
     var panelW   = this.props.width || '100%';
     var panelH   = this.props.height || '100%';
     var panelPos = this.props.position || 'absolute';
-    
+
     style.push ({
       zIndex: zIndex,
       width: panelW,
       height: panelH,
       position: panelPos
     });
+
+    style = style.concat (this.props.boxstyle);
 
     return (
       <div style={style}>
