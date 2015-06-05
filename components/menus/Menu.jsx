@@ -51,7 +51,7 @@ module.exports = {
     var menuItems = React.Children.map (this.props.children, _setMenuItem);
     return (
       <nav style={style}>
-        <Link boxstyle={this.headingStyle} kind="menu-heading">
+        <Link boxstyle={this.headingBoxStyle} kind="menu-heading">
           {this.props.title}
         </Link>
         {menuItems}

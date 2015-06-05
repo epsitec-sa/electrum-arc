@@ -7,27 +7,80 @@ var E     = require ('e');
 
 module.exports = {
 
-  theme: require ('./Overlay.styles.js'),
+  propTypes: {
+    show: React.PropTypes.bool,
+    'z-index': React.PropTypes.int,
+    autoLockScrolling: React.PropTypes.bool
+  },
 
-  handleClick: function(e) {
-    e.stopPropagation();
+  getDefaultProps: function() {
+    return {
+      autoLockScrolling: true,
+      'z-index': 9,
+    };
+  },
+
+  componentDidUpdate: function() {
+    if (this.props.autoLockScrolling) {
+      (this.props.show) ? this._preventScrolling() : this._allowScrolling();
+    }
   },
 
   render: function () {
-    var text = E.getText (this);
-    var style = E.getStyle (this);
-    var disabled = E.getState (this, s => s.disabled);
-    var zIndex   = this.props['z-index'] || 1;
+    var style = [{
+      position: 'fixed',
+      height: '100%',
+      width: '100%',
+      top: 0,
+      left: '-100%',
+      opacity: 0,
+      backgroundColor: E.colors.lightBlack,
+      WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
+      zIndex: this.props['z-index'],
+      willChange: 'opacity',
+      transform: 'translateZ(0)',
+      transition: E.transitions.easeOut ('0ms', 'left', '400ms') + ',' +
+                  E.transitions.easeOut ('400ms', 'opacity')
+    }];
 
-    style.push ({
-      zIndex: zIndex
-    });
+    var showStyle = {
+      left: '0',
+      opacity: 1,
+      transition: E.transitions.easeOut('0ms', 'left') + ',' +
+                  E.transitions.easeOut('400ms', 'opacity')
+    }
+
+    if (this.props.show) {
+      style.push (showStyle);
+    }
 
     return (
-      <div style={style} onClick={this.handleClick}>
-      </div>
+      <div style={style} />
     );
+  },
+
+  preventScrolling: function() {
+    if (!this.props.autoLockScrolling) {
+      this._preventScrolling ();
+    }
+  },
+
+  allowScrolling: function() {
+    if (!this.props.autoLockScrolling) {
+      this._allowScrolling ();
+    }
+  },
+
+  _preventScrolling: function() {
+    var body = document.getElementsByTagName('body')[0];
+    body.style.overflow = 'hidden';
+  },
+
+  _allowScrolling: function() {
+    var body = document.getElementsByTagName('body')[0];
+    body.style.overflow = '';
   }
+
 }
 
 /*****************************************************************************/
