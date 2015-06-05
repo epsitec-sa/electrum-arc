@@ -1,24 +1,25 @@
 'use strict';
-
+var E = require ('e');
 
 module.exports = {
   base: {
     width: '100%',
-    fontFamily: '"Open Sans", sans-serif',
-    borderTopColor: 'rgb(180, 178, 178)',
+    display: 'block',
+    fontFamily: E.typo.font,
+    borderTopColor: E.palette.borderColor,
     borderTopStyle: 'solid',
     borderTopWidth: '1px',
-    borderRightColor: 'rgb(180, 178, 178)',
+    borderRightColor: E.palette.borderColor,
     borderRightStyle: 'solid',
     borderRightWidth: '1px',
-    borderBottomColor: 'rgb(180, 178, 178)',
+    borderBottomColor: E.palette.borderColor,
     borderBottomStyle: 'solid',
     borderBottomWidth: '1px',
-    borderLeftColor: 'rgb(180, 178, 178)',
+    borderLeftColor:E.palette.borderColor,
     borderLeftStyle: 'solid',
     borderLeftWidth: '1px',
-    color: '#858282',
-    background: '#fff',
+    color: E.palette.textColor,
+    background: E.palette.canvasColor,
     fontSize: '18px',
     fontWeight: 600,
     paddingLeft: '.7em',
@@ -28,10 +29,6 @@ module.exports = {
     marginTop: '.1em',
     marginBottom: '.1em',
     ':hover': {
-      borderTopColor: 'rgb(153, 153, 153)',
-      borderRightColor: 'rgb(153, 153, 153)',
-      borderBottomColor: 'rgb(153, 153, 153)',
-      borderLeftColor: 'rgb(153, 153, 153)',
       boxShadow: '0 0 1em #999',
     }
   },

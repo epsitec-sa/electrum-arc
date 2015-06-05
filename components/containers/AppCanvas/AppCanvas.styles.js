@@ -1,9 +1,9 @@
 'use strict';
-
+var E = require ('e');
 module.exports = {
   base: {
     height: '100%',
-    backgroundColor: 'white',
+    backgroundColor: E.palette.canvasColor,
     WebkitFontSmoothing: 'antialiased'
   }
 };

@@ -9,7 +9,7 @@ module.exports = {
 
   theme: require ('./Menu.styles.js'),
 
-  headingStyle: {
+  headingBoxStyle: {
     textDecoration: 'none',
     whiteSpace: 'nowrap',
     display: 'inline-block',
@@ -19,7 +19,7 @@ module.exports = {
     margin: 0
   },
 
-  itemStyle: {
+  itemBoxStyle: {
     display: 'inline-block',
     zoom: 1,
     verticalAlign: 'middle',
@@ -41,7 +41,7 @@ module.exports = {
       if (typeof item.type === 'function') {
         return React.addons.cloneWithProps(item, {
           kind: 'menu-item',
-          boxstyle: self.itemStyle
+          boxstyle: self.itemBoxStyle
         });
       } else {
         // Native html comp.

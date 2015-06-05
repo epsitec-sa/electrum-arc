@@ -37,10 +37,10 @@ module.exports = {
 
   getPaperStyle: function() {
     return {
-      backgroundColor: 'white', // E.palette.component.paper.backgroundColor,
-      // transition: this.props.transitionEnabled && E.transitions.easeOut(),
+      backgroundColor: E.palette.canvasColor,
+      transition: E.transitions.easeOut (),
       boxSizing: 'border-box',
-      // fontFamily: E.typo.contentFontFamily,
+      fontFamily: E.typo.font,
       WebkitTapHighlightColor: 'rgba(0,0,0,0)',
       boxShadow: this.getZDepthShadows(this.props.zDepth),
       borderRadius: this.props.circle ? '50%' :
