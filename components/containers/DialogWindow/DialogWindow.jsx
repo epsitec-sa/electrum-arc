@@ -96,11 +96,12 @@ module.exports = {
       <div ref="container" style={windowStyle}>
         <Paper
           ref="dialogWindow"
-          style={contentStyle}
+          boxstyle={contentStyle}
           zDepth={4}
         >
           {this.props.children}
         </Paper>
+        <Overlay ref="dialogOverlay" z-index={this.props['z-index'] - 1} show={this.state.open} autoLockScrolling={false} />
       </div>
     );
   },
