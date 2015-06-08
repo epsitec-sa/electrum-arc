@@ -76,7 +76,7 @@ module.exports = {
       width: '75%',
       maxWidth: (E.spacing.desktopKeylineIncrement * 12),
       margin: '0 auto',
-      zIndex: this.props['z-index'],
+      zIndex: this.props['z-index'] + 2,
       background: E.palette.canvasColor,
       opacity: 0
     }];
@@ -101,7 +101,13 @@ module.exports = {
         >
           {this.props.children}
         </Paper>
-        <Overlay ref="dialogOverlay" z-index={this.props['z-index'] - 1} show={this.state.open} autoLockScrolling={false} />
+        <Overlay
+          ref="dialogOverlay"
+          z-index={this.props['z-index'] + 1}
+          show={this.state.open}
+          autoLockScrolling={false}
+          onClick={this._handleClick}
+        />
       </div>
     );
   },
