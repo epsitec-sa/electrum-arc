@@ -54,7 +54,7 @@ module.exports = {
     if (this.props.show) {
       style.push (showStyle);
     }
-    console.log ('Overlay @' + this.props['z-index']);
+
     return (
       <div onClick={this.props.onClick} style={style} />
     );
