@@ -91,6 +91,11 @@ module.exports = {
       contentStyle.push (contentOpen);
     }
 
+    if (this.props.boxstyle) {
+      contentStyle = contentStyle.concat (this.props.boxstyle);
+    }
+
+
     return (
       <div ref="container" style={windowStyle}>
         <Paper
