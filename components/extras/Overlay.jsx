@@ -44,16 +44,16 @@ module.exports = {
     }];
 
     var showStyle = {
-      left: '0',
+      left: 0,
       opacity: 1,
-      transition: E.transitions.easeOut('0ms', 'left') + ',' +
-                  E.transitions.easeOut('400ms', 'opacity')
+      transition: E.transitions.easeOut ('0ms', 'left') + ',' +
+                  E.transitions.easeOut ('400ms', 'opacity')
     }
 
     if (this.props.show) {
       style.push (showStyle);
     }
-
+    console.log ('Overlay @' + this.props['z-index']);
     return (
       <div style={style} />
     );

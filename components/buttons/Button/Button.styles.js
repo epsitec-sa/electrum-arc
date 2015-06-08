@@ -21,7 +21,7 @@ module.exports = {
     backgroundColor: E.palette.primary1Color,
     borderRadius: '100px',
     ':hover': {
-      backgroundColor: E.palette.accent1Color,
+      backgroundColor: E.palette.primary3Color,
     }
   },
   small: {
