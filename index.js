@@ -17,5 +17,5 @@ Object.keys (components).forEach (function (type) {
   var component = components[type];
   instances[type] = E.createClass (type, component);
 });
-
+instances.eventHandlers = require ('./event-handlers.js');
 module.exports = instances;

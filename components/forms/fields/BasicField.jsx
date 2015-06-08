@@ -1,6 +1,4 @@
 'use strict';
-
-var eventHandlers = require ('./event-handlers.js');
 var React = require ('react');
 var E     = require ('e');
 
@@ -11,7 +9,8 @@ module.exports = {
   theme: require ('./BasicField.styles.js'),
 
   render: function () {
-    var placeholder = this.props.placeholder || '...';
+    var eventHandlers = require ('arc').eventHandlers;
+    var placeholder   = this.props.placeholder || '...';
     var style     = E.getStyle (this);
     var value     = E.getValue (this);
     var disabled  = E.getState (this, s => s.disabled);
