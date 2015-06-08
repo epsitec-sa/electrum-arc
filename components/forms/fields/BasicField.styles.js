@@ -3,7 +3,7 @@ var E = require ('e');
 
 module.exports = {
   base: {
-    width: 64 * 4,
+    width: '100%',
     display: 'inline-block',
     fontFamily: E.typo.font,
     fontSize: '16px',

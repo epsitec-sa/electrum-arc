@@ -27,6 +27,7 @@ module.exports = {
   },
 
   render: function () {
+
     var style = [{
       position: 'fixed',
       height: '100%',
