@@ -101,12 +101,6 @@ module.exports = {
         >
           {this.props.children}
         </Paper>
-        <Overlay
-          ref="dialogOverlay"
-          z-index={this.props['z-index'] - 1}
-          show={this.state.open}
-          autoLockScrolling={false}
-          onClick={this._handleClick} />
       </div>
     );
   },
