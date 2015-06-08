@@ -3,9 +3,11 @@ var E = require ('e');
 
 module.exports = {
   base: {
-    width: '100%',
-    display: 'block',
+    width: 64 * 4,
+    display: 'inline-block',
     fontFamily: E.typo.font,
+    fontSize: '16px',
+    fontWeight: 600,
     borderTopColor: E.palette.borderColor,
     borderTopStyle: 'solid',
     borderTopWidth: '1px',
@@ -20,8 +22,6 @@ module.exports = {
     borderLeftWidth: '1px',
     color: E.palette.textColor,
     background: E.palette.canvasColor,
-    fontSize: '18px',
-    fontWeight: 600,
     paddingLeft: '.7em',
     paddingRight: '.7em',
     paddingTop: '.2em',
