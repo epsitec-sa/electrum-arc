@@ -7,8 +7,6 @@ var E     = require ('e');
 
 module.exports = {
 
-  closeable: false,
-
   propTypes: {
    open: React.PropTypes.bool,
    onClickAway: React.PropTypes.func,
@@ -117,26 +115,19 @@ module.exports = {
   },
 
   dismiss: function() {
-    if (this.closeable) {
-      this.refs.dialogOverlay.allowScrolling();
-      this.setState ({ open: false });
-      this._onDismiss();
-    }
+    this.refs.dialogOverlay.allowScrolling();
+    this.setState ({ open: false });
+    this._onDismiss ();
   },
 
   show: function() {
-    // prevent rapid show/hide
-    setTimeout (function () {
-      this.closeable = true;
-    }.bind (this), 250);
-
     this.refs.dialogOverlay.preventScrolling ();
     this.setState({ open: true });
     this._onShow ();
   },
 
   _positionDialog: function() {
-    var container = React.findDOMNode (this);
+    var container = React.findDOMNode (this.refs.container);
     var dialogWindow = React.findDOMNode (this.refs.dialogWindow);
     var containerHeight = container.offsetHeight;
     var dialogWindowHeight = dialogWindow.offsetHeight;
@@ -167,8 +158,7 @@ module.exports = {
   },
 
   _handleClick: function() {
-    console.log ('click!');
-    if (!this.props.modal && this.closeable) {
+    if (!this.props.modal) {
       this.dismiss ();
       if (this.props.onClickAway) {
         this.props.onClickAway ();
