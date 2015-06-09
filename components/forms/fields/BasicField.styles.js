@@ -3,8 +3,9 @@ var E = require ('e');
 
 module.exports = {
   base: {
-    width: '100%',
+    minWidth: E.spacing.desktopKeylineIncrement * 4,
     display: 'inline-block',
+    position: 'relative',
     fontFamily: E.typo.font,
     fontSize: '16px',
     fontWeight: 600,

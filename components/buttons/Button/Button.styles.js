@@ -8,10 +8,12 @@ module.exports = {
     fontFamily: E.typo.font,
     fontWeight: 400,
     transition: '.1s all',
+    textTransform: 'uppercase',
     cursor: 'pointer',
+    userSelect: 'none',
     outline: 'none',
     marginTop: '3px',
-    width: '100%',
+    minWidth: E.spacing.desktopKeylineIncrement * 2,
     border: 'none',
     paddingLeft: '5px',
     paddingRight: '5px',
@@ -19,7 +21,7 @@ module.exports = {
     paddingBottom: '5px',
     color: E.palette.textColor,
     backgroundColor: E.palette.primary1Color,
-    borderRadius: '100px',
+    borderRadius: E.shapes.defaultBorderRadius,
     ':hover': {
       backgroundColor: E.palette.primary3Color,
     }

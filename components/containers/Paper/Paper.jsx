@@ -43,8 +43,7 @@ module.exports = {
       fontFamily: E.typo.font,
       WebkitTapHighlightColor: 'rgba(0,0,0,0)',
       boxShadow: this.getZDepthShadows(this.props.zDepth),
-      borderRadius: this.props.circle ? '50%' :
-        this.props.rounded ? '2px' : '0px'
+      borderRadius: E.shapes.defaultBorderRadius
     };
   },
 
