@@ -104,7 +104,6 @@ module.exports = {
       contentStyles.push (this.props.boxstyle);
     }
 
-
     return (
       <div ref="container" style={containerStyles}>
         <TGroup component="div" >
