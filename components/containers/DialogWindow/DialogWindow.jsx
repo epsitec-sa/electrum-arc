@@ -22,51 +22,32 @@ module.exports = {
     };
   },
 
-  getInitialState: function() {
-    return {
-      open: this.props.open || false
-    };
+  componentDidMount: function () {
+    this._positionDialog ();
+    this.refs.dialogOverlay.preventScrolling ();
   },
 
-  componentDidMount: function() {
-    this._positionDialog();
-    if (this.props.open) {
-      this.refs.dialogOverlay.preventScrolling();
-      this._onShow ();
-    }
-  },
-
-  componentDidUpdate: function(prevProps, prevState) {
+  componentDidUpdate: function (prevProps, prevState) {
     this._positionDialog ();
   },
 
-  render: function  () {
-    var A          = require ('arc');
-    var Paper      = A.Paper;
-    var Overlay    = A.Overlay;
-
-    var windowStyle = [{
+  getContainerStyles: function () {
+    return [{
       position: 'fixed',
       boxSizing: 'border-box',
       WebkitTapHighlightColor: 'rgba(0,0,0,0)',
       zIndex: this.props['z-index'],
       top: 0,
-      left: -10000,
       width: '100%',
       height: '100%',
-      transition: E.transitions.easeOut ('0ms', 'left', '450ms'),
       color: E.palette.textColor
     }];
+  },
 
-    var windowOpen = {
-      left: 2,
-      transition: E.transitions.easeOut ('0ms', 'left', '0ms')
-    };
-
-    var contentStyle = [{
+  getContentStyles: function () {
+    return [{
       boxSizing: 'border-box',
       WebkitTapHighlightColor: 'rgba(0,0,0,0)',
-      transition: E.transitions.easeOut (),
       position: 'relative',
       width: '50%',
       minWidth: (E.spacing.desktopKeylineIncrement * 4),
