@@ -23,14 +23,12 @@ module.exports = {
     borderLeftWidth: '1px',
     color: E.palette.textColor,
     background: E.palette.canvasColor,
-    paddingLeft: '.7em',
-    paddingRight: '.7em',
     paddingTop: '.2em',
     paddingBottom: '.2em',
     marginTop: '.1em',
     marginBottom: '.1em',
     ':hover': {
-      boxShadow: '0 0 1em #999',
+
     }
   },
   iconfield: {
