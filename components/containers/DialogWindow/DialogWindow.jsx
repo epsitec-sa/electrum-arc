@@ -55,38 +55,73 @@ module.exports = {
       margin: '0 auto',
       zIndex: this.props['z-index'] + 2,
       background: E.palette.canvasColor,
-      opacity: 0
     }];
+  },
 
-    var contentOpen = {
-      opacity: 1,
-      top: 0,
-      transform: 'translate3d(0, ' + E.spacing.desktopKeylineIncrement + 'px, 0)'
+  getContentTransitionStyles: function () {
+    return  {
+      appear: {
+        // ... component is about to enter, timing is key
+        transition: E.transitions.easeOut (),
+        opacity: 0
+      },
+      appearActive: {
+        // ... component has been painted, how will animate?
+        transform: 'translate3d(0, ' + E.spacing.desktopKeylineIncrement + 'px, 0)',
+        opacity: 1
+      },
+      enter: {
+        transition: E.transitions.easeOut (),
+        opacity: 0
+      },
+      enterActive: {
+        transform: 'translate3d(0, ' + E.spacing.desktopKeylineIncrement + 'px, 0)',
+        opacity: 1
+      },
+      leave: {
+        transform: 'translate3d(0, ' + E.spacing.desktopKeylineIncrement + 'px, 0)',
+        opacity: 1
+      },
+      leaveActive: {
+        transition: E.transitions.easeOut (),
+        opacity: 0
+      }
     };
+  },
 
-    if (this.state.open) {
-      windowStyle.push (windowOpen);
-      contentStyle.push (contentOpen);
-    }
+  render: function  () {
+    var A          = require ('arc');
+    var TGroup     = A.TransitionGroup;
+    var Paper      = A.Paper;
+    var Overlay    = A.Overlay;
+
+    var containerStyles  = this.getContainerStyles ();
+    var contentStyles    = this.getContentStyles ();
+    var contentTransitionStyles = this.getContentTransitionStyles ();
+
 
     if (this.props.boxstyle) {
-      contentStyle = contentStyle.concat (this.props.boxstyle);
+      contentStyles.push (this.props.boxstyle);
     }
 
 
     return (
-      <div ref="container" style={windowStyle}>
-        <Paper
-          ref="dialogWindow"
-          boxstyle={contentStyle}
-          zDepth={4}
-        >
-          {this.props.children}
-        </Paper>
+      <div ref="container" style={containerStyles}>
+        <TGroup component="div" >
+          <Paper
+            key="content"
+            ref="dialogWindow"
+            transitionStyles={contentTransitionStyles}
+            boxstyle={contentStyles}
+            zDepth={4}
+          >
+            {this.props.children}
+          </Paper>
+        </TGroup>
         <Overlay
+          key={'overlay'}
           ref="dialogOverlay"
           z-index={this.props['z-index'] + 1}
-          show={this.state.open}
           autoLockScrolling={false}
           onClick={this._handleClick}
         />
@@ -94,20 +129,9 @@ module.exports = {
     );
   },
 
-  isOpen: function() {
-    return this.state.open;
-  },
-
   dismiss: function() {
     this.refs.dialogOverlay.allowScrolling();
-    this.setState ({ open: false });
     this._onDismiss ();
-  },
-
-  show: function() {
-    this.refs.dialogOverlay.preventScrolling ();
-    this.setState({ open: true });
-    this._onShow ();
   },
 
   _positionDialog: function() {
