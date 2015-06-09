@@ -8,16 +8,13 @@ var E     = require ('e');
 module.exports = {
 
   propTypes: {
-   open: React.PropTypes.bool,
-   onClickAway: React.PropTypes.func,
    onDismiss: React.PropTypes.func,
-   onShow: React.PropTypes.func,
    repositionOnUpdate: React.PropTypes.bool,
    modal: React.PropTypes.bool,
    'z-index': React.PropTypes.int
  },
 
-  getDefaultProps: function() {
+  getDefaultProps: function () {
     return {
       repositionOnUpdate: true,
       modal: false,
@@ -141,7 +138,7 @@ module.exports = {
     //Reset the height in case the window was resized.
     dialogWindow.style.height = '';
 
-    var paddingTop = Math.max(((containerHeight - dialogWindowHeight) / 2) - 64, 0);
+    var paddingTop = Math.max (((containerHeight - dialogWindowHeight) / 2) - 64, 0);
 
     //Vertically center the dialog window, but make sure it doesn't
     //transition to that position.
@@ -151,19 +148,14 @@ module.exports = {
 
   },
 
-  _onShow: function() {
-    if (this.props.onShow) {
-      this.props.onShow ();
-    }
-  },
-
-  _onDismiss: function() {
+  _onDismiss: function () {
+    E.bus.dispatch (this, 'Dismiss');
     if (this.props.onDismiss) {
       this.props.onDismiss ();
     }
   },
 
-  _handleClick: function() {
+  _handleClick: function () {
     if (!this.props.modal) {
       this.dismiss ();
       if (this.props.onClickAway) {
@@ -172,7 +164,7 @@ module.exports = {
     }
   },
 
-  _handleWindowKeyUp: function(e) {
+  _handleWindowKeyUp: function (e) {
     if (!this.props.modal && e.keyCode == 27 ) { //ESC
       this.dismiss ();
     }
