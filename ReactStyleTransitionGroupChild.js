@@ -62,8 +62,8 @@ var ReactStyleTransitionGroupChild = React.createClass({
         return;
       }
 
-      clearTimeout(noEventTimeout);
-      ReactTransitionEvents.removeEndEventListener(node, endListener);
+      window.clearTimeout (noEventTimeout);
+      ReactTransitionEvents.removeEndEventListener (node, endListener);
 
       // Usually this optional callback is used for informing an owner of
       // a leave animation and telling it to remove the child.
@@ -72,21 +72,21 @@ var ReactStyleTransitionGroupChild = React.createClass({
       }
     };
 
-    ReactTransitionEvents.addEndEventListener(node, endListener);
+    ReactTransitionEvents.addEndEventListener (node, endListener);
 
-    CSSPropertyOperations.setValueForStyles(node, transitionStyles);
+    CSSPropertyOperations.setValueForStyles (node, transitionStyles);
 
     // Need to do this to actually trigger a transition.
     this.queueStyles(transitionActiveStyles);
 
-    noEventTimeout = setTimeout (noEventListener, NO_EVENT_TIMEOUT);
+    noEventTimeout = window.setTimeout (noEventListener, NO_EVENT_TIMEOUT);
   },
 
   queueStyles: function(styles) {
     this.stylesQueue.push(styles);
 
     if (!this.timeout) {
-      this.timeout = setTimeout (this.flushStylesQueue, TICK);
+      this.timeout = window.setTimeout (this.flushStylesQueue, TICK);
     }
   },
 
@@ -108,13 +108,13 @@ var ReactStyleTransitionGroupChild = React.createClass({
 
   componentWillUnmount: function () {
     if (this.timeout) {
-      clearTimeout(this.timeout);
+      window.clearTimeout (this.timeout);
     }
   },
 
   componentWillAppear: function (done) {
     if (this.props.appear) {
-      this.transition('appear', done);
+      this.transition ('appear', done);
     } else {
       done();
     }
@@ -122,7 +122,7 @@ var ReactStyleTransitionGroupChild = React.createClass({
 
   componentWillEnter: function (done) {
     if (this.props.enter) {
-      this.transition('enter', done);
+      this.transition ('enter', done);
     } else {
       done();
     }
@@ -130,7 +130,7 @@ var ReactStyleTransitionGroupChild = React.createClass({
 
   componentWillLeave: function (done) {
     if (this.props.leave) {
-      this.transition('leave', done);
+      this.transition ('leave', done);
     } else {
       done();
     }
