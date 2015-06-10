@@ -37,19 +37,28 @@ var ReactStyleTransitionGroup = React.createClass ({
     };
   },
 
-  _wrapChild: function(child) {
+  _wrapChild: function (child) {
     // We need to provide this childFactory so that
     // ReactStyleTransitionGroupChild can receive updates to enter and
     // leave while it is leaving.
-    return ReactStyleTransitionGroupChild(
+    return ReactStyleTransitionGroupChild (
       {
         transitionStyles: child.props.transitionStyles,
+        transitionEnd: child.props.transitionEnd,
         appear: this.props.transitionAppear,
         enter: this.props.transitionEnter,
         leave: this.props.transitionLeave
       },
       child
     );
+  },
+
+  componentDidUpdate: function () {
+    console.log ('componentDidChange on TransitionGroup');
+  },
+
+  componentWillUnmount: function () {
+    console.log ('Going to unmount TransitionGroup');
   },
 
   render: function() {

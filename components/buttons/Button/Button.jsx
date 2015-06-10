@@ -1,6 +1,6 @@
 'use strict';
 
-var React = require ('react');
+var React = require ('react/addons');
 var E     = require ('e');
 
 /*****************************************************************************/
@@ -17,15 +17,17 @@ module.exports = {
     var text = E.getText (this);
     var style = E.getStyle (this);
     var disabled = E.getState (this, s => s.disabled);
+    var Transition = React.addons.TransitionGroup;
 
     return (
-      <div style={this.props.boxstyle}>
-        <button style={style}
+      <Transition component="div" style={this.props.boxstyle}>
+        <button
+          style={style}
           disabled={disabled}
           onClick={this.handleClick}>
           {text}
         </button>
-      </div>
+      </Transition>
 
     );
   }

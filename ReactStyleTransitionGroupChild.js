@@ -41,6 +41,7 @@ var ReactStyleTransitionGroupChild = React.createClass({
   displayName: 'ReactStyleTransitionGroupChild',
 
   propTypes: {
+    transitionEnd: React.PropTypes.func,
     transitionStyles: React.PropTypes.shape({
       appear: React.PropTypes.object,
       appearActive: React.PropTypes.object,
@@ -77,9 +78,9 @@ var ReactStyleTransitionGroupChild = React.createClass({
     CSSPropertyOperations.setValueForStyles (node, transitionStyles);
 
     // Need to do this to actually trigger a transition.
-    this.queueStyles(transitionActiveStyles);
+    this.queueStyles (transitionActiveStyles);
 
-    noEventTimeout = window.setTimeout (noEventListener, NO_EVENT_TIMEOUT);
+    //noEventTimeout = window.setTimeout (noEventListener, NO_EVENT_TIMEOUT);
   },
 
   queueStyles: function(styles) {
@@ -110,29 +111,36 @@ var ReactStyleTransitionGroupChild = React.createClass({
     if (this.timeout) {
       window.clearTimeout (this.timeout);
     }
+    if (this.props.transitionEnd) {
+      console.log ('End transition callback called!');
+      this.props.transitionEnd ();
+    }
   },
 
   componentWillAppear: function (done) {
+    console.log('componentWillAppear');
     if (this.props.appear) {
       this.transition ('appear', done);
     } else {
-      done();
+      done ();
     }
   },
 
   componentWillEnter: function (done) {
+    console.log('componentWillEnter');
     if (this.props.enter) {
       this.transition ('enter', done);
     } else {
-      done();
+      done ();
     }
   },
 
   componentWillLeave: function (done) {
     if (this.props.leave) {
+      console.log('componentWillLeave');
       this.transition ('leave', done);
     } else {
-      done();
+      done ();
     }
   },
 
