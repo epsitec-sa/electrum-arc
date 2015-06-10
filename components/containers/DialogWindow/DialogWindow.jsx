@@ -162,9 +162,6 @@ module.exports = {
   _handleClick: function () {
     if (!this.props.modal) {
       this.dismiss ();
-      if (this.props.onClickAway) {
-        this.props.onClickAway ();
-      }
     }
   },
 
