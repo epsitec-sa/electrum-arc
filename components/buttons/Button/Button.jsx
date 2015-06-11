@@ -14,21 +14,19 @@ module.exports = {
   },
 
   render: function () {
-    var text = E.getText (this);
-    var style = E.getStyle (this);
+    var text     = E.getText (this);
+    var style    = E.getStyle (this);
     var disabled = E.getState (this, s => s.disabled);
-    var Transition = React.addons.TransitionGroup;
 
     return (
-      <Transition component="div" style={this.props.boxstyle}>
+      <div style={this.props.boxstyle}>
         <button
           style={style}
           disabled={disabled}
           onClick={this.handleClick}>
           {text}
         </button>
-      </Transition>
-
+      </div>
     );
   }
 }

@@ -14,10 +14,6 @@ module.exports = {
     'z-index': React.PropTypes.int
   },
 
-  getInitialState: function() {
-     return {display: true};
-  },
-
   getDefaultProps: function () {
     return {
       repositionOnUpdate: true,
@@ -29,10 +25,6 @@ module.exports = {
   componentDidMount: function () {
     this._positionDialog ();
     this.refs.dialogOverlay.preventScrolling ();
-  },
-
-  componentWillUnmount: function () {
-    console.log ('Unmount dialogwindow...');
   },
 
   componentDidUpdate: function (prevProps, prevState) {
@@ -107,32 +99,19 @@ module.exports = {
 
     return (
       <div ref="container" style={containerStyles}>
-        <TGroup component="div" >
-          {this.state.display &&
-            <Paper
-              key="content"
-              ref="dialogWindow"
-              transitionEnd={function () {
-                var overlay = this.refs.dialogOverlay;
-                overlay.close ();
-              }.bind (this)}
-              transitionStyles={contentTransitionStyles}
-              boxstyle={contentStyles}
-              zDepth={4}
-            >
-              {this.props.children}
-            </Paper>
-          }
-        </TGroup>
+        <Paper
+            key="content"
+            ref="dialogWindow"
+            boxstyle={contentStyles}
+            zDepth={4}
+          >
+          {this.props.children}
+        </Paper>
         <Overlay
-            key={'overlay'}
-            ref="dialogOverlay"
-            z-index={this.props['z-index'] + 1}
-            autoLockScrolling={false}
-            onClick={this._handleClick}
-            whenClosed={function () {
-              E.bus.dispatch (this, 'Dismiss');
-            }.bind (this)}
+          ref="dialogOverlay"
+          z-index={this.props['z-index'] + 1}
+          autoLockScrolling={false}
+          onClick={this._handleClick}
         />
       </div>
     );
@@ -140,7 +119,8 @@ module.exports = {
 
   dismiss: function () {
     this._onDismiss ();
-    this.setState ({display: false});
+    this.refs.dialogOverlay.allowScrolling ();
+    E.bus.dispatch (this, 'Dismiss');
   },
 
   _positionDialog: function() {
