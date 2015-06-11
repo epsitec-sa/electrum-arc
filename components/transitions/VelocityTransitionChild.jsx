@@ -16,8 +16,9 @@ module.exports = {
   },
 
   getTransition: function() {
+    var transition        = E.transitions[this.props.transition]
     var defaultTransition = E.transitions.defaultTransition;
-    return this.props.transition || defaultTransition;
+    return transition || defaultTransition;
   },
 
   componentWillAppear: function (done) {

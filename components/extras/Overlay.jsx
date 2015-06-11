@@ -42,7 +42,7 @@ module.exports = {
     var Transition = A.Transition;
 
     return (
-      <Transition transition={E.transitions.overlay}>
+      <Transition transition="overlay">
         <div
           key={'overlay'}
           ref="overlay"

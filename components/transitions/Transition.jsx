@@ -8,7 +8,7 @@ var E     = require ('e');
 module.exports = {
 
   propTypes: {
-    transition: React.PropTypes.object,
+    transition: React.PropTypes.object
   },
 
   _wrapChild: function(child) {
