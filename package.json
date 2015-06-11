@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/epsitec-sa/electrum-arc",
   "dependencies": {
-    "electrum-utils": "0.0.1"
+    "electrum-utils": "0.0.1",
+    "velocity-animate": "^1.2.2"
   }
 }

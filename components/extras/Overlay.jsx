@@ -37,45 +37,18 @@ module.exports = {
     }];
   },
 
-  getOverlayTransitionStyles: function () {
-    return  {
-      appear: {
-        left: '-100%',
-        opacity: 0,
-        willChange: 'opacity',
-        transform: 'translateZ(0)',
-        transition: E.transitions.easeOut ('0ms', 'left', '400ms') + ',' +
-                    E.transitions.easeOut ('400ms', 'opacity')
-      },
-      appearActive: {
-        left: 0,
-        opacity: 1,
-        transition: E.transitions.easeOut ('0ms', 'left') + ',' +
-                    E.transitions.easeOut ('400ms', 'opacity')
-      },
-      enter: {
-      },
-      enterActive: {
-      },
-      leave: {
-      },
-      leaveActive: {
-      }
-    };
-  },
-
   render: function () {
     var A          = require ('arc');
-    var TGroup     = A.TransitionGroup;
+    var Transition = A.Transition;
 
     return (
-      <TGroup component="div">
+      <Transition transition={E.transitions.overlay}>
         <div
           key={'overlay'}
-          transitionStyles={this.getOverlayTransitionStyles ()}
+          ref="overlay"
           onClick={this.props.onClick}
           style={this.getOverlayStyles ()} />
-      </TGroup>
+      </Transition>
     );
   },
 

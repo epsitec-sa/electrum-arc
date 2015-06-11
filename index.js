@@ -18,5 +18,4 @@ Object.keys (components).forEach (function (type) {
   instances[type] = E.createClass (type, component);
 });
 instances.eventHandlers   = require ('./event-handlers.js');
-instances.TransitionGroup = require ('./ReactStyleTransitionGroup.js');
 module.exports = instances;

@@ -8,11 +8,11 @@ var E     = require ('e');
 module.exports = {
 
   propTypes: {
-   onDismiss: React.PropTypes.func,
-   repositionOnUpdate: React.PropTypes.bool,
-   modal: React.PropTypes.bool,
-   'z-index': React.PropTypes.int
- },
+    onDismiss: React.PropTypes.func,
+    repositionOnUpdate: React.PropTypes.bool,
+    modal: React.PropTypes.bool,
+    'z-index': React.PropTypes.int
+  },
 
   getDefaultProps: function () {
     return {
@@ -58,47 +58,14 @@ module.exports = {
     }];
   },
 
-  getContentTransitionStyles: function () {
-    return  {
-      appear: {
-        // ... component is about to enter, timing is key
-        transition: E.transitions.easeOut (),
-        opacity: 0
-      },
-      appearActive: {
-        // ... component has been painted, how will animate?
-        transform: 'translate3d(0, ' + E.spacing.desktopKeylineIncrement + 'px, 0)',
-        opacity: 1
-      },
-      enter: {
-        transition: E.transitions.easeOut (),
-        opacity: 0
-      },
-      enterActive: {
-        transform: 'translate3d(0, ' + E.spacing.desktopKeylineIncrement + 'px, 0)',
-        opacity: 1
-      },
-      leave: {
-        transform: 'translate3d(0, ' + E.spacing.desktopKeylineIncrement + 'px, 0)',
-        opacity: 1
-      },
-      leaveActive: {
-        transition: E.transitions.easeOut (),
-        opacity: 0
-      }
-    };
-  },
-
   render: function  () {
     var A          = require ('arc');
     var TGroup     = A.TransitionGroup;
     var Paper      = A.Paper;
     var Overlay    = A.Overlay;
-
     var containerStyles  = this.getContainerStyles ();
     var contentStyles    = this.getContentStyles ();
     var contentTransitionStyles = this.getContentTransitionStyles ();
-
 
     if (this.props.boxstyle) {
       contentStyles.push (this.props.boxstyle);
@@ -106,19 +73,15 @@ module.exports = {
 
     return (
       <div ref="container" style={containerStyles}>
-        <TGroup component="div" >
-          <Paper
+        <Paper
             key="content"
             ref="dialogWindow"
-            transitionStyles={contentTransitionStyles}
             boxstyle={contentStyles}
             zDepth={4}
           >
-            {this.props.children}
-          </Paper>
-        </TGroup>
+          {this.props.children}
+        </Paper>
         <Overlay
-          key={'overlay'}
           ref="dialogOverlay"
           z-index={this.props['z-index'] + 1}
           autoLockScrolling={false}
@@ -128,15 +91,16 @@ module.exports = {
     );
   },
 
-  dismiss: function() {
-    this.refs.dialogOverlay.allowScrolling();
+  dismiss: function () {
     this._onDismiss ();
+    this.refs.dialogOverlay.allowScrolling ();
+    E.bus.dispatch (this, 'Dismiss');
   },
 
   _positionDialog: function() {
-    var container = React.findDOMNode (this.refs.container);
-    var dialogWindow = React.findDOMNode (this.refs.dialogWindow);
-    var containerHeight = container.offsetHeight;
+    var container          = React.findDOMNode (this.refs.container);
+    var dialogWindow       = React.findDOMNode (this.refs.dialogWindow);
+    var containerHeight    = container.offsetHeight;
     var dialogWindowHeight = dialogWindow.offsetHeight;
 
     //Reset the height in case the window was resized.
@@ -153,7 +117,6 @@ module.exports = {
   },
 
   _onDismiss: function () {
-    E.bus.dispatch (this, 'Dismiss');
     if (this.props.onDismiss) {
       this.props.onDismiss ();
     }
