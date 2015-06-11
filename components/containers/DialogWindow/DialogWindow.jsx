@@ -65,7 +65,6 @@ module.exports = {
     var Overlay    = A.Overlay;
     var containerStyles  = this.getContainerStyles ();
     var contentStyles    = this.getContentStyles ();
-    var contentTransitionStyles = this.getContentTransitionStyles ();
 
     if (this.props.boxstyle) {
       contentStyles.push (this.props.boxstyle);
