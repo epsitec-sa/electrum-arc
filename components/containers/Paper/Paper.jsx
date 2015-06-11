@@ -7,6 +7,8 @@ var E     = require ('e');
 
 module.exports = {
 
+  theme: require ('./Paper.styles.js'),
+
   propTypes: {
     circle: React.PropTypes.bool,
     rounded: React.PropTypes.bool,
@@ -35,15 +37,9 @@ module.exports = {
     return shadows[zDepth];
   },
 
-  getPaperStyle: function() {
+  getPaperShadowStyle: function() {
     return {
-      backgroundColor: E.palette.canvasColor,
-      transition: E.transitions.easeOut (),
-      boxSizing: 'border-box',
-      fontFamily: E.typo.font,
-      WebkitTapHighlightColor: 'rgba(0,0,0,0)',
-      boxShadow: this.getZDepthShadows(this.props.zDepth),
-      borderRadius: E.shapes.defaultBorderRadius
+      boxShadow: this.getZDepthShadows(this.props.zDepth)
     };
   },
 
@@ -52,7 +48,7 @@ module.exports = {
     var style    = E.getStyle (this);
     var disabled = E.getState (this, s => s.disabled);
 
-    style.push (this.getPaperStyle ());
+    style.push (this.getPaperShadowStyle ());
     style = style.concat (this.props.boxstyle);
 
     return (
