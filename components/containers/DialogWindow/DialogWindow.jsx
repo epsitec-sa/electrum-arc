@@ -58,37 +58,11 @@ module.exports = {
     }];
   },
 
-  getContentTransitionStyles: function () {
-    return  {
-      appear: {
-        // ... component is about to enter, timing is key
-        transition: E.transitions.easeOut (),
-        opacity: 0
-      },
-      appearActive: {
-        // ... component has been painted, how will animate?
-        transform: 'translate3d(0, ' + E.spacing.desktopKeylineIncrement + 'px, 0)',
-        opacity: 1
-      },
-      enter: null,
-      enterActive: null,
-      leave: {
-        transform: 'translate3d(0, ' + E.spacing.desktopKeylineIncrement + 'px, 0)',
-        opacity: 1
-      },
-      leaveActive: {
-        transition: E.transitions.easeOut (),
-        opacity: 0
-      }
-    };
-  },
-
   render: function  () {
     var A          = require ('arc');
     var TGroup     = A.TransitionGroup;
     var Paper      = A.Paper;
     var Overlay    = A.Overlay;
-
     var containerStyles  = this.getContainerStyles ();
     var contentStyles    = this.getContentStyles ();
     var contentTransitionStyles = this.getContentTransitionStyles ();
