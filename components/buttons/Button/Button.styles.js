@@ -7,7 +7,6 @@ module.exports = {
     fontSize: '18px',
     fontFamily: E.typo.font,
     fontWeight: 400,
-    transition: '.1s all',
     textTransform: 'uppercase',
     cursor: 'pointer',
     userSelect: 'none',
