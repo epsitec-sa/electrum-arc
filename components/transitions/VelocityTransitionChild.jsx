@@ -8,11 +8,7 @@ var Velocity = require ('velocity-animate');
 module.exports = {
 
   propTypes: {
-    transition: React.PropTypes.shape ({
-      duration: React.PropTypes.int,
-      enter: React.PropTypes.any,
-      leave: React.PropTypes.any
-    })
+    transition: React.PropTypes.string
   },
 
   getTransition: function() {
@@ -22,45 +18,58 @@ module.exports = {
   },
 
   componentWillAppear: function (done) {
-    var node = this.getDOMNode ();
+    var node       = this.getDOMNode ();
     var transition = this.getTransition ();
-    console.log ('T_:', transition.enter);
-    Velocity (
-      node,
-      transition.enter,
-      {
-        duration: transition.duration,
-        complete: done
-      }
-    );
+    this._animate (node, transition.enter, transition.duration, done);
 	},
 
   componentWillEnter: function (done) {
-    var node = this.getDOMNode ();
+    var node       = this.getDOMNode ();
     var transition = this.getTransition ();
-    console.log ('T_:', transition.enter);
-    Velocity (
-      node,
-      transition.enter,
-      {
-        duration: transition.duration,
-        complete: done
-      }
-    );
+    this._animate (node, transition.enter, transition.duration, done);
 	},
 
   componentWillLeave: function (done) {
-    var node = this.getDOMNode ();
+    var node       = this.getDOMNode ();
     var transition = this.getTransition ();
-    console.log ('T_:', transition.leave);
+    this._animate (node, transition.leave, transition.duration, done);
+  },
+
+  _animate: function (node, transition, duration, done) {
+    var backup  = this._backupStyles;
+    var restore = this._restoreStyles;
+    console.log ('T_:', transition);
     Velocity(
       node,
-      transition.leave,
+      transition,
       {
-        duration: transition.duration,
-        complete: done
+        duration: duration,
+        complete: function (elements) {
+          restore (elements, done);
+        },
+        begin: function (elements) {
+          backup (elements);
+        }
       }
     );
+  },
+
+  _styles: {},
+
+  _restoreStyles: function (elements, done) {
+    var styles = this._styles;
+    elements.forEach (function (el, index) {
+      el.style.zIndex = styles[index];
+    });
+    done ();
+  },
+
+  _backupStyles: function (elements) {
+    this._styles = {};
+    var styles   = this._styles;
+    elements.forEach (function (el, index) {
+      styles[index] = el.style.zIndex;
+    });
   },
 
   render: function () {
