@@ -18,7 +18,8 @@ module.exports = {
   getDefaultProps: function () {
     return {
       'z-index': 10,
-      side: 'left'
+      side: 'left',
+      overlay: false
     };
   },
 
@@ -74,12 +75,12 @@ module.exports = {
 
     return (
       <Transition transition="leftPanel">
-        <Overlay
+        {this.props.overlay && <Overlay
           ref="dialogOverlay"
           z-index={this.props['z-index']}
           autoLockScrolling={false}
           onClick={this._handleClick}
-        />
+        />}
         <Paper
             key="content"
             ref="dialogWindow"
