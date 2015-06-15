@@ -17,9 +17,7 @@ module.exports = {
     var text     = E.getText (this);
     var style    = E.getStyle (this);
     var disabled = E.getState (this, s => s.disabled);
-    console.log ('state:', disabled);
     if (disabled) {
-      console.log ('disabled!');
       style.push ({
         color: E.palette.disabledColor
       });

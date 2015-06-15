@@ -41,7 +41,7 @@ module.exports = {
       top: 0,
       left: 0
     }];
-    
+
     if (this.props.side !== 'left') {
       styles.push ({
         left: 'auto',
