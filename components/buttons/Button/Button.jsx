@@ -17,13 +17,20 @@ module.exports = {
     var text     = E.getText (this);
     var style    = E.getStyle (this);
     var disabled = E.getState (this, s => s.disabled);
-
+    console.log ('state:', disabled);
+    if (disabled) {
+      console.log ('disabled!');
+      style.push ({
+        color: E.palette.disabledColor
+      });
+    }
     return (
       <div style={this.props.boxstyle}>
         <button
           style={style}
           disabled={disabled}
-          onClick={this.handleClick}>
+          onClick={this.handleClick}
+        >
           {text}
         </button>
       </div>
