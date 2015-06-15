@@ -3,6 +3,7 @@
 module.exports = {
   base: {
     display: 'flex',
+    width: '100%',
     flexDirection: 'row',
     flexWrap: 'nowrap',
     justifyContent: 'flex-start',
