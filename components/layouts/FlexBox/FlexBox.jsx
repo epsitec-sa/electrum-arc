@@ -10,8 +10,6 @@ module.exports = {
   theme: require ('./FlexBox.styles.js'),
 
   render: function () {
-    var text      = E.getText (this);
-    var disabled  = E.getState (this, s => s.disabled);
     var splitter  = this.props.splitter;
     var self      = this;
     var _setFlexItem = function (item, index) {
@@ -86,6 +84,7 @@ module.exports = {
         </div>
     );
   }
-}
+
+};
 
 /*****************************************************************************/

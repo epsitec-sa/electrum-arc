@@ -2,7 +2,8 @@
 
 var React    = require ('react/addons');
 var E        = require ('e');
-var Velocity = require ('velocity-animate');
+var velocity = require ('velocity-animate');
+
 /*****************************************************************************/
 
 module.exports = {
@@ -11,8 +12,8 @@ module.exports = {
     transition: React.PropTypes.string
   },
 
-  getTransition: function() {
-    var transition        = E.transitions[this.props.transition]
+  getTransition: function () {
+    var transition        = E.transitions[this.props.transition];
     var defaultTransition = E.transitions.defaultTransition;
     return transition || defaultTransition;
   },
@@ -38,8 +39,7 @@ module.exports = {
   _animate: function (node, transition, duration, done) {
     var backup  = this._backupStyles;
     var restore = this._restoreStyles;
-    console.log ('T_:', transition);
-    Velocity(
+    velocity(
       node,
       transition,
       {
@@ -75,6 +75,7 @@ module.exports = {
   render: function () {
     return React.Children.only (this.props.children);
   }
-}
+
+};
 
 /*****************************************************************************/

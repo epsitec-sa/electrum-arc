@@ -27,7 +27,7 @@ module.exports = {
     this.refs.dialogOverlay.preventScrolling ();
   },
 
-  componentDidUpdate: function (prevProps, prevState) {
+  componentDidUpdate: function () {
     this._positionDialog ();
   },
 
@@ -60,7 +60,6 @@ module.exports = {
 
   render: function  () {
     var A          = require ('arc');
-    var TGroup     = A.TransitionGroup;
     var Paper      = A.Paper;
     var Overlay    = A.Overlay;
     var containerStyles  = this.getContainerStyles ();
@@ -128,7 +127,7 @@ module.exports = {
   },
 
   _handleWindowKeyUp: function (e) {
-    if (!this.props.modal && e.keyCode == 27 ) { //ESC
+    if (!this.props.modal && e.keyCode === 27 ) { //ESC
       this.dismiss ();
     }
   }

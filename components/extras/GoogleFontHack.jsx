@@ -12,7 +12,7 @@ module.exports = {
 
     if (!ss) {
       ss      = document.createElement ('link');
-      ss.id   = 'googlefonthack'
+      ss.id   = 'googlefonthack';
       ss.type = 'text/css';
       ss.rel  = 'stylesheet';
       ss.href = 'http://fonts.googleapis.com/css?family=';
@@ -30,6 +30,7 @@ module.exports = {
       </div>
     );
   }
-}
+
+};
 
 /*****************************************************************************/

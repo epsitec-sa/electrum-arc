@@ -1,7 +1,7 @@
 'use strict';
 
 var React      = require ('react');
-var E          = require ('e');
+
 /*****************************************************************************/
 
 module.exports = {
@@ -11,7 +11,6 @@ module.exports = {
     var BasicField = require ('arc').BasicField;
     var Icon       = require ('arc').Icon;
     var fieldType  = this.props.type || 'text';
-    var style      = E.getStyle (this);
 
     return (
       <div style={this.props.boxstyle}>
@@ -22,6 +21,7 @@ module.exports = {
       </div>
     );
   }
-}
+
+};
 
 /*****************************************************************************/

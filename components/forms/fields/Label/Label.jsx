@@ -13,7 +13,7 @@ module.exports = {
 
     var labelText = E.getText (this);
     var style     = E.getStyle (this);
-    var disabled  = E.getState (this, s => s.disabled);
+
     return (
       <div style={this.props.boxstyle}>
         <label htmlFor={this.props.id} style={style}>
@@ -23,6 +23,7 @@ module.exports = {
       </div>
     );
   }
-}
+
+};
 
 /*****************************************************************************/

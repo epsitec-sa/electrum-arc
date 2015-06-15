@@ -37,7 +37,7 @@ module.exports = {
     return shadows[zDepth];
   },
 
-  getPaperShadowStyle: function() {
+  getPaperShadowStyle: function () {
     return {
       boxShadow: this.getZDepthShadows(this.props.zDepth)
     };
@@ -46,7 +46,6 @@ module.exports = {
   render: function () {
 
     var style    = E.getStyle (this);
-    var disabled = E.getState (this, s => s.disabled);
 
     style.push (this.getPaperShadowStyle ());
     style = style.concat (this.props.boxstyle);
@@ -57,6 +56,7 @@ module.exports = {
       </div>
     );
   }
-}
+
+};
 
 /*****************************************************************************/

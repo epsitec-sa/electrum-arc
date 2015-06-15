@@ -28,16 +28,14 @@ module.exports = {
   },
 
   render: function () {
-    var Link = require ('arc').Link;
-    var text = E.getText (this);
-    var style = E.getStyle (this);
-    var disabled = E.getState (this, s => s.disabled);
-    var zIndex   = this.props['z-index'] || 1;
+    var Link   = require ('arc').Link;
+    var style  = E.getStyle (this);
+    var zIndex = this.props['z-index'] || 1;
     style.push ({
       zIndex: zIndex
     });
     var self      = this;
-    var _setMenuItem = function (item, index) {
+    var _setMenuItem = function (item) {
       if (typeof item.type === 'function') {
         return React.addons.cloneWithProps(item, {
           kind: 'menu-item',
@@ -58,6 +56,7 @@ module.exports = {
       </nav>
     );
   }
-}
+
+};
 
 /*****************************************************************************/
