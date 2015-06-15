@@ -31,6 +31,7 @@ module.exports = {
       height: '100%',
       width: '100%',
       top: 0,
+      left: 0,
       backgroundColor: E.colors.lightBlack,
       WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
       zIndex: this.props['z-index']
