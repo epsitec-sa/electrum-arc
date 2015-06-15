@@ -9,13 +9,6 @@ module.exports = {
 
   theme: require ('./Icon.styles.js'),
 
-  handleClick: function () {
-    var disabled = E.getState (this, s => s.disabled);
-    if (!disabled) {
-      E.bus.dispatch (this, this.props.action || this.props.id);
-    }
-  },
-
   render: function () {
     var text     = E.getText (this);
     var style    = E.getStyle (this);
@@ -26,7 +19,7 @@ module.exports = {
         <i
           className={'fa fa-' + icon}
           style={style}
-          onClick={this.handleClick}>
+          onClick={this.props.onClick}>
           {text}
           {this.props.children}
         </i>
