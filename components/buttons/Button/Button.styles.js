@@ -23,10 +23,15 @@ module.exports = {
     borderRadius: E.shapes.defaultBorderRadius,
     ':hover': {
       backgroundColor: E.palette.primary3Color,
+    },
+    ':focus': {
+      backgroundColor: E.palette.primary3Color,
+    },
+    ':active': {
+      backgroundColor: E.palette.primary3Color,
     }
   },
   small: {
-    width: 'none',
     paddingLeft: '15px',
     paddingRight: '15px'
   },
