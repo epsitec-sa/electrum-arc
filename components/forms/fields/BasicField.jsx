@@ -29,7 +29,6 @@ module.exports = {
   },
 
   isFocused: function () {
-    console.log (this.state);
     return !!(
       this.state &&
       this.state._radiumStyleState &&
