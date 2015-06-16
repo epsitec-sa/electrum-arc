@@ -22,7 +22,7 @@ module.exports = {
     }
 
     var style = {
-      display: 'hidden'
+      display: 'none'
     };
 
     return (

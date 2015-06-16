@@ -3,44 +3,16 @@ var E = require ('e');
 
 module.exports = {
   base: {
-    minWidth: E.spacing.desktopKeylineIncrement * 4,
-    display: 'inline-block',
     position: 'relative',
-    fontFamily: E.typo.font,
-    fontSize: '16px',
-    fontWeight: 600,
-    borderTopColor: E.palette.borderColor,
-    borderTopStyle: 'solid',
-    borderTopWidth: '1px',
-    borderRightColor: E.palette.borderColor,
-    borderRightStyle: 'solid',
-    borderRightWidth: '1px',
-    borderBottomColor: E.palette.borderColor,
-    borderBottomStyle: 'solid',
-    borderBottomWidth: '1px',
-    borderLeftColor:E.palette.borderColor,
-    borderLeftStyle: 'solid',
-    borderLeftWidth: '1px',
+    width: '100%',
+    border: 'none',
+    outline: 'none',
+    backgroundColor: 'transparent',
     color: E.palette.textColor,
-    background: E.palette.canvasColor,
-    paddingTop: '.2em',
-    paddingBottom: '.2em',
-    marginTop: '.1em',
-    marginBottom: '.1em',
-    ':hover': {
-
-    }
+    font: 'inherit',
+    ':focus': {} //needed!
   },
   iconfield: {
-    outline: 'none',
-    background: 'none',
-    border: 'none',
-    padding: '.7em 2em .7em 1.7em',
-    marginTop: 'none',
-    marginBottom: 'none',
-    ':hover': {
-      border: 'none',
-      boxShadow: 'none',
-    }
+    padding: '.7em 2em .7em 1.7em'
   }
 };

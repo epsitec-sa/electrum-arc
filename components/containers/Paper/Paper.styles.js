@@ -8,14 +8,12 @@ module.exports = {
     boxSizing: 'border-box',
     fontFamily: E.typo.font,
     color: E.palette.textColor,
-    borderRadius: E.shapes.defaultBorderRadius
+    borderRadius: E.shapes.defaultBorderRadius,
+    overflowX: 'hidden'
   },
   view: {
     backgroundColor: E.palette.canvasColor,
-    paddingTop: '1em',
-    paddingRight: '1em',
-    paddingBottom: '1em',
-    paddingLeft: '1em'
+    height: '100%'
   },
   full: {
     width: '100%',
@@ -31,9 +29,9 @@ module.exports = {
   header: {
     backgroundColor: E.palette.primary1Color,
     width: '100%',
-    paddingTop: '1em',
-    paddingRight: '1em',
-    paddingBottom: '1em',
-    paddingLeft: '1em'
+    paddingTop: '.5em',
+    paddingRight: '.5em',
+    paddingBottom: '.5em',
+    paddingLeft: '.5em'
   }
 };

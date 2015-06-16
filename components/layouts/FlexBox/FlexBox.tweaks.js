@@ -3,12 +3,12 @@
 module.exports = {
   base: {
     display: 'flex',
-    width: '100%',
     flexDirection: 'row',
     flexWrap: 'nowrap',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
-    alignContent: 'stretch'
+    alignContent: 'stretch',
+    width: '100%'
   },
   direction: {
     row: {

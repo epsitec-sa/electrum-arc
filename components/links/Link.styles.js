@@ -8,10 +8,7 @@ module.exports = {
     fontSize: '.7em',
     padding: '1em',
     cursor: 'pointer',
-    userSelect: 'none',
-    ':hover':{
-      color: E.palette.accent3Color,
-    }
+    userSelect: 'none'
   },
   footer: {
 
