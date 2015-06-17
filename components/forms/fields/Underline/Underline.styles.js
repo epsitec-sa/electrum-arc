@@ -7,7 +7,7 @@ module.exports = {
     borderBottom: 'solid 2px ' + E.palette.accent1Color,
     position: 'absolute',
     width: '100%',
-    bottom: 4,
+    bottom: 14,
     margin: 0,
     boxSizing: 'content-box',
     height: 0

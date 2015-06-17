@@ -36,7 +36,7 @@ module.exports = {
       position: 'fixed',
       overflow: 'hidden',
       zIndex: this.props['z-index'],
-      width: E.spacing.desktopKeylineIncrement * 6,
+      minWidth: E.spacing.desktopKeylineIncrement * 6,
       height: '100%',
       color: E.palette.textColor,
       top: 0,

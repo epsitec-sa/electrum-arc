@@ -16,7 +16,11 @@ module.exports = {
       <div style={this.props.boxstyle}>
         <FlexBox direction="row" align-items="baseline" kind="field">
           <Icon kind="iconfield" fa={this.props.icon} />
-          <BasicField id={this.props.id} kind="iconfield" type={fieldType} />
+          <BasicField
+            id={this.props.id}
+            kind="iconfield"
+            type={fieldType}
+            {...this.props} />
         </FlexBox>
       </div>
     );

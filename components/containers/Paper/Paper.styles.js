@@ -9,7 +9,8 @@ module.exports = {
     fontFamily: E.typo.font,
     color: E.palette.textColor,
     borderRadius: E.shapes.defaultBorderRadius,
-    overflowX: 'hidden'
+    overflowX: 'hidden',
+    border: E.paperDebugColor
   },
   view: {
     backgroundColor: E.palette.canvasColor,

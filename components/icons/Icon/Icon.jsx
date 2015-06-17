@@ -9,8 +9,11 @@ module.exports = {
 
   theme: require ('./Icon.styles.js'),
 
+  handleClick: function () {
+    E.bus.dispatch (this, this.props.action || this.props.id);
+  },
+
   render: function () {
-    var text     = E.getText (this);
     var style    = E.getStyle (this);
     var icon     = this.props.fa || 'star';
 
@@ -19,10 +22,9 @@ module.exports = {
         <i
           className={'fa fa-' + icon}
           style={style}
-          onClick={this.props.onClick}>
-          {text}
+          onClick={this.handleClick}>
           {this.props.children}
-        </i>
+        </i>&nbsp;
       </div>
     );
   }
