@@ -49,7 +49,6 @@ module.exports = {
 
     style.push (this.getPaperShadowStyle ());
     style = style.concat (this.props.boxstyle);
-
     return (
       <div style={style}>
         {this.props.children}
