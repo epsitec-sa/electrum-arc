@@ -12,6 +12,7 @@ module.exports = {
     onDismiss: React.PropTypes.func,
     repositionOnUpdate: React.PropTypes.bool,
     modal: React.PropTypes.bool,
+    size: React.PropTypes.int,
     'z-index': React.PropTypes.int
   },
 
@@ -19,12 +20,15 @@ module.exports = {
     return {
       'z-index': 10,
       side: 'left',
-      overlay: false
+      overlay: false,
+      size: E.spacing.desktopKeylineIncrement * 4
     };
   },
 
   componentDidMount: function () {
-    this.refs.dialogOverlay.preventScrolling ();
+    if (this.props.modal) {
+      this.refs.dialogOverlay.preventScrolling ();
+    }
   },
 
   componentDidUpdate: function () {
@@ -34,19 +38,51 @@ module.exports = {
   getContainerStyles: function () {
     var styles = [{
       position: 'fixed',
-      overflow: 'hidden',
       zIndex: this.props['z-index'],
-      minWidth: E.spacing.desktopKeylineIncrement * 6,
-      height: '100%',
-      color: E.palette.textColor,
-      top: 0,
-      left: 0
+      color: E.palette.textColor
     }];
 
-    if (this.props.side !== 'left') {
-      styles.push ({
+    switch (this.props.side) {
+    case 'right': styles.push ({
+        height: '100%',
+        top: 0,
         left: 'auto',
-        right: '0'
+        right: '0',
+        minWidth: this.props.size,
+        maxWidth: '80%',
+      });
+    break;
+    case 'top':
+      styles.push ({
+        width: '100%',
+        top: 0,
+        left: 0,
+        minHeight: this.props.size,
+        maxHeight: '80%',
+      });
+    break;
+    case 'bottom': styles.push ({
+        width: '100%',
+        bottom: 0,
+        left: 0,
+        minHeight: this.props.size,
+        maxHeight: '80%',
+      });
+    break;
+    case 'left': styles.push ({
+        height: '100%',
+        top: 0,
+        left: 0,
+        minWidth: this.props.size,
+        maxWidth: '80%',
+      });
+    break;
+    default: styles.push ({
+        height: '100%',
+        top: 0,
+        left: 0,
+        minWidth: this.props.size,
+        maxWidth: '80%',
       });
     }
 
@@ -55,9 +91,9 @@ module.exports = {
 
   getContentStyles: function () {
     return [{
-      overflowY: 'auto',
-      overflowX: 'hidden',
-      height: '100%'
+      height: '100%',
+      width: '100%',
+      paddingRight: '10px'
     }];
   },
 
@@ -68,10 +104,6 @@ module.exports = {
     var Transition = A.Transition;
     var containerStyles  = this.getContainerStyles ();
     var contentStyles    = this.getContentStyles ();
-
-    if (this.props.boxstyle) {
-      contentStyles.push (this.props.boxstyle);
-    }
 
     return (
       <Transition transition="leftPanel">
