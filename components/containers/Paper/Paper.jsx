@@ -24,6 +24,10 @@ module.exports = {
     };
   },
 
+  handleClick: function () {
+    E.bus.dispatch (this, this.props.action || this.props.id);
+  },
+
   getZDepthShadows: function(zDepth) {
     var shadows = [
       '',
@@ -50,7 +54,7 @@ module.exports = {
     style.push (this.getPaperShadowStyle ());
     style = style.concat (this.props.boxstyle);
     return (
-      <div style={style}>
+      <div style={style} onClick={this.handleClick}>
         {this.props.children}
       </div>
     );
