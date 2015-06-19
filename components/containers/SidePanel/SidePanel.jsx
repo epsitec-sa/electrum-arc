@@ -106,7 +106,7 @@ module.exports = {
     var contentStyles    = this.getContentStyles ();
 
     return (
-      <Transition transition="leftPanel">
+      <div>
         {this.props.overlay && <Overlay
           ref="dialogOverlay"
           z-index={this.props['z-index']}
@@ -123,7 +123,7 @@ module.exports = {
             {this.props.children}
           </div>
         </Paper>
-      </Transition>
+      </div>
     );
   },
 
