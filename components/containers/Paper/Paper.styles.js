@@ -17,7 +17,6 @@ module.exports = {
     height: '100%'
   },
   full: {
-    width: '100%',
     paddingTop: '1em',
     paddingRight: '1em',
     paddingBottom: '1em',
@@ -28,7 +27,6 @@ module.exports = {
     marginLeft: '.5em'
   },
   glowitem: {
-    width: '100%',
     paddingTop: '.1em',
     paddingRight: '.2em',
     paddingBottom: '.1em',
@@ -43,7 +41,6 @@ module.exports = {
   },
   header: {
     backgroundColor: E.palette.primary1Color,
-    width: '100%',
     paddingTop: '.5em',
     paddingRight: '.5em',
     paddingBottom: '.5em',

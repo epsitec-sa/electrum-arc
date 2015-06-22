@@ -22,13 +22,13 @@ module.exports = {
       rounded: true,
       zDepth: 1,
       transitionEnabled: true,
-      'z-index': 1000
+      'z-index': 10
     };
   },
 
   handleClick: function (evt) {
     if (this.props.action || this.props.id) {
-      E.bus.dispatch (this, this.props.action || this.props.id);  
+      E.bus.dispatch (this, this.props.action || this.props.id);
     }
   },
 
@@ -52,11 +52,10 @@ module.exports = {
   },
 
   render: function () {
-
     var style    = E.getStyle (this);
-
     style.push (this.getPaperShadowStyle ());
     style = style.concat (this.props.boxstyle);
+
     return (
       <div style={style} onClick={this.handleClick}>
         {this.props.children}

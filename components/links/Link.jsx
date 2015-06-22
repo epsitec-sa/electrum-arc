@@ -10,7 +10,9 @@ module.exports = {
   theme: require ('./Link.styles.js'),
 
   handleClick: function () {
-    E.bus.dispatch (this, this.props.href || this.props.id);
+    if (this.props.action || this.props.id) {
+      E.bus.dispatch (this, this.props.action || this.props.id);
+    }
   },
 
   render: function () {

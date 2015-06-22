@@ -46,20 +46,25 @@ module.exports = {
 
   createMap: function (element) {
     var bicycleLayer = Leaflet.tileLayer (
-      'http://{s}.tile.osmdb.ch/bicycle2/{z}/{x}/{y}.png'
-    );
+      'http://{s}.tile.osmdb.ch/bicycle2/{z}/{x}/{y}.png', {
+      zIndex: 'inherit'
+    });
     var tonerMap = Leaflet.tileLayer (
-      'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png'
-    );
+      'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+      zIndex: 'inherit'
+    });
     var cycleMap = Leaflet.tileLayer (
-      'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png'
-    );
+      'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', {
+      zIndex: 'inherit'
+    });
     var lightMap = Leaflet.tileLayer (
-      'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
-    );
+      'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+      zIndex: 'inherit'
+    });
     var darkMap  = Leaflet.tileLayer (
-      'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'
-    );
+      'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+      zIndex: 'inherit'
+    });
 
     var baseMaps = {
       Toner: tonerMap,
@@ -78,7 +83,7 @@ module.exports = {
       attributionControl: this.props.attributionControl
     });
 
-    darkMap.addTo(map);
+    lightMap.addTo(map);
 
     bicycleLayer.addTo (map).setOpacity (0.55);
 
@@ -92,6 +97,7 @@ module.exports = {
     var disabled = E.getState (this, s => s.disabled);
     if (disabled) {
       style.push ({
+        zIndex: -1,
         color: E.palette.disabledColor
       });
     }
