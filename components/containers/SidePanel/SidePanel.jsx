@@ -18,7 +18,7 @@ module.exports = {
 
   getDefaultProps: function () {
     return {
-      'z-index': 1000,
+      'z-index': 10,
       side: 'left',
       overlay: false,
       size: E.spacing.desktopKeylineIncrement * 4
