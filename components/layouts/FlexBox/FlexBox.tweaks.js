@@ -4,7 +4,7 @@ module.exports = {
   base: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'nowrap',
+    flexWrap: 'wrap',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
     alignContent: 'stretch',
