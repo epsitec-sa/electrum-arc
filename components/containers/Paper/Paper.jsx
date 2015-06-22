@@ -13,19 +13,23 @@ module.exports = {
     circle: React.PropTypes.bool,
     rounded: React.PropTypes.bool,
     zDepth: React.PropTypes.oneOf([0,1,2,3,4,5]),
-    transitionEnabled: React.PropTypes.bool
+    transitionEnabled: React.PropTypes.bool,
+    'z-index': React.PropTypes.int
   },
 
   getDefaultProps: function() {
     return {
       rounded: true,
       zDepth: 1,
-      transitionEnabled: true
+      transitionEnabled: true,
+      'z-index': 1000
     };
   },
 
-  handleClick: function () {
-    E.bus.dispatch (this, this.props.action || this.props.id);
+  handleClick: function (evt) {
+    if (this.props.action || this.props.id) {
+      E.bus.dispatch (this, this.props.action || this.props.id);  
+    }
   },
 
   getZDepthShadows: function(zDepth) {
