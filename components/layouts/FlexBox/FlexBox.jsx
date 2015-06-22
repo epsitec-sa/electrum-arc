@@ -79,7 +79,7 @@ module.exports = {
     style = style.concat (this.props.boxstyle);
 
     return (
-        <div style={style}>
+        <div data-name="FLEXBOX" style={style}>
           {flexItems}
         </div>
     );
