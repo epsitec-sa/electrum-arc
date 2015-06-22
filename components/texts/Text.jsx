@@ -14,13 +14,12 @@ module.exports = {
     var style    = E.getStyle (this);
     var value    = E.getValue (this);
 
+    style = style.concat (this.props.boxstyle);
+    
     return (
-      <div style={this.props.boxstyle}>
-        <p
-          style={style}>
-          {value ? value : text}
-          {this.props.children}
-        </p>
+      <div style={style}>
+        {value ? value : text}
+        {this.props.children}
       </div>
     );
   }

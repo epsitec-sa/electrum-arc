@@ -31,6 +31,7 @@ module.exports = {
             return React.addons.cloneWithProps(item, {
               splitter: splitter,
               boxstyle: {
+                width: '100%',
                 flexGrow: '0',
                 flexShrink: '0',
                 flexBasis: self.props.space[index]
@@ -44,6 +45,7 @@ module.exports = {
           //- console.log ('%s receive a basis of %s', itemId,  self.props.split);
           return React.addons.cloneWithProps(item, {
             boxstyle: {
+              width: '100%',
               flexGrow: '0',
               flexShrink: '0',
               flexBasis: self.props.split
@@ -52,10 +54,11 @@ module.exports = {
         }
 
         //
-        //- console.log ('%s receive default flex', itemId);
+        console.log ('%s receive default flex', itemId);
         return React.addons.cloneWithProps(item, {
           splitter: splitter,
           boxstyle: {
+            width: '100%',
             flexGrow: '0',
             flexShrink: '1',
             flexBasis: 'auto'
