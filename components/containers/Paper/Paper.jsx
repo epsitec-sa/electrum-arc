@@ -56,7 +56,7 @@ module.exports = {
     style.push (this.getPaperShadowStyle ());
     style = style.concat (this.props.boxstyle);
     return (
-      <div data-name="<Paper>" style={style} onClick={this.handleClick}>
+      <div data-name="<Paper>" style={style} onClick={this.handleClick} onTouchEnd={this.handleClick} >
         {this.props.children}
       </div>
     );

@@ -48,6 +48,7 @@ module.exports = {
           key={'overlay'}
           ref="overlay"
           onClick={this.props.onClick}
+          onTouchEnd={this.props.onClick}
           style={this.getOverlayStyles ()} />
       </Transition>
     );
