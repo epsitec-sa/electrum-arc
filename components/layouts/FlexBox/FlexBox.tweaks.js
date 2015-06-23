@@ -26,7 +26,7 @@ module.exports = {
   },
   wrap: {
     no: {
-      flexWrap: 'np-wrap'
+      flexWrap: 'no-wrap'
     },
     yes: {
       flexWrap: 'wrap'

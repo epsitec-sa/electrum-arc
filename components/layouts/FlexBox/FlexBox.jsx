@@ -9,6 +9,15 @@ module.exports = {
 
   theme: require ('./FlexBox.styles.js'),
 
+  getDefaultProps: function() {
+    return {
+      rounded: true,
+      zDepth: 1,
+      transitionEnabled: true,
+      'z-index': 10
+    };
+  },
+
   render: function () {
     var splitter  = this.props.splitter;
     var self      = this;
@@ -76,7 +85,16 @@ module.exports = {
     var tweaks    = require ('./FlexBox.tweaks.js');
     style.push (tweaks.base);
     style.push (tweaks.direction[this.props.direction]);
-    style.push (tweaks.wrap[this.props.wrap]);
+
+    // Default wrapping rules
+    if (this.props.wrap) {
+      style.push (tweaks.wrap[this.props.wrap]); // Take specific value.
+    } else { // Default wrap for row case
+      if (this.props.direction && this.props.direction === 'row') {
+        style.push (tweaks.wrap['no']);
+      }
+    }
+
     style.push (tweaks.justify[this.props.justify]);
     style.push (tweaks['align-items'][this.props['align-items']]);
     style = style.concat (this.props.boxstyle);
