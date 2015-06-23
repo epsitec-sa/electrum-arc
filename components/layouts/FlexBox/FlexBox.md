@@ -42,3 +42,4 @@ Setup you FlexBox container with props:
 ### align-items=
 
 * baseline
+* center

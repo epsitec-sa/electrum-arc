@@ -38,6 +38,9 @@ module.exports = {
   'align-items': {
       baseline: {
         alignItems: 'baseline',
+      },
+      center: {
+        alignItems: 'center',
       }
   },
   justify: {
