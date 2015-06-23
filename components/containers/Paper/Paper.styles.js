@@ -31,10 +31,6 @@ module.exports = {
     paddingRight: '.2em',
     paddingBottom: '.1em',
     paddingLeft: '.2em',
-    marginTop: '.1em',
-    marginRight: '.2em',
-    marginBottom: '.1em',
-    marginLeft: '.2em',
     ':hover': {
       backgroundColor: E.palette.accent1Color
     }
