@@ -14,7 +14,7 @@ module.exports = {
     rounded: React.PropTypes.bool,
     zDepth: React.PropTypes.oneOf([0,1,2,3,4,5]),
     transitionEnabled: React.PropTypes.bool,
-    'z-index': React.PropTypes.int
+    'z-index': React.PropTypes.number
   },
 
   getDefaultProps: function() {

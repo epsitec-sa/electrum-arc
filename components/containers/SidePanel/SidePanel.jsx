@@ -12,8 +12,8 @@ module.exports = {
     onDismiss: React.PropTypes.func,
     repositionOnUpdate: React.PropTypes.bool,
     modal: React.PropTypes.bool,
-    size: React.PropTypes.int,
-    'z-index': React.PropTypes.int
+    size: React.PropTypes.number,
+    'z-index': React.PropTypes.number
   },
 
   getDefaultProps: function () {

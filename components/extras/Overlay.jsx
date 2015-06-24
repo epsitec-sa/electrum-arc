@@ -8,7 +8,7 @@ var E     = require ('e');
 module.exports = {
 
   propTypes: {
-    'z-index': React.PropTypes.int,
+    'z-index': React.PropTypes.number,
     autoLockScrolling: React.PropTypes.bool
   },
 
