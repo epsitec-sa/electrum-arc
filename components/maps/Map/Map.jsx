@@ -32,10 +32,11 @@ module.exports = {
   },
 
   componentDidMount: function () {
+    var el = React.findDOMNode (this);
     if (this.props.createMap) {
-        this.map = this.props.createMap (this.getDOMNode ());
+        this.map = this.props.createMap (el);
     } else {
-        this.map = this.createMap (this.getDOMNode ());
+        this.map = this.createMap (el);
     }
     this.setupMap ();
   },
