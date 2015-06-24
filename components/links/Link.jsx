@@ -24,6 +24,7 @@ module.exports = {
         color: E.palette.disabledColor
       });
     }
+    
     return (
       <div style={this.props.boxstyle}>
         <a
