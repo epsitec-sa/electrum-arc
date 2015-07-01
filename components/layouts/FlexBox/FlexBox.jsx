@@ -62,8 +62,7 @@ module.exports = {
           });
         }
 
-        //
-        console.log ('%s receive default flex', itemId);
+        //- console.log ('%s receive default flex', itemId);
         return React.addons.cloneWithProps(item, {
           splitter: splitter,
           boxstyle: {
