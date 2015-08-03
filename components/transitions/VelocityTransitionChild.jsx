@@ -19,19 +19,19 @@ module.exports = {
   },
 
   componentWillAppear: function (done) {
-    var node       = this.getDOMNode ();
+    var node       = React.findDOMNode (this);
     var transition = this.getTransition ();
     this._animate (node, transition.enter, transition.duration, done);
 	},
 
   componentWillEnter: function (done) {
-    var node       = this.getDOMNode ();
+    var node       = React.findDOMNode (this);
     var transition = this.getTransition ();
     this._animate (node, transition.enter, transition.duration, done);
 	},
 
   componentWillLeave: function (done) {
-    var node       = this.getDOMNode ();
+    var node       = React.findDOMNode (this);
     var transition = this.getTransition ();
     this._animate (node, transition.leave, transition.duration, done);
   },
