@@ -32,7 +32,7 @@ module.exports = {
   },
 
   componentDidMount: function () {
-    var el = React.findDOMNode (this);
+    var el = React.findDOMNode (this.refs.map);
     if (this.props.createMap) {
         this.map = this.props.createMap (el);
     } else {
@@ -95,15 +95,10 @@ module.exports = {
 
   render: function () {
     var style    = E.getStyle (this);
-    var disabled = E.getState (this, s => s.disabled);
-    if (disabled) {
-      style.push ({
-        zIndex: -1,
-        color: E.palette.disabledColor
-      });
-    }
+    style = style.concat (this.props.boxstyle);
+
     return (
-      <div style={style}>
+      <div style={style} ref="map">
       </div>
     );
   }

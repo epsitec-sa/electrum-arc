@@ -3,12 +3,16 @@ var E = require ('e');
 
 module.exports = {
   base: {
-    position: 'relative',
+    width: '100%',
+    minHeight: E.spacing.desktopKeylineIncrement * 5
+  },
+  medium: {
+    minHeight: '50%'
+  },
+  full: {
+    position: 'absolute',
     top: 0,
-    bottom: 0,
     left: 0,
-    right: 0,
-    minHeight: '100%',
-    minWidth: '100%'
+    height: '100%'
   }
 };
