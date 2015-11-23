@@ -1,4 +1,5 @@
 'use strict';
+
 var E          = require ('e');
 var components = {};
 var instances  = {};
