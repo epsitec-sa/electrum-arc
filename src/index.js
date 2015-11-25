@@ -4,13 +4,13 @@ import {E} from 'electrum';
 
 var components = {};
 var instances  = {};
-var req        = require.context ('./components/', true, /\.jsx$/);
+var req        = require.context ('./components/', true, /\.js$/);
 var files      = req.keys ();
 
 files.forEach (function (file) {
   var componentId   = req.resolve (file);
   var component     = __webpack_require__ (componentId); // jshint ignore:line
-  var matches       = file.match (/([^\/\\]+)\.jsx$/);
+  var matches       = file.match (/([^\/\\]+)\.component\.js$/);
   var componentType = matches[1];
   components[componentType] = component;
 });
