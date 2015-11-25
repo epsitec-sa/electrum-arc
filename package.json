@@ -1,8 +1,8 @@
 {
   "name": "electrum-arc",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Agnostic Reactive Components for Electrum",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
