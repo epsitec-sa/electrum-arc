@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react/addons');
+import React from 'react';
+// import {E} from 'electrum';
 
 /*****************************************************************************/
 
@@ -10,7 +11,7 @@ module.exports = {
     transition: React.PropTypes.string
   },
 
-  _wrapChild: function(child) {
+  _wrapChild: function (child) {
     var TransitionChild = require ('arc').VelocityTransitionChild;
     return (
       <TransitionChild transition={this.props.transition}>
@@ -19,7 +20,7 @@ module.exports = {
     );
   },
 
-  render: function() {
+  render: function () {
     var ReactTransitionGroup = React.addons.TransitionGroup;
     return (
       <ReactTransitionGroup

@@ -1,7 +1,8 @@
 'use strict';
 
-var E = require ('e');
-var getTextSelection = require ('electrum-utils/modules/get-text-selection.js');
+import {E} from 'electrum';
+
+var getTextSelection = require ('electrum-utils/src/get-text-selection.js');
 
 /*****************************************************************************/
 
@@ -50,12 +51,12 @@ var processFocusEvent = function (obj, event) {
   }
 
   E.bus.dispatch (obj, 'focus');
-/*  var proxy = hubs.getPresentationHubProxy ();
-  proxy
-    .invoke ('FocusField', modelId, fieldId)
-    .fail (function (error) {
-      trace.log ('FocusField failed: ' + error);
-    }); */
+  /*  var proxy = hubs.getPresentationHubProxy ();
+    proxy
+      .invoke ('FocusField', modelId, fieldId)
+      .fail (function (error) {
+        trace.log ('FocusField failed: ' + error);
+      }); */
 };
 
 /*****************************************************************************/

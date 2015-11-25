@@ -1,6 +1,7 @@
 'use strict';
 
-var E          = require ('e');
+import {E} from 'electrum';
+
 var components = {};
 var instances  = {};
 var req        = require.context ('./components/', true, /\.jsx$/);

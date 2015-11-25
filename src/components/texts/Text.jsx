@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require ('react');
-var E     = require ('e');
+import React from 'react';
+import {E} from 'electrum';
 
 /*****************************************************************************/
 
@@ -15,7 +15,7 @@ module.exports = {
     var value    = E.getValue (this);
 
     style = style.concat (this.props.boxstyle);
-    
+
     return (
       <div style={style}>
         {value ? value : text}

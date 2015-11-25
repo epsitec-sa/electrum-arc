@@ -1,8 +1,9 @@
 'use strict';
 
-var React   = require ('react');
-var E       = require ('e');
-var Leaflet = require ('leaflet');
+import React from 'react';
+import {E} from 'electrum';
+import Leaflet from 'leaflet';
+
 require ('leaflet/dist/leaflet.css');
 
 /*****************************************************************************/
@@ -34,9 +35,9 @@ module.exports = {
   componentDidMount: function () {
     var el = React.findDOMNode (this.refs.map);
     if (this.props.createMap) {
-        this.map = this.props.createMap (el);
+      this.map = this.props.createMap (el);
     } else {
-        this.map = this.createMap (el);
+      this.map = this.createMap (el);
     }
     this.setupMap ();
   },
@@ -84,11 +85,11 @@ module.exports = {
       attributionControl: this.props.attributionControl
     });
 
-    lightMap.addTo(map);
+    lightMap.addTo (map);
 
     bicycleLayer.addTo (map).setOpacity (0.55);
 
-    Leaflet.control.layers (baseMaps, overlayMaps).addTo(map);
+    Leaflet.control.layers (baseMaps, overlayMaps).addTo (map);
 
     return map;
   },
@@ -98,7 +99,7 @@ module.exports = {
     style = style.concat (this.props.boxstyle);
 
     return (
-      <div style={style} ref="map">
+      <div style={style} ref='map'>
       </div>
     );
   }

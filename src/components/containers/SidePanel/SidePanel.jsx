@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require ('react');
-var E     = require ('e');
+import React from 'react';
+import {E} from 'electrum';
 
 /*****************************************************************************/
 
@@ -97,7 +97,7 @@ module.exports = {
     }];
   },
 
-  render: function  () {
+  render: function () {
     var A          = require ('arc');
     var Paper      = A.Paper;
     var Overlay    = A.Overlay;
@@ -108,14 +108,14 @@ module.exports = {
     return (
       <div>
         {this.props.overlay && <Overlay
-          ref="dialogOverlay"
+          ref='dialogOverlay'
           z-index={this.props['z-index']}
           autoLockScrolling={false}
           onClick={this._handleClick}
         />}
         <Paper
-            key="content"
-            ref="dialogWindow"
+            key='content'
+            ref='dialogWindow'
             boxstyle={containerStyles}
             zDepth={4}
           >

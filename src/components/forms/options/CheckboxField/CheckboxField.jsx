@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require ('react');
-var E     = require ('e');
+import React from 'react';
+import {E} from 'electrum';
 
 /*****************************************************************************/
 
@@ -23,7 +23,7 @@ module.exports = {
     return (
       <div style={this.props.boxstyle}>
           <input style={style}
-            type="checkbox"
+            type='checkbox'
             id={this.props.id}
             disabled={disabled}
             checked={checked}

@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require ('react');
-var E     = require ('e');
+import React from 'react';
+import {E} from 'electrum';
 
 /*****************************************************************************/
 
@@ -58,7 +58,7 @@ module.exports = {
     }];
   },
 
-  render: function  () {
+  render: function () {
     var A          = require ('arc');
     var Paper      = A.Paper;
     var Overlay    = A.Overlay;
@@ -70,17 +70,17 @@ module.exports = {
     }
 
     return (
-      <div ref="container" style={containerStyles}>
+      <div ref='container' style={containerStyles}>
         <Paper
-            key="content"
-            ref="dialogWindow"
+            key='content'
+            ref='dialogWindow'
             boxstyle={contentStyles}
             zDepth={4}
           >
           {this.props.children}
         </Paper>
         <Overlay
-          ref="dialogOverlay"
+          ref='dialogOverlay'
           z-index={this.props['z-index'] + 1}
           autoLockScrolling={false}
           onClick={this._handleClick}
@@ -95,7 +95,7 @@ module.exports = {
     E.bus.dispatch (this, 'Dismiss');
   },
 
-  _positionDialog: function() {
+  _positionDialog: function () {
     var container          = React.findDOMNode (this.refs.container);
     var dialogWindow       = React.findDOMNode (this.refs.dialogWindow);
     var containerHeight    = container.offsetHeight;

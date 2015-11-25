@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require ('react');
-var E     = require ('e');
+import React from 'react';
+import {E} from 'electrum';
 
 /*****************************************************************************/
 
@@ -9,7 +9,7 @@ module.exports = {
 
   theme: require ('./FlexBox.styles.js'),
 
-  getDefaultProps: function() {
+  getDefaultProps: function () {
     return {
       rounded: true,
       zDepth: 1,
@@ -37,7 +37,7 @@ module.exports = {
             console.warn ('Your Flexbox cannot apply space to ', itemId);
           } else {
             //- console.log ('%s receive a basis of %s', itemId, self.props.space[index]);
-            return React.addons.cloneWithProps(item, {
+            return React.addons.cloneWithProps (item, {
               splitter: splitter,
               boxstyle: {
                 width: '100%',
@@ -52,7 +52,7 @@ module.exports = {
         // split on first child with inherited splitter value
         if (self.props.split && index === 0) {
           //- console.log ('%s receive a basis of %s', itemId,  self.props.split);
-          return React.addons.cloneWithProps(item, {
+          return React.addons.cloneWithProps (item, {
             boxstyle: {
               width: '100%',
               flexGrow: '0',
@@ -63,7 +63,7 @@ module.exports = {
         }
 
         //- console.log ('%s receive default flex', itemId);
-        return React.addons.cloneWithProps(item, {
+        return React.addons.cloneWithProps (item, {
           splitter: splitter,
           boxstyle: {
             width: '100%',
@@ -99,7 +99,7 @@ module.exports = {
     style = style.concat (this.props.boxstyle);
 
     return (
-        <div data-name="FLEXBOX" style={style}>
+        <div data-name='FLEXBOX' style={style}>
           {flexItems}
         </div>
     );

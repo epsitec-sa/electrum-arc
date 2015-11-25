@@ -1,38 +1,39 @@
 'use strict';
 
-var React = require ('react');
+import React from 'react';
+// import {E} from 'electrum';
 
 /*****************************************************************************/
 
 module.exports = {
 
-    componentDidMount: function () {
+  componentDidMount: function () {
       this.renderFrameContents ();
     },
 
-    componentDidUpdate: function() {
+  componentDidUpdate: function () {
       this.renderFrameContents ();
     },
 
-    componentWillUnmount: function() {
+  componentWillUnmount: function () {
       React.unmountComponentAtNode (
         React.findDOMNode (this).contentDocument.body
       );
     },
 
-    render: function () {
-      return React.createElement('iframe', this.props);
+  render: function () {
+      return React.createElement ('iframe', this.props);
     },
 
-    renderFrameContents: function () {
+  renderFrameContents: function () {
       var doc = React.findDOMNode (this).contentDocument;
       var cssLink = document.createElement ('link');
       cssLink.href = this.props.css;
       cssLink.rel  = 'stylesheet';
       cssLink.type = 'text/css';
-      doc.head.appendChild(cssLink);
-      if(doc && doc.readyState === 'complete') {
-        var contents = React.createElement('div',
+      doc.head.appendChild (cssLink);
+      if (doc && doc.readyState === 'complete') {
+        var contents = React.createElement ('div',
           undefined,
           this.props.children
         );

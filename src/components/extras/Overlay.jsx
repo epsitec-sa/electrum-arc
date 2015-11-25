@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require ('react');
-var E     = require ('e');
+import React from 'react';
+import {E} from 'electrum';
 
 /*****************************************************************************/
 
@@ -43,10 +43,10 @@ module.exports = {
     var Transition = A.Transition;
 
     return (
-      <Transition transition="overlay">
+      <Transition transition='overlay'>
         <div
           key={'overlay'}
-          ref="overlay"
+          ref='overlay'
           onClick={this.props.onClick}
           onTouchEnd={this.props.onClick}
           style={this.getOverlayStyles ()} />
@@ -54,25 +54,25 @@ module.exports = {
     );
   },
 
-  preventScrolling: function() {
+  preventScrolling: function () {
     if (!this.props.autoLockScrolling) {
       this._preventScrolling ();
     }
   },
 
-  allowScrolling: function() {
+  allowScrolling: function () {
     if (!this.props.autoLockScrolling) {
       this._allowScrolling ();
     }
   },
 
-  _preventScrolling: function() {
-    var body = document.getElementsByTagName('body')[0];
+  _preventScrolling: function () {
+    var body = document.getElementsByTagName ('body')[0];
     body.style.overflow = 'hidden';
   },
 
-  _allowScrolling: function() {
-    var body = document.getElementsByTagName('body')[0];
+  _allowScrolling: function () {
+    var body = document.getElementsByTagName ('body')[0];
     body.style.overflow = '';
   }
 

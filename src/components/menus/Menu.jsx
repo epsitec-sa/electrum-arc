@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require ('react/addons');
-var E     = require ('e');
+import React from 'react';
+import {E} from 'electrum';
 
 /*****************************************************************************/
 
@@ -37,7 +37,7 @@ module.exports = {
     var self      = this;
     var _setMenuItem = function (item) {
       if (typeof item.type === 'function') {
-        return React.addons.cloneWithProps(item, {
+        return React.addons.cloneWithProps (item, {
           kind: 'menu-item',
           boxstyle: self.itemBoxStyle
         });
@@ -49,7 +49,7 @@ module.exports = {
     var menuItems = React.Children.map (this.props.children, _setMenuItem);
     return (
       <nav style={style}>
-        <Link boxstyle={this.headingBoxStyle} kind="menu-heading">
+        <Link boxstyle={this.headingBoxStyle} kind='menu-heading'>
           {this.props.title}
         </Link>
         {menuItems}

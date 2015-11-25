@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require ('react');
-var E     = require ('e');
+import React from 'react';
+// import {E} from 'electrum';
 
 /*****************************************************************************/
 
@@ -81,20 +81,20 @@ module.exports = {
         );
         break;
       case 'LeftPanel':
-          Container = (
-            <SidePanel
-              side="left"
-              overlay={true}
-              boxstyle={appliedStyle}
-              z-index={this.getNavigationZIndex ()} >
-              {this.props.children}
-            </SidePanel>
-          );
-          break;
+        Container = (
+          <SidePanel
+            side='left'
+            overlay={true}
+            boxstyle={appliedStyle}
+            z-index={this.getNavigationZIndex ()} >
+                          {this.props.children}
+                      </SidePanel>
+        );
+        break;
       case 'RightPanel':
         Container = (
           <SidePanel
-            side="right"
+            side='right'
             overlay={true}
             boxstyle={appliedStyle}
             z-index={this.getNavigationZIndex ()} >
@@ -102,32 +102,32 @@ module.exports = {
           </SidePanel>
         );
         break;
-        case 'TopPanel':
-          Container = (
-            <SidePanel
-              side="top"
-              overlay={false}
-              boxstyle={appliedStyle}
-              z-index={this.getNavigationZIndex ()} >
-              {this.props.children}
-            </SidePanel>
-          );
+      case 'TopPanel':
+        Container = (
+          <SidePanel
+            side='top'
+            overlay={false}
+            boxstyle={appliedStyle}
+            z-index={this.getNavigationZIndex ()} >
+                          {this.props.children}
+                      </SidePanel>
+        );
         break;
-        case 'BottomPanel':
-          Container = (
-            <SidePanel
-              side="bottom"
-              overlay={false}
-              boxstyle={appliedStyle}
-              z-index={this.getNavigationZIndex ()} >
-              {this.props.children}
-            </SidePanel>
-          );
-          break;
+      case 'BottomPanel':
+        Container = (
+          <SidePanel
+            side='bottom'
+            overlay={false}
+            boxstyle={appliedStyle}
+            z-index={this.getNavigationZIndex ()} >
+                          {this.props.children}
+                      </SidePanel>
+        );
+        break;
       default:
         Container = (
           <Paper
-            kind="view"
+            kind='view'
             z-index={this.getNavigationZIndex ()} >
             {this.props.children}
           </Paper>
@@ -135,7 +135,7 @@ module.exports = {
     }
 
     return (
-      <div data-name="VIEWER CONTAINER BOX" style={this.props.boxstyle}>
+      <div data-name='VIEWER CONTAINER BOX' style={this.props.boxstyle}>
         {Container}
       </div>
     );

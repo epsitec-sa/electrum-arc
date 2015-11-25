@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require ('react');
-var E     = require ('e');
+import React from 'react';
+import {E} from 'electrum';
 
 /*****************************************************************************/
 
@@ -12,12 +12,12 @@ module.exports = {
   propTypes: {
     circle: React.PropTypes.bool,
     rounded: React.PropTypes.bool,
-    zDepth: React.PropTypes.oneOf([0,1,2,3,4,5]),
+    zDepth: React.PropTypes.oneOf ([0,1,2,3,4,5]),
     transitionEnabled: React.PropTypes.bool,
     'z-index': React.PropTypes.number
   },
 
-  getDefaultProps: function() {
+  getDefaultProps: function () {
     return {
       rounded: true,
       zDepth: 1,
@@ -32,7 +32,7 @@ module.exports = {
     }
   },
 
-  getZDepthShadows: function(zDepth) {
+  getZDepthShadows: function (zDepth) {
     var shadows = [
       '',
       '0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24)',
@@ -47,7 +47,7 @@ module.exports = {
 
   getPaperShadowStyle: function () {
     return {
-      boxShadow: this.getZDepthShadows(this.props.zDepth)
+      boxShadow: this.getZDepthShadows (this.props.zDepth)
     };
   },
 
@@ -56,7 +56,7 @@ module.exports = {
     style.push (this.getPaperShadowStyle ());
     style = style.concat (this.props.boxstyle);
     return (
-      <div data-name="<Paper>" style={style} onClick={this.handleClick} onTouchEnd={this.handleClick} >
+      <div data-name='<Paper>' style={style} onClick={this.handleClick} onTouchEnd={this.handleClick} >
         {this.props.children}
       </div>
     );

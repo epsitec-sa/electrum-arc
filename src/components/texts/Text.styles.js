@@ -1,6 +1,6 @@
 'use strict';
 
-var E = require ('e');
+import {E} from 'electrum';
 
 module.exports = {
   base: {

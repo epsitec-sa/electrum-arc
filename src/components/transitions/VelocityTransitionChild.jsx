@@ -1,8 +1,8 @@
 'use strict';
 
-var React    = require ('react/addons');
-var E        = require ('e');
-var velocity = require ('velocity-animate');
+import React from 'react';
+import {E} from 'electrum';
+import velocity from 'velocity-animate';
 
 /*****************************************************************************/
 
@@ -22,13 +22,13 @@ module.exports = {
     var node       = React.findDOMNode (this);
     var transition = this.getTransition ();
     this._animate (node, transition.enter, transition.duration, done);
-	},
+  },
 
   componentWillEnter: function (done) {
     var node       = React.findDOMNode (this);
     var transition = this.getTransition ();
     this._animate (node, transition.enter, transition.duration, done);
-	},
+  },
 
   componentWillLeave: function (done) {
     var node       = React.findDOMNode (this);
@@ -39,7 +39,7 @@ module.exports = {
   _animate: function (node, transition, duration, done) {
     var backup  = this._backupStyles;
     var restore = this._restoreStyles;
-    velocity(
+    velocity (
       node,
       transition,
       {

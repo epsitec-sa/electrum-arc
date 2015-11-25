@@ -1,7 +1,7 @@
 'use strict';
 
-var React     = require ('react');
-var E         = require ('e');
+import React from 'react';
+import {E} from 'electrum';
 
 /*****************************************************************************/
 

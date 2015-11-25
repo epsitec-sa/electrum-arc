@@ -1,6 +1,6 @@
 'use strict';
 
-var React   = require ('react');
+import React from 'react';
 
 /*****************************************************************************/
 
@@ -13,7 +13,7 @@ module.exports = {
     var type = this.props.type || 'text';
     return (
       <div style={this.props.boxstyle}>
-        <FlexBox direction="row" align-items="baseline" split={this.props.splitter}>
+        <FlexBox direction='row' align-items='baseline' split={this.props.splitter}>
           <Label {...this.props} />
           <BasicField type={type} {...this.props} />
         </FlexBox>

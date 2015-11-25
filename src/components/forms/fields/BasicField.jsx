@@ -1,6 +1,7 @@
 'use strict';
-var React = require ('react');
-var E     = require ('e');
+
+import React from 'react';
+import {E} from 'electrum';
 
 /*****************************************************************************/
 
@@ -8,7 +9,7 @@ module.exports = {
 
   theme: require ('./BasicField.styles.js'),
 
-  getDefaultProps: function() {
+  getDefaultProps: function () {
     return {
       fullWidth: false,
       type: 'text',

@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require ('react/addons');
-var E     = require ('e');
+import React from 'react';
+import {E} from 'electrum';
 
 /*****************************************************************************/
 
@@ -36,7 +36,6 @@ module.exports = {
       </div>
     );
   }
-
 };
 
 /*****************************************************************************/

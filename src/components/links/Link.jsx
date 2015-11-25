@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require ('react');
-var E     = require ('e');
+import React from 'react';
+import {E} from 'electrum';
 
 /*****************************************************************************/
 
@@ -24,7 +24,7 @@ module.exports = {
         color: E.palette.disabledColor
       });
     }
-    
+
     return (
       <div style={this.props.boxstyle}>
         <a

@@ -1,6 +1,7 @@
 'use strict';
 
-var React      = require ('react');
+import React from 'react';
+// import {E} from 'electrum';
 
 /*****************************************************************************/
 
@@ -14,11 +15,11 @@ module.exports = {
 
     return (
       <div style={this.props.boxstyle}>
-        <FlexBox direction="row" align-items="baseline" kind="field">
-          <Icon kind="iconfield" fa={this.props.icon} />
+        <FlexBox direction='row' align-items='baseline' kind='field'>
+          <Icon kind='iconfield' fa={this.props.icon} />
           <BasicField
             id={this.props.id}
-            kind="iconfield"
+            kind='iconfield'
             type={fieldType}
             {...this.props} />
         </FlexBox>
