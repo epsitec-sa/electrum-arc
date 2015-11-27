@@ -1,16 +1,17 @@
 'use strict';
 
 import React from 'react';
-// import {E} from 'electrum';
+import {E} from 'electrum';
+
+const FlexBox = E.components.FlexBox;
+const BasicField = E.components.BasicField;
+const Icon = E.components.Icon;
 
 /*****************************************************************************/
 
 module.exports = {
 
   render: function () {
-    var FlexBox    = require ('arc').FlexBox;
-    var BasicField = require ('arc').BasicField;
-    var Icon       = require ('arc').Icon;
     var fieldType  = this.props.type || 'text';
 
     return (

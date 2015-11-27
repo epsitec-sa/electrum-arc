@@ -3,6 +3,8 @@
 import React from 'react';
 import {E} from 'electrum';
 
+const Transition = E.components.Transition;
+
 /*****************************************************************************/
 
 module.exports = {
@@ -39,9 +41,6 @@ module.exports = {
   },
 
   render: function () {
-    var A          = require ('arc');
-    var Transition = A.Transition;
-
     return (
       <Transition transition='overlay'>
         <div

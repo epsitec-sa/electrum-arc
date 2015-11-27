@@ -1,7 +1,11 @@
 'use strict';
 
 import React from 'react';
-// import {E} from 'electrum';
+import {E} from 'electrum';
+
+const Paper = E.components.Paper;
+const DialogWindow = E.components.DialogWindow;
+const SidePanel = E.components.SidePanel;
 
 /*****************************************************************************/
 
@@ -42,11 +46,6 @@ module.exports = {
   },
 
   render: function render () {
-    var A            = require ('arc');
-    var Paper        = A.Paper;
-    var DialogWindow = A.DialogWindow;
-    var SidePanel    = A.SidePanel;
-    var Link         = A.Link;
     var Container    = null;
 
     // Build and apply styles

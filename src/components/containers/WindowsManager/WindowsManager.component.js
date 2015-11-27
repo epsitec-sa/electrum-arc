@@ -1,7 +1,11 @@
 'use strict';
 
 import React from 'react';
-// import {E} from 'electrum';
+import {E} from 'electrum';
+
+const Window = E.components.Window;
+const GFH = E.components.GoogleFontHack;
+const AppCanvas = E.components.AppCanvas;
 
 /*****************************************************************************/
 
@@ -32,9 +36,6 @@ module.exports = {
   componentWillMount: function () {},
 
   renderViewers: function () {
-    var A      = require ('arc');
-    var Window = A.Window;
-
     var self = this;
     return self.viewers.map (function (activity) {
       return (
@@ -44,10 +45,6 @@ module.exports = {
   },
 
   render: function () {
-    var A         = require ('arc');
-    var GFH       = A.GoogleFontHack;
-    var AppCanvas = A.AppCanvas;
-
     if (this.viewers.length > 0) {
       return (
         <AppCanvas>

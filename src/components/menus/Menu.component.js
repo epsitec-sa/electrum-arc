@@ -3,6 +3,8 @@
 import React from 'react';
 import {E} from 'electrum';
 
+const Link = E.components.Link;
+
 /*****************************************************************************/
 
 module.exports = {
@@ -28,7 +30,6 @@ module.exports = {
   },
 
   render: function () {
-    var Link   = require ('arc').Link;
     var style  = E.getStyle (this);
     var zIndex = this.props['z-index'] || 1;
     style.push ({

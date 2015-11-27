@@ -3,6 +3,8 @@
 import React from 'react';
 import {E} from 'electrum';
 
+const Underline = E.components.Underline;
+
 /*****************************************************************************/
 
 module.exports = {
@@ -39,9 +41,7 @@ module.exports = {
   },
 
   render: function () {
-    var A             = require ('arc');
-    var Underline     = A.Underline;
-    var eventHandlers = A.eventHandlers;
+    var eventHandlers = E.components.eventHandlers;
     var placeholder   = this.props.placeholder || '...';
     var style     = E.getStyle (this);
     var value     = E.getValue (this);

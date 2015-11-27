@@ -1,7 +1,9 @@
 'use strict';
 
 import React from 'react';
-// import {E} from 'electrum';
+import {E} from 'electrum';
+
+const TransitionChild = E.components.VelocityTransitionChild;
 
 /*****************************************************************************/
 
@@ -12,7 +14,6 @@ module.exports = {
   },
 
   _wrapChild: function (child) {
-    var TransitionChild = require ('arc').VelocityTransitionChild;
     return (
       <TransitionChild transition={this.props.transition}>
         {child}

@@ -3,6 +3,9 @@
 import React from 'react';
 import {E} from 'electrum';
 
+const Paper = E.components.Paper;
+const Overlay = E.components.Overlay;
+
 /*****************************************************************************/
 
 module.exports = {
@@ -59,9 +62,6 @@ module.exports = {
   },
 
   render: function () {
-    var A          = require ('arc');
-    var Paper      = A.Paper;
-    var Overlay    = A.Overlay;
     var containerStyles  = this.getContainerStyles ();
     var contentStyles    = this.getContentStyles ();
 
