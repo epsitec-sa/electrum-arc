@@ -1,16 +1,16 @@
 'use strict';
 
-import {E} from 'electrum';
-
-module.exports = {
-  base: {
-    fontSize: '14px',
-    color: E.palette.textColor
-  },
-  title: {
-    fontSize: '24px'
-  },
-  subtitle: {
-    color: E.palette.subTextColor,
-  }
+export default (theme) => {
+  return {
+    base: {
+      fontSize: 14,
+      color: theme.palette.textColor
+    },
+    title: {
+      fontSize: 24
+    },
+    subtitle: {
+      color: theme.palette.subTextColor,
+    }
+  };
 };

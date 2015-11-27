@@ -1,13 +1,13 @@
 'use strict';
 
-import {E} from 'electrum';
-
-module.exports = {
-  base: {
-    fontSize: '18px',
-    fontFamily: E.typo.font,
-    background: E.palette.primary2Color,
-    textAlign: 'center',
-    padding: '1em 2em'
-  }
+module.exports = theme => {
+  return {
+    base: {
+      fontSize: 18,
+      fontFamily: theme.typo.font,
+      background: theme.palette.primary2Color,
+      textAlign: 'center',
+      padding: '1em 2em'
+    }
+  };
 };

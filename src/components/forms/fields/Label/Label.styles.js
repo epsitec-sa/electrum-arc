@@ -1,14 +1,14 @@
 'use strict';
 
-import {E} from 'electrum';
-
-module.exports = {
-  base: {
-    fontSize: '16px',
-    marginLeft: '10px',
-    lineHeight: '1em',
-    color: E.palette.textColor,
-    fontFamily: E.typo.font,
-    fontWeight: '600'
-  }
+export default (theme) => {
+  return {
+    base: {
+      fontSize: 16,
+      marginLeft: 10,
+      lineHeight: '1em',
+      color: theme.palette.textColor,
+      fontFamily: theme.typo.font,
+      fontWeight: 600
+    }
+  };
 };

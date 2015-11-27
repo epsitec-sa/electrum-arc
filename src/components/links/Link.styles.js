@@ -1,25 +1,25 @@
 'use strict';
 
-import {E} from 'electrum';
+export default (theme) => {
+  return {
+    base: {
+      fontFamily: theme.typo.font,
+      color: theme.palette.textColor,
+      fontSize: '.7em',
+      padding: '1em',
+      cursor: 'pointer',
+      userSelect: 'none'
+    },
+    footer: {
 
-module.exports = {
-  base: {
-    fontFamily: E.typo.font,
-    color: E.palette.textColor,
-    fontSize: '.7em',
-    padding: '1em',
-    cursor: 'pointer',
-    userSelect: 'none'
-  },
-  footer: {
-
-  },
-  'menu-heading': {
-    fontWeight: 100,
-    fontSize: '1.5em'
-  },
-  'menu-item': {
-    fontWeight: 100,
-    fontSize: '.8em'
-  }
+    },
+    'menu-heading': {
+      fontWeight: 100,
+      fontSize: '1.5em'
+    },
+    'menu-item': {
+      fontWeight: 100,
+      fontSize: '.8em'
+    }
+  };
 };
