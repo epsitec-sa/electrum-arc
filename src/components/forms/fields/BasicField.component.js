@@ -2,8 +2,7 @@
 
 import React from 'react';
 import {E} from 'electrum';
-
-const Underline = E.components.Underline;
+import {Underline} from 'electrum-arc';
 
 /*****************************************************************************/
 

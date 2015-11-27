@@ -2,8 +2,7 @@
 
 import React from 'react';
 import {E} from 'electrum';
-
-const Transition = E.components.Transition;
+import {Transition} from 'electrum-arc';
 
 /*****************************************************************************/
 

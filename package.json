@@ -1,10 +1,10 @@
 {
   "name": "electrum-arc",
-  "version": "1.3.2",
+  "version": "1.3.4",
   "description": "Agnostic Reactive Components for Electrum",
   "main": "lib/index.js",
   "scripts": {
-    "compile": "rimraf ./lib && npm run regen && babel -d lib src",
+    "compile": "rimraf ./lib && require-self && npm run regen && babel -d lib src",
     "regen": "electrum-require-components --wrap ./src components .component.js all-components.js",
     "prepublish": "npm run compile",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -39,6 +39,7 @@
     "electrum-require-components": "^0.2.0",
     "react-addons-shallow-compare": "^0.14.3",
     "react-addons-test-utils": "^0.14.3",
-    "react-dom": "^0.14.3"
+    "react-dom": "^0.14.3",
+    "require-self": "^0.1.0"
   }
 }

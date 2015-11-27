@@ -2,8 +2,7 @@
 
 import React from 'react';
 import {E} from 'electrum';
-
-const TransitionChild = E.components.VelocityTransitionChild;
+import {VelocityTransitionChild as TransitionChild} from 'electrum-arc';
 
 /*****************************************************************************/
 

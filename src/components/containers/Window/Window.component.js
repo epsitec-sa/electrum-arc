@@ -2,10 +2,7 @@
 
 import React from 'react';
 import {E} from 'electrum';
-
-const Paper = E.components.Paper;
-const DialogWindow = E.components.DialogWindow;
-const SidePanel = E.components.SidePanel;
+import {Paper, DialogWindow, SidePanel} from 'electrum-arc';
 
 /*****************************************************************************/
 

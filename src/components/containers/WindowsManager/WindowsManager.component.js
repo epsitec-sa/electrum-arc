@@ -2,10 +2,7 @@
 
 import React from 'react';
 import {E} from 'electrum';
-
-const Window = E.components.Window;
-const GFH = E.components.GoogleFontHack;
-const AppCanvas = E.components.AppCanvas;
+import {Window, GoogleFontHack as GFH, AppCanvas} from 'electrum-arc';
 
 /*****************************************************************************/
 

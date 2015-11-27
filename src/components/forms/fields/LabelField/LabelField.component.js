@@ -2,10 +2,7 @@
 
 import React from 'react';
 import {E} from 'electrum';
-
-const FlexBox = E.components.FlexBox;
-const BasicField = E.components.BasicField;
-const Label = E.components.Label;
+import {FlexBox, BasicField, Label} from 'electrum-arc';
 
 /*****************************************************************************/
 

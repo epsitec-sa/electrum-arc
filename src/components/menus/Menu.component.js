@@ -2,8 +2,7 @@
 
 import React from 'react';
 import {E} from 'electrum';
-
-const Link = E.components.Link;
+import {Link} from 'electrum-arc';
 
 /*****************************************************************************/
 

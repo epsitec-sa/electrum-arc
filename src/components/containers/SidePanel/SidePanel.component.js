@@ -2,9 +2,7 @@
 
 import React from 'react';
 import {E} from 'electrum';
-
-const Paper = E.components.Paper;
-const Overlay = E.components.Overlay;
+import {Paper, Overlay} from 'electrum-arc';
 
 /*****************************************************************************/
 
