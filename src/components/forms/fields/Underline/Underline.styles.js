@@ -1,6 +1,6 @@
 'use strict';
 
-export default (theme) => {
+module.exports = theme => {
   return {
     base: {
       border: 'none',

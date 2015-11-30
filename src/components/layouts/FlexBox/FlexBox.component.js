@@ -81,7 +81,7 @@ module.exports = {
 
     var flexItems = React.Children.map (this.props.children, _setFlexItem);
     var style     = E.getStyle (this);
-    var tweaks    = require ('./FlexBox.tweaks.js');
+    var tweaks    = require ('./FlexBox.tweaks.js') (E);
     style.push (tweaks.base);
     style.push (tweaks.direction[this.props.direction]);
 
@@ -104,7 +104,6 @@ module.exports = {
         </div>
     );
   }
-
 };
 
 /*****************************************************************************/
