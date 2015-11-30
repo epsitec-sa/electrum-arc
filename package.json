@@ -1,6 +1,6 @@
 {
   "name": "electrum-arc",
-  "version": "1.3.7",
+  "version": "1.3.11",
   "description": "Agnostic Reactive Components for Electrum",
   "main": "lib/index.js",
   "scripts": {
@@ -36,7 +36,7 @@
     "babel-preset-es2015": "^6.1.18",
     "babel-preset-react": "^6.1.18",
     "babel-preset-stage-0": "^6.1.18",
-    "electrum-require-components": "^0.2.0",
+    "electrum-require-components": "^0.2.1",
     "react-addons-shallow-compare": "^0.14.3",
     "react-addons-test-utils": "^0.14.3",
     "react-dom": "^0.14.3",

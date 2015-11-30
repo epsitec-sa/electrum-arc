@@ -1,12 +1,10 @@
 'use strict';
-
+/*
 import React from 'react';
 import {E} from 'electrum';
 import Leaflet from 'leaflet';
 
 require ('leaflet/dist/leaflet.css');
-
-/*****************************************************************************/
 
 module.exports = {
 
@@ -105,5 +103,4 @@ module.exports = {
   }
 
 };
-
-/*****************************************************************************/
+*/
