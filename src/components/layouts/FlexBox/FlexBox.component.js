@@ -7,7 +7,7 @@ import {E} from 'electrum';
 
 module.exports = {
 
-  theme: require ('./FlexBox.styles.js'),
+  theme: require ('./FlexBox.styles.js') (E),
 
   getDefaultProps: function () {
     return {

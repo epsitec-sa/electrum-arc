@@ -10,7 +10,7 @@ require ('leaflet/dist/leaflet.css');
 
 module.exports = {
 
-  theme: require ('./Map.styles.js'),
+  theme: require ('./Map.styles.js') (E),
 
   propTypes: {
     keyboard: React.PropTypes.bool,

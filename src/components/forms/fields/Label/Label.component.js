@@ -7,7 +7,7 @@ import {E} from 'electrum';
 
 module.exports = {
 
-  theme: require ('./Label.styles.js'),
+  theme: require ('./Label.styles.js') (E),
 
   render: function () {
 

@@ -7,7 +7,7 @@ import {E} from 'electrum';
 
 module.exports = {
 
-  theme: require ('./Underline.styles.js'),
+  theme: require ('./Underline.styles.js') (E),
 
   getDefaultProps: function () {
     return {

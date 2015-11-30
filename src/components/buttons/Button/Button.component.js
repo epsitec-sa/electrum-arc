@@ -7,7 +7,7 @@ import {E} from 'electrum';
 
 module.exports = {
 
-  theme: require ('./Button.styles.js'),
+  theme: require ('./Button.styles.js') (E),
 
   handleClick: function () {
     if (this.props.action || this.props.id) {

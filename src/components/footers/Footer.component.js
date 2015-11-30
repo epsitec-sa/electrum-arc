@@ -7,7 +7,7 @@ import {E} from 'electrum';
 
 module.exports = {
 
-  theme: require ('./Footer.styles.js'),
+  theme: require ('./Footer.styles.js') (E),
 
   render: function () {
     var style = E.getStyle (this);

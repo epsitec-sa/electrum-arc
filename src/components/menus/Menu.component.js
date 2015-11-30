@@ -8,7 +8,7 @@ import {Link} from 'electrum-arc';
 
 module.exports = {
 
-  theme: require ('./Menu.styles.js'),
+  theme: require ('./Menu.styles.js') (E),
 
   headingBoxStyle: {
     textDecoration: 'none',

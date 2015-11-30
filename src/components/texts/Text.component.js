@@ -7,7 +7,7 @@ import {E} from 'electrum';
 
 module.exports = {
 
-  theme: require ('./Text.styles.js'),
+  theme: require ('./Text.styles.js') (E),
 
   render: function () {
     var text     = E.getText (this);

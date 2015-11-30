@@ -8,7 +8,7 @@ import {Underline} from 'electrum-arc';
 
 module.exports = {
 
-  theme: require ('./BasicField.styles.js'),
+  theme: require ('./BasicField.styles.js') (E),
 
   getDefaultProps: function () {
     return {

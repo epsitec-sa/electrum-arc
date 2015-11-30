@@ -7,7 +7,7 @@ import {E} from 'electrum';
 
 module.exports = {
 
-  theme: require ('./AppCanvas.styles.js'),
+  theme: require ('./AppCanvas.styles.js') (E),
 
   render: function () {
     var style    = E.getStyle (this);

@@ -7,7 +7,7 @@ import {E} from 'electrum';
 
 module.exports = {
 
-  theme: require ('./Paper.styles.js'),
+  theme: require ('./Paper.styles.js') (E),
 
   propTypes: {
     circle: React.PropTypes.bool,

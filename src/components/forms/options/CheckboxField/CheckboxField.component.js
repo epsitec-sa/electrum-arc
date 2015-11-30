@@ -7,7 +7,7 @@ import {E} from 'electrum';
 
 module.exports = {
 
-  theme:  require ('./CheckboxField.styles.js'),
+  theme:  require ('./CheckboxField.styles.js') (E),
 
   handleChange: function (event) {
     event.stopPropagation ();
