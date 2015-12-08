@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "compile": "rimraf ./lib && require-self && npm run regen && babel -d lib src",
-    "regen": "electrum-require-components --wrap ./src components .component.js all-components.js",
+    "regen": "electrum-require-components --crlf --wrap ./src components .component.js all-components.js",
     "prepublish": "npm run compile",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
