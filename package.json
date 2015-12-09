@@ -1,10 +1,11 @@
 {
   "name": "electrum-arc",
-  "version": "1.9.3",
+  "version": "1.9.6",
   "description": "Agnostic Reactive Components for Electrum",
   "main": "lib/index.js",
   "scripts": {
-    "compile": "rimraf ./lib && require-self && npm run regen && babel -d lib src",
+    "babel": "babel -d lib src",
+    "compile": "rimraf ./lib && require-self && npm run regen && npm run babel",
     "regen": "electrum-require-components --crlf --wrap ./src components .component.js all-components.js",
     "prepublish": "npm run compile",
     "test": "echo \"Error: no test specified\" && exit 1"
