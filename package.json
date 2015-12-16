@@ -41,6 +41,7 @@
     "react-addons-shallow-compare": "^0.14.3",
     "react-addons-test-utils": "^0.14.3",
     "react-dom": "^0.14.3",
-    "require-self": "^0.1.0"
+    "require-self": "^0.1.0",
+    "rimraf": "^2.4.4"
   }
 }
