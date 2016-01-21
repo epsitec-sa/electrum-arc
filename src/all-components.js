@@ -1,11 +1,16 @@
 'use strict';
 import Electrum from 'electrum';
+import _AppCanvas from './components/containers/app-canvas.component.js';
+import _AppCanvas$styles from './components/containers/app-canvas.styles.js';
+import _GoogleFontLoader from './components/extras/google-font-loader.component.js';
 import _BasicField from './components/forms/fields/basic-field.component.js';
 import _BasicField$styles from './components/forms/fields/basic-field.styles.js';
 import _Label from './components/forms/fields/label.component.js';
 import _Label$styles from './components/forms/fields/label.styles.js';
 import _BasicList from './components/lists/basic-list.component.js';
 import _BasicList$styles from './components/lists/basic-list.styles.js';
+export const AppCanvas = Electrum.wrap ('AppCanvas', _AppCanvas, {styles: _AppCanvas$styles});
+export const GoogleFontLoader = Electrum.wrap ('GoogleFontLoader', _GoogleFontLoader);
 export const BasicField = Electrum.wrap ('BasicField', _BasicField, {styles: _BasicField$styles});
 export const Label = Electrum.wrap ('Label', _Label, {styles: _Label$styles});
 export const BasicList = Electrum.wrap ('BasicList', _BasicList, {styles: _BasicList$styles});
