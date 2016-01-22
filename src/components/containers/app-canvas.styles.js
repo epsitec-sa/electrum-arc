@@ -6,7 +6,8 @@ export default function (theme) {
       position: 'fixed',
       includes: ['fullSize'],
       backgroundColor: theme.palette.canvasColor,
-      webkitFontSmoothing: 'antialiased'
+      // Vendor prefix webkit-* has to be capitalized:
+      WebkitFontSmoothing: 'antialiased'
     }
   };
 }
