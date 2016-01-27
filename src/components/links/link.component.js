@@ -21,7 +21,7 @@ export default class Link extends React.Component {
   render () {
     const {children, state, href} = this.props;
     const disabled = state.get ('disabled');
-    const text = state.get ('text');
+    const text = state.get ('text') || '<missing>';
     const style = [...this.styles];
 
     if (disabled) {
