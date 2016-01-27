@@ -25,7 +25,7 @@ export default class Paper extends React.Component {
     //  todo: bind event handler
   }
 
-  handleClick (evt) {
+  onClick (evt) {
     if (this.props.action || this.props.id) {
       //  todo...
     }
@@ -42,8 +42,8 @@ export default class Paper extends React.Component {
     return (
       <div
         style={style}
-        onClick={this.handleClick}
-        onTouchEnd={this.handleClick} >
+        onClick={this.onClick}
+        onTouchEnd={this.onClick} >
         {this.props.children}
       </div>
     );

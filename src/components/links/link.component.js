@@ -11,7 +11,7 @@ export default class Link extends React.Component {
     //  todo: bind event handler
   }
 
-  handleClick () {
+  onClick () {
     if (this.props.action || this.props.id) {
       console.log (`action=${this.props.action} id=${this.props.id}`);
       //      E.bus.dispatch (this, this.props.action || this.props.id);
@@ -34,7 +34,7 @@ export default class Link extends React.Component {
           href={href}
           style={style}
           disabled={disabled}
-          onClick={this.handleClick} >
+          onClick={this.onClick} >
           {text}
           {children}
         </a>

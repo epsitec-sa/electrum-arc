@@ -1,6 +1,6 @@
 {
   "name": "electrum-arc",
-  "version": "1.11.5",
+  "version": "1.11.7",
   "description": "Agnostic Reactive Components for Electrum",
   "main": "lib/index.js",
   "scripts": {
@@ -25,7 +25,7 @@
     "react": "^0.14.6"
   },
   "dependencies": {
-    "electrum": "^2.11.1",
+    "electrum": "^2.11.2",
     "electrum-utils": "^1.1.0",
     "leaflet": "^0.7.7",
     "velocity-animate": "^1.2.3"
