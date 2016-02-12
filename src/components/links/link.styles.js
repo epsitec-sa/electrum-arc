@@ -13,6 +13,10 @@ export default function (theme) {
       userSelect: 'none'
     },
 
+    disabled: {
+      color: theme.palette.disabledColor
+    },
+
     menuHead: {
       textDecoration: 'none',
       whiteSpace: 'nowrap',

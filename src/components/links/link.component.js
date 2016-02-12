@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import {Action} from 'electrum';
 
 /******************************************************************************/
 
@@ -20,26 +21,31 @@ export default class Link extends React.Component {
 
   render () {
     const {children, state, href} = this.props;
-    const disabled = state.get ('disabled');
+    const disabled = Action.isDisabled (state);
     const text = state.get ('text') || '<missing>';
-    const style = [...this.styles];
 
     if (disabled) {
-      // todo: use disabled style
-    }
-
-    return (
       <div>
         <a
-          href={href}
-          style={style}
-          disabled={disabled}
-          onClick={this.onClick} >
+          style={this.styles.with ('disabled')}
+          disabled='disabled' >
           {text}
           {children}
         </a>
-      </div>
-    );
+      </div>;
+    } else {
+      return (
+        <div>
+          <a
+            href={href}
+            style={this.styles}
+            onClick={this.onClick} >
+            {text}
+            {children}
+          </a>
+        </div>
+      );
+    }
   }
 }
 
