@@ -1,13 +1,13 @@
 {
   "name": "electrum-arc",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "description": "Agnostic Reactive Components for Electrum",
   "main": "lib/index.js",
   "scripts": {
-    "babel": "babel -d lib src",
+    "babel": "babel --quiet --out-dir lib src",
     "compile": "rimraf ./lib && require-self && npm run regen && npm run babel",
-    "regen": "electrum-require-components --crlf --wrap ./src components .component.js all-components.js",
     "prepublish": "npm run compile",
+    "regen": "electrum-require-components --crlf --wrap ./src components .component.js all-components.js",
     "test": "npm run compile"
   },
   "author": "Epsitec SA",
@@ -20,29 +20,27 @@
     "url": "https://github.com/epsitec-sa/electrum-arc/issues"
   },
   "homepage": "https://github.com/epsitec-sa/electrum-arc",
-  "peerDependencies": {
-    "electrum-theme": "^1.5.0",
-    "react": "^0.14.6"
-  },
   "dependencies": {
-    "electrum": "^2.11.2",
-    "electrum-utils": "^1.3.0",
+    "electrum": "^2.19.0",
+    "electrum-utils": "^1.5.0",
     "leaflet": "^0.7.7",
     "velocity-animate": "^1.2.3"
   },
   "devDependencies": {
-    "babel-cli": "^6.4.5",
-    "babel-core": "^6.4.5",
-    "babel-plugin-transform-decorators": "^6.3.13",
-    "babel-plugin-transform-react-display-name": "^6.3.13",
-    "babel-preset-es2015": "^6.3.13",
-    "babel-preset-react": "^6.3.13",
-    "babel-preset-stage-0": "^6.3.13",
-    "electrum-require-components": "^1.3.0",
-    "react": "^0.14.6",
-    "react-addons-shallow-compare": "^0.14.6",
-    "react-addons-test-utils": "^0.14.6",
-    "react-dom": "^0.14.6",
+    "babel-cli": "^6.5.1",
+    "babel-core": "^6.5.1",
+    "babel-plugin-transform-class-properties": "^6.5.0",
+    "babel-plugin-transform-decorators": "^6.5.0",
+    "babel-plugin-transform-es2015-classes": "^6.5.0",
+    "babel-plugin-transform-react-display-name": "^6.5.0",
+    "babel-polyfill": "^6.5.0",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-node5": "^10.5.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "chai": "^3.5.0",
+    "electrum-require-components": "^1.4.0",
+    "jsdom": "^8.0.2",
     "require-self": "^0.1.0",
     "rimraf": "^2.5.1"
   }
