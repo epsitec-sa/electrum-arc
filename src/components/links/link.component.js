@@ -22,17 +22,19 @@ export default class Link extends React.Component {
   render () {
     const {children, state, href} = this.props;
     const disabled = Action.isDisabled (state);
-    const text = state.get ('text') || '<missing>';
+    const text = state.get ('text') || (children ? null : '<missing>');
 
     if (disabled) {
-      <div>
-        <a
-          style={this.styles.with ('disabled')}
-          disabled='disabled' >
-          {text}
-          {children}
-        </a>
-      </div>;
+      return (
+        <div>
+          <a
+            style={this.styles.with ('disabled')}
+            disabled='disabled' >
+            {text}
+            {children}
+          </a>
+        </div>
+      );
     } else {
       return (
         <div>
