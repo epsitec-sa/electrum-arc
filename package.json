@@ -1,6 +1,6 @@
 {
   "name": "electrum-arc",
-  "version": "1.13.1",
+  "version": "1.13.3",
   "description": "Agnostic Reactive Components for Electrum",
   "main": "lib/index.js",
   "scripts": {
