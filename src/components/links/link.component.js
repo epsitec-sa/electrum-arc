@@ -6,19 +6,6 @@ import {Action} from 'electrum';
 /******************************************************************************/
 
 export default class Link extends React.Component {
-
-  constructor () {
-    super ();
-    //  todo: bind event handler
-  }
-
-  onClick () {
-    if (this.props.action || this.props.id) {
-      console.log (`action=${this.props.action} id=${this.props.id}`);
-      //      E.bus.dispatch (this, this.props.action || this.props.id);
-    }
-  }
-
   render () {
     const {children, state, href} = this.props;
     const disabled = Action.isDisabled (state);
