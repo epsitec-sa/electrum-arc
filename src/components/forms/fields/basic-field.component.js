@@ -10,6 +10,21 @@ export default class BasicField extends React.Component {
     super (props);
   }
 
+  onKeyDown (e) {
+    const {id, state} = this.props;
+    console.log (`onKeyDown: ${id}, ${state.generation} value=${e.target.value}`);
+  }
+
+  onKeyUp (e) {
+    const {id, state} = this.props;
+    console.log (`onKeyUp: ${id}, ${state.generation} value=${e.target.value}`);
+  }
+
+  onChange (e) {
+    const {id, state} = this.props;
+    console.log (`onChange: ${id}, ${state.generation} value=${e.target.value}`);
+  }
+
   render () {
     return (
       <input
