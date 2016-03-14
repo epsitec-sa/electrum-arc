@@ -10,7 +10,7 @@
     "prepublish": "npm run compile",
     "regen": "electrum-require-components --crlf --wrap ./src components .component.js all-components.js",
     "test": "npm run compile",
-    "watch": "chokidar 'src/**/*.js' -i 'src/all-components.js' -c 'npm run rebuild'"
+    "watch": "chokidar \"src/**/*.js\" -i \"src/all-components.js\" -c \"npm run rebuild\""
   },
   "author": "Epsitec SA",
   "license": "MIT",
