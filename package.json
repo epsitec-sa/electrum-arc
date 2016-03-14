@@ -8,7 +8,8 @@
     "compile": "rimraf ./lib && require-self && npm run regen && npm run babel",
     "prepublish": "npm run compile",
     "regen": "electrum-require-components --crlf --wrap ./src components .component.js all-components.js",
-    "test": "npm run compile"
+    "test": "npm run compile",
+    "watch": "chokidar 'src/**/*.js' -c 'npm run compile'"
   },
   "author": "Epsitec SA",
   "license": "MIT",
@@ -39,6 +40,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "chai": "^3.5.0",
+    "chokidar-cli": "^1.2.0",
     "electrum-require-components": "^1.4.0",
     "jsdom": "^8.0.2",
     "require-self": "^0.1.0",
