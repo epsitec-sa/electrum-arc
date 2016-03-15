@@ -1,6 +1,6 @@
 {
   "name": "electrum-arc",
-  "version": "1.13.7",
+  "version": "2.0.0",
   "description": "Agnostic Reactive Components for Electrum",
   "main": "lib/index.js",
   "scripts": {
@@ -23,18 +23,16 @@
   },
   "homepage": "https://github.com/epsitec-sa/electrum-arc",
   "dependencies": {
-    "electrum": "^2.19.0",
+    "electrum": "^2.20.0",
     "electrum-utils": "^1.5.0",
     "leaflet": "^0.7.7",
     "velocity-animate": "^1.2.3"
   },
   "devDependencies": {
     "babel-env": "^1.0.0",
-    "chai": "^3.5.0",
     "chokidar-cli": "^1.2.0",
-    "electrum-require-components": "^1.4.0",
-    "jsdom": "^8.0.2",
+    "mai-chai": "^2.0.1",
     "require-self": "^0.1.0",
-    "rimraf": "^2.5.1"
+    "rimraf": "^2.5.2"
   }
 }
