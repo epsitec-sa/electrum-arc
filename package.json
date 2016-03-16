@@ -32,6 +32,7 @@
   "devDependencies": {
     "babel-env": "^1.1.0",
     "chokidar-cli": "^1.2.0",
+    "electrum-require-components": "^1.5.0", 
     "mai-chai": "^2.4.0",
     "require-self": "^0.1.0",
     "rimraf": "^2.5.2"
