@@ -34,11 +34,11 @@ export default class BasicField extends React.Component {
         onKeyUp={this.onKeyUp}
         onSelect={this.onSelect}
         style={this.styles}
-        type={this.props.type}
+        type={this.props.type || 'text'}
         id={this.props.id}
         key='input'
-        placeholder={this.props.placeholder}
-        disabled={this.props.disabled} // refactor this
+        placeholder={this.props.placeholder || this.read ('placeholder')}
+        disabled={this.props.disabled || this.read ('disabled')} // refactor this
         value={this.read ()}
         maxLength={this.props.maxLength}
         />

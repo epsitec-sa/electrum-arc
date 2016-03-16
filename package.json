@@ -1,6 +1,6 @@
 {
   "name": "electrum-arc",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Agnostic Reactive Components for Electrum",
   "main": "lib/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/epsitec-sa/electrum-arc",
   "dependencies": {
-    "electrum": "^2.22.0",
+    "electrum": "^2.24.0",
     "electrum-style-reload": "^1.1.0",
     "electrum-utils": "^1.5.0",
     "leaflet": "^0.7.7",
