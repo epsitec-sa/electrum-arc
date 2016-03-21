@@ -1,5 +1,7 @@
 'use strict';
 import Electrum from 'electrum';
+import _FlatButton from './components/buttons/flat-button.component.js';
+import _RaisedButton from './components/buttons/raised-button.component.js';
 import _AppCanvas from './components/containers/app-canvas.component.js';
 import _AppCanvas$styles from './components/containers/app-canvas.styles.js';
 import _Paper from './components/containers/paper.component.js';
@@ -15,6 +17,8 @@ import _BasicList from './components/lists/basic-list.component.js';
 import _BasicList$styles from './components/lists/basic-list.styles.js';
 import _Menu from './components/menus/menu.component.js';
 import _Menu$styles from './components/menus/menu.styles.js';
+export const FlatButton = Electrum.wrap ('FlatButton', _FlatButton);
+export const RaisedButton = Electrum.wrap ('RaisedButton', _RaisedButton);
 export const AppCanvas = Electrum.wrap ('AppCanvas', _AppCanvas, {styles: _AppCanvas$styles});
 export const Paper = Electrum.wrap ('Paper', _Paper, {styles: _Paper$styles});
 export const GoogleFontLoader = Electrum.wrap ('GoogleFontLoader', _GoogleFontLoader);
