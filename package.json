@@ -34,6 +34,8 @@
     "babel-env": "^1.1.0",
     "chokidar-cli": "^1.2.0",
     "generic-js-env": "^1.2.0",
-    "mai-chai": "^2.4.0"
+    "mai-chai": "^2.4.0",
+    "material-ui": "^0.15.0-alpha.2",
+    "react-tap-event-plugin": "^0.2.2"
   }
 }
