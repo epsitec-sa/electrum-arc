@@ -1,6 +1,8 @@
 'use strict';
 
 import React from 'react';
+import {Action} from 'electrum';
+import {List as MUIList} from 'material-ui';
 
 /******************************************************************************/
 
@@ -8,14 +10,20 @@ export default class BasicList extends React.Component {
 
   render () {
     const {state, theme} = this.props;
+    const disabled = Action.isDisabled (this.props.state);
     const keys = state.keys;
-    const template = this.props.template || <div>Missing template</div>;
+    const missingTemplate = () => {
+      return (
+        <div>Missing template</div>
+      );
+    };
+    const template = this.props.template || missingTemplate;
+
     return (
-      <ul style={this.styles}>
+      <MUIList disabled={disabled} {...this.props} data-collection>
         {keys.map (key => template (state.select (key), theme))}
-      </ul>
+        {this.props.children}
+      </MUIList>
     );
   }
 }
-
-/******************************************************************************/
