@@ -1,5 +1,6 @@
 'use strict';
 import Electrum from 'electrum';
+import _Checkbox from './components/buttons/checkbox.component.js';
 import _FlatButton from './components/buttons/flat-button.component.js';
 import _IconButton from './components/buttons/icon-button.component.js';
 import _RadioButton from './components/buttons/radio-button.component.js';
@@ -20,6 +21,7 @@ import _BasicList$styles from './components/lists/basic-list.styles.js';
 import _ListItem from './components/lists/list-item.component.js';
 import _Menu from './components/menus/menu.component.js';
 import _Menu$styles from './components/menus/menu.styles.js';
+export const Checkbox = Electrum.wrap ('Checkbox', _Checkbox);
 export const FlatButton = Electrum.wrap ('FlatButton', _FlatButton);
 export const IconButton = Electrum.wrap ('IconButton', _IconButton);
 export const RadioButton = Electrum.wrap ('RadioButton', _RadioButton);
