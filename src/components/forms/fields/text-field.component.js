@@ -28,7 +28,6 @@ export default class TextField extends React.Component {
 
   render () {
     const {state} = this.props.state;
-    console.dir (this.read ());
     const disabled = Action.isDisabled (state);
     return (
       <MUITextField
@@ -39,8 +38,12 @@ export default class TextField extends React.Component {
         onSelect={this.onSelect}
         type={this.props.type || 'text'}
         id={this.props.id}
-        key='input'
-        floatingLabelText={this.props.placeholder || this.read ('placeholder')}
+        multiLine={this.props.multiLine || this.read ('multiLine')}
+        rows={this.props.rows || this.read ('rows')}
+        rowsMax={this.props.rowsMax || this.read ('rowsMax')}
+        errorText={this.props.errorText || this.read ('error')}
+        hintText={this.props.hintText || this.read ('hint')}
+        floatingLabelText={this.props.floatingLabelText || this.read ('floating')}
         disabled={disabled}
         value={this.read ()}
         maxLength={this.props.maxLength}
