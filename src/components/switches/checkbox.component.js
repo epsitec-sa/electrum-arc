@@ -12,9 +12,17 @@ export default class Checkbox extends React.Component {
   }
 
   render () {
-    const disabled = Action.isDisabled (this.props.state);
+    const {state} = this.props.state;
+    const disabled = Action.isDisabled (state);
     return (
-      <MUICheckbox disabled={disabled} onTouchTap={this.onClick} {...this.props}>
+      <MUICheckbox
+        onTouchTap={this.onClick}
+        id={this.props.id}
+        checked={this.props.checked || this.read ('checked')}
+        labelPosition={this.props.labelPosition || this.read ('labelPosition')}
+        disabled={disabled}
+        {...this.props}
+        >
         {this.props.children}
       </MUICheckbox>
     );
