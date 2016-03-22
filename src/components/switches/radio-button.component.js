@@ -19,6 +19,7 @@ export default class RadioButton extends React.Component {
         onTouchTap={this.onClick}
         id={this.props.id}
         checked={this.props.checked || this.read ('checked')}
+        label={this.props.label || this.read ('label')}
         labelPosition={this.props.labelPosition || this.read ('labelPosition')}
         disabled={disabled}
         {...this.props}
