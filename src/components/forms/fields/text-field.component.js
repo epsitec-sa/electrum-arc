@@ -36,17 +36,17 @@ export default class TextField extends React.Component {
         onKeyDown={this.onKeyDown}
         onKeyUp={this.onKeyUp}
         onSelect={this.onSelect}
-        type={this.props.type || 'text'}
         id={this.props.id}
+        disabled={disabled}
+        errorText={this.props.errorText || this.read ('errorText')}
+        floatingLabelText={this.props.floatingLabelText || this.read ('floatingLabelText')}
+        hintText={this.props.hintText || this.read ('hintText')}
+        maxLength={this.props.maxLength}
         multiLine={this.props.multiLine || this.read ('multiLine')}
         rows={this.props.rows || this.read ('rows')}
         rowsMax={this.props.rowsMax || this.read ('rowsMax')}
-        errorText={this.props.errorText || this.read ('error')}
-        hintText={this.props.hintText || this.read ('hint')}
-        floatingLabelText={this.props.floatingLabelText || this.read ('floating')}
-        disabled={disabled}
+        type={'text'}
         value={this.read ()}
-        maxLength={this.props.maxLength}
         {...this.props}
         />
     );
