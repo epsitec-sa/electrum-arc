@@ -18,6 +18,8 @@ export default class Badge extends React.Component {
       <MUIBadge
         onTouchTap={this.onClick}
         disabled={disabled}
+        primary={this.props.primary || this.read ('primary')}
+        secondary={this.props.secondary || this.read ('secondary')}
         {...this.props}
         >
         {this.props.children}
