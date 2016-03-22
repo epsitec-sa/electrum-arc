@@ -12,9 +12,14 @@ export default class FlatButton extends React.Component {
   }
 
   render () {
-    const disabled = Action.isDisabled (this.props.state);
+    const {state} = this.props.state;
+    const disabled = Action.isDisabled (state);
     return (
-      <MUIRaisedButton disabled={disabled} onTouchTap={this.onClick} {...this.props}>
+      <MUIRaisedButton
+        onTouchTap={this.onClick}
+        disabled={disabled}
+        {...this.props}
+        >
         {this.props.children}
       </MUIRaisedButton>
     );

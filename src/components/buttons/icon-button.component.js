@@ -14,9 +14,14 @@ export default class IconButton extends React.Component {
   }
 
   render () {
-    const disabled = Action.isDisabled (this.props.state);
+    const {state} = this.props.state;
+    const disabled = Action.isDisabled (state);
     return (
-      <MUIIconButton disabled={disabled} onTouchTap={this.onClick} {...this.props}>
+      <MUIIconButton
+        onTouchTap={this.onClick}
+        disabled={disabled}
+        {...this.props}
+        >
         <NavigationClose />
         {this.props.children}
       </MUIIconButton>

@@ -12,9 +12,14 @@ export default class Badge extends React.Component {
   }
 
   render () {
-    const disabled = Action.isDisabled (this.props.state);
+    const {state} = this.props.state;
+    const disabled = Action.isDisabled (state);
     return (
-      <MUIBadge disabled={disabled} onTouchTap={this.onClick} {...this.props}>
+      <MUIBadge
+        onTouchTap={this.onClick}
+        disabled={disabled}
+        {...this.props}
+        >
         {this.props.children}
       </MUIBadge>
     );
