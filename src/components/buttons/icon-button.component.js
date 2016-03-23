@@ -14,16 +14,24 @@ export default class IconButton extends React.Component {
   render () {
     const {state} = this.props.state;
     const disabled = Action.isDisabled (state);
-    return (
-      <MUIIconButton
-        onTouchTap={this.onClick}
-        disabled={disabled}
-        tooltip={this.props.tooltip || this.read ('tooltip')}
-        {...this.props}
-        >
-        {this.props.children}
-      </MUIIconButton>
-    );
+    const awesome = this.props.awesome || this.read ('awesome');
+
+    if (awesome) {
+      return (
+        <label>Font Awesome</label>
+      );
+    } else {
+      return (
+        <MUIIconButton
+          onTouchTap={this.onClick}
+          disabled={disabled}
+          tooltip={this.props.tooltip || this.read ('tooltip')}
+          {...this.props}
+          >
+          {this.props.children}
+        </MUIIconButton>
+      );
+    }
   }
 }
 
