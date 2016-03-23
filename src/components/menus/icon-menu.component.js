@@ -26,7 +26,7 @@ export default class IconMenu extends React.Component {
         disabled={disabled}
         anchorOrigin={this.props.anchorOrigin || this.read ('anchorOrigin')}
         closeOnItemTouchTap={this.props.closeOnItemTouchTap || this.read ('closeOnItemTouchTap')}
-        iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+        iconButtonElement={this.props.iconButtonElement || this.read ('iconButtonElement')}
         open={this.props.open || this.read ('open')}
         touchTapCloseDelay={this.props.touchTapCloseDelay || this.read ('touchTapCloseDelay')}
         {...this.props}
