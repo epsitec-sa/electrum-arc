@@ -17,8 +17,13 @@ export default class MenuItem extends React.Component {
     return (
       <MUIMenuItem
         onTouchTap={this.onClick}
+        checked={this.props.checked || this.read ('checked')}
         disabled={disabled}
+        insetChildren={this.props.insetChildren || this.read ('insetChildren')}
+        leftIcon={this.props.leftIcon || this.read ('leftIcon')}
         primaryText={this.props.primaryText || this.read ('primaryText')}
+        rightIcon={this.props.rightIcon || this.read ('rightIcon')}
+        secondaryText={this.props.secondaryText || this.read ('secondaryText')}
         {...this.props}
         >
         {this.props.children}
