@@ -46,7 +46,7 @@ export default class TextField extends React.Component {
         rows={this.props.rows || this.read ('rows')}
         rowsMax={this.props.rowsMax || this.read ('rowsMax')}
         type={'text'}
-        value={this.read ()}
+        value={this.props.value || this.read ('value')}
         {...this.props}
         />
     );
