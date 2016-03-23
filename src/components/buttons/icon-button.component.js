@@ -20,6 +20,7 @@ export default class IconButton extends React.Component {
       <MUIIconButton
         onTouchTap={this.onClick}
         disabled={disabled}
+        tooltip={this.props.tooltip || this.read ('tooltip')}
         {...this.props}
         >
         <NavigationClose />

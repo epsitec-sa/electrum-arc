@@ -18,6 +18,11 @@ export default class FlatButton extends React.Component {
       <MUIFlatButton
         onTouchTap={this.onClick}
         disabled={disabled}
+        icon={this.props.icon || this.read ('icon')}
+        label={this.props.label || this.read ('label')}
+        labelPosition={this.props.labelPosition || this.read ('labelPosition')}
+        primary={this.props.primary || this.read ('primary')}
+        secondary={this.props.secondary || this.read ('secondary')}
         {...this.props}
         >
         {this.props.children}
