@@ -20,6 +20,7 @@ import _DatePicker from './components/forms/fields/date-picker.component.js';
 import _Label from './components/forms/fields/label.component.js';
 import _Label$styles from './components/forms/fields/label.styles.js';
 import _TextField from './components/forms/fields/text-field.component.js';
+import _TimePicker from './components/forms/fields/time-picker.component.js';
 import _Link from './components/links/link.component.js';
 import _Link$styles from './components/links/link.styles.js';
 import _BasicList from './components/lists/basic-list.component.js';
@@ -46,6 +47,7 @@ export const BasicField = Electrum.wrap ('BasicField', _BasicField, {styles: _Ba
 export const DatePicker = Electrum.wrap ('DatePicker', _DatePicker);
 export const Label = Electrum.wrap ('Label', _Label, {styles: _Label$styles});
 export const TextField = Electrum.wrap ('TextField', _TextField);
+export const TimePicker = Electrum.wrap ('TimePicker', _TimePicker);
 export const Link = Electrum.wrap ('Link', _Link, {styles: _Link$styles});
 export const BasicList = Electrum.wrap ('BasicList', _BasicList, {styles: _BasicList$styles});
 export const ListItem = Electrum.wrap ('ListItem', _ListItem);
