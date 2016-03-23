@@ -11,17 +11,22 @@ export default class IconMenu extends React.Component {
     super (props);
   }
 
+  onChange (event, value) {
+    const {id, state} = this.props;
+    console.log (`onChange: ${id}, ${state.generation} value=${event.target.value}`);
+  }
+
   render () {
     const {state} = this.props.state;
     const disabled = Action.isDisabled (state);
     return (
       <MUIIconMenu
-        onTouchTap={this.onClick}
+        onChange={this.onChange}
         checked={this.props.checked || this.read ('checked')}
         disabled={disabled}
         anchorOrigin={this.props.anchorOrigin || this.read ('anchorOrigin')}
         closeOnItemTouchTap={this.props.closeOnItemTouchTap || this.read ('closeOnItemTouchTap')}
-        iconButtonElement={this.props.iconButtonElement || this.read ('iconButtonElement')}
+        iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
         open={this.props.open || this.read ('open')}
         touchTapCloseDelay={this.props.touchTapCloseDelay || this.read ('touchTapCloseDelay')}
         {...this.props}
