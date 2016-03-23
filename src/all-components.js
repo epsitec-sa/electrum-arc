@@ -2,6 +2,7 @@
 import Electrum from 'electrum';
 import _Badge from './components/buttons/badge.component.js';
 import _FlatButton from './components/buttons/flat-button.component.js';
+import _FloatingActionButton from './components/buttons/floating-action-button.component.js';
 import _IconButton from './components/buttons/icon-button.component.js';
 import _RaisedButton from './components/buttons/raised-button.component.js';
 import _AppCanvas from './components/containers/app-canvas.component.js';
@@ -31,6 +32,7 @@ import _RadioButton from './components/switches/radio-button.component.js';
 import _Toggle from './components/switches/toggle.component.js';
 export const Badge = Electrum.wrap ('Badge', _Badge);
 export const FlatButton = Electrum.wrap ('FlatButton', _FlatButton);
+export const FloatingActionButton = Electrum.wrap ('FloatingActionButton', _FloatingActionButton);
 export const IconButton = Electrum.wrap ('IconButton', _IconButton);
 export const RaisedButton = Electrum.wrap ('RaisedButton', _RaisedButton);
 export const AppCanvas = Electrum.wrap ('AppCanvas', _AppCanvas, {styles: _AppCanvas$styles});
