@@ -72,7 +72,7 @@ export default class IconButton extends React.Component {
       }
 
       return (
-        <div style={divStyle}>
+        <span style={divStyle}>
           <i style={iconStyle}
             className={`fa
               fa-${inputGlyph}
@@ -80,7 +80,7 @@ export default class IconButton extends React.Component {
               fa-rotate-${inputRotate}
               fa-flip-${inputFlip}
               ${renderSpin}`}/>
-        </div>
+        </span>
       );
     } else {
       return (
