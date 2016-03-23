@@ -19,9 +19,11 @@ export default class FlatButton extends React.Component {
         onTouchTap={this.onClick}
         disabled={disabled}
         fullWidth={this.props.fullWidth || this.read ('fullWidth')}
+        href={this.props.href || this.read ('href')}
         icon={this.props.icon || this.read ('icon')}
         label={this.props.label || this.read ('label')}
         labelPosition={this.props.labelPosition || this.read ('labelPosition')}
+        linkButton={this.props.linkButton || this.read ('linkButton')}
         primary={this.props.primary || this.read ('primary')}
         secondary={this.props.secondary || this.read ('secondary')}
         {...this.props}
