@@ -16,21 +16,21 @@ export default class IconButton extends React.Component {
     const disabled = Action.isDisabled (state);
     const awesome = this.props.awesome || this.read ('awesome');
 
-    const inputGlyph   = glyph   || state.get ('glyph');
-    const inputSize    = size    || state.get ('size');
-    const inputRotate  = rotate  || state.get ('rotate');
-    const inputFlip    = flip    || state.get ('flip');
-    const inputSpin    = spin    || state.get ('spin');
-    const inputRounded = rounded || state.get ('rounded');
-    const inputActive  = active  || state.get ('active');
-    const renderSpin = inputSpin ? 'fa-spin' : '';
-
     if (awesome) {
+      const inputGlyph   = glyph   || state.get ('glyph');
+      const inputSize    = size    || state.get ('size');
+      const inputRotate  = rotate  || state.get ('rotate');
+      const inputFlip    = flip    || state.get ('flip');
+      const inputSpin    = spin    || state.get ('spin');
+      const inputRounded = rounded || state.get ('rounded');
+      const inputActive  = active  || state.get ('active');
+      const renderSpin = inputSpin ? 'fa-spin' : '';
+
       var iconColor = '#000';
       var iconHoverColor = '#777';
 
       var divStyle;
-      if (inputRounded === 'true') {
+      if (inputRounded) {
         const paddingDict = {
           '2x': '10px',
           '3x': '20px',
