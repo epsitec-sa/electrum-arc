@@ -9,7 +9,7 @@
     "compile": "npm run clean && require-self && npm run regen && npm run babel",
     "rebuild": "npm run regen && npm run babel",
     "prepublish": "npm run compile",
-    "regen": "electrum-require-components --crlf --wrap ./src components .component.js all-components.js",
+    "regen": "electrum-require-components --wrap ./src components .component.js all-components.js",
     "test": "npm run compile && mocha --harmony lib.test/**/*.js",
     "watch": "chokidar \"src/**/*.js\" -i \"src/all-components.js\" -c \"npm run rebuild\""
   },
@@ -31,10 +31,10 @@
     "velocity-animate": "^1.2.3"
   },
   "devDependencies": {
-    "babel-env": "^1.1.0",
+    "babel-env": "^1.2.1",
     "chokidar-cli": "^1.2.0",
-    "generic-js-env": "^1.2.0",
-    "mai-chai": "^2.4.0",
+    "generic-js-env": "^1.3.1",
+    "mai-chai": "^2.5.2",
     "material-ui": "^0.15.0-alpha.2",
     "react-tap-event-plugin": "^0.2.2"
   }
