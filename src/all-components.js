@@ -7,6 +7,7 @@ import _IconButton from './components/buttons/icon-button.component.js';
 import _RaisedButton from './components/buttons/raised-button.component.js';
 import _AppCanvas from './components/containers/app-canvas.component.js';
 import _AppCanvas$styles from './components/containers/app-canvas.styles.js';
+import _Divider from './components/containers/divider.component.js';
 import _Paper from './components/containers/paper.component.js';
 import _Paper$styles from './components/containers/paper.styles.js';
 import _ToolbarGroup from './components/containers/toolbar-group.component.js';
@@ -37,6 +38,7 @@ export const FloatingActionButton = Electrum.wrap ('FloatingActionButton', _Floa
 export const IconButton = Electrum.wrap ('IconButton', _IconButton);
 export const RaisedButton = Electrum.wrap ('RaisedButton', _RaisedButton);
 export const AppCanvas = Electrum.wrap ('AppCanvas', _AppCanvas, {styles: _AppCanvas$styles});
+export const Divider = Electrum.wrap ('Divider', _Divider);
 export const Paper = Electrum.wrap ('Paper', _Paper, {styles: _Paper$styles});
 export const ToolbarGroup = Electrum.wrap ('ToolbarGroup', _ToolbarGroup);
 export const ToolbarSeparator = Electrum.wrap ('ToolbarSeparator', _ToolbarSeparator);
