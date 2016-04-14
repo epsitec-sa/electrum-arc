@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-
+import {Action} from 'electrum';
 /******************************************************************************/
 
 export default class BasicField extends React.Component {
@@ -26,6 +26,15 @@ export default class BasicField extends React.Component {
   }
 
   render () {
+    const {state} = this.props.state;
+    const disabled = Action.isDisabled (state);
+
+    var fieldStyle = {
+      border: '1px solid #888',
+      backgroundColor: '#fff',
+      padding: '5px',
+    };
+
     return (
       <input
         onChange={this.onChange}
@@ -33,14 +42,15 @@ export default class BasicField extends React.Component {
         onKeyDown={this.onKeyDown}
         onKeyUp={this.onKeyUp}
         onSelect={this.onSelect}
-        style={this.styles}
-        type={this.props.type || 'text'}
+        disabled={disabled}
         id={this.props.id}
-        key='input'
-        placeholder={this.props.placeholder || this.read ('placeholder')}
-        disabled={this.props.disabled || this.read ('disabled')} // refactor this
-        value={this.read ()}
         maxLength={this.props.maxLength}
+        placeholder={this.props.hintText || this.read ('hintText')}
+        style={fieldStyle}
+        type={this.props.type || 'text'}
+        key='input'
+        value={this.props.value || this.read ('value')}
+        {...this.props}
         />
     );
   }
