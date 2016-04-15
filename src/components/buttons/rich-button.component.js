@@ -11,15 +11,16 @@ export default class RichButton extends React.Component {
   }
 
   render () {
-    const {state, glyph, size, rotate, flip, spin, text} = this.props;
+    const {state, glyph, size, rotate, flip, spin, text, borderless} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputGlyph   = glyph   || state.get ('glyph');
-    const inputSize    = size    || state.get ('size');
-    const inputRotate  = rotate  || state.get ('rotate');
-    const inputFlip    = flip    || state.get ('flip');
-    const inputSpin    = spin    || state.get ('spin');
-    const inputText    = text    || state.get ('text');
-    const renderSpin = inputSpin ? 'fa-spin' : '';
+    const inputGlyph      = glyph      || state.get ('glyph');
+    const inputSize       = size       || state.get ('size');
+    const inputRotate     = rotate     || state.get ('rotate');
+    const inputFlip       = flip       || state.get ('flip');
+    const inputSpin       = spin       || state.get ('spin');
+    const inputText       = text       || state.get ('text');
+    const inputBorderless = borderless || state.get ('borderless');
+    const renderSpin      = inputSpin ? 'fa-spin' : '';
 
     var boxStyle = {
       display:         'flex',
@@ -35,6 +36,10 @@ export default class RichButton extends React.Component {
         opacity: 1.0
       }
     };
+    if (inputBorderless) {
+      boxStyle.border = 'none';
+    }
+
     var iconStyle = {
       display:         'flex',
       flexDirection:   'row',
@@ -51,7 +56,7 @@ export default class RichButton extends React.Component {
       margin:          '0 10px 0 10px',
     };
 
-    if (text) {
+    if (inputText) {
       return (
         <div
           disabled={disabled}
@@ -68,7 +73,7 @@ export default class RichButton extends React.Component {
               ${renderSpin}`}
             />
             <label style={textStyle}>
-              {text}
+              {inputText}
             </label>
         </div>
       );
