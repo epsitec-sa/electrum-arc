@@ -22,9 +22,10 @@ export default class RichButton extends React.Component {
     const renderSpin = inputSpin ? 'fa-spin' : '';
 
     var boxStyle = {
-      display:         'table-cell',
-      textAlign:       'center',
-      verticalAlign:   'middle',
+      display:         'flex',
+      flexDirection:   'row',
+      justifyContent:  'flex-start',
+      alignItems:      'center',
       border:          '1px solid #888',
       backgroundColor: '#fff',
       padding:         '0px',
@@ -35,21 +36,23 @@ export default class RichButton extends React.Component {
       }
     };
     var iconStyle = {
-      display:         'table-cell',
+      display:         'flex',
+      flexDirection:   'row',
+      justifyContent:  'center',
+      alignItems:      'center',
       width:           '32px',
       height:          '32px',
-      textAlign:       'center',
-      verticalAlign:   'middle',
       padding:         '0px',
       margin:          '0px',
       color:           '#555',
     };
     var textStyle = {
       fontSize:        '75%',
+      margin:          '0 10px 0 10px',
     };
 
-    return (
-      <span>
+    if (text) {
+      return (
         <div
           disabled={disabled}
           id={this.props.id}
@@ -64,12 +67,30 @@ export default class RichButton extends React.Component {
               fa-flip-${inputFlip}
               ${renderSpin}`}
             />
-          <label style={textStyle}>
-            {text}
-          </label>
+            <label style={textStyle}>
+              {text}
+            </label>
         </div>
-      </span>
-    );
+      );
+    } else {
+      return (
+        <div
+          disabled={disabled}
+          id={this.props.id}
+          style={boxStyle}
+          {...this.props}
+          >
+          <i style={iconStyle}
+            className={`fa
+              fa-${inputGlyph}
+              fa-${inputSize}
+              fa-rotate-${inputRotate}
+              fa-flip-${inputFlip}
+              ${renderSpin}`}
+            />
+        </div>
+      );
+    }
   }
 }
 
