@@ -13,15 +13,15 @@ export default class RichButton extends React.Component {
   render () {
     const {state, glyph, size, rotate, flip, spin, text, borderless, flowContinuation} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputGlyph      = glyph      || state.get ('glyph');
-    const inputSize       = size       || state.get ('size');
-    const inputRotate     = rotate     || state.get ('rotate');
-    const inputFlip       = flip       || state.get ('flip');
-    const inputSpin       = spin       || state.get ('spin');
-    const inputText       = text       || state.get ('text');
-    const inputBorderless = borderless || state.get ('borderless');
+    const inputGlyph            = glyph            || state.get ('glyph');
+    const inputSize             = size             || state.get ('size');
+    const inputRotate           = rotate           || state.get ('rotate');
+    const inputFlip             = flip             || state.get ('flip');
+    const inputSpin             = spin             || state.get ('spin');
+    const inputText             = text             || state.get ('text');
+    const inputBorderless       = borderless       || state.get ('borderless');
     const inputFlowContinuation = flowContinuation || state.get ('flowContinuation');
-    const renderSpin      = inputSpin ? 'fa-spin' : '';
+    const renderSpin            = inputSpin ? 'fa-spin' : '';
 
     var boxStyle = {
       display:         'flex',

@@ -28,7 +28,7 @@ export default class BasicField extends React.Component {
   render () {
     const {state, grow, flowContinuation} = this.props;
     const disabled = Action.isDisabled (state);
-    var inputGrow = grow || state.get ('grow');
+    var   inputGrow             = grow             || state.get ('grow');
     const inputFlowContinuation = flowContinuation || state.get ('flowContinuation');
 
     if (!inputGrow) {
