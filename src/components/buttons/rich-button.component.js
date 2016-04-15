@@ -11,7 +11,7 @@ export default class RichButton extends React.Component {
   }
 
   render () {
-    const {state, glyph, size, rotate, flip, spin, text, borderless, rightIcon, flowContinuation} = this.props;
+    const {state, glyph, size, rotate, flip, spin, text, borderless, rightIcon, flowContinuation, grow} = this.props;
     const disabled = Action.isDisabled (state);
     const inputGlyph            = glyph            || state.get ('glyph');
     const inputSize             = size             || state.get ('size');
@@ -22,6 +22,7 @@ export default class RichButton extends React.Component {
     const inputBorderless       = borderless       || state.get ('borderless');
     const inputRightIcon        = rightIcon        || state.get ('rightIcon');
     const inputFlowContinuation = flowContinuation || state.get ('flowContinuation');
+    const inputGrow             = grow             || state.get ('grow');
     const renderSpin            = inputSpin ? 'fa-spin' : '';
 
     var boxStyle = {
@@ -45,6 +46,9 @@ export default class RichButton extends React.Component {
       boxStyle.marginRight = '-1px';
     } else if (inputFlowContinuation === 'spacing') {
       boxStyle.marginRight = '10px';
+    }
+    if (inputGrow) {
+      boxStyle.flexGrow = inputGrow;
     }
 
     var iconStyle = {
