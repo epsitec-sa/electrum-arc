@@ -26,56 +26,58 @@ export default class BasicField extends React.Component {
   }
 
   render () {
-    const {state, width} = this.props;
+    const {state, grow} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputWidth = width || state.get ('width');
+    var inputGrow = grow || state.get ('grow');
+
+    if (!inputGrow) {
+      inputGrow = 1;
+    }
 
     var boxStyle = {
-      display:         'table-cell',
-      textAlign:       'center',
-      verticalAlign:   'middle',
+      display:         'flex',
+      flexDirection:   'row',
+      justifyContent:  'flex-start',
+      alignItems:      'center',
+      flexGrow:        inputGrow,
       border:          '1px solid #888',
       backgroundColor: '#fff',
       padding:         '0px',
       margin:          '0px',
     };
     var fieldStyle = {
-      display:         'table-cell',
-      width:           inputWidth,
+      flexGrow:        '1',
+      width:           '50px',
       height:          '32px',
-      textAlign:       'left',
-      verticalAlign:   'middle',
       border:          'none',
       padding:         '10px',
       margin:          '0px',
     };
 
     return (
-      <span>
-        <span
+      <span
+        disabled={disabled}
+        id={this.props.id}
+        style={boxStyle}
+        {...this.props}
+        >
+        <input
+          onChange={this.onChange}
+          onFocus={this.onFocus}
+          onKeyDown={this.onKeyDown}
+          onKeyUp={this.onKeyUp}
+          onSelect={this.onSelect}
           disabled={disabled}
           id={this.props.id}
-          style={boxStyle}
+          maxLength={this.props.maxLength}
+          placeholder={this.props.hintText || this.read ('hintText')}
+          size={this.props.size || 'size'}
+          style={fieldStyle}
+          type={this.props.type || 'text'}
+          key='input'
+          value={this.props.value || this.read ('value')}
           {...this.props}
-          >
-          <input
-            onChange={this.onChange}
-            onFocus={this.onFocus}
-            onKeyDown={this.onKeyDown}
-            onKeyUp={this.onKeyUp}
-            onSelect={this.onSelect}
-            disabled={disabled}
-            id={this.props.id}
-            maxLength={this.props.maxLength}
-            placeholder={this.props.hintText || this.read ('hintText')}
-            size={this.props.size || 'size'}
-            style={fieldStyle}
-            type={this.props.type || 'text'}
-            key='input'
-            value={this.props.value || this.read ('value')}
-            {...this.props}
-            />
-        </span>
+          />
       </span>
     );
   }
