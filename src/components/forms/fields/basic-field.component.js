@@ -46,7 +46,7 @@ export default class BasicField extends React.Component {
       margin:          '0px',
     };
     var fieldStyle = {
-      flexGrow:        '1',
+      flexGrow:        1,
       width:           '50px',
       height:          '32px',
       border:          'none',
