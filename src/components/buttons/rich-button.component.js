@@ -11,7 +11,7 @@ export default class RichButton extends React.Component {
   }
 
   render () {
-    const {state, glyph, size, rotate, flip, spin, text, borderless} = this.props;
+    const {state, glyph, size, rotate, flip, spin, text, borderless, flowContinuation} = this.props;
     const disabled = Action.isDisabled (state);
     const inputGlyph      = glyph      || state.get ('glyph');
     const inputSize       = size       || state.get ('size');
@@ -20,6 +20,7 @@ export default class RichButton extends React.Component {
     const inputSpin       = spin       || state.get ('spin');
     const inputText       = text       || state.get ('text');
     const inputBorderless = borderless || state.get ('borderless');
+    const inputFlowContinuation = flowContinuation || state.get ('flowContinuation');
     const renderSpin      = inputSpin ? 'fa-spin' : '';
 
     var boxStyle = {
@@ -38,6 +39,11 @@ export default class RichButton extends React.Component {
     };
     if (inputBorderless) {
       boxStyle.border = 'none';
+    }
+    if (inputFlowContinuation === 'overlay') {
+      boxStyle.marginRight = '-1px';
+    } else if (inputFlowContinuation === 'spacing') {
+      boxStyle.marginRight = '10px';
     }
 
     var iconStyle = {

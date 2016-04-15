@@ -12,7 +12,7 @@ export default class BasicLabel extends React.Component {
     var inputGrow = grow || state.get ('grow');
 
     var labelStyle = {
-      flexGrow:        inputGrow,
+      flexGrow: inputGrow,
     };
 
     return (

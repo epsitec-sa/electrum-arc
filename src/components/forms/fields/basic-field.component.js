@@ -26,9 +26,10 @@ export default class BasicField extends React.Component {
   }
 
   render () {
-    const {state, grow} = this.props;
+    const {state, grow, flowContinuation} = this.props;
     const disabled = Action.isDisabled (state);
     var inputGrow = grow || state.get ('grow');
+    const inputFlowContinuation = flowContinuation || state.get ('flowContinuation');
 
     if (!inputGrow) {
       inputGrow = 1;
@@ -53,6 +54,12 @@ export default class BasicField extends React.Component {
       padding:         '10px',
       margin:          '0px',
     };
+
+    if (inputFlowContinuation === 'overlay') {
+      boxStyle.marginRight = '-1px';
+    } else if (inputFlowContinuation === 'spacing') {
+      boxStyle.marginRight = '10px';
+    }
 
     return (
       <span
