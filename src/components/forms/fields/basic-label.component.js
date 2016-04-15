@@ -6,14 +6,27 @@ import {Action} from 'electrum';
 
 export default class BasicLabel extends React.Component {
   render () {
-    const {state, text, grow} = this.props;
+    const {state, text, grow, info} = this.props;
     const disabled = Action.isDisabled (state);
     var inputText = text || state.get ('text');
     var inputGrow = grow || state.get ('grow');
+    var inputInfo = info || state.get ('info');
 
     var labelStyle = {
-      flexGrow: inputGrow,
+      display:         'flex',
+      flexDirection:   'row',
+      justifyContent:  'flex-start',
+      alignItems:      'center',
+      height:          '32px',
+      flexGrow:        inputGrow,
     };
+
+    if (inputInfo) {
+      labelStyle.backgroundColor = '#ddd';
+      labelStyle.fontSize        = '75%';
+      labelStyle.justifyContent  = 'center';
+      labelStyle.padding         = '0 10px 0 10px';
+    }
 
     return (
       <label
