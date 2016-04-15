@@ -79,18 +79,31 @@ export default class RichButton extends React.Component {
       />
     );
 
-    if (inputText) {
-      if (inputRightIcon) {
-        return (
-          <div
-            disabled={disabled}
-            id={this.props.id}
-            style={boxStyle}
-            {...this.props}
-            >
-            {htmlText} {htmlIcon}
-          </div>
-        );
+    if (inputGlyph) {
+      if (inputText) {
+        if (inputRightIcon) {
+          return (
+            <div
+              disabled={disabled}
+              id={this.props.id}
+              style={boxStyle}
+              {...this.props}
+              >
+              {htmlText} {htmlIcon}
+            </div>
+          );
+        } else {
+          return (
+            <div
+              disabled={disabled}
+              id={this.props.id}
+              style={boxStyle}
+              {...this.props}
+              >
+              {htmlIcon} {htmlText}
+            </div>
+          );
+        }
       } else {
         return (
           <div
@@ -99,7 +112,7 @@ export default class RichButton extends React.Component {
             style={boxStyle}
             {...this.props}
             >
-            {htmlIcon} {htmlText}
+            {htmlIcon}
           </div>
         );
       }
@@ -111,7 +124,7 @@ export default class RichButton extends React.Component {
           style={boxStyle}
           {...this.props}
           >
-          {htmlIcon}
+          {htmlText}
         </div>
       );
     }
