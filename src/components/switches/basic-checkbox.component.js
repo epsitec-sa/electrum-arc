@@ -22,11 +22,10 @@ export default class BasicCheckbox extends React.Component {
       margin:          '0px',
     };
     var buttonStyle = {
-      height:          '32px',
       padding:         '0px',
       margin:          '0px',
       color:           '#555',
-      fontSize:        '75%',
+      fontSize:        '65%',
     };
 
     return (
