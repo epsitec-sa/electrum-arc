@@ -59,6 +59,11 @@ export default class RichButton extends React.Component {
       color:           '#555',
     };
     var textStyle = {
+      display:         'flex',
+      flexDirection:   'row',
+      justifyContent:  'center',
+      alignItems:      'center',
+      height:          '32px',
       fontSize:        '65%',
       margin:          '0 10px 0 10px',
     };
