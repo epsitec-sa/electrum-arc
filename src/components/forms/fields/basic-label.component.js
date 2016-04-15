@@ -8,9 +8,9 @@ export default class BasicLabel extends React.Component {
   render () {
     const {state, text, grow, info} = this.props;
     const disabled = Action.isDisabled (state);
-    var inputText = text || state.get ('text');
-    var inputGrow = grow || state.get ('grow');
-    var inputInfo = info || state.get ('info');
+    const inputText = text || state.get ('text');
+    const inputGrow = grow || state.get ('grow');
+    const inputInfo = info || state.get ('info');
 
     var labelStyle = {
       display:         'flex',
