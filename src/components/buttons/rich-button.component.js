@@ -11,7 +11,7 @@ export default class RichButton extends React.Component {
   }
 
   render () {
-    const {state, glyph, size, rotate, flip, spin, text, borderless, flowContinuation} = this.props;
+    const {state, glyph, size, rotate, flip, spin, text, borderless, rightIcon, flowContinuation} = this.props;
     const disabled = Action.isDisabled (state);
     const inputGlyph            = glyph            || state.get ('glyph');
     const inputSize             = size             || state.get ('size');
@@ -20,6 +20,7 @@ export default class RichButton extends React.Component {
     const inputSpin             = spin             || state.get ('spin');
     const inputText             = text             || state.get ('text');
     const inputBorderless       = borderless       || state.get ('borderless');
+    const inputRightIcon        = rightIcon        || state.get ('rightIcon');
     const inputFlowContinuation = flowContinuation || state.get ('flowContinuation');
     const renderSpin            = inputSpin ? 'fa-spin' : '';
 
@@ -63,26 +64,49 @@ export default class RichButton extends React.Component {
     };
 
     if (inputText) {
-      return (
-        <div
-          disabled={disabled}
-          id={this.props.id}
-          style={boxStyle}
-          {...this.props}
-          >
-          <i style={iconStyle}
-            className={`fa
-              fa-${inputGlyph}
-              fa-${inputSize}
-              fa-rotate-${inputRotate}
-              fa-flip-${inputFlip}
-              ${renderSpin}`}
-            />
+      if (inputRightIcon) {
+        return (
+          <div
+            disabled={disabled}
+            id={this.props.id}
+            style={boxStyle}
+            {...this.props}
+            >
             <label style={textStyle}>
               {inputText}
             </label>
-        </div>
-      );
+            <i style={iconStyle}
+              className={`fa
+                fa-${inputGlyph}
+                fa-${inputSize}
+                fa-rotate-${inputRotate}
+                fa-flip-${inputFlip}
+                ${renderSpin}`}
+              />
+          </div>
+        );
+      } else {
+        return (
+          <div
+            disabled={disabled}
+            id={this.props.id}
+            style={boxStyle}
+            {...this.props}
+            >
+            <i style={iconStyle}
+              className={`fa
+                fa-${inputGlyph}
+                fa-${inputSize}
+                fa-rotate-${inputRotate}
+                fa-flip-${inputFlip}
+                ${renderSpin}`}
+              />
+              <label style={textStyle}>
+                {inputText}
+              </label>
+          </div>
+        );
+      }
     } else {
       return (
         <div
