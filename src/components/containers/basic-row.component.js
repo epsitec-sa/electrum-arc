@@ -16,7 +16,7 @@ export default class BasicRow extends React.Component {
       flexDirection:   'row',
       justifyContent:  'space-between',
       alignItems:      'center',
-      marginBottom:    '10px',
+      margin:          '5px 0 5px 0',
     };
 
     return (
