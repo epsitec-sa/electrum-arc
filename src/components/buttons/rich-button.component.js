@@ -67,6 +67,7 @@ export default class RichButton extends React.Component {
       flexDirection:   'row',
       justifyContent:  'center',
       alignItems:      'center',
+      flexGrow:        1,
       height:          '32px',
       fontSize:        '65%',
       margin:          '0 10px 0 10px',
@@ -74,12 +75,12 @@ export default class RichButton extends React.Component {
 
     const htmlText = (
       <label style={textStyle}>
-      {inputText}
+        {inputText}
       </label>
     );
     const htmlIcon = (
       <i style={iconStyle}
-      className={`fa
+        className={`fa
         fa-${inputGlyph}
         fa-${inputSize}
         fa-rotate-${inputRotate}
