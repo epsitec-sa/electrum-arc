@@ -26,8 +26,9 @@ export default class BasicField extends React.Component {
   }
 
   render () {
-    const {state, grow, flowContinuation} = this.props;
+    const {state, value, grow, flowContinuation} = this.props;
     const disabled = Action.isDisabled (state);
+    const inputValue            = value            || state.get ('value');
     var   inputGrow             = grow             || state.get ('grow');
     const inputFlowContinuation = flowContinuation || state.get ('flowContinuation');
 
@@ -82,7 +83,7 @@ export default class BasicField extends React.Component {
           style={fieldStyle}
           type={this.props.type || 'text'}
           key='input'
-          value={this.props.value || this.read ('value')}
+          value={inputValue}
           {...this.props}
           />
       </span>
