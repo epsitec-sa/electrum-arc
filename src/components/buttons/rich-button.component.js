@@ -79,6 +79,8 @@ export default class RichButton extends React.Component {
       />
     );
 
+    // A strange bug prohibit to put {...this.props} into a const !
+
     if (inputGlyph) {
       if (inputText) {
         if (inputRightIcon) {
