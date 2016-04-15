@@ -63,6 +63,22 @@ export default class RichButton extends React.Component {
       margin:          '0 10px 0 10px',
     };
 
+    const htmlText = (
+      <label style={textStyle}>
+      {inputText}
+      </label>
+    );
+    const htmlIcon = (
+      <i style={iconStyle}
+      className={`fa
+        fa-${inputGlyph}
+        fa-${inputSize}
+        fa-rotate-${inputRotate}
+        fa-flip-${inputFlip}
+        ${renderSpin}`}
+      />
+    );
+
     if (inputText) {
       if (inputRightIcon) {
         return (
@@ -72,17 +88,7 @@ export default class RichButton extends React.Component {
             style={boxStyle}
             {...this.props}
             >
-            <label style={textStyle}>
-              {inputText}
-            </label>
-            <i style={iconStyle}
-              className={`fa
-                fa-${inputGlyph}
-                fa-${inputSize}
-                fa-rotate-${inputRotate}
-                fa-flip-${inputFlip}
-                ${renderSpin}`}
-              />
+            {htmlText} {htmlIcon}
           </div>
         );
       } else {
@@ -93,17 +99,7 @@ export default class RichButton extends React.Component {
             style={boxStyle}
             {...this.props}
             >
-            <i style={iconStyle}
-              className={`fa
-                fa-${inputGlyph}
-                fa-${inputSize}
-                fa-rotate-${inputRotate}
-                fa-flip-${inputFlip}
-                ${renderSpin}`}
-              />
-              <label style={textStyle}>
-                {inputText}
-              </label>
+            {htmlIcon} {htmlText}
           </div>
         );
       }
@@ -115,14 +111,7 @@ export default class RichButton extends React.Component {
           style={boxStyle}
           {...this.props}
           >
-          <i style={iconStyle}
-            className={`fa
-              fa-${inputGlyph}
-              fa-${inputSize}
-              fa-rotate-${inputRotate}
-              fa-flip-${inputFlip}
-              ${renderSpin}`}
-            />
+          {htmlIcon}
         </div>
       );
     }
