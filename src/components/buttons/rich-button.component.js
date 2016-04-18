@@ -35,9 +35,12 @@ export default class RichButton extends React.Component {
       border:          '1px solid #888',
       backgroundColor: '#fff',
       padding:         '0px',
-      margin:          '0px',
+      marginTop:       '0px',
+      marginLeft:      '0px',
+      marginBottom:    '0px',
+      marginRight:     '0px',
       ':hover': {
-        background: '#c4e6ff',
+        backgroundColor: '#c4e6ff',
         opacity: 1.0
       }
     };
@@ -79,12 +82,13 @@ export default class RichButton extends React.Component {
     };
 
     const htmlText = (
-      <label style={textStyle}>
+      <label key='text' style={textStyle}>
         {inputText}
       </label>
     );
+
     const htmlIcon = (
-      <i style={iconStyle}
+      <i key='icon' style={iconStyle}
         className={`fa
         fa-${inputGlyph}
         fa-${inputSize}
@@ -94,57 +98,33 @@ export default class RichButton extends React.Component {
       />
     );
 
-    // A strange bug prohibit to put {...this.props} into a const !
-
-    if (inputGlyph) {
-      if (inputText) {
-        if (inputRightIcon) {
-          return (
-            <div
-              disabled={disabled}
-              id={this.props.id}
-              style={boxStyle}
-              {...this.props}
-              >
-              {htmlText} {htmlIcon}
-            </div>
-          );
+    const layout = () => {
+      if (inputGlyph) {
+        if (inputText) {
+          if (inputRightIcon) {
+            return [htmlText, htmlIcon];
+          } else {
+            return [htmlIcon, htmlText];
+          }
         } else {
-          return (
-            <div
-              disabled={disabled}
-              id={this.props.id}
-              style={boxStyle}
-              {...this.props}
-              >
-              {htmlIcon} {htmlText}
-            </div>
-          );
+          return [htmlIcon];
         }
       } else {
-        return (
-          <div
-            disabled={disabled}
-            id={this.props.id}
-            style={boxStyle}
-            {...this.props}
-            >
-            {htmlIcon}
-          </div>
-        );
+        return [htmlText];
       }
-    } else {
-      return (
-        <div
-          disabled={disabled}
-          id={this.props.id}
-          style={boxStyle}
-          {...this.props}
-          >
-          {htmlText}
-        </div>
-      );
-    }
+    };
+
+    return (
+      <div
+        onClick={this.onClick}
+        disabled={disabled}
+        id={this.props.id}
+        style={boxStyle}
+        {...this.props}
+        >
+        {layout ().map ((comp) => comp)}
+      </div>
+    );
   }
 }
 
