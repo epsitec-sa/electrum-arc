@@ -20,7 +20,6 @@ import _MuToolbarTitle from './components/containers/mu-toolbar-title.component.
 import _MuToolbar from './components/containers/mu-toolbar.component.js';
 import _GoogleFontLoader from './components/extras/google-font-loader.component.js';
 import _BasicField from './components/forms/fields/basic-field.component.js';
-import _BasicField$styles from './components/forms/fields/basic-field.styles.js';
 import _BasicLabel from './components/forms/fields/basic-label.component.js';
 import _Label from './components/forms/fields/label.component.js';
 import _Label$component from './components/forms/fields/label.component.js';
@@ -62,7 +61,7 @@ export const MuToolbarSeparator = Electrum.wrap ('MuToolbarSeparator', _MuToolba
 export const MuToolbarTitle = Electrum.wrap ('MuToolbarTitle', _MuToolbarTitle);
 export const MuToolbar = Electrum.wrap ('MuToolbar', _MuToolbar);
 export const GoogleFontLoader = Electrum.wrap ('GoogleFontLoader', _GoogleFontLoader);
-export const BasicField = Electrum.wrap ('BasicField', _BasicField, {styles: _BasicField$styles});
+export const BasicField = Electrum.wrap ('BasicField', _BasicField);
 export const BasicLabel = Electrum.wrap ('BasicLabel', _BasicLabel);
 export const Label = Electrum.wrap ('Label', _Label, {component: _Label$component, styles: _Label$styles});
 export const MuAutoComplete = Electrum.wrap ('MuAutoComplete', _MuAutoComplete);
