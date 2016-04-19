@@ -26,11 +26,11 @@ export default class BasicField extends React.Component {
   }
 
   render () {
-    const {state, value, grow, flowContinuation} = this.props;
+    const {state, value, grow, spacing} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputValue            = value            || state.get ('value');
-    var   inputGrow             = grow             || state.get ('grow');
-    const inputFlowContinuation = flowContinuation || state.get ('flowContinuation');
+    const inputValue   = value   || state.get ('value');
+    var   inputGrow    = grow    || state.get ('grow');
+    const inputSpacing = spacing || state.get ('spacing');
 
     if (!inputGrow) {
       inputGrow = 1;
@@ -59,9 +59,9 @@ export default class BasicField extends React.Component {
       margin:          '0px',
     };
 
-    if (inputFlowContinuation === 'overlay') {
+    if (inputSpacing === 'overlap') {
       boxStyle.marginRight = '-1px';
-    } else if (inputFlowContinuation === 'spacing') {
+    } else if (inputSpacing === 'large') {
       boxStyle.marginRight = '10px';
     }
 
