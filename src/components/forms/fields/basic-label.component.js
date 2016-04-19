@@ -6,11 +6,11 @@ import {Action} from 'electrum';
 
 export default class BasicLabel extends React.Component {
   render () {
-    const {state, text, grow, info} = this.props;
+    const {state, text, grow, kind} = this.props;
     const disabled = Action.isDisabled (state);
     const inputText = text || state.get ('text');
     const inputGrow = grow || state.get ('grow');
-    const inputInfo = info || state.get ('info');
+    const inputKind = kind || state.get ('kind');
 
     var labelStyle = {
       display:         'flex',
@@ -21,7 +21,7 @@ export default class BasicLabel extends React.Component {
       flexGrow:        inputGrow,
     };
 
-    if (inputInfo) {
+    if (inputKind === 'info') {
       labelStyle.backgroundColor = '#ddd';
       labelStyle.fontSize        = '75%';
       labelStyle.justifyContent  = 'center';
