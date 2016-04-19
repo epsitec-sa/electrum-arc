@@ -20,7 +20,7 @@ import _MuToolbarTitle from './components/containers/mu-toolbar-title.component.
 import _MuToolbar from './components/containers/mu-toolbar.component.js';
 import _GoogleFontLoader from './components/extras/google-font-loader.component.js';
 import _BasicField from './components/forms/fields/basic-field.component.js';
-import _BasicLabel from './components/forms/fields/basic-label.component.js';
+import _Label from './components/forms/fields/label.component.js';
 import _MuAutoComplete from './components/forms/fields/mu-auto-complete.component.js';
 import _MuDatePicker from './components/forms/fields/mu-date-picker.component.js';
 import _MuSelectField from './components/forms/fields/mu-select-field.component.js';
@@ -59,7 +59,7 @@ export const MuToolbarTitle = Electrum.wrap ('MuToolbarTitle', _MuToolbarTitle);
 export const MuToolbar = Electrum.wrap ('MuToolbar', _MuToolbar);
 export const GoogleFontLoader = Electrum.wrap ('GoogleFontLoader', _GoogleFontLoader);
 export const BasicField = Electrum.wrap ('BasicField', _BasicField);
-export const BasicLabel = Electrum.wrap ('BasicLabel', _BasicLabel);
+export const Label = Electrum.wrap ('Label', _Label);
 export const MuAutoComplete = Electrum.wrap ('MuAutoComplete', _MuAutoComplete);
 export const MuDatePicker = Electrum.wrap ('MuDatePicker', _MuDatePicker);
 export const MuSelectField = Electrum.wrap ('MuSelectField', _MuSelectField);
