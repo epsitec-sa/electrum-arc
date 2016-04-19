@@ -4,7 +4,7 @@ import React from 'react';
 import {Action} from 'electrum';
 /******************************************************************************/
 
-export default class BasicCheckbox extends React.Component {
+export default class Checkbox extends React.Component {
   render () {
     const {state, label, checked} = this.props;
     const disabled = Action.isDisabled (state);
