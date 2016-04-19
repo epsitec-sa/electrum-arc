@@ -78,7 +78,7 @@ export default class RichButton extends React.Component {
       flexGrow:        1,
       height:          '32px',
       fontSize:        '65%',
-      margin:          '0 10px 0 10px',
+      margin:          '0px 10px 0px 10px',
     };
 
     const htmlText = (
