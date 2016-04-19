@@ -4,7 +4,7 @@ import React from 'react';
 import {Action} from 'electrum';
 /******************************************************************************/
 
-export default class BasicField extends React.Component {
+export default class TextField extends React.Component {
 
   constructor (props) {
     super (props);
