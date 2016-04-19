@@ -2,10 +2,10 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-import {MenuItem as MUIMenuItem} from 'material-ui';
+import {FloatingActionButton as MUIFloatingActionButton} from 'material-ui';
 /******************************************************************************/
 
-export default class MenuItem extends React.Component {
+export default class MuFloatingActionButton extends React.Component {
 
   constructor (props) {
     super (props);
@@ -15,20 +15,19 @@ export default class MenuItem extends React.Component {
     const {state} = this.props.state;
     const disabled = Action.isDisabled (state);
     return (
-      <MUIMenuItem
+      <MUIFloatingActionButton
         onTouchTap={this.onClick}
-        checked={this.props.checked || this.read ('checked')}
         disabled={disabled}
-        insetChildren={this.props.insetChildren || this.read ('insetChildren')}
+        href={this.props.href || this.read ('href')}
+        icon={this.props.icon || this.read ('icon')}
         label={this.props.label || this.read ('label')}
-        leftIcon={this.props.leftIcon || this.read ('leftIcon')}
-        primaryText={this.props.primaryText || this.read ('primaryText')}
-        rightIcon={this.props.rightIcon || this.read ('rightIcon')}
-        secondaryText={this.props.secondaryText || this.read ('secondaryText')}
+        linkButton={this.props.linkButton || this.read ('linkButton')}
+        mini={this.props.mini || this.read ('mini')}
+        secondary={this.props.secondary || this.read ('secondary')}
         {...this.props}
         >
         {this.props.children}
-      </MUIMenuItem>
+      </MUIFloatingActionButton>
     );
   }
 }

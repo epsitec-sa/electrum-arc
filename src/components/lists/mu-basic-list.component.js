@@ -6,7 +6,7 @@ import {List as MUIList} from 'material-ui';
 
 /******************************************************************************/
 
-export default class BasicList extends React.Component {
+export default class MuBasicList extends React.Component {
 
   render () {
     const {state, theme} = this.props;

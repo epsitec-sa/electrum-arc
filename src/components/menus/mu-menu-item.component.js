@@ -2,10 +2,10 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-import {FlatButton as MUIFlatButton} from 'material-ui';
+import {MenuItem as MUIMenuItem} from 'material-ui';
 /******************************************************************************/
 
-export default class FlatButton extends React.Component {
+export default class MuMenuItem extends React.Component {
 
   constructor (props) {
     super (props);
@@ -15,20 +15,20 @@ export default class FlatButton extends React.Component {
     const {state} = this.props.state;
     const disabled = Action.isDisabled (state);
     return (
-      <MUIFlatButton
+      <MUIMenuItem
         onTouchTap={this.onClick}
+        checked={this.props.checked || this.read ('checked')}
         disabled={disabled}
-        href={this.props.href || this.read ('href')}
-        icon={this.props.icon || this.read ('icon')}
+        insetChildren={this.props.insetChildren || this.read ('insetChildren')}
         label={this.props.label || this.read ('label')}
-        labelPosition={this.props.labelPosition || this.read ('labelPosition')}
-        linkButton={this.props.linkButton || this.read ('linkButton')}
-        primary={this.props.primary || this.read ('primary')}
-        secondary={this.props.secondary || this.read ('secondary')}
+        leftIcon={this.props.leftIcon || this.read ('leftIcon')}
+        primaryText={this.props.primaryText || this.read ('primaryText')}
+        rightIcon={this.props.rightIcon || this.read ('rightIcon')}
+        secondaryText={this.props.secondaryText || this.read ('secondaryText')}
         {...this.props}
         >
         {this.props.children}
-      </MUIFlatButton>
+      </MUIMenuItem>
     );
   }
 }

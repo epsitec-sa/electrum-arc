@@ -5,7 +5,7 @@ import {Action} from 'electrum';
 import {Slider as MUISlider} from 'material-ui';
 /******************************************************************************/
 
-export default class Slider extends React.Component {
+export default class MuSlider extends React.Component {
 
   constructor (props) {
     super (props);

@@ -5,7 +5,7 @@ import {Action} from 'electrum';
 import {SelectField as MUISelectField} from 'material-ui';
 /******************************************************************************/
 
-export default class SelectField extends React.Component {
+export default class MuSelectField extends React.Component {
 
   constructor (props) {
     super (props);

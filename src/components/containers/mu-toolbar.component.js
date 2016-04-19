@@ -2,10 +2,10 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-import {ToolbarTitle as MUIToolbarTitle} from 'material-ui';
+import {Toolbar as MUIToolbar} from 'material-ui';
 /******************************************************************************/
 
-export default class ToolbarTitle extends React.Component {
+export default class MuToolbar extends React.Component {
 
   constructor (props) {
     super (props);
@@ -15,13 +15,13 @@ export default class ToolbarTitle extends React.Component {
     const {state} = this.props.state;
     const disabled = Action.isDisabled (state);
     return (
-      <MUIToolbarTitle
+      <MUIToolbar
         onTouchTap={this.onClick}
         disabled={disabled}
         {...this.props}
         >
         {this.props.children}
-      </MUIToolbarTitle>
+      </MUIToolbar>
     );
   }
 }

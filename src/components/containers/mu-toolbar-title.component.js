@@ -2,10 +2,10 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-import {Checkbox as MUICheckbox} from 'material-ui';
+import {ToolbarTitle as MUIToolbarTitle} from 'material-ui';
 /******************************************************************************/
 
-export default class Checkbox extends React.Component {
+export default class MuToolbarTitle extends React.Component {
 
   constructor (props) {
     super (props);
@@ -15,17 +15,13 @@ export default class Checkbox extends React.Component {
     const {state} = this.props.state;
     const disabled = Action.isDisabled (state);
     return (
-      <MUICheckbox
+      <MUIToolbarTitle
         onTouchTap={this.onClick}
-        id={this.props.id}
-        checked={this.props.checked || this.read ('checked')}
-        label={this.props.label || this.read ('label')}
-        labelPosition={this.props.labelPosition || this.read ('labelPosition')}
         disabled={disabled}
         {...this.props}
         >
         {this.props.children}
-      </MUICheckbox>
+      </MUIToolbarTitle>
     );
   }
 }

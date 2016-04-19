@@ -5,7 +5,7 @@ import {Action} from 'electrum';
 import {ToolbarGroup as MUIToolbarGroup} from 'material-ui';
 /******************************************************************************/
 
-export default class ToolbarGroup extends React.Component {
+export default class MuToolbarGroup extends React.Component {
 
   constructor (props) {
     super (props);

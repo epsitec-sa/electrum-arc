@@ -5,7 +5,7 @@ import {Action} from 'electrum';
 import {Popover as MUIPopover} from 'material-ui';
 /******************************************************************************/
 
-export default class Popover extends React.Component {
+export default class MuPopover extends React.Component {
 
   constructor (props) {
     super (props);

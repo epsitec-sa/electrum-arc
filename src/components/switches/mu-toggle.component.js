@@ -2,10 +2,10 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-import {Toolbar as MUIToolbar} from 'material-ui';
+import {Toggle as MUIToggle} from 'material-ui';
 /******************************************************************************/
 
-export default class Toolbar extends React.Component {
+export default class MuToggle extends React.Component {
 
   constructor (props) {
     super (props);
@@ -15,13 +15,17 @@ export default class Toolbar extends React.Component {
     const {state} = this.props.state;
     const disabled = Action.isDisabled (state);
     return (
-      <MUIToolbar
+      <MUIToggle
         onTouchTap={this.onClick}
+        id={this.props.id}
         disabled={disabled}
+        label={this.props.label || this.read ('label')}
+        labelPosition={this.props.labelPosition || this.read ('labelPosition')}
+        toggled={this.props.toggled || this.read ('toggled')}
         {...this.props}
         >
         {this.props.children}
-      </MUIToolbar>
+      </MUIToggle>
     );
   }
 }

@@ -2,10 +2,10 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-import {FloatingActionButton as MUIFloatingActionButton} from 'material-ui';
+import {Badge as MUIBadge} from 'material-ui';
 /******************************************************************************/
 
-export default class FloatingActionButton extends React.Component {
+export default class MuBadge extends React.Component {
 
   constructor (props) {
     super (props);
@@ -15,19 +15,15 @@ export default class FloatingActionButton extends React.Component {
     const {state} = this.props.state;
     const disabled = Action.isDisabled (state);
     return (
-      <MUIFloatingActionButton
+      <MUIBadge
         onTouchTap={this.onClick}
         disabled={disabled}
-        href={this.props.href || this.read ('href')}
-        icon={this.props.icon || this.read ('icon')}
-        label={this.props.label || this.read ('label')}
-        linkButton={this.props.linkButton || this.read ('linkButton')}
-        mini={this.props.mini || this.read ('mini')}
+        primary={this.props.primary || this.read ('primary')}
         secondary={this.props.secondary || this.read ('secondary')}
         {...this.props}
         >
         {this.props.children}
-      </MUIFloatingActionButton>
+      </MUIBadge>
     );
   }
 }

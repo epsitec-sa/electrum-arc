@@ -2,10 +2,10 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-import {RadioButton as MUIRadioButton} from 'material-ui';
+import {Paper as MUIPaper} from 'material-ui';
 /******************************************************************************/
 
-export default class RadioButton extends React.Component {
+export default class MuPaper extends React.Component {
 
   constructor (props) {
     super (props);
@@ -15,17 +15,17 @@ export default class RadioButton extends React.Component {
     const {state} = this.props.state;
     const disabled = Action.isDisabled (state);
     return (
-      <MUIRadioButton
+      <MUIPaper
         onTouchTap={this.onClick}
-        id={this.props.id}
-        checked={this.props.checked || this.read ('checked')}
-        label={this.props.label || this.read ('label')}
-        labelPosition={this.props.labelPosition || this.read ('labelPosition')}
         disabled={disabled}
+        circle={this.props.circle || this.read ('circle')}
+        rounded={this.props.rounded || this.read ('rounded')}
+        transitionEnabled={this.props.transitionEnabled || this.read ('transitionEnabled')}
+        zDepth={this.props.zDepth || this.read ('zDepth')}
         {...this.props}
         >
         {this.props.children}
-      </MUIRadioButton>
+      </MUIPaper>
     );
   }
 }

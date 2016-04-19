@@ -5,7 +5,7 @@ import {Action} from 'electrum';
 import {AutoComplete as MUIAutoComplete} from 'material-ui';
 /******************************************************************************/
 
-export default class AutoComplete extends React.Component {
+export default class MuAutoComplete extends React.Component {
 
   constructor (props) {
     super (props);

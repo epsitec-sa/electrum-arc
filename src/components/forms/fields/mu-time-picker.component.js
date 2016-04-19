@@ -5,7 +5,7 @@ import {Action} from 'electrum';
 import {TimePicker as MUITimePicker} from 'material-ui';
 /******************************************************************************/
 
-export default class TimePicker extends React.Component {
+export default class MuTimePicker extends React.Component {
 
   constructor (props) {
     super (props);

@@ -5,7 +5,7 @@ import {Action} from 'electrum';
 import {ToolbarSeparator as MUIToolbarSeparator} from 'material-ui';
 /******************************************************************************/
 
-export default class ToolbarSeparator extends React.Component {
+export default class MuToolbarSeparator extends React.Component {
 
   constructor (props) {
     super (props);

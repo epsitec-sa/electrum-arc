@@ -2,10 +2,10 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-import {Divider as MUIDivider} from 'material-ui';
+import {RadioButton as MUIRadioButton} from 'material-ui';
 /******************************************************************************/
 
-export default class Divider extends React.Component {
+export default class MuRadioButton extends React.Component {
 
   constructor (props) {
     super (props);
@@ -15,13 +15,17 @@ export default class Divider extends React.Component {
     const {state} = this.props.state;
     const disabled = Action.isDisabled (state);
     return (
-      <MUIDivider
+      <MUIRadioButton
         onTouchTap={this.onClick}
+        id={this.props.id}
+        checked={this.props.checked || this.read ('checked')}
+        label={this.props.label || this.read ('label')}
+        labelPosition={this.props.labelPosition || this.read ('labelPosition')}
         disabled={disabled}
         {...this.props}
         >
         {this.props.children}
-      </MUIDivider>
+      </MUIRadioButton>
     );
   }
 }

@@ -5,7 +5,7 @@ import {Action} from 'electrum';
 import {IconButton as MUIIconButton} from 'material-ui';
 /******************************************************************************/
 
-export default class IconButton extends React.Component {
+export default class MuIconButton extends React.Component {
 
   constructor (props) {
     super (props);

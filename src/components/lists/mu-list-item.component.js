@@ -5,7 +5,7 @@ import {Action} from 'electrum';
 import {ListItem as MUIListItem} from 'material-ui';
 /******************************************************************************/
 
-export default class ListItem extends React.Component {
+export default class MuListItem extends React.Component {
 
   constructor (props) {
     super (props);
