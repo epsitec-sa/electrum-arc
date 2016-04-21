@@ -31,12 +31,10 @@ export default class Checkbox extends React.Component {
     return (
       <span
       style={boxStyle}
-      {...this.props}
       >
       <input style={buttonStyle}
         onClick={this.onClick}
         disabled={disabled}
-        id={this.props.id}
         type='checkbox'
         {...checkprop}
         {...this.props}
