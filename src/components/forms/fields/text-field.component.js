@@ -68,7 +68,6 @@ export default class TextField extends React.Component {
     return (
       <span
         disabled={disabled}
-        id={this.props.id}
         style={boxStyle}
         {...this.props}
         >
