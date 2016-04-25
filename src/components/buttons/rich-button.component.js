@@ -25,7 +25,6 @@ export default class RichButton extends React.Component {
     const inputSpacing = spacing || state.get ('spacing');
     const inputGrow    = grow    || state.get ('grow');
     const inputWidth   = width   || state.get ('width');
-    const renderSpin   = inputSpin ? 'fa-spin' : '';
 
     var boxStyle = {
       display:         'flex',
@@ -40,9 +39,10 @@ export default class RichButton extends React.Component {
       marginRight:     '0px',
       ':hover': {
         backgroundColor: '#c4e6ff',
-        opacity: 1.0
+        opacity:         1.0
       }
     };
+
     if (inputBorder === 'none') {
       boxStyle.border = 'none';
       // Button without border must have same backgroundColor as parent !
@@ -91,6 +91,7 @@ export default class RichButton extends React.Component {
       </label>
     );
 
+    const renderSpin   = inputSpin ? 'fa-spin' : '';
     const htmlIcon = (
       <i key='icon' style={iconStyle}
         className={`fa
