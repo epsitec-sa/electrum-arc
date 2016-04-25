@@ -43,6 +43,7 @@ export default class BasicContainer extends React.Component {
       marginLeft:      '0px',
       marginBottom:    '0px',
       marginRight:     '0px',
+      color:           '#333',
     };
 
     if (inputSpacing === 'overlap') {
