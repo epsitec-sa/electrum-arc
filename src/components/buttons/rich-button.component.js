@@ -75,6 +75,7 @@ export default class RichButton extends React.Component {
       margin:          '0px',
       color:           '#555',
     };
+
     var textStyle = {
       display:         'flex',
       flexDirection:   'row',
@@ -84,6 +85,14 @@ export default class RichButton extends React.Component {
       height:          '32px',
       margin:          '0px 10px 0px 10px',
     };
+
+    if (inputGlyph) {
+      if (inputIcon === 'right') {
+        textStyle.margin = '0px 0px 0px 10px';
+      } else {
+        textStyle.margin = '0px 10px 0px 0px';
+      }
+    }
 
     const htmlText = (
       <label key='text' style={textStyle}>
