@@ -69,7 +69,6 @@ export default class TextField extends React.Component {
       <span
         disabled={disabled}
         style={boxStyle}
-        {...this.props}
         >
         <input
           onChange={this.onChange}
