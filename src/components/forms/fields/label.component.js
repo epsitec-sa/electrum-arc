@@ -8,9 +8,9 @@ export default class Label extends React.Component {
   render () {
     const {state, text, grow, kind, transform} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputText      = text ||      state.get ('text');
-    const inputGrow      = grow ||      state.get ('grow');
-    const inputKind      = kind ||      state.get ('kind');
+    const inputText      = text      || state.get ('text');
+    const inputGrow      = grow      || state.get ('grow');
+    const inputKind      = kind      || state.get ('kind');
     const inputTransform = transform || state.get ('transform');
 
     var labelStyle = {
