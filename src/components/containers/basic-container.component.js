@@ -59,7 +59,6 @@ export default class BasicContainer extends React.Component {
     return (
       <div
         disabled={disabled}
-        id={this.props.id}
         style={containerStyle}
         {...this.props}
         />

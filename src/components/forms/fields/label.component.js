@@ -32,6 +32,7 @@ export default class Label extends React.Component {
       <label
         disabled={disabled}
         style={labelStyle}
+        {...this.props}
         >
         {inputText}
       </label>

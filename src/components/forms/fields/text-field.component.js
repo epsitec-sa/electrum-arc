@@ -77,7 +77,6 @@ export default class TextField extends React.Component {
           onKeyUp={this.onKeyUp}
           onSelect={this.onSelect}
           disabled={disabled}
-          id={this.props.id}
           maxLength={this.props.maxLength}
           placeholder={this.props.hintText || this.read ('hintText')}
           size={this.props.size || 'size'}

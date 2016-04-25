@@ -118,7 +118,6 @@ export default class RichButton extends React.Component {
       <div
         onClick={this.onClick}
         disabled={disabled}
-        id={this.props.id}
         style={boxStyle}
         {...this.props}
         >

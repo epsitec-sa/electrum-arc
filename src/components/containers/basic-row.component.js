@@ -21,7 +21,6 @@ export default class BasicRow extends React.Component {
 
     return (
       <div
-        id={this.props.id}
         style={rowStyle}
         {...this.props}
         />
