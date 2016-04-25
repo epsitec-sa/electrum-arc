@@ -87,6 +87,7 @@ export default class RichButton extends React.Component {
     };
 
     if (inputGlyph) {
+      // Drawing the text nearest the icon.
       if (inputIcon === 'right') {
         textStyle.margin = '0px 0px 0px 10px';
       } else {
