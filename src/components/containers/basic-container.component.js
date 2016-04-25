@@ -24,12 +24,13 @@ export default class BasicContainer extends React.Component {
   }
 
   render () {
-    const {state, width, spacing, zDepth, border} = this.props;
+    const {state, width, spacing, zDepth, border, kind} = this.props;
     const disabled = Action.isDisabled (state);
     const inputWidth   = width   || state.get ('width');
     const inputSpacing = spacing || state.get ('spacing');
     const inputZDepth  = zDepth  || state.get ('zDepth');
     const inputBorder  = border  || state.get ('border');
+    const inputKind    = kind    || state.get ('kind');
 
     var containerStyle = {
       display:         'flex',
@@ -60,6 +61,12 @@ export default class BasicContainer extends React.Component {
 
     if (inputBorder === 'none') {
       containerStyle.border = 'none';
+    }
+
+    if (inputKind === 'root') {
+      containerStyle.backgroundColor = '#eee';
+    } else {
+      containerStyle.backgroundColor = '#fff';
     }
 
     return (
