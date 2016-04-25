@@ -33,7 +33,6 @@ export default class RichButton extends React.Component {
       justifyContent:  'flex-start',
       alignItems:      'center',
       border:          '1px solid #888',
-      backgroundColor: '#fff',
       padding:         '0px',
       marginTop:       '0px',
       marginLeft:      '0px',
@@ -46,15 +45,21 @@ export default class RichButton extends React.Component {
     };
     if (inputBorder === 'none') {
       boxStyle.border = 'none';
+      // Button without border must have same backgroundColor as parent !
+    } else {
+      boxStyle.backgroundColor = '#fff';
     }
+
     if (inputSpacing === 'overlap') {
       boxStyle.marginRight = '-1px';
     } else if (inputSpacing === 'large') {
       boxStyle.marginRight = '10px';
     }
+
     if (inputWidth) {
       boxStyle.width = inputWidth;
     }
+
     if (inputGrow) {
       boxStyle.flexGrow = inputGrow;
     }
