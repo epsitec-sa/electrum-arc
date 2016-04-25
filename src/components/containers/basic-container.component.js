@@ -24,17 +24,19 @@ export default class BasicContainer extends React.Component {
   }
 
   render () {
-    const {state, width, spacing, zDepth} = this.props;
+    const {state, width, spacing, zDepth, border} = this.props;
     const disabled = Action.isDisabled (state);
     const inputWidth   = width   || state.get ('width');
     const inputSpacing = spacing || state.get ('spacing');
     const inputZDepth  = zDepth  || state.get ('zDepth');
+    const inputBorder  = border  || state.get ('border');
 
     var containerStyle = {
       display:         'flex',
       flexDirection:   'column',
       justifyContent:  'flex-start',
       alignItems:      'stretch',
+      border:          '1px solid #888',
       padding:         '15px 20px 15px 20px',
       marginTop:       '0px',
       marginLeft:      '0px',
@@ -54,6 +56,10 @@ export default class BasicContainer extends React.Component {
 
     if (inputZDepth) {
       containerStyle.boxShadow = this.getZDepthShadows (inputZDepth);
+    }
+
+    if (inputBorder === 'none') {
+      containerStyle.border = 'none';
     }
 
     return (
