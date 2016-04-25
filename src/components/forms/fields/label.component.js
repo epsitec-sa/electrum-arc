@@ -24,9 +24,10 @@ export default class Label extends React.Component {
 
     if (inputKind === 'info') {
       labelStyle.backgroundColor = '#ddd';
-      labelStyle.fontSize        = '75%';
       labelStyle.justifyContent  = 'center';
       labelStyle.padding         = '0 10px 0 10px';
+    } else if (inputKind === 'title') {
+      labelStyle.fontSize        = '150%';
     }
 
     if (inputTransform) {
