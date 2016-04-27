@@ -29,6 +29,13 @@ export default class RichButton extends React.Component {
     const inputKind      = kind      || state.get ('kind');
     const inputActive    = active    || state.get ('active');
 
+    var hoverBC = '#c4e6ff';
+    if (inputKind === 'footerFirst' ||
+        inputKind === 'footerMiddle' ||
+        inputKind === 'footerLast') {
+      hoverBC = '#11364c';
+    }
+
     var boxStyle = {
       display:         'flex',
       flexDirection:   'row',
@@ -41,7 +48,7 @@ export default class RichButton extends React.Component {
       marginBottom:    '0px',
       marginRight:     '0px',
       ':hover': {
-        backgroundColor: '#c4e6ff',
+        backgroundColor: hoverBC,
         opacity: 1.0
       }
     };
