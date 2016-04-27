@@ -12,19 +12,22 @@ export default class RichButton extends React.Component {
 
   render () {
     const {state, glyph, size, rotate, flip, spin, text, border, icon,
-      spacing, grow, width} = this.props;
+      spacing, grow, width, transform, kind, active} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputGlyph   = glyph   || state.get ('glyph');
-    const inputSize    = size    || state.get ('size');
-    const inputRotate  = rotate  || state.get ('rotate');
-    const inputFlip    = flip    || state.get ('flip');
-    const inputSpin    = spin    || state.get ('spin');
-    const inputText    = text    || state.get ('text');
-    const inputBorder  = border  || state.get ('border');
-    const inputIcon    = icon    || state.get ('icon');
-    const inputSpacing = spacing || state.get ('spacing');
-    const inputGrow    = grow    || state.get ('grow');
-    const inputWidth   = width   || state.get ('width');
+    const inputGlyph     = glyph     || state.get ('glyph');
+    const inputSize      = size      || state.get ('size');
+    const inputRotate    = rotate    || state.get ('rotate');
+    const inputFlip      = flip      || state.get ('flip');
+    const inputSpin      = spin      || state.get ('spin');
+    const inputText      = text      || state.get ('text');
+    const inputBorder    = border    || state.get ('border');
+    const inputIcon      = icon      || state.get ('icon');
+    const inputSpacing   = spacing   || state.get ('spacing');
+    const inputGrow      = grow      || state.get ('grow');
+    const inputWidth     = width     || state.get ('width');
+    const inputTransform = transform || state.get ('transform');
+    const inputKind      = kind      || state.get ('kind');
+    const inputActive    = active    || state.get ('active');
 
     var boxStyle = {
       display:         'flex',
@@ -39,30 +42,9 @@ export default class RichButton extends React.Component {
       marginRight:     '0px',
       ':hover': {
         backgroundColor: '#c4e6ff',
-        opacity:         1.0
+        opacity: 1.0
       }
     };
-
-    if (inputBorder === 'none') {
-      boxStyle.border = 'none';
-      // Button without border must have same backgroundColor as parent !
-    } else {
-      boxStyle.backgroundColor = '#fff';
-    }
-
-    if (inputSpacing === 'overlap') {
-      boxStyle.marginRight = '-1px';
-    } else if (inputSpacing === 'large') {
-      boxStyle.marginRight = '10px';
-    }
-
-    if (inputWidth) {
-      boxStyle.width = inputWidth;
-    }
-
-    if (inputGrow) {
-      boxStyle.flexGrow = inputGrow;
-    }
 
     var iconStyle = {
       display:         'flex',
@@ -86,13 +68,46 @@ export default class RichButton extends React.Component {
       margin:          '0px 10px 0px 10px',
     };
 
-    if (inputGlyph) {
-      // Drawing the text nearest the icon.
-      if (inputIcon === 'right') {
-        textStyle.margin = '0px 0px 0px 10px';
-      } else {
-        textStyle.margin = '0px 10px 0px 0px';
+    if (inputBorder === 'none') {
+      boxStyle.border = 'none';
+      // Button without border must have same backgroundColor as parent !
+    } else {
+      if (inputKind !== 'tab') {
+        boxStyle.backgroundColor = '#fff';
       }
+    }
+
+    if (inputSpacing === 'overlap') {
+      boxStyle.marginRight = '-1px';
+    } else if (inputSpacing === 'large') {
+      boxStyle.marginRight = '10px';
+    }
+
+    if (inputWidth) {
+      boxStyle.width = inputWidth;
+    }
+
+    if (inputGrow) {
+      boxStyle.flexGrow = inputGrow;
+    }
+
+    if (inputTransform) {
+      textStyle.textTransform = inputTransform;
+    }
+
+    if (inputKind === 'tab') {
+      boxStyle.marginBottom = '-1px';
+      textStyle.textTransform = 'uppercase';
+      textStyle.fontWeight = 'bold';
+    }
+
+    if (inputActive === 'false') {
+      boxStyle.borderStyle = 'none';
+      textStyle.color = '#aaa';
+    } else if (inputActive === 'true') {
+      boxStyle.borderStyle = 'none none solid none';
+      boxStyle.borderColor = '#000';
+      textStyle.color = '#000';
     }
 
     const htmlText = (
@@ -101,7 +116,7 @@ export default class RichButton extends React.Component {
       </label>
     );
 
-    const renderSpin   = inputSpin ? 'fa-spin' : '';
+    const renderSpin = inputSpin ? 'fa-spin' : '';
     const htmlIcon = (
       <i key='icon' style={iconStyle}
         className={`fa

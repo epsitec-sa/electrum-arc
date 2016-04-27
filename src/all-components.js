@@ -18,6 +18,7 @@ import _MuToolbarGroup from './components/containers/mu-toolbar-group.component.
 import _MuToolbarSeparator from './components/containers/mu-toolbar-separator.component.js';
 import _MuToolbarTitle from './components/containers/mu-toolbar-title.component.js';
 import _MuToolbar from './components/containers/mu-toolbar.component.js';
+import _TabContainer from './components/containers/tab-container.component.js';
 import _GoogleFontLoader from './components/extras/google-font-loader.component.js';
 import _Label from './components/forms/fields/label.component.js';
 import _MuAutoComplete from './components/forms/fields/mu-auto-complete.component.js';
@@ -60,6 +61,7 @@ export const MuToolbarGroup = Electrum.wrap ('MuToolbarGroup', _MuToolbarGroup);
 export const MuToolbarSeparator = Electrum.wrap ('MuToolbarSeparator', _MuToolbarSeparator);
 export const MuToolbarTitle = Electrum.wrap ('MuToolbarTitle', _MuToolbarTitle);
 export const MuToolbar = Electrum.wrap ('MuToolbar', _MuToolbar);
+export const TabContainer = Electrum.wrap ('TabContainer', _TabContainer);
 export const GoogleFontLoader = Electrum.wrap ('GoogleFontLoader', _GoogleFontLoader);
 export const Label = Electrum.wrap ('Label', _Label);
 export const MuAutoComplete = Electrum.wrap ('MuAutoComplete', _MuAutoComplete);
