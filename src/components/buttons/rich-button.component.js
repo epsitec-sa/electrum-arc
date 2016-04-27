@@ -96,9 +96,9 @@ export default class RichButton extends React.Component {
     }
 
     if (inputKind === 'tab') {
-      boxStyle.marginBottom = '-1px';
+      boxStyle.marginBottom   = '-1px';
       textStyle.textTransform = 'uppercase';
-      textStyle.fontWeight = 'bold';
+      textStyle.fontWeight    = 'bold';
     }
 
     if (inputActive === 'false') {
@@ -107,7 +107,7 @@ export default class RichButton extends React.Component {
     } else if (inputActive === 'true') {
       boxStyle.borderStyle = 'none none solid none';
       boxStyle.borderColor = '#000';
-      textStyle.color = '#000';
+      textStyle.color      = '#000';
     }
 
     const htmlText = (

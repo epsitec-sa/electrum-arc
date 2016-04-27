@@ -6,12 +6,11 @@ import {Action} from 'electrum';
 
 export default class Label extends React.Component {
   render () {
-    const {state, text, grow, kind, transform} = this.props;
+    const {state, text, grow, kind} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputText      = text      || state.get ('text');
-    const inputGrow      = grow      || state.get ('grow');
-    const inputKind      = kind      || state.get ('kind');
-    const inputTransform = transform || state.get ('transform');
+    const inputText = text || state.get ('text');
+    const inputGrow = grow || state.get ('grow');
+    const inputKind = kind || state.get ('kind');
 
     var labelStyle = {
       display:         'flex',
@@ -29,10 +28,7 @@ export default class Label extends React.Component {
     } else if (inputKind === 'title') {
       labelStyle.fontSize        = '125%';
       labelStyle.fontWeight      = 'bold';
-    }
-
-    if (inputTransform) {
-      labelStyle.textTransform = inputTransform;
+      labelStyle.textTransform   = 'uppercase';
     }
 
     return (
