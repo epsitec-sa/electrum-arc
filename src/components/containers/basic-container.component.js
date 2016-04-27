@@ -38,7 +38,7 @@ export default class BasicContainer extends React.Component {
       justifyContent:  'flex-start',
       alignItems:      'stretch',
       border:          '1px solid #888',
-      padding:         '15px 20px 15px 20px',
+      padding:         '20px 20px 10px 20px',
       marginTop:       '0px',
       marginLeft:      '0px',
       marginBottom:    '0px',
