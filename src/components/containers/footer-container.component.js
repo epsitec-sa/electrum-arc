@@ -20,7 +20,7 @@ export default class FooterContainer extends React.Component {
       justifyContent:  'space-between',
       alignItems:      'center',
       padding:         '20px 20px 20px 20px',
-      margin:          '0px -20px 20px -20px',
+      margin:          '0px -20px -10px -20px',
       borderStyle:     'none',
       backgroundColor: '#fff',
     };
