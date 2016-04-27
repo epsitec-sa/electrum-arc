@@ -99,6 +99,31 @@ export default class RichButton extends React.Component {
       boxStyle.marginBottom   = '-1px';
       textStyle.textTransform = 'uppercase';
       textStyle.fontWeight    = 'bold';
+    } else if (inputKind === 'footerFirst') {
+      boxStyle.height          = '50px';
+      boxStyle.marginRight     = '1px';
+      boxStyle.padding         = '0px 20px 0px 20px';
+      boxStyle.borderRadius    = '25px 0px 0px 25px';
+      boxStyle.border          = 'none';
+      boxStyle.backgroundColor = '#0d6396';
+      iconStyle.color          = '#fff';
+      textStyle.color          = '#fff';
+    } else if (inputKind === 'footerMiddle') {
+      boxStyle.height          = '50px';
+      boxStyle.marginRight     = '1px';
+      boxStyle.padding         = '0px 20px 0px 20px';
+      boxStyle.border          = 'none';
+      boxStyle.backgroundColor = '#0d6396';
+      iconStyle.color          = '#fff';
+      textStyle.color          = '#fff';
+    } else if (inputKind === 'footerLast') {
+      boxStyle.height          = '50px';
+      boxStyle.padding         = '0px 20px 0px 20px';
+      boxStyle.borderRadius    = '0px 25px 25px 0px';
+      boxStyle.border          = 'none';
+      boxStyle.backgroundColor = '#0d6396';
+      iconStyle.color          = '#fff';
+      textStyle.color          = '#fff';
     }
 
     if (inputActive === 'false') {
