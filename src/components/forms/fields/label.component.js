@@ -5,6 +5,11 @@ import {Action} from 'electrum';
 /******************************************************************************/
 
 export default class Label extends React.Component {
+
+  constructor (props) {
+    super (props);
+  }
+
   render () {
     const {state, text, grow, kind, width} = this.props;
     const disabled = Action.isDisabled (state);
