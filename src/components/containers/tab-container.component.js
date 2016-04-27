@@ -19,9 +19,9 @@ export default class TabContainer extends React.Component {
       flexDirection:   'row',
       justifyContent:  'space-between',
       alignItems:      'center',
-      border:          '1px solid #888',
       padding:         '0px 20px 0px 20px',
       margin:          '0px -20px 20px -20px',
+      borderWidth:     '1px',
       borderStyle:     'none none solid none',
       borderColor:     '#ccc',
     };
