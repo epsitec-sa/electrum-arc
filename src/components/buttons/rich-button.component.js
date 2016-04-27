@@ -110,6 +110,15 @@ export default class RichButton extends React.Component {
       textStyle.color      = '#000';
     }
 
+    if (inputGlyph && inputText) {
+      // Decrease the space between glyph and text.
+      if (inputIcon === 'right') {
+        textStyle.margin = '0px 0px 0px 10px';
+      } else {
+        textStyle.margin = '0px 10px 0px 0px';
+      }
+    }
+
     const htmlText = (
       <label key='text' style={textStyle}>
         {inputText}
