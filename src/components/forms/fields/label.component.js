@@ -27,7 +27,8 @@ export default class Label extends React.Component {
       labelStyle.justifyContent  = 'center';
       labelStyle.padding         = '0 10px 0 10px';
     } else if (inputKind === 'title') {
-      labelStyle.fontSize        = '150%';
+      labelStyle.fontSize        = '125%';
+      labelStyle.fontWeight      = 'bold';
     }
 
     if (inputTransform) {
