@@ -13,7 +13,7 @@ export default class RichButton extends React.Component {
   render () {
     const {state, glyph, size, rotate, flip, spin, text, border, icon,
       spacing, grow, width, kind, active} = this.props;
-    const disabled = true; // Action.isDisabled (state);
+    const disabled = Action.isDisabled (state);
     const inputGlyph   = glyph   || state.get ('glyph');
     const inputSize    = size    || state.get ('size');
     const inputRotate  = rotate  || state.get ('rotate');
@@ -105,6 +105,21 @@ export default class RichButton extends React.Component {
       }
     }
 
+    var boxHoverStyle = {
+      backgroundColor: backgroundHoverColor,
+      opacity:         1.0,
+    };
+
+    if (disabled) {
+      borderColor = '#aaa';
+      if (backgroundColor) {
+        backgroundColor = '#eee';
+      }
+      glyphColor    = '#aaa';
+      textColor     = '#aaa';
+      boxHoverStyle = null;
+    }
+
     var boxStyle = {
       width:           boxWidth,
       height:          boxHeight,
@@ -120,10 +135,7 @@ export default class RichButton extends React.Component {
       padding:         boxPadding,
       margin:          boxMargin,
       backgroundColor: backgroundColor,
-      ':hover': {
-        backgroundColor: backgroundHoverColor,
-        opacity:         1.0
-      }
+      ':hover':        boxHoverStyle,
     };
 
     var iconStyle = {
