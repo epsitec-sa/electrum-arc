@@ -9,6 +9,8 @@ import {React, ReactDOMServer, Store, Theme} from 'electrum';
 class _Foo extends React.Component {
   render () {
     console.log (this.styles);
+    expect (this.resolveStyle ('nice')).to.deep.equal ({color: 'purple'});
+    expect (this.resolveStyle ('nice', 'ugly')).to.deep.equal ({color: 'pink'});
     return <div style={this.styles}></div>;
   }
 }
@@ -16,7 +18,8 @@ class _Foo extends React.Component {
 const _Foo$styles = function (theme) {
   return {
     base: {fontFamily: 'Verdana'},
-    nice: {color: 'purple'}
+    nice: {color: 'purple'},
+    ugly: {color: 'pink'}
   };
 };
 
