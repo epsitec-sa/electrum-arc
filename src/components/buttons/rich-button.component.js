@@ -11,22 +11,22 @@ export default class RichButton extends React.Component {
   }
 
   render () {
-    const {state, glyph, size, rotate, flip, spin, text, border, icon,
+    const {state, glyph, glyphPosition, size, rotate, flip, spin, text, border,
       spacing, grow, width, kind, active} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputGlyph   = glyph   || state.get ('glyph');
-    const inputSize    = size    || state.get ('size');
-    const inputRotate  = rotate  || state.get ('rotate');
-    const inputFlip    = flip    || state.get ('flip');
-    const inputSpin    = spin    || state.get ('spin');
-    const inputText    = text    || state.get ('text');
-    const inputBorder  = border  || state.get ('border');
-    const inputIcon    = icon    || state.get ('icon');
-    const inputSpacing = spacing || state.get ('spacing');
-    const inputGrow    = grow    || state.get ('grow');
-    const inputWidth   = width   || state.get ('width');
-    const inputKind    = kind    || state.get ('kind');
-    const inputActive  = active  || state.get ('active');
+    const inputGlyph         = glyph         || state.get ('glyph');
+    const inputSize          = size          || state.get ('size');
+    const inputRotate        = rotate        || state.get ('rotate');
+    const inputFlip          = flip          || state.get ('flip');
+    const inputSpin          = spin          || state.get ('spin');
+    const inputText          = text          || state.get ('text');
+    const inputBorder        = border        || state.get ('border');
+    const inputGlyphPosition = glyphPosition || state.get ('glyphPosition');
+    const inputSpacing       = spacing       || state.get ('spacing');
+    const inputGrow          = grow          || state.get ('grow');
+    const inputWidth         = width         || state.get ('width');
+    const inputKind          = kind          || state.get ('kind');
+    const inputActive        = active        || state.get ('active');
 
     // Initialize all variables for a standard button.
     var boxWidth             = inputWidth;
@@ -61,7 +61,7 @@ export default class RichButton extends React.Component {
 
     // Decrease space between glyph and text.
     if (inputGlyph && inputText) {
-      if (inputIcon === 'right') {
+      if (inputGlyphPosition === 'right') {
         textMargin = '0px 0px 0px 10px';
       } else {
         textMargin = '0px 10px 0px 0px';
@@ -138,7 +138,7 @@ export default class RichButton extends React.Component {
       };
     }
 
-    var iconStyle = {
+    var glyphStyle = {
       display:         'flex',
       flexDirection:   'row',
       justifyContent:  'center',
@@ -170,8 +170,8 @@ export default class RichButton extends React.Component {
     );
 
     const renderSpin = inputSpin ? 'fa-spin' : '';
-    const htmlIcon = (
-      <i key='icon' style={iconStyle}
+    const htmlGlyph = (
+      <i key='icon' style={glyphStyle}
         className={`fa
         fa-${inputGlyph}
         fa-${inputSize}
@@ -184,13 +184,13 @@ export default class RichButton extends React.Component {
     const layout = () => {
       if (inputGlyph) {
         if (inputText) {
-          if (inputIcon === 'right') {
-            return [htmlText, htmlIcon];
+          if (inputGlyphPosition === 'right') {
+            return [htmlText, htmlGlyph];
           } else {
-            return [htmlIcon, htmlText];
+            return [htmlGlyph, htmlText];
           }
         } else {
-          return [htmlIcon];
+          return [htmlGlyph];
         }
       } else {
         return [htmlText];
