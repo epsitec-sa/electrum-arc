@@ -40,6 +40,9 @@ module.exports = function (wallaby) {
       if (!modulePrototype._originalRequire) {
         modulePrototype._originalRequire = modulePrototype.require;
         modulePrototype.require = function (filePath) {
+          if (filePath.startsWith ('material-ui/')) {
+            return modulePrototype._originalRequire.call (this, filePath.replace ('material-ui/', 'material-ui/lib/'));
+          }
           if (filePath === packageName) {
             return modulePrototype._originalRequire.call (this, path.join (wallaby.projectCacheDir, 'src'));
           } else {
