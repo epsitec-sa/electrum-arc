@@ -8,7 +8,8 @@ import {React, ReactDOMServer, Store, Theme} from 'electrum';
 
 class _Foo extends React.Component {
   render () {
-    console.log (this.styles);
+    expect (this.resolveStyle ('nice')).to.deep.equal ({color: 'purple'});
+    expect (this.resolveStyle ('nice', 'ugly')).to.deep.equal ({color: 'pink'});
     return <div style={this.styles}></div>;
   }
 }
@@ -16,7 +17,8 @@ class _Foo extends React.Component {
 const _Foo$styles = function (theme) {
   return {
     base: {fontFamily: 'Verdana'},
-    nice: {color: 'purple'}
+    nice: {color: 'purple'},
+    ugly: {color: 'pink'}
   };
 };
 
@@ -36,10 +38,18 @@ describe ('Style resolution', () => {
       expect (html).to.equal ('<div style="font-family:Verdana;"></div>');
     });
   });
+
   describe ('<Foo kind="nice">', () => {
     it ('applies base style and nice style to <div> element', () => {
       const html = ReactDOMServer.renderToStaticMarkup (<Foo state={state} theme={theme} kind='nice'/>);
       expect (html).to.equal ('<div style="font-family:Verdana;color:purple;"></div>');
+    });
+  });
+
+  describe ('<Foo style={ {color: \'pink\'} }">', () => {
+    it ('applies local style on top of computed styles on <div> element', () => {
+      const html = ReactDOMServer.renderToStaticMarkup (<Foo state={state} theme={theme} kind='nice' style={{color: 'pink'}}/>);
+      expect (html).to.equal ('<div style="font-family:Verdana;color:pink;"></div>');
     });
   });
 });
