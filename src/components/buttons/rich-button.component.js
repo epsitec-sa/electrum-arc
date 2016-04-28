@@ -105,11 +105,6 @@ export default class RichButton extends React.Component {
       }
     }
 
-    var boxHoverStyle = {
-      backgroundColor: backgroundHoverColor,
-      opacity:         1.0,
-    };
-
     if (disabled) {
       borderColor = '#aaa';
       if (backgroundColor) {
@@ -117,7 +112,6 @@ export default class RichButton extends React.Component {
       }
       glyphColor    = '#aaa';
       textColor     = '#aaa';
-      boxHoverStyle = null;
     }
 
     var boxStyle = {
@@ -135,8 +129,14 @@ export default class RichButton extends React.Component {
       padding:         boxPadding,
       margin:          boxMargin,
       backgroundColor: backgroundColor,
-      ':hover':        boxHoverStyle,
     };
+
+    if (!disabled) {
+      boxStyle[':hover'] = {
+        backgroundColor: backgroundHoverColor,
+        opacity:         1.0,
+      };
+    }
 
     var iconStyle = {
       display:         'flex',
