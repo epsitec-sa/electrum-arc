@@ -12,6 +12,7 @@ import _AppCanvas from './components/containers/app-canvas.component.js';
 import _AppCanvas$styles from './components/containers/app-canvas.styles.js';
 import _BasicContainer from './components/containers/basic-container.component.js';
 import _BasicRow from './components/containers/basic-row.component.js';
+import _LeftContainer from './components/containers/left-container.component.js';
 import _MainTabContainer from './components/containers/main-tab-container.component.js';
 import _MuDivider from './components/containers/mu-divider.component.js';
 import _MuPaper from './components/containers/mu-paper.component.js';
@@ -58,6 +59,7 @@ export const ActionContainer = Electrum.wrap ('ActionContainer', _ActionContaine
 export const AppCanvas = Electrum.wrap ('AppCanvas', _AppCanvas, {styles: _AppCanvas$styles});
 export const BasicContainer = Electrum.wrap ('BasicContainer', _BasicContainer);
 export const BasicRow = Electrum.wrap ('BasicRow', _BasicRow);
+export const LeftContainer = Electrum.wrap ('LeftContainer', _LeftContainer);
 export const MainTabContainer = Electrum.wrap ('MainTabContainer', _MainTabContainer);
 export const MuDivider = Electrum.wrap ('MuDivider', _MuDivider);
 export const MuPaper = Electrum.wrap ('MuPaper', _MuPaper);

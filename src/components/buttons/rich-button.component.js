@@ -32,6 +32,7 @@ export default class RichButton extends React.Component {
     var boxWidth             = inputWidth;
     var boxHeight            = null;
     var boxGrow              = inputGrow;
+    var boxDirection         = 'row';
     var boxMargin            = '0px';
     var boxPadding           = '0px';
     var borderColor          = '#888';
@@ -45,6 +46,7 @@ export default class RichButton extends React.Component {
     var textWeight           = null;
     var textTransform        = null;
     var textSize             = '100%';
+    var textGrow             = 1;
 
     // Initialize variables for button without border.
     if (inputBorder === 'none') {
@@ -67,6 +69,38 @@ export default class RichButton extends React.Component {
       } else {
         textMargin = '0px 10px 0px 0px';
       }
+    }
+
+    // Logo button (usual parent is LeftContainer).
+    if (inputKind === 'logo') {
+      boxWidth             = '80px';
+      boxHeight            = '100px';
+      boxDirection         = 'column';
+      boxMargin            = '0px';
+      borderStyle          = 'none';
+      backgroundColor      = '#fff';
+      textMargin           = '0px';
+      textTransform        = 'uppercase';
+      textWeight           = 'bold';
+      textSize             = '125%';
+      textGrow             = null;
+    }
+
+    // Left button (usual parent is LeftContainer).
+    if (inputKind === 'left') {
+      boxWidth             = '80px';
+      boxHeight            = '100px';
+      boxDirection         = 'column';
+      boxMargin            = '0px';
+      borderStyle          = 'none none solid none';
+      borderColor          = '#24415f';
+      backgroundColor      = null;
+      backgroundHoverColor = '#24415f';
+      glyphColor           = '#fff';
+      textColor            = '#fff';
+      textMargin           = '0px';
+      textSize             = '80%';
+      textGrow             = null;
     }
 
     // MainTab button (usual parent is MainTabContainer).
@@ -148,9 +182,9 @@ export default class RichButton extends React.Component {
       width:           boxWidth,
       height:          boxHeight,
       display:         'flex',
-      flexDirection:   'row',
+      flexDirection:   boxDirection,
       flexGrow:        boxGrow,
-      justifyContent:  'flex-start',
+      justifyContent:  'center',
       alignItems:      'center',
       borderWidth:     '1px',
       borderColor:     borderColor,
@@ -185,7 +219,7 @@ export default class RichButton extends React.Component {
       flexDirection:   'row',
       justifyContent:  'center',
       alignItems:      'center',
-      flexGrow:        1,
+      flexGrow:        textGrow,
       height:          '32px',
       margin:          textMargin,
       color:           textColor,
