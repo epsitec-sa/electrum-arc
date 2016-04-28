@@ -83,8 +83,23 @@ export default class RichButton extends React.Component {
       }
     }
 
-    // Tab button (usual parent is TabContainer).
-    if (inputKind === 'tab') {
+    // ViewTab button (usual parent is MainTabContainer).
+    if (inputKind === 'viewTab') {
+      boxMargin       = '0px 1px 0px 0px';
+      borderStyle     = 'none';
+      backgroundColor = '#333';
+      glyphColor      = '#888';
+      textColor       = '#aaa';
+      textSize        = '80%';
+      if (inputActive === 'true') {
+        backgroundColor = '#eee';
+        glyphColor      = '#999';
+        textColor       = '#222';
+      }
+    }
+
+    // PageNavigator button (usual parent is PageNavigatorContainer).
+    if (inputKind === 'pageNavigator') {
       boxMargin       = '0px 0px -1px 0px';
       backgroundColor = null;
       textTransform   = 'uppercase';
@@ -101,8 +116,8 @@ export default class RichButton extends React.Component {
       }
     }
 
-    // Footer button (usual parent is FooterContainer).
-    if (inputKind && inputKind.startsWith ('footer')) {
+    // Action button (usual parent is ActionContainer).
+    if (inputKind && inputKind.startsWith ('action')) {
       boxHeight            = '50px';
       boxPadding           = '0px 20px 0px 20px';
       borderStyle          = 'none';
@@ -110,10 +125,10 @@ export default class RichButton extends React.Component {
       backgroundHoverColor = '#11364c';
       glyphColor           = '#fff';
       textColor            = '#fff';
-      if (inputKind === 'footerFirst') {
+      if (inputKind === 'actionFirst') {
         boxMargin          = '0px 1px 0px 0px';
         borderRadius       = '25px 0px 0px 25px';
-      } else if (inputKind === 'footerLast') {
+      } else if (inputKind === 'actionLast') {
         borderRadius       = '0px 25px 25px 0px';
       } else {
         boxMargin          = '0px 1px 0px 0px';

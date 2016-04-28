@@ -4,7 +4,7 @@ import React from 'react';
 import {Action} from 'electrum';
 /******************************************************************************/
 
-export default class TabContainer extends React.Component {
+export default class PageNavigatorContainer extends React.Component {
 
   constructor (props) {
     super (props);

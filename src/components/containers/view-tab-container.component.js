@@ -4,7 +4,7 @@ import React from 'react';
 import {Action} from 'electrum';
 /******************************************************************************/
 
-export default class MainTabContainer extends React.Component {
+export default class ViewTabContainer extends React.Component {
 
   constructor (props) {
     super (props);
@@ -21,10 +21,10 @@ export default class MainTabContainer extends React.Component {
       flexDirection:   'row',
       justifyContent:  'flex-start',
       alignItems:      'center',
-      padding:         '0px',
+      padding:         '20px 0px 0px 0px',
       margin:          '0px',
       borderStyle:     'none',
-      backgroundColor: '#dcdcdc',
+      backgroundColor: '#222',
     };
 
     return (
