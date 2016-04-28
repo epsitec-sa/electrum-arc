@@ -44,6 +44,7 @@ export default class RichButton extends React.Component {
     var textMargin           = '0px 10px 0px 10px';
     var textWeight           = null;
     var textTransform        = null;
+    var textSize             = '100%';
 
     // Initialize variables for button without border.
     if (inputBorder === 'none') {
@@ -65,6 +66,20 @@ export default class RichButton extends React.Component {
         textMargin = '0px 0px 0px 10px';
       } else {
         textMargin = '0px 10px 0px 0px';
+      }
+    }
+
+    // MainTab button (usual parent is MainTabContainer).
+    if (inputKind === 'mainTab') {
+      boxHeight       = '50px';
+      boxMargin       = '0px 1px 0px 0px';
+      borderStyle     = 'none';
+      backgroundColor = '#ededed';
+      textTransform   = 'uppercase';
+      textWeight      = 'bold';
+      textSize        = '125%';
+      if (inputActive === 'true') {
+        backgroundColor = '#fff';
       }
     }
 
@@ -161,6 +176,7 @@ export default class RichButton extends React.Component {
       color:           textColor,
       fontWeight:      textWeight,
       textTransform:   textTransform,
+      fontSize:        textSize,
     };
 
     const htmlText = (
