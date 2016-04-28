@@ -4,6 +4,7 @@ import {expect} from 'mai-chai';
 import {React, ReactDOMServer, Store, Theme} from 'electrum';
 import {Link} from 'electrum-arc';
 
+/******************************************************************************/
 
 describe ('Components', () => {
   describe ('<Link>', () => {
@@ -35,3 +36,5 @@ describe ('Components', () => {
     });
   });
 });
+
+/******************************************************************************/
