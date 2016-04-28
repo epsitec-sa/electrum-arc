@@ -4,6 +4,7 @@ import {expect} from 'mai-chai';
 import {React, ReactDOMServer, Store, Theme} from 'electrum';
 import {Link} from 'electrum-arc';
 
+/******************************************************************************/
 
 describe ('Components', () => {
   describe ('<Link>', () => {
@@ -16,6 +17,24 @@ describe ('Components', () => {
 
       expect (html).to.startWith ('<a');
       expect (html).to.endWith ('</a>');
+      expect (html).to.contain ('color:rgba(0,0,0,0.87);');
+      expect (html).to.contain ('font-size:.7em;font-family:Roboto, sans-serif;padding:1em;cursor:pointer;');
+    });
+  });
+
+  describe ('<Link kind="disabled">', () => {
+    it ('produces <a> element with disabled kind', () => {
+      const store = Store.create ();
+      const state = store.select ('root');
+      const theme = Theme.create ('default');
+
+      const html = ReactDOMServer.renderToStaticMarkup (<Link state={state} theme={theme} kind='disabled'/>);
+
+      expect (html).to.startWith ('<a');
+      expect (html).to.endWith ('</a>');
+      expect (html).to.contain ('color:rgba(0,0,0,0.3);');
     });
   });
 });
+
+/******************************************************************************/

@@ -4,9 +4,15 @@ import React from 'react';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import * as Colors from 'material-ui/styles/colors';
-import {fade} from 'material-ui/utils/colorManipulator';
+import ColorManipulator from 'material-ui/utils/color-manipulator';
 import Spacing from 'material-ui/styles/spacing';
 import zIndex from 'material-ui/styles/zIndex';
+
+/******************************************************************************/
+
+// Note: use ColorManipulator.fade with the full name for the tests to work.
+// Otherwise, the import of {fade} alone won't be able to find _decomposeColor
+// while running in Wallaby.js
 
 const theme = {
   spacing: Spacing,
@@ -23,10 +29,11 @@ const theme = {
     alternateTextColor: Colors.white,
     canvasColor: Colors.red,
     borderColor: Colors.grey300,
-    disabledColor: fade (Colors.darkBlack, 0.3),
+    disabledColor: ColorManipulator.fade (Colors.darkBlack, 0.3),
     pickerHeaderColor: Colors.cyan500,
   }
 };
+
 /******************************************************************************/
 
 export default class MuHoc extends React.Component {
