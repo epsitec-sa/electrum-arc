@@ -12,42 +12,117 @@ export default class RichButton extends React.Component {
 
   render () {
     const {state, glyph, size, rotate, flip, spin, text, border, icon,
-      spacing, grow, width, transform, kind, active} = this.props;
-    const disabled = Action.isDisabled (state);
-    const inputGlyph     = glyph     || state.get ('glyph');
-    const inputSize      = size      || state.get ('size');
-    const inputRotate    = rotate    || state.get ('rotate');
-    const inputFlip      = flip      || state.get ('flip');
-    const inputSpin      = spin      || state.get ('spin');
-    const inputText      = text      || state.get ('text');
-    const inputBorder    = border    || state.get ('border');
-    const inputIcon      = icon      || state.get ('icon');
-    const inputSpacing   = spacing   || state.get ('spacing');
-    const inputGrow      = grow      || state.get ('grow');
-    const inputWidth     = width     || state.get ('width');
-    const inputTransform = transform || state.get ('transform');
-    const inputKind      = kind      || state.get ('kind');
-    const inputActive    = active    || state.get ('active');
+      spacing, grow, width, kind, active} = this.props;
+    const disabled = true; // Action.isDisabled (state);
+    const inputGlyph   = glyph   || state.get ('glyph');
+    const inputSize    = size    || state.get ('size');
+    const inputRotate  = rotate  || state.get ('rotate');
+    const inputFlip    = flip    || state.get ('flip');
+    const inputSpin    = spin    || state.get ('spin');
+    const inputText    = text    || state.get ('text');
+    const inputBorder  = border  || state.get ('border');
+    const inputIcon    = icon    || state.get ('icon');
+    const inputSpacing = spacing || state.get ('spacing');
+    const inputGrow    = grow    || state.get ('grow');
+    const inputWidth   = width   || state.get ('width');
+    const inputKind    = kind    || state.get ('kind');
+    const inputActive  = active  || state.get ('active');
 
-    var hoverBC = '#c4e6ff';
+    // Initialize all variables for a standard button.
+    var boxWidth             = inputWidth;
+    var boxHeight            = null;
+    var boxGrow              = inputGrow;
+    var boxMargin            = '0px';
+    var boxPadding           = '0px';
+    var borderColor          = '#888';
+    var borderStyle          = 'solid';
+    var borderRadius         = '0px';
+    var backgroundColor      = '#fff';
+    var backgroundHoverColor = '#c4e6ff';
+    var glyphColor           = '#555';
+    var textColor            = '#222';
+    var textMargin           = '0px 10px 0px 10px';
+    var textWeight           = null;
+    var textTransform        = null;
+
+    // Initialize variables for button without border.
+    if (inputBorder === 'none') {
+      // Button without border must have same backgroundColor as parent !
+      borderStyle     = 'none';
+      backgroundColor = null;
+    }
+
+    // Initialise right margin according to spacing.
+    if (inputSpacing === 'overlap') {
+      boxMargin = '0px -1px 0px 0px';
+    } else if (inputSpacing === 'large') {
+      boxMargin = '0px 10px 0px 0px';
+    }
+
+    // Decrease space between glyph and text.
+    if (inputGlyph && inputText) {
+      if (inputIcon === 'right') {
+        textMargin = '0px 0px 0px 10px';
+      } else {
+        textMargin = '0px 10px 0px 0px';
+      }
+    }
+
+    // Tab button (usual parent is TabContainer).
+    if (inputKind === 'tab') {
+      boxMargin       = '0px 0px -1px 0px';
+      backgroundColor = null;
+      textTransform   = 'uppercase';
+      textWeight      = 'bold';
+      if (inputActive === 'false') {
+        borderStyle   = 'none';
+        glyphColor    = '#aaa';
+        textColor     = '#aaa';
+      } else if (inputActive === 'true') {
+        borderStyle   = 'none none solid none';
+        borderColor   = '#000';
+        glyphColor    = '#000';
+        textColor     = '#000';
+      }
+    }
+
+    // Footer button (usual parent is FooterContainer).
     if (inputKind && inputKind.startsWith ('footer')) {
-      hoverBC = '#11364c';
+      boxHeight            = '50px';
+      boxPadding           = '0px 20px 0px 20px';
+      borderStyle          = 'none';
+      backgroundColor      = '#0d6396';
+      backgroundHoverColor = '#11364c';
+      glyphColor           = '#fff';
+      textColor            = '#fff';
+      if (inputKind === 'footerFirst') {
+        boxMargin          = '0px 1px 0px 0px';
+        borderRadius       = '25px 0px 0px 25px';
+      } else if (inputKind === 'footerLast') {
+        borderRadius       = '0px 25px 25px 0px';
+      } else {
+        boxMargin          = '0px 1px 0px 0px';
+      }
     }
 
     var boxStyle = {
+      width:           boxWidth,
+      height:          boxHeight,
       display:         'flex',
       flexDirection:   'row',
+      flexGrow:        boxGrow,
       justifyContent:  'flex-start',
       alignItems:      'center',
-      border:          '1px solid #888',
-      padding:         '0px',
-      marginTop:       '0px',
-      marginLeft:      '0px',
-      marginBottom:    '0px',
-      marginRight:     '0px',
+      borderWidth:     '1px',
+      borderColor:     borderColor,
+      borderStyle:     borderStyle,
+      borderRadius:    borderRadius,
+      padding:         boxPadding,
+      margin:          boxMargin,
+      backgroundColor: backgroundColor,
       ':hover': {
-        backgroundColor: hoverBC,
-        opacity: 1.0
+        backgroundColor: backgroundHoverColor,
+        opacity:         1.0
       }
     };
 
@@ -60,7 +135,7 @@ export default class RichButton extends React.Component {
       height:          '32px',
       padding:         '0px',
       margin:          '0px',
-      color:           '#555',
+      color:           glyphColor,
     };
 
     var textStyle = {
@@ -70,75 +145,11 @@ export default class RichButton extends React.Component {
       alignItems:      'center',
       flexGrow:        1,
       height:          '32px',
-      margin:          '0px 10px 0px 10px',
+      margin:          textMargin,
+      color:           textColor,
+      fontWeight:      textWeight,
+      textTransform:   textTransform,
     };
-
-    if (inputBorder === 'none') {
-      boxStyle.border = 'none';
-      // Button without border must have same backgroundColor as parent !
-    } else {
-      if (inputKind !== 'tab') {
-        boxStyle.backgroundColor = '#fff';
-      }
-    }
-
-    if (inputSpacing === 'overlap') {
-      boxStyle.marginRight = '-1px';
-    } else if (inputSpacing === 'large') {
-      boxStyle.marginRight = '10px';
-    }
-
-    if (inputWidth) {
-      boxStyle.width = inputWidth;
-    }
-
-    if (inputGrow) {
-      boxStyle.flexGrow = inputGrow;
-    }
-
-    if (inputTransform) {
-      textStyle.textTransform = inputTransform;
-    }
-
-    if (inputKind && inputKind.startsWith ('footer')) {
-      boxStyle.height          = '50px';
-      boxStyle.padding         = '0px 20px 0px 20px';
-      boxStyle.border          = 'none';
-      boxStyle.backgroundColor = '#0d6396';
-      iconStyle.color          = '#fff';
-      textStyle.color          = '#fff';
-    }
-
-    if (inputKind === 'tab') {
-      boxStyle.marginBottom   = '-1px';
-      textStyle.textTransform = 'uppercase';
-      textStyle.fontWeight    = 'bold';
-    } else if (inputKind === 'footerFirst') {
-      boxStyle.marginRight     = '1px';
-      boxStyle.borderRadius    = '25px 0px 0px 25px';
-    } else if (inputKind === 'footerMiddle') {
-      boxStyle.marginRight     = '1px';
-    } else if (inputKind === 'footerLast') {
-      boxStyle.borderRadius    = '0px 25px 25px 0px';
-    }
-
-    if (inputActive === 'false') {
-      boxStyle.borderStyle = 'none';
-      textStyle.color = '#aaa';
-    } else if (inputActive === 'true') {
-      boxStyle.borderStyle = 'none none solid none';
-      boxStyle.borderColor = '#000';
-      textStyle.color      = '#000';
-    }
-
-    if (inputGlyph && inputText) {
-      // Decrease the space between glyph and text.
-      if (inputIcon === 'right') {
-        textStyle.margin = '0px 0px 0px 10px';
-      } else {
-        textStyle.margin = '0px 10px 0px 0px';
-      }
-    }
 
     const htmlText = (
       <label key='text' style={textStyle}>
