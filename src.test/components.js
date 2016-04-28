@@ -18,7 +18,10 @@ describe ('Components', () => {
       expect (html).to.startWith ('<a');
       expect (html).to.endWith ('</a>');
       expect (html).to.contain ('color:rgba(0,0,0,0.87);');
-      expect (html).to.contain ('font-size:.7em;font-family:Roboto, sans-serif;padding:1em;cursor:pointer;');
+      expect (html).to.contain ('font-size:.7em;');
+      expect (html).to.contain ('font-family:Roboto, sans-serif;');
+      expect (html).to.contain ('padding:1em;');
+      expect (html).to.contain ('cursor:pointer;');
     });
   });
 
