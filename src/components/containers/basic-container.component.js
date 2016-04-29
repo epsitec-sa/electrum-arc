@@ -24,15 +24,18 @@ export default class BasicContainer extends React.Component {
   }
 
   render () {
-    const {state, width, spacing, zDepth, border, kind} = this.props;
+    const {state, width, height, spacing, zDepth, border, kind} = this.props;
     const disabled = Action.isDisabled (state);
     const inputWidth   = width   || state.get ('width');
+    const inputHeight  = height  || state.get ('height');
     const inputSpacing = spacing || state.get ('spacing');
     const inputZDepth  = zDepth  || state.get ('zDepth');
     const inputBorder  = border  || state.get ('border');
     const inputKind    = kind    || state.get ('kind');
 
     var containerStyle = {
+      width:           inputWidth,
+      height:          inputHeight,
       display:         'flex',
       flexDirection:   'column',
       justifyContent:  'flex-start',
