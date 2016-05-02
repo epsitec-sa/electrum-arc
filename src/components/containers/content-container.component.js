@@ -4,26 +4,26 @@ import React from 'react';
 import {Action} from 'electrum';
 /******************************************************************************/
 
-export default class ViewTabContainer extends React.Component {
+export default class ContentContainer extends React.Component {
 
   constructor (props) {
     super (props);
   }
 
   render () {
-    const {state} = this.props;
+    const {state, width, height} = this.props;
     const disabled = Action.isDisabled (state);
+    const inputWidth   = width   || state.get ('width');
+    const inputHeight  = height  || state.get ('height');
 
     var containerStyle = {
-      display:         'flex',
-      flexDirection:   'row',
-      flexGrow:        0,
-      justifyContent:  'flex-start',
-      alignItems:      'center',
-      padding:         '20px 0px 0px 0px',
+      width:           inputWidth,
+      height:          inputHeight,
+      border:          'none',
+      padding:         '20px 20px 10px 20px',
       margin:          '0px',
-      borderStyle:     'none',
-      backgroundColor: '#222',
+      color:           '#333',
+      backgroundColor: '#fff',
     };
 
     return (

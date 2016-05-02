@@ -4,7 +4,7 @@ import React from 'react';
 import {Action} from 'electrum';
 /******************************************************************************/
 
-export default class ViewTabContainer extends React.Component {
+export default class RightContainer extends React.Component {
 
   constructor (props) {
     super (props);
@@ -16,14 +16,14 @@ export default class ViewTabContainer extends React.Component {
 
     var containerStyle = {
       display:         'flex',
-      flexDirection:   'row',
-      flexGrow:        0,
-      justifyContent:  'flex-start',
-      alignItems:      'center',
-      padding:         '20px 0px 0px 0px',
+      flexDirection:   'column',
+      flexGrow:        1,
+      boxSizing:       'border-box',
+      padding:         '0px',
       margin:          '0px',
       borderStyle:     'none',
-      backgroundColor: '#222',
+      backgroundColor: '#24415f',
+      boxShadow:       '0px 0px 60px rgba(0, 0, 0, 0.50)',
     };
 
     return (

@@ -4,7 +4,7 @@ import React from 'react';
 import {Action} from 'electrum';
 /******************************************************************************/
 
-export default class ViewTabContainer extends React.Component {
+export default class MainWindow extends React.Component {
 
   constructor (props) {
     super (props);
@@ -14,22 +14,20 @@ export default class ViewTabContainer extends React.Component {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
 
-    var containerStyle = {
+    var rowStyle = {
       display:         'flex',
       flexDirection:   'row',
-      flexGrow:        0,
-      justifyContent:  'flex-start',
-      alignItems:      'center',
-      padding:         '20px 0px 0px 0px',
+      height:          '100vh',
+      boxSizing:       'border-box',
+      backgroundColor: '#24415f',
       margin:          '0px',
-      borderStyle:     'none',
-      backgroundColor: '#222',
+      padding:         '0px',
     };
 
     return (
       <div
         disabled={disabled}
-        style={containerStyle}
+        style={rowStyle}
         {...this.props}
         />
     );

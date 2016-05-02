@@ -12,8 +12,10 @@ import _AppCanvas from './components/containers/app-canvas.component.js';
 import _AppCanvas$styles from './components/containers/app-canvas.styles.js';
 import _BasicContainer from './components/containers/basic-container.component.js';
 import _BasicRow from './components/containers/basic-row.component.js';
+import _ContentContainer from './components/containers/content-container.component.js';
 import _LeftContainer from './components/containers/left-container.component.js';
 import _MainTabContainer from './components/containers/main-tab-container.component.js';
+import _MainWindow from './components/containers/main-window.component.js';
 import _MuDivider from './components/containers/mu-divider.component.js';
 import _MuPaper from './components/containers/mu-paper.component.js';
 import _MuPopover from './components/containers/mu-popover.component.js';
@@ -22,6 +24,7 @@ import _MuToolbarSeparator from './components/containers/mu-toolbar-separator.co
 import _MuToolbarTitle from './components/containers/mu-toolbar-title.component.js';
 import _MuToolbar from './components/containers/mu-toolbar.component.js';
 import _PageNavigatorContainer from './components/containers/page-navigator-container.component.js';
+import _RightContainer from './components/containers/right-container.component.js';
 import _ViewTabContainer from './components/containers/view-tab-container.component.js';
 import _GoogleFontLoader from './components/extras/google-font-loader.component.js';
 import _Label from './components/forms/fields/label.component.js';
@@ -59,8 +62,10 @@ export const ActionContainer = Electrum.wrap ('ActionContainer', _ActionContaine
 export const AppCanvas = Electrum.wrap ('AppCanvas', _AppCanvas, {styles: _AppCanvas$styles});
 export const BasicContainer = Electrum.wrap ('BasicContainer', _BasicContainer);
 export const BasicRow = Electrum.wrap ('BasicRow', _BasicRow);
+export const ContentContainer = Electrum.wrap ('ContentContainer', _ContentContainer);
 export const LeftContainer = Electrum.wrap ('LeftContainer', _LeftContainer);
 export const MainTabContainer = Electrum.wrap ('MainTabContainer', _MainTabContainer);
+export const MainWindow = Electrum.wrap ('MainWindow', _MainWindow);
 export const MuDivider = Electrum.wrap ('MuDivider', _MuDivider);
 export const MuPaper = Electrum.wrap ('MuPaper', _MuPaper);
 export const MuPopover = Electrum.wrap ('MuPopover', _MuPopover);
@@ -69,6 +74,7 @@ export const MuToolbarSeparator = Electrum.wrap ('MuToolbarSeparator', _MuToolba
 export const MuToolbarTitle = Electrum.wrap ('MuToolbarTitle', _MuToolbarTitle);
 export const MuToolbar = Electrum.wrap ('MuToolbar', _MuToolbar);
 export const PageNavigatorContainer = Electrum.wrap ('PageNavigatorContainer', _PageNavigatorContainer);
+export const RightContainer = Electrum.wrap ('RightContainer', _RightContainer);
 export const ViewTabContainer = Electrum.wrap ('ViewTabContainer', _ViewTabContainer);
 export const GoogleFontLoader = Electrum.wrap ('GoogleFontLoader', _GoogleFontLoader);
 export const Label = Electrum.wrap ('Label', _Label);

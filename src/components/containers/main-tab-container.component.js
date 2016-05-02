@@ -11,14 +11,13 @@ export default class MainTabContainer extends React.Component {
   }
 
   render () {
-    const {state, width} = this.props;
+    const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputWidth = width || state.get ('width');
 
     var containerStyle = {
-      width:           inputWidth,
       display:         'flex',
       flexDirection:   'row',
+      flexGrow:        0,
       justifyContent:  'flex-start',
       alignItems:      'center',
       padding:         '0px',

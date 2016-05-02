@@ -17,10 +17,6 @@ export default class LeftContainer extends React.Component {
     var containerStyle = {
       zIndex:          '2',
       width:           '80px',
-      display:         'flex',
-      flexDirection:   'column',
-      justifyContent:  'flex-start',
-      alignItems:      'flex-start',
       padding:         '0px',
       margin:          '0px',
       borderStyle:     'none',
