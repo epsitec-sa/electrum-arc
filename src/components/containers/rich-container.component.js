@@ -30,6 +30,7 @@ export default class RichContainer extends React.Component {
     var   inputHeight  = height  || state.get ('height');
     const inputKind    = kind    || state.get ('kind');
 
+    var minWidth        = null;
     var minHeight       = null;
     var display         = null;
     var overflow        = null;
@@ -58,7 +59,7 @@ export default class RichContainer extends React.Component {
 
     if (inputKind === 'left') {
       zIndex          = '2';
-      inputWidth      = '80px';
+      minWidth        = '80px';
       backgroundColor = '#336799';
       boxShadow       = '0px 0px 60px rgba(0, 0, 0, 0.50)';
     }
@@ -155,6 +156,7 @@ export default class RichContainer extends React.Component {
     var containerStyle = {
       width:           inputWidth,
       height:          inputHeight,
+      minWidth:        minWidth,
       minHeight:       minHeight,
       display:         display,
       overflow:        overflow,
