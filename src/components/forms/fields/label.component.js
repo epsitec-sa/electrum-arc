@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-import {fade, darken} from 'material-ui/utils/colorManipulator';
+import {fade, darken, lighten} from 'material-ui/utils/colorManipulator';
 import * as Theme from '../../theme-base.js';
 import * as Unit from '../../unit-helpers.js';
 /******************************************************************************/

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {Action} from 'electrum';
+import {fade, darken, lighten} from 'material-ui/utils/colorManipulator';
 import * as Theme from '../theme-base.js';
 import * as Unit from '../unit-helpers.js';
 /******************************************************************************/
@@ -85,7 +86,7 @@ export default class RichButton extends React.Component {
       boxDirection         = 'column';
       boxMargin            = '0px';
       borderStyle          = 'none';
-      backgroundColor      = '#fff';
+      backgroundColor      = Theme.colors.pane;
       glyphSize            = '2x';
       textMargin           = '0px';
       textTransform        = 'uppercase';
@@ -101,9 +102,9 @@ export default class RichButton extends React.Component {
       boxDirection         = 'column';
       boxMargin            = '0px';
       borderStyle          = 'none none solid none';
-      borderColor          = Theme.colors.background;
+      borderColor          = darken (Theme.colors.base, 0.2);
       backgroundColor      = null;
-      backgroundHoverColor = Theme.colors.background;
+      backgroundHoverColor = darken (Theme.colors.base, 0.2);
       glyphColor           = '#fff';
       textColor            = '#fff';
       textMargin           = '0px';
@@ -116,7 +117,7 @@ export default class RichButton extends React.Component {
       boxHeight       = Theme.geometry.mainTabHeight;
       boxMargin       = '0px 1px 0px 0px';
       borderStyle     = 'none';
-      backgroundColor = '#ededed';
+      backgroundColor = lighten (Theme.colors.mainTab, 0.4);
       textTransform   = 'uppercase';
       textWeight      = 'bold';
       textSize        = '125%';
@@ -127,17 +128,19 @@ export default class RichButton extends React.Component {
 
     // ViewTab button (usual parent is container with kind="viewTab").
     if (inputKind === 'viewTab') {
-      boxHeight       = Theme.geometry.viewTabHeight;
-      boxMargin       = '0px 1px 0px 0px';
-      borderStyle     = 'none';
-      backgroundColor = '#333';
-      glyphColor      = '#888';
-      textColor       = '#aaa';
-      textSize        = '80%';
+      boxHeight            = Theme.geometry.viewTabHeight;
+      boxMargin            = '0px 1px 0px 0px';
+      borderStyle          = 'none';
+      textSize             = '80%';
       if (inputActive === 'true') {
-        backgroundColor = Theme.colors.view;
-        glyphColor      = '#999';
-        textColor       = '#222';
+        backgroundColor      = Theme.colors.view;
+        glyphColor           = '#999';
+        textColor            = '#222';
+      } else {
+        backgroundColor      = lighten (Theme.colors.viewTab, 0.1);
+        backgroundHoverColor = darken (Theme.colors.viewTab, 0.2);
+        glyphColor           = '#888';
+        textColor            = '#aaa';
       }
     }
 
@@ -166,12 +169,12 @@ export default class RichButton extends React.Component {
       boxMargin            = '0px 1px 0px 0px';
       boxPadding           = '0px 20px 0px 20px';
       if (inputText) {
-        backgroundColor      = '#333';
+        backgroundColor      = lighten (Theme.colors.viewTab, 0.1);
         glyphSize            = '2x';
       } else {
         backgroundColor      = null;
       }
-      backgroundHoverColor = '#444';
+      backgroundHoverColor = darken (Theme.colors.viewTab, 0.2);
       borderStyle          = 'none';
       glyphColor           = '#aaa';
       textColor            = '#aaa';
@@ -185,8 +188,8 @@ export default class RichButton extends React.Component {
       boxHeight            = h;
       boxPadding           = '0px ' + m + ' 0px ' + m;
       borderStyle          = 'none';
-      backgroundColor      = Theme.colors.left;
-      backgroundHoverColor = Theme.colors.background;
+      backgroundColor      = Theme.colors.base;
+      backgroundHoverColor = darken (Theme.colors.base, 0.2);
       glyphColor           = '#fff';
       textColor            = '#fff';
       if (inputKind === 'actionFirst') {

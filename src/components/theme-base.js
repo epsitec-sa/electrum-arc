@@ -1,19 +1,33 @@
 'use strict';
 
 const baseColors = {
-  background: '#24415f',
-  left:       '#336799',
+  base:       '#336799',
+  hover:      '#d0e8ff',
   view:       '#f5f5f5',
   pane:       '#ffffff',
-  hover:      '#d0e8ff',
+  mainTab:    '#dcdcdc',
+  viewTab:    '#222222',
+  footer:     '#222222',
+};
+
+const monoColors = {
+  base:       '#656565',
+  hover:      '#e3e3e3',
+  view:       '#f5f5f5',
+  pane:       '#ffffff',
+  mainTab:    '#dcdcdc',
+  viewTab:    '#222222',
+  footer:     '#222222',
 };
 
 const pinkColors = {
-  background: '#4d2460',
-  left:       '#993395',
-  view:       '#fbeafc',
-  pane:       '#e1daff',
+  base:       '#993395',
   hover:      '#fce0ff',
+  view:       '#ffffff',
+  pane:       '#fff5ff',
+  mainTab:    '#e9c9eb',
+  viewTab:    '#2b102a',
+  footer:     '#2b102a',
 };
 
 const baseGeometry = {
@@ -38,5 +52,5 @@ const compactGeometry = {
   actionHeight:    '40px',
 };
 
-export const colors   = baseColors;
+export const colors   = pinkColors;
 export const geometry = baseGeometry;

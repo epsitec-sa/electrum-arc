@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {Action} from 'electrum';
+import {fade, darken, lighten} from 'material-ui/utils/colorManipulator';
 import * as Theme from '../theme-base.js';
 import * as Unit from '../unit-helpers.js';
 /******************************************************************************/
@@ -61,13 +62,13 @@ export default class RichContainer extends React.Component {
       flexDirection   = 'row';
       inputHeight     = '100vh';
       boxSizing       = 'border-box';
-      backgroundColor = Theme.colors.background;
+      backgroundColor = darken (Theme.colors.base, 0.4);
     }
 
     if (inputKind === 'left') {
       zIndex          = '2';
       minWidth        = Theme.geometry.leftWidth;
-      backgroundColor = Theme.colors.left;
+      backgroundColor = Theme.colors.base;
       boxShadow       = '0px 0px 60px rgba(0, 0, 0, 0.50)';
     }
 
@@ -85,7 +86,7 @@ export default class RichContainer extends React.Component {
       flexGrow        = 0;
       justifyContent  = 'flex-start';
       alignItems      = 'center';
-      backgroundColor = '#dcdcdc';
+      backgroundColor = Theme.colors.mainTab;
     }
 
     if (inputKind === 'viewTab') {
@@ -97,7 +98,7 @@ export default class RichContainer extends React.Component {
       alignItems      = 'center';
       padding         = m + ' 0px 0px 0px';
       borderStyle     = 'none';
-      backgroundColor = '#222';
+      backgroundColor = Theme.colors.viewTab;
     }
 
     if (inputKind === 'footer') {
@@ -107,7 +108,7 @@ export default class RichContainer extends React.Component {
       flexGrow        = 0;
       justifyContent  = 'flex-start';
       alignItems      = 'center';
-      backgroundColor = '#222';
+      backgroundColor = Theme.colors.footer;
     }
 
     if (inputKind === 'view') {
