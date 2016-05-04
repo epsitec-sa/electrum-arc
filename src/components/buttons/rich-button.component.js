@@ -2,6 +2,8 @@
 
 import React from 'react';
 import {Action} from 'electrum';
+import * as Theme from '../theme-base.js';
+import * as Unit from '../unit-helpers.js';
 /******************************************************************************/
 
 export default class RichButton extends React.Component {
@@ -43,11 +45,15 @@ export default class RichButton extends React.Component {
     var glyphSize            = inputSize;
     var glyphColor           = '#555';
     var textColor            = '#222';
-    var textMargin           = '0px 10px 0px 10px';
+    var textMargin           = '0px ' + Theme.geometry.lineSpacing + ' 0px ' + Theme.geometry.lineSpacing;
     var textWeight           = null;
     var textTransform        = null;
     var textSize             = '100%';
     var textGrow             = 1;
+
+    const h = Theme.geometry.lineHeight;
+    const m = Theme.geometry.containerMargin;
+    const s = Theme.geometry.lineSpacing;
 
     // Initialize variables for button without border.
     if (inputBorder === 'none') {
@@ -60,21 +66,21 @@ export default class RichButton extends React.Component {
     if (inputSpacing === 'overlap') {
       boxMargin = '0px -1px 0px 0px';
     } else if (inputSpacing === 'large') {
-      boxMargin = '0px 10px 0px 0px';
+      boxMargin = '0px ' + s + ' 0px 0px';
     }
 
     // Decrease space between glyph and text.
     if (inputGlyph && inputText) {
       if (inputGlyphPosition === 'right') {
-        textMargin = '0px 0px 0px 10px';
+        textMargin = '0px 0px 0px ' + s;
       } else {
-        textMargin = '0px 10px 0px 0px';
+        textMargin = '0px ' + s + ' 0px 0px';
       }
     }
 
     // Logo button (usual parent container with kind="left").
     if (inputKind === 'logo') {
-      boxWidth             = '80px';
+      boxWidth             = Theme.geometry.leftWidth;
       boxHeight            = '100px';
       boxDirection         = 'column';
       boxMargin            = '0px';
@@ -90,7 +96,7 @@ export default class RichButton extends React.Component {
 
     // Left button (usual parent is container with kind="left").
     if (inputKind === 'left') {
-      boxWidth             = '80px';
+      boxWidth             = Theme.geometry.leftWidth;
       boxHeight            = '100px';
       boxDirection         = 'column';
       boxMargin            = '0px';
@@ -107,7 +113,7 @@ export default class RichButton extends React.Component {
 
     // MainTab button (usual parent is container with kind="mainTab").
     if (inputKind === 'mainTab') {
-      boxHeight       = '50px';
+      boxHeight       = Theme.geometry.mainTabHeight;
       boxMargin       = '0px 1px 0px 0px';
       borderStyle     = 'none';
       backgroundColor = '#ededed';
@@ -121,6 +127,7 @@ export default class RichButton extends React.Component {
 
     // ViewTab button (usual parent is container with kind="viewTab").
     if (inputKind === 'viewTab') {
+      boxHeight       = Theme.geometry.viewTabHeight;
       boxMargin       = '0px 1px 0px 0px';
       borderStyle     = 'none';
       backgroundColor = '#333';
@@ -136,6 +143,7 @@ export default class RichButton extends React.Component {
 
     // PageNavigator button (usual parent is container with kind="pageNavigator").
     if (inputKind === 'pageNavigator') {
+      boxHeight       = h;
       boxMargin       = '0px 0px -1px 0px';
       backgroundColor = null;
       textTransform   = 'uppercase';
@@ -154,7 +162,7 @@ export default class RichButton extends React.Component {
 
     // Footer button (usual parent is container with kind="footer").
     if (inputKind === 'footer') {
-      boxHeight            = '70px';
+      boxHeight            = Theme.geometry.footerHeight;
       boxMargin            = '0px 1px 0px 0px';
       boxPadding           = '0px 20px 0px 20px';
       if (inputText) {
@@ -171,8 +179,11 @@ export default class RichButton extends React.Component {
 
     // Action button (usual parent is container with kind="actions").
     if (inputKind && inputKind.startsWith ('action')) {
-      boxHeight            = '50px';
-      boxPadding           = '0px 20px 0px 20px';
+      const h = Theme.geometry.actionHeight;
+      const d = Unit.multiply (h, 0.5);
+      const m = Unit.multiply (h, 0.4);
+      boxHeight            = h;
+      boxPadding           = '0px ' + m + ' 0px ' + m;
       borderStyle          = 'none';
       backgroundColor      = '#0d6396';
       backgroundHoverColor = '#11364c';
@@ -180,9 +191,9 @@ export default class RichButton extends React.Component {
       textColor            = '#fff';
       if (inputKind === 'actionFirst') {
         boxMargin          = '0px 1px 0px 0px';
-        borderRadius       = '25px 0px 0px 25px';
+        borderRadius       = d + ' 0px 0px ' + d;
       } else if (inputKind === 'actionLast') {
-        borderRadius       = '0px 25px 25px 0px';
+        borderRadius       = '0px ' + d + ' ' + d + ' 0px';
       } else {
         boxMargin          = '0px 1px 0px 0px';
       }

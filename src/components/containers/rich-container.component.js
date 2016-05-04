@@ -2,6 +2,8 @@
 
 import React from 'react';
 import {Action} from 'electrum';
+import * as Theme from '../theme-base.js';
+import * as Unit from '../unit-helpers.js';
 /******************************************************************************/
 
 export default class RichContainer extends React.Component {
@@ -49,18 +51,23 @@ export default class RichContainer extends React.Component {
     var backgroundColor = null;
     var zIndex          = null;
 
+    const h = Theme.geometry.lineHeight;
+    const m = Theme.geometry.containerMargin;
+    const s = Theme.geometry.lineSpacing;
+    const d = Unit.multiply (m, 0.5);
+
     if (inputKind === 'root') {
       display         = 'flex';
       flexDirection   = 'row';
       inputHeight     = '100vh';
       boxSizing       = 'border-box';
-      backgroundColor = '#24415f';
+      backgroundColor = Theme.colors.background;
     }
 
     if (inputKind === 'left') {
       zIndex          = '2';
-      minWidth        = '80px';
-      backgroundColor = '#336799';
+      minWidth        = Theme.geometry.leftWidth;
+      backgroundColor = Theme.colors.left;
       boxShadow       = '0px 0px 60px rgba(0, 0, 0, 0.50)';
     }
 
@@ -69,11 +76,10 @@ export default class RichContainer extends React.Component {
       flexDirection   = 'column';
       flexGrow        = 1;
       boxSizing       = 'border-box';
-      backgroundColor = '#24415f';
     }
 
     if (inputKind === 'mainTab') {
-      minHeight       = '50px';
+      minHeight       = Theme.geometry.mainTabHeight;
       display         = 'flex';
       flexDirection   = 'row';
       flexGrow        = 0;
@@ -83,19 +89,19 @@ export default class RichContainer extends React.Component {
     }
 
     if (inputKind === 'viewTab') {
-      minHeight       = '32px';
+      minHeight       = Theme.geometry.viewTabHeight;
       display         = 'flex';
       flexDirection   = 'row';
       flexGrow        = 0;
       justifyContent  = 'flex-start';
       alignItems      = 'center';
-      padding         = '20px 0px 0px 0px';
+      padding         = m + ' 0px 0px 0px';
       borderStyle     = 'none';
       backgroundColor = '#222';
     }
 
     if (inputKind === 'footer') {
-      minHeight       = '70px';
+      minHeight       = Theme.geometry.footerHeight;
       display         = 'flex';
       flexDirection   = 'row';
       flexGrow        = 0;
@@ -113,24 +119,25 @@ export default class RichContainer extends React.Component {
     }
 
     if (inputKind === 'pageNavigator') {
-      minHeight       = '32px';
+      minHeight       = h;
       display         = 'flex';
       flexDirection   = 'row';
       justifyContent  = 'space-between';
       alignItems      = 'center';
-      padding         = '20px 20px 0px 20px';
-      margin          = '0px 0px 20px 0px';
+      padding         = m + ' ' + m + ' 0px ' + m;
+      margin          = '0px 0px ' + m + ' 0px';
       borderWidth     = '1px';
       borderStyle     = 'none none solid none';
       borderColor     = '#ccc';
     }
 
     if (inputKind === 'actions') {
+      minHeight       = Theme.geometry.actionHeight;
       display         = 'flex';
       flexDirection   = 'row';
       justifyContent  = 'space-between';
       alignItems      = 'center';
-      padding         = '20px 20px 20px 20px';
+      padding         = m;
       borderStyle     = 'none';
       backgroundColor = '#fff';
     }
@@ -138,7 +145,7 @@ export default class RichContainer extends React.Component {
     if (inputKind === 'panes') {
       flexGrow        = 1;
       overflow        = 'auto';
-      padding         = '0px 20px 0px 20px';
+      padding         = '0px ' + m + ' 0px ' + m;
     }
 
     if (inputKind === 'pane') {
@@ -147,8 +154,8 @@ export default class RichContainer extends React.Component {
       justifyContent  = 'flex-start';
       alignItems      = 'stretch';
       boxShadow       = this.getZDepthShadows (2);
-      margin          = '0px 0px 20px 0px';
-      padding         = '20px 20px 10px 20px';
+      margin          = '0px 0px ' + m + ' 0px';
+      padding         = m + ' ' + m + ' ' + d + ' ' + m;
       color           = '#333';
       backgroundColor = '#fff';
     }

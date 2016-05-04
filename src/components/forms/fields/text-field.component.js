@@ -2,6 +2,8 @@
 
 import React from 'react';
 import {Action} from 'electrum';
+import * as Theme from '../../theme-base.js';
+import * as Unit from '../../unit-helpers.js';
 /******************************************************************************/
 
 export default class TextField extends React.Component {
@@ -62,7 +64,7 @@ export default class TextField extends React.Component {
     if (inputSpacing === 'overlap') {
       boxStyle.marginRight = '-1px';
     } else if (inputSpacing === 'large') {
-      boxStyle.marginRight = '10px';
+      boxStyle.marginRight = Theme.geometry.lineSpacing;
     }
 
     return (
