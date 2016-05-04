@@ -119,7 +119,7 @@ export default class RichContainer extends React.Component {
       backgroundColor = Theme.colors.view;
     }
 
-    if (inputKind === 'pageNavigator') {
+    if (inputKind === 'paneNavigator') {
       minHeight       = h;
       display         = 'flex';
       flexDirection   = 'row';

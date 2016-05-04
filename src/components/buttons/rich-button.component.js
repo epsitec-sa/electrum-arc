@@ -144,8 +144,8 @@ export default class RichButton extends React.Component {
       }
     }
 
-    // PageNavigator button (usual parent is container with kind="pageNavigator").
-    if (inputKind === 'pageNavigator') {
+    // PaneNavigator button (usual parent is container with kind="paneNavigator").
+    if (inputKind === 'paneNavigator') {
       boxHeight       = h;
       boxMargin       = '0px 0px -1px 0px';
       backgroundColor = null;
