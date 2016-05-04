@@ -2,6 +2,9 @@
 
 import React from 'react';
 import {Action} from 'electrum';
+import {fade, darken} from 'material-ui/utils/colorManipulator';
+import * as Theme from '../../theme-base.js';
+import * as Unit from '../../unit-helpers.js';
 /******************************************************************************/
 
 export default class Label extends React.Component {
@@ -31,8 +34,10 @@ export default class Label extends React.Component {
       labelStyle.width = inputWidth;
     }
 
+    const darker = darken (Theme.colors.pane, 0.1);
+
     if (inputKind === 'info') {
-      labelStyle.backgroundColor = '#ddd';
+      labelStyle.backgroundColor = darker;
       labelStyle.justifyContent  = 'center';
       labelStyle.padding         = '0 10px 0 10px';
     } else if (inputKind === 'title') {
@@ -48,11 +53,11 @@ export default class Label extends React.Component {
     } else if (inputKind === 'articleFooter') {
       labelStyle.justifyContent  = 'flex-start';
       labelStyle.padding         = '0 10px 0 10px';
-      labelStyle.backgroundColor = '#ddd';
+      labelStyle.backgroundColor = darker;
     } else if (inputKind === 'priceFooter') {
       labelStyle.justifyContent  = 'flex-end';
       labelStyle.padding         = '0 10px 0 10px';
-      labelStyle.backgroundColor = '#ddd';
+      labelStyle.backgroundColor = darker;
     } else if (inputKind === 'footer') {
       labelStyle.padding         = '0 20px 0 20px';
       labelStyle.color           = '#888';

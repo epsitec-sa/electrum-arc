@@ -3,11 +3,17 @@
 const baseColors = {
   background: '#24415f',
   left:       '#336799',
+  view:       '#f5f5f5',
+  pane:       '#ffffff',
+  hover:      '#d0e8ff',
 };
 
 const pinkColors = {
   background: '#4d2460',
   left:       '#993395',
+  view:       '#fbeafc',
+  pane:       '#e1daff',
+  hover:      '#fce0ff',
 };
 
 const baseGeometry = {
@@ -33,4 +39,4 @@ const compactGeometry = {
 };
 
 export const colors   = baseColors;
-export const geometry = compactGeometry;
+export const geometry = baseGeometry;

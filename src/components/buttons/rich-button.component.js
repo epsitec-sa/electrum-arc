@@ -41,7 +41,7 @@ export default class RichButton extends React.Component {
     var borderStyle          = 'solid';
     var borderRadius         = '0px';
     var backgroundColor      = '#fff';
-    var backgroundHoverColor = '#c4e6ff';
+    var backgroundHoverColor = Theme.colors.hover;
     var glyphSize            = inputSize;
     var glyphColor           = '#555';
     var textColor            = '#222';
@@ -101,9 +101,9 @@ export default class RichButton extends React.Component {
       boxDirection         = 'column';
       boxMargin            = '0px';
       borderStyle          = 'none none solid none';
-      borderColor          = '#24415f';
+      borderColor          = Theme.colors.background;
       backgroundColor      = null;
-      backgroundHoverColor = '#24415f';
+      backgroundHoverColor = Theme.colors.background;
       glyphColor           = '#fff';
       textColor            = '#fff';
       textMargin           = '0px';
@@ -135,7 +135,7 @@ export default class RichButton extends React.Component {
       textColor       = '#aaa';
       textSize        = '80%';
       if (inputActive === 'true') {
-        backgroundColor = '#f5f5f5';
+        backgroundColor = Theme.colors.view;
         glyphColor      = '#999';
         textColor       = '#222';
       }
@@ -185,8 +185,8 @@ export default class RichButton extends React.Component {
       boxHeight            = h;
       boxPadding           = '0px ' + m + ' 0px ' + m;
       borderStyle          = 'none';
-      backgroundColor      = '#0d6396';
-      backgroundHoverColor = '#11364c';
+      backgroundColor      = Theme.colors.left;
+      backgroundHoverColor = Theme.colors.background;
       glyphColor           = '#fff';
       textColor            = '#fff';
       if (inputKind === 'actionFirst') {

@@ -115,7 +115,7 @@ export default class RichContainer extends React.Component {
       flexDirection   = 'column';
       flexGrow        = 1;
       color           = '#333';
-      backgroundColor = '#f5f5f5';
+      backgroundColor = Theme.colors.view;
     }
 
     if (inputKind === 'pageNavigator') {
@@ -157,7 +157,7 @@ export default class RichContainer extends React.Component {
       margin          = '0px 0px ' + m + ' 0px';
       padding         = m + ' ' + m + ' ' + d + ' ' + m;
       color           = '#333';
-      backgroundColor = '#fff';
+      backgroundColor = Theme.colors.pane;
     }
 
     var containerStyle = {
