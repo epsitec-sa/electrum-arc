@@ -24,11 +24,10 @@ export default class RichContainer extends React.Component {
   }
 
   render () {
-    const {state, width, height, zDepth, kind} = this.props;
+    const {state, width, height, kind} = this.props;
     const disabled = Action.isDisabled (state);
     var   inputWidth   = width   || state.get ('width');
     var   inputHeight  = height  || state.get ('height');
-    const inputZDepth  = zDepth  || state.get ('zDepth');
     const inputKind    = kind    || state.get ('kind');
 
     var display         = null;
@@ -40,12 +39,12 @@ export default class RichContainer extends React.Component {
     var borderWidth     = null;
     var borderStyle     = 'none';
     var borderColor     = null;
-    var boxShadow       = this.getZDepthShadows (inputZDepth);
+    var boxShadow       = null;
     var boxSizing       = null;
-    var padding         = '0px';
     var margin          = '0px';
+    var padding         = '0px';
     var color           = '#333';
-    var backgroundColor = '#fff';
+    var backgroundColor = null;
     var zIndex          = null;
 
     if (inputKind === 'root') {
@@ -54,26 +53,34 @@ export default class RichContainer extends React.Component {
       inputHeight     = '100vh';
       boxSizing       = 'border-box';
       backgroundColor = '#24415f';
-    } else if (inputKind === 'left') {
+    }
+
+    if (inputKind === 'left') {
       zIndex          = '2';
       inputWidth      = '80px';
       backgroundColor = '#336799';
       boxShadow       = '0px 0px 60px rgba(0, 0, 0, 0.50)';
-    } else if (inputKind === 'right') {
+    }
+
+    if (inputKind === 'right') {
       display         = 'flex';
       flexDirection   = 'column';
       flexGrow        = 1;
       boxSizing       = 'border-box';
       backgroundColor = '#24415f';
       boxShadow       = '0px 0px 60px rgba(0, 0, 0, 0.50)';
-    } else if (inputKind === 'mainTab') {
+    }
+
+    if (inputKind === 'mainTab') {
       display         = 'flex';
       flexDirection   = 'row';
       flexGrow        = 0;
       justifyContent  = 'flex-start';
       alignItems      = 'center';
       backgroundColor = '#dcdcdc';
-    } else if (inputKind === 'viewTab') {
+    }
+
+    if (inputKind === 'viewTab') {
       display         = 'flex';
       flexDirection   = 'row';
       flexGrow        = 0;
@@ -82,7 +89,9 @@ export default class RichContainer extends React.Component {
       padding         = '20px 0px 0px 0px';
       borderStyle     = 'none';
       backgroundColor = '#222';
-    } else if (inputKind === 'footer') {
+    }
+
+    if (inputKind === 'footer') {
       inputHeight     = '50px';
       display         = 'flex';
       flexDirection   = 'row';
@@ -90,42 +99,51 @@ export default class RichContainer extends React.Component {
       justifyContent  = 'flex-start';
       alignItems      = 'center';
       backgroundColor = '#222';
-    } else if (inputKind === 'view') {
-      padding         = '20px 20px 10px 20px';
+    }
+
+    if (inputKind === 'view') {
       color           = '#333';
-      backgroundColor = '#fff';
-    } else if (inputKind === 'pageNavigator') {
+      backgroundColor = '#f5f5f5';
+    }
+
+    if (inputKind === 'pageNavigator') {
       display         = 'flex';
       flexDirection   = 'row';
       justifyContent  = 'space-between';
       alignItems      = 'center';
-      padding         = '0px 20px 0px 20px';
-      margin          = '0px -20px 20px -20px';
+      padding         = '20px 20px 0px 20px';
+      margin          = '0px 0px 20px 0px';
       borderWidth     = '1px';
       borderStyle     = 'none none solid none';
       borderColor     = '#ccc';
-    } else if (inputKind === 'actions') {
+    }
+
+    if (inputKind === 'actions') {
       display         = 'flex';
       flexDirection   = 'row';
       justifyContent  = 'space-between';
       alignItems      = 'center';
       padding         = '20px 20px 20px 20px';
-      margin          = '0px -20px -10px -20px';
       borderStyle     = 'none';
       backgroundColor = '#fff';
-    } else if (inputKind === 'panes') {
+    }
+
+    if (inputKind === 'panes') {
       overflow        = 'auto';
       inputHeight     = '1000px';
-    } else if (inputKind === 'pane') {
+      padding         = '0px 20px 0px 20px';
+    }
+
+    if (inputKind === 'pane') {
       display         = 'flex';
       flexDirection   = 'column';
       justifyContent  = 'flex-start';
       alignItems      = 'stretch';
-      borderWidth     = '1px';
-      borderStyle     = 'solid';
-      borderColor     = '#888';
+      boxShadow       = this.getZDepthShadows (2);
+      margin          = '0px 0px 20px 0px';
       padding         = '20px 20px 10px 20px';
       color           = '#333';
+      backgroundColor = '#fff';
     }
 
     var containerStyle = {
@@ -142,8 +160,8 @@ export default class RichContainer extends React.Component {
       borderColor:     borderColor,
       boxShadow:       boxShadow,
       boxSizing:       boxSizing,
-      padding:         padding,
       margin:          margin,
+      padding:         padding,
       color:           color,
       backgroundColor: backgroundColor,
       zIndex:          zIndex,
