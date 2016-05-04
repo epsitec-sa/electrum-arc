@@ -150,6 +150,22 @@ export default class RichButton extends React.Component {
       }
     }
 
+    // Footer button (usual parent is FooterContainer).
+    if (inputKind === 'footer') {
+      boxHeight            = '70px';
+      boxMargin            = '0px 1px 0px 0px';
+      boxPadding           = '0px 20px 0px 20px';
+      if (inputText) {
+        backgroundColor      = '#333';
+      } else {
+        backgroundColor      = null;
+      }
+      backgroundHoverColor = '#444';
+      borderStyle          = 'none';
+      glyphColor           = '#aaa';
+      textColor            = '#aaa';
+    }
+
     // Action button (usual parent is ActionContainer).
     if (inputKind && inputKind.startsWith ('action')) {
       boxHeight            = '50px';

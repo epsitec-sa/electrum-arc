@@ -94,7 +94,7 @@ export default class RichContainer extends React.Component {
     }
 
     if (inputKind === 'footer') {
-      minHeight       = '50px';
+      minHeight       = '70px';
       display         = 'flex';
       flexDirection   = 'row';
       flexGrow        = 0;

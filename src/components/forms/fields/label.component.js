@@ -53,6 +53,9 @@ export default class Label extends React.Component {
       labelStyle.justifyContent  = 'flex-end';
       labelStyle.padding         = '0 10px 0 10px';
       labelStyle.backgroundColor = '#ddd';
+    } else if (inputKind === 'footer') {
+      labelStyle.padding         = '0 20px 0 20px';
+      labelStyle.color           = '#888';
     }
 
     return (
