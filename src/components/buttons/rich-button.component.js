@@ -40,6 +40,7 @@ export default class RichButton extends React.Component {
     var borderRadius         = '0px';
     var backgroundColor      = '#fff';
     var backgroundHoverColor = '#c4e6ff';
+    var glyphSize            = inputSize;
     var glyphColor           = '#555';
     var textColor            = '#222';
     var textMargin           = '0px 10px 0px 10px';
@@ -71,7 +72,7 @@ export default class RichButton extends React.Component {
       }
     }
 
-    // Logo button (usual parent is LeftContainer).
+    // Logo button (usual parent container with kind="left").
     if (inputKind === 'logo') {
       boxWidth             = '80px';
       boxHeight            = '100px';
@@ -79,6 +80,7 @@ export default class RichButton extends React.Component {
       boxMargin            = '0px';
       borderStyle          = 'none';
       backgroundColor      = '#fff';
+      glyphSize            = '2x';
       textMargin           = '0px';
       textTransform        = 'uppercase';
       textWeight           = 'bold';
@@ -86,7 +88,7 @@ export default class RichButton extends React.Component {
       textGrow             = null;
     }
 
-    // Left button (usual parent is LeftContainer).
+    // Left button (usual parent is container with kind="left").
     if (inputKind === 'left') {
       boxWidth             = '80px';
       boxHeight            = '100px';
@@ -103,7 +105,7 @@ export default class RichButton extends React.Component {
       textGrow             = null;
     }
 
-    // MainTab button (usual parent is MainTabContainer).
+    // MainTab button (usual parent is container with kind="mainTab").
     if (inputKind === 'mainTab') {
       boxHeight       = '50px';
       boxMargin       = '0px 1px 0px 0px';
@@ -117,7 +119,7 @@ export default class RichButton extends React.Component {
       }
     }
 
-    // ViewTab button (usual parent is MainTabContainer).
+    // ViewTab button (usual parent is container with kind="viewTab").
     if (inputKind === 'viewTab') {
       boxMargin       = '0px 1px 0px 0px';
       borderStyle     = 'none';
@@ -132,7 +134,7 @@ export default class RichButton extends React.Component {
       }
     }
 
-    // PageNavigator button (usual parent is PageNavigatorContainer).
+    // PageNavigator button (usual parent is container with kind="pageNavigator").
     if (inputKind === 'pageNavigator') {
       boxMargin       = '0px 0px -1px 0px';
       backgroundColor = null;
@@ -150,13 +152,14 @@ export default class RichButton extends React.Component {
       }
     }
 
-    // Footer button (usual parent is FooterContainer).
+    // Footer button (usual parent is container with kind="footer").
     if (inputKind === 'footer') {
       boxHeight            = '70px';
       boxMargin            = '0px 1px 0px 0px';
       boxPadding           = '0px 20px 0px 20px';
       if (inputText) {
         backgroundColor      = '#333';
+        glyphSize            = '2x';
       } else {
         backgroundColor      = null;
       }
@@ -166,7 +169,7 @@ export default class RichButton extends React.Component {
       textColor            = '#aaa';
     }
 
-    // Action button (usual parent is ActionContainer).
+    // Action button (usual parent is container with kind="actions").
     if (inputKind && inputKind.startsWith ('action')) {
       boxHeight            = '50px';
       boxPadding           = '0px 20px 0px 20px';
@@ -218,13 +221,15 @@ export default class RichButton extends React.Component {
       };
     }
 
+    const glyphDim = (glyphSize === '2x') ? '64px' : '32px';
+
     var glyphStyle = {
       display:         'flex',
       flexDirection:   'row',
       justifyContent:  'center',
       alignItems:      'center',
-      width:           '32px',
-      height:          '32px',
+      width:           glyphDim,
+      height:          glyphDim,
       padding:         '0px',
       margin:          '0px',
       color:           glyphColor,
@@ -255,7 +260,7 @@ export default class RichButton extends React.Component {
       <i key='icon' style={glyphStyle}
         className={`fa
         fa-${inputGlyph}
-        fa-${inputSize}
+        fa-${glyphSize}
         fa-rotate-${inputRotate}
         fa-flip-${inputFlip}
         ${renderSpin}`}
