@@ -27,11 +27,12 @@ export default class RichContainer extends React.Component {
   }
 
   render () {
-    const {state, width, height, kind} = this.props;
+    const {state, width, height, kind, spacing} = this.props;
     const disabled = Action.isDisabled (state);
     var   inputWidth   = width   || state.get ('width');
     var   inputHeight  = height  || state.get ('height');
     const inputKind    = kind    || state.get ('kind');
+    const inputSpacing = spacing || state.get ('spacing');
 
     var minWidth        = null;
     var minHeight       = null;
@@ -159,6 +160,17 @@ export default class RichContainer extends React.Component {
       padding         = m + ' ' + m + ' ' + d + ' ' + m;
       color           = '#333';
       backgroundColor = Theme.colors.pane;
+    }
+
+    if (inputKind === 'rowPane') {
+      display        = 'flex';
+      flexDirection  = 'row';
+      justifyContent = 'space-between';
+      alignItems     = 'center';
+      margin         = '0px 0px ' + s + ' 0px';
+      if (inputSpacing === 'compact') {
+        margin         = '0px';
+      }
     }
 
     var containerStyle = {
