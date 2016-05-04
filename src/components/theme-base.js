@@ -52,5 +52,5 @@ const compactGeometry = {
   actionHeight:    '40px',
 };
 
-export const colors   = pinkColors;
+export const colors   = baseColors;
 export const geometry = baseGeometry;
