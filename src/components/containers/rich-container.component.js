@@ -30,6 +30,7 @@ export default class RichContainer extends React.Component {
     var   inputHeight  = height  || state.get ('height');
     const inputKind    = kind    || state.get ('kind');
 
+    var minHeight       = null;
     var display         = null;
     var overflow        = null;
     var flexDirection   = null;
@@ -68,10 +69,10 @@ export default class RichContainer extends React.Component {
       flexGrow        = 1;
       boxSizing       = 'border-box';
       backgroundColor = '#24415f';
-      boxShadow       = '0px 0px 60px rgba(0, 0, 0, 0.50)';
     }
 
     if (inputKind === 'mainTab') {
+      minHeight       = '50px';
       display         = 'flex';
       flexDirection   = 'row';
       flexGrow        = 0;
@@ -81,6 +82,7 @@ export default class RichContainer extends React.Component {
     }
 
     if (inputKind === 'viewTab') {
+      minHeight       = '32px';
       display         = 'flex';
       flexDirection   = 'row';
       flexGrow        = 0;
@@ -92,7 +94,7 @@ export default class RichContainer extends React.Component {
     }
 
     if (inputKind === 'footer') {
-      inputHeight     = '50px';
+      minHeight       = '50px';
       display         = 'flex';
       flexDirection   = 'row';
       flexGrow        = 0;
@@ -102,11 +104,15 @@ export default class RichContainer extends React.Component {
     }
 
     if (inputKind === 'view') {
+      display         = 'flex';
+      flexDirection   = 'column';
+      flexGrow        = 1;
       color           = '#333';
       backgroundColor = '#f5f5f5';
     }
 
     if (inputKind === 'pageNavigator') {
+      minHeight       = '32px';
       display         = 'flex';
       flexDirection   = 'row';
       justifyContent  = 'space-between';
@@ -129,8 +135,8 @@ export default class RichContainer extends React.Component {
     }
 
     if (inputKind === 'panes') {
+      flexGrow        = 1;
       overflow        = 'auto';
-      inputHeight     = '1000px';
       padding         = '0px 20px 0px 20px';
     }
 
@@ -149,6 +155,7 @@ export default class RichContainer extends React.Component {
     var containerStyle = {
       width:           inputWidth,
       height:          inputHeight,
+      minHeight:       minHeight,
       display:         display,
       overflow:        overflow,
       flexDirection:   flexDirection,

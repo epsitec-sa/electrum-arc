@@ -126,7 +126,7 @@ export default class RichButton extends React.Component {
       textColor       = '#aaa';
       textSize        = '80%';
       if (inputActive === 'true') {
-        backgroundColor = '#eee';
+        backgroundColor = '#f5f5f5';
         glyphColor      = '#999';
         textColor       = '#222';
       }
