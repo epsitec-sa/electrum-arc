@@ -24,6 +24,7 @@ import _MuToolbarSeparator from './components/containers/mu-toolbar-separator.co
 import _MuToolbarTitle from './components/containers/mu-toolbar-title.component.js';
 import _MuToolbar from './components/containers/mu-toolbar.component.js';
 import _PageNavigatorContainer from './components/containers/page-navigator-container.component.js';
+import _RichContainer from './components/containers/rich-container.component.js';
 import _RightContainer from './components/containers/right-container.component.js';
 import _ViewTabContainer from './components/containers/view-tab-container.component.js';
 import _GoogleFontLoader from './components/extras/google-font-loader.component.js';
@@ -74,6 +75,7 @@ export const MuToolbarSeparator = Electrum.wrap ('MuToolbarSeparator', _MuToolba
 export const MuToolbarTitle = Electrum.wrap ('MuToolbarTitle', _MuToolbarTitle);
 export const MuToolbar = Electrum.wrap ('MuToolbar', _MuToolbar);
 export const PageNavigatorContainer = Electrum.wrap ('PageNavigatorContainer', _PageNavigatorContainer);
+export const RichContainer = Electrum.wrap ('RichContainer', _RichContainer);
 export const RightContainer = Electrum.wrap ('RightContainer', _RightContainer);
 export const ViewTabContainer = Electrum.wrap ('ViewTabContainer', _ViewTabContainer);
 export const GoogleFontLoader = Electrum.wrap ('GoogleFontLoader', _GoogleFontLoader);
