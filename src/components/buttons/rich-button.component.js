@@ -31,6 +31,10 @@ export default class RichButton extends React.Component {
     const inputKind          = kind          || state.get ('kind');
     const inputActive        = active        || state.get ('active');
 
+    const h = Theme.geometry.lineHeight;
+    const m = Theme.geometry.containerMargin;
+    const s = Theme.geometry.lineSpacing;
+
     // Initialize all variables for a standard button.
     var boxWidth             = inputWidth;
     var boxHeight            = null;
@@ -46,15 +50,11 @@ export default class RichButton extends React.Component {
     var glyphSize            = inputSize;
     var glyphColor           = '#555';
     var textColor            = '#222';
-    var textMargin           = '0px ' + Theme.geometry.lineSpacing + ' 0px ' + Theme.geometry.lineSpacing;
+    var textMargin           = '0px ' + s + ' 0px ' + s;
     var textWeight           = null;
     var textTransform        = null;
     var textSize             = '100%';
     var textGrow             = 1;
-
-    const h = Theme.geometry.lineHeight;
-    const m = Theme.geometry.containerMargin;
-    const s = Theme.geometry.lineSpacing;
 
     // Initialize variables for button without border.
     if (inputBorder === 'none') {
@@ -235,7 +235,10 @@ export default class RichButton extends React.Component {
       };
     }
 
-    const glyphDim = (glyphSize === '2x') ? '64px' : '32px';
+    var glyphDim = h;
+    if (glyphSize === '2x') {
+      glyphDim = Unit.multiply (glyphDim, 2.0);
+    }
 
     var glyphStyle = {
       display:         'flex',
@@ -255,12 +258,12 @@ export default class RichButton extends React.Component {
       justifyContent:  'center',
       alignItems:      'center',
       flexGrow:        textGrow,
-      height:          '32px',
+      height:          Theme.geometry.lineHeight,
       margin:          textMargin,
       color:           textColor,
       fontWeight:      textWeight,
       textTransform:   textTransform,
-      fontSize:        textSize,
+      fontSize:        Unit.multiply (textSize, Theme.geometry.fontScale),
     };
 
     const htmlText = (

@@ -39,6 +39,7 @@ const baseGeometry = {
   viewTabHeight:   '32px',
   footerHeight:    '70px',
   actionHeight:    '50px',
+  fontScale:       1.0,
 };
 
 const compactGeometry = {
@@ -50,6 +51,19 @@ const compactGeometry = {
   viewTabHeight:   '32px',
   footerHeight:    '50px',
   actionHeight:    '40px',
+  fontScale:       0.8,
+};
+
+const ultraCompactGeometry = {
+  lineHeight:      '20px',
+  containerMargin: '2px',
+  lineSpacing:     '-1px',
+  leftWidth:       '50px',
+  mainTabHeight:   '30px',
+  viewTabHeight:   '24px',
+  footerHeight:    '24px',
+  actionHeight:    '30px',
+  fontScale:       0.6,
 };
 
 export const colors   = baseColors;

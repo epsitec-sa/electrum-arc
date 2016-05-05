@@ -56,7 +56,7 @@ export default class TextField extends React.Component {
     var fieldStyle = {
       flexGrow:        1,
       width:           '50px',
-      height:          '32px',
+      height:          Theme.geometry.lineHeight,
       border:          'none',
       padding:         '10px',
       margin:          '0px',
