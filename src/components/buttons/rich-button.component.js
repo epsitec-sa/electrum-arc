@@ -259,7 +259,7 @@ export default class RichButton extends React.Component {
       justifyContent:  'center',
       alignItems:      'center',
       flexGrow:        textGrow,
-      height:          theme.shapes.lineHeight,
+      height:          h,
       margin:          textMargin,
       color:           textColor,
       fontWeight:      textWeight,
