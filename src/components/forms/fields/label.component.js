@@ -22,8 +22,6 @@ export default class Label extends React.Component {
     const inputKind  = kind  || state.get ('kind');
     const inputWidth = width || state.get ('width');
 
-    const darker = darken (theme.palette.pane, 0.1);
-
     var backgroundColor = null;
     var padding         = null;
     var display         = 'flex';
@@ -33,10 +31,10 @@ export default class Label extends React.Component {
     var fontSize        = '100%';
     var fontWeight      = null;
     var textTransform   = null;
-    var color           = null;
+    var color           = lighten (theme.palette.dark, 0.2);
 
     if (inputKind === 'info') {
-      backgroundColor = darker;
+      backgroundColor = darken (theme.palette.light, 0.1);
       justifyContent  = 'center';
       padding         = '0 10px 0 10px';
     }
@@ -60,18 +58,18 @@ export default class Label extends React.Component {
     if (inputKind === 'articleFooter') {
       justifyContent  = 'flex-start';
       padding         = '0 10px 0 10px';
-      backgroundColor = darker;
+      backgroundColor = darken (theme.palette.light, 0.1);
     }
 
     if (inputKind === 'priceFooter') {
       justifyContent  = 'flex-end';
       padding         = '0 10px 0 10px';
-      backgroundColor = darker;
+      backgroundColor = darken (theme.palette.light, 0.1);
     }
 
     if (inputKind === 'footer') {
       padding         = '0 20px 0 20px';
-      color           = '#888';
+      color           = lighten (theme.palette.dark, 0.5);
     }
 
     var labelStyle = {

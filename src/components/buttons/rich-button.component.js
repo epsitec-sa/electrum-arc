@@ -149,7 +149,7 @@ export default class RichButton extends React.Component {
         borderStyle   = 'none';
       } else if (inputActive === 'true') {
         borderStyle   = 'none none solid none';
-        borderColor   = lighten (theme.palette.dark, 0.5);
+        borderColor   = lighten (theme.palette.dark, 0.2);
       }
     }
 
