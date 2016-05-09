@@ -15,7 +15,7 @@ export default class RichButton extends React.Component {
   }
 
   render () {
-    const {state, glyph, glyphPosition, size, rotate, flip, spin, text, border,
+    const {state, theme, glyph, glyphPosition, size, rotate, flip, spin, text, border,
       spacing, grow, width, kind, active} = this.props;
     const disabled = Action.isDisabled (state);
     const inputGlyph         = glyph         || state.get ('glyph');
@@ -32,9 +32,9 @@ export default class RichButton extends React.Component {
     const inputKind          = kind          || state.get ('kind');
     const inputActive        = active        || state.get ('active');
 
-    const h = Theme.geometry.lineHeight;
-    const m = Theme.geometry.containerMargin;
-    const s = Theme.geometry.lineSpacing;
+    const h = theme.shapes.lineHeight;
+    const m = theme.shapes.containerMargin;
+    const s = theme.shapes.lineSpacing;
 
     // Initialize all variables for a standard button.
     var boxWidth             = inputWidth;
@@ -47,7 +47,7 @@ export default class RichButton extends React.Component {
     var borderStyle          = 'solid';
     var borderRadius         = '0px';
     var backgroundColor      = '#fff';
-    var backgroundHoverColor = Theme.colors.hover;
+    var backgroundHoverColor = theme.palette.hover;
     var glyphSize            = inputSize;
     var glyphColor           = '#555';
     var textColor            = '#222';
@@ -82,12 +82,12 @@ export default class RichButton extends React.Component {
 
     // Logo button (usual parent container with kind="left").
     if (inputKind === 'logo') {
-      boxWidth             = Theme.geometry.leftWidth;
+      boxWidth             = theme.shapes.leftWidth;
       boxHeight            = '100px';
       boxDirection         = 'column';
       boxMargin            = '0px';
       borderStyle          = 'none';
-      backgroundColor      = Theme.colors.pane;
+      backgroundColor      = theme.palette.pane;
       glyphSize            = '2x';
       textMargin           = '0px';
       textTransform        = 'uppercase';
@@ -98,14 +98,14 @@ export default class RichButton extends React.Component {
 
     // Left button (usual parent is container with kind="left").
     if (inputKind === 'left') {
-      boxWidth             = Theme.geometry.leftWidth;
+      boxWidth             = theme.shapes.leftWidth;
       boxHeight            = '100px';
       boxDirection         = 'column';
       boxMargin            = '0px';
       borderStyle          = 'none none solid none';
-      borderColor          = darken (Theme.colors.base, 0.2);
+      borderColor          = darken (theme.palette.base, 0.2);
       backgroundColor      = null;
-      backgroundHoverColor = darken (Theme.colors.base, 0.2);
+      backgroundHoverColor = darken (theme.palette.base, 0.2);
       glyphColor           = '#fff';
       textColor            = '#fff';
       textMargin           = '0px';
@@ -115,10 +115,10 @@ export default class RichButton extends React.Component {
 
     // MainTab button (usual parent is container with kind="mainTab").
     if (inputKind === 'mainTab') {
-      boxHeight       = Theme.geometry.mainTabHeight;
+      boxHeight       = theme.shapes.mainTabHeight;
       boxMargin       = '0px 1px 0px 0px';
       borderStyle     = 'none';
-      backgroundColor = lighten (Theme.colors.mainTab, 0.4);
+      backgroundColor = lighten (theme.palette.mainTab, 0.4);
       textTransform   = 'uppercase';
       textWeight      = 'bold';
       textSize        = '125%';
@@ -129,17 +129,17 @@ export default class RichButton extends React.Component {
 
     // ViewTab button (usual parent is container with kind="viewTab").
     if (inputKind === 'viewTab') {
-      boxHeight            = Theme.geometry.viewTabHeight;
+      boxHeight            = theme.shapes.viewTabHeight;
       boxMargin            = '0px 1px 0px 0px';
       borderStyle          = 'none';
       textSize             = '80%';
       if (inputActive === 'true') {
-        backgroundColor      = Theme.colors.view;
+        backgroundColor      = theme.palette.view;
         glyphColor           = '#999';
         textColor            = '#222';
       } else {
-        backgroundColor      = lighten (Theme.colors.viewTab, 0.1);
-        backgroundHoverColor = darken (Theme.colors.viewTab, 0.2);
+        backgroundColor      = lighten (theme.palette.viewTab, 0.1);
+        backgroundHoverColor = darken (theme.palette.viewTab, 0.2);
         glyphColor           = '#888';
         textColor            = '#aaa';
       }
@@ -166,16 +166,16 @@ export default class RichButton extends React.Component {
 
     // Footer button (usual parent is container with kind="footer").
     if (inputKind === 'footer') {
-      boxHeight            = Theme.geometry.footerHeight;
+      boxHeight            = theme.shapes.footerHeight;
       boxMargin            = '0px 1px 0px 0px';
       boxPadding           = '0px 20px 0px 20px';
       if (inputText) {
-        backgroundColor      = lighten (Theme.colors.viewTab, 0.1);
+        backgroundColor      = lighten (theme.palette.viewTab, 0.1);
         glyphSize            = '2x';
       } else {
         backgroundColor      = null;
       }
-      backgroundHoverColor = darken (Theme.colors.viewTab, 0.2);
+      backgroundHoverColor = darken (theme.palette.viewTab, 0.2);
       borderStyle          = 'none';
       glyphColor           = '#aaa';
       textColor            = '#aaa';
@@ -183,14 +183,14 @@ export default class RichButton extends React.Component {
 
     // Action button (usual parent is container with kind="actions").
     if (inputKind && inputKind.startsWith ('action')) {
-      const h = Theme.geometry.actionHeight;
+      const h = theme.shapes.actionHeight;
       const d = Unit.multiply (h, 0.5);
       const m = Unit.multiply (h, 0.4);
       boxHeight            = h;
       boxPadding           = '0px ' + m + ' 0px ' + m;
       borderStyle          = 'none';
-      backgroundColor      = Theme.colors.base;
-      backgroundHoverColor = darken (Theme.colors.base, 0.2);
+      backgroundColor      = theme.palette.base;
+      backgroundHoverColor = darken (theme.palette.base, 0.2);
       glyphColor           = '#fff';
       textColor            = '#fff';
       if (inputKind === 'actionFirst') {
@@ -259,12 +259,12 @@ export default class RichButton extends React.Component {
       justifyContent:  'center',
       alignItems:      'center',
       flexGrow:        textGrow,
-      height:          Theme.geometry.lineHeight,
+      height:          theme.shapes.lineHeight,
       margin:          textMargin,
       color:           textColor,
       fontWeight:      textWeight,
       textTransform:   textTransform,
-      fontSize:        Unit.multiply (textSize, Theme.geometry.fontScale),
+      fontSize:        Unit.multiply (textSize, theme.typo.fontScale),
     };
 
     const htmlText = (
