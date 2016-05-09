@@ -4,7 +4,7 @@ import React from 'react';
 import {Action, ColorManipulator} from 'electrum';
 import * as Unit from '../unit-helpers.js';
 
-const {fade, darken, lighten} = ColorManipulator;
+const {fade, darken, lighten, emphasize} = ColorManipulator;
 
 /******************************************************************************/
 
@@ -43,14 +43,14 @@ export default class RichButton extends React.Component {
     var boxDirection         = 'row';
     var boxMargin            = '0px';
     var boxPadding           = '0px';
-    var borderColor          = '#888';
+    var borderColor          = lighten (theme.palette.dark, 0.5);
     var borderStyle          = 'solid';
     var borderRadius         = '0px';
-    var backgroundColor      = '#fff';
-    var backgroundHoverColor = theme.palette.hover;
+    var backgroundColor      = theme.palette.light;
+    var backgroundHoverColor = null;
     var glyphSize            = inputSize;
-    var glyphColor           = '#555';
-    var textColor            = '#222';
+    var glyphColor           = null;
+    var textColor            = null;
     var textMargin           = '0px ' + s + ' 0px ' + s;
     var textWeight           = null;
     var textTransform        = null;
@@ -87,7 +87,7 @@ export default class RichButton extends React.Component {
       boxDirection         = 'column';
       boxMargin            = '0px';
       borderStyle          = 'none';
-      backgroundColor      = theme.palette.pane;
+      backgroundColor      = theme.palette.light;
       glyphSize            = '2x';
       textMargin           = '0px';
       textTransform        = 'uppercase';
@@ -103,11 +103,8 @@ export default class RichButton extends React.Component {
       boxDirection         = 'column';
       boxMargin            = '0px';
       borderStyle          = 'none none solid none';
-      borderColor          = darken (theme.palette.base, 0.2);
-      backgroundColor      = null;
-      backgroundHoverColor = darken (theme.palette.base, 0.2);
-      glyphColor           = '#fff';
-      textColor            = '#fff';
+      borderColor          = darken (theme.palette.base, 0.3);
+      backgroundColor      = theme.palette.base;
       textMargin           = '0px';
       textSize             = '80%';
       textGrow             = null;
@@ -118,12 +115,13 @@ export default class RichButton extends React.Component {
       boxHeight       = Unit.multiply (theme.shapes.lineHeight, 1.5);
       boxMargin       = '0px 1px 0px 0px';
       borderStyle     = 'none';
-      backgroundColor = lighten (theme.palette.mainTab, 0.4);
       textTransform   = 'uppercase';
       textWeight      = 'bold';
       textSize        = '125%';
       if (inputActive === 'true') {
-        backgroundColor = '#fff';
+        backgroundColor = theme.palette.light;
+      } else {
+        backgroundColor = darken (theme.palette.light, 0.1);
       }
     }
 
@@ -134,14 +132,9 @@ export default class RichButton extends React.Component {
       borderStyle          = 'none';
       textSize             = '80%';
       if (inputActive === 'true') {
-        backgroundColor      = theme.palette.view;
-        glyphColor           = '#999';
-        textColor            = '#222';
+        backgroundColor      = darken (theme.palette.light, 0.05);
       } else {
-        backgroundColor      = lighten (theme.palette.viewTab, 0.1);
-        backgroundHoverColor = darken (theme.palette.viewTab, 0.2);
-        glyphColor           = '#888';
-        textColor            = '#aaa';
+        backgroundColor      = lighten (theme.palette.dark, 0.2);
       }
     }
 
@@ -154,13 +147,9 @@ export default class RichButton extends React.Component {
       textWeight      = 'bold';
       if (inputActive === 'false') {
         borderStyle   = 'none';
-        glyphColor    = '#aaa';
-        textColor     = '#aaa';
       } else if (inputActive === 'true') {
         borderStyle   = 'none none solid none';
-        borderColor   = '#000';
-        glyphColor    = '#000';
-        textColor     = '#000';
+        borderColor   = lighten (theme.palette.dark, 0.5);
       }
     }
 
@@ -170,15 +159,12 @@ export default class RichButton extends React.Component {
       boxMargin            = '0px 1px 0px 0px';
       boxPadding           = '0px 20px 0px 20px';
       if (inputText) {
-        backgroundColor      = lighten (theme.palette.viewTab, 0.1);
+        backgroundColor      = lighten (theme.palette.dark, 0.1);
         glyphSize            = '2x';
       } else {
-        backgroundColor      = null;
+        backgroundColor      = theme.palette.dark;
       }
-      backgroundHoverColor = darken (theme.palette.viewTab, 0.2);
       borderStyle          = 'none';
-      glyphColor           = '#aaa';
-      textColor            = '#aaa';
     }
 
     // Action button (usual parent is container with kind="actions").
@@ -190,9 +176,6 @@ export default class RichButton extends React.Component {
       boxPadding           = '0px ' + m + ' 0px ' + m;
       borderStyle          = 'none';
       backgroundColor      = theme.palette.base;
-      backgroundHoverColor = darken (theme.palette.base, 0.2);
-      glyphColor           = '#fff';
-      textColor            = '#fff';
       if (inputKind === 'actionFirst') {
         boxMargin          = '0px 1px 0px 0px';
         borderRadius       = d + ' 0px 0px ' + d;
@@ -202,6 +185,14 @@ export default class RichButton extends React.Component {
         boxMargin          = '0px 1px 0px 0px';
       }
     }
+
+    var c = backgroundColor;
+    if (c === null) {
+      c = '#ffffff';
+    }
+    backgroundHoverColor = darken    (c, 0.1);
+    glyphColor           = emphasize (c, 0.8);
+    textColor            = emphasize (c, 0.9);
 
     if (disabled) {
       borderColor = '#aaa';
