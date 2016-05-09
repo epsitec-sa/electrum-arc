@@ -83,7 +83,7 @@ export default class Label extends React.Component {
       justifyContent:  justifyContent,
       alignItems:      alignItems,
       flexGrow:        inputGrow,
-      fontSize:        Unit.multiply (fontSize, theme.shapes.fontScale),
+      fontSize:        Unit.multiply (fontSize, theme.typo.fontScale),
       fontWeight:      fontWeight,
       textTransform:   textTransform,
       color:           color,
