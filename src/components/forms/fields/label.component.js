@@ -4,7 +4,7 @@ import React from 'react';
 import {Action, ColorManipulator} from 'electrum';
 import * as Unit from '../../unit-helpers.js';
 
-const {fade, darken, lighten} = ColorManipulator;
+const {fade, darken, lighten, emphasize} = ColorManipulator;
 
 /******************************************************************************/
 
@@ -69,7 +69,7 @@ export default class Label extends React.Component {
 
     if (inputKind === 'footer') {
       padding         = '0 20px 0 20px';
-      color           = lighten (theme.palette.dark, 0.5);
+      color           = emphasize (theme.palette.dark, 0.5);
     }
 
     var labelStyle = {

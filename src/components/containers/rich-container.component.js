@@ -4,7 +4,7 @@ import React from 'react';
 import {Action, ColorManipulator} from 'electrum';
 import * as Unit from '../unit-helpers.js';
 
-const {fade, darken, lighten} = ColorManipulator;
+const {fade, darken, lighten, emphasize} = ColorManipulator;
 
 /******************************************************************************/
 
@@ -129,7 +129,8 @@ export default class RichContainer extends React.Component {
       margin          = '0px 0px ' + m + ' 0px';
       borderWidth     = '1px';
       borderStyle     = 'none none solid none';
-      borderColor     = lighten (theme.palette.dark, 0.8);
+      borderColor     = emphasize (theme.palette.dark, 0.8);
+      backgroundColor = darken (theme.palette.light, 0.05);
     }
 
     if (inputKind === 'actions') {
