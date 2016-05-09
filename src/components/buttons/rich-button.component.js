@@ -1,10 +1,11 @@
 'use strict';
 
 import React from 'react';
-import {Action} from 'electrum';
-import {fade, darken, lighten} from 'material-ui/utils/colorManipulator';
-import * as Theme from '../theme-base.js';
+import {Action, ColorManipulator} from 'electrum';
 import * as Unit from '../unit-helpers.js';
+
+const {fade, darken, lighten} = ColorManipulator;
+
 /******************************************************************************/
 
 export default class RichButton extends React.Component {
