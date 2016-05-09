@@ -1,10 +1,11 @@
 'use strict';
 
 import React from 'react';
-import {Action} from 'electrum';
-import {fade, darken, lighten} from 'material-ui/utils/colorManipulator';
-import * as Theme from '../theme-base.js';
+import {Action, ColorManipulator} from 'electrum';
 import * as Unit from '../unit-helpers.js';
+
+const {fade, darken, lighten} = ColorManipulator;
+
 /******************************************************************************/
 
 export default class RichContainer extends React.Component {
@@ -27,7 +28,7 @@ export default class RichContainer extends React.Component {
   }
 
   render () {
-    const {state, width, height, kind, spacing} = this.props;
+    const {state, theme, width, height, kind, spacing} = this.props;
     const disabled = Action.isDisabled (state);
     var   inputWidth   = width   || state.get ('width');
     var   inputHeight  = height  || state.get ('height');
@@ -53,9 +54,9 @@ export default class RichContainer extends React.Component {
     var backgroundColor = null;
     var zIndex          = null;
 
-    const h = Theme.geometry.lineHeight;
-    const m = Theme.geometry.containerMargin;
-    const s = Theme.geometry.lineSpacing;
+    const h = theme.shapes.lineHeight;
+    const m = theme.shapes.containerMargin;
+    const s = theme.shapes.lineSpacing;
     const d = Unit.multiply (m, 0.5);
 
     if (inputKind === 'root') {
@@ -63,13 +64,13 @@ export default class RichContainer extends React.Component {
       flexDirection   = 'row';
       inputHeight     = '100vh';
       boxSizing       = 'border-box';
-      backgroundColor = darken (Theme.colors.base, 0.4);
+      backgroundColor = darken (theme.palette.base, 0.4);
     }
 
     if (inputKind === 'left') {
       zIndex          = '2';
-      minWidth        = Theme.geometry.leftWidth;
-      backgroundColor = Theme.colors.base;
+      minWidth        = theme.shapes.leftWidth;
+      backgroundColor = theme.palette.base;
       boxShadow       = '0px 0px 60px rgba(0, 0, 0, 0.50)';
     }
 
@@ -81,17 +82,17 @@ export default class RichContainer extends React.Component {
     }
 
     if (inputKind === 'mainTab') {
-      minHeight       = Theme.geometry.mainTabHeight;
+      minHeight       = theme.shapes.mainTabHeight;
       display         = 'flex';
       flexDirection   = 'row';
       flexGrow        = 0;
       justifyContent  = 'flex-start';
       alignItems      = 'center';
-      backgroundColor = Theme.colors.mainTab;
+      backgroundColor = theme.palette.mainTab;
     }
 
     if (inputKind === 'viewTab') {
-      minHeight       = Theme.geometry.viewTabHeight;
+      minHeight       = theme.shapes.viewTabHeight;
       display         = 'flex';
       flexDirection   = 'row';
       flexGrow        = 0;
@@ -99,17 +100,17 @@ export default class RichContainer extends React.Component {
       alignItems      = 'center';
       padding         = m + ' 0px 0px 0px';
       borderStyle     = 'none';
-      backgroundColor = Theme.colors.viewTab;
+      backgroundColor = theme.palette.viewTab;
     }
 
     if (inputKind === 'footer') {
-      minHeight       = Theme.geometry.footerHeight;
+      minHeight       = theme.shapes.footerHeight;
       display         = 'flex';
       flexDirection   = 'row';
       flexGrow        = 0;
       justifyContent  = 'flex-start';
       alignItems      = 'center';
-      backgroundColor = Theme.colors.footer;
+      backgroundColor = theme.palette.footer;
     }
 
     if (inputKind === 'view') {
@@ -117,7 +118,7 @@ export default class RichContainer extends React.Component {
       flexDirection   = 'column';
       flexGrow        = 1;
       color           = '#333';
-      backgroundColor = Theme.colors.view;
+      backgroundColor = theme.palette.view;
     }
 
     if (inputKind === 'paneNavigator') {
@@ -134,7 +135,7 @@ export default class RichContainer extends React.Component {
     }
 
     if (inputKind === 'actions') {
-      minHeight       = Theme.geometry.actionHeight;
+      minHeight       = theme.shapes.actionHeight;
       display         = 'flex';
       flexDirection   = 'row';
       justifyContent  = 'space-between';
@@ -159,7 +160,7 @@ export default class RichContainer extends React.Component {
       margin          = '0px 0px ' + m + ' 0px';
       padding         = m + ' ' + m + ' ' + d + ' ' + m;
       color           = '#333';
-      backgroundColor = Theme.colors.pane;
+      backgroundColor = theme.palette.pane;
     }
 
     if (inputKind === 'rowPane') {

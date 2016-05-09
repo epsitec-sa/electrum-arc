@@ -1,10 +1,11 @@
 'use strict';
 
 import React from 'react';
-import {Action} from 'electrum';
-import {fade, darken, lighten} from 'material-ui/utils/colorManipulator';
-import * as Theme from '../../theme-base.js';
+import {Action, ColorManipulator} from 'electrum';
 import * as Unit from '../../unit-helpers.js';
+
+const {fade, darken, lighten} = ColorManipulator;
+
 /******************************************************************************/
 
 export default class Label extends React.Component {
@@ -14,14 +15,14 @@ export default class Label extends React.Component {
   }
 
   render () {
-    const {state, text, grow, kind, width} = this.props;
+    const {state, theme, text, grow, kind, width} = this.props;
     const disabled = Action.isDisabled (state);
     const inputText  = text  || state.get ('text');
     const inputGrow  = grow  || state.get ('grow');
     const inputKind  = kind  || state.get ('kind');
     const inputWidth = width || state.get ('width');
 
-    const darker = darken (Theme.colors.pane, 0.1);
+    const darker = darken (theme.palette.pane, 0.1);
 
     var backgroundColor = null;
     var padding         = null;
@@ -75,14 +76,14 @@ export default class Label extends React.Component {
 
     var labelStyle = {
       width:           inputWidth,
-      height:          Theme.geometry.lineHeight,
+      height:          theme.shapes.lineHeight,
       padding:         padding,
       display:         display,
       flexDirection:   flexDirection,
       justifyContent:  justifyContent,
       alignItems:      alignItems,
       flexGrow:        inputGrow,
-      fontSize:        Unit.multiply (fontSize, Theme.geometry.fontScale),
+      fontSize:        Unit.multiply (fontSize, theme.shapes.fontScale),
       fontWeight:      fontWeight,
       textTransform:   textTransform,
       color:           color,

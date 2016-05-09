@@ -1,10 +1,11 @@
 'use strict';
 
 import React from 'react';
-import {Action} from 'electrum';
-import {fade, darken, lighten} from 'material-ui/utils/colorManipulator';
-import * as Theme from '../../theme-base.js';
+import {Action, ColorManipulator} from 'electrum';
 import * as Unit from '../../unit-helpers.js';
+
+const {fade, darken, lighten} = ColorManipulator;
+
 /******************************************************************************/
 
 export default class TextField extends React.Component {
@@ -29,7 +30,7 @@ export default class TextField extends React.Component {
   }
 
   render () {
-    const {state, value, grow, spacing} = this.props;
+    const {state, theme, value, grow, spacing} = this.props;
     const disabled = Action.isDisabled (state);
     const inputValue   = value   || state.get ('value');
     var   inputGrow    = grow    || state.get ('grow');
@@ -56,7 +57,7 @@ export default class TextField extends React.Component {
     var fieldStyle = {
       flexGrow:        1,
       width:           '50px',
-      height:          Theme.geometry.lineHeight,
+      height:          theme.shapes.lineHeight,
       border:          'none',
       padding:         '10px',
       margin:          '0px',
@@ -65,7 +66,7 @@ export default class TextField extends React.Component {
     if (inputSpacing === 'overlap') {
       boxStyle.marginRight = '-1px';
     } else if (inputSpacing === 'large') {
-      boxStyle.marginRight = Theme.geometry.lineSpacing;
+      boxStyle.marginRight = theme.shapes.lineSpacing;
     }
 
     return (
