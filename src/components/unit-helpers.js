@@ -1,6 +1,9 @@
 'use strict';
 
 export function multiply (value, factor) {
+  if (typeof value === 'number') {
+    return value * factor;
+  }
   if (value.endsWith ('px')) {
     const v = value.substring (0, value.length - 2);
     return v * factor + 'px';
@@ -14,6 +17,6 @@ export function multiply (value, factor) {
     const v = value.substring (0, value.length - 1);
     return v * factor + '%';
   } else {
-    return value;
+    throw new Error (`Value '{value}' has an unexpected format`);
   }
 }
