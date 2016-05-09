@@ -76,6 +76,7 @@ export default class Label extends React.Component {
     var labelStyle = {
       width:           inputWidth,
       height:          Theme.geometry.lineHeight,
+      padding:         padding,
       display:         display,
       flexDirection:   flexDirection,
       justifyContent:  justifyContent,
