@@ -82,7 +82,7 @@ export default class RichButton extends React.Component {
 
     // Logo button (usual parent container with kind="left").
     if (inputKind === 'logo') {
-      boxWidth             = theme.shapes.leftWidth;
+      boxWidth             = Unit.multiply (theme.shapes.lineHeight, 2.5);
       boxHeight            = '100px';
       boxDirection         = 'column';
       boxMargin            = '0px';
@@ -98,7 +98,7 @@ export default class RichButton extends React.Component {
 
     // Left button (usual parent is container with kind="left").
     if (inputKind === 'left') {
-      boxWidth             = theme.shapes.leftWidth;
+      boxWidth             = Unit.multiply (theme.shapes.lineHeight, 2.5);
       boxHeight            = '100px';
       boxDirection         = 'column';
       boxMargin            = '0px';
@@ -115,7 +115,7 @@ export default class RichButton extends React.Component {
 
     // MainTab button (usual parent is container with kind="mainTab").
     if (inputKind === 'mainTab') {
-      boxHeight       = theme.shapes.mainTabHeight;
+      boxHeight       = Unit.multiply (theme.shapes.lineHeight, 1.5);
       boxMargin       = '0px 1px 0px 0px';
       borderStyle     = 'none';
       backgroundColor = lighten (theme.palette.mainTab, 0.4);
@@ -129,7 +129,7 @@ export default class RichButton extends React.Component {
 
     // ViewTab button (usual parent is container with kind="viewTab").
     if (inputKind === 'viewTab') {
-      boxHeight            = theme.shapes.viewTabHeight;
+      boxHeight            = Unit.multiply (theme.shapes.lineHeight, 1.0);
       boxMargin            = '0px 1px 0px 0px';
       borderStyle          = 'none';
       textSize             = '80%';
@@ -166,7 +166,7 @@ export default class RichButton extends React.Component {
 
     // Footer button (usual parent is container with kind="footer").
     if (inputKind === 'footer') {
-      boxHeight            = theme.shapes.footerHeight;
+      boxHeight            = Unit.multiply (theme.shapes.lineHeight, 2.0);
       boxMargin            = '0px 1px 0px 0px';
       boxPadding           = '0px 20px 0px 20px';
       if (inputText) {
@@ -183,7 +183,7 @@ export default class RichButton extends React.Component {
 
     // Action button (usual parent is container with kind="actions").
     if (inputKind && inputKind.startsWith ('action')) {
-      const h = theme.shapes.actionHeight;
+      const h = Unit.multiply (theme.shapes.lineHeight, 1.5);
       const d = Unit.multiply (h, 0.5);
       const m = Unit.multiply (h, 0.4);
       boxHeight            = h;

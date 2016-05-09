@@ -82,7 +82,7 @@ export default class RichContainer extends React.Component {
     }
 
     if (inputKind === 'mainTab') {
-      minHeight       = theme.shapes.mainTabHeight;
+      minHeight       = Unit.multiply (theme.shapes.lineHeight, 1.5);
       display         = 'flex';
       flexDirection   = 'row';
       flexGrow        = 0;
@@ -92,7 +92,7 @@ export default class RichContainer extends React.Component {
     }
 
     if (inputKind === 'viewTab') {
-      minHeight       = theme.shapes.viewTabHeight;
+      minHeight       = Unit.multiply (theme.shapes.lineHeight, 1.0);
       display         = 'flex';
       flexDirection   = 'row';
       flexGrow        = 0;
@@ -104,7 +104,7 @@ export default class RichContainer extends React.Component {
     }
 
     if (inputKind === 'footer') {
-      minHeight       = theme.shapes.footerHeight;
+      minHeight       = Unit.multiply (theme.shapes.lineHeight, 2.0);
       display         = 'flex';
       flexDirection   = 'row';
       flexGrow        = 0;
@@ -135,7 +135,7 @@ export default class RichContainer extends React.Component {
     }
 
     if (inputKind === 'actions') {
-      minHeight       = theme.shapes.actionHeight;
+      minHeight       = Unit.multiply (theme.shapes.lineHeight, 1.5);
       display         = 'flex';
       flexDirection   = 'row';
       justifyContent  = 'space-between';
