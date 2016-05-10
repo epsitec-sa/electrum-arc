@@ -70,7 +70,7 @@ export default class RichContainer extends React.Component {
       zIndex          = '2';
       minWidth        = theme.shapes.taskButtonWidth;
       backgroundColor = theme.palette.base;
-      boxShadow       = '0px 0px 60px rgba(0, 0, 0, 0.50)';
+      boxShadow       = theme.shapes.taskShadow;
     }
 
     if (inputKind === 'right') {
@@ -81,7 +81,7 @@ export default class RichContainer extends React.Component {
     }
 
     if (inputKind === 'mainTab') {
-      minHeight       = Unit.multiply (theme.shapes.lineHeight, 1.5);
+      minHeight       = theme.shapes.mainTabHeight;
       display         = 'flex';
       flexDirection   = 'row';
       flexGrow        = 0;
@@ -91,7 +91,7 @@ export default class RichContainer extends React.Component {
     }
 
     if (inputKind === 'viewTab') {
-      minHeight       = Unit.multiply (theme.shapes.lineHeight, 1.0);
+      minHeight       = theme.shapes.viewTabHeight;
       display         = 'flex';
       flexDirection   = 'row';
       flexGrow        = 0;
@@ -103,7 +103,7 @@ export default class RichContainer extends React.Component {
     }
 
     if (inputKind === 'footer') {
-      minHeight       = Unit.multiply (theme.shapes.lineHeight, 2.0);
+      minHeight       = theme.shapes.footerHeight;
       display         = 'flex';
       flexDirection   = 'row';
       flexGrow        = 0;

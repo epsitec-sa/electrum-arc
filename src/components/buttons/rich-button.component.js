@@ -32,12 +32,11 @@ export default class RichButton extends React.Component {
     const inputKind          = kind          || state.get ('kind');
     const inputActive        = active        || state.get ('active');
 
-    const h = theme.shapes.lineHeight;
     const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
     // Initialize all variables for a standard button.
     var boxWidth        = inputWidth;
-    var boxHeight       = null;
+    var boxHeight       = theme.shapes.lineHeight;
     var boxGrow         = inputGrow;
     var boxDirection    = 'row';
     var boxMargin       = '0px';
@@ -76,8 +75,8 @@ export default class RichButton extends React.Component {
       }
     }
 
-    // Logo button (usual parent container with kind="task").
-    if (inputKind === 'logo') {
+    // TaskLogo button (usual parent container with kind="task").
+    if (inputKind === 'taskLogo') {
       boxWidth        = theme.shapes.taskButtonWidth;
       boxHeight       = theme.shapes.taskButtonHeight;
       boxDirection    = 'column';
@@ -88,7 +87,7 @@ export default class RichButton extends React.Component {
       textMargin      = '0px';
       textTransform   = 'uppercase';
       textWeight      = 'bold';
-      textSize        = '125%';
+      textSize        = theme.shapes.taskLogoTextSize;
       textGrow        = null;
     }
 
@@ -102,18 +101,18 @@ export default class RichButton extends React.Component {
       borderColor     = darken (theme.palette.base, 0.3);
       backgroundColor = theme.palette.base;
       textMargin      = '0px';
-      textSize        = '80%';
+      textSize        = theme.shapes.taskTextSize;
       textGrow        = null;
     }
 
     // MainTab button (usual parent is container with kind="mainTab").
     if (inputKind === 'mainTab') {
-      boxHeight       = Unit.multiply (theme.shapes.lineHeight, 1.5);
+      boxHeight       = theme.shapes.mainTabHeight;
       boxMargin       = '0px 1px 0px 0px';
       borderStyle     = 'none';
       textTransform   = 'uppercase';
       textWeight      = 'bold';
-      textSize        = '125%';
+      textSize        = theme.shapes.mainTabTextSize;
       if (inputActive === 'true') {
         backgroundColor = theme.palette.light;
       } else {
@@ -123,10 +122,10 @@ export default class RichButton extends React.Component {
 
     // ViewTab button (usual parent is container with kind="viewTab").
     if (inputKind === 'viewTab') {
-      boxHeight   = Unit.multiply (theme.shapes.lineHeight, 1.0);
+      boxHeight   = theme.shapes.viewTabHeight;
       boxMargin   = '0px 1px 0px 0px';
       borderStyle = 'none';
-      textSize    = '80%';
+      textSize        = theme.shapes.viewTabTextSize;
       if (inputActive === 'true') {
         backgroundColor = darken (theme.palette.light, 0.05);
       } else {
@@ -136,12 +135,13 @@ export default class RichButton extends React.Component {
 
     // PaneNavigator button (usual parent is container with kind="paneNavigator").
     if (inputKind === 'paneNavigator') {
-      boxHeight       = h;
+      boxHeight       = theme.shapes.paneNavigatorHeight;
       boxMargin       = '0px 0px -1px 0px';
       backgroundColor = darken (theme.palette.light, 0.05);
       textTransform   = 'uppercase';
       textWeight      = 'bold';
       borderStyle     = 'none none solid none';
+      textSize        = theme.shapes.paneNavigatorTextSize;
       if (inputActive === 'false') {
         borderColor   = emphasize (theme.palette.light, 0.2);
       } else if (inputActive === 'true') {
@@ -151,9 +151,10 @@ export default class RichButton extends React.Component {
 
     // Footer button (usual parent is container with kind="footer").
     if (inputKind === 'footer') {
-      boxHeight  = Unit.multiply (theme.shapes.lineHeight, 2.0);
+      boxHeight  = theme.shapes.footerHeight;
       boxMargin  = '0px 1px 0px 0px';
-      boxPadding = '0px 20px 0px 20px';
+      boxPadding = '0px ' + m + ' 0px ' + m;
+      textSize   = theme.shapes.footerTextSize;
       if (inputText) {
         backgroundColor = lighten (theme.palette.dark, 0.1);
         glyphSize       = '2x';
@@ -165,18 +166,18 @@ export default class RichButton extends React.Component {
 
     // Action button (usual parent is container with kind="actions").
     if (inputKind && inputKind.startsWith ('action')) {
-      const h = Unit.multiply (theme.shapes.lineHeight, 1.5);
-      const d = Unit.multiply (h, 0.5);
-      const m = Unit.multiply (h, 0.4);
-      boxHeight       = h;
+      const m = Unit.multiply (theme.shapes.actionHeight, 0.4);
+      const r = theme.shapes.actionRadius;
+      boxHeight       = theme.shapes.actionHeight;
       boxPadding      = '0px ' + m + ' 0px ' + m;
       borderStyle     = 'none';
       backgroundColor = theme.palette.base;
+      textSize        = theme.shapes.actionTextSize;
       if (inputKind === 'actionFirst') {
         boxMargin    = '0px 1px 0px 0px';
-        borderRadius = d + ' 0px 0px ' + d;
+        borderRadius = r + ' 0px 0px ' + r;
       } else if (inputKind === 'actionLast') {
-        borderRadius = '0px ' + d + ' ' + d + ' 0px';
+        borderRadius = '0px ' + r + ' ' + r + ' 0px';
       } else {
         boxMargin = '0px 1px 0px 0px';
       }
@@ -223,7 +224,7 @@ export default class RichButton extends React.Component {
       };
     }
 
-    var glyphDim = h;
+    var glyphDim = theme.shapes.lineHeight;
     if (glyphSize === '2x') {
       glyphDim = Unit.multiply (glyphDim, 2.0);
     }
@@ -246,7 +247,6 @@ export default class RichButton extends React.Component {
       justifyContent:  'center',
       alignItems:      'center',
       flexGrow:        textGrow,
-      height:          h,
       margin:          textMargin,
       color:           textColor,
       fontWeight:      textWeight,
