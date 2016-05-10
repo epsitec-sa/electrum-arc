@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Action, ColorManipulator} from 'electrum';
-import * as Unit from '../unit-helpers.js';
+import {Unit} from 'electrum-theme';
 
 const {fade, darken, lighten, emphasize} = ColorManipulator;
 
@@ -78,8 +78,8 @@ export default class RichButton extends React.Component {
 
     // Logo button (usual parent container with kind="left").
     if (inputKind === 'logo') {
-      boxWidth        = Unit.multiply (theme.shapes.lineHeight, 2.5);
-      boxHeight       = '100px';
+      boxWidth        = theme.shapes.leftWidth;
+      boxHeight       = theme.shapes.leftButtonHeight;
       boxDirection    = 'column';
       boxMargin       = '0px';
       borderStyle     = 'none';
@@ -94,8 +94,8 @@ export default class RichButton extends React.Component {
 
     // Left button (usual parent is container with kind="left").
     if (inputKind === 'left') {
-      boxWidth        = Unit.multiply (theme.shapes.lineHeight, 2.5);
-      boxHeight       = '100px';
+      boxWidth        = theme.shapes.leftWidth;
+      boxHeight       = theme.shapes.leftButtonHeight;
       boxDirection    = 'column';
       boxMargin       = '0px';
       borderStyle     = 'none none solid none';

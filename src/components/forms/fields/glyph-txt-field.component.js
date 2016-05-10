@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Action, ColorManipulator} from 'electrum';
-import * as Unit from '../../unit-helpers.js';
+import {Unit} from 'electrum-theme';
 
 import {
   RichButton,
@@ -13,7 +13,7 @@ const {fade, darken, lighten} = ColorManipulator;
 
 /******************************************************************************/
 
-export default class GlyphTextField extends React.Component {
+export default class GlyphTxtField extends React.Component {
 
   constructor (props) {
     super (props);

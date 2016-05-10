@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Action, ColorManipulator} from 'electrum';
-import * as Unit from '../../unit-helpers.js';
+import {Unit} from 'electrum-theme';
 
 const {fade, darken, lighten} = ColorManipulator;
 
