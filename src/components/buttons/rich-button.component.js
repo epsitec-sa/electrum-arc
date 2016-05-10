@@ -76,10 +76,10 @@ export default class RichButton extends React.Component {
       }
     }
 
-    // Logo button (usual parent container with kind="left").
+    // Logo button (usual parent container with kind="task").
     if (inputKind === 'logo') {
-      boxWidth        = theme.shapes.leftWidth;
-      boxHeight       = theme.shapes.leftButtonHeight;
+      boxWidth        = theme.shapes.taskButtonWidth;
+      boxHeight       = theme.shapes.taskButtonHeight;
       boxDirection    = 'column';
       boxMargin       = '0px';
       borderStyle     = 'none';
@@ -92,10 +92,10 @@ export default class RichButton extends React.Component {
       textGrow        = null;
     }
 
-    // Left button (usual parent is container with kind="left").
-    if (inputKind === 'left') {
-      boxWidth        = theme.shapes.leftWidth;
-      boxHeight       = theme.shapes.leftButtonHeight;
+    // Task button (usual parent is container with kind="task").
+    if (inputKind === 'task') {
+      boxWidth        = theme.shapes.taskButtonWidth;
+      boxHeight       = theme.shapes.taskButtonHeight;
       boxDirection    = 'column';
       boxMargin       = '0px';
       borderStyle     = 'none none solid none';

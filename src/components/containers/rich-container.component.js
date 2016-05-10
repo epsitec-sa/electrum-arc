@@ -66,9 +66,9 @@ export default class RichContainer extends React.Component {
       backgroundColor = darken (theme.palette.base, 0.4);
     }
 
-    if (inputKind === 'left') {
+    if (inputKind === 'task') {
       zIndex          = '2';
-      minWidth        = theme.shapes.leftWidth;
+      minWidth        = theme.shapes.taskButtonWidth;
       backgroundColor = theme.palette.base;
       boxShadow       = '0px 0px 60px rgba(0, 0, 0, 0.50)';
     }
