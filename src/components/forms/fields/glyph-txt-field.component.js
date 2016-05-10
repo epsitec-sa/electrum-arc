@@ -52,8 +52,6 @@ export default class GlyphTxtField extends React.Component {
       justifyContent:  'flex-start',
       alignItems:      'center',
       flexGrow:        inputGrow,
-      border:          '1px solid ' + lighten (theme.palette.dark, 0.5),
-      backgroundColor: lighten (theme.palette.light, 0.5),
       padding:         '0px',
       marginTop:       '0px',
       marginLeft:      '0px',

@@ -49,7 +49,7 @@ export default class RichButton extends React.Component {
     var textMargin      = '0px ' + m + ' 0px ' + m;
     var textWeight      = null;
     var textTransform   = null;
-    var textSize        = '100%';
+    var textSize        = theme.shapes.buttonTextSize;
     var textGrow        = 1;
 
     // Initialize variables for button without border.

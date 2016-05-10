@@ -26,7 +26,7 @@ export default class Label extends React.Component {
     var flexDirection   = 'row';
     var justifyContent  = 'flex-start';
     var alignItems      = 'center';
-    var fontSize        = '100%';
+    var fontSize        = theme.shapes.labelTextSize;
     var fontWeight      = null;
     var textTransform   = null;
     var color           = theme.palette.text;
@@ -38,7 +38,7 @@ export default class Label extends React.Component {
     }
 
     if (inputKind === 'title') {
-      fontSize        = '125%';
+      fontSize        = theme.shapes.labelTitleTextSize;
       fontWeight      = 'bold';
       textTransform   = 'uppercase';
     }
