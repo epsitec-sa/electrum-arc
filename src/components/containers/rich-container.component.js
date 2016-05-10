@@ -1,10 +1,8 @@
 'use strict';
 
 import React from 'react';
-import {Action, ColorManipulator} from 'electrum';
+import {Action} from 'electrum';
 import {Unit} from 'electrum-theme';
-
-const {fade, darken, lighten, emphasize} = ColorManipulator;
 
 /******************************************************************************/
 
