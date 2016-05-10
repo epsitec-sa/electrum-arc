@@ -143,9 +143,9 @@ export default class RichButton extends React.Component {
       textWeight      = 'bold';
       borderStyle     = 'none none solid none';
       if (inputActive === 'false') {
-        borderColor   = emphasize (theme.palette.dark, 0.8);
+        borderColor   = emphasize (theme.palette.light, 0.2);
       } else if (inputActive === 'true') {
-        borderColor   = lighten (theme.palette.dark, 0.2);
+        borderColor   = emphasize (theme.palette.light, 0.8);
       }
     }
 

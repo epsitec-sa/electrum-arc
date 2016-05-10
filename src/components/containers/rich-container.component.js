@@ -129,7 +129,7 @@ export default class RichContainer extends React.Component {
       margin          = '0px 0px ' + m + ' 0px';
       borderWidth     = '1px';
       borderStyle     = 'none none solid none';
-      borderColor     = emphasize (theme.palette.dark, 0.8);
+      borderColor     = emphasize (theme.palette.light, 0.2);
       backgroundColor = darken (theme.palette.light, 0.05);
     }
 
