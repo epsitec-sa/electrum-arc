@@ -41,10 +41,10 @@ export default class RichButton extends React.Component {
     var boxDirection    = 'row';
     var boxMargin       = '0px';
     var boxPadding      = '0px';
-    var borderColor     = lighten (theme.palette.dark, 0.5);
+    var borderColor     = theme.palette.buttonBorder;
     var borderStyle     = 'solid';
     var borderRadius    = '0px';
-    var backgroundColor = lighten (theme.palette.light, 0.5);
+    var backgroundColor = theme.palette.buttonBackground;
     var glyphSize       = inputSize;
     var textMargin      = '0px ' + m + ' 0px ' + m;
     var textWeight      = null;
@@ -82,7 +82,7 @@ export default class RichButton extends React.Component {
       boxDirection    = 'column';
       boxMargin       = '0px';
       borderStyle     = 'none';
-      backgroundColor = theme.palette.light;
+      backgroundColor = theme.palette.taskLogoBackground;
       glyphSize       = '2x';
       textMargin      = '0px';
       textTransform   = 'uppercase';
@@ -98,8 +98,8 @@ export default class RichButton extends React.Component {
       boxDirection    = 'column';
       boxMargin       = '0px';
       borderStyle     = 'none none solid none';
-      borderColor     = darken (theme.palette.base, 0.3);
-      backgroundColor = theme.palette.base;
+      borderColor     = theme.palette.taskButtonBorderColor;
+      backgroundColor = theme.palette.taskButtonBackgroundColor;
       textMargin      = '0px';
       textSize        = theme.shapes.taskTextSize;
       textGrow        = null;
@@ -114,9 +114,9 @@ export default class RichButton extends React.Component {
       textWeight      = 'bold';
       textSize        = theme.shapes.mainTabTextSize;
       if (inputActive === 'true') {
-        backgroundColor = theme.palette.light;
+        backgroundColor = theme.palette.mainTabButtonActiveBackground;
       } else {
-        backgroundColor = darken (theme.palette.light, 0.1);
+        backgroundColor = theme.palette.mainTabButtonInactiveBackground;
       }
     }
 
@@ -127,9 +127,9 @@ export default class RichButton extends React.Component {
       borderStyle = 'none';
       textSize        = theme.shapes.viewTabTextSize;
       if (inputActive === 'true') {
-        backgroundColor = darken (theme.palette.light, 0.05);
+        backgroundColor = theme.palette.viewTabButtonActiveBackground;
       } else {
-        backgroundColor = lighten (theme.palette.dark, 0.2);
+        backgroundColor = theme.palette.viewTabButtonInactiveBackground;
       }
     }
 
@@ -137,15 +137,15 @@ export default class RichButton extends React.Component {
     if (inputKind === 'paneNavigator') {
       boxHeight       = theme.shapes.paneNavigatorHeight;
       boxMargin       = '0px 0px -1px 0px';
-      backgroundColor = darken (theme.palette.light, 0.05);
+      backgroundColor = theme.palette.paneNavigatorBackground;
       textTransform   = 'uppercase';
       textWeight      = 'bold';
       borderStyle     = 'none none solid none';
       textSize        = theme.shapes.paneNavigatorTextSize;
       if (inputActive === 'false') {
-        borderColor   = emphasize (theme.palette.light, 0.2);
+        borderColor   = theme.palette.paneNavigatorInactiveBorder;
       } else if (inputActive === 'true') {
-        borderColor   = emphasize (theme.palette.light, 0.8);
+        borderColor   = theme.palette.paneNavigatorActiveBorder;
       }
     }
 
@@ -156,10 +156,10 @@ export default class RichButton extends React.Component {
       boxPadding = '0px ' + m + ' 0px ' + m;
       textSize   = theme.shapes.footerTextSize;
       if (inputText) {
-        backgroundColor = lighten (theme.palette.dark, 0.1);
+        backgroundColor = theme.palette.footerTextBackground;
         glyphSize       = '2x';
       } else {
-        backgroundColor = theme.palette.dark;
+        backgroundColor = theme.palette.footerBackground;
       }
       borderStyle = 'none';
     }
@@ -171,7 +171,7 @@ export default class RichButton extends React.Component {
       boxHeight       = theme.shapes.actionHeight;
       boxPadding      = '0px ' + m + ' 0px ' + m;
       borderStyle     = 'none';
-      backgroundColor = theme.palette.base;
+      backgroundColor = theme.palette.actionButtonBackground;
       textSize        = theme.shapes.actionTextSize;
       if (inputKind === 'actionFirst') {
         boxMargin    = '0px 1px 0px 0px';
@@ -185,7 +185,7 @@ export default class RichButton extends React.Component {
 
     var c = backgroundColor;
     if (c === null) {
-      c = lighten (theme.palette.light, 0.5);
+      c = theme.palette.buttonBackground;
     }
     var backgroundHoverColor = darken    (c, 0.1);
     var glyphColor           = emphasize (c, 0.8);

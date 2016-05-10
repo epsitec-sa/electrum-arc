@@ -1,10 +1,7 @@
 'use strict';
 
 import React from 'react';
-import {Action, ColorManipulator} from 'electrum';
-import {Unit} from 'electrum-theme';
-
-const {fade, darken, lighten} = ColorManipulator;
+import {Action} from 'electrum';
 
 /******************************************************************************/
 
@@ -46,8 +43,8 @@ export default class TextField extends React.Component {
       justifyContent:  'flex-start',
       alignItems:      'center',
       flexGrow:        inputGrow,
-      border:          '1px solid ' + lighten (theme.palette.dark, 0.5),
-      backgroundColor: lighten (theme.palette.light, 0.5),
+      border:          '1px solid ' + theme.palette.buttonBorder,
+      backgroundColor: theme.palette.buttonBackground,
       padding:         '0px',
       marginTop:       '0px',
       marginLeft:      '0px',

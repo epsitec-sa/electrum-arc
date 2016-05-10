@@ -63,13 +63,13 @@ export default class RichContainer extends React.Component {
       flexDirection   = 'row';
       inputHeight     = '100vh';
       boxSizing       = 'border-box';
-      backgroundColor = darken (theme.palette.base, 0.4);
+      backgroundColor = theme.palette.rootBackground;
     }
 
     if (inputKind === 'task') {
       zIndex          = '2';
       minWidth        = theme.shapes.taskButtonWidth;
-      backgroundColor = theme.palette.base;
+      backgroundColor = theme.palette.taskBackground;
       boxShadow       = theme.shapes.taskShadow;
     }
 
@@ -87,7 +87,7 @@ export default class RichContainer extends React.Component {
       flexGrow        = 0;
       justifyContent  = 'flex-start';
       alignItems      = 'center';
-      backgroundColor = darken (theme.palette.light, 0.2);
+      backgroundColor = theme.palette.mainTabBackground;
     }
 
     if (inputKind === 'viewTab') {
@@ -99,7 +99,7 @@ export default class RichContainer extends React.Component {
       alignItems      = 'center';
       padding         = m + ' 0px 0px 0px';
       borderStyle     = 'none';
-      backgroundColor = theme.palette.dark;
+      backgroundColor = theme.palette.viewTabBackground;
     }
 
     if (inputKind === 'footer') {
@@ -109,14 +109,14 @@ export default class RichContainer extends React.Component {
       flexGrow        = 0;
       justifyContent  = 'flex-start';
       alignItems      = 'center';
-      backgroundColor = theme.palette.dark;
+      backgroundColor = theme.palette.footerBackground;
     }
 
     if (inputKind === 'view') {
       display         = 'flex';
       flexDirection   = 'column';
       flexGrow        = 1;
-      backgroundColor = darken (theme.palette.light, 0.05);
+      backgroundColor = theme.palette.viewBackground;
     }
 
     if (inputKind === 'paneNavigator') {
@@ -129,19 +129,19 @@ export default class RichContainer extends React.Component {
       margin          = '0px 0px ' + m + ' 0px';
       borderWidth     = '1px';
       borderStyle     = 'none none solid none';
-      borderColor     = emphasize (theme.palette.light, 0.2);
-      backgroundColor = darken (theme.palette.light, 0.05);
+      borderColor     = theme.palette.paneNavigatorInactiveBorder;
+      backgroundColor = theme.palette.paneNavigatorBackground;
     }
 
     if (inputKind === 'actions') {
-      minHeight       = Unit.multiply (theme.shapes.lineHeight, 1.5);
+      minHeight       = theme.shapes.actionHeight;
       display         = 'flex';
       flexDirection   = 'row';
       justifyContent  = 'space-between';
       alignItems      = 'center';
       padding         = m;
       borderStyle     = 'none';
-      backgroundColor = theme.shapes.light;
+      backgroundColor = theme.shapes.actionBackground;
     }
 
     if (inputKind === 'panes') {
@@ -158,7 +158,7 @@ export default class RichContainer extends React.Component {
       boxShadow       = this.getZDepthShadows (2);
       margin          = '0px 0px ' + m + ' 0px';
       padding         = m + ' ' + m + ' ' + d + ' ' + m;
-      backgroundColor = theme.palette.light;
+      backgroundColor = theme.palette.paneBackground;
     }
 
     if (inputKind === 'rowPane') {

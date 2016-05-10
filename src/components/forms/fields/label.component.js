@@ -1,10 +1,8 @@
 'use strict';
 
 import React from 'react';
-import {Action, ColorManipulator} from 'electrum';
+import {Action} from 'electrum';
 import {Unit} from 'electrum-theme';
-
-const {fade, darken, lighten, emphasize} = ColorManipulator;
 
 /******************************************************************************/
 
@@ -31,10 +29,10 @@ export default class Label extends React.Component {
     var fontSize        = '100%';
     var fontWeight      = null;
     var textTransform   = null;
-    var color           = lighten (theme.palette.dark, 0.2);
+    var color           = theme.palette.text;
 
     if (inputKind === 'info') {
-      backgroundColor = darken (theme.palette.light, 0.1);
+      backgroundColor = theme.palette.infoBackground;
       justifyContent  = 'center';
       padding         = '0 10px 0 10px';
     }
@@ -58,18 +56,18 @@ export default class Label extends React.Component {
     if (inputKind === 'articleFooter') {
       justifyContent  = 'flex-start';
       padding         = '0 10px 0 10px';
-      backgroundColor = darken (theme.palette.light, 0.1);
+      backgroundColor = theme.palette.infoBackground;
     }
 
     if (inputKind === 'priceFooter') {
       justifyContent  = 'flex-end';
       padding         = '0 10px 0 10px';
-      backgroundColor = darken (theme.palette.light, 0.1);
+      backgroundColor = theme.palette.infoBackground;
     }
 
     if (inputKind === 'footer') {
       padding         = '0 20px 0 20px';
-      color           = emphasize (theme.palette.dark, 0.5);
+      color           = theme.palette.footerText;
     }
 
     var labelStyle = {
