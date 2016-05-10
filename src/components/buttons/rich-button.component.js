@@ -33,7 +33,7 @@ export default class RichButton extends React.Component {
     const inputActive        = active        || state.get ('active');
 
     const h = theme.shapes.lineHeight;
-    const s = theme.shapes.lineSpacing;
+    const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
     // Initialize all variables for a standard button.
     var boxWidth        = inputWidth;
@@ -47,7 +47,7 @@ export default class RichButton extends React.Component {
     var borderRadius    = '0px';
     var backgroundColor = lighten (theme.palette.light, 0.5);
     var glyphSize       = inputSize;
-    var textMargin      = '0px ' + s + ' 0px ' + s;
+    var textMargin      = '0px ' + m + ' 0px ' + m;
     var textWeight      = null;
     var textTransform   = null;
     var textSize        = '100%';
@@ -64,15 +64,15 @@ export default class RichButton extends React.Component {
     if (inputSpacing === 'overlap') {
       boxMargin = '0px -1px 0px 0px';
     } else if (inputSpacing === 'large') {
-      boxMargin = '0px ' + s + ' 0px 0px';
+      boxMargin = '0px ' + m + ' 0px 0px';
     }
 
     // Decrease space between glyph and text.
     if (inputGlyph && inputText) {
       if (inputGlyphPosition === 'right') {
-        textMargin = '0px 0px 0px ' + s;
+        textMargin = '0px 0px 0px ' + m;
       } else {
-        textMargin = '0px ' + s + ' 0px 0px';
+        textMargin = '0px ' + m + ' 0px 0px';
       }
     }
 
