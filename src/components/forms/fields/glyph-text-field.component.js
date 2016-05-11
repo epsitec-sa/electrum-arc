@@ -13,7 +13,7 @@ const {fade, darken, lighten} = ColorManipulator;
 
 /******************************************************************************/
 
-export default class GlyphTxtField extends React.Component {
+export default class GlyphTextField extends React.Component {
 
   constructor (props) {
     super (props);
