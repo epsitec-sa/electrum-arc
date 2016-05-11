@@ -51,6 +51,7 @@ export default class RichButton extends React.Component {
     var textTransform   = null;
     var textSize        = theme.shapes.buttonTextSize;
     var textGrow        = 1;
+    var actif           = true;
 
     // Initialize variables for button without border.
     if (inputBorder === 'none') {
@@ -77,6 +78,7 @@ export default class RichButton extends React.Component {
 
     if (inputKind === 'label') {
       backgroundColor = theme.palette.labelButtonBackground;
+      actif = false;
     }
 
     // TaskLogo button (usual parent container with kind="task").
@@ -221,7 +223,7 @@ export default class RichButton extends React.Component {
       backgroundColor: backgroundColor,
     };
 
-    if (!disabled) {
+    if (!disabled && actif) {
       boxStyle[':hover'] = {
         backgroundColor: backgroundHoverColor,
         opacity:         1.0,
