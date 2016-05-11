@@ -2,19 +2,15 @@
 
 /******************************************************************************/
 
-export default function (theme) {
+function style1 (theme, props) {
   return {
     base: {
       fontFamily: theme.typo.font,
-      color: theme.palette.textColor,
+      color: props.disabled ? theme.palette.disabledColor : theme.palette.textColor,
       fontSize: '.7em',
       padding: '1em',
       cursor: 'pointer',
       userSelect: 'none'
-    },
-
-    disabled: {
-      color: theme.palette.disabledColor
     },
 
     menuHead: {
@@ -40,5 +36,14 @@ export default function (theme) {
     }
   };
 }
+
+/******************************************************************************/
+
+// Experiment with mulitple styles; export a hash rather than just the
+// unique style function. This is really just for testing.
+
+export default {
+  style1
+};
 
 /******************************************************************************/

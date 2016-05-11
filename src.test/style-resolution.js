@@ -8,8 +8,8 @@ import {React, ReactDOMServer, Store, Theme} from 'electrum';
 
 class _Foo extends React.Component {
   render () {
-    expect (this.resolveStyle ('nice')).to.deep.equal ({color: 'purple'});
-    expect (this.resolveStyle ('nice', 'ugly')).to.deep.equal ({color: 'pink'});
+    expect (this.mergeStyles ('nice')).to.deep.equal ({color: 'purple'});
+    expect (this.mergeStyles ('nice', 'ugly')).to.deep.equal ({color: 'pink'});
     return <div style={this.styles}></div>;
   }
 }

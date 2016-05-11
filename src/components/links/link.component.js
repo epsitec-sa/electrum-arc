@@ -6,11 +6,23 @@ import {Action} from 'electrum';
 /******************************************************************************/
 
 export default class Link extends React.Component {
+  get isDisabled () {
+    const {state} = this.props;
+    return Action.isDisabled (state);
+  }
+
+  get styleProps () {
+    return {
+      disabled: this.isDisabled
+    };
+  }
+
   render () {
-    const {children, state, href} = this.props;
-    const disabled = Action.isDisabled (state);
-    const text = state.get ('text') || (children ? null : '<missing>');
-    const attr = {};
+    const {children, href} = this.props;
+    const text = this.read ('text') || (children ? null : '<missing>');
+    const attr = {
+      style: this.getStyles ('style1')
+    };
 
     if (href) {
       // Only add href attribute if href exists, or else React will produce
@@ -18,11 +30,9 @@ export default class Link extends React.Component {
       attr.href = href;
     }
 
-    if (disabled) {
-      attr.style = this.styles.with ('disabled');
+    if (this.isDisabled) {
       attr.disabled = 'disabled';
     } else {
-      attr.style = this.styles;
       attr.onClick = this.onClick;
     }
 

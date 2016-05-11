@@ -10,13 +10,13 @@ describe ('Components', () => {
   describe ('<Link>', () => {
     it ('produces <a> element', () => {
       const store = Store.create ();
-      const state = store.select ('root');
+      const state = store.select ('root').set ({status: 'enabled'});
       const theme = Theme.create ('default');
 
-      const html = ReactDOMServer.renderToStaticMarkup (<Link state={state} theme={theme}/>);
+      const html = ReactDOMServer.renderToStaticMarkup (<Link state={state} theme={theme} text='hello'/>);
 
       expect (html).to.startWith ('<a');
-      expect (html).to.endWith ('</a>');
+      expect (html).to.endWith ('>hello</a>');
       expect (html).to.contain ('color:rgba(0,0,0,0.87);');
       expect (html).to.contain ('font-size:.7em;');
       expect (html).to.contain ('font-family:Roboto, sans-serif;');
@@ -25,13 +25,13 @@ describe ('Components', () => {
     });
   });
 
-  describe ('<Link kind="disabled">', () => {
+  describe ('<Link> in disabled state', () => {
     it ('produces <a> element with disabled kind', () => {
       const store = Store.create ();
-      const state = store.select ('root');
+      const state = store.select ('root').set ({status: 'disabled'});
       const theme = Theme.create ('default');
 
-      const html = ReactDOMServer.renderToStaticMarkup (<Link state={state} theme={theme} kind='disabled'/>);
+      const html = ReactDOMServer.renderToStaticMarkup (<Link state={state} theme={theme} />);
 
       expect (html).to.startWith ('<a');
       expect (html).to.endWith ('</a>');
