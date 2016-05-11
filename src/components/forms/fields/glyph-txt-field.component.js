@@ -35,12 +35,13 @@ export default class GlyphTxtField extends React.Component {
   }
 
   render () {
-    const {state, theme, glyph, value, grow, spacing} = this.props;
+    const {state, theme, glyph, value, hintText, grow, spacing} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputGlyph   = glyph   || state.get ('glyph');
-    const inputValue   = value   || state.get ('value');
-    var   inputGrow    = grow    || state.get ('grow');
-    const inputSpacing = spacing || state.get ('spacing');
+    const inputGlyph    = glyph    || state.get ('glyph');
+    const inputValue    = value    || state.get ('value');
+    const inputHintText = hintText || state.get ('hintText');
+    var   inputGrow     = grow     || state.get ('grow');
+    const inputSpacing  = spacing  || state.get ('spacing');
 
     if (!inputGrow) {
       inputGrow = 1;
@@ -58,14 +59,6 @@ export default class GlyphTxtField extends React.Component {
       marginBottom:    '0px',
       marginRight:     '0px',
     };
-    var fieldStyle = {
-      flexGrow:        1,
-      width:           '50px',
-      height:          theme.shapes.lineHeight,
-      border:          'none',
-      padding:         '10px',
-      margin:          '0px',
-    };
 
     if (inputSpacing === 'overlap') {
       boxStyle.marginRight = '-1px';
@@ -78,8 +71,17 @@ export default class GlyphTxtField extends React.Component {
         disabled={disabled}
         style={boxStyle}
         >
-        <RichButton/>
-        <TextField/>
+        <RichButton
+          glyph   = {inputGlyph}
+          kind    = 'label'
+          spacing = 'overlap'
+          {...this.link ()}
+        />
+        <TextField
+          value    = {inputValue}
+          hintText = {inputHintText}
+          {...this.link ()}
+        />
       </span>
     );
   }

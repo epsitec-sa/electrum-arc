@@ -75,6 +75,10 @@ export default class RichButton extends React.Component {
       }
     }
 
+    if (inputKind === 'label') {
+      backgroundColor = theme.palette.labelButtonBackground;
+    }
+
     // TaskLogo button (usual parent container with kind="task").
     if (inputKind === 'taskLogo') {
       boxWidth        = theme.shapes.taskButtonWidth;
