@@ -193,7 +193,7 @@ export default class RichButton extends React.Component {
     if (c === null) {
       c = theme.palette.buttonBackground;
     }
-    var backgroundHoverColor = darken    (c, 0.1);
+    var backgroundHoverColor = emphasize (c, 0.2);
     var glyphColor           = emphasize (c, 0.8);
     var textColor            = emphasize (c, 0.9);
 
