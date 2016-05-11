@@ -3,11 +3,7 @@
 import React from 'react';
 import {Action, ColorManipulator} from 'electrum';
 import {Unit} from 'electrum-theme';
-
-import {
-  RichButton,
-  TextField
-} from 'electrum-arc';
+import {RichButton, TextField} from 'electrum-arc';
 
 const {fade, darken, lighten} = ColorManipulator;
 

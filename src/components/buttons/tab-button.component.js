@@ -3,13 +3,13 @@
 import React from 'react';
 import {Action, ColorManipulator} from 'electrum';
 import {Unit} from 'electrum-theme';
-import {RichButton, TextField} from 'electrum-arc';
+import {RichButton} from 'electrum-arc';
 
 const {fade, darken, lighten} = ColorManipulator;
 
 /******************************************************************************/
 
-export default class GlyphTextField extends React.Component {
+export default class TabButton extends React.Component {
 
   constructor (props) {
     super (props);
@@ -31,24 +31,16 @@ export default class GlyphTextField extends React.Component {
   }
 
   render () {
-    const {state, theme, glyph, value, hintText, grow, spacing} = this.props;
+    const {state, theme, text, active} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputGlyph    = glyph    || state.get ('glyph');
-    const inputValue    = value    || state.get ('value');
-    const inputHintText = hintText || state.get ('hintText');
-    var   inputGrow     = grow     || state.get ('grow');
-    const inputSpacing  = spacing  || state.get ('spacing');
-
-    if (!inputGrow) {
-      inputGrow = 1;
-    }
+    const inputText   = text   || state.get ('text');
+    const inputActive = active || state.get ('active');
 
     var boxStyle = {
       display:         'flex',
       flexDirection:   'row',
       justifyContent:  'flex-start',
       alignItems:      'center',
-      flexGrow:        inputGrow,
       padding:         '0px',
       marginTop:       '0px',
       marginLeft:      '0px',
@@ -56,26 +48,23 @@ export default class GlyphTextField extends React.Component {
       marginRight:     '0px',
     };
 
-    if (inputSpacing === 'overlap') {
-      boxStyle.marginRight = '-1px';
-    } else if (inputSpacing === 'large') {
-      boxStyle.marginRight = theme.shapes.lineSpacing;
-    }
-
     return (
       <span
         disabled={disabled}
         style={boxStyle}
         >
         <RichButton
-          glyph   = {inputGlyph}
-          kind    = 'label'
+          kind    = 'viewTab'
+          glyph   = 'close'
           spacing = 'overlap'
+          active  = {inputActive}
           {...this.link ()}
         />
-        <TextField
-          value    = {inputValue}
-          hintText = {inputHintText}
+        <RichButton
+          kind    ='viewTab'
+          text    = {inputText}
+          spacing = 'tiny'
+          active  = {inputActive}
           {...this.link ()}
         />
       </span>

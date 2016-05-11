@@ -63,6 +63,8 @@ export default class RichButton extends React.Component {
     // Initialise right margin according to spacing.
     if (inputSpacing === 'overlap') {
       boxMargin = '0px -1px 0px 0px';
+    } else if (inputSpacing === 'tiny') {
+      boxMargin = '0px 1px 0px 0px';
     } else if (inputSpacing === 'large') {
       boxMargin = '0px ' + m + ' 0px 0px';
     }
@@ -129,7 +131,6 @@ export default class RichButton extends React.Component {
     // ViewTab button (usual parent is container with kind="viewTab").
     if (inputKind === 'viewTab') {
       boxHeight   = theme.shapes.viewTabHeight;
-      boxMargin   = '0px 1px 0px 0px';
       borderStyle = 'none';
       textSize        = theme.shapes.viewTabTextSize;
       if (inputActive === 'true') {
