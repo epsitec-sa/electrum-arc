@@ -31,13 +31,13 @@ export default class LabelTextField extends React.Component {
   }
 
   render () {
-    const {state, theme, glyph, value, hintText, grow, spacing} = this.props;
+    const {state, theme, labelGlyph, value, hintText, grow, spacing} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputGlyph    = glyph    || state.get ('glyph');
-    const inputValue    = value    || state.get ('value');
-    const inputHintText = hintText || state.get ('hintText');
-    var   inputGrow     = grow     || state.get ('grow');
-    const inputSpacing  = spacing  || state.get ('spacing');
+    const inputLabelGlyph = labelGlyph || state.get ('labelGlyph');
+    const inputValue      = value      || state.get ('value');
+    const inputHintText   = hintText   || state.get ('hintText');
+    var   inputGrow       = grow       || state.get ('grow');
+    const inputSpacing    = spacing    || state.get ('spacing');
 
     if (!inputGrow) {
       inputGrow = 1;
@@ -68,7 +68,7 @@ export default class LabelTextField extends React.Component {
         style={boxStyle}
         >
         <RichButton
-          glyph   = {inputGlyph}
+          glyph   = {inputLabelGlyph}
           kind    = 'label'
           spacing = 'overlap'
           {...this.link ()}
