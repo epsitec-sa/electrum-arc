@@ -27,6 +27,7 @@ export default class Badge extends React.Component {
     var boxRight    = null;
     var boxTop      = null;
 
+    // If badge has layer='over', place it on top-right corner of parent.
     if (inputLayer === 'over') {
       boxPosition = 'absolute';
       boxRight    = '0px';

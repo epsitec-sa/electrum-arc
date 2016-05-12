@@ -193,10 +193,12 @@ export default class RichButton extends React.Component {
       }
     }
 
+    // If RichButton has a Badge, place it on top-right corner.
     if (badgeValue) {
-      boxPosition = 'relative';
+      boxPosition = 'absolute';
     }
 
+    // Compute colors for glyph, text and hover.
     var c = backgroundColor;
     if (c === null) {
       c = theme.palette.buttonBackground;
@@ -205,6 +207,7 @@ export default class RichButton extends React.Component {
     var glyphColor           = emphasize (c, 0.8);
     var textColor            = emphasize (c, 0.9);
 
+    // Alter colors if component is disable.
     if (disabled) {
       borderColor = '#aaa';
       if (backgroundColor) {
