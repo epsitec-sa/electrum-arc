@@ -19,6 +19,7 @@ import _MuToolbarTitle from './components/containers/mu-toolbar-title.component.
 import _MuToolbar from './components/containers/mu-toolbar.component.js';
 import _RichContainer from './components/containers/rich-container.component.js';
 import _GoogleFontLoader from './components/extras/google-font-loader.component.js';
+import _Badge from './components/forms/fields/badge.component.js';
 import _GlyphTextField from './components/forms/fields/glyph-text-field.component.js';
 import _Label from './components/forms/fields/label.component.js';
 import _MuAutoComplete from './components/forms/fields/mu-auto-complete.component.js';
@@ -60,6 +61,7 @@ export const MuToolbarTitle = Electrum.wrap ('MuToolbarTitle', _MuToolbarTitle);
 export const MuToolbar = Electrum.wrap ('MuToolbar', _MuToolbar);
 export const RichContainer = Electrum.wrap ('RichContainer', _RichContainer);
 export const GoogleFontLoader = Electrum.wrap ('GoogleFontLoader', _GoogleFontLoader);
+export const Badge = Electrum.wrap ('Badge', _Badge);
 export const GlyphTextField = Electrum.wrap ('GlyphTextField', _GlyphTextField);
 export const Label = Electrum.wrap ('Label', _Label);
 export const MuAutoComplete = Electrum.wrap ('MuAutoComplete', _MuAutoComplete);
