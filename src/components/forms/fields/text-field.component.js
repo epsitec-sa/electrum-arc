@@ -27,14 +27,21 @@ export default class TextField extends React.Component {
   }
 
   render () {
-    const {state, theme, value, grow, spacing} = this.props;
+    const {state, theme, value, grow, spacing, width} = this.props;
     const disabled = Action.isDisabled (state);
     const inputValue   = value   || state.get ('value');
     var   inputGrow    = grow    || state.get ('grow');
     const inputSpacing = spacing || state.get ('spacing');
+    var   inputWidth   = width   || state.get ('width');
 
     if (!inputGrow) {
       inputGrow = 1;
+    }
+
+    if (!inputWidth) {
+      inputWidth = '10px';  // any non-zero width
+    } else {
+      inputGrow = null;  // if specific with exist, don't fill
     }
 
     var boxStyle = {
@@ -53,7 +60,7 @@ export default class TextField extends React.Component {
     };
     var fieldStyle = {
       flexGrow:        1,
-      width:           '50px',
+      width:           inputWidth,
       height:          theme.shapes.lineHeight,
       border:          'none',
       padding:         '10px',

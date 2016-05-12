@@ -17,7 +17,7 @@ export default class RichButton extends React.Component {
 
   render () {
     const {state, theme, glyph, glyphPosition, size, rotate, flip, spin, text, border,
-      spacing, grow, width, kind, active, badgeValue} = this.props;
+      spacing, grow, width, kind, active, badgeValue, justify} = this.props;
     const disabled = Action.isDisabled (state);
     const inputGlyph         = glyph         || state.get ('glyph');
     const inputSize          = size          || state.get ('size');
@@ -33,6 +33,7 @@ export default class RichButton extends React.Component {
     const inputKind          = kind          || state.get ('kind');
     const inputActive        = active        || state.get ('active');
     const inputBadgeValue    = badgeValue    || state.get ('badgeValue');
+    const inputJustify       = justify       || state.get ('justify');
 
     const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -49,6 +50,7 @@ export default class RichButton extends React.Component {
     var backgroundColor = theme.palette.buttonBackground;
     var glyphSize       = inputSize;
     var textMargin      = '0px ' + m + ' 0px ' + m;
+    var textJustify     = 'center';
     var textWeight      = null;
     var textTransform   = null;
     var textSize        = theme.shapes.buttonTextSize;
@@ -86,6 +88,12 @@ export default class RichButton extends React.Component {
       actif = false;
     }
 
+    if (inputJustify === 'left') {
+      textJustify = 'flex-start';
+    } else if (inputJustify === 'right') {
+      textJustify = 'flex-end';
+    }
+
     // TaskLogo button (usual parent container with kind="task").
     if (inputKind === 'taskLogo') {
       boxWidth        = theme.shapes.taskButtonWidth;
@@ -99,6 +107,7 @@ export default class RichButton extends React.Component {
       textTransform   = 'uppercase';
       textWeight      = 'bold';
       textSize        = theme.shapes.taskLogoTextSize;
+      textJustify     = 'center';
       textGrow        = null;
     }
 
@@ -262,7 +271,7 @@ export default class RichButton extends React.Component {
     var textStyle = {
       display:         'flex',
       flexDirection:   'row',
-      justifyContent:  'center',
+      justifyContent:  textJustify,
       alignItems:      'center',
       flexGrow:        textGrow,
       margin:          textMargin,

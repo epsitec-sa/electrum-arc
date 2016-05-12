@@ -31,9 +31,12 @@ export default class LabelTextField extends React.Component {
   }
 
   render () {
-    const {state, theme, labelGlyph, value, hintText, grow, spacing} = this.props;
+    const {state, theme, labelGlyph, labelText, labelWidth, fieldWidth, value, hintText, grow, spacing} = this.props;
     const disabled = Action.isDisabled (state);
     const inputLabelGlyph = labelGlyph || state.get ('labelGlyph');
+    const inputLabelText  = labelText  || state.get ('labelText');
+    const inputLabelWidth = labelWidth || state.get ('labelWidth');
+    const inputFieldWidth = fieldWidth || state.get ('fieldWidth');
     const inputValue      = value      || state.get ('value');
     const inputHintText   = hintText   || state.get ('hintText');
     var   inputGrow       = grow       || state.get ('grow');
@@ -69,11 +72,15 @@ export default class LabelTextField extends React.Component {
         >
         <RichButton
           glyph   = {inputLabelGlyph}
+          text    = {inputLabelText}
+          width   = {inputLabelWidth}
           kind    = 'label'
+          justify = 'left'
           spacing = 'overlap'
           {...this.link ()}
         />
         <TextField
+          width    = {inputFieldWidth}
           value    = {inputValue}
           hintText = {inputHintText}
           {...this.link ()}
