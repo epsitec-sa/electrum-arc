@@ -13,13 +13,24 @@ export default class Badge extends React.Component {
   }
 
   render () {
-    const {state, theme, value} = this.props;
+    const {state, theme, value, layer} = this.props;
     const disabled = Action.isDisabled (state);
     const inputValue = value || state.get ('value');
+    const inputLayer = layer || state.get ('layer');
 
     var truncatedValue = inputValue.toString ();
     if (truncatedValue.length > 3) {
       truncatedValue = truncatedValue.substring (0, 3) + '...';
+    }
+
+    var boxPosition = null;
+    var boxRight    = null;
+    var boxTop      = null;
+
+    if (inputLayer === 'over') {
+      boxPosition = 'absolute';
+      boxRight    = '0px';
+      boxTop      = '0px';
     }
 
     var boxStyle = {
@@ -29,6 +40,9 @@ export default class Badge extends React.Component {
       flexDirection:   'row',
       justifyContent:  'center',
       alignItems:      'center',
+      position:        boxPosition,
+      right:           boxRight,
+      top:             boxTop,
     };
 
     const h = theme.shapes.badgeHeight;

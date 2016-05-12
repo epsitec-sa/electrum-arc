@@ -54,6 +54,7 @@ export default class RichButton extends React.Component {
     var textSize        = theme.shapes.buttonTextSize;
     var textGrow        = 1;
     var actif           = true;
+    var boxPosition     = null;
 
     // Initialize variables for button without border.
     if (inputBorder === 'none') {
@@ -192,6 +193,10 @@ export default class RichButton extends React.Component {
       }
     }
 
+    if (badgeValue) {
+      boxPosition = 'relative';
+    }
+
     var c = backgroundColor;
     if (c === null) {
       c = theme.palette.buttonBackground;
@@ -224,6 +229,7 @@ export default class RichButton extends React.Component {
       padding:         boxPadding,
       margin:          boxMargin,
       backgroundColor: backgroundColor,
+      position:        boxPosition,
     };
 
     if (!disabled && actif) {
@@ -271,7 +277,8 @@ export default class RichButton extends React.Component {
 
     const renderSpin = inputSpin ? 'fa-spin' : '';
     const htmlGlyph = (
-      <i key='icon' style={glyphStyle}
+      <i key='icon'
+        style={glyphStyle}
         className={`fa
         fa-${inputGlyph}
         fa-${glyphSize}
@@ -284,6 +291,7 @@ export default class RichButton extends React.Component {
     const htmlBadge = inputBadgeValue ? (
       <Badge
         value={inputBadgeValue}
+        layer='over'
         {...this.link ()}
       />
     ) : null;
