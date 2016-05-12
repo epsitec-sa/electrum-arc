@@ -3,6 +3,7 @@
 import React from 'react';
 import {Action, ColorManipulator} from 'electrum';
 import {Unit} from 'electrum-theme';
+import {Badge} from 'electrum-arc';
 
 const {fade, darken, lighten, emphasize} = ColorManipulator;
 
@@ -16,7 +17,7 @@ export default class RichButton extends React.Component {
 
   render () {
     const {state, theme, glyph, glyphPosition, size, rotate, flip, spin, text, border,
-      spacing, grow, width, kind, active} = this.props;
+      spacing, grow, width, kind, active, badgeValue} = this.props;
     const disabled = Action.isDisabled (state);
     const inputGlyph         = glyph         || state.get ('glyph');
     const inputSize          = size          || state.get ('size');
@@ -31,6 +32,7 @@ export default class RichButton extends React.Component {
     const inputWidth         = width         || state.get ('width');
     const inputKind          = kind          || state.get ('kind');
     const inputActive        = active        || state.get ('active');
+    const inputBadgeValue    = badgeValue    || state.get ('badgeValue');
 
     const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -279,6 +281,13 @@ export default class RichButton extends React.Component {
       />
     );
 
+    const htmlBadge = inputBadgeValue ? (
+      <Badge
+        value={inputBadgeValue}
+        {...this.link ()}
+      />
+    ) : null;
+
     const layout = () => {
       if (inputGlyph) {
         if (inputText) {
@@ -303,6 +312,7 @@ export default class RichButton extends React.Component {
         {...this.props}
         >
         {layout ().map ((comp) => comp)}
+        {htmlBadge}
       </div>
     );
   }
