@@ -31,14 +31,15 @@ export default class Badge extends React.Component {
       alignItems:      'center',
     };
 
-    const h = Unit.multiply (theme.shapes.badgeRadius, 2.0);
-    const m = Unit.multiply (theme.shapes.badgeRadius, 0.5);
+    const h = theme.shapes.badgeHeight;
+    const r = theme.shapes.badgeRadius;
+    const m = Unit.multiply (h, 0.25);
     const w = Unit.sub (h, Unit.multiply (m, 2.0));
 
     var labelStyle = {
       minWidth:        w,
       height:          h,
-      borderRadius:    theme.shapes.badgeRadius,
+      borderRadius:    r,
       padding:         '0px ' + m + ' 1px ' + m,
       display:         'flex',
       flexDirection:   'row',
