@@ -195,7 +195,7 @@ export default class RichButton extends React.Component {
 
     // If RichButton has a Badge, place it on top-right corner.
     if (badgeValue) {
-      boxPosition = 'absolute';
+      boxPosition = 'relative';
     }
 
     // Compute colors for glyph, text and hover.
