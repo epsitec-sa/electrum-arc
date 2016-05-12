@@ -226,6 +226,12 @@ export default class RichButton extends React.Component {
       textColor     = '#aaa';
     }
 
+    // If component has specific width and border, reduce the width to
+    // take into account the thickness of the borders left and right.
+    if (boxWidth && inputBorder !== 'none') {
+      boxWidth = Unit.sub (boxWidth, '2px');
+    }
+
     var boxStyle = {
       width:           boxWidth,
       height:          boxHeight,

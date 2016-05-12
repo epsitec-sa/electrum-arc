@@ -13,15 +13,17 @@ export default class Label extends React.Component {
   }
 
   render () {
-    const {state, theme, text, grow, kind, width} = this.props;
+    const {state, theme, text, grow, kind, width, spacing} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputText  = text  || state.get ('text');
-    const inputGrow  = grow  || state.get ('grow');
-    const inputKind  = kind  || state.get ('kind');
-    const inputWidth = width || state.get ('width');
+    const inputText    = text    || state.get ('text');
+    const inputGrow    = grow    || state.get ('grow');
+    const inputKind    = kind    || state.get ('kind');
+    const inputWidth   = width   || state.get ('width');
+    const inputSpacing = spacing || state.get ('spacing');
 
     var backgroundColor = null;
     var padding         = null;
+    var margin          = null;
     var display         = 'flex';
     var flexDirection   = 'row';
     var justifyContent  = 'flex-start';
@@ -30,6 +32,17 @@ export default class Label extends React.Component {
     var fontWeight      = null;
     var textTransform   = null;
     var color           = theme.palette.text;
+
+    const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
+
+    // Initialise right margin according to spacing.
+    if (inputSpacing === 'overlap') {
+      margin = '0px -1px 0px 0px';
+    } else if (inputSpacing === 'tiny') {
+      margin = '0px 1px 0px 0px';
+    } else if (inputSpacing === 'large') {
+      margin = '0px ' + m + ' 0px 0px';
+    }
 
     if (inputKind === 'info') {
       backgroundColor = theme.palette.infoBackground;
@@ -74,6 +87,7 @@ export default class Label extends React.Component {
       width:           inputWidth,
       height:          theme.shapes.lineHeight,
       padding:         padding,
+      margin:          margin,
       display:         display,
       flexDirection:   flexDirection,
       justifyContent:  justifyContent,

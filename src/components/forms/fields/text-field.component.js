@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {Action} from 'electrum';
+import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
@@ -34,6 +35,8 @@ export default class TextField extends React.Component {
     const inputSpacing = spacing || state.get ('spacing');
     var   inputWidth   = width   || state.get ('width');
 
+    const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
+
     if (!inputGrow) {
       inputGrow = 1;
     }
@@ -42,6 +45,12 @@ export default class TextField extends React.Component {
       inputWidth = '10px';  // any non-zero width
     } else {
       inputGrow = null;  // if specific with exist, don't fill
+    }
+
+    // If component has specific width and border, reduce the width to
+    // take into account the thickness of the borders left and right.
+    if (inputWidth) {
+      inputWidth = Unit.sub (inputWidth, '2px');
     }
 
     var boxStyle = {
@@ -58,6 +67,7 @@ export default class TextField extends React.Component {
       marginBottom:    '0px',
       marginRight:     '0px',
     };
+
     var fieldStyle = {
       flexGrow:        1,
       width:           inputWidth,
@@ -70,7 +80,7 @@ export default class TextField extends React.Component {
     if (inputSpacing === 'overlap') {
       boxStyle.marginRight = '-1px';
     } else if (inputSpacing === 'large') {
-      boxStyle.marginRight = theme.shapes.lineSpacing;
+      boxStyle.marginRight = m;
     }
 
     return (

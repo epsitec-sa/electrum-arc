@@ -42,6 +42,8 @@ export default class LabelTextField extends React.Component {
     var   inputGrow       = grow       || state.get ('grow');
     const inputSpacing    = spacing    || state.get ('spacing');
 
+    const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
+
     if (!inputGrow) {
       inputGrow = 1;
     }
@@ -62,7 +64,7 @@ export default class LabelTextField extends React.Component {
     if (inputSpacing === 'overlap') {
       boxStyle.marginRight = '-1px';
     } else if (inputSpacing === 'large') {
-      boxStyle.marginRight = theme.shapes.lineSpacing;
+      boxStyle.marginRight = m;
     }
 
     return (
