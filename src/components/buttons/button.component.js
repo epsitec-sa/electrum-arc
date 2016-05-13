@@ -9,7 +9,7 @@ const {fade, darken, lighten, emphasize} = ColorManipulator;
 
 /******************************************************************************/
 
-export default class RichButton extends React.Component {
+export default class Button extends React.Component {
 
   constructor (props) {
     super (props);
@@ -203,7 +203,7 @@ export default class RichButton extends React.Component {
       }
     }
 
-    // If RichButton has a Badge, place it on top-right corner.
+    // If Button has a Badge, place it on top-right corner.
     if (inputBadgeValue) {
       boxPosition = 'relative';
     }

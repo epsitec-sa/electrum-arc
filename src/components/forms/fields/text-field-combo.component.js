@@ -3,7 +3,7 @@
 import React from 'react';
 import {Action, ColorManipulator} from 'electrum';
 import {Unit} from 'electrum-theme';
-import {RichButton, TextField} from 'electrum-arc';
+import {Button, TextField} from 'electrum-arc';
 
 const {fade, darken, lighten} = ColorManipulator;
 
@@ -73,7 +73,7 @@ export default class TextFieldCombo extends React.Component {
           spacing = 'overlap'
           {...this.link ()}
         />
-        <RichButton
+        <Button
           glyph   = {inputGlyph}
           {...this.link ()}
         />

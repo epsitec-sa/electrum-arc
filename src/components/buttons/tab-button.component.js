@@ -3,7 +3,7 @@
 import React from 'react';
 import {Action, ColorManipulator} from 'electrum';
 import {Unit} from 'electrum-theme';
-import {RichButton} from 'electrum-arc';
+import {Button} from 'electrum-arc';
 
 const {fade, darken, lighten} = ColorManipulator;
 
@@ -53,14 +53,14 @@ export default class TabButton extends React.Component {
         disabled={disabled}
         style={boxStyle}
         >
-        <RichButton
+        <Button
           kind    = 'view-tab'
           glyph   = 'close'
           spacing = 'overlap'
           active  = {inputActive}
           {...this.link ()}
         />
-        <RichButton
+        <Button
           kind    ='view-tab'
           text    = {inputText}
           spacing = 'tiny'
