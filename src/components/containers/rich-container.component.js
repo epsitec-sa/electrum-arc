@@ -78,7 +78,7 @@ export default class RichContainer extends React.Component {
       boxSizing       = 'border-box';
     }
 
-    if (inputKind === 'mainTab') {
+    if (inputKind === 'main-tab') {
       minHeight       = theme.shapes.mainTabHeight;
       display         = 'flex';
       flexDirection   = 'row';
@@ -88,7 +88,7 @@ export default class RichContainer extends React.Component {
       backgroundColor = theme.palette.mainTabBackground;
     }
 
-    if (inputKind === 'viewTab') {
+    if (inputKind === 'view-tab') {
       minHeight       = theme.shapes.viewTabHeight;
       display         = 'flex';
       flexDirection   = 'row';
@@ -117,7 +117,7 @@ export default class RichContainer extends React.Component {
       backgroundColor = theme.palette.viewBackground;
     }
 
-    if (inputKind === 'paneNavigator') {
+    if (inputKind === 'pane-navigator') {
       minHeight       = h;
       display         = 'flex';
       flexDirection   = 'row';

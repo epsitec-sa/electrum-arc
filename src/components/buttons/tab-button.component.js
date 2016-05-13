@@ -54,14 +54,14 @@ export default class TabButton extends React.Component {
         style={boxStyle}
         >
         <RichButton
-          kind    = 'viewTab'
+          kind    = 'view-tab'
           glyph   = 'close'
           spacing = 'overlap'
           active  = {inputActive}
           {...this.link ()}
         />
         <RichButton
-          kind    ='viewTab'
+          kind    ='view-tab'
           text    = {inputText}
           spacing = 'tiny'
           active  = {inputActive}

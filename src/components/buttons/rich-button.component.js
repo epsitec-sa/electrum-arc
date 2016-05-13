@@ -32,7 +32,7 @@ export default class RichButton extends React.Component {
     const inputKind          = this.read ('kind');
     const inputPlace         = this.read ('place');
     const inputActive        = this.read ('active');
-    const inputBadgeValue    = this.read ('badgeValue');
+    const inputBadgeValue    = this.read ('badge-value');
     const inputJustify       = this.read ('justify');
 
     const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
@@ -93,8 +93,8 @@ export default class RichButton extends React.Component {
     };
     textJustify = justifyType[inputJustify];
 
-    // TaskLogo button (usual parent container with kind="task").
-    if (inputKind === 'taskLogo') {
+    // badge-value button (usual parent container with kind="task").
+    if (inputKind === 'badge-value') {
       boxWidth        = theme.shapes.taskButtonWidth;
       boxHeight       = theme.shapes.taskButtonHeight;
       boxDirection    = 'column';
@@ -124,8 +124,8 @@ export default class RichButton extends React.Component {
       textGrow        = null;
     }
 
-    // MainTab button (usual parent is container with kind="mainTab").
-    if (inputKind === 'mainTab') {
+    // main-tab button (usual parent is container with kind="main-tab").
+    if (inputKind === 'main-tab') {
       boxHeight       = theme.shapes.mainTabHeight;
       boxMargin       = '0px 1px 0px 0px';
       borderStyle     = 'none';
@@ -139,8 +139,8 @@ export default class RichButton extends React.Component {
       }
     }
 
-    // ViewTab button (usual parent is container with kind="viewTab").
-    if (inputKind === 'viewTab') {
+    // view-tab button (usual parent is container with kind="view-tab").
+    if (inputKind === 'view-tab') {
       boxHeight   = theme.shapes.viewTabHeight;
       borderStyle = 'none';
       textSize        = theme.shapes.viewTabTextSize;
@@ -151,8 +151,8 @@ export default class RichButton extends React.Component {
       }
     }
 
-    // PaneNavigator button (usual parent is container with kind="paneNavigator").
-    if (inputKind === 'paneNavigator') {
+    // pane-navigator button (usual parent is container with kind="pane-navigator").
+    if (inputKind === 'pane-navigator') {
       boxHeight       = theme.shapes.paneNavigatorHeight;
       boxMargin       = '0px 0px -1px 0px';
       backgroundColor = theme.palette.paneNavigatorBackground;
