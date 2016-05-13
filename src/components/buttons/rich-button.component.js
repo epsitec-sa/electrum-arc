@@ -25,7 +25,7 @@ export default class RichButton extends React.Component {
     const inputSpin          = this.read ('spin');
     const inputText          = this.read ('text');
     const inputBorder        = this.read ('border');
-    const inputGlyphPosition = this.read ('glyphPosition');
+    const inputGlyphPosition = this.read ('glyph-position');
     const inputSpacing       = this.read ('spacing');
     const inputGrow          = this.read ('grow');
     const inputWidth         = this.read ('width');
