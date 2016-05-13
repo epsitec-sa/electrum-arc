@@ -16,8 +16,7 @@ export default class RichButton extends React.Component {
   }
 
   render () {
-    const {state, theme, glyph, glyphPosition, size, rotate, flip, spin, text, border,
-      spacing, grow, width, kind, active, badgeValue, justify} = this.props;
+    const {state, theme} = this.props;
     const disabled = Action.isDisabled (state);
     const inputGlyph         = this.read ('glyph');
     const inputSize          = this.read ('size');
@@ -66,13 +65,12 @@ export default class RichButton extends React.Component {
     }
 
     // Initialise right margin according to spacing.
-    if (inputSpacing === 'overlap') {
-      boxMargin = '0px -1px 0px 0px';
-    } else if (inputSpacing === 'tiny') {
-      boxMargin = '0px 1px 0px 0px';
-    } else if (inputSpacing === 'large') {
-      boxMargin = '0px ' + m + ' 0px 0px';
-    }
+    var spacingType = {
+      overlap: '0px -1px 0px 0px',
+      tiny:    '0px 1px 0px 0px',
+      large:   '0px ' + m + ' 0px 0px',
+    };
+    boxMargin = spacingType[inputSpacing];
 
     // Decrease space between glyph and text.
     if (inputGlyph && inputText) {
@@ -88,11 +86,11 @@ export default class RichButton extends React.Component {
       actif = false;
     }
 
-    if (inputJustify === 'left') {
-      textJustify = 'flex-start';
-    } else if (inputJustify === 'right') {
-      textJustify = 'flex-end';
-    }
+    const justifyType = {
+      left:  'flex-start',
+      right: 'flex-end',
+    };
+    textJustify = justifyType[inputJustify];
 
     // TaskLogo button (usual parent container with kind="task").
     if (inputKind === 'taskLogo') {
@@ -203,13 +201,13 @@ export default class RichButton extends React.Component {
     }
 
     // If RichButton has a Badge, place it on top-right corner.
-    if (badgeValue) {
+    if (inputBadgeValue) {
       boxPosition = 'relative';
     }
 
     // Compute colors for glyph, text and hover.
     var c = backgroundColor;
-    if (c === null) {
+    if (!c) {
       c = theme.palette.buttonBackground;
     }
     var backgroundHoverColor = emphasize (c, 0.2);
