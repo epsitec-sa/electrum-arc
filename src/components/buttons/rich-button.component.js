@@ -30,6 +30,7 @@ export default class RichButton extends React.Component {
     const inputGrow          = this.read ('grow');
     const inputWidth         = this.read ('width');
     const inputKind          = this.read ('kind');
+    const inputPlace         = this.read ('place');
     const inputActive        = this.read ('active');
     const inputBadgeValue    = this.read ('badgeValue');
     const inputJustify       = this.read ('justify');
@@ -182,7 +183,7 @@ export default class RichButton extends React.Component {
     }
 
     // Action button (usual parent is container with kind="actions").
-    if (inputKind && inputKind.startsWith ('action')) {
+    if (inputKind  === 'action') {
       const m = Unit.multiply (theme.shapes.actionHeight, 0.4);
       const r = theme.shapes.actionRadius;
       boxHeight       = theme.shapes.actionHeight;
@@ -190,10 +191,10 @@ export default class RichButton extends React.Component {
       borderStyle     = 'none';
       backgroundColor = theme.palette.actionButtonBackground;
       textSize        = theme.shapes.actionTextSize;
-      if (inputKind === 'actionFirst') {
+      if (inputPlace === 'left') {
         boxMargin    = '0px 1px 0px 0px';
         borderRadius = r + ' 0px 0px ' + r;
-      } else if (inputKind === 'actionLast') {
+      } else if (inputPlace === 'right') {
         borderRadius = '0px ' + r + ' ' + r + ' 0px';
       } else {
         boxMargin = '0px 1px 0px 0px';
