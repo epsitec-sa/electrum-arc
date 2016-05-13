@@ -19,21 +19,21 @@ export default class RichButton extends React.Component {
     const {state, theme, glyph, glyphPosition, size, rotate, flip, spin, text, border,
       spacing, grow, width, kind, active, badgeValue, justify} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputGlyph         = glyph         || state.get ('glyph');
-    const inputSize          = size          || state.get ('size');
-    const inputRotate        = rotate        || state.get ('rotate');
-    const inputFlip          = flip          || state.get ('flip');
-    const inputSpin          = spin          || state.get ('spin');
-    const inputText          = text          || state.get ('text');
-    const inputBorder        = border        || state.get ('border');
-    const inputGlyphPosition = glyphPosition || state.get ('glyphPosition');
-    const inputSpacing       = spacing       || state.get ('spacing');
-    const inputGrow          = grow          || state.get ('grow');
-    const inputWidth         = width         || state.get ('width');
-    const inputKind          = kind          || state.get ('kind');
-    const inputActive        = active        || state.get ('active');
-    const inputBadgeValue    = badgeValue    || state.get ('badgeValue');
-    const inputJustify       = justify       || state.get ('justify');
+    const inputGlyph         = this.read ('glyph');
+    const inputSize          = this.read ('size');
+    const inputRotate        = this.read ('rotate');
+    const inputFlip          = this.read ('flip');
+    const inputSpin          = this.read ('spin');
+    const inputText          = this.read ('text');
+    const inputBorder        = this.read ('border');
+    const inputGlyphPosition = this.read ('glyphPosition');
+    const inputSpacing       = this.read ('spacing');
+    const inputGrow          = this.read ('grow');
+    const inputWidth         = this.read ('width');
+    const inputKind          = this.read ('kind');
+    const inputActive        = this.read ('active');
+    const inputBadgeValue    = this.read ('badgeValue');
+    const inputJustify       = this.read ('justify');
 
     const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
