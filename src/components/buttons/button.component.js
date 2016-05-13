@@ -231,7 +231,9 @@ export default class Button extends React.Component {
 
     // If component has specific width and border, reduce the width to
     // take into account the thickness of the borders left and right.
-    if (boxWidth && boxWidth !== '0px' && inputBorder !== 'none') {
+    // Buttons without left or right border (with only bottom border) are
+    // considered as without border (for example task button).
+    if (boxWidth && boxWidth !== '0px' && !borderStyle.startsWith ('none')) {
       boxWidth = Unit.sub (boxWidth, '2px');
     }
 
