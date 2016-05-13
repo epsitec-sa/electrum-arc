@@ -54,15 +54,15 @@ export default class TabButton extends React.Component {
         style={boxStyle}
         >
         <Button
-          kind    = 'view-tab'
-          glyph   = 'close'
+          kind    ='view-tab'
+          text    = {inputText}
           spacing = 'overlap'
           active  = {inputActive}
           {...this.link ()}
         />
         <Button
-          kind    ='view-tab'
-          text    = {inputText}
+          kind    = 'view-tab'
+          glyph   = 'close'
           spacing = 'tiny'
           active  = {inputActive}
           {...this.link ()}
