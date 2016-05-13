@@ -66,13 +66,13 @@ export default class Label extends React.Component {
       padding         = '0 10px 0 10px';
     }
 
-    if (inputKind === 'articleFooter') {
+    if (inputKind === 'article-footer') {
       justifyContent  = 'flex-start';
       padding         = '0 10px 0 10px';
       backgroundColor = theme.palette.infoBackground;
     }
 
-    if (inputKind === 'priceFooter') {
+    if (inputKind === 'price-footer') {
       justifyContent  = 'flex-end';
       padding         = '0 10px 0 10px';
       backgroundColor = theme.palette.infoBackground;

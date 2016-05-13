@@ -159,7 +159,7 @@ export default class RichContainer extends React.Component {
       backgroundColor = theme.palette.paneBackground;
     }
 
-    if (inputKind === 'rowPane') {
+    if (inputKind === 'row-pane') {
       display        = 'flex';
       flexDirection  = 'row';
       justifyContent = 'space-between';
