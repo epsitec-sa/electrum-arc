@@ -66,12 +66,14 @@ export default class Button extends React.Component {
     }
 
     // Initialise right margin according to spacing.
-    var spacingType = {
-      overlap: '0px -1px 0px 0px',
-      tiny:    '0px 1px 0px 0px',
-      large:   '0px ' + m + ' 0px 0px',
-    };
-    boxMargin = spacingType[inputSpacing];
+    if (inputSpacing) {
+      var spacingType = {
+        overlap: '0px -1px 0px 0px',
+        tiny:    '0px 1px 0px 0px',
+        large:   '0px ' + m + ' 0px 0px',
+      };
+      boxMargin = spacingType[inputSpacing];
+    }
 
     // Decrease space between glyph and text.
     if (inputGlyph && inputText) {
@@ -95,8 +97,8 @@ export default class Button extends React.Component {
       textJustify = inputJustify && justifyType[inputJustify];
     }
 
-    // badge-value button (usual parent container with kind="task").
-    if (inputKind === 'badge-value') {
+    // task-logo button (usual parent container with kind="task").
+    if (inputKind === 'task-logo') {
       boxWidth        = theme.shapes.taskButtonWidth;
       boxHeight       = theme.shapes.taskButtonHeight;
       boxDirection    = 'column';
@@ -229,7 +231,7 @@ export default class Button extends React.Component {
 
     // If component has specific width and border, reduce the width to
     // take into account the thickness of the borders left and right.
-    if (boxWidth && inputBorder !== 'none') {
+    if (boxWidth && boxWidth !== '0px' && inputBorder !== 'none') {
       boxWidth = Unit.sub (boxWidth, '2px');
     }
 
