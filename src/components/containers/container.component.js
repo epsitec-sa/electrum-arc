@@ -6,7 +6,7 @@ import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
-export default class RichContainer extends React.Component {
+export default class Container extends React.Component {
 
   constructor (props) {
     super (props);
