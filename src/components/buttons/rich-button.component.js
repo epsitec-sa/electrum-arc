@@ -87,11 +87,13 @@ export default class RichButton extends React.Component {
       actif = false;
     }
 
-    const justifyType = {
-      left:  'flex-start',
-      right: 'flex-end',
-    };
-    textJustify = justifyType[inputJustify];
+    if (inputJustify) {
+      const justifyType = {
+        left:  'flex-start',
+        right: 'flex-end',
+      };
+      textJustify = inputJustify && justifyType[inputJustify];
+    }
 
     // badge-value button (usual parent container with kind="task").
     if (inputKind === 'badge-value') {
