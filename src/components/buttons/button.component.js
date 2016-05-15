@@ -38,25 +38,29 @@ export default class Button extends React.Component {
     const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
     // Initialize all variables for a standard button.
-    var boxWidth        = inputWidth;
-    var boxHeight       = theme.shapes.lineHeight;
-    var boxGrow         = inputGrow;
-    var boxDirection    = 'row';
-    var boxMargin       = '0px';
-    var boxPadding      = '0px';
-    var borderColor     = theme.palette.buttonBorder;
-    var borderStyle     = 'solid';
-    var borderRadius    = '0px';
-    var backgroundColor = theme.palette.buttonBackground;
-    var glyphSize       = inputSize;
-    var textMargin      = '0px ' + m + ' 0px ' + m;
-    var textJustify     = 'center';
-    var textWeight      = null;
-    var textTransform   = null;
-    var textSize        = theme.shapes.buttonTextSize;
-    var textGrow        = 1;
-    var actif           = true;
-    var boxPosition     = null;
+    var boxWidth             = inputWidth;
+    var boxHeight            = theme.shapes.lineHeight;
+    var boxGrow              = inputGrow;
+    var boxDirection         = 'row';
+    var boxMargin            = '0px';
+    var boxPadding           = '0px';
+    var borderColor          = theme.palette.buttonBorder;
+    var borderStyle          = 'solid';
+    var borderRadius         = '0px';
+    var backgroundColor      = theme.palette.buttonBackground;
+    var borderHoverColor     = null;
+    var backgroundHoverColor = null;
+    var glyphColor           = null;
+    var glyphSize            = inputSize;
+    var textColor            = null;
+    var textMargin           = '0px ' + m + ' 0px ' + m;
+    var textJustify          = 'center';
+    var textWeight           = null;
+    var textTransform        = null;
+    var textSize             = theme.shapes.buttonTextSize;
+    var textGrow             = 1;
+    var actif                = true;
+    var boxPosition          = null;
 
     // Initialize variables for button without border.
     if (inputBorder === 'none') {
@@ -141,6 +145,7 @@ export default class Button extends React.Component {
       } else {
         backgroundColor = theme.palette.mainTabButtonInactiveBackground;
       }
+      textColor = emphasize (backgroundColor, 0.6);
     }
 
     // view-tab button (usual parent is container with kind="view-tab").
@@ -166,9 +171,12 @@ export default class Button extends React.Component {
       textSize        = theme.shapes.paneNavigatorTextSize;
       if (inputActive === 'false') {
         borderColor   = theme.palette.paneNavigatorInactiveBorder;
+        textColor     = emphasize (backgroundColor, 0.4);
       } else if (inputActive === 'true') {
         borderColor   = theme.palette.paneNavigatorActiveBorder;
       }
+      borderHoverColor = theme.palette.paneNavigatorBorderHoverColor;
+      backgroundHoverColor = '#ffffff00';  // transparent
     }
 
     // Footer button (usual parent is container with kind="footer").
@@ -210,14 +218,20 @@ export default class Button extends React.Component {
       boxPosition = 'relative';
     }
 
-    // Compute colors for glyph, text and hover.
-    var c = backgroundColor;
-    if (!c) {
-      c = theme.palette.buttonBackground;
+    // Compute colors for glyph, text and hover if necessary.
+    var buttonBackgroundColor = backgroundColor;
+    if (!buttonBackgroundColor) {
+      buttonBackgroundColor = theme.palette.buttonBackground;
     }
-    var backgroundHoverColor = emphasize (c, 0.2);
-    var glyphColor           = emphasize (c, 0.8);
-    var textColor            = emphasize (c, 0.9);
+    if (!backgroundHoverColor) {
+      backgroundHoverColor = emphasize (buttonBackgroundColor, 0.2);
+    }
+    if (!glyphColor) {
+      glyphColor = emphasize (buttonBackgroundColor, 0.8);
+    }
+    if (!textColor) {
+      textColor = emphasize (buttonBackgroundColor, 0.9);
+    }
 
     // Alter colors if component is disable.
     if (disabled) {
@@ -259,6 +273,7 @@ export default class Button extends React.Component {
       boxStyle.transitionProperty = 'background-color';
       boxStyle.transitionDuration = '300ms';
       boxStyle[':hover'] = {
+        borderColor:     borderHoverColor,
         backgroundColor: backgroundHoverColor,
         opacity:         1.0,
       };
