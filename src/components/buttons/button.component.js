@@ -19,7 +19,6 @@ export default class Button extends React.Component {
     const {state, theme} = this.props;
     const disabled = Action.isDisabled (state);
     const inputGlyph         = this.read ('glyph');
-    const inputSize          = this.read ('size');
     const inputRotate        = this.read ('rotate');
     const inputFlip          = this.read ('flip');
     const inputSpin          = this.read ('spin');
@@ -51,7 +50,7 @@ export default class Button extends React.Component {
     var borderHoverColor     = null;
     var backgroundHoverColor = null;
     var glyphColor           = null;
-    var glyphSize            = inputSize;
+    var glyphScale           = null;
     var textColor            = null;
     var textMargin           = '0px ' + m + ' 0px ' + m;
     var textJustify          = 'center';
@@ -110,7 +109,7 @@ export default class Button extends React.Component {
       boxMargin       = '0px';
       borderStyle     = 'none';
       backgroundColor = theme.palette.taskLogoBackground;
-      glyphSize       = '2x';
+      glyphScale      = 2.0;
       textMargin      = '0px';
       textTransform   = 'uppercase';
       textWeight      = 'bold';
@@ -191,7 +190,7 @@ export default class Button extends React.Component {
       textSize   = theme.shapes.footerTextSize;
       if (inputText) {
         backgroundColor = theme.palette.footerTextBackground;
-        glyphSize       = '2x';
+        glyphScale      = 1.5;
       } else {
         backgroundColor = theme.palette.footerBackground;
       }
@@ -283,9 +282,12 @@ export default class Button extends React.Component {
       };
     }
 
-    var glyphDim = theme.shapes.lineHeight;
-    if (glyphSize === '2x') {
-      glyphDim = Unit.multiply (glyphDim, 2.0);
+    var glyphTransform = null;
+    var glyphMargin    = '0px';
+    if (glyphScale) {
+      glyphTransform = 'scale(' + glyphScale + ')';
+      const mm = Unit.multiply (m, glyphScale);
+      glyphMargin = '0px ' + mm + ' 0px ' + mm;
     }
 
     var glyphStyle = {
@@ -293,11 +295,12 @@ export default class Button extends React.Component {
       flexDirection:   'row',
       justifyContent:  'center',
       alignItems:      'center',
-      width:           glyphDim,
-      height:          glyphDim,
+      width:           theme.shapes.lineHeight,
+      height:          theme.shapes.lineHeight,
       padding:         '0px',
-      margin:          '0px',
+      margin:          glyphMargin,
       color:           glyphColor,
+      transform:       glyphTransform,
     };
 
     var textStyle = {
@@ -325,7 +328,6 @@ export default class Button extends React.Component {
         style={glyphStyle}
         className={`fa
         fa-${inputGlyph}
-        fa-${glyphSize}
         fa-rotate-${inputRotate}
         fa-flip-${inputFlip}
         ${renderSpin}`}
