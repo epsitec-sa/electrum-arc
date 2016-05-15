@@ -145,7 +145,7 @@ export default class Button extends React.Component {
       } else {
         backgroundColor = theme.palette.mainTabButtonInactiveBackground;
       }
-      textColor = emphasize (backgroundColor, 0.6);
+      textColor = theme.palette.mainTabText;
     }
 
     // view-tab button (usual parent is container with kind="view-tab").
@@ -153,6 +153,7 @@ export default class Button extends React.Component {
       boxHeight   = theme.shapes.viewTabHeight;
       borderStyle = 'none';
       textSize        = theme.shapes.viewTabTextSize;
+      glyphColor      = theme.palette.viewTabIcon;
       if (inputActive === 'true') {
         backgroundColor = theme.palette.viewTabButtonActiveBackground;
       } else {
@@ -171,7 +172,7 @@ export default class Button extends React.Component {
       textSize        = theme.shapes.paneNavigatorTextSize;
       if (inputActive === 'false') {
         borderColor   = theme.palette.paneNavigatorInactiveBorder;
-        textColor     = emphasize (backgroundColor, 0.4);
+        textColor     = theme.palette.paneNavigatorInactiveText;
       } else if (inputActive === 'true') {
         borderColor   = theme.palette.paneNavigatorActiveBorder;
       }
