@@ -152,8 +152,8 @@ export default class Button extends React.Component {
     if (inputKind === 'view-tab') {
       boxHeight   = theme.shapes.viewTabHeight;
       borderStyle = 'none';
-      textSize        = theme.shapes.viewTabTextSize;
-      glyphColor      = theme.palette.viewTabIcon;
+      textSize    = theme.shapes.viewTabTextSize;
+      glyphColor  = theme.palette.viewTabGlyph;
       if (inputActive === 'true') {
         backgroundColor = theme.palette.viewTabButtonActiveBackground;
       } else {
@@ -236,12 +236,12 @@ export default class Button extends React.Component {
 
     // Alter colors if component is disable.
     if (disabled) {
-      borderColor = '#aaa';
+      borderColor = theme.palette.buttonDisableBorder;
       if (backgroundColor) {
-        backgroundColor = '#eee';
+        backgroundColor = theme.palette.buttonDisableBackground;
       }
-      glyphColor    = '#aaa';
-      textColor     = '#aaa';
+      glyphColor    = theme.palette.buttonDisableGlyph;
+      textColor     = theme.palette.buttonDisableText;
     }
 
     // If component has specific width and border, reduce the width to
