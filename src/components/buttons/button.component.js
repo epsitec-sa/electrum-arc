@@ -126,8 +126,8 @@ export default class Button extends React.Component {
       boxDirection    = 'column';
       boxMargin       = '0px';
       borderStyle     = 'none none solid none';
-      borderColor     = theme.palette.taskButtonBorderColor;
-      backgroundColor = theme.palette.taskButtonBackgroundColor;
+      borderColor     = theme.palette.taskButtonBorder;
+      backgroundColor = theme.palette.taskButtonBackground;
       textMargin      = '0px';
       textSize        = theme.shapes.taskTextSize;
       textGrow        = null;
@@ -179,7 +179,7 @@ export default class Button extends React.Component {
       } else if (inputActive === 'true') {
         borderColor   = theme.palette.paneNavigatorActiveBorder;
       }
-      borderHoverColor = theme.palette.paneNavigatorBorderHoverColor;
+      borderHoverColor = theme.palette.paneNavigatorBorderHover;
       backgroundHoverColor = '#ffffff00';  // transparent
     }
 
