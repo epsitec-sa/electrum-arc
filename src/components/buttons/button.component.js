@@ -270,7 +270,7 @@ export default class Button extends React.Component {
     };
 
     if (!disabled && actif) {
-      boxStyle.transitionProperty = 'background-color';
+      boxStyle.transitionProperty = 'all';
       boxStyle.transitionDuration = '300ms';
       boxStyle[':hover'] = {
         borderColor:     borderHoverColor,
