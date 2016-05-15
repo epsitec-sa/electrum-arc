@@ -61,6 +61,7 @@ export default class Button extends React.Component {
     var textGrow             = 1;
     var actif                = true;
     var boxPosition          = null;
+    var hasBottomTriangle    = false;
 
     // Initialize variables for button without border.
     if (inputBorder === 'none') {
@@ -142,6 +143,8 @@ export default class Button extends React.Component {
       textSize        = theme.shapes.mainTabTextSize;
       if (inputActive === 'true') {
         backgroundColor = theme.palette.mainTabButtonActiveBackground;
+        boxPosition     = 'relative';
+        hasBottomTriangle = true;
       } else {
         backgroundColor = theme.palette.mainTabButtonInactiveBackground;
       }
@@ -337,6 +340,28 @@ export default class Button extends React.Component {
       />
     ) : null;
 
+    var htmlTriangle = null;
+    if (hasBottomTriangle) {
+      const triangleStyle = {
+        position: 'absolute',
+        right:    '0px',
+        top:      '0px',
+      };
+      const w = boxWidth;
+      const h = boxHeight;
+      const x2 = Unit.multiply (w, 0.5);
+      const d = theme.shapes.mainTabTriangleSize;
+      const x1 = Unit.sub (x2, d);
+      const y2 = Unit.sub (h, d);
+      const x3 = Unit.add (x2, d);
+      const points = (x1 + h + x2 + y2 + x3 + h).replace (/px/g, ' ');
+      htmlTriangle = (
+        <svg width={w} height={h} style={triangleStyle}>
+          <polygon points={points} fill={theme.palette.viewTabBackground}/>
+        </svg>
+      );
+    }
+
     const layout = () => {
       if (inputGlyph) {
         if (inputText) {
@@ -362,6 +387,7 @@ export default class Button extends React.Component {
         >
         {layout ().map ((comp) => comp)}
         {htmlBadge}
+        {htmlTriangle}
       </div>
     );
   }
