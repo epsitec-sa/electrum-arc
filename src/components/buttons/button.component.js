@@ -347,12 +347,12 @@ export default class Button extends React.Component {
         right:    '0px',
         top:      '0px',
       };
-      const w = boxWidth;
-      const h = boxHeight;
+      const w  = boxWidth;
+      const h  = boxHeight;
       const x2 = Unit.multiply (w, 0.5);
-      const d = theme.shapes.mainTabTriangleSize;
+      const d  = theme.shapes.mainTabTriangleSize;
       const x1 = Unit.sub (x2, d);
-      const y2 = Unit.sub (h, d);
+      const y2 = Unit.sub (h,  d);
       const x3 = Unit.add (x2, d);
       const points = (x1 + h + x2 + y2 + x3 + h).replace (/px/g, ' ');
       htmlTriangle = (
@@ -386,8 +386,8 @@ export default class Button extends React.Component {
         {...this.props}
         >
         {layout ().map ((comp) => comp)}
-        {htmlBadge}
         {htmlTriangle}
+        {htmlBadge}
       </div>
     );
   }
