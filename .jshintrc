@@ -6,7 +6,7 @@
   "camelcase"     : true,
   "curly"         : true,
   "eqeqeq"        : true,
-  "es3"           : false,
+  "esversion"     : 6,
   "forin"         : true,
   "freeze"        : true,
   "immed"         : true,
