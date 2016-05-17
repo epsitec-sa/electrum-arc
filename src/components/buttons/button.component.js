@@ -50,7 +50,7 @@ export default class Button extends React.Component {
     var borderHoverColor     = null;
     var backgroundHoverColor = null;
     var glyphColor           = null;
-    var glyphScale           = null;
+    var glyphSize            = null;
     var textColor            = null;
     var textMargin           = '0px ' + m + ' 0px ' + m;
     var textJustify          = 'center';
@@ -109,13 +109,13 @@ export default class Button extends React.Component {
       boxMargin       = '0px';
       borderStyle     = 'none';
       backgroundColor = theme.palette.taskLogoBackground;
-      glyphScale      = 2.0;
       textMargin      = '0px';
       textTransform   = 'uppercase';
       textWeight      = 'bold';
       textSize        = theme.shapes.taskLogoTextSize;
       textJustify     = 'center';
       textGrow        = null;
+      glyphSize       = theme.shapes.taskLogoGlyphSize;
     }
 
     // Task button (usual parent is container with kind="task").
@@ -130,6 +130,7 @@ export default class Button extends React.Component {
       textMargin      = '0px';
       textSize        = theme.shapes.taskTextSize;
       textGrow        = null;
+      glyphSize       = theme.shapes.taskGlyphSize;
     }
 
     // main-tab button (usual parent is container with kind="main-tab").
@@ -188,9 +189,9 @@ export default class Button extends React.Component {
       boxMargin  = '0px 1px 0px 0px';
       boxPadding = '0px ' + m + ' 0px ' + m;
       textSize   = theme.shapes.footerTextSize;
+      glyphSize  = theme.shapes.footerGlyphSize;
       if (inputText) {
         backgroundColor = theme.palette.footerTextBackground;
-        glyphScale      = 1.5;
       } else {
         backgroundColor = theme.palette.footerBackground;
       }
@@ -206,6 +207,7 @@ export default class Button extends React.Component {
       borderStyle     = 'none';
       backgroundColor = theme.palette.actionButtonBackground;
       textSize        = theme.shapes.actionTextSize;
+      glyphSize       = theme.shapes.actionGlyphSize;
       if (inputPlace === 'left') {
         boxMargin    = '0px 1px 0px 0px';
         borderRadius = r + ' 0px 0px ' + r;
@@ -284,9 +286,14 @@ export default class Button extends React.Component {
 
     var glyphTransform = null;
     var glyphMargin    = '0px';
-    if (glyphScale) {
-      glyphTransform = 'scale(' + glyphScale + ')';
-      const mm = Unit.multiply (m, glyphScale);
+    if (glyphSize) {
+      const s = Unit.parse (glyphSize);
+      if (s.unit !== '%') {
+        throw new Error (`GlyphSize '${glyphSize}' has an unexpected format`);
+      }
+      const ss = s.value / 100;
+      glyphTransform = 'scale(' + ss + ')';
+      const mm = Unit.multiply (m, ss);
       glyphMargin = '0px ' + mm + ' 0px ' + mm;
     }
 
