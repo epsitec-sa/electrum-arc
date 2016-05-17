@@ -244,8 +244,8 @@ export default class Button extends React.Component {
       if (backgroundColor) {
         backgroundColor = theme.palette.buttonDisableBackground;
       }
-      glyphColor    = theme.palette.buttonDisableGlyph;
-      textColor     = theme.palette.buttonDisableText;
+      glyphColor = theme.palette.buttonDisableGlyph;
+      textColor  = theme.palette.buttonDisableText;
     }
 
     // If component has specific width and border, reduce the width to
@@ -275,12 +275,13 @@ export default class Button extends React.Component {
     };
 
     if (!disabled && actif) {
-      boxStyle.transitionProperty = 'all';
-      boxStyle.transitionDuration = '300ms';
       boxStyle[':hover'] = {
-        borderColor:     borderHoverColor,
-        backgroundColor: backgroundHoverColor,
-        opacity:         1.0,
+        borderColor:              borderHoverColor,
+        backgroundColor:          backgroundHoverColor,
+        opacity:                  1.0,
+        transitionProperty:       'all',
+        transitionDuration:       '200ms',
+        transitionTimingFunction: 'ease-out',
       };
     }
 
