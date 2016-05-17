@@ -12,21 +12,6 @@ export default class TextField extends React.Component {
     super (props);
   }
 
-  onKeyDown (e) {
-    const {id, state} = this.props;
-    console.log (`onKeyDown: ${id}, ${state.generation} value=${e.target.value}`);
-  }
-
-  onKeyUp (e) {
-    const {id, state} = this.props;
-    console.log (`onKeyUp: ${id}, ${state.generation} value=${e.target.value}`);
-  }
-
-  onChange (e) {
-    const {id, state} = this.props;
-    console.log (`onChange: ${id}, ${state.generation} value=${e.target.value}`);
-  }
-
   render () {
     const {state, theme, value, grow, spacing, width} = this.props;
     const disabled = Action.isDisabled (state);
@@ -91,6 +76,7 @@ export default class TextField extends React.Component {
         <input
           onChange={this.onChange}
           onFocus={this.onFocus}
+          onBlur={this.onBlur}
           onKeyDown={this.onKeyDown}
           onKeyUp={this.onKeyUp}
           onSelect={this.onSelect}
