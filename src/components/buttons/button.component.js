@@ -272,6 +272,7 @@ export default class Button extends React.Component {
       margin:          boxMargin,
       backgroundColor: backgroundColor,
       position:        boxPosition,
+      transition:      theme.transitions.easeOut (),
     };
 
     if (!disabled && actif) {
@@ -279,9 +280,6 @@ export default class Button extends React.Component {
         borderColor:              borderHoverColor,
         backgroundColor:          backgroundHoverColor,
         opacity:                  1.0,
-        transitionProperty:       'all',
-        transitionDuration:       '200ms',
-        transitionTimingFunction: 'ease-out',
       };
     }
 
