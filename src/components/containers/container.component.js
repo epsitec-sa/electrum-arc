@@ -36,7 +36,8 @@ export default class Container extends React.Component {
     var minWidth        = null;
     var minHeight       = null;
     var display         = null;
-    var overflow        = null;
+    var overflowX       = null;
+    var overflowY       = null;
     var flexDirection   = null;
     var flexGrow        = null;
     var justifyContent  = null;
@@ -76,6 +77,7 @@ export default class Container extends React.Component {
       flexDirection   = 'column';
       flexGrow        = 1;
       boxSizing       = 'border-box';
+      overflowX       = 'hidden';
     }
 
     if (inputKind === 'main-tab') {
@@ -110,10 +112,18 @@ export default class Container extends React.Component {
       backgroundColor = theme.palette.footerBackground;
     }
 
+    if (inputKind === 'views') {
+      display         = 'flex';
+      flexDirection   = 'row';
+      flexGrow        = 1;
+      overflowX       = 'auto';
+    }
+
     if (inputKind === 'view') {
+      minWidth        = inputWidth;
       display         = 'flex';
       flexDirection   = 'column';
-      flexGrow        = 1;
+      margin          = '0px ' + theme.shapes.viewSpacing + ' 0px 0px';
       backgroundColor = theme.palette.viewBackground;
     }
 
@@ -144,7 +154,7 @@ export default class Container extends React.Component {
 
     if (inputKind === 'panes') {
       flexGrow        = 1;
-      overflow        = 'auto';
+      overflowY       = 'auto';
       padding         = '0px ' + m + ' 0px ' + m;
     }
 
@@ -176,7 +186,8 @@ export default class Container extends React.Component {
       minWidth:        minWidth,
       minHeight:       minHeight,
       display:         display,
-      overflow:        overflow,
+      overflowX:       overflowX,
+      overflowY:       overflowY,
       flexDirection:   flexDirection,
       flexGrow:        flexGrow,
       justifyContent:  justifyContent,
