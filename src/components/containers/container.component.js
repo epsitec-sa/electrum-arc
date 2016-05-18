@@ -13,12 +13,13 @@ export default class Container extends React.Component {
   }
 
   render () {
-    const {state, theme, width, height, kind, spacing} = this.props;
+    const {state, theme} = this.props;
     const disabled = Action.isDisabled (state);
-    var   inputWidth   = width   || state.get ('width');
-    var   inputHeight  = height  || state.get ('height');
-    const inputKind    = kind    || state.get ('kind');
-    const inputSpacing = spacing || state.get ('spacing');
+    var   inputWidth      = this.read ('width');
+    var   inputHeight     = this.read ('height');
+    const inputKind       = this.read ('kind');
+    const inputHeightType = this.read ('height-type');
+    const inputSpacing    = this.read ('spacing');
 
     var minWidth        = null;
     var minHeight       = null;
@@ -29,6 +30,8 @@ export default class Container extends React.Component {
     var flexGrow        = null;
     var justifyContent  = null;
     var alignItems      = null;
+    var alignContent    = null;
+    var alignSelf       = null;
     var borderWidth     = null;
     var borderStyle     = 'none';
     var borderColor     = null;
@@ -112,6 +115,9 @@ export default class Container extends React.Component {
       flexDirection   = 'column';
       margin          = '0px ' + theme.shapes.viewSpacing + ' 0px 0px';
       backgroundColor = theme.palette.viewBackground;
+      if (inputHeightType === 'short') {
+        alignSelf     = 'flex-start';
+      }
     }
 
     if (inputKind === 'pane-navigator') {
@@ -179,6 +185,8 @@ export default class Container extends React.Component {
       flexGrow:        flexGrow,
       justifyContent:  justifyContent,
       alignItems:      alignItems,
+      alignContent:    alignContent,
+      alignSelf:       alignSelf,
       borderWidth:     borderWidth,
       borderStyle:     borderStyle,
       borderColor:     borderColor,
