@@ -36,7 +36,6 @@ export default class Container extends React.Component {
     var borderStyle     = 'none';
     var borderColor     = null;
     var boxShadow       = null;
-    var boxSizing       = null;
     var margin          = '0px';
     var padding         = '0px';
     var backgroundColor = null;
@@ -51,7 +50,6 @@ export default class Container extends React.Component {
       display         = 'flex';
       flexDirection   = 'row';
       inputHeight     = '100vh';
-      boxSizing       = 'border-box';
       backgroundColor = theme.palette.rootBackground;
     }
 
@@ -66,7 +64,6 @@ export default class Container extends React.Component {
       display         = 'flex';
       flexDirection   = 'column';
       flexGrow        = 1;
-      boxSizing       = 'border-box';
       overflowX       = 'hidden';
     }
 
@@ -191,7 +188,6 @@ export default class Container extends React.Component {
       borderStyle:     borderStyle,
       borderColor:     borderColor,
       boxShadow:       boxShadow,
-      boxSizing:       boxSizing,
       margin:          margin,
       padding:         padding,
       backgroundColor: backgroundColor,
