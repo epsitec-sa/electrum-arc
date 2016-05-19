@@ -5,31 +5,31 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 function box (theme, props) {
-  var   inputWidth      = props.inputWidth;
-  var   inputHeight     = props.inputHeight;
+  let   inputWidth      = props.inputWidth;
+  let   inputHeight     = props.inputHeight;
   const inputKind       = props.inputKind;
   const inputHeightType = props.inputHeightType;
   const inputSpacing    = props.inputSpacing;
 
-  var minWidth        = null;
-  var minHeight       = null;
-  var display         = null;
-  var overflowX       = null;
-  var overflowY       = null;
-  var flexDirection   = null;
-  var flexGrow        = null;
-  var justifyContent  = null;
-  var alignItems      = null;
-  var alignContent    = null;
-  var alignSelf       = null;
-  var borderWidth     = null;
-  var borderStyle     = 'none';
-  var borderColor     = null;
-  var boxShadow       = null;
-  var margin          = '0px';
-  var padding         = '0px';
-  var backgroundColor = null;
-  var zIndex          = null;
+  let minWidth        = null;
+  let minHeight       = null;
+  let display         = null;
+  let overflowX       = null;
+  let overflowY       = null;
+  let flexDirection   = null;
+  let flexGrow        = null;
+  let justifyContent  = null;
+  let alignItems      = null;
+  let alignContent    = null;
+  let alignSelf       = null;
+  let borderWidth     = null;
+  let borderStyle     = 'none';
+  let borderColor     = null;
+  let boxShadow       = null;
+  let margin          = '0px';
+  let padding         = '0px';
+  let backgroundColor = null;
+  let zIndex          = null;
 
   const h = theme.shapes.lineHeight;
   const m = theme.shapes.containerMargin;
@@ -44,7 +44,7 @@ function box (theme, props) {
   }
 
   if (inputKind === 'task') {
-    zIndex          = '2';
+    zIndex          = 2;
     minWidth        = theme.shapes.taskButtonWidth;
     backgroundColor = theme.palette.taskBackground;
     boxShadow       = theme.shapes.taskShadow;
