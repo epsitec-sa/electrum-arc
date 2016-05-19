@@ -31,22 +31,12 @@ export default class TabButton extends React.Component {
   }
 
   render () {
-    const {state, theme, text, active} = this.props;
+    const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputText   = text   || state.get ('text');
-    const inputActive = active || state.get ('active');
+    const inputText   = this.read ('text');
+    const inputActive = this.read ('active');
 
-    var boxStyle = {
-      display:         'flex',
-      flexDirection:   'row',
-      justifyContent:  'flex-start',
-      alignItems:      'center',
-      padding:         '0px',
-      marginTop:       '0px',
-      marginLeft:      '0px',
-      marginBottom:    '0px',
-      marginRight:     '0px',
-    };
+    const boxStyle = this.mergeStyles ('box');
 
     return (
       <span

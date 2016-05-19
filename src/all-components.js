@@ -9,6 +9,7 @@ import _MuIconButton from './components/buttons/mu-icon-button.component.js';
 import _MuRaisedButton from './components/buttons/mu-raised-button.component.js';
 import _MuSlider from './components/buttons/mu-slider.component.js';
 import _TabButton from './components/buttons/tab-button.component.js';
+import _TabButton$styles from './components/buttons/tab-button.styles.js';
 import _AppCanvas from './components/containers/app-canvas.component.js';
 import _AppCanvas$styles from './components/containers/app-canvas.styles.js';
 import _Container from './components/containers/container.component.js';
@@ -57,7 +58,7 @@ export const MuFloatingActionButton = Electrum.wrap ('MuFloatingActionButton', _
 export const MuIconButton = Electrum.wrap ('MuIconButton', _MuIconButton);
 export const MuRaisedButton = Electrum.wrap ('MuRaisedButton', _MuRaisedButton);
 export const MuSlider = Electrum.wrap ('MuSlider', _MuSlider);
-export const TabButton = Electrum.wrap ('TabButton', _TabButton);
+export const TabButton = Electrum.wrap ('TabButton', _TabButton, {styles: _TabButton$styles});
 export const AppCanvas = Electrum.wrap ('AppCanvas', _AppCanvas, {styles: _AppCanvas$styles});
 export const Container = Electrum.wrap ('Container', _Container, {styles: _Container$styles});
 export const MuDivider = Electrum.wrap ('MuDivider', _MuDivider);
