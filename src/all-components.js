@@ -24,6 +24,7 @@ import _GoogleFontLoader from './components/extras/google-font-loader.component.
 import _Badge from './components/forms/fields/badge.component.js';
 import _Badge$styles from './components/forms/fields/badge.styles.js';
 import _LabelTextField from './components/forms/fields/label-text-field.component.js';
+import _LabelTextField$styles from './components/forms/fields/label-text-field.styles.js';
 import _Label from './components/forms/fields/label.component.js';
 import _Label$styles from './components/forms/fields/label.styles.js';
 import _MuAutoComplete from './components/forms/fields/mu-auto-complete.component.js';
@@ -67,7 +68,7 @@ export const MuToolbarTitle = Electrum.wrap ('MuToolbarTitle', _MuToolbarTitle);
 export const MuToolbar = Electrum.wrap ('MuToolbar', _MuToolbar);
 export const GoogleFontLoader = Electrum.wrap ('GoogleFontLoader', _GoogleFontLoader);
 export const Badge = Electrum.wrap ('Badge', _Badge, {styles: _Badge$styles});
-export const LabelTextField = Electrum.wrap ('LabelTextField', _LabelTextField);
+export const LabelTextField = Electrum.wrap ('LabelTextField', _LabelTextField, {styles: _LabelTextField$styles});
 export const Label = Electrum.wrap ('Label', _Label, {styles: _Label$styles});
 export const MuAutoComplete = Electrum.wrap ('MuAutoComplete', _MuAutoComplete);
 export const MuDatePicker = Electrum.wrap ('MuDatePicker', _MuDatePicker);
