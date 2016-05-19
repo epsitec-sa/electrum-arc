@@ -35,7 +35,7 @@ export default class TextFieldCombo extends React.Component {
     const disabled = Action.isDisabled (state);
     const inputGlyph    = glyph    || state.get ('glyph');
     const inputValue    = value    || state.get ('value');
-    const inputHintText = hintText || state.get ('hintText');
+    const inputHintText = hintText || state.get ('hint-text');
     var   inputGrow     = grow     || state.get ('grow');
     const inputSpacing  = spacing  || state.get ('spacing');
 

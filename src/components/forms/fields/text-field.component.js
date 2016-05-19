@@ -2,7 +2,6 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
@@ -43,7 +42,7 @@ export default class TextField extends React.Component {
           onSelect={this.onSelect}
           disabled={disabled}
           maxLength={this.props.maxLength}
-          placeholder={this.props.hintText || this.read ('hintText')}
+          placeholder={this.props.hintText || this.read ('hint-text')}
           size={this.props.size || 'size'}
           style={fieldStyle}
           type={this.props.type || 'text'}
