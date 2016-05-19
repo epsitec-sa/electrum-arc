@@ -7,7 +7,7 @@ const {emphasize} = ColorManipulator;
 
 /******************************************************************************/
 
-function styles (theme, props) {
+export default function styles (theme, props) {
   const {state} = props;
   const disabled = Action.isDisabled (state);
   const inputGlyph         = props.glyph;
@@ -49,7 +49,6 @@ function styles (theme, props) {
   let textGrow             = 1;
   let actif                = true;
   let boxPosition          = null;
-  let hasBottomTriangle    = false;
 
   // Initialize variables for button without border.
   if (inputBorder === 'none') {
@@ -133,7 +132,6 @@ function styles (theme, props) {
     if (inputActive === 'true') {
       backgroundColor = theme.palette.mainTabButtonActiveBackground;
       boxPosition     = 'relative';
-      hasBottomTriangle = true;
     } else {
       backgroundColor = theme.palette.mainTabButtonInactiveBackground;
     }
@@ -246,30 +244,29 @@ function styles (theme, props) {
   }
 
   let boxStyle = {
-    width:             boxWidth,
-    height:            boxHeight,
-    display:           'flex',
-    flexDirection:     boxDirection,
-    flexGrow:          boxGrow,
-    justifyContent:    'center',
-    alignItems:        'center',
-    borderWidth:       '1px',
-    borderColor:       borderColor,
-    borderStyle:       borderStyle,
-    borderRadius:      borderRadius,
-    padding:           boxPadding,
-    margin:            boxMargin,
-    backgroundColor:   backgroundColor,
-    position:          boxPosition,
-    transition:        theme.transitions.easeOut (),
-    hasBottomTriangle: hasBottomTriangle,
+    width:           boxWidth,
+    height:          boxHeight,
+    display:         'flex',
+    flexDirection:   boxDirection,
+    flexGrow:        boxGrow,
+    justifyContent:  'center',
+    alignItems:      'center',
+    borderWidth:     '1px',
+    borderColor:     borderColor,
+    borderStyle:     borderStyle,
+    borderRadius:    borderRadius,
+    padding:         boxPadding,
+    margin:          boxMargin,
+    backgroundColor: backgroundColor,
+    position:        boxPosition,
+    transition:      theme.transitions.easeOut (),
   };
 
   if (!disabled && actif) {
     boxStyle[':hover'] = {
-      borderColor:              borderHoverColor,
-      backgroundColor:          backgroundHoverColor,
-      opacity:                  1.0,
+      borderColor:     borderHoverColor,
+      backgroundColor: backgroundHoverColor,
+      opacity:         1.0,
     };
   }
 
@@ -318,27 +315,5 @@ function styles (theme, props) {
     text:  textStyle,
   };
 }
-
-function box (theme, props) {
-  return {
-    base: styles (theme, props).box,
-  };
-}
-
-function glyph (theme, props) {
-  return {
-    base: styles (theme, props).glyph,
-  };
-}
-
-function text (theme, props) {
-  return {
-    base: styles (theme, props).text,
-  };
-}
-
-export default {
-  box, glyph, text,
-};
 
 /******************************************************************************/

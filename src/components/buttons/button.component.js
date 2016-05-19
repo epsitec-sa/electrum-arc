@@ -33,6 +33,8 @@ export default class Button extends React.Component {
   render () {
     const {state, theme} = this.props;
     const disabled = Action.isDisabled (state);
+    const inputKind          = this.read ('kind');
+    const inputActive        = this.read ('active');
     const inputGlyph         = this.read ('glyph');
     const inputRotate        = this.read ('rotate');
     const inputFlip          = this.read ('flip');
@@ -41,9 +43,9 @@ export default class Button extends React.Component {
     const inputGlyphPosition = this.read ('glyph-position');
     const inputBadgeValue    = this.read ('badge-value');
 
-    let boxStyle   = this.getStyles ('box');
-    let glyphStyle = this.getStyles ('glyph');
-    let textStyle  = this.getStyles ('text');
+    let boxStyle   = this.mergeStyles ('box');
+    let glyphStyle = this.mergeStyles ('glyph');
+    let textStyle  = this.mergeStyles ('text');
 
     const htmlText = (
       <label key='text' style={textStyle}>
@@ -72,14 +74,14 @@ export default class Button extends React.Component {
     ) : null;
 
     let htmlTriangle = null;
-    if (boxStyle.hasBottomTriangle) {
+    if (inputKind === 'main-tab' && inputActive === 'true') {
       const triangleStyle = {
         position: 'absolute',
         right:    '0px',
         top:      '0px',
       };
-      const w  = boxStyle.Width;
-      const h  = boxStyle.Height;
+      const w  = boxStyle.width;
+      const h  = boxStyle.height;
       const d  = theme.shapes.mainTabTriangleSize;
       const x2 = Unit.multiply (w, 0.5);
       const x1 = Unit.sub (x2, d);
