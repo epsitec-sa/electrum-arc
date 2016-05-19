@@ -10,18 +10,18 @@ const {emphasize} = ColorManipulator;
 function styles (theme, props) {
   const {state} = props;
   const disabled = Action.isDisabled (state);
-  const inputGlyph         = props.inputGlyph;
-  const inputText          = props.inputText;
-  const inputBorder        = props.inputBorder;
-  const inputGlyphPosition = props.inputGlyphPosition;
-  const inputSpacing       = props.inputSpacing;
-  const inputGrow          = props.inputGrow;
-  const inputWidth         = props.inputWidth;
-  const inputKind          = props.inputKind;
-  const inputPlace         = props.inputPlace;
-  const inputActive        = props.inputActive;
-  const inputBadgeValue    = props.inputBadgeValue;
-  const inputJustify       = props.inputJustify;
+  const inputGlyph         = props.glyph;
+  const inputText          = props.text;
+  const inputBorder        = props.border;
+  const inputGlyphPosition = props.glyphPosition;
+  const inputSpacing       = props.spacing;
+  const inputGrow          = props.grow;
+  const inputWidth         = props.width;
+  const inputKind          = props.kind;
+  const inputPlace         = props.place;
+  const inputActive        = props.active;
+  const inputBadgeValue    = props.badgeValue;
+  const inputJustify       = props.justify;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 

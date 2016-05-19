@@ -5,11 +5,11 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 function box (theme, props) {
-  let   inputWidth      = props.inputWidth;
-  let   inputHeight     = props.inputHeight;
-  const inputKind       = props.inputKind;
-  const inputHeightType = props.inputHeightType;
-  const inputSpacing    = props.inputSpacing;
+  let   inputWidth      = props.width;
+  let   inputHeight     = props.height;
+  const inputKind       = props.kind;
+  const inputHeightType = props.heightType;
+  const inputSpacing    = props.spacing;
 
   let minWidth        = null;
   let minHeight       = null;

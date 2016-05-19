@@ -15,18 +15,18 @@ export default class Button extends React.Component {
 
   get styleProps () {
     return {
-      inputGlyph:         this.read ('glyph'),
-      inputText:          this.read ('text'),
-      inputBorder:        this.read ('border'),
-      inputGlyphPosition: this.read ('glyph-position'),
-      inputSpacing:       this.read ('spacing'),
-      inputGrow:          this.read ('grow'),
-      inputWidth:         this.read ('width'),
-      inputKind:          this.read ('kind'),
-      inputPlace:         this.read ('place'),
-      inputActive:        this.read ('active'),
-      inputBadgeValue:    this.read ('badge-value'),
-      inputJustify:       this.read ('justify'),
+      glyph:         this.read ('glyph'),
+      text:          this.read ('text'),
+      border:        this.read ('border'),
+      glyphPosition: this.read ('glyph-position'),
+      spacing:       this.read ('spacing'),
+      grow:          this.read ('grow'),
+      width:         this.read ('width'),
+      kind:          this.read ('kind'),
+      place:         this.read ('place'),
+      active:        this.read ('active'),
+      badgeValue:    this.read ('badge-value'),
+      justify:       this.read ('justify'),
     };
   }
 

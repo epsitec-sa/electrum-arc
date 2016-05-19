@@ -13,11 +13,11 @@ export default class Container extends React.Component {
 
   get styleProps () {
     return {
-      inputWidth:      this.read ('width'),
-      inputHeight:     this.read ('height'),
-      inputKind:       this.read ('kind'),
-      inputHeightType: this.read ('height-type'),
-      inputSpacing:    this.read ('spacing'),
+      width:      this.read ('width'),
+      height:     this.read ('height'),
+      kind:       this.read ('kind'),
+      heightType: this.read ('height-type'),
+      spacing:    this.read ('spacing'),
     };
   }
 
