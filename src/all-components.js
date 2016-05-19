@@ -24,6 +24,7 @@ import _GoogleFontLoader from './components/extras/google-font-loader.component.
 import _Badge from './components/forms/fields/badge.component.js';
 import _LabelTextField from './components/forms/fields/label-text-field.component.js';
 import _Label from './components/forms/fields/label.component.js';
+import _Label$styles from './components/forms/fields/label.styles.js';
 import _MuAutoComplete from './components/forms/fields/mu-auto-complete.component.js';
 import _MuDatePicker from './components/forms/fields/mu-date-picker.component.js';
 import _MuSelectField from './components/forms/fields/mu-select-field.component.js';
@@ -65,7 +66,7 @@ export const MuToolbar = Electrum.wrap ('MuToolbar', _MuToolbar);
 export const GoogleFontLoader = Electrum.wrap ('GoogleFontLoader', _GoogleFontLoader);
 export const Badge = Electrum.wrap ('Badge', _Badge);
 export const LabelTextField = Electrum.wrap ('LabelTextField', _LabelTextField);
-export const Label = Electrum.wrap ('Label', _Label);
+export const Label = Electrum.wrap ('Label', _Label, {styles: _Label$styles});
 export const MuAutoComplete = Electrum.wrap ('MuAutoComplete', _MuAutoComplete);
 export const MuDatePicker = Electrum.wrap ('MuDatePicker', _MuDatePicker);
 export const MuSelectField = Electrum.wrap ('MuSelectField', _MuSelectField);

@@ -160,7 +160,7 @@ export default function styles (theme, props) {
     }
   }
 
-  let boxStyle = {
+  const boxStyle = {
     width:           inputWidth,
     height:          inputHeight,
     minWidth:        minWidth,
