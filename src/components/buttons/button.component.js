@@ -71,7 +71,7 @@ export default class Button extends React.Component {
       />
     ) : null;
 
-    var htmlTriangle = null;
+    let htmlTriangle = null;
     if (boxStyle.hasBottomTriangle) {
       const triangleStyle = {
         position: 'absolute',

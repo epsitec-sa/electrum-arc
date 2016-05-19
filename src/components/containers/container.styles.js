@@ -160,7 +160,7 @@ function box (theme, props) {
     }
   }
 
-  var boxStyle = {
+  let boxStyle = {
     width:           inputWidth,
     height:          inputHeight,
     minWidth:        minWidth,

@@ -60,7 +60,7 @@ function styles (theme, props) {
 
   // Initialise right margin according to spacing.
   if (inputSpacing) {
-    var spacingType = {
+    let spacingType = {
       overlap: '0px -1px 0px 0px',
       tiny:    '0px 1px 0px 0px',
       large:   '0px ' + m + ' 0px 0px',
