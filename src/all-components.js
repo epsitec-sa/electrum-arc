@@ -1,6 +1,7 @@
 'use strict';
 import Electrum from 'electrum';
 import _Button from './components/buttons/button.component.js';
+import _Button$styles from './components/buttons/button.styles.js';
 import _MuBadge from './components/buttons/mu-badge.component.js';
 import _MuFlatButton from './components/buttons/mu-flat-button.component.js';
 import _MuFloatingActionButton from './components/buttons/mu-floating-action-button.component.js';
@@ -44,7 +45,7 @@ import _Checkbox from './components/switches/checkbox.component.js';
 import _MuCheckbox from './components/switches/mu-checkbox.component.js';
 import _MuRadioButton from './components/switches/mu-radio-button.component.js';
 import _MuToggle from './components/switches/mu-toggle.component.js';
-export const Button = Electrum.wrap ('Button', _Button);
+export const Button = Electrum.wrap ('Button', _Button, {styles: _Button$styles});
 export const MuBadge = Electrum.wrap ('MuBadge', _MuBadge);
 export const MuFlatButton = Electrum.wrap ('MuFlatButton', _MuFlatButton);
 export const MuFloatingActionButton = Electrum.wrap ('MuFloatingActionButton', _MuFloatingActionButton);
