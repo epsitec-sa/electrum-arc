@@ -30,37 +30,24 @@ export default class TextFieldCombo extends React.Component {
     console.log (`onChange: ${id}, ${state.generation} value=${e.target.value}`);
   }
 
-  render () {
-    const {state, theme, glyph, value, hintText, grow, spacing} = this.props;
-    const disabled = Action.isDisabled (state);
-    const inputGlyph    = glyph    || state.get ('glyph');
-    const inputValue    = value    || state.get ('value');
-    const inputHintText = hintText || state.get ('hint-text');
-    var   inputGrow     = grow     || state.get ('grow');
-    const inputSpacing  = spacing  || state.get ('spacing');
-
-    if (!inputGrow) {
-      inputGrow = 1;
-    }
-
-    var boxStyle = {
-      display:         'flex',
-      flexDirection:   'row',
-      justifyContent:  'flex-start',
-      alignItems:      'center',
-      flexGrow:        inputGrow,
-      padding:         '0px',
-      marginTop:       '0px',
-      marginLeft:      '0px',
-      marginBottom:    '0px',
-      marginRight:     '0px',
+  get styleProps () {
+    return {
+      glyph:    this.read ('glyph'),
+      value:    this.read ('value'),
+      hintText: this.read ('hint-text'),
+      grow:     this.read ('grow'),
+      spacing:  this.read ('spacing'),
     };
+  }
 
-    if (inputSpacing === 'overlap') {
-      boxStyle.marginRight = '-1px';
-    } else if (inputSpacing === 'large') {
-      boxStyle.marginRight = theme.shapes.lineSpacing;
-    }
+  render () {
+    const {state} = this.props;
+    const disabled = Action.isDisabled (state);
+    const inputGlyph    = this.read ('glyph');
+    const inputValue    = this.read ('value');
+    const inputHintText = this.read ('hint-text');
+
+    const boxStyle = this.mergeStyles ('box');
 
     return (
       <span

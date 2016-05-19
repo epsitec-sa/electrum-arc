@@ -33,6 +33,7 @@ import _MuSelectField from './components/forms/fields/mu-select-field.component.
 import _MuTextField from './components/forms/fields/mu-text-field.component.js';
 import _MuTimePicker from './components/forms/fields/mu-time-picker.component.js';
 import _TextFieldCombo from './components/forms/fields/text-field-combo.component.js';
+import _TextFieldCombo$styles from './components/forms/fields/text-field-combo.styles.js';
 import _TextField from './components/forms/fields/text-field.component.js';
 import _TextField$styles from './components/forms/fields/text-field.styles.js';
 import _MuHoc from './components/hoc/mu-hoc.component.js';
@@ -75,7 +76,7 @@ export const MuDatePicker = Electrum.wrap ('MuDatePicker', _MuDatePicker);
 export const MuSelectField = Electrum.wrap ('MuSelectField', _MuSelectField);
 export const MuTextField = Electrum.wrap ('MuTextField', _MuTextField);
 export const MuTimePicker = Electrum.wrap ('MuTimePicker', _MuTimePicker);
-export const TextFieldCombo = Electrum.wrap ('TextFieldCombo', _TextFieldCombo);
+export const TextFieldCombo = Electrum.wrap ('TextFieldCombo', _TextFieldCombo, {styles: _TextFieldCombo$styles});
 export const TextField = Electrum.wrap ('TextField', _TextField, {styles: _TextField$styles});
 export const MuHoc = Electrum.wrap ('MuHoc', _MuHoc);
 export const Layout = Electrum.wrap ('Layout', _Layout);
