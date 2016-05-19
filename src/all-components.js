@@ -22,6 +22,7 @@ import _MuToolbarTitle from './components/containers/mu-toolbar-title.component.
 import _MuToolbar from './components/containers/mu-toolbar.component.js';
 import _GoogleFontLoader from './components/extras/google-font-loader.component.js';
 import _Badge from './components/forms/fields/badge.component.js';
+import _Badge$styles from './components/forms/fields/badge.styles.js';
 import _LabelTextField from './components/forms/fields/label-text-field.component.js';
 import _Label from './components/forms/fields/label.component.js';
 import _Label$styles from './components/forms/fields/label.styles.js';
@@ -65,7 +66,7 @@ export const MuToolbarSeparator = Electrum.wrap ('MuToolbarSeparator', _MuToolba
 export const MuToolbarTitle = Electrum.wrap ('MuToolbarTitle', _MuToolbarTitle);
 export const MuToolbar = Electrum.wrap ('MuToolbar', _MuToolbar);
 export const GoogleFontLoader = Electrum.wrap ('GoogleFontLoader', _GoogleFontLoader);
-export const Badge = Electrum.wrap ('Badge', _Badge);
+export const Badge = Electrum.wrap ('Badge', _Badge, {styles: _Badge$styles});
 export const LabelTextField = Electrum.wrap ('LabelTextField', _LabelTextField);
 export const Label = Electrum.wrap ('Label', _Label, {styles: _Label$styles});
 export const MuAutoComplete = Electrum.wrap ('MuAutoComplete', _MuAutoComplete);
