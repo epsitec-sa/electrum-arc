@@ -4,7 +4,7 @@ import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
-function box (theme, props) {
+export default function styles (theme, props) {
   let   inputWidth      = props.width;
   let   inputHeight     = props.height;
   const inputKind       = props.kind;
@@ -185,12 +185,8 @@ function box (theme, props) {
   };
 
   return {
-    base: boxStyle,
+    box: boxStyle,
   };
 }
-
-export default {
-  box,
-};
 
 /******************************************************************************/

@@ -25,7 +25,7 @@ export default class Container extends React.Component {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
 
-    let boxStyle = this.getStyles ('box');
+    let boxStyle = this.mergeStyles ('box');
 
     return (
       <div
