@@ -40,6 +40,7 @@ export default function styles (theme, props) {
     marginLeft:      '0px',
     marginBottom:    '0px',
     marginRight:     '0px',
+    position:        'relative',
   };
 
   const fieldStyle = {
