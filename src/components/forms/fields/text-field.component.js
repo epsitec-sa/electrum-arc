@@ -25,8 +25,8 @@ export default class TextField extends React.Component {
     const disabled = Action.isDisabled (state);
     const inputValue = this.read ('value');
 
-    let boxStyle   = this.mergeStyles ('box');
-    let fieldStyle = this.mergeStyles ('field');
+    const boxStyle   = this.mergeStyles ('box');
+    const fieldStyle = this.mergeStyles ('field');
 
     return (
       <span

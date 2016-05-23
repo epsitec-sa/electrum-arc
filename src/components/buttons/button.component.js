@@ -43,9 +43,9 @@ export default class Button extends React.Component {
     const inputGlyphPosition = this.read ('glyph-position');
     const inputBadgeValue    = this.read ('badge-value');
 
-    let boxStyle   = this.mergeStyles ('box');
-    let glyphStyle = this.mergeStyles ('glyph');
-    let textStyle  = this.mergeStyles ('text');
+    const boxStyle   = this.mergeStyles ('box');
+    const glyphStyle = this.mergeStyles ('glyph');
+    const textStyle  = this.mergeStyles ('text');
 
     const htmlText = (
       <label key='text' style={textStyle}>

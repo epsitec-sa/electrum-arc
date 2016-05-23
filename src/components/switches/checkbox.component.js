@@ -12,7 +12,7 @@ export default class Checkbox extends React.Component {
       checked: checked
     };
 
-    var boxStyle = {
+    const boxStyle = {
       display:         'flex',
       flexDirection:   'row',
       justifyContent:  'flex-start',
@@ -21,7 +21,7 @@ export default class Checkbox extends React.Component {
       padding:         '0px',
       margin:          '0px',
     };
-    var buttonStyle = {
+    const buttonStyle = {
       padding:         '0px',
       margin:          '0px',
       color:           '#555',

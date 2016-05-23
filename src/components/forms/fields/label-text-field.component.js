@@ -50,7 +50,7 @@ export default class LabelTextField extends React.Component {
     const inputValue      = this.read ('value');
     const inputHintText   = this.read ('hint-text');
 
-    let boxStyle = this.mergeStyles ('box');
+    const boxStyle = this.mergeStyles ('box');
 
     return (
       <span
