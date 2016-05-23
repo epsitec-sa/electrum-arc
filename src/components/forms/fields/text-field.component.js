@@ -24,7 +24,8 @@ export default class TextField extends React.Component {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
     const inputValue = this.read ('value');
-
+    // TEST
+    const inputToto = this.read ('toto');
     const boxStyle   = this.mergeStyles ('box');
     const fieldStyle = this.mergeStyles ('field');
 
@@ -48,8 +49,9 @@ export default class TextField extends React.Component {
           type={this.props.type || 'text'}
           key='input'
           value={inputValue}
-          {...this.props}
           />
+        <!-- TEST -->
+        <span>{inputToto}</span>
       </span>
     );
   }
