@@ -75,24 +75,43 @@ export default class Button extends React.Component {
 
     let htmlTriangle = null;
     if (inputKind === 'main-tab' && inputActive === 'true') {
-      const triangleStyle = {
-        position: 'absolute',
-        right:    '0px',
-        top:      '0px',
-      };
-      const w  = boxStyle.width;
-      const h  = boxStyle.height;
-      const d  = theme.shapes.mainTabTriangleSize;
-      const x2 = Unit.multiply (w, 0.5);
-      const x1 = Unit.sub (x2, d);
-      const y2 = Unit.sub (h,  d);
-      const x3 = Unit.add (x2, d);
-      const p  = (x1 + h + x2 + y2 + x3 + h).replace (/px/g, ' ');
-      htmlTriangle = (
-        <svg width={w} height={h} style={triangleStyle}>
-          <polygon points={p} fill={theme.palette.viewTabBackground}/>
-        </svg>
-      );
+      if (false) {
+        // Generate a triangle with svg graphics, see:
+        // http://www.w3schools.com/svg/svg_polygon.asp
+        const triangleStyle = {
+          position: 'absolute',
+          right:    '0px',
+          top:      '0px',
+        };
+        const w  = boxStyle.width;
+        const h  = boxStyle.height;
+        const d  = theme.shapes.mainTabTriangleSize;
+        const x2 = Unit.multiply (w, 0.5);
+        const x1 = Unit.sub (x2, d);
+        const y2 = Unit.sub (h,  d);
+        const x3 = Unit.add (x2, d);
+        const p  = (x1 + h + x2 + y2 + x3 + h).replace (/px/g, ' ');
+        htmlTriangle = (
+          <svg width={w} height={h} style={triangleStyle}>
+            <polygon points={p} fill={theme.palette.viewTabBackground}/>
+          </svg>
+        );
+      } else {
+        // Generate a triangleStyle, see:
+        // https://css-tricks.com/snippets/css/css-triangle/
+        const d = theme.shapes.mainTabTriangleSize;
+        const triangleStyle = {
+          position:     'absolute',
+          right:        '50%',
+          bottom:       '0px',
+          borderLeft:   d + ' solid transparent',
+          borderRight:  d + ' solid transparent',
+          borderBottom: d + ' solid ' + theme.palette.viewTabBackground,
+        };
+        htmlTriangle = (
+          <div style={triangleStyle} />
+        );
+      }
     }
 
     const layout = () => {
