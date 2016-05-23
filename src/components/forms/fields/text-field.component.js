@@ -50,7 +50,6 @@ export default class TextField extends React.Component {
           key='input'
           value={inputValue}
           />
-        <!-- TEST -->
         <span>{inputToto}</span>
       </span>
     );
