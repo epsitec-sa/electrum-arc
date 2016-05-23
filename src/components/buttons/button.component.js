@@ -97,7 +97,7 @@ export default class Button extends React.Component {
           </svg>
         );
       } else {
-        // Generate a triangleStyle, see:
+        // Generate a triangle with subtle css, see:
         // https://css-tricks.com/snippets/css/css-triangle/
         const d = theme.shapes.mainTabTriangleSize;
         const triangleStyle = {
