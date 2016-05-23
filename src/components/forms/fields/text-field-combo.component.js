@@ -32,7 +32,7 @@ export default class TextFieldCombo extends React.Component {
 
   get styleProps () {
     return {
-      glyph:    this.read ('glyph'),
+      glyph:    this.read ('combo-glyph'),
       value:    this.read ('value'),
       hintText: this.read ('hint-text'),
       grow:     this.read ('grow'),
@@ -43,7 +43,7 @@ export default class TextFieldCombo extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputGlyph    = this.read ('glyph');
+    const inputGlyph    = this.read ('combo-glyph');
     const inputValue    = this.read ('value');
     const inputHintText = this.read ('hint-text');
 
