@@ -61,7 +61,7 @@ export default function styles (theme, props) {
 
   const tooltipHeight = theme.shapes.tooltipHeight;
   const tooltipMargin = theme.shapes.tooltipMargin;
-  const tooltipStyle = {
+  const tooltipStyle1 = {
     position:        'absolute',
     left:            '-1px',
     bottom:          inputTooltip ? Unit.sub (Unit.multiply (tooltipHeight, -1), '1px') : '0px',
@@ -74,7 +74,7 @@ export default function styles (theme, props) {
     zIndex:          1,
     transition:      theme.transitions.easeOut (),
   };
-  const textStyle = {
+  const tooltipStyle2 = {
     display:       'inline-block',
     verticalAlign: 'middle',
   };
@@ -82,8 +82,8 @@ export default function styles (theme, props) {
   return {
     box:      boxStyle,
     field:    fieldStyle,
-    tooltip1: tooltipStyle,
-    tooltip2: textStyle,
+    tooltip1: tooltipStyle1,
+    tooltip2: tooltipStyle2,
   };
 }
 
