@@ -51,21 +51,26 @@ export default class TextField extends React.Component {
     let htmlTooltip = null;
     if (inputTooltip) {
       const h = theme.shapes.tooltipHeight;
-      const w = boxStyle.width;
+      const m = theme.shapes.tooltipMargin;
       const tooltipStyle = {
         position:        'absolute',
-        left:            '0px',
-        bottom:          Unit.multiply (h, -1),
-        width:           w,
+        left:            '-1px',
+        bottom:          Unit.sub (Unit.multiply (h, -1), '1px'),
         height:          h,
+        lineHeight:      h,
+        padding:         '0px ' + m + ' 0px ' + m,
         color:           theme.palette.tooltipText,
         backgroundColor: theme.palette.tooltipBackground,
-        fontSize:        theme.palette.tooltipTextSize,
+        fontSize:        theme.shapes.tooltipTextSize,
         zIndex:          1,
+      };
+      const textStyle = {
+        display:       'inline-block',
+        verticalAlign: 'middle',
       };
       htmlTooltip = (
         <div style={tooltipStyle}>
-          {inputTooltip}
+          <span style={textStyle}>{inputTooltip}</span>
         </div>
       );
     }
