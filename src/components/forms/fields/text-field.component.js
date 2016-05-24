@@ -18,6 +18,7 @@ export default class TextField extends React.Component {
       grow:    this.read ('grow'),
       spacing: this.read ('spacing'),
       width:   this.read ('width'),
+      tooltip: this.read ('tooltip'),
     };
   }
 
@@ -26,8 +27,11 @@ export default class TextField extends React.Component {
     const disabled = Action.isDisabled (state);
     const inputValue   = this.read ('value');
     const inputTooltip = this.read ('tooltip');
-    const boxStyle     = this.mergeStyles ('box');
-    const fieldStyle   = this.mergeStyles ('field');
+
+    const boxStyle      = this.mergeStyles ('box');
+    const fieldStyle    = this.mergeStyles ('field');
+    const tooltipStyle1 = this.mergeStyles ('tooltip1');
+    const tooltipStyle2 = this.mergeStyles ('tooltip2');
 
     const htmlInput = (
       <input
@@ -48,28 +52,9 @@ export default class TextField extends React.Component {
         />
     );
 
-    const h = theme.shapes.tooltipHeight;
-    const m = theme.shapes.tooltipMargin;
-    const tooltipStyle = {
-      position:        'absolute',
-      left:            '-1px',
-      bottom:          inputTooltip ? Unit.sub (Unit.multiply (h, -1), '1px') : '0px',
-      height:          h,
-      lineHeight:      h,
-      padding:         '0px ' + m + ' 0px ' + m,
-      color:           theme.palette.tooltipText,
-      backgroundColor: inputTooltip ? theme.palette.tooltipBackground : 'transparent',
-      fontSize:        theme.shapes.tooltipTextSize,
-      zIndex:          1,
-      transition:      theme.transitions.easeOut (),
-    };
-    const textStyle = {
-      display:       'inline-block',
-      verticalAlign: 'middle',
-    };
     const htmlTooltip = (
-      <div style={tooltipStyle}>
-        <span style={textStyle}>{inputTooltip}</span>
+      <div style={tooltipStyle1}>
+        <span style={tooltipStyle2}>{inputTooltip}</span>
       </div>
     );
 

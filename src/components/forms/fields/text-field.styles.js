@@ -8,6 +8,7 @@ export default function styles (theme, props) {
   let   inputGrow    = props.grow;
   const inputSpacing = props.spacing;
   let   inputWidth   = props.width;
+  const inputTooltip = props.tooltip;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -58,9 +59,31 @@ export default function styles (theme, props) {
     boxStyle.marginRight = m;
   }
 
+  const tooltipHeight = theme.shapes.tooltipHeight;
+  const tooltipMargin = theme.shapes.tooltipMargin;
+  const tooltipStyle = {
+    position:        'absolute',
+    left:            '-1px',
+    bottom:          inputTooltip ? Unit.sub (Unit.multiply (tooltipHeight, -1), '1px') : '0px',
+    height:          tooltipHeight,
+    lineHeight:      tooltipHeight,
+    padding:         '0px ' + tooltipMargin + ' 0px ' + tooltipMargin,
+    color:           theme.palette.tooltipText,
+    backgroundColor: inputTooltip ? theme.palette.tooltipBackground : 'transparent',
+    fontSize:        theme.shapes.tooltipTextSize,
+    zIndex:          1,
+    transition:      theme.transitions.easeOut (),
+  };
+  const textStyle = {
+    display:       'inline-block',
+    verticalAlign: 'middle',
+  };
+
   return {
-    box:   boxStyle,
-    field: fieldStyle,
+    box:      boxStyle,
+    field:    fieldStyle,
+    tooltip1: tooltipStyle,
+    tooltip2: textStyle,
   };
 }
 
