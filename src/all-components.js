@@ -22,6 +22,8 @@ import _MuToolbarSeparator from './components/containers/mu-toolbar-separator.co
 import _MuToolbarTitle from './components/containers/mu-toolbar-title.component.js';
 import _MuToolbar from './components/containers/mu-toolbar.component.js';
 import _GoogleFontLoader from './components/extras/google-font-loader.component.js';
+import _ThemeSwitcher from './components/extras/theme-switcher.component.js';
+import _ThemeSwitcher$styles from './components/extras/theme-switcher.styles.js';
 import _Badge from './components/forms/fields/badge.component.js';
 import _Badge$styles from './components/forms/fields/badge.styles.js';
 import _LabelTextField from './components/forms/fields/label-text-field.component.js';
@@ -69,6 +71,7 @@ export const MuToolbarSeparator = Electrum.wrap ('MuToolbarSeparator', _MuToolba
 export const MuToolbarTitle = Electrum.wrap ('MuToolbarTitle', _MuToolbarTitle);
 export const MuToolbar = Electrum.wrap ('MuToolbar', _MuToolbar);
 export const GoogleFontLoader = Electrum.wrap ('GoogleFontLoader', _GoogleFontLoader);
+export const ThemeSwitcher = Electrum.wrap ('ThemeSwitcher', _ThemeSwitcher, {styles: _ThemeSwitcher$styles});
 export const Badge = Electrum.wrap ('Badge', _Badge, {styles: _Badge$styles});
 export const LabelTextField = Electrum.wrap ('LabelTextField', _LabelTextField, {styles: _LabelTextField$styles});
 export const Label = Electrum.wrap ('Label', _Label, {styles: _Label$styles});
