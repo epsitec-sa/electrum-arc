@@ -1,6 +1,6 @@
 'use strict';
 
-import {E} from 'electrum';
+import Electrum from 'electrum';
 import React from 'react';
 import {ThemeConfigurations} from 'electrum-theme';
 
@@ -10,17 +10,17 @@ let themeNames = Object.keys (ThemeConfigurations);
 let themeIndex = 0;
 
 function switchTheme (store) {
-  if (E.bus === undefined) {
-    throw new Error ('No Electrum bus is currently configured: set E.bus');
+  if (Electrum.bus === undefined) {
+    throw new Error ('No Electrum.bus is currently configured');
   }
-  if (E.bus.update === undefined) {
-    throw new Error ('Electrum bus does not implement update()');
+  if (Electrum.bus.update === undefined) {
+    throw new Error ('Electrum.bus does not implement update()');
   }
 
   const themeName = themeNames[++themeIndex % themeNames.length];
   store.root.set ('activeTheme', themeName);
   store.mutateAll ();
-  E.bus.update ();
+  Electrum.bus.update ();
 }
 
 export default class ThemeSwitcher extends React.Component {
