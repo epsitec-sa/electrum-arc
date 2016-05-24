@@ -63,9 +63,9 @@ export default function styles (theme, props) {
   const tooltipStyle1 = {
     position:        'absolute',
     left:            '-1px',
-    top:             inputTooltip ? Unit.add (theme.shapes.lineHeight, '1px') : '0px',
+    top:             Unit.add (theme.shapes.lineHeight, '1px'),
     color:           theme.palette.tooltipText,
-    backgroundColor: inputTooltip ? theme.palette.tooltipBackground : 'transparent',
+    backgroundColor: theme.palette.tooltipBackground,
     fontSize:        theme.shapes.tooltipTextSize,
     zIndex:          1,
     transition:      theme.transitions.easeOut (),

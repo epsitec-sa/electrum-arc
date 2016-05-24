@@ -82,11 +82,6 @@ export default class TextField extends React.Component {
           <span style={tooltipStyle3}>{tooltip}</span>
         </div>
       );
-    } else {
-      // Without tooltip, create a empty bloc, for animations !
-      htmlTooltip = (
-        <div style={tooltipStyle1}/>
-      );
     }
 
     return (
