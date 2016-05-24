@@ -54,7 +54,6 @@ export default class TextField extends React.Component {
         />
     );
 
-    let htmlTooltip = null;
     let message = null;
     let tooltip = null;
     if (inputTooltip) {
@@ -69,6 +68,7 @@ export default class TextField extends React.Component {
     // if (!message) {
     //   message = inputHintText;
     // }
+    let htmlTooltip = null;
     if (message && tooltip) {
       htmlTooltip = (
         <div style={tooltipStyle1}>
@@ -81,6 +81,11 @@ export default class TextField extends React.Component {
         <div style={tooltipStyle1}>
           <span style={tooltipStyle3}>{tooltip}</span>
         </div>
+      );
+    } else {
+      // Without tooltip, create a empty bloc, for animations !
+      htmlTooltip = (
+        <div style={tooltipStyle1}/>
       );
     }
 
