@@ -32,6 +32,7 @@ export default class TextField extends React.Component {
     const fieldStyle    = this.mergeStyles ('field');
     const tooltipStyle1 = this.mergeStyles ('tooltip1');
     const tooltipStyle2 = this.mergeStyles ('tooltip2');
+    const tooltipStyle3 = this.mergeStyles ('tooltip3');
 
     const htmlInput = (
       <input
@@ -52,11 +53,24 @@ export default class TextField extends React.Component {
         />
     );
 
-    const htmlTooltip = (
-      <div style={tooltipStyle1}>
-        <span style={tooltipStyle2}>{inputTooltip}</span>
-      </div>
-    );
+    let htmlTooltip = null;
+    const ii = inputTooltip ? inputTooltip.indexOf ('|') : undefined;
+    if (ii) {
+      const x1 = inputTooltip.substring (0, ii);
+      const x2 = inputTooltip.substring (ii + 1, inputTooltip.length);
+      htmlTooltip = (
+        <div style={tooltipStyle1}>
+          <span style={tooltipStyle2}>{x1}</span>
+          <span style={tooltipStyle3}>{x2}</span>
+        </div>
+      );
+    } else {
+      htmlTooltip = (
+        <div style={tooltipStyle1}>
+          <span style={tooltipStyle3}>{inputTooltip}</span>
+        </div>
+      );
+    }
 
     return (
       <span

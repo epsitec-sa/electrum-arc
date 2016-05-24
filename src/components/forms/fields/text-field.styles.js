@@ -64,10 +64,8 @@ export default function styles (theme, props) {
   const tooltipStyle1 = {
     position:        'absolute',
     left:            '-1px',
-    bottom:          inputTooltip ? Unit.sub (Unit.multiply (tooltipHeight, -1), '1px') : '0px',
-    height:          tooltipHeight,
-    lineHeight:      tooltipHeight,
-    padding:         '0px ' + tooltipMargin + ' 0px ' + tooltipMargin,
+    top:             inputTooltip ? Unit.add (theme.shapes.lineHeight, '1px') : '0px',
+    padding:         tooltipMargin,
     color:           theme.palette.tooltipText,
     backgroundColor: inputTooltip ? theme.palette.tooltipBackground : 'transparent',
     fontSize:        theme.shapes.tooltipTextSize,
@@ -77,6 +75,12 @@ export default function styles (theme, props) {
   const tooltipStyle2 = {
     display:       'inline-block',
     verticalAlign: 'middle',
+    fontWeight:    'bold',
+    margin:        '0px 0px ' + tooltipMargin + ' 0px',
+  };
+  const tooltipStyle3 = {
+    display:       'inline-block',
+    verticalAlign: 'middle',
   };
 
   return {
@@ -84,6 +88,7 @@ export default function styles (theme, props) {
     field:    fieldStyle,
     tooltip1: tooltipStyle1,
     tooltip2: tooltipStyle2,
+    tooltip3: tooltipStyle3,
   };
 }
 
