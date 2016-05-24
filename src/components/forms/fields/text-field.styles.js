@@ -59,13 +59,11 @@ export default function styles (theme, props) {
     boxStyle.marginRight = m;
   }
 
-  const tooltipHeight = theme.shapes.tooltipHeight;
   const tooltipMargin = theme.shapes.tooltipMargin;
   const tooltipStyle1 = {
     position:        'absolute',
     left:            '-1px',
     top:             inputTooltip ? Unit.add (theme.shapes.lineHeight, '1px') : '0px',
-    padding:         tooltipMargin,
     color:           theme.palette.tooltipText,
     backgroundColor: inputTooltip ? theme.palette.tooltipBackground : 'transparent',
     fontSize:        theme.shapes.tooltipTextSize,
@@ -73,14 +71,15 @@ export default function styles (theme, props) {
     transition:      theme.transitions.easeOut (),
   };
   const tooltipStyle2 = {
-    display:       'inline-block',
-    verticalAlign: 'middle',
-    fontWeight:    'bold',
-    margin:        '0px 0px ' + tooltipMargin + ' 0px',
+    display:         'inline-block',
+    verticalAlign:   'middle',
+    fontWeight:      'bold',
+    padding:         tooltipMargin + ' ' + tooltipMargin + ' 0px ' + tooltipMargin,
   };
   const tooltipStyle3 = {
-    display:       'inline-block',
-    verticalAlign: 'middle',
+    display:         'inline-block',
+    verticalAlign:   'middle',
+    padding:         tooltipMargin,
   };
 
   return {

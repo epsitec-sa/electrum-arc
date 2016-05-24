@@ -25,8 +25,9 @@ export default class TextField extends React.Component {
   render () {
     const {state, theme} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputValue   = this.read ('value');
-    const inputTooltip = this.read ('tooltip');
+    const inputValue    = this.read ('value');
+    const inputTooltip  = this.read ('tooltip');
+    const inputHintText = this.props.hintText || this.read ('hint-text');
 
     const boxStyle      = this.mergeStyles ('box');
     const fieldStyle    = this.mergeStyles ('field');
@@ -44,7 +45,7 @@ export default class TextField extends React.Component {
         onSelect={this.onSelect}
         disabled={disabled}
         maxLength={this.props.maxLength}
-        placeholder={this.props.hintText || this.read ('hint-text')}
+        placeholder={inputHintText}
         size={this.props.size || 'size'}
         style={fieldStyle}
         type={this.props.type || 'text'}
@@ -54,20 +55,31 @@ export default class TextField extends React.Component {
     );
 
     let htmlTooltip = null;
-    const ii = inputTooltip ? inputTooltip.indexOf ('|') : undefined;
-    if (ii) {
-      const x1 = inputTooltip.substring (0, ii);
-      const x2 = inputTooltip.substring (ii + 1, inputTooltip.length);
+    let message = null;
+    let tooltip = null;
+    if (inputTooltip) {
+      const i = inputTooltip.indexOf ('|');
+      if (i) {
+        message = inputTooltip.substring (0, i);
+        tooltip = inputTooltip.substring (i + 1, inputTooltip.length);
+      } else {
+        tooltip = inputTooltip;
+      }
+    }
+    // if (!message) {
+    //   message = inputHintText;
+    // }
+    if (message && tooltip) {
       htmlTooltip = (
         <div style={tooltipStyle1}>
-          <span style={tooltipStyle2}>{x1}</span>
-          <span style={tooltipStyle3}>{x2}</span>
+          <span style={tooltipStyle2}>{message}</span>
+          <span style={tooltipStyle3}>{tooltip}</span>
         </div>
       );
-    } else {
+    } else if (tooltip) {
       htmlTooltip = (
         <div style={tooltipStyle1}>
-          <span style={tooltipStyle3}>{inputTooltip}</span>
+          <span style={tooltipStyle3}>{tooltip}</span>
         </div>
       );
     }
