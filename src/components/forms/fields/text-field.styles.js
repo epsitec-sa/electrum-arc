@@ -69,6 +69,8 @@ export default function styles (theme, props) {
     fontSize:        theme.shapes.tooltipTextSize,
     zIndex:          1,
     transition:      theme.transitions.easeOut (),
+    display:         'flex',
+    flexDirection:   'column',
   };
   const tooltipStyle2 = {
     display:         'inline-block',
