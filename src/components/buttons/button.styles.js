@@ -48,7 +48,7 @@ export default function styles (theme, props) {
   let textSize             = theme.shapes.buttonTextSize;
   let textGrow             = 1;
   let actif                = true;
-  let boxPosition          = null;
+  let boxPosition          = 'relative';
 
   // Initialize variables for button without border.
   if (inputBorder === 'none') {
@@ -131,7 +131,6 @@ export default function styles (theme, props) {
     textSize        = theme.shapes.mainTabTextSize;
     if (inputActive === 'true') {
       backgroundColor = theme.palette.mainTabButtonActiveBackground;
-      boxPosition     = 'relative';
     } else {
       backgroundColor = theme.palette.mainTabButtonInactiveBackground;
     }
@@ -229,11 +228,6 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.calendarBackground;
     glyphColor      = theme.palette.calendarHeaderText;
     glyphSize       = theme.palette.calendarGlyphSize;
-  }
-
-  // If Button has a Badge, place it on top-right corner.
-  if (inputBadgeValue) {
-    boxPosition = 'relative';
   }
 
   // Compute colors for glyph, text and hover if necessary.
