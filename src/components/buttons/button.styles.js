@@ -205,6 +205,22 @@ export default function styles (theme, props) {
     }
   }
 
+  if (inputKind  === 'calendar') {
+    boxWidth        = theme.shapes.calendarButtonSize;
+    boxHeight       = theme.shapes.calendarButtonSize;
+    textSize        = theme.shapes.calendarTextSize;
+    if (inputActive === 'true') {
+      backgroundColor = theme.palette.calendarButtonActiveBackground;
+      textColor       = theme.palette.calendarActiveText;
+    } else if (inputActive === 'hidden') {
+      backgroundColor = 'transparent';
+      borderStyle     = 'none';
+    } else {
+      backgroundColor = theme.palette.calendarButtonInactiveBackground;
+      textColor       = theme.palette.calendarInactiveText;
+    }
+  }
+
   // If Button has a Badge, place it on top-right corner.
   if (inputBadgeValue) {
     boxPosition = 'relative';

@@ -1,5 +1,7 @@
 'use strict';
 
+import {Unit} from 'electrum-theme';
+
 /******************************************************************************/
 
 export default function styles (theme, props) {
@@ -10,7 +12,14 @@ export default function styles (theme, props) {
     inputGrow = 1;
   }
 
-  let boxStyle = {
+  let marginRight = '0px';
+  if (inputSpacing === 'overlap') {
+    marginRight = '-1px';
+  } else if (inputSpacing === 'large') {
+    marginRight = theme.shapes.lineSpacing;
+  }
+
+  const boxStyle = {
     display:        'flex',
     flexDirection:  'row',
     justifyContent: 'flex-start',
@@ -20,17 +29,24 @@ export default function styles (theme, props) {
     marginTop:      '0px',
     marginLeft:     '0px',
     marginBottom:   '0px',
-    marginRight:    '0px',
+    marginRight:    marginRight,
   };
 
-  if (inputSpacing === 'overlap') {
-    boxStyle.marginRight = '-1px';
-  } else if (inputSpacing === 'large') {
-    boxStyle.marginRight = theme.shapes.lineSpacing;
-  }
+  const comboBoxStyle = {
+    position:        'absolute',
+    left:            '-1px',
+    top:             Unit.add (theme.shapes.lineHeight, '1px'),
+    padding:         theme.shapes.containerMargin,
+    color:           theme.palette.tooltipText,
+    backgroundColor: theme.palette.tooltipBackground,
+    zIndex:          1,
+    display:         'flex',
+    flexDirection:   'column',
+  };
 
   return {
-    box: boxStyle,
+    box:      boxStyle,
+    comboBox: comboBoxStyle,
   };
 }
 
