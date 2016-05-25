@@ -38,7 +38,11 @@ export default class Calendar extends React.Component {
       'Novembre',
       'Décembre',
     ];
-    return x[month - 1];
+    return x[month];
+  }
+
+  daysInMonth (year, month) {
+    return new Date (year, month + 1, 0).getDate ();
   }
 
   getButton (n, active) {
@@ -94,22 +98,22 @@ export default class Calendar extends React.Component {
     column.push (this.getHeader (header));
     let i = 0;
     for (i = 0; i < 6; ++i) {
-      const line = this.getLineOfButtons (first + i * 7, count);
-      column.push (line);
+      const n = first + i * 7;
+      if (n > -6 && n <= count) {
+        const line = this.getLineOfButtons (n, count);
+        column.push (line);
+      }
     }
     return column;
   }
 
   getLines (date) {
     date = new Date (date);  // the date recevied is a number !
-    // const year  = date.year;
-    // const month = date.month;
-    // const dotw  = new Date (year, month, 1).day;  // 0..6 (0 = Sunday)
-    const year  = 2016;
-    const month = 5;
-    const dotw  = 0;
+    const year  = date.getFullYear ();
+    const month = date.getMonth ();
+    const dotw  = new Date (year, month, 1).getDay ();  // 0..6 (0 = Sunday)
     const first = -((dotw + 5) % 7);
-    const count = 31;
+    const count = this.daysInMonth (year, month);
     const header = this.getMonthDescription (month) + ' ' + year;
     const style = this.mergeStyles ('column');
     return (
