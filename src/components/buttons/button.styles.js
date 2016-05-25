@@ -226,7 +226,7 @@ export default function styles (theme, props) {
     borderStyle     = 'none';
     backgroundColor = theme.palette.calendarBackground;
     glyphColor      = theme.palette.calendarHeaderText;
-    glyphSize       = '120%';
+    glyphSize       = theme.palette.calendarGlyphSize;
   }
 
   // If Button has a Badge, place it on top-right corner.
