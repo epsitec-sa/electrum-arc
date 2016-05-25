@@ -113,6 +113,9 @@ export default class Calendar extends React.Component {
   }
 
   getLines (date) {
+    if (!date) {
+      date = Date.now ();
+    }
     date = new Date (date);  // the date recevied is a number !
     const year  = date.getFullYear ();
     const month = date.getMonth ();
@@ -132,11 +135,7 @@ export default class Calendar extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    let   inputDate = this.read ('date');
-
-    if (!inputDate) {
-      inputDate = Date.now ();
-    }
+    const inputDate = this.read ('date');
 
     const boxStyle = this.mergeStyles ('box');
 
