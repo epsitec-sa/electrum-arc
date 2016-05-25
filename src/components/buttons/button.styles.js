@@ -220,6 +220,14 @@ export default function styles (theme, props) {
       textColor       = theme.palette.calendarInactiveText;
     }
   }
+  if (inputKind  === 'calendar-navigation') {
+    boxWidth        = theme.shapes.calendarButtonSize;
+    boxHeight       = theme.shapes.calendarButtonSize;
+    borderStyle     = 'none';
+    backgroundColor = theme.palette.calendarBackground;
+    glyphColor      = theme.palette.calendarHeaderText;
+    glyphSize       = '120%';
+  }
 
   // If Button has a Badge, place it on top-right corner.
   if (inputBadgeValue) {

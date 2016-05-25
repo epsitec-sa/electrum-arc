@@ -85,10 +85,15 @@ export default class Calendar extends React.Component {
   }
 
   getHeader (header) {
-    const style = this.mergeStyles ('header');
+    const style     = this.mergeStyles ('header');
+    const textStyle = this.mergeStyles ('headerText');
     return (
       <div style={style}>
-      {header}
+        <Button glyph='caret-left' kind='calendar-navigation' {...this.link ()} />
+          <div style={textStyle}>
+            {header}
+          </div>
+        <Button glyph='caret-right' kind='calendar-navigation' {...this.link ()} />
       </div>
     );
   }

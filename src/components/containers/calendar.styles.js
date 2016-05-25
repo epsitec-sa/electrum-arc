@@ -14,8 +14,14 @@ export default function styles (theme, props) {
   const headerStyle = {
     display:         'flex',
     flexDirection:   'row',
-    margin:          '0px 0px ' + theme.shapes.calendarMargin + ' 0px',
     justifyContent:  'center',
+    color:           theme.palette.calendarHeaderText,
+  };
+
+  const headerTextStyle = {
+    flexGrow:        1,
+    textAlign:       'center',
+    lineHeight:      theme.shapes.calendarButtonSize,
     color:           theme.palette.calendarHeaderText,
   };
 
@@ -31,10 +37,11 @@ export default function styles (theme, props) {
   };
 
   return {
-    box:    boxStyle,
-    header: headerStyle,
-    line:   lineStyle,
-    column: columnStyle,
+    box:        boxStyle,
+    header:     headerStyle,
+    headerText: headerTextStyle,
+    line:       lineStyle,
+    column:     columnStyle,
   };
 }
 
