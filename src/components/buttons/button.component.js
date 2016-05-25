@@ -30,6 +30,11 @@ export default class Button extends React.Component {
     };
   }
 
+  onClick () {
+    const {id, state} = this.props;
+    console.log (`onClick: ${id}, ${state}`);
+  }
+
   render () {
     const {state, theme} = this.props;
     const disabled = Action.isDisabled (state);

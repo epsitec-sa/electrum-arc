@@ -89,11 +89,11 @@ export default class Calendar extends React.Component {
     const textStyle = this.mergeStyles ('headerText');
     return (
       <div style={style}>
-        <Button glyph='chevron-left' kind='calendar-navigation' {...this.link ()} />
+        <Button glyph='chevron-left' kind='calendar-navigation' id='prevMonth' {...this.link ()} />
           <div style={textStyle}>
             {header}
           </div>
-        <Button glyph='chevron-right' kind='calendar-navigation' {...this.link ()} />
+        <Button glyph='chevron-right' kind='calendar-navigation' id='nextMonth' {...this.link ()} />
       </div>
     );
   }

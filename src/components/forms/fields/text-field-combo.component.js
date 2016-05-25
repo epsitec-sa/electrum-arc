@@ -62,17 +62,18 @@ export default class TextFieldCombo extends React.Component {
 
     return (
       <span
-        disabled={disabled}
-        style={boxStyle}
+        disabled = {disabled}
+        style    = {boxStyle}
         >
         <TextField
           value    = {inputValue}
           hintText = {inputHintText}
-          spacing = 'overlap'
+          spacing  = 'overlap'
           {...this.link ()}
         />
         <Button
-          glyph   = {inputGlyph}
+          id    = 'combo'
+          glyph = {inputGlyph}
           {...this.link ()}
           />
         {htmlCalendar}
