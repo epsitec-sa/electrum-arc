@@ -55,7 +55,7 @@ export default class TextFieldCombo extends React.Component {
     if (inputCalendar === 'true') {
       htmlCalendar = (
         <div style={comboBoxStyle}>
-          <Calendar/>
+          <Calendar date={Date.now ()} {...this.link ()} />
         </div>
       );
     }
@@ -74,9 +74,8 @@ export default class TextFieldCombo extends React.Component {
         <Button
           glyph   = {inputGlyph}
           {...this.link ()}
-        >
-          {htmlCalendar}
-        </Button>
+          />
+        {htmlCalendar}
       </span>
     );
   }

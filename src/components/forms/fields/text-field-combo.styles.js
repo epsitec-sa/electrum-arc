@@ -30,13 +30,13 @@ export default function styles (theme, props) {
     marginLeft:     '0px',
     marginBottom:   '0px',
     marginRight:    marginRight,
+    position:       'relative',
   };
 
   const comboBoxStyle = {
     position:        'absolute',
-    left:            '-1px',
+    right:           '0px',
     top:             Unit.add (theme.shapes.lineHeight, '1px'),
-    padding:         theme.shapes.containerMargin,
     color:           theme.palette.tooltipText,
     backgroundColor: theme.palette.tooltipBackground,
     zIndex:          1,
