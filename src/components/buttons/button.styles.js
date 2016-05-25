@@ -214,7 +214,7 @@ export default function styles (theme, props) {
       textColor       = theme.palette.calendarActiveText;
     } else if (inputActive === 'hidden') {
       backgroundColor = 'transparent';
-      borderStyle     = 'none';
+      borderColor     = 'transparent';
     } else {
       backgroundColor = theme.palette.calendarButtonInactiveBackground;
       textColor       = theme.palette.calendarInactiveText;
@@ -224,7 +224,7 @@ export default function styles (theme, props) {
   if (inputKind  === 'calendar-navigation') {
     boxWidth        = theme.shapes.calendarButtonSize;
     boxHeight       = theme.shapes.calendarButtonSize;
-    borderStyle     = 'none';
+    borderColor     = 'transparent';
     backgroundColor = theme.palette.calendarBackground;
     glyphColor      = theme.palette.calendarHeaderText;
     glyphSize       = theme.palette.calendarGlyphSize;
