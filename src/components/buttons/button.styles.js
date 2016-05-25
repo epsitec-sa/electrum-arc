@@ -205,6 +205,7 @@ export default function styles (theme, props) {
     }
   }
 
+  // Button with a day in Calendar component.
   if (inputKind  === 'calendar') {
     boxWidth        = theme.shapes.calendarButtonSize;
     boxHeight       = theme.shapes.calendarButtonSize;
@@ -220,6 +221,7 @@ export default function styles (theme, props) {
       textColor       = theme.palette.calendarInactiveText;
     }
   }
+  // Button for month navigation in Calendar component.
   if (inputKind  === 'calendar-navigation') {
     boxWidth        = theme.shapes.calendarButtonSize;
     boxHeight       = theme.shapes.calendarButtonSize;
