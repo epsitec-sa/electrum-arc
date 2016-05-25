@@ -29,11 +29,11 @@ export default class TextField extends React.Component {
     const inputTooltip  = this.read ('tooltip');
     const inputHintText = this.props.hintText || this.read ('hint-text');
 
-    const boxStyle      = this.mergeStyles ('box');
-    const fieldStyle    = this.mergeStyles ('field');
-    const tooltipStyle1 = this.mergeStyles ('tooltip1');
-    const tooltipStyle2 = this.mergeStyles ('tooltip2');
-    const tooltipStyle3 = this.mergeStyles ('tooltip3');
+    const boxStyle            = this.mergeStyles ('box');
+    const fieldStyle          = this.mergeStyles ('field');
+    const tooltipBoxStyle     = this.mergeStyles ('tooltipBox');
+    const tooltipMessageStyle = this.mergeStyles ('tooltipMessage');
+    const tooltipTextStyle    = this.mergeStyles ('tooltipText');
 
     const htmlInput = (
       <input
@@ -71,15 +71,15 @@ export default class TextField extends React.Component {
     let htmlTooltip = null;
     if (message && tooltip) {
       htmlTooltip = (
-        <div style={tooltipStyle1}>
-          <span style={tooltipStyle2}>{message}</span>
-          <span style={tooltipStyle3}>{tooltip}</span>
+        <div style={tooltipBoxStyle}>
+          <span style={tooltipMessageStyle}>{message}</span>
+          <span style={tooltipTextStyle}>{tooltip}</span>
         </div>
       );
     } else if (tooltip) {
       htmlTooltip = (
-        <div style={tooltipStyle1}>
-          <span style={tooltipStyle3}>{tooltip}</span>
+        <div style={tooltipBoxStyle}>
+          <span style={tooltipTextStyle}>{tooltip}</span>
         </div>
       );
     }

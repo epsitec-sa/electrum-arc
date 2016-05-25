@@ -60,7 +60,7 @@ export default function styles (theme, props) {
   }
 
   const tooltipMargin = theme.shapes.tooltipMargin;
-  const tooltipStyle1 = {
+  const tooltipBoxStyle = {
     position:        'absolute',
     left:            '-1px',
     top:             Unit.add (theme.shapes.lineHeight, '1px'),
@@ -72,24 +72,24 @@ export default function styles (theme, props) {
     display:         'flex',
     flexDirection:   'column',
   };
-  const tooltipStyle2 = {
+  const tooltipMessageStyle = {
     display:         'inline-block',
     verticalAlign:   'middle',
     fontWeight:      'bold',
     padding:         tooltipMargin + ' ' + tooltipMargin + ' 0px ' + tooltipMargin,
   };
-  const tooltipStyle3 = {
+  const tooltipTextStyle = {
     display:         'inline-block',
     verticalAlign:   'middle',
     padding:         tooltipMargin,
   };
 
   return {
-    box:      boxStyle,
-    field:    fieldStyle,
-    tooltip1: tooltipStyle1,
-    tooltip2: tooltipStyle2,
-    tooltip3: tooltipStyle3,
+    box:            boxStyle,
+    field:          fieldStyle,
+    tooltipBox:     tooltipBoxStyle,
+    tooltipMessage: tooltipMessageStyle,
+    tooltipText:    tooltipTextStyle,
   };
 }
 
