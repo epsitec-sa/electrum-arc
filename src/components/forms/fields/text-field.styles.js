@@ -28,7 +28,14 @@ export default function styles (theme, props) {
     inputWidth = Unit.sub (inputWidth, '2px');
   }
 
-  let boxStyle = {
+  let marginRight = '0px';
+  if (inputSpacing === 'overlap') {
+    marginRight = '-1px';
+  } else if (inputSpacing === 'large') {
+    marginRight = m;
+  }
+
+  const boxStyle = {
     display:         'flex',
     flexDirection:   'row',
     justifyContent:  'flex-start',
@@ -40,7 +47,7 @@ export default function styles (theme, props) {
     marginTop:       '0px',
     marginLeft:      '0px',
     marginBottom:    '0px',
-    marginRight:     '0px',
+    marginRight:     marginRight,
     position:        'relative',
   };
 
@@ -53,12 +60,6 @@ export default function styles (theme, props) {
     margin:          '0px',
   };
 
-  if (inputSpacing === 'overlap') {
-    boxStyle.marginRight = '-1px';
-  } else if (inputSpacing === 'large') {
-    boxStyle.marginRight = m;
-  }
-
   const tooltipMargin = theme.shapes.tooltipMargin;
   const tooltipBoxStyle = {
     position:        'absolute',
@@ -68,7 +69,6 @@ export default function styles (theme, props) {
     backgroundColor: theme.palette.tooltipBackground,
     fontSize:        theme.shapes.tooltipTextSize,
     zIndex:          1,
-    transition:      theme.transitions.easeOut (),
     display:         'flex',
     flexDirection:   'column',
   };
