@@ -24,7 +24,7 @@ export default class Calendar extends React.Component {
 
   // TODO: Move to helpers class, or ?
   getMonthDescription (month) {
-    const x = [
+    const array = [
       'Janvier',
       'Février',
       'Mars',
@@ -38,7 +38,7 @@ export default class Calendar extends React.Component {
       'Novembre',
       'Décembre',
     ];
-    return x[month];
+    return array[month];
   }
 
   daysInMonth (year, month) {
@@ -60,7 +60,7 @@ export default class Calendar extends React.Component {
     );
   }
 
-  getButtons (first, count) {
+  getButtons (first, count, selectedDay) {
     let line = [];
     let i = 0;
     for (i = 0; i < 7; ++i) {
@@ -68,18 +68,18 @@ export default class Calendar extends React.Component {
       if (n > count) {
         n = -1;
       }
-      const active = (n > 0 ? 'false' : 'hidden');
+      const active = (n > 0 ? (selectedDay === n ? 'true' : 'false') : 'hidden');
       const button = this.getButton (n, active);
       line.push (button);
     }
     return line;
   }
 
-  getLineOfButtons (first, count) {
+  getLineOfButtons (first, count, selectedDay) {
     const style = this.mergeStyles ('line');
     return (
       <div style={style}>
-      {this.getButtons (first, count)}
+      {this.getButtons (first, count, selectedDay)}
       </div>
     );
   }
@@ -93,14 +93,14 @@ export default class Calendar extends React.Component {
     );
   }
 
-  getColumnOfLines (header, first, count) {
+  getColumnOfLines (header, first, count, selectedDay) {
     let column = [];
     column.push (this.getHeader (header));
     let i = 0;
     for (i = 0; i < 6; ++i) {
       const n = first + i * 7;
       if (n > -6 && n <= count) {
-        const line = this.getLineOfButtons (n, count);
+        const line = this.getLineOfButtons (n, count, selectedDay);
         column.push (line);
       }
     }
@@ -111,6 +111,7 @@ export default class Calendar extends React.Component {
     date = new Date (date);  // the date recevied is a number !
     const year  = date.getFullYear ();
     const month = date.getMonth ();
+    const day   = date.getDate ();
     const dotw  = new Date (year, month, 1).getDay ();  // 0..6 (0 = Sunday)
     const first = -((dotw + 5) % 7);
     const count = this.daysInMonth (year, month);
@@ -118,7 +119,7 @@ export default class Calendar extends React.Component {
     const style = this.mergeStyles ('column');
     return (
       <div style={style}>
-      {this.getColumnOfLines (header, first, count)}
+      {this.getColumnOfLines (header, first, count, day)}
       </div>
     );
   }
