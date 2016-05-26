@@ -45,16 +45,23 @@ export default class Calendar extends React.Component {
     return new Date (year, month + 1, 0).getDate ();
   }
 
-  getButton (n, active) {
+  getInternalState () {
+    const {state} = this.props;
+    return state.select ('calendar-internal');
+  }
+
+  getButton (n, key, active) {
     if (n <= 0) {
       n = null;
     }
     return (
       <Button
+        key     = {key}
         text    = {n}
         kind    = 'calendar'
         active  = {active}
         spacing = 'overlap'
+        action  = {() => this.setDate (n)}
         {...this.link ()}
       />
     );
@@ -65,11 +72,12 @@ export default class Calendar extends React.Component {
     let i = 0;
     for (i = 0; i < 7; ++i) {
       let n = first + i;
+      const key = n;
       if (n > count) {
         n = -1;
       }
       const active = (n > 0 ? (selectedDay === n ? 'true' : 'false') : 'hidden');
-      const button = this.getButton (n, active);
+      const button = this.getButton (n, key, active);
       line.push (button);
     }
     return line;
@@ -89,11 +97,15 @@ export default class Calendar extends React.Component {
     const textStyle = this.mergeStyles ('headerText');
     return (
       <div style={style}>
-        <Button glyph='chevron-left' kind='calendar-navigation' id='prevMonth' {...this.link ()} />
-          <div style={textStyle}>
-            {header}
-          </div>
-        <Button glyph='chevron-right' kind='calendar-navigation' id='nextMonth' {...this.link ()} />
+        <Button glyph='chevron-left' kind='calendar-navigation' key='prevMonth'
+          action={() => this.prevMonth ()}
+          {...this.link ()} />
+        <div style={textStyle}>
+          {header}
+        </div>
+        <Button glyph='chevron-right' kind='calendar-navigation' key='nextMonth'
+          action={() => this.nextMonth ()}
+          {...this.link ()} />
       </div>
     );
   }
@@ -112,34 +124,71 @@ export default class Calendar extends React.Component {
     return column;
   }
 
-  getLines (date) {
+  getLines () {
+    const internalState = this.getInternalState ();
+    const selectedDate = this.read ('date');
+
+    var date = internalState.get ('visibleDate');
     if (!date) {
-      date = Date.now ();
+      date = new Date (Date.now ());
     }
-    date = new Date (date);  // the date recevied is a number !
-    const year  = date.getFullYear ();
-    const month = date.getMonth ();
-    const day   = date.getDate ();
-    const dotw  = new Date (year, month, 1).getDay ();  // 0..6 (0 = Sunday)
-    const first = -((dotw + 5) % 7);
-    const count = this.daysInMonth (year, month);
+
+    const year   = date.getFullYear ();
+    const month  = date.getMonth ();
+    const dotw   = new Date (year, month, 1).getDay ();  // 0..6 (0 = Sunday)
+    const first  = -((dotw + 5) % 7);
+    const count  = this.daysInMonth (year, month);
     const header = this.getMonthDescription (month) + ' ' + year;
+
+    var selectedDay = -1;
+    if (selectedDate.getFullYear () === date.getFullYear () &&
+        selectedDate.getMonth ()    === date.getMonth ()) {
+      selectedDay = selectedDate.getDate ();
+    }
+
     const style = this.mergeStyles ('column');
     return (
       <div style={style}>
-      {this.getColumnOfLines (header, first, count, day)}
+        {this.getColumnOfLines (header, first, count, selectedDay)}
       </div>
     );
+  }
+
+  prevMonth () {
+    const internalState = this.getInternalState ();
+    const visibleDate = internalState.get ('visibleDate');
+    internalState.set ('visibleDate', new Date (visibleDate.getFullYear (), visibleDate.getMonth () - 1, 1));
+  }
+
+  nextMonth () {
+    const internalState = this.getInternalState ();
+    const visibleDate = internalState.get ('visibleDate');
+    internalState.set ('visibleDate', new Date (visibleDate.getFullYear (), visibleDate.getMonth () + 1, 1));
+  }
+
+  setDate (n) {
+    const {state} = this.props;
+    const internalState = this.getInternalState ();
+    const visibleDate = internalState.get ('visibleDate');
+    const newDate = new Date (visibleDate.getFullYear (), visibleDate.getMonth (), n);
+    state.set ('date', newDate);
+    if (this.props.onChange) {
+      this.props.onChange (newDate);
+    }
   }
 
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputDate = this.read ('date');
+
+    var internalState = this.getInternalState ();
+    if (!internalState.get ('visibleDate')) {
+      internalState = internalState.set ('visibleDate', this.read ('date'));
+    }
 
     const boxStyle = this.mergeStyles ('box');
 
-    var htmlCalendar = this.getLines (inputDate);
+    var htmlCalendar = this.getLines ();
 
     return (
       <div
