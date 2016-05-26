@@ -42,6 +42,16 @@ export default class Calendar extends React.Component {
     return array[month];
   }
 
+  // If the input date is undefine, set to now.
+  // If the input date is a number, cast to Date.
+  normalizeDate (date) {
+    if (date) {
+      return new Date (date);
+    } else {
+      return new Date (date.now ());
+    }
+  }
+
   // Return the number of days in a month (28..31).
   daysInMonth (year, month) {
     return new Date (year, month + 1, 0).getDate ();
@@ -138,7 +148,7 @@ export default class Calendar extends React.Component {
   // Retourne all the html content of the calendar.
   getLines () {
     const internalState = this.getInternalState ();
-    const visibleDate   = internalState.get ('visibleDate');
+    const visibleDate   = this.normalizeDate (internalState.get ('visibleDate'));
     const visibleYear   = visibleDate.getFullYear ();
     const visibleMonth  = visibleDate.getMonth ();
     const dotw          = new Date (visibleYear, visibleMonth, 1).getDay ();  // 0..6 (0 = Sunday)
@@ -146,10 +156,7 @@ export default class Calendar extends React.Component {
     const daysInMonth   = this.daysInMonth (visibleYear, visibleMonth);
     const header        = this.getMonthDescription (visibleMonth) + ' ' + visibleYear;  // 'mai 2016' by example
 
-    var selectedDate  = this.read ('date');
-    if (!selectedDate) {
-      selectedDate = new Date (Date.now ());
-    }
+    var selectedDate  = this.normalizeDate (this.read ('date'));
     var selectedDay = -1;
     if (selectedDate.getFullYear () === visibleDate.getFullYear () &&
         selectedDate.getMonth ()    === visibleDate.getMonth ()) {
@@ -168,7 +175,7 @@ export default class Calendar extends React.Component {
   // Modify internalState.visibleDate (fix visible year and month).
   prevMonth () {
     const internalState = this.getInternalState ();
-    const visibleDate = internalState.get ('visibleDate');
+    const visibleDate = this.normalizeDate (internalState.get ('visibleDate'));
     internalState.set ('visibleDate', new Date (visibleDate.getFullYear (), visibleDate.getMonth () - 1, 1));
   }
 
@@ -176,7 +183,7 @@ export default class Calendar extends React.Component {
   // Modify internalState.visibleDate (fix visible year and month).
   nextMonth () {
     const internalState = this.getInternalState ();
-    const visibleDate = internalState.get ('visibleDate');
+    const visibleDate = this.normalizeDate (internalState.get ('visibleDate'));
     internalState.set ('visibleDate', new Date (visibleDate.getFullYear (), visibleDate.getMonth () + 1, 1));
   }
 
@@ -188,7 +195,7 @@ export default class Calendar extends React.Component {
 
     const {state} = this.props;
     const internalState = this.getInternalState ();
-    const visibleDate = internalState.get ('visibleDate');
+    const visibleDate = this.normalizeDate (internalState.get ('visibleDate'));
     const newDate = new Date (visibleDate.getFullYear (), visibleDate.getMonth (), n);
     state.set ('date', newDate);
 
