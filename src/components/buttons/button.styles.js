@@ -203,6 +203,7 @@ export default function styles (theme, props) {
     }
   }
 
+  // Combo button, place to the right of a TextFieldCombo component.
   if (inputKind  === 'combo') {
     if (inputActive === 'true') {
       backgroundColor = theme.palette.comboActiveBackground;
