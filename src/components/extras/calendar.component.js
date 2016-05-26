@@ -129,7 +129,7 @@ export default class Calendar extends React.Component {
     );
   }
 
-  // Return an array of line, with header then week's lines.
+  // Return an array of lines, with header then week's lines.
   // The array must have from 4 to 6 lines.
   getColumnOfLines (header, first, daysInMonth, selectedDay) {
     let column = [];

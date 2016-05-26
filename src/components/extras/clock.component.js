@@ -22,11 +22,11 @@ export default class Clock extends React.Component {
     };
   }
 
-  // If the input date is undefine, set to now.
-  // If the input date is a number, cast to Date.
-  normalizeTime (date) {
-    if (date) {
-      return new Date (date);
+  // If the input time is undefine, set to now.
+  // If the input time is a number, cast to Date.
+  normalizeTime (time) {
+    if (time) {
+      return new Date (time);
     } else {
       var now = new Date (Date.now ());
       return new Date (0, 0, 0, now.getHours (), now.getMinutes ());
@@ -46,37 +46,37 @@ export default class Clock extends React.Component {
     );
   }
 
-  // Return the html for a [0]..[23] button.
-  getHoursButton (n, active) {
+  // Return the html for a hours button.
+  getHoursButton (hours, active) {
     return (
       <Button
-        key     = {'H' + n}
-        text    = {n}
+        key     = {'H' + hours}
+        text    = {hours}
         kind    = 'calendar'
         active  = {active}
         spacing = 'overlap'
-        action  = {() => this.setHours (n)}
+        action  = {() => this.setHours (hours)}
         {...this.link ()}
       />
     );
   }
 
-  // Return the html for a [0]..[59] button.
-  getMinutesButton (n, active) {
+  // Return the html for a minutes button.
+  getMinutesButton (minutes, active) {
     return (
       <Button
-        key     = {'M' + n}
-        text    = {n}
+        key     = {'M' + minutes}
+        text    = {minutes}
         kind    = 'calendar'
         active  = {active}
         spacing = 'overlap'
-        action  = {() => this.setMinutes (n)}
+        action  = {() => this.setMinutes (minutes)}
         {...this.link ()}
       />
     );
   }
 
-  // Return an array of buttons.
+  // Return an array of hours buttons.
   getHoursButtons (first, last, selectedHours) {
     let line = [];
     let n = 0;
@@ -88,7 +88,7 @@ export default class Clock extends React.Component {
     return line;
   }
 
-  // Return an array of buttons.
+  // Return an array of minutes buttons.
   getMinutesButtons (first, last, step, selectedMinutes) {
     let line = [];
     let n = 0;
@@ -100,7 +100,7 @@ export default class Clock extends React.Component {
     return line;
   }
 
-  // Return the html for a line of buttons.
+  // Return the html for a line of hours buttons.
   getLineOfHoursButtons (first, last, selectedHours) {
     const style = this.mergeStyles ('line');
     return (
@@ -110,7 +110,7 @@ export default class Clock extends React.Component {
     );
   }
 
-  // Return the html for a line of buttons.
+  // Return the html for a line of minutes buttons.
   getLineOfMinutesButtons (first, last, step, selectedminutes) {
     const style = this.mergeStyles ('line');
     return (
@@ -120,7 +120,7 @@ export default class Clock extends React.Component {
     );
   }
 
-  // Return an array of line.
+  // Return an array of lines.
   getColumnOfLines (selectedHours, selectedMinutes) {
     let column = [];
     column.push (this.getHeader               ('Heure'));
@@ -147,7 +147,7 @@ export default class Clock extends React.Component {
     );
   }
 
-  // Called when a [0]..[23] button is clicked.
+  // Called when a hours button is clicked.
   setHours (hours) {
     const {state} = this.props;
     const time = this.normalizeTime (this.read ('time'));
@@ -159,7 +159,7 @@ export default class Clock extends React.Component {
     }
   }
 
-  // Called when a [0]..[59] button is clicked.
+  // Called when a minutes button is clicked.
   setMinutes (minutes) {
     const {state} = this.props;
     const time = this.normalizeTime (this.read ('time'));
