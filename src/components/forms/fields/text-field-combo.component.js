@@ -40,19 +40,44 @@ export default class TextFieldCombo extends React.Component {
     };
   }
 
+  // Return the internalState with contain the isComboVisible.
+  getInternalState () {
+    const {state} = this.props;
+    return state.select ('combo-internal');
+  }
+
+  // Called when the combo button is clicked.
+  showCombo () {
+    const internalState = this.getInternalState ();
+    var isComboVisible = internalState.get ('isComboVisible');
+    if (isComboVisible === 'true') {
+      isComboVisible = 'false';
+    } else {
+      isComboVisible = 'true';
+    }
+    internalState.set ('isComboVisible', isComboVisible);
+  }
+
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
     const inputGlyph    = this.read ('combo-glyph');
     const inputValue    = this.read ('value');
     const inputHintText = this.read ('hint-text');
-    const inputCalendar = this.read ('calendar');
+
+    // Get or create the internalState.
+    var internalState = this.getInternalState ();
+    if (!internalState.get ('isComboVisible')) {
+      // At first time, initialize internalState.isComboVisible with false.
+      internalState = internalState.set ('isComboVisible', 'false');
+    }
+    const isComboVisible = internalState.get ('isComboVisible');
 
     const boxStyle      = this.mergeStyles ('box');
     const comboBoxStyle = this.mergeStyles ('comboBox');
 
     let htmlCalendar = null;
-    if (inputCalendar === 'true') {
+    if (isComboVisible === 'true') {
       htmlCalendar = (
         <div style={comboBoxStyle}>
           <Calendar date={Date.now ()} {...this.link ()} />
@@ -74,6 +99,7 @@ export default class TextFieldCombo extends React.Component {
         <Button
           id    = 'combo'
           glyph = {inputGlyph}
+          action={() => this.showCombo ()}
           {...this.link ()}
           />
         {htmlCalendar}
