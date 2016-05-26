@@ -1,11 +1,8 @@
 'use strict';
 
 import React from 'react';
-import {Action, ColorManipulator} from 'electrum';
-import {Unit} from 'electrum-theme';
-import {Button, TextField, Calendar} from 'electrum-arc';
-
-const {fade, darken, lighten} = ColorManipulator;
+import {Action} from 'electrum';
+import {Button, TextField, Calendar, Clock} from 'electrum-arc';
 
 /******************************************************************************/
 
@@ -67,10 +64,22 @@ export default class TextFieldCombo extends React.Component {
     return day + '.' + month + '.' + year;
   }
 
+  // TODO: Move to helpers, or ???
+  timeToString (time) {
+    const hours   = time.getHours ();
+    const minutes = time.getMinutes ();
+    return hours + ':' + minutes;
+  }
+
   dateChanged (date) {
     const {state} = this.props;
     state.set ('value', this.dateToString (date));
     this.showCombo ();  // close the combo
+  }
+
+  timeChanged (date) {
+    const {state} = this.props;
+    state.set ('value', this.timeToString (date));
   }
 
   render () {
@@ -98,6 +107,13 @@ export default class TextFieldCombo extends React.Component {
         htmlCombo = (
           <Calendar
             onChange={(date) => this.dateChanged (date)}
+            {...this.link ()}
+          />
+        );
+      } else if (inputComboType === 'clock') {
+        htmlCombo = (
+          <Clock
+            onChange={(date) => this.timeChanged (date)}
             {...this.link ()}
           />
         );
