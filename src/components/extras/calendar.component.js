@@ -48,7 +48,7 @@ export default class Calendar extends React.Component {
     if (date) {
       return new Date (date);
     } else {
-      return new Date (date.now ());
+      return new Date (Date.now ());
     }
   }
 
