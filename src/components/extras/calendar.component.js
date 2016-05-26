@@ -41,15 +41,19 @@ export default class Calendar extends React.Component {
     return array[month];
   }
 
+  // Return the number of days in a month (28..31).
   daysInMonth (year, month) {
     return new Date (year, month + 1, 0).getDate ();
   }
 
+  // Return the internalState with contain the visibleDate.
+  // internalState.visibleDate fix the visible year and month.
   getInternalState () {
     const {state} = this.props;
     return state.select ('calendar-internal');
   }
 
+  // Return the html for a [1]..[31] button.
   getButton (n, key, active) {
     if (n <= 0) {
       n = null;
@@ -67,6 +71,7 @@ export default class Calendar extends React.Component {
     );
   }
 
+  // Return an array of 7 buttons, for a week.
   getButtons (first, count, selectedDay) {
     let line = [];
     let i = 0;
@@ -83,6 +88,7 @@ export default class Calendar extends React.Component {
     return line;
   }
 
+  // Return the html for a line of 7 buttons (for a week).
   getLineOfButtons (first, count, selectedDay) {
     const style = this.mergeStyles ('line');
     return (
@@ -92,6 +98,8 @@ export default class Calendar extends React.Component {
     );
   }
 
+  // Return the html for the header, with 2 buttons next/prevMonth and the title.
+  // By example: '<' mai 2016 '>'
   getHeader (header) {
     const style     = this.mergeStyles ('header');
     const textStyle = this.mergeStyles ('headerText');
@@ -110,6 +118,7 @@ export default class Calendar extends React.Component {
     );
   }
 
+  // Return an array of line, with header then week's lines.
   getColumnOfLines (header, first, count, selectedDay) {
     let column = [];
     column.push (this.getHeader (header));
@@ -124,9 +133,10 @@ export default class Calendar extends React.Component {
     return column;
   }
 
+  // Retourne all the html content of the calendar.
   getLines () {
     const internalState = this.getInternalState ();
-    const selectedDate = this.read ('date');
+    const selectedDate  = this.read ('date');
 
     var date = internalState.get ('visibleDate');
     if (!date) {
@@ -138,7 +148,7 @@ export default class Calendar extends React.Component {
     const dotw   = new Date (year, month, 1).getDay ();  // 0..6 (0 = Sunday)
     const first  = -((dotw + 5) % 7);
     const count  = this.daysInMonth (year, month);
-    const header = this.getMonthDescription (month) + ' ' + year;
+    const header = this.getMonthDescription (month) + ' ' + year;  // 'mai 2016' by example
 
     var selectedDay = -1;
     if (selectedDate.getFullYear () === date.getFullYear () &&
@@ -154,24 +164,30 @@ export default class Calendar extends React.Component {
     );
   }
 
+  // Called when the '<' button is clicked.
+  // Modify internalState.visibleDate.
   prevMonth () {
     const internalState = this.getInternalState ();
     const visibleDate = internalState.get ('visibleDate');
     internalState.set ('visibleDate', new Date (visibleDate.getFullYear (), visibleDate.getMonth () - 1, 1));
   }
 
+  // Called when the '>' button is clicked.
+  // Modify internalState.visibleDate.
   nextMonth () {
     const internalState = this.getInternalState ();
     const visibleDate = internalState.get ('visibleDate');
     internalState.set ('visibleDate', new Date (visibleDate.getFullYear (), visibleDate.getMonth () + 1, 1));
   }
 
+  // Called when a [1]..[31] button is clicked.
   setDate (n) {
     const {state} = this.props;
     const internalState = this.getInternalState ();
     const visibleDate = internalState.get ('visibleDate');
     const newDate = new Date (visibleDate.getFullYear (), visibleDate.getMonth (), n);
     state.set ('date', newDate);
+
     if (this.props.onChange) {
       this.props.onChange (newDate);
     }
@@ -181,8 +197,10 @@ export default class Calendar extends React.Component {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
 
+    // Get or create the internalState.
     var internalState = this.getInternalState ();
     if (!internalState.get ('visibleDate')) {
+      // At first time, initialize internalState.visibleDate with current date.
       internalState = internalState.set ('visibleDate', this.read ('date'));
     }
 
