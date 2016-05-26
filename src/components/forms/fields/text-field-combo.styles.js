@@ -44,9 +44,14 @@ export default function styles (theme, props) {
     flexDirection:   'column',
   };
 
+  const emptyComboStyle = {
+    margin: theme.shapes.containerMargin,
+  };
+
   return {
-    box:      boxStyle,
-    comboBox: comboBoxStyle,
+    box:        boxStyle,
+    comboBox:   comboBoxStyle,
+    emptyCombo: emptyComboStyle,
   };
 }
 

@@ -61,9 +61,10 @@ export default class TextFieldCombo extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputGlyph    = this.read ('combo-glyph');
-    const inputValue    = this.read ('value');
-    const inputHintText = this.read ('hint-text');
+    const inputGlyph     = this.read ('combo-glyph');
+    const inputValue     = this.read ('value');
+    const inputHintText  = this.read ('hint-text');
+    const inputComboType = this.read ('combo-type');
 
     // Get or create the internalState.
     var internalState = this.getInternalState ();
@@ -73,14 +74,25 @@ export default class TextFieldCombo extends React.Component {
     }
     const isComboVisible = internalState.get ('isComboVisible');
 
-    const boxStyle      = this.mergeStyles ('box');
-    const comboBoxStyle = this.mergeStyles ('comboBox');
+    const boxStyle = this.mergeStyles ('box');
 
     let htmlCalendar = null;
     if (isComboVisible === 'true') {
+      var htmlCombo = null;
+      if (inputComboType === 'calendar') {
+        htmlCombo = (
+          <Calendar date={Date.now ()} {...this.link ()} />
+        );
+      } else {
+        const emptyComboStyle = this.mergeStyles ('emptyCombo');
+        htmlCombo = (
+          <span style={emptyComboStyle}>{inputComboType}</span>
+        );
+      }
+      const comboBoxStyle = this.mergeStyles ('comboBox');
       htmlCalendar = (
         <div style={comboBoxStyle}>
-          <Calendar date={Date.now ()} {...this.link ()} />
+          {htmlCombo}
         </div>
       );
     }
