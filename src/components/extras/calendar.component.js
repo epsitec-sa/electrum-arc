@@ -56,7 +56,7 @@ export default class Calendar extends React.Component {
   // Return the html for a [1]..[31] button.
   getButton (n, key, active) {
     if (n <= 0) {
-      n = null;
+      n = null;  // if n <= 0, the button is hidden, but occupy his space
     }
     return (
       <Button
@@ -119,6 +119,7 @@ export default class Calendar extends React.Component {
   }
 
   // Return an array of line, with header then week's lines.
+  // The array must have from 4 to 6 lines.
   getColumnOfLines (header, first, count, selectedDay) {
     let column = [];
     column.push (this.getHeader (header));
@@ -165,7 +166,7 @@ export default class Calendar extends React.Component {
   }
 
   // Called when the '<' button is clicked.
-  // Modify internalState.visibleDate.
+  // Modify internalState.visibleDate (fix visible year and month).
   prevMonth () {
     const internalState = this.getInternalState ();
     const visibleDate = internalState.get ('visibleDate');
@@ -173,7 +174,7 @@ export default class Calendar extends React.Component {
   }
 
   // Called when the '>' button is clicked.
-  // Modify internalState.visibleDate.
+  // Modify internalState.visibleDate (fix visible year and month).
   nextMonth () {
     const internalState = this.getInternalState ();
     const visibleDate = internalState.get ('visibleDate');
@@ -182,6 +183,10 @@ export default class Calendar extends React.Component {
 
   // Called when a [1]..[31] button is clicked.
   setDate (n) {
+    if (!n) {
+      return;  // nothing to do for hidden button
+    }
+
     const {state} = this.props;
     const internalState = this.getInternalState ();
     const visibleDate = internalState.get ('visibleDate');
