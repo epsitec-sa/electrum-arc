@@ -23,6 +23,7 @@ export default class Calendar extends React.Component {
   }
 
   // TODO: Move to helpers class, or ?
+  // month is zero based (0 = january).
   getMonthDescription (month) {
     const array = [
       'Janvier',
@@ -137,23 +138,21 @@ export default class Calendar extends React.Component {
   // Retourne all the html content of the calendar.
   getLines () {
     const internalState = this.getInternalState ();
-    const selectedDate  = this.read ('date');
+    const visibleDate   = internalState.get ('visibleDate');
+    const visibleYear   = visibleDate.getFullYear ();
+    const visibleMonth  = visibleDate.getMonth ();
+    const dotw          = new Date (visibleYear, visibleMonth, 1).getDay ();  // 0..6 (0 = Sunday)
+    const first         = -((dotw + 5) % 7);
+    const daysInMonth   = this.daysInMonth (visibleYear, visibleMonth);
+    const header        = this.getMonthDescription (visibleMonth) + ' ' + visibleYear;  // 'mai 2016' by example
 
-    var date = internalState.get ('visibleDate');
-    if (!date) {
-      date = new Date (Date.now ());
+    var selectedDate  = this.read ('date');
+    if (!selectedDate) {
+      selectedDate = new Date (Date.now ());
     }
-
-    const year        = date.getFullYear ();
-    const month       = date.getMonth ();
-    const dotw        = new Date (year, month, 1).getDay ();  // 0..6 (0 = Sunday)
-    const first       = -((dotw + 5) % 7);
-    const daysInMonth = this.daysInMonth (year, month);
-    const header      = this.getMonthDescription (month) + ' ' + year;  // 'mai 2016' by example
-
     var selectedDay = -1;
-    if (selectedDate.getFullYear () === date.getFullYear () &&
-        selectedDate.getMonth ()    === date.getMonth ()) {
+    if (selectedDate.getFullYear () === visibleDate.getFullYear () &&
+        selectedDate.getMonth ()    === visibleDate.getMonth ()) {
       selectedDay = selectedDate.getDate ();
     }
 
