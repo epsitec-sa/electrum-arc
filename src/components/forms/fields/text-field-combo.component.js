@@ -32,11 +32,12 @@ export default class TextFieldCombo extends React.Component {
 
   get styleProps () {
     return {
-      comboGlyph: this.read ('combo-glyph'),
-      value:      this.read ('value'),
-      hintText:   this.read ('hint-text'),
-      grow:       this.read ('grow'),
-      spacing:    this.read ('spacing'),
+      comboGlyph:     this.read ('combo-glyph'),
+      value:          this.read ('value'),
+      hintText:       this.read ('hint-text'),
+      grow:           this.read ('grow'),
+      spacing:        this.read ('spacing'),
+      comboDirection: this.read ('combo-direction'),
     };
   }
 

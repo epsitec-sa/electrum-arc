@@ -5,8 +5,9 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  let   inputGrow     = props.grow;
-  const inputSpacing  = props.spacing;
+  let   inputGrow      = props.grow;
+  const inputSpacing   = props.spacing;
+  const comboDirection = props.comboDirection;
 
   if (!inputGrow) {
     inputGrow = 1;
@@ -35,7 +36,8 @@ export default function styles (theme, props) {
 
   const comboBoxStyle = {
     position:        'absolute',
-    right:           '0px',
+    right:           (comboDirection === 'right') ? null : '0px',
+    left:            (comboDirection === 'right') ? '0px' : null,
     top:             Unit.add (theme.shapes.lineHeight, '1px'),
     color:           theme.palette.tooltipText,
     backgroundColor: theme.palette.tooltipBackground,
