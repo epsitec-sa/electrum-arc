@@ -127,9 +127,10 @@ export default class TextFieldCombo extends React.Component {
           {...this.link ()}
         />
         <Button
-          id    = 'combo'
-          glyph = {inputGlyph}
-          action={() => this.showCombo ()}
+          kind   = 'combo'
+          glyph  = {inputGlyph}
+          active = {isComboVisible}
+          action = {() => this.showCombo ()}
           {...this.link ()}
           />
         {htmlCalendar}

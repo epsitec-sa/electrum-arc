@@ -20,7 +20,6 @@ export default function styles (theme, props) {
   const inputKind          = props.kind;
   const inputPlace         = props.place;
   const inputActive        = props.active;
-  const inputBadgeValue    = props.badgeValue;
   const inputJustify       = props.justify;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
@@ -201,6 +200,13 @@ export default function styles (theme, props) {
       borderRadius = '0px ' + r + ' ' + r + ' 0px';
     } else {
       boxMargin = '0px 1px 0px 0px';
+    }
+  }
+
+  if (inputKind  === 'combo') {
+    if (inputActive === 'true') {
+      backgroundColor = theme.palette.comboActiveBackground;
+      glyphColor      = theme.palette.comboActiveGlyph;
     }
   }
 
