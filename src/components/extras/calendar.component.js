@@ -104,7 +104,7 @@ export default class Calendar extends React.Component {
     const style = this.mergeStyles ('line');
     return (
       <div style={style}>
-      {this.getButtons (first, daysInMonth, selectedDay)}
+        {this.getButtons (first, daysInMonth, selectedDay)}
       </div>
     );
   }

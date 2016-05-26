@@ -59,6 +59,20 @@ export default class TextFieldCombo extends React.Component {
     internalState.set ('isComboVisible', isComboVisible);
   }
 
+  // TODO: Move to helpers, or ???
+  dateToString (date) {
+    const day   = date.getDate ();
+    const month = date.getMonth () + 1;
+    const year  = date.getFullYear ();
+    return day + '.' + month + '.' + year;
+  }
+
+  dateChanged (date) {
+    const {state} = this.props;
+    state.set ('value', this.dateToString (date));
+    this.showCombo ();  // close the combo
+  }
+
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
@@ -82,7 +96,10 @@ export default class TextFieldCombo extends React.Component {
       var htmlCombo = null;
       if (inputComboType === 'calendar') {
         htmlCombo = (
-          <Calendar date={Date.now ()} {...this.link ()} />
+          <Calendar
+            onChange={(date) => this.dateChanged (date)}
+            {...this.link ()}
+          />
         );
       } else {
         const emptyComboStyle = this.mergeStyles ('emptyCombo');
