@@ -2,7 +2,11 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-import {Button, TextField} from 'electrum-arc';
+
+// Note: to make 'npm test' happy, don't use import from 'electrum-arc':
+
+//import {Button, TextField} from 'electrum-arc';
+import {Button, TextField} from '../../../all-components.js';
 
 /******************************************************************************/
 
