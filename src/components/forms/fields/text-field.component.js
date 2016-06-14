@@ -23,7 +23,7 @@ export default class TextField extends React.Component {
   }
 
   render () {
-    const {state, theme} = this.props;
+    const {state, theme, id} = this.props;
     const disabled = Action.isDisabled (state);
     const inputValue    = this.read ('value');
     const inputTooltip  = this.read ('tooltip');
@@ -51,6 +51,7 @@ export default class TextField extends React.Component {
         type={this.props.type || 'text'}
         key='input'
         value={inputValue}
+        id={id}
         />
     );
 
