@@ -1,6 +1,6 @@
 {
   "name": "electrum-arc",
-  "version": "4.5.1",
+  "version": "4.6.0",
   "description": "Agnostic Reactive Components for Electrum",
   "main": "lib/index.js",
   "scripts": {
@@ -26,7 +26,7 @@
   "dependencies": {
     "electrum": "^4.11.0",
     "electrum-style-reload": "^1.2.0",
-    "electrum-theme": "^4.1.0",
+    "electrum-theme": "^4.2.0",
     "leaflet": "^0.7.7",
     "material-ui": "^0.15.0",
     "react-tap-event-plugin": "^1.0.0",
