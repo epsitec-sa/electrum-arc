@@ -8,25 +8,6 @@ import {Button, TextField, Calendar, Clock} from 'electrum-arc';
 
 export default class TextFieldCombo extends React.Component {
 
-  constructor (props) {
-    super (props);
-  }
-
-  onKeyDown (e) {
-    const {id, state} = this.props;
-    console.log (`onKeyDown: ${id}, ${state.generation} value=${e.target.value}`);
-  }
-
-  onKeyUp (e) {
-    const {id, state} = this.props;
-    console.log (`onKeyUp: ${id}, ${state.generation} value=${e.target.value}`);
-  }
-
-  onChange (e) {
-    const {id, state} = this.props;
-    console.log (`onChange: ${id}, ${state.generation} value=${e.target.value}`);
-  }
-
   get styleProps () {
     return {
       comboGlyph:     this.read ('combo-glyph'),
