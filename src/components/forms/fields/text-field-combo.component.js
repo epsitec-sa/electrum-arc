@@ -64,12 +64,13 @@ export default class TextFieldCombo extends React.Component {
   }
 
   render () {
-    const {state} = this.props;
+    const {state, id} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputGlyph     = this.read ('combo-glyph');
-    const inputValue     = this.read ('value');
-    const inputHintText  = this.read ('hint-text');
-    const inputComboType = this.read ('combo-type');
+    const inputGlyph      = this.read ('combo-glyph');
+    const inputValue      = this.read ('value');
+    const inputHintText   = this.read ('hint-text');
+    const inputComboType  = this.read ('combo-type');
+    const inputFilterKeys = this.props['filter-keys'];
 
     // Get or create the internalState.
     var internalState = this.getInternalState ();
@@ -118,9 +119,11 @@ export default class TextFieldCombo extends React.Component {
         style    = {boxStyle}
         >
         <TextField
-          value    = {inputValue}
-          hintText = {inputHintText}
-          spacing  = 'overlap'
+          id          = {id}
+          value       = {inputValue}
+          hint-text   = {inputHintText}
+          filter-keys = {inputFilterKeys}
+          spacing     = 'overlap'
           {...this.link ()}
         />
         <Button

@@ -27,7 +27,7 @@ export default class TextField extends React.Component {
     const disabled = Action.isDisabled (state);
     const inputValue    = this.read ('value');
     const inputTooltip  = this.read ('tooltip');
-    const inputHintText = this.props.hintText || this.read ('hint-text');
+    const inputHintText = this.read ('hint-text');
 
     const boxStyle            = this.mergeStyles ('box');
     const fieldStyle          = this.mergeStyles ('field');
