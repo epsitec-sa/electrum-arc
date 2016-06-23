@@ -129,11 +129,45 @@ export default class Calendar extends React.Component {
     );
   }
 
+  // Return the html for a [1]..[31] button.
+  getDOW (text) {
+    const textStyle = this.mergeStyles ('dowText');
+    return (
+      <div style={textStyle}>
+        {text}
+      </div>
+    );
+  }
+
+  // Return an array of 7 buttons, for a week.
+  getDOWs () {
+    let line = [];
+    const dow = ['lun', 'mar', 'mer', 'jeu', 'ven', 'sam', 'dim'];
+    let i = 0;
+    for (i = 0; i < 7; ++i) {
+      const x = this.getDOW (dow[i]);
+      line.push (x);
+    }
+    return line;
+  }
+
+  // Return the html for the header, with 2 buttons next/prevMonth and the title.
+  // By example: '<' mai 2016 '>'
+  getLineOfDOWs () {
+    const style = this.mergeStyles ('dowLine');
+    return (
+      <div style={style}>
+        {this.getDOWs ()}
+      </div>
+    );
+  }
+
   // Return an array of lines, with header then week's lines.
   // The array must have from 4 to 6 lines.
   getColumnOfLines (header, first, daysInMonth, selectedDay) {
     let column = [];
     column.push (this.getHeader (header));
+    column.push (this.getLineOfDOWs ());
     let i = 0;
     for (i = 0; i < 6; ++i) {
       const n = first + i * 7;

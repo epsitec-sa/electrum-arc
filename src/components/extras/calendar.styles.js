@@ -25,6 +25,20 @@ export default function styles (theme, props) {
     color:           theme.palette.calendarHeaderText,
   };
 
+  const dowTextStyle = {
+    flexGrow:        1,
+    textAlign:       'center',
+    lineHeight:      theme.shapes.calendarButtonSize,
+    color:           theme.palette.calendarHeaderText,
+    fontSize:        Unit.multiply (theme.shapes.calendarDOWSize, theme.typo.fontScale),
+  };
+
+  const dowLineStyle = {
+    display:         'flex',
+    flexDirection:   'row',
+    margin:          '0px 0px -1px 0px',
+  };
+
   const lineStyle = {
     display:         'flex',
     flexDirection:   'row',
@@ -40,6 +54,8 @@ export default function styles (theme, props) {
     box:        boxStyle,
     header:     headerStyle,
     headerText: headerTextStyle,
+    dowText:    dowTextStyle,
+    dowLine:    dowLineStyle,
     line:       lineStyle,
     column:     columnStyle,
   };
