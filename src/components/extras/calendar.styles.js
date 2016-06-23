@@ -30,7 +30,7 @@ export default function styles (theme, props) {
     textAlign:       'center',
     lineHeight:      theme.shapes.calendarButtonSize,
     color:           theme.palette.calendarHeaderText,
-    fontSize:        Unit.multiply (theme.shapes.calendarDOWSize, theme.typo.fontScale),
+    fontSize:        Unit.multiply (theme.shapes.calendarDOWTextSize, theme.typo.fontScale),
   };
 
   const dowLineStyle = {
