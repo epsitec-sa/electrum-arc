@@ -42,6 +42,25 @@ export default class Calendar extends React.Component {
     return array[month];
   }
 
+  // TODO: Move to helpers class, or ?
+  // dow is zero based (0 = monday).
+  getDOWDescription (dow) {
+    const array = [
+      'lundi',
+      'mardi',
+      'mercredi',
+      'jeudi',
+      'vendredi',
+      'samedi',
+      'dimanche',
+    ];
+    return array[dow];
+  }
+
+  getDOW3Letters (dow) {
+    return this.getDOWDescription (dow).substring (0, 3);
+  }
+
   // If the input date is undefine, set to now.
   // If the input date is a number, cast to Date.
   normalizeDate (date) {
@@ -129,7 +148,7 @@ export default class Calendar extends React.Component {
     );
   }
 
-  // Return the html for a [1]..[31] button.
+  // Return the html for a [lun]..[dim] labels.
   getDOW (text) {
     const textStyle = this.mergeStyles ('dowText');
     return (
@@ -139,20 +158,19 @@ export default class Calendar extends React.Component {
     );
   }
 
-  // Return an array of 7 buttons, for a week.
+  // Return an array of 7 days of week.
   getDOWs () {
     let line = [];
-    const dow = ['lun', 'mar', 'mer', 'jeu', 'ven', 'sam', 'dim'];
     let i = 0;
     for (i = 0; i < 7; ++i) {
-      const x = this.getDOW (dow[i]);
+      const dow = this.getDOW3Letters (i);
+      const x = this.getDOW (dow);
       line.push (x);
     }
     return line;
   }
 
-  // Return the html for the header, with 2 buttons next/prevMonth and the title.
-  // By example: '<' mai 2016 '>'
+  // Return the html for the 7 days of week header.
   getLineOfDOWs () {
     const style = this.mergeStyles ('dowLine');
     return (
