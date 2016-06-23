@@ -23,6 +23,7 @@ export default class Button extends React.Component {
       grow:          this.read ('grow'),
       width:         this.read ('width'),
       kind:          this.read ('kind'),
+      nature:        this.read ('nature'),
       place:         this.read ('place'),
       active:        this.read ('active'),
       badgeValue:    this.read ('badge-value'),

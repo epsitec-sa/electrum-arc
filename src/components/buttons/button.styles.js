@@ -3,7 +3,7 @@
 import {Action, ColorManipulator} from 'electrum';
 import {Unit} from 'electrum-theme';
 
-const {emphasize} = ColorManipulator;
+const {darken, emphasize} = ColorManipulator;
 
 /******************************************************************************/
 
@@ -18,6 +18,7 @@ export default function styles (theme, props) {
   const inputGrow          = props.grow;
   const inputWidth         = props.width;
   const inputKind          = props.kind;
+  const inputNature        = props.nature;
   const inputPlace         = props.place;
   const inputActive        = props.active;
   const inputJustify       = props.justify;
@@ -225,6 +226,9 @@ export default function styles (theme, props) {
     } else {
       backgroundColor = theme.palette.calendarButtonInactiveBackground;
       textColor       = theme.palette.calendarInactiveText;
+    }
+    if (inputNature === 'weekend') {
+      backgroundColor = darken (backgroundColor, 0.1);
     }
   }
   // Button for month navigation in Calendar component.

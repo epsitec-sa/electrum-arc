@@ -84,7 +84,7 @@ export default class Calendar extends React.Component {
   }
 
   // Return the html for a [1]..[31] button.
-  getButton (n, key, active) {
+  getButton (n, key, active, nature) {
     if (n <= 0) {
       n = null;  // if n <= 0, the button is hidden, but occupy his space
     }
@@ -94,6 +94,7 @@ export default class Calendar extends React.Component {
         text    = {n}
         kind    = 'calendar'
         active  = {active}
+        nature  = {nature}
         spacing = 'overlap'
         action  = {() => this.setDate (n)}
         {...this.link ()}
@@ -112,7 +113,8 @@ export default class Calendar extends React.Component {
         n = -1;  // hidden button
       }
       const active = (n > 0 ? (selectedDay === n ? 'true' : 'false') : 'hidden');
-      const button = this.getButton (n, key, active);
+      const nature = (i < 5) ? 'default' : 'weekend';
+      const button = this.getButton (n, key, active, nature);
       line.push (button);
     }
     return line;
