@@ -71,11 +71,6 @@ export default class Calendar extends React.Component {
     }
   }
 
-  // Return the number of days in a month (28..31).
-  daysInMonth (year, month) {
-    return new Date (year, month + 1, 0).getDate ();
-  }
-
   // Return the internalState with contain the visibleDate.
   // internalState.visibleDate fix the visible year and month.
   getInternalState () {
@@ -84,48 +79,50 @@ export default class Calendar extends React.Component {
   }
 
   // Return the html for a [1]..[31] button.
-  getButton (n, key, active, nature) {
-    if (n <= 0) {
-      n = null;  // if n <= 0, the button is hidden, but occupy his space
-    }
+  getButton (firstDate, active, nature) {
     return (
       <Button
-        key     = {key}
-        text    = {n}
+        key     = {firstDate}
+        text    = {firstDate.getDate ()}  // 1..31
         kind    = 'calendar'
         active  = {active}
         nature  = {nature}
         spacing = 'overlap'
-        action  = {() => this.setDate (n)}
+        action  = {() => this.setDate (firstDate)}
         {...this.link ()}
       />
     );
   }
 
   // Return an array of 7 buttons, for a week.
-  getButtons (first, daysInMonth, selectedDay) {
+  getButtons (firstDate, visibleDate, selectedDate) {
     let line = [];
     let i = 0;
     for (i = 0; i < 7; ++i) {
-      let n = first + i;
-      const key = n;
-      if (n > daysInMonth) {
-        n = -1;  // hidden button
+      let active = 'hidden';
+      if (firstDate.getFullYear () === visibleDate.getFullYear () &&
+          firstDate.getMonth    () === visibleDate.getMonth    ()) {
+        active = 'false';
       }
-      const active = (n > 0 ? (selectedDay === n ? 'true' : 'false') : 'hidden');
+      if (firstDate.getFullYear () === selectedDate.getFullYear () &&
+          firstDate.getMonth    () === selectedDate.getMonth    () &&
+          firstDate.getDate     () === selectedDate.getDate    ()) {
+        active = 'true';
+      }
       const nature = (i < 5) ? 'default' : 'weekend';
-      const button = this.getButton (n, key, active, nature);
+      const button = this.getButton (firstDate, active, nature);
       line.push (button);
+      firstDate = new Date (firstDate.getFullYear (), firstDate.getMonth (), firstDate.getDate () + 1);
     }
     return line;
   }
 
   // Return the html for a line of 7 buttons (for a week).
-  getLineOfButtons (first, daysInMonth, selectedDay) {
+  getLineOfButtons (firstDate, visibleDate, selectedDate) {
     const style = this.mergeStyles ('line');
     return (
       <div style={style}>
-        {this.getButtons (first, daysInMonth, selectedDay)}
+        {this.getButtons (firstDate, visibleDate, selectedDate)}
       </div>
     );
   }
@@ -184,17 +181,15 @@ export default class Calendar extends React.Component {
 
   // Return an array of lines, with header then week's lines.
   // The array must have from 4 to 6 lines.
-  getColumnOfLines (header, first, daysInMonth, selectedDay) {
+  getColumnOfLines (header, firstDate, visibleDate, selectedDate) {
     let column = [];
     column.push (this.getHeader (header));
     column.push (this.getLineOfDOWs ());
     let i = 0;
     for (i = 0; i < 6; ++i) {
-      const n = first + i * 7;
-      if (n > -6 && n <= daysInMonth) {
-        const line = this.getLineOfButtons (n, daysInMonth, selectedDay);
-        column.push (line);
-      }
+      const line = this.getLineOfButtons (firstDate, visibleDate, selectedDate);
+      column.push (line);
+      firstDate = new Date (firstDate.getFullYear (), firstDate.getMonth (), firstDate.getDate () + 7);
     }
     return column;
   }
@@ -203,24 +198,18 @@ export default class Calendar extends React.Component {
   getLines () {
     const internalState = this.getInternalState ();
     const visibleDate   = this.normalizeDate (internalState.get ('visibleDate'));
-    const visibleYear   = visibleDate.getFullYear ();
-    const visibleMonth  = visibleDate.getMonth ();
+    const selectedDate  = this.normalizeDate (this.read ('date'));
+    const visibleYear   = visibleDate.getFullYear ();  // 2016
+    const visibleMonth  = visibleDate.getMonth ();  // 0..11
     const dotw          = new Date (visibleYear, visibleMonth, 1).getDay ();  // 0..6 (0 = Sunday)
     const first         = -((dotw + 5) % 7);
-    const daysInMonth   = this.daysInMonth (visibleYear, visibleMonth);
+    const firstDate     = new Date (visibleYear, visibleMonth, first);
     const header        = this.getMonthDescription (visibleMonth) + ' ' + visibleYear;  // 'mai 2016' by example
-
-    var selectedDate  = this.normalizeDate (this.read ('date'));
-    var selectedDay = -1;
-    if (selectedDate.getFullYear () === visibleDate.getFullYear () &&
-        selectedDate.getMonth ()    === visibleDate.getMonth ()) {
-      selectedDay = selectedDate.getDate ();
-    }
 
     const style = this.mergeStyles ('column');
     return (
       <div style={style}>
-        {this.getColumnOfLines (header, first, daysInMonth, selectedDay)}
+        {this.getColumnOfLines (header, firstDate, visibleDate, selectedDate)}
       </div>
     );
   }
@@ -242,19 +231,12 @@ export default class Calendar extends React.Component {
   }
 
   // Called when a [1]..[31] button is clicked.
-  setDate (n) {
-    if (!n) {
-      return;  // nothing to do for hidden button
-    }
-
+  setDate (date) {
     const {state} = this.props;
-    const internalState = this.getInternalState ();
-    const visibleDate = this.normalizeDate (internalState.get ('visibleDate'));
-    const newDate = new Date (visibleDate.getFullYear (), visibleDate.getMonth (), n);
-    state.set ('date', newDate);
+    state.set ('date', date);
 
     if (this.props.onChange) {
-      this.props.onChange (newDate);
+      this.props.onChange (date);
     }
   }
 

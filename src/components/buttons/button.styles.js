@@ -221,7 +221,7 @@ export default function styles (theme, props) {
       backgroundColor = theme.palette.calendarButtonActiveBackground;
       textColor       = theme.palette.calendarActiveText;
     } else if (inputActive === 'hidden') {
-      backgroundColor = 'transparent';
+      backgroundColor = theme.palette.calendarBackground;
       borderColor     = 'transparent';
     } else {
       backgroundColor = theme.palette.calendarButtonInactiveBackground;
