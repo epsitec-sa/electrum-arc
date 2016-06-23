@@ -227,7 +227,7 @@ export default function styles (theme, props) {
       backgroundColor = theme.palette.calendarButtonInactiveBackground;
       textColor       = theme.palette.calendarInactiveText;
     }
-    if (inputNature === 'weekend') {
+    if (inputNature === 'weekend' && inputActive !== 'hidden') {
       backgroundColor = darken (backgroundColor, 0.1);
     }
   }
