@@ -80,10 +80,12 @@ export default class Calendar extends React.Component {
 
   // Return the html for a [1]..[31] button.
   getButton (firstDate, active, nature) {
+    const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
     return (
       <Button
         key     = {firstDate}
         text    = {firstDate.getDate ()}  // 1..31
+        tooltip = {firstDate.toLocaleDateString ('fr-CH', options)}
         kind    = 'calendar'
         active  = {active}
         nature  = {nature}
