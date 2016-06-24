@@ -43,6 +43,7 @@ export default class Button extends React.Component {
     const inputText          = this.read ('text');
     const inputGlyphPosition = this.read ('glyph-position');
     const inputBadgeValue    = this.read ('badge-value');
+    const inputTooltip       = this.read ('tooltip');
 
     const boxStyle   = this.mergeStyles ('box');
     const glyphStyle = this.mergeStyles ('glyph');
@@ -136,6 +137,7 @@ export default class Button extends React.Component {
         onClick={this.onClick}
         disabled={disabled}
         style={boxStyle}
+        title={inputTooltip}
         {...this.props}
       >
         {layout ().map ((comp) => comp)}
