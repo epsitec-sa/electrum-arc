@@ -169,6 +169,7 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'row-pane') {
+    const halfMargin     = Unit.multiply (m, 0.5);
     display              = 'flex';
     flexDirection        = 'row';
     justifyContent       = 'space-between';
@@ -186,21 +187,21 @@ export default function styles (theme, props) {
     } else if (inputSubkind === 'box') {
       rightMargin       = Unit.multiply (m, -1);
       leftMargin        = Unit.multiply (m, -1);
-      let topPadding    = Unit.multiply (m, 0.5);
+      let topPadding    = halfMargin;
       let rightPadding  = m;
-      let bottomPadding = Unit.multiply (m, 0.5);
+      let bottomPadding = halfMargin;
       let leftPadding   = m;
-      padding           = Unit.multiply (m, 0.5) + ' ' + m;
+      padding           = halfMargin + ' ' + m;
       borderTopColor    = theme.palette.paneNavigatorInactiveBorder;
       borderBottomColor = theme.palette.paneNavigatorInactiveBorder;
       borderTopWidth    = '1px';
       borderBottomWidth = '1px';
       borderTopStyle    = 'Solid';
       borderBottomStyle = 'Solid';
-      topMargin         = '0px';
-      bottomMargin      = '-1px';
+      topMargin         = halfMargin;
+      bottomMargin      = Unit.sub (Unit.multiply (halfMargin, -1), '1px');
       if (inputMark) {
-        padding         = Unit.multiply (m, 0.5) + ' ' + m;
+        padding         = halfMargin + ' ' + m;
         borderLeftWidth = theme.shapes.markWidth;
         borderLeftStyle = 'Solid';
         borderLeftColor = {
@@ -214,7 +215,7 @@ export default function styles (theme, props) {
     if (inputSpacing === 'compact') {
       bottomMargin    = '0px';
     } else if (inputSpacing === 'glued') {
-      bottomMargin    = Unit.multiply (m, -0.5);
+      bottomMargin    = halfMargin;
     }
     margin = topMargin + ' ' + rightMargin + ' ' + bottomMargin + ' ' + leftMargin;
   }
