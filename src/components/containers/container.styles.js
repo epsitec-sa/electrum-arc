@@ -8,6 +8,7 @@ export default function styles (theme, props) {
   let   inputWidth      = props.width;
   let   inputHeight     = props.height;
   const inputKind       = props.kind;
+  const inputSubkind    = props.subkind;
   const inputHeightType = props.heightType;
   const inputSpacing    = props.spacing;
 
@@ -29,6 +30,7 @@ export default function styles (theme, props) {
   let margin          = '0px';
   let padding         = '0px';
   let backgroundColor = null;
+  let fontWeight      = null;
   let zIndex          = null;
 
   const h = theme.shapes.lineHeight;
@@ -154,10 +156,18 @@ export default function styles (theme, props) {
     flexDirection  = 'row';
     justifyContent = 'space-between';
     alignItems     = 'center';
-    margin         = '0px 0px ' + s + ' 0px';
-    if (inputSpacing === 'compact') {
-      margin       = '0px';
+    let horizontalMargin = '0px';
+    if (inputSubkind === 'info') {
+      horizontalMargin = Unit.multiply (m, -1);
+      padding          = '0px ' + m;
+      backgroundColor = theme.palette.infoBackground;
+      fontWeight      = 'bold';
     }
+    let bottomMargin     = s;
+    if (inputSpacing === 'compact') {
+      bottomMargin    = '0px';
+    }
+    margin         = '0px ' + horizontalMargin + ' ' + bottomMargin + ' ' + horizontalMargin;
   }
 
   const boxStyle = {
@@ -181,6 +191,7 @@ export default function styles (theme, props) {
     margin:          margin,
     padding:         padding,
     backgroundColor: backgroundColor,
+    fontWeight:      fontWeight,
     zIndex:          zIndex,
   };
 

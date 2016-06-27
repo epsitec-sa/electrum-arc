@@ -55,18 +55,6 @@ export default function styles (theme, props) {
     padding         = '0 10px 0 10px';
   }
 
-  if (inputKind === 'article-footer') {
-    justifyContent  = 'flex-start';
-    padding         = '0 10px 0 10px';
-    backgroundColor = theme.palette.infoBackground;
-  }
-
-  if (inputKind === 'price-footer') {
-    justifyContent  = 'flex-end';
-    padding         = '0 10px 0 10px';
-    backgroundColor = theme.palette.infoBackground;
-  }
-
   if (inputKind === 'footer') {
     padding         = '0 20px 0 20px';
     color           = theme.palette.footerText;
