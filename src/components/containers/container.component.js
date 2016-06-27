@@ -17,6 +17,7 @@ export default class Container extends React.Component {
       height:     this.read ('height'),
       kind:       this.read ('kind'),
       subkind:    this.read ('subkind'),
+      mark:       this.read ('mark'),
       heightType: this.read ('height-type'),
       spacing:    this.read ('spacing'),
     };

@@ -9,29 +9,42 @@ export default function styles (theme, props) {
   let   inputHeight     = props.height;
   const inputKind       = props.kind;
   const inputSubkind    = props.subkind;
+  const inputMark       = props.mark;
   const inputHeightType = props.heightType;
   const inputSpacing    = props.spacing;
 
-  let minWidth        = null;
-  let minHeight       = null;
-  let display         = null;
-  let overflowX       = null;
-  let overflowY       = null;
-  let flexDirection   = null;
-  let flexGrow        = null;
-  let justifyContent  = null;
-  let alignItems      = null;
-  let alignContent    = null;
-  let alignSelf       = null;
-  let borderWidth     = null;
-  let borderStyle     = 'none';
-  let borderColor     = null;
-  let boxShadow       = null;
-  let margin          = '0px';
-  let padding         = '0px';
-  let backgroundColor = null;
-  let fontWeight      = null;
-  let zIndex          = null;
+  let minWidth          = null;
+  let minHeight         = null;
+  let display           = null;
+  let overflowX         = null;
+  let overflowY         = null;
+  let flexDirection     = null;
+  let flexGrow          = null;
+  let justifyContent    = null;
+  let alignItems        = null;
+  let alignContent      = null;
+  let alignSelf         = null;
+  let borderWidth       = null;
+  let borderStyle       = 'none';
+  let borderColor       = null;
+  let borderTopWidth    = null;
+  let borderTopStyle    = null;
+  let borderTopColor    = null;
+  let borderRightWidth  = null;
+  let borderRightStyle  = null;
+  let borderRightColor  = null;
+  let borderBottomWidth = null;
+  let borderBottomStyle = null;
+  let borderBottomColor = null;
+  let borderLeftWidth   = null;
+  let borderLeftStyle   = null;
+  let borderLeftColor   = null;
+  let boxShadow         = null;
+  let margin            = '0px';
+  let padding           = '0px';
+  let backgroundColor   = null;
+  let fontWeight        = null;
+  let zIndex            = null;
 
   const h = theme.shapes.lineHeight;
   const m = theme.shapes.containerMargin;
@@ -152,49 +165,91 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'row-pane') {
-    display        = 'flex';
-    flexDirection  = 'row';
-    justifyContent = 'space-between';
-    alignItems     = 'center';
-    let horizontalMargin = '0px';
-    if (inputSubkind === 'info') {
-      horizontalMargin = Unit.multiply (m, -1);
-      padding          = '0px ' + m;
-      backgroundColor = theme.palette.infoBackground;
-      fontWeight      = 'bold';
-    }
+    display              = 'flex';
+    flexDirection        = 'row';
+    justifyContent       = 'space-between';
+    alignItems           = 'center';
+    let topMargin        = '0px';
+    let rightMargin      = '0px';
     let bottomMargin     = s;
+    let leftMargin       = '0px';
+    if (inputSubkind === 'info') {
+      rightMargin      = Unit.multiply (m, -1);
+      leftMargin       = Unit.multiply (m, -1);
+      padding          = '0px ' + m;
+      backgroundColor  = theme.palette.infoBackground;
+      fontWeight       = 'bold';
+    } else if (inputSubkind === 'box') {
+      rightMargin       = Unit.multiply (m, -1);
+      leftMargin        = Unit.multiply (m, -1);
+      let topPadding    = Unit.multiply (m, 0.5);
+      let rightPadding  = m;
+      let bottomPadding = Unit.multiply (m, 0.5);
+      let leftPadding   = m;
+      padding           = Unit.multiply (m, 0.5) + ' ' + m;
+      borderTopColor    = theme.palette.paneNavigatorInactiveBorder;
+      borderBottomColor = theme.palette.paneNavigatorInactiveBorder;
+      borderTopWidth    = '1px';
+      borderBottomWidth = '1px';
+      borderTopStyle    = 'Solid';
+      borderBottomStyle = 'Solid';
+      topMargin         = '0px';
+      bottomMargin      = '-1px';
+      if (inputMark) {
+        padding         = Unit.multiply (m, 0.5) + ' ' + m;
+        borderLeftWidth = theme.shapes.markWidth;
+        borderLeftStyle = 'Solid';
+        borderLeftColor = {
+          primary: theme.palette.markPrimary,
+          secondary: theme.palette.markSecondary
+        }[inputMark];
+        leftPadding = Unit.sub (leftPadding, theme.shapes.markWidth);
+      }
+      padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
+    }
     if (inputSpacing === 'compact') {
       bottomMargin    = '0px';
     } else if (inputSpacing === 'glued') {
       bottomMargin    = Unit.multiply (m, -0.5);
     }
-    margin         = '0px ' + horizontalMargin + ' ' + bottomMargin + ' ' + horizontalMargin;
+    margin = topMargin + ' ' + rightMargin + ' ' + bottomMargin + ' ' + leftMargin;
   }
 
   const boxStyle = {
-    width:           inputWidth,
-    height:          inputHeight,
-    minWidth:        minWidth,
-    minHeight:       minHeight,
-    display:         display,
-    overflowX:       overflowX,
-    overflowY:       overflowY,
-    flexDirection:   flexDirection,
-    flexGrow:        flexGrow,
-    justifyContent:  justifyContent,
-    alignItems:      alignItems,
-    alignContent:    alignContent,
-    alignSelf:       alignSelf,
-    borderWidth:     borderWidth,
-    borderStyle:     borderStyle,
-    borderColor:     borderColor,
-    boxShadow:       boxShadow,
-    margin:          margin,
-    padding:         padding,
-    backgroundColor: backgroundColor,
-    fontWeight:      fontWeight,
-    zIndex:          zIndex,
+    width:             inputWidth,
+    height:            inputHeight,
+    minWidth:          minWidth,
+    minHeight:         minHeight,
+    display:           display,
+    overflowX:         overflowX,
+    overflowY:         overflowY,
+    flexDirection:     flexDirection,
+    flexGrow:          flexGrow,
+    justifyContent:    justifyContent,
+    alignItems:        alignItems,
+    alignContent:      alignContent,
+    alignSelf:         alignSelf,
+    borderWidth:       borderWidth,
+    borderStyle:       borderStyle,
+    borderColor:       borderColor,
+    borderTopWidth:    borderTopWidth,
+    borderTopStyle:    borderTopStyle,
+    borderTopColor:    borderTopColor,
+    borderRightWidth:  borderRightWidth,
+    borderRightStyle:  borderRightStyle,
+    borderRightColor:  borderRightColor,
+    borderBottomWidth: borderBottomWidth,
+    borderBottomStyle: borderBottomStyle,
+    borderBottomColor: borderBottomColor,
+    borderLeftWidth:   borderLeftWidth,
+    borderLeftStyle:   borderLeftStyle,
+    borderLeftColor:   borderLeftColor,
+    boxShadow:         boxShadow,
+    margin:            margin,
+    padding:           padding,
+    backgroundColor:   backgroundColor,
+    fontWeight:        fontWeight,
+    zIndex:            zIndex,
   };
 
   return {
