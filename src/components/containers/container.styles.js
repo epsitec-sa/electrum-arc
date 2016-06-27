@@ -122,6 +122,10 @@ export default function styles (theme, props) {
     }
   }
 
+  if (inputKind === 'view-wedge') {
+    flexGrow        = 1;
+  }
+
   if (inputKind === 'pane-navigator') {
     minHeight       = h;
     display         = 'flex';
