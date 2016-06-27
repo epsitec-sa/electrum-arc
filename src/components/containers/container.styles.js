@@ -166,6 +166,8 @@ export default function styles (theme, props) {
     let bottomMargin     = s;
     if (inputSpacing === 'compact') {
       bottomMargin    = '0px';
+    } else if (inputSpacing === 'glued') {
+      bottomMargin    = Unit.multiply (m, -0.5);
     }
     margin         = '0px ' + horizontalMargin + ' ' + bottomMargin + ' ' + horizontalMargin;
   }
