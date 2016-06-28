@@ -40,23 +40,23 @@ export default function styles (theme, props) {
     color           = theme.palette.paneHeaderText;
   }
 
-  if (inputKind === 'info') {
-    backgroundColor = theme.palette.infoBackground;
-    justifyContent  = 'center';
-    padding         = '0 10px 0 10px';
-  }
-
   if (inputKind === 'title') {
     fontSize        = theme.shapes.labelTitleTextSize;
     fontWeight      = 'bold';
     textTransform   = 'uppercase';
   }
 
-  if (inputKind === 'article') {
+  if (inputKind === 'info') {
+    backgroundColor = theme.palette.infoBackground;
+    justifyContent  = 'center';
+    padding         = '0 10px 0 10px';
+  }
+
+  if (inputKind === 'justify-left') {
     justifyContent  = 'flex-start';
   }
 
-  if (inputKind === 'price') {
+  if (inputKind === 'justify-right') {
     justifyContent  = 'flex-end';
   }
 
