@@ -54,12 +54,10 @@ export default function styles (theme, props) {
 
   if (inputKind === 'article') {
     justifyContent  = 'flex-start';
-    padding         = '0 10px 0 10px';
   }
 
   if (inputKind === 'price') {
     justifyContent  = 'flex-end';
-    padding         = '0 10px 0 10px';
   }
 
   if (inputKind === 'footer') {
@@ -82,7 +80,6 @@ export default function styles (theme, props) {
   const glyphStyle = {
     display:         'flex',
     flexDirection:   'row',
-    justifyContent:  'center',
     alignItems:      'center',
     width:           theme.shapes.lineHeight,
     height:          theme.shapes.lineHeight,
