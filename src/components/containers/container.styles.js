@@ -150,6 +150,19 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.paneNavigatorBackground;
   }
 
+  if (inputKind === 'pane-vnavigator') {
+    minHeight       = h;
+    display         = 'flex';
+    flexDirection   = 'row';
+    alignItems      = 'center';
+    padding         = m + ' ' + m + ' 0px ' + m;
+    margin          = '0px 0px ' + m + ' 0px';
+    borderWidth     = '1px';
+    borderStyle     = 'none none solid none';
+    borderColor     = theme.palette.paneNavigatorInactiveBorder;
+    backgroundColor = theme.palette.paneNavigatorBackground;
+  }
+
   if (inputKind === 'actions') {
     minHeight       = theme.shapes.actionHeight;
     display         = 'flex';

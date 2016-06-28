@@ -15,6 +15,7 @@ export default class Label extends React.Component {
   get styleProps () {
     return {
       text:    this.read ('text'),
+      glyph:   this.read ('glyph'),
       grow:    this.read ('grow'),
       kind:    this.read ('kind'),
       width:   this.read ('width'),
