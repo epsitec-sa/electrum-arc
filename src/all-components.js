@@ -30,6 +30,8 @@ import _Clock$styles from './components/extras/clock.styles.js';
 import _GoogleFontLoader from './components/extras/google-font-loader.component.js';
 import _ThemeSwitcher from './components/extras/theme-switcher.component.js';
 import _ThemeSwitcher$styles from './components/extras/theme-switcher.styles.js';
+import _Box from './components/forms/fields/box.component.js';
+import _Box$styles from './components/forms/fields/box.styles.js';
 import _LabelTextField from './components/forms/fields/label-text-field.component.js';
 import _LabelTextField$styles from './components/forms/fields/label-text-field.styles.js';
 import _Label from './components/forms/fields/label.component.js';
@@ -79,6 +81,7 @@ export const Calendar = Electrum.wrap ('Calendar', _Calendar, {styles: _Calendar
 export const Clock = Electrum.wrap ('Clock', _Clock, {styles: _Clock$styles});
 export const GoogleFontLoader = Electrum.wrap ('GoogleFontLoader', _GoogleFontLoader);
 export const ThemeSwitcher = Electrum.wrap ('ThemeSwitcher', _ThemeSwitcher, {styles: _ThemeSwitcher$styles});
+export const Box = Electrum.wrap ('Box', _Box, {styles: _Box$styles});
 export const LabelTextField = Electrum.wrap ('LabelTextField', _LabelTextField, {styles: _LabelTextField$styles});
 export const Label = Electrum.wrap ('Label', _Label, {styles: _Label$styles});
 export const MuAutoComplete = Electrum.wrap ('MuAutoComplete', _MuAutoComplete);

@@ -10,7 +10,6 @@ export default function styles (theme, props) {
   const inputWidth   = props.width;
   const inputSpacing = props.spacing;
 
-  let height          = theme.shapes.lineHeight;
   let backgroundColor = null;
   let padding         = null;
   let margin          = null;
@@ -61,11 +60,6 @@ export default function styles (theme, props) {
     justifyContent  = 'flex-end';
   }
 
-  if (inputKind === 'compact') {
-    height          = null;
-    justifyContent  = 'flex-start';
-  }
-
   if (inputKind === 'footer') {
     padding         = '0 20px 0 20px';
     color           = theme.palette.footerText;
@@ -73,7 +67,6 @@ export default function styles (theme, props) {
 
   const boxStyle = {
     width:           inputWidth,
-    height:          height,
     padding:         padding,
     margin:          margin,
     display:         display,
@@ -88,13 +81,13 @@ export default function styles (theme, props) {
     flexDirection:   'row',
     alignItems:      'center',
     width:           theme.shapes.lineHeight,
-    height:          height,
+    height:          theme.shapes.lineHeight,
     padding:         '0px',
     color:           color,
   };
 
   const textStyle = {
-    height:          height,
+    height:          theme.shapes.lineHeight,
     display:         display,
     alignItems:      alignItems,
     fontSize:        Unit.multiply (fontSize, theme.typo.fontScale),
