@@ -126,6 +126,16 @@ export default function styles (theme, props) {
     flexGrow        = 1;
   }
 
+  if (inputKind === 'pane-header') {
+    minHeight       = inputHeight;
+    display         = 'flex';
+    flexDirection   = 'row';
+    justifyContent  = 'space-between';
+    alignItems      = 'flex-end';
+    padding         = m;
+    backgroundColor = theme.palette.paneHeaderBackground;
+  }
+
   if (inputKind === 'pane-navigator') {
     minHeight       = h;
     display         = 'flex';

@@ -33,6 +33,13 @@ export default function styles (theme, props) {
     margin = '0px ' + m + ' 0px 0px';
   }
 
+  if (inputKind === 'pane-header') {
+    fontSize        = theme.shapes.paneHeaderTextSize;
+    fontWeight      = 'bold';
+    textTransform   = 'uppercase';
+    color           = theme.palette.paneHeaderText;
+  }
+
   if (inputKind === 'info') {
     backgroundColor = theme.palette.infoBackground;
     justifyContent  = 'center';
