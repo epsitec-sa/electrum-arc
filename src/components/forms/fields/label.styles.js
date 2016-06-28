@@ -67,7 +67,7 @@ export default function styles (theme, props) {
     color           = theme.palette.footerText;
   }
 
-  const labelStyle = {
+  const boxStyle = {
     width:           inputWidth,
     height:          theme.shapes.lineHeight,
     padding:         padding,
@@ -75,17 +75,35 @@ export default function styles (theme, props) {
     display:         display,
     flexDirection:   flexDirection,
     justifyContent:  justifyContent,
-    alignItems:      alignItems,
     flexGrow:        inputGrow,
+    backgroundColor: backgroundColor,
+  };
+
+  const glyphStyle = {
+    display:         'flex',
+    flexDirection:   'row',
+    justifyContent:  'center',
+    alignItems:      'center',
+    width:           theme.shapes.lineHeight,
+    height:          theme.shapes.lineHeight,
+    padding:         '0px',
+    color:           color,
+  };
+
+  const textStyle = {
+    height:          theme.shapes.lineHeight,
+    display:         display,
+    alignItems:      alignItems,
     fontSize:        Unit.multiply (fontSize, theme.typo.fontScale),
     fontWeight:      fontWeight,
     textTransform:   textTransform,
     color:           color,
-    backgroundColor: backgroundColor,
   };
 
   return {
-    label: labelStyle,
+    box:   boxStyle,
+    glyph: glyphStyle,
+    text:  textStyle,
   };
 }
 

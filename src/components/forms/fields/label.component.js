@@ -26,18 +26,55 @@ export default class Label extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputText = this.read ('text');
+    const inputText   = this.read ('text');
+    const inputGlyph  = this.read ('glyph');
+    const inputRotate = this.read ('rotate');
+    const inputFlip   = this.read ('flip');
+    const inputSpin   = this.read ('spin');
 
-    let labelStyle = this.mergeStyles ('label');
+    const boxStyle   = this.mergeStyles ('box');
+    const glyphStyle = this.mergeStyles ('glyph');
+    const textStyle  = this.mergeStyles ('text');
 
-    return (
-      <label
-        disabled={disabled}
-        style={labelStyle}
-        {...this.props}
-        >
+    const htmlText = (
+      <label key='text' style={textStyle}>
         {inputText}
       </label>
+    );
+
+    const renderSpin = inputSpin ? 'fa-spin' : '';
+    const htmlGlyph = (
+      <i key='icon'
+        style={glyphStyle}
+        className={`fa
+        fa-${inputGlyph}
+        fa-rotate-${inputRotate}
+        fa-flip-${inputFlip}
+        ${renderSpin}`}
+      />
+    );
+
+    const layout = () => {
+      if (inputGlyph) {
+        if (inputText) {
+          return [htmlGlyph, htmlText];
+        } else {
+          return [htmlGlyph];
+        }
+      } else {
+        return [htmlText];
+      }
+    };
+
+    return (
+      <div
+        onClick={this.onClick}
+        disabled={disabled}
+        style={boxStyle}
+        {...this.props}
+      >
+        {layout ().map ((comp) => comp)}
+      </div>
     );
   }
 }
