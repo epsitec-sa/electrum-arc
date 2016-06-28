@@ -215,7 +215,7 @@ export default function styles (theme, props) {
     if (inputSpacing === 'compact') {
       bottomMargin    = '0px';
     } else if (inputSpacing === 'glued') {
-      bottomMargin    = halfMargin;
+      bottomMargin    = Unit.multiply (halfMargin, -1);
     }
     margin = topMargin + ' ' + rightMargin + ' ' + bottomMargin + ' ' + leftMargin;
   }
