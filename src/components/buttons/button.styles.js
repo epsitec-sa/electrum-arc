@@ -169,8 +169,8 @@ export default function styles (theme, props) {
     backgroundHoverColor = '#ffffff00';  // transparent
   }
 
-  // pane-vnavigator button (usual parent is container with kind='pane-vnavigator').
-  if (inputKind === 'pane-vnavigator') {
+  // pane-hnavigator button (usual parent is container with kind='pane-hnavigator').
+  if (inputKind === 'pane-hnavigator') {
     boxHeight       = theme.shapes.paneNavigatorHeight;
     boxMargin       = '0px 0px -1px 0px';
     backgroundColor = theme.palette.paneNavigatorBackground;

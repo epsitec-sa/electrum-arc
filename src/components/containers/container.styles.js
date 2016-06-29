@@ -150,7 +150,7 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.paneNavigatorBackground;
   }
 
-  if (inputKind === 'pane-vnavigator') {
+  if (inputKind === 'pane-hnavigator') {
     minHeight       = h;
     display         = 'flex';
     flexDirection   = 'row';
