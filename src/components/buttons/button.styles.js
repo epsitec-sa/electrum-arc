@@ -174,8 +174,6 @@ export default function styles (theme, props) {
     boxHeight       = theme.shapes.paneNavigatorHeight;
     boxMargin       = '0px 0px -1px 0px';
     backgroundColor = theme.palette.paneNavigatorBackground;
-    textTransform   = 'uppercase';
-    textWeight      = 'bold';
     borderStyle     = 'none none solid none';
     textSize        = theme.shapes.paneNavigatorTextSize;
     if (inputActive === 'false') {
@@ -186,6 +184,20 @@ export default function styles (theme, props) {
     }
     borderHoverColor = theme.palette.paneNavigatorBorderHover;
     backgroundHoverColor = '#ffffff00';  // transparent
+  }
+
+  // pane-vnavigator button (usual parent is container with kind='pane-vnavigator').
+  if (inputKind === 'pane-vnavigator') {
+    boxWidth        = theme.shapes.vnavigatorButtonSize;
+    boxHeight       = theme.shapes.vnavigatorButtonSize;
+    boxMargin       = '0px 0px 1px 0px';
+    borderStyle     = 'none';
+    textSize        = theme.shapes.paneNavigatorTextSize;
+    if (inputActive === 'false') {
+      backgroundColor = theme.palette.vnavigatorButtonInactiveBackground;
+    } else if (inputActive === 'true') {
+      backgroundColor = theme.palette.vnavigatorButtonActiveBackground;
+    }
   }
 
   // Footer button (usual parent is container with kind='footer').

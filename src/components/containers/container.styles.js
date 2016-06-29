@@ -45,6 +45,7 @@ export default function styles (theme, props) {
   let backgroundColor   = null;
   let fontWeight        = null;
   let zIndex            = null;
+  let position          = null;
 
   const h = theme.shapes.lineHeight;
   const m = theme.shapes.containerMargin;
@@ -161,6 +162,16 @@ export default function styles (theme, props) {
     borderStyle     = 'none none solid none';
     borderColor     = theme.palette.paneNavigatorInactiveBorder;
     backgroundColor = theme.palette.paneNavigatorBackground;
+  }
+
+  if (inputKind === 'pane-vnavigator') {
+    position        = 'absolute';
+    minHeight       = h;
+    display         = 'flex';
+    flexDirection   = 'column';
+    padding         = '0px';
+    margin          = '0px 0px 0px ' + Unit.multiply (theme.shapes.vnavigatorButtonSize, -1);
+    backgroundColor = theme.palette.vnavigatorButtonBackground;
   }
 
   if (inputKind === 'actions') {
@@ -284,6 +295,7 @@ export default function styles (theme, props) {
     backgroundColor:   backgroundColor,
     fontWeight:        fontWeight,
     zIndex:            zIndex,
+    position:          position,
   };
 
   return {
