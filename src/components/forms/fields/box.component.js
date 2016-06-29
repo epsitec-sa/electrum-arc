@@ -36,7 +36,6 @@ export default class Box extends React.Component {
 
     const boxStyle   = this.mergeStyles ('box');
     const glyphStyle = this.mergeStyles ('glyph');
-    const textStyle  = this.mergeStyles ('text');
 
     const lines = inputText.split ('<br/>');
     const stackStyle = {

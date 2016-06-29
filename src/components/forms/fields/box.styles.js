@@ -16,7 +16,6 @@ export default function styles (theme, props) {
   let display         = 'flex';
   let flexDirection   = 'row';
   let justifyContent  = 'flex-start';
-  let alignItems      = 'center';
   let fontSize        = theme.shapes.labelTextSize;
   let fontWeight      = null;
   let textTransform   = null;
@@ -86,19 +85,9 @@ export default function styles (theme, props) {
     color:           color,
   };
 
-  const textStyle = {
-    display:         display,
-    alignItems:      alignItems,
-    fontSize:        Unit.multiply (fontSize, theme.typo.fontScale),
-    fontWeight:      fontWeight,
-    textTransform:   textTransform,
-    color:           color,
-  };
-
   return {
     box:   boxStyle,
     glyph: glyphStyle,
-    text:  textStyle,
   };
 }
 
