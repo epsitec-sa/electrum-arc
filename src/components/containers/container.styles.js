@@ -234,6 +234,12 @@ export default function styles (theme, props) {
         leftPadding = Unit.sub (leftPadding, theme.shapes.markWidth);
       }
       padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
+    } else if (inputSubkind === 'footer') {
+      rightMargin       = Unit.multiply (m, -1);
+      leftMargin        = Unit.multiply (m, -1);
+      topMargin         = halfMargin;
+      bottomMargin      = Unit.sub (Unit.multiply (halfMargin, -1), '1px');
+      padding           = '0px';
     }
     if (inputSpacing === 'compact') {
       bottomMargin    = '0px';

@@ -89,7 +89,7 @@ export default function styles (theme, props) {
     textJustify = inputJustify && justifyType[inputJustify];
   }
 
-  // task-logo button (usual parent container with kind="task").
+  // task-logo button (usual parent container with kind='task').
   if (inputKind === 'task-logo') {
     boxWidth        = theme.shapes.taskButtonWidth;
     boxHeight       = theme.shapes.taskButtonHeight;
@@ -106,7 +106,7 @@ export default function styles (theme, props) {
     glyphSize       = theme.shapes.taskLogoGlyphSize;
   }
 
-  // Task button (usual parent is container with kind="task").
+  // Task button (usual parent is container with kind='task').
   if (inputKind === 'task') {
     boxWidth        = theme.shapes.taskButtonWidth;
     boxHeight       = theme.shapes.taskButtonHeight;
@@ -121,7 +121,7 @@ export default function styles (theme, props) {
     glyphSize       = theme.shapes.taskGlyphSize;
   }
 
-  // main-tab button (usual parent is container with kind="main-tab").
+  // main-tab button (usual parent is container with kind='main-tab').
   if (inputKind === 'main-tab') {
     boxHeight       = theme.shapes.mainTabHeight;
     boxMargin       = '0px 1px 0px 0px';
@@ -137,7 +137,7 @@ export default function styles (theme, props) {
     textColor = theme.palette.mainTabText;
   }
 
-  // view-tab button (usual parent is container with kind="view-tab").
+  // view-tab button (usual parent is container with kind='view-tab').
   if (inputKind === 'view-tab') {
     boxHeight   = theme.shapes.viewTabHeight;
     borderStyle = 'none';
@@ -150,7 +150,7 @@ export default function styles (theme, props) {
     }
   }
 
-  // pane-navigator button (usual parent is container with kind="pane-navigator").
+  // pane-navigator button (usual parent is container with kind='pane-navigator').
   if (inputKind === 'pane-navigator') {
     boxHeight       = theme.shapes.paneNavigatorHeight;
     boxMargin       = '0px 0px -1px 0px';
@@ -169,7 +169,7 @@ export default function styles (theme, props) {
     backgroundHoverColor = '#ffffff00';  // transparent
   }
 
-  // pane-vnavigator button (usual parent is container with kind="pane-vnavigator").
+  // pane-vnavigator button (usual parent is container with kind='pane-vnavigator').
   if (inputKind === 'pane-vnavigator') {
     boxHeight       = theme.shapes.paneNavigatorHeight;
     boxMargin       = '0px 0px -1px 0px';
@@ -188,7 +188,7 @@ export default function styles (theme, props) {
     backgroundHoverColor = '#ffffff00';  // transparent
   }
 
-  // Footer button (usual parent is container with kind="footer").
+  // Footer button (usual parent is container with kind='footer').
   if (inputKind === 'footer') {
     boxHeight  = theme.shapes.footerHeight;
     boxMargin  = '0px 1px 0px 0px';
@@ -203,7 +203,7 @@ export default function styles (theme, props) {
     borderStyle = 'none';
   }
 
-  // Action button (usual parent is container with kind="actions").
+  // Action button (usual parent is container with kind='actions').
   if (inputKind  === 'action') {
     const m = Unit.multiply (theme.shapes.actionHeight, 0.4);
     const r = theme.shapes.actionRadius;
@@ -221,6 +221,16 @@ export default function styles (theme, props) {
     } else {
       boxMargin = '0px 1px 0px 0px';
     }
+  }
+
+  // Subaction button (usual parent is container with kind='row-pane' and subkind='box').
+  if (inputKind  === 'subaction') {
+    borderStyle     = 'none';
+    backgroundColor = theme.palette.subactionButtonBackground;
+    textColor       = theme.palette.subactionButtonText;
+    textSize        = theme.shapes.subactionTextSize;
+    textTransform   = 'uppercase';
+    textWeight      = 'bold';
   }
 
   // Combo button, place to the right of a TextFieldCombo component.
