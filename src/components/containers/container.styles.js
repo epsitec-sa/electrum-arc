@@ -134,6 +134,7 @@ export default function styles (theme, props) {
     justifyContent  = 'space-between';
     alignItems      = 'flex-end';
     padding         = m;
+    margin          = '0px 0px ' + m + ' 0px';
     backgroundColor = theme.palette.paneHeaderBackground;
   }
 
