@@ -70,7 +70,9 @@ export default class Box extends React.Component {
       );
     } else {
       htmlText = (
-        <Label text={lines[0]} style={textStyle} {...this.link ()} />
+        <span style={stackStyle}>
+          <Label kind='compact' text={lines[0]} {...this.link ()} />
+        </span>
       );
     }
 

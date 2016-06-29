@@ -62,7 +62,7 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'compact') {
-    height          = null;
+    height          = 'null';
     justifyContent  = 'flex-start';
   }
 

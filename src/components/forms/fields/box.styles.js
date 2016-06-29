@@ -87,7 +87,6 @@ export default function styles (theme, props) {
   };
 
   const textStyle = {
-    height:          theme.shapes.lineHeight,
     display:         display,
     alignItems:      alignItems,
     fontSize:        Unit.multiply (fontSize, theme.typo.fontScale),
