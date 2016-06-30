@@ -25,15 +25,16 @@ export default class TextField extends React.Component {
   render () {
     const {state, theme, id} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputValue    = this.read ('value');
-    const inputTooltip  = this.read ('tooltip');
-    const inputHintText = this.read ('hint-text');
+    const inputValue          = this.read ('value');
+    const inputMessageInfo    = this.read ('message-info');
+    const inputMessageWarning = this.read ('message-warning');
+    const inputHintText       = this.read ('hint-text');
 
     const boxStyle            = this.mergeStyles ('box');
     const fieldStyle          = this.mergeStyles ('field');
-    const tooltipBoxStyle     = this.mergeStyles ('tooltipBox');
-    const tooltipMessageStyle = this.mergeStyles ('tooltipMessage');
-    const tooltipTextStyle    = this.mergeStyles ('tooltipText');
+    const messageBoxStyle     = this.mergeStyles ('messageBox');
+    const messageTopStyle     = this.mergeStyles ('messageTop');
+    const messageBottomStyle  = this.mergeStyles ('messageBottom');
 
     const htmlInput = (
       <input
@@ -55,32 +56,30 @@ export default class TextField extends React.Component {
         />
     );
 
-    let message = null;
-    let tooltip = null;
-    if (inputTooltip) {
-      const i = inputTooltip.indexOf ('|');
+    let topText    = null;
+    let bottomText = null;
+    if (inputMessageInfo || inputMessageWarning) {
+      const message = inputMessageInfo ? inputMessageInfo : inputMessageWarning;
+      const i = message.indexOf ('|');
       if (i) {
-        message = inputTooltip.substring (0, i);
-        tooltip = inputTooltip.substring (i + 1, inputTooltip.length);
+        topText    = message.substring (0, i);
+        bottomText = message.substring (i + 1, message.length);
       } else {
-        tooltip = inputTooltip;
+        bottomText = message;
       }
     }
-    // if (!message) {
-    //   message = inputHintText;
-    // }
     let htmlTooltip = null;
-    if (message && tooltip) {
+    if (topText && bottomText) {
       htmlTooltip = (
-        <div style={tooltipBoxStyle}>
-          <span style={tooltipMessageStyle}>{message}</span>
-          <span style={tooltipTextStyle}>{tooltip}</span>
+        <div style={messageBoxStyle}>
+          <span style={messageTopStyle}>{topText}</span>
+          <span style={messageBottomStyle}>{bottomText}</span>
         </div>
       );
-    } else if (tooltip) {
+    } else if (bottomText) {
       htmlTooltip = (
-        <div style={tooltipBoxStyle}>
-          <span style={tooltipTextStyle}>{tooltip}</span>
+        <div style={messageBoxStyle}>
+          <span style={messageBottomStyle}>{bottomText}</span>
         </div>
       );
     }

@@ -5,10 +5,11 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  let   inputGrow    = props.grow;
-  const inputSpacing = props.spacing;
-  let   inputWidth   = props.width;
-  const inputTooltip = props.tooltip;
+  let   inputGrow           = props.grow;
+  const inputSpacing        = props.spacing;
+  let   inputWidth          = props.width;
+  const inputMessageInfo    = props.messageInfo;
+  const inputMessageWarning = props.messageWarning;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -60,8 +61,8 @@ export default function styles (theme, props) {
     margin:          '0px',
   };
 
-  const tooltipMargin = theme.shapes.tooltipMargin;
-  const tooltipBoxStyle = {
+  const messageMargin = theme.shapes.tooltipMargin;
+  const messageBoxStyle = {
     position:        'absolute',
     left:            '-1px',
     top:             Unit.add (theme.shapes.lineHeight, '1px'),
@@ -72,24 +73,24 @@ export default function styles (theme, props) {
     display:         'flex',
     flexDirection:   'column',
   };
-  const tooltipMessageStyle = {
+  const messageTopStyle = {
     display:         'inline-block',
     verticalAlign:   'middle',
     fontWeight:      'bold',
-    padding:         tooltipMargin + ' ' + tooltipMargin + ' 0px ' + tooltipMargin,
+    padding:         messageMargin + ' ' + messageMargin + ' 0px ' + messageMargin,
   };
-  const tooltipTextStyle = {
+  const messageBottomStyle = {
     display:         'inline-block',
     verticalAlign:   'middle',
-    padding:         tooltipMargin,
+    padding:         messageMargin,
   };
 
   return {
-    box:            boxStyle,
-    field:          fieldStyle,
-    tooltipBox:     tooltipBoxStyle,
-    tooltipMessage: tooltipMessageStyle,
-    tooltipText:    tooltipTextStyle,
+    box:           boxStyle,
+    field:         fieldStyle,
+    messageBox:    messageBoxStyle,
+    messageTop:    messageTopStyle,
+    messageBottom: messageBottomStyle,
   };
 }
 
