@@ -61,14 +61,14 @@ export default function styles (theme, props) {
     margin:          '0px',
   };
 
-  const messageMargin = theme.shapes.tooltipMargin;
+  const messageMargin = theme.shapes.messageMargin;
   const messageBoxStyle = {
     position:        'absolute',
     left:            '-1px',
     top:             Unit.add (theme.shapes.lineHeight, '1px'),
-    color:           theme.palette.tooltipText,
-    backgroundColor: theme.palette.tooltipBackground,
-    fontSize:        theme.shapes.tooltipTextSize,
+    color:           inputMessageInfo ? theme.palette.messageInfoText : theme.palette.messageWarningText,
+    backgroundColor: inputMessageInfo ? theme.palette.messageInfoBackground : theme.palette.messageWarningBackground,
+    fontSize:        theme.shapes.messageTextSize,
     zIndex:          1,
     display:         'flex',
     flexDirection:   'column',

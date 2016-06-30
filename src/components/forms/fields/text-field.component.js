@@ -2,7 +2,6 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
@@ -14,16 +13,17 @@ export default class TextField extends React.Component {
 
   get styleProps () {
     return {
-      value:   this.read ('value'),
-      grow:    this.read ('grow'),
-      spacing: this.read ('spacing'),
-      width:   this.read ('width'),
-      tooltip: this.read ('tooltip'),
+      value:          this.read ('value'),
+      grow:           this.read ('grow'),
+      spacing:        this.read ('spacing'),
+      width:          this.read ('width'),
+      messageInfo:    this.read ('message-info'),
+      messageWarning: this.read ('message-warning'),
     };
   }
 
   render () {
-    const {state, theme, id} = this.props;
+    const {state, id} = this.props;
     const disabled = Action.isDisabled (state);
     const inputValue          = this.read ('value');
     const inputMessageInfo    = this.read ('message-info');
@@ -68,16 +68,16 @@ export default class TextField extends React.Component {
         bottomText = message;
       }
     }
-    let htmlTooltip = null;
+    let htmlMessage = null;
     if (topText && bottomText) {
-      htmlTooltip = (
+      htmlMessage = (
         <div style={messageBoxStyle}>
           <span style={messageTopStyle}>{topText}</span>
           <span style={messageBottomStyle}>{bottomText}</span>
         </div>
       );
     } else if (bottomText) {
-      htmlTooltip = (
+      htmlMessage = (
         <div style={messageBoxStyle}>
           <span style={messageBottomStyle}>{bottomText}</span>
         </div>
@@ -90,7 +90,7 @@ export default class TextField extends React.Component {
         style={boxStyle}
         >
         {htmlInput}
-        {htmlTooltip}
+        {htmlMessage}
       </span>
     );
   }
