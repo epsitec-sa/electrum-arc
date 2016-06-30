@@ -2,17 +2,25 @@
 
 /******************************************************************************/
 
-export default function (theme) {
+export default function styles (theme, props) {
+  const inputWidth = props.width;
+
+  let minWidth        = null;
+  let backgroundColor = null;
+
+  if (inputWidth) {
+    minWidth = inputWidth;
+  }
+
+  backgroundColor = theme.palette.menuBackground;
+
+  const boxStyle = {
+    minWidth:        minWidth,
+    backgroundColor: backgroundColor,
+  };
+
   return {
-    base: {
-      fontFamily: theme.typo.font,
-      boxSizing: 'border-box',
-      boxShadow: '0 2px 5px 0 rgba(0, 0, 0, 0.26)',
-      whiteSpace: 'nowrap',
-      width: '100%',
-      marginBottom: 5,
-      backgroundColor: theme.palette.primary1Color
-    }
+    box: boxStyle,
   };
 }
 

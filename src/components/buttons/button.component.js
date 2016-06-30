@@ -3,7 +3,7 @@
 import React from 'react';
 import {Action} from 'electrum';
 import {Unit} from 'electrum-theme';
-import {Badge} from 'electrum-arc';
+import {Badge, Menu} from 'electrum-arc';
 
 /******************************************************************************/
 
@@ -29,7 +29,26 @@ export default class Button extends React.Component {
       badgeValue:    this.read ('badge-value'),
       justify:       this.read ('justify'),
       shape:         this.read ('shape'),
+      menuDirection: this.read ('menu-direction'),
     };
+  }
+
+  // Return the internalState with contain the isMenuVisible.
+  getInternalState () {
+    const {state} = this.props;
+    return state.select ('menu-internal');
+  }
+
+  // Called when the button is clicked.
+  showMenu () {
+    const internalState = this.getInternalState ();
+    var isMenuVisible = internalState.get ('isMenuVisible');
+    if (isMenuVisible === 'true') {
+      isMenuVisible = 'false';
+    } else {
+      isMenuVisible = 'true';
+    }
+    internalState.set ('isMenuVisible', isMenuVisible);
   }
 
   render () {
@@ -45,6 +64,14 @@ export default class Button extends React.Component {
     const inputGlyphPosition = this.read ('glyph-position');
     const inputBadgeValue    = this.read ('badge-value');
     const inputTooltip       = this.read ('tooltip');
+
+    // Get or create the internalState.
+    var internalState = this.getInternalState ();
+    if (!internalState.get ('isMenuVisible')) {
+      // At first time, initialize internalState.isMenuVisible with false.
+      internalState = internalState.set ('isMenuVisible', 'false');
+    }
+    const isMenuVisible = internalState.get ('isMenuVisible');
 
     const boxStyle   = this.mergeStyles ('box');
     const glyphStyle = this.mergeStyles ('glyph');
@@ -117,6 +144,22 @@ export default class Button extends React.Component {
       }
     }
 
+    let htmlMenu = null;
+    // if (isMenuVisible === 'true') {
+    if (true) {
+      const htmlCombo = (
+        <Menu {...this.link ()} />
+      );
+      const htmlToto = (
+        <Button text='abc' {...this.link ()} />
+      );
+      const menuBoxStyle = this.mergeStyles ('menuBox');
+      htmlMenu = (
+        <div style={menuBoxStyle}>
+        </div>
+      );
+    }
+
     const layout = () => {
       if (inputGlyph) {
         if (inputText) {
@@ -135,15 +178,17 @@ export default class Button extends React.Component {
 
     return (
       <div
-        onClick={this.onClick}
-        disabled={disabled}
-        style={boxStyle}
-        title={inputTooltip}
+        onClick  = {this.onClick}
+        disabled = {disabled}
+        style    = {boxStyle}
+        title    = {inputTooltip}
+        action   = {() => this.showMenu ()}
         {...this.props}
       >
         {layout ().map ((comp) => comp)}
         {htmlTriangle}
         {htmlBadge}
+        {htmlMenu}
       </div>
     );
   }

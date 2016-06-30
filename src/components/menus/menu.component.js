@@ -1,24 +1,40 @@
 'use strict';
 
 import React from 'react';
-import {Link} from 'electrum-arc';
+import {Action} from 'electrum';
+
+import {Button} from '../../all-components.js';
 
 /******************************************************************************/
 
 export default class Menu extends React.Component {
 
+  constructor (props) {
+    super (props);
+  }
+
+  get styleProps () {
+    return {
+      width: this.read ('width'),
+    };
+  }
+
   render () {
-    const {children, title, zIndex} = this.props;
-    const style = [...this.styles, {zIndex: zIndex || 1}];
-    const items = React.Children.map (children,
-      item => (typeof item.type === 'function') ?
-        React.cloneElement (item, {kind: 'menuItem'}) : item);
+    const {state} = this.props;
+    const disabled = Action.isDisabled (state);
+
+    const boxStyle = this.mergeStyles ('box');
 
     return (
-      <nav style={style}>
-        <Link {...this.link ()} kind='menuHead'>{title}</Link>
-        {items}
-      </nav>
+      <div
+        disabled={disabled}
+        style={boxStyle}
+        {...this.props}
+      >
+        <Button text='coucou' {...this.link ()} />
+        <Button text='tralala' {...this.link ()} />
+        <Button text='youpie' {...this.link ()} />
+      </div>
     );
   }
 }

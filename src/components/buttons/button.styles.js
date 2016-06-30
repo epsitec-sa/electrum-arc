@@ -23,6 +23,7 @@ export default function styles (theme, props) {
   const inputActive        = props.active;
   const inputJustify       = props.justify;
   const inputShape         = props.shape;
+  const inputMenuDirection = props.menuDirection;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -391,10 +392,21 @@ export default function styles (theme, props) {
     fontSize:        Unit.multiply (textSize, theme.typo.fontScale),
   };
 
+  const menuBoxStyle = {
+    position:        'absolute',
+    top:             (inputMenuDirection === 'top') ? null : '0px',
+    bottom:          (inputMenuDirection === 'top') ? '0px' : null,
+    zIndex:          1,
+    minWidth: '123px',
+    minHeight: '123px',
+    backgroundColor: '#f00',
+  };
+
   return {
-    box:   boxStyle,
-    glyph: glyphStyle,
-    text:  textStyle,
+    box:     boxStyle,
+    glyph:   glyphStyle,
+    text:    textStyle,
+    menuBox: menuBoxStyle,
   };
 }
 
