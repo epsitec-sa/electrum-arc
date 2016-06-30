@@ -25,6 +25,33 @@ export default class Box extends React.Component {
     };
   }
 
+  getLines (text) {
+    const lines = text.split ('<br/>');
+    const array = [];
+    for (let i = 0; i < lines.length; i++) {
+      const htmlText = (
+        <Label kind='compact' text={lines[i]} {...this.link ()} />
+      );
+      array.push (htmlText);
+    }
+    return array;
+  }
+
+  getText (text) {
+    const stackStyle = {
+      display:       'flex',
+      flexDirection: 'column',
+    };
+    const layout = () => {
+      return this.getLines (text);
+    };
+    return (
+      <span style={stackStyle}>
+        {layout ().map ((comp) => comp)}
+      </span>
+    );
+  }
+
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
@@ -37,43 +64,7 @@ export default class Box extends React.Component {
     const boxStyle   = this.mergeStyles ('box');
     const glyphStyle = this.mergeStyles ('glyph');
 
-    const lines = inputText.split ('<br/>');
-    const stackStyle = {
-      display:       'flex',
-      flexDirection: 'column',
-    };
-    let htmlText;
-    if (lines.length === 2) {
-      htmlText = (
-        <span style={stackStyle}>
-          <Label kind='compact' text={lines[0]} {...this.link ()} />
-          <Label kind='compact' text={lines[1]} {...this.link ()} />
-        </span>
-      );
-    } else if (lines.length === 3) {
-      htmlText = (
-        <span style={stackStyle}>
-          <Label kind='compact' text={lines[0]} {...this.link ()} />
-          <Label kind='compact' text={lines[1]} {...this.link ()} />
-          <Label kind='compact' text={lines[2]} {...this.link ()} />
-        </span>
-      );
-    } else if (lines.length === 4) {
-      htmlText = (
-        <span style={stackStyle}>
-          <Label kind='compact' text={lines[0]} {...this.link ()} />
-          <Label kind='compact' text={lines[1]} {...this.link ()} />
-          <Label kind='compact' text={lines[2]} {...this.link ()} />
-          <Label kind='compact' text={lines[3]} {...this.link ()} />
-        </span>
-      );
-    } else {
-      htmlText = (
-        <span style={stackStyle}>
-          <Label kind='compact' text={lines[0]} {...this.link ()} />
-        </span>
-      );
-    }
+    const htmlText = this.getText (inputText);
 
     const renderSpin = inputSpin ? 'fa-spin' : '';
     const htmlGlyph = (
