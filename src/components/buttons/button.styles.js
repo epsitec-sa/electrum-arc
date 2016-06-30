@@ -42,6 +42,7 @@ export default function styles (theme, props) {
   let backgroundHoverColor = null;
   let glyphColor           = null;
   let glyphSize            = null;
+  let textWidth            = null;
   let textColor            = null;
   let textMargin           = '0px ' + m + ' 0px ' + m;
   let textJustify          = 'center';
@@ -256,6 +257,7 @@ export default function styles (theme, props) {
   }
 
   if (inputKind  === 'menu-item') {
+    textWidth       = 'max-content';
     boxHeight       = theme.shapes.menuButtonHeight;
     boxMargin       = '0px 0px 1px 0px';
     boxPadding      = '0px ' + theme.shapes.containerMargin + ' 0px ' + theme.shapes.containerMargin;
@@ -393,6 +395,7 @@ export default function styles (theme, props) {
   };
 
   const textStyle = {
+    width:           textWidth,
     display:         'flex',
     flexDirection:   'row',
     justifyContent:  textJustify,
