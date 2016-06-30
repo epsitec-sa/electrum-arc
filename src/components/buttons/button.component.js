@@ -3,7 +3,9 @@
 import React from 'react';
 import {Action} from 'electrum';
 import {Unit} from 'electrum-theme';
-import {Badge, Menu} from 'electrum-arc';
+import {Badge} from 'electrum-arc';
+
+import {Menu} from '../../all-components.js';
 
 /******************************************************************************/
 
@@ -41,8 +43,9 @@ export default class Button extends React.Component {
 
   // Called when the button is clicked.
   showMenu () {
+    // console.log ('>>>> showMenu <<<<');
     const internalState = this.getInternalState ();
-    var isMenuVisible = internalState.get ('isMenuVisible');
+    let isMenuVisible = internalState.get ('isMenuVisible');
     if (isMenuVisible === 'true') {
       isMenuVisible = 'false';
     } else {
@@ -64,14 +67,19 @@ export default class Button extends React.Component {
     const inputGlyphPosition = this.read ('glyph-position');
     const inputBadgeValue    = this.read ('badge-value');
     const inputTooltip       = this.read ('tooltip');
+    const inputMenu          = this.read ('menu');
+    const inputMenuDirection = this.read ('menu-direction');
 
     // Get or create the internalState.
-    var internalState = this.getInternalState ();
-    if (!internalState.get ('isMenuVisible')) {
-      // At first time, initialize internalState.isMenuVisible with false.
-      internalState = internalState.set ('isMenuVisible', 'false');
+    let isMenuVisible = 'false';
+    if (inputMenuDirection) {
+      let internalState = this.getInternalState ();
+      if (!internalState.get ('isMenuVisible')) {
+        // At first time, initialize internalState.isMenuVisible with false.
+        internalState = internalState.set ('isMenuVisible', 'false');
+      }
+      isMenuVisible = internalState.get ('isMenuVisible');
     }
-    const isMenuVisible = internalState.get ('isMenuVisible');
 
     const boxStyle   = this.mergeStyles ('box');
     const glyphStyle = this.mergeStyles ('glyph');
@@ -145,17 +153,15 @@ export default class Button extends React.Component {
     }
 
     let htmlMenu = null;
-    // if (isMenuVisible === 'true') {
-    if (true) {
+    // if (inputMenuDirection) {
+    if (isMenuVisible === 'true') {
       const htmlCombo = (
-        <Menu {...this.link ()} />
-      );
-      const htmlToto = (
-        <Button text='abc' {...this.link ()} />
+        <Menu items={inputMenu} {...this.link ()} />
       );
       const menuBoxStyle = this.mergeStyles ('menuBox');
       htmlMenu = (
         <div style={menuBoxStyle}>
+          {htmlCombo}
         </div>
       );
     }
@@ -178,11 +184,10 @@ export default class Button extends React.Component {
 
     return (
       <div
-        onClick  = {this.onClick}
+        onClick  = {() => this.showMenu ()}
         disabled = {disabled}
         style    = {boxStyle}
         title    = {inputTooltip}
-        action   = {() => this.showMenu ()}
         {...this.props}
       >
         {layout ().map ((comp) => comp)}

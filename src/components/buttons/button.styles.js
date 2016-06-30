@@ -255,6 +255,19 @@ export default function styles (theme, props) {
     }
   }
 
+  if (inputKind  === 'menu-item') {
+    boxHeight       = theme.shapes.menuButtonHeight;
+    boxMargin       = '0px 0px 1px 0px';
+    boxPadding      = '0px ' + theme.shapes.containerMargin + ' 0px ' + theme.shapes.containerMargin;
+    textMargin      = '0px ' + theme.shapes.containerMargin + ' 0px ' + theme.shapes.containerMargin;
+    textJustify     = 'flex-start';
+    textSize        = theme.shapes.menuTextSize;
+    textTransform   = 'uppercase';
+    textWeight      = 'bold';
+    borderStyle     = 'none';
+    backgroundColor = theme.palette.menuItemBackground;
+  }
+
   // Button with a day in Calendar component.
   if (inputKind  === 'calendar') {
     boxWidth        = theme.shapes.calendarButtonSize;
@@ -394,12 +407,12 @@ export default function styles (theme, props) {
 
   const menuBoxStyle = {
     position:        'absolute',
-    top:             (inputMenuDirection === 'top') ? null : '0px',
-    bottom:          (inputMenuDirection === 'top') ? '0px' : null,
+    top:             (inputMenuDirection === 'top') ? null : boxHeight,
+    bottom:          (inputMenuDirection === 'top') ? boxHeight : null,
+    padding:         '1px 0px 1px 0px',
+    left:            '0px',
+    backgroundColor: theme.palette.menuBackground,
     zIndex:          1,
-    minWidth: '123px',
-    minHeight: '123px',
-    backgroundColor: '#f00',
   };
 
   return {

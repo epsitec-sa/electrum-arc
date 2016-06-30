@@ -5,18 +5,14 @@
 export default function styles (theme, props) {
   const inputWidth = props.width;
 
-  let minWidth        = null;
-  let backgroundColor = null;
+  let minWidth = null;
 
   if (inputWidth) {
     minWidth = inputWidth;
   }
 
-  backgroundColor = theme.palette.menuBackground;
-
   const boxStyle = {
-    minWidth:        minWidth,
-    backgroundColor: backgroundColor,
+    minWidth: minWidth,
   };
 
   return {

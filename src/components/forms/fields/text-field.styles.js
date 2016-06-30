@@ -61,7 +61,7 @@ export default function styles (theme, props) {
     flexGrow:        inputGrow,
     border:          '1px solid ' + theme.palette.buttonBorder,
     borderRadius:    borderRadius,
-    backgroundColor: theme.palette.buttonBackground,
+    backgroundColor: theme.palette.textFieldBackground,
     padding:         padding,
     marginTop:       '0px',
     marginRight:     marginRight,
