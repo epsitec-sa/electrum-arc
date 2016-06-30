@@ -182,7 +182,7 @@ export default class Button extends React.Component {
     if (inputMenu) {
       return (
         <div
-          onClick  = {() => this.showMenu ()}
+          onClick  = {() => this.showMenu ()}  // voir (*)
           disabled = {disabled}
           style    = {boxStyle}
           title    = {inputTooltip}
@@ -197,7 +197,7 @@ export default class Button extends React.Component {
     } else {
       return (
         <div
-          onClick  = {this.onClick}
+          onClick  = {this.onClick}  // voir (*)
           disabled = {disabled}
           style    = {boxStyle}
           title    = {inputTooltip}
@@ -210,6 +210,7 @@ export default class Button extends React.Component {
         </div>
       );
     }
+    // (*) je n'arrive pas à généraliser cela !!!
   }
 }
 
