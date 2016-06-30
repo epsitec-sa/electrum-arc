@@ -17,6 +17,7 @@ export default class TextField extends React.Component {
       grow:           this.read ('grow'),
       spacing:        this.read ('spacing'),
       width:          this.read ('width'),
+      shape:          this.read ('shape'),
       messageInfo:    this.read ('message-info'),
       messageWarning: this.read ('message-warning'),
     };

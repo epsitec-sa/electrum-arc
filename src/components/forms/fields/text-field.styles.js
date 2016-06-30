@@ -8,6 +8,7 @@ export default function styles (theme, props) {
   let   inputGrow           = props.grow;
   const inputSpacing        = props.spacing;
   let   inputWidth          = props.width;
+  const inputShape          = props.shape;
   const inputMessageInfo    = props.messageInfo;
   const inputMessageWarning = props.messageWarning;
 
@@ -29,11 +30,21 @@ export default function styles (theme, props) {
     inputWidth = Unit.sub (inputWidth, '2px');
   }
 
-  let marginRight = '0px';
+  let marginLeft   = '0px';
+  let marginRight  = '0px';
+  let padding      = '0px';
+  let borderRadius = '0px';
+
   if (inputSpacing === 'overlap') {
     marginRight = '-1px';
   } else if (inputSpacing === 'large') {
     marginRight = m;
+  }
+
+  if (inputShape === 'left-rounded') {
+    const r = Unit.multiply (theme.shapes.lineHeight, 0.5);
+    borderRadius = r + ' 0px 0px ' + r;
+    padding      = '0px 0px 0px ' + r;
   }
 
   const boxStyle = {
@@ -43,12 +54,13 @@ export default function styles (theme, props) {
     alignItems:      'center',
     flexGrow:        inputGrow,
     border:          '1px solid ' + theme.palette.buttonBorder,
+    borderRadius:    borderRadius,
     backgroundColor: theme.palette.buttonBackground,
-    padding:         '0px',
+    padding:         padding,
     marginTop:       '0px',
-    marginLeft:      '0px',
-    marginBottom:    '0px',
     marginRight:     marginRight,
+    marginBottom:    '0px',
+    marginLeft:      marginLeft,
     position:        'relative',
   };
 

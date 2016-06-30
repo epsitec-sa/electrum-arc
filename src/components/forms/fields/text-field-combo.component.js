@@ -10,6 +10,7 @@ export default class TextFieldCombo extends React.Component {
 
   get styleProps () {
     return {
+      kind:           this.read ('kind'),
       comboGlyph:     this.read ('combo-glyph'),
       value:          this.read ('value'),
       hintText:       this.read ('hint-text'),
@@ -66,6 +67,7 @@ export default class TextFieldCombo extends React.Component {
   render () {
     const {state, id} = this.props;
     const disabled = Action.isDisabled (state);
+    const inputKind       = this.read ('kind');
     const inputGlyph      = this.read ('combo-glyph');
     const inputValue      = this.read ('value');
     const inputHintText   = this.read ('hint-text');
@@ -81,6 +83,9 @@ export default class TextFieldCombo extends React.Component {
     const isComboVisible = internalState.get ('isComboVisible');
 
     const boxStyle = this.mergeStyles ('box');
+
+    const textFieldShape = (inputKind === 'search') ? 'left-rounded'  : null;
+    const buttonShape    = (inputKind === 'search') ? 'right-rounded' : null;
 
     let htmlCalendar = null;
     if (isComboVisible === 'true') {
@@ -124,13 +129,15 @@ export default class TextFieldCombo extends React.Component {
           hint-text   = {inputHintText}
           filter-keys = {inputFilterKeys}
           spacing     = 'overlap'
+          shape       = {textFieldShape}
           {...this.link ()}
         />
         <Button
-          kind   = 'combo'
-          glyph  = {inputGlyph}
-          active = {isComboVisible}
-          action = {() => this.showCombo ()}
+          kind        = 'combo'
+          glyph       = {inputGlyph}
+          shape       = {buttonShape}
+          active      = {isComboVisible}
+          action      = {() => this.showCombo ()}
           {...this.link ()}
           />
         {htmlCalendar}

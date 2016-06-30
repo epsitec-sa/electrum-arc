@@ -22,6 +22,7 @@ export default function styles (theme, props) {
   const inputPlace         = props.place;
   const inputActive        = props.active;
   const inputJustify       = props.justify;
+  const inputShape         = props.shape;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -280,6 +281,11 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.calendarBackground;
     glyphColor      = theme.palette.calendarHeaderText;
     glyphSize       = theme.palette.calendarGlyphSize;
+  }
+
+  if (inputShape === 'right-rounded') {
+    const r = Unit.multiply (theme.shapes.lineHeight, 0.5);
+    borderRadius = '0px ' + r + ' ' + r + ' 0px';
   }
 
   // Compute colors for glyph, text and hover if necessary.

@@ -28,6 +28,7 @@ export default class Button extends React.Component {
       active:        this.read ('active'),
       badgeValue:    this.read ('badge-value'),
       justify:       this.read ('justify'),
+      shape:         this.read ('shape'),
     };
   }
 
