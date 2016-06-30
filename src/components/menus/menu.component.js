@@ -19,7 +19,7 @@ export default class Menu extends React.Component {
     };
   }
 
-  buttons (items) {
+  getButtons (items) {
     const array = [];
     for (let i = 0; i < items.length ; i++) {
       const item = items[i];
@@ -44,7 +44,7 @@ export default class Menu extends React.Component {
     const boxStyle = this.mergeStyles ('box');
 
     const layout = () => {
-      return this.buttons (inputItems);
+      return this.getButtons (inputItems);
     };
 
     return (
