@@ -283,9 +283,13 @@ export default function styles (theme, props) {
     glyphSize       = theme.palette.calendarGlyphSize;
   }
 
-  if (inputShape === 'right-rounded') {
+  if (inputShape) {
     const r = Unit.multiply (theme.shapes.lineHeight, 0.5);
-    borderRadius = '0px ' + r + ' ' + r + ' 0px';
+    if (inputShape === 'left-rounded') {
+      borderRadius = r + ' 0px 0px ' + r;
+    } else if (inputShape === 'right-rounded') {
+      borderRadius = '0px ' + r + ' ' + r + ' 0px';
+    }
   }
 
   // Compute colors for glyph, text and hover if necessary.

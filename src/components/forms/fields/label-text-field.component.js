@@ -28,6 +28,7 @@ export default class LabelTextField extends React.Component {
   render () {
     const {state, id} = this.props;
     const disabled = Action.isDisabled (state);
+    const inputShape      = this.read ('shape');
     const inputLabelGlyph = this.read ('label-glyph');
     const inputLabelText  = this.read ('label-text');
     const inputLabelWidth = this.read ('label-width');
@@ -38,18 +39,22 @@ export default class LabelTextField extends React.Component {
 
     const boxStyle = this.mergeStyles ('box');
 
+    const buttonShape    = (inputShape === 'rounded') ? 'left-rounded'  : null;
+    const textFieldShape = (inputShape === 'rounded') ? 'right-rounded' : null;
+
     return (
       <span
         disabled={disabled}
         style={boxStyle}
         >
         <Button
-          glyph   = {inputLabelGlyph}
-          text    = {inputLabelText}
-          width   = {inputLabelWidth}
-          kind    = 'label'
-          justify = 'left'
-          spacing = 'overlap'
+          glyph       = {inputLabelGlyph}
+          text        = {inputLabelText}
+          width       = {inputLabelWidth}
+          shape       = {buttonShape}
+          kind        = 'label'
+          justify     = 'left'
+          spacing     = 'overlap'
           {...this.link ()}
         />
         <TextField
@@ -58,6 +63,7 @@ export default class LabelTextField extends React.Component {
           value       = {inputValue}
           hint-text   = {inputHintText}
           filter-keys = {inputFilterKeys}
+          shape       = {textFieldShape}
           {...this.link ()}
         />
       </span>

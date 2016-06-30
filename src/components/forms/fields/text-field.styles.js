@@ -41,10 +41,16 @@ export default function styles (theme, props) {
     marginRight = m;
   }
 
-  if (inputShape === 'left-rounded') {
+  if (inputShape) {
     const r = Unit.multiply (theme.shapes.lineHeight, 0.5);
     borderRadius = r + ' 0px 0px ' + r;
-    padding      = '0px 0px 0px ' + r;
+    if (inputShape === 'left-rounded') {
+      borderRadius = r + ' 0px 0px ' + r;
+      padding      = '0px 0px 0px ' + r;
+    } else if (inputShape === 'right-rounded') {
+      borderRadius = '0px ' + r + ' ' + r + ' 0px';
+      padding      = '0px ' + r + ' 0px 0px';
+    }
   }
 
   const boxStyle = {

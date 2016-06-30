@@ -67,7 +67,7 @@ export default class TextFieldCombo extends React.Component {
   render () {
     const {state, id} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputKind       = this.read ('kind');
+    const inputShape      = this.read ('shape');
     const inputGlyph      = this.read ('combo-glyph');
     const inputValue      = this.read ('value');
     const inputHintText   = this.read ('hint-text');
@@ -84,8 +84,8 @@ export default class TextFieldCombo extends React.Component {
 
     const boxStyle = this.mergeStyles ('box');
 
-    const textFieldShape = (inputKind === 'search') ? 'left-rounded'  : null;
-    const buttonShape    = (inputKind === 'search') ? 'right-rounded' : null;
+    const textFieldShape = (inputShape === 'rounded') ? 'left-rounded'  : null;
+    const buttonShape    = (inputShape === 'rounded') ? 'right-rounded' : null;
 
     let htmlCalendar = null;
     if (isComboVisible === 'true') {
