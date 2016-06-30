@@ -2,7 +2,6 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-import {Unit} from 'electrum-theme';
 
 import {Label} from '../../../all-components.js';
 
