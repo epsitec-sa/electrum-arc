@@ -67,11 +67,10 @@ export default class Button extends React.Component {
     const inputBadgeValue    = this.read ('badge-value');
     const inputTooltip       = this.read ('tooltip');
     const inputMenu          = this.read ('menu');
-    const inputMenuDirection = this.read ('menu-direction');
 
     // Get or create the internalState.
     let isMenuVisible = 'false';
-    if (inputMenuDirection) {
+    if (inputMenu) {
       let internalState = this.getInternalState ();
       if (!internalState.get ('isMenuVisible')) {
         // At first time, initialize internalState.isMenuVisible with false.
@@ -152,7 +151,6 @@ export default class Button extends React.Component {
     }
 
     let htmlMenu = null;
-    // if (inputMenuDirection) {
     if (isMenuVisible === 'true') {
       const htmlCombo = (
         <Menu items={inputMenu} {...this.link ()} />
@@ -181,20 +179,37 @@ export default class Button extends React.Component {
       }
     };
 
-    return (
-      <div
-        onClick  = {() => this.showMenu ()}
-        disabled = {disabled}
-        style    = {boxStyle}
-        title    = {inputTooltip}
-        {...this.props}
-      >
-        {layout ().map ((comp) => comp)}
-        {htmlTriangle}
-        {htmlBadge}
-        {htmlMenu}
-      </div>
-    );
+    if (inputMenu) {
+      return (
+        <div
+          onClick  = {() => this.showMenu ()}
+          disabled = {disabled}
+          style    = {boxStyle}
+          title    = {inputTooltip}
+          {...this.props}
+        >
+          {layout ().map ((comp) => comp)}
+          {htmlTriangle}
+          {htmlBadge}
+          {htmlMenu}
+        </div>
+      );
+    } else {
+      return (
+        <div
+          onClick  = {this.onClick}
+          disabled = {disabled}
+          style    = {boxStyle}
+          title    = {inputTooltip}
+          {...this.props}
+        >
+          {layout ().map ((comp) => comp)}
+          {htmlTriangle}
+          {htmlBadge}
+          {htmlMenu}
+        </div>
+      );
+    }
   }
 }
 
