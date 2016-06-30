@@ -3,9 +3,8 @@
 import React from 'react';
 import {Action} from 'electrum';
 import {Unit} from 'electrum-theme';
-import {Badge} from 'electrum-arc';
 
-import {Menu} from '../../all-components.js';
+import {Badge, Menu} from '../../all-components.js';
 
 /******************************************************************************/
 
