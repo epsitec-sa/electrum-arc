@@ -4,6 +4,14 @@ import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
+function GetMarkColor (theme, mark) {
+  const fix = {
+    primary:   theme.palette.markPrimary,
+    secondary: theme.palette.markSecondary
+  };
+  return fix[mark];
+}
+
 export default function styles (theme, props) {
   let   inputWidth      = props.width;
   let   inputHeight     = props.height;
@@ -242,10 +250,7 @@ export default function styles (theme, props) {
         padding         = halfMargin + ' ' + m;
         borderLeftWidth = theme.shapes.markWidth;
         borderLeftStyle = 'Solid';
-        borderLeftColor = {
-          primary:   theme.palette.markPrimary,
-          secondary: theme.palette.markSecondary
-        }[inputMarkColor];
+        borderLeftColor = GetMarkColor (theme, inputMarkColor);
         leftPadding = Unit.sub (leftPadding, theme.shapes.markWidth);
       }
       padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
