@@ -9,7 +9,7 @@ export default function styles (theme, props) {
   let   inputHeight     = props.height;
   const inputKind       = props.kind;
   const inputSubkind    = props.subkind;
-  const inputMark       = props.mark;
+  const inputMarkColor  = props.markColor;
   const inputHeightType = props.heightType;
   const inputSpacing    = props.spacing;
 
@@ -238,14 +238,14 @@ export default function styles (theme, props) {
       borderBottomStyle = 'Solid';
       topMargin         = halfMargin;
       bottomMargin      = Unit.sub (Unit.multiply (halfMargin, -1), '1px');
-      if (inputMark) {
+      if (inputMarkColor) {
         padding         = halfMargin + ' ' + m;
         borderLeftWidth = theme.shapes.markWidth;
         borderLeftStyle = 'Solid';
         borderLeftColor = {
-          primary: theme.palette.markPrimary,
+          primary:   theme.palette.markPrimary,
           secondary: theme.palette.markSecondary
-        }[inputMark];
+        }[inputMarkColor];
         leftPadding = Unit.sub (leftPadding, theme.shapes.markWidth);
       }
       padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
