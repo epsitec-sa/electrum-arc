@@ -42,12 +42,9 @@ export default class Box extends React.Component {
       display:       'flex',
       flexDirection: 'column',
     };
-    const layout = () => {
-      return this.getLines (text);
-    };
     return (
       <span style={stackStyle}>
-        {layout ().map ((comp) => comp)}
+        {this.getLines (text).map ((comp) => comp)}
       </span>
     );
   }
