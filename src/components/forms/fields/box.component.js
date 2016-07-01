@@ -26,7 +26,7 @@ export default class Box extends React.Component {
 
   getLines (text) {
     const array = [];
-    text.split ('<br/>').map (
+    text.split ('\\n').map (
       line => {
         const htmlText = (
           <Label kind='compact' text={line} {...this.link ()} />
