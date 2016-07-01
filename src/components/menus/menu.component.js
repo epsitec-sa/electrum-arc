@@ -3,8 +3,6 @@
 import React from 'react';
 import {Action} from 'electrum';
 
-import {Button} from '../../all-components.js';
-
 /******************************************************************************/
 
 export default class Menu extends React.Component {
@@ -19,17 +17,6 @@ export default class Menu extends React.Component {
     };
   }
 
-  getButtons (items) {
-    const array = [];
-    items.map (
-      item => {
-        const html = item ();
-        array.push (html);
-      }
-    );
-    return array;
-  }
-
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
@@ -37,17 +24,13 @@ export default class Menu extends React.Component {
 
     const boxStyle = this.mergeStyles ('box');
 
-    const layout = () => {
-      return this.getButtons (inputItems);
-    };
-
     return (
       <div
         disabled={disabled}
         style={boxStyle}
         {...this.props}
       >
-        {layout ().map ((comp) => comp)}
+        {inputItems.map (item => item ())}
       </div>
     );
   }
