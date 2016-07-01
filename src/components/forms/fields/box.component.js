@@ -3,8 +3,6 @@
 import React from 'react';
 import {Action} from 'electrum';
 
-import {Label} from '../../../all-components.js';
-
 /******************************************************************************/
 
 export default class Box extends React.Component {
@@ -29,7 +27,7 @@ export default class Box extends React.Component {
     text.split ('\\n').map (
       line => {
         const htmlText = (
-          <Label kind='compact' text={line} {...this.link ()} />
+          <div>{line}</div>
         );
         array.push (htmlText);
       }

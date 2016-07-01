@@ -61,11 +61,6 @@ export default function styles (theme, props) {
     justifyContent  = 'flex-end';
   }
 
-  if (inputKind === 'compact') {
-    height          = 'null';
-    justifyContent  = 'flex-start';
-  }
-
   if (inputKind === 'footer') {
     padding         = '0 20px 0 20px';
     color           = theme.palette.footerText;
