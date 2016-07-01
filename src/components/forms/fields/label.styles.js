@@ -10,6 +10,7 @@ export default function styles (theme, props) {
   const inputWidth   = props.width;
   const inputSpacing = props.spacing;
 
+  let textHeight      = null;
   let backgroundColor = null;
   let padding         = null;
   let margin          = null;
@@ -47,16 +48,19 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'info') {
+    textHeight      = theme.shapes.lineHeight;
     backgroundColor = theme.palette.infoBackground;
     justifyContent  = 'center';
     padding         = '0 10px 0 10px';
   }
 
   if (inputKind === 'justify-left') {
+    textHeight      = theme.shapes.lineHeight;
     justifyContent  = 'flex-start';
   }
 
   if (inputKind === 'justify-right') {
+    textHeight      = theme.shapes.lineHeight;
     justifyContent  = 'flex-end';
   }
 
@@ -87,6 +91,7 @@ export default function styles (theme, props) {
   };
 
   const textStyle = {
+    height:          textHeight,
     display:         display,
     alignItems:      alignItems,
     fontSize:        Unit.multiply (fontSize, theme.typo.fontScale),

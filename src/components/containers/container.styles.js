@@ -214,6 +214,9 @@ export default function styles (theme, props) {
     let bottomMargin     = s;
     let leftMargin       = '0px';
     if (inputSubkind === 'info') {
+      backgroundColor  = theme.palette.infoBackground;
+      fontWeight       = 'bold';
+    } else if (inputSubkind === 'wide-info') {
       rightMargin      = Unit.multiply (m, -1);
       leftMargin       = Unit.multiply (m, -1);
       padding          = '0px ' + m;
