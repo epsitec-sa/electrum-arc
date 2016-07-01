@@ -23,14 +23,7 @@ export default class Menu extends React.Component {
     const array = [];
     items.map (
       item => {
-        const html = (
-          <Button
-            kind='menu-item'
-            glyph={item.glyph}
-            text={item.text}
-            {...this.link ()}
-          />
-        );
+        const html = item ();
         array.push (html);
       }
     );
