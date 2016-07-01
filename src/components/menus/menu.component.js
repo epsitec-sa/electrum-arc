@@ -21,18 +21,19 @@ export default class Menu extends React.Component {
 
   getButtons (items) {
     const array = [];
-    for (let i = 0; i < items.length ; i++) {
-      const item = items[i];
-      const html = (
-        <Button
-          kind='menu-item'
-          glyph={item.glyph}
-          text={item.text}
-          {...this.link ()}
-        />
-      );
-      array.push (html);
-    }
+    items.map (
+      item => {
+        const html = (
+          <Button
+            kind='menu-item'
+            glyph={item.glyph}
+            text={item.text}
+            {...this.link ()}
+          />
+        );
+        array.push (html);
+      }
+    );
     return array;
   }
 
