@@ -23,6 +23,31 @@ export default class Label extends React.Component {
     };
   }
 
+  getLines (lines) {
+    const array = [];
+    lines.map (
+      line => {
+        const htmlText = (
+          <div>{line}</div>
+        );
+        array.push (htmlText);
+      }
+    );
+    return array;
+  }
+
+  getText (lines) {
+    const stackStyle = {
+      display:       'flex',
+      flexDirection: 'column',
+    };
+    return (
+      <span style={stackStyle}>
+        {this.getLines (lines).map ((comp) => comp)}
+      </span>
+    );
+  }
+
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
@@ -36,11 +61,17 @@ export default class Label extends React.Component {
     const glyphStyle = this.mergeStyles ('glyph');
     const textStyle  = this.mergeStyles ('text');
 
-    const htmlText = (
-      <label key='text' style={textStyle}>
-        {inputText}
-      </label>
-    );
+    let  htmlText;
+    const lines = inputText.split ('\\n');
+    if (lines.length < 2) {
+      htmlText = (
+        <label key='text' style={textStyle}>
+          {inputText}
+        </label>
+      );
+    } else {
+      htmlText = this.getText (lines);
+    }
 
     const renderSpin = inputSpin ? 'fa-spin' : '';
     const htmlGlyph = (
