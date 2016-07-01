@@ -2,7 +2,6 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
@@ -42,9 +41,9 @@ export default class Label extends React.Component {
       flexDirection: 'column',
     };
     return (
-      <span style={stackStyle}>
+      <div style={stackStyle}>
         {this.getLines (lines).map ((comp) => comp)}
-      </span>
+      </div>
     );
   }
 
@@ -65,9 +64,9 @@ export default class Label extends React.Component {
     const lines = inputText.split ('\\n');
     if (lines.length < 2) {
       htmlText = (
-        <label key='text' style={textStyle}>
+        <div key='text' style={textStyle}>
           {inputText}
-        </label>
+        </div>
       );
     } else {
       htmlText = this.getText (lines);
