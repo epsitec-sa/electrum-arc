@@ -5,11 +5,15 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 function GetMarkColor (theme, mark) {
-  const fix = {
-    primary:   theme.palette.markPrimary,
-    secondary: theme.palette.markSecondary
-  };
-  return fix[mark];
+  if (mark.startsWith ('#')) {
+    return mark;
+  } else {
+    const fix = {
+      primary:   theme.palette.markPrimary,
+      secondary: theme.palette.markSecondary
+    };
+    return fix[mark];
+  }
 }
 
 export default function styles (theme, props) {
