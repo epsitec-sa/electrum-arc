@@ -96,7 +96,17 @@ export default class TextField extends React.Component {
     //   </span>
     // );
 
-    if (bottomText) {
+    if (topText && bottomText) {
+      return (
+        <span
+          disabled={disabled}
+          style={boxStyle}
+          >
+          {htmlInput}
+          <FlyingBalloon primary-text={topText} secondary-text={bottomText} {...this.link ()} />
+        </span>
+      );
+    } else if (bottomText) {
       return (
         <span
           disabled={disabled}
