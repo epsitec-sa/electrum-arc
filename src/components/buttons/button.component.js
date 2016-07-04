@@ -143,6 +143,7 @@ export default class Button extends React.Component {
           borderLeft:   d + ' solid transparent',
           borderRight:  d + ' solid transparent',
           borderBottom: d + ' solid ' + theme.palette.viewTabBackground,
+          margin:       '0px -' + d + ' 0px 0px',
         };
         htmlTriangle = (
           <div style={triangleStyle} />
