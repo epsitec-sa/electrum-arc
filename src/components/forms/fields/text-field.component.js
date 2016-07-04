@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {Action} from 'electrum';
+import {FlyingBalloon} from 'electrum-arc';
 
 /******************************************************************************/
 
@@ -85,15 +86,36 @@ export default class TextField extends React.Component {
       );
     }
 
-    return (
-      <span
-        disabled={disabled}
-        style={boxStyle}
-        >
-        {htmlInput}
-        {htmlMessage}
-      </span>
-    );
+    // return (
+    //   <span
+    //     disabled={disabled}
+    //     style={boxStyle}
+    //     >
+    //     {htmlInput}
+    //     {htmlMessage}
+    //   </span>
+    // );
+
+    if (bottomText) {
+      return (
+        <span
+          disabled={disabled}
+          style={boxStyle}
+          >
+          {htmlInput}
+          <FlyingBalloon text={bottomText} {...this.link ()} />
+        </span>
+      );
+    } else {
+      return (
+        <span
+          disabled={disabled}
+          style={boxStyle}
+          >
+          {htmlInput}
+        </span>
+      );
+    }
   }
 }
 
