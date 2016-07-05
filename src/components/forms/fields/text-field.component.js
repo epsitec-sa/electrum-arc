@@ -28,8 +28,8 @@ export default class TextField extends React.Component {
     const {state, id} = this.props;
     const disabled = Action.isDisabled (state);
     const inputValue          = this.read ('value');
-    const inputMessageInfo    = this.read ('message-info');
     const inputMessageWarning = this.read ('message-warning');
+    const inputMessageInfo    = this.read ('message-info');
     const inputHintText       = this.read ('hint-text');
 
     const boxStyle   = this.mergeStyles ('box');
@@ -56,19 +56,9 @@ export default class TextField extends React.Component {
     );
 
     let htmlFlyingBalloon = null;
-    if (inputMessageInfo || inputMessageWarning) {
-      let topText    = null;
-      let bottomText = null;
-      const message = inputMessageInfo ? inputMessageInfo : inputMessageWarning;
-      const i = message.indexOf ('|');
-      if (i) {
-        topText    = message.substring (0, i);
-        bottomText = message.substring (i + 1, message.length);
-      } else {
-        bottomText = message;
-      }
+    if (inputMessageWarning || inputMessageInfo) {
       htmlFlyingBalloon = (
-        <FlyingBalloon primary-text={topText} secondary-text={bottomText} {...this.link ()} />
+        <FlyingBalloon primary-text={inputMessageWarning} secondary-text={inputMessageInfo} {...this.link ()} />
       );
     }
 
