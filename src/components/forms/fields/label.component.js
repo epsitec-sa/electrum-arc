@@ -19,15 +19,17 @@ export default class Label extends React.Component {
       kind:    this.read ('kind'),
       width:   this.read ('width'),
       spacing: this.read ('spacing'),
+      wrap:    this.read ('wrap'),
     };
   }
 
   getLines (lines) {
     const array = [];
+    const lineStyle  = this.mergeStyles ('line');
     lines.map (
       line => {
         const htmlText = (
-          <div>{line}</div>
+          <div style={lineStyle}>{line}</div>
         );
         array.push (htmlText);
       }
@@ -36,12 +38,9 @@ export default class Label extends React.Component {
   }
 
   getText (lines) {
-    const stackStyle = {
-      display:       'flex',
-      flexDirection: 'column',
-    };
+    const linesStyle = this.mergeStyles ('lines');
     return (
-      <div style={stackStyle}>
+      <div style={linesStyle}>
         {this.getLines (lines).map ((comp) => comp)}
       </div>
     );

@@ -5,23 +5,30 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 export default function styles (theme, props) {
+  const inputGlyph   = props.glyph;
   const inputGrow    = props.grow;
   const inputKind    = props.kind;
   const inputWidth   = props.width;
   const inputSpacing = props.spacing;
+  const inputWrap    = props.wrap;
 
-  let textHeight      = null;
-  let backgroundColor = null;
-  let padding         = null;
-  let margin          = null;
-  let display         = 'flex';
-  let flexDirection   = 'row';
-  let justifyContent  = 'flex-start';
-  let alignItems      = 'center';
-  let fontSize        = theme.shapes.labelTextSize;
-  let fontWeight      = null;
-  let textTransform   = null;
-  let color           = theme.palette.text;
+  let boxWidth         = null;
+  let textHeight       = null;
+  let backgroundColor  = null;
+  let padding          = null;
+  let margin           = null;
+  let display          = 'flex';
+  let flexDirection    = 'row';
+  let justifyContent   = 'flex-start';
+  let alignItems       = 'center';
+  let fontSize         = theme.shapes.labelTextSize;
+  let fontWeight       = null;
+  let textTransform    = null;
+  let color            = theme.palette.text;
+  let whiteSpace       = null;
+  let overflow         = null;
+  let textOverflow     = null;
+  let linePaddingRight = null;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -32,6 +39,12 @@ export default function styles (theme, props) {
     margin = '0px 1px 0px 0px';
   } else if (inputSpacing === 'large') {
     margin = '0px ' + m + ' 0px 0px';
+  }
+
+  if (inputWidth) {
+    boxWidth = inputWidth;
+  } else if (inputGrow && inputGrow.endsWith ('%')) {
+    boxWidth = inputGrow;
   }
 
   if (inputKind === 'pane-header') {
@@ -69,8 +82,18 @@ export default function styles (theme, props) {
     color           = theme.palette.footerText;
   }
 
+  if (inputWrap === 'no') {
+    display      = null;
+    whiteSpace   = 'nowrap';
+    overflow     = 'hidden';
+    textOverflow = 'ellipsis';
+    if (inputGlyph) {
+      linePaddingRight = theme.shapes.lineHeight;
+    }
+  }
+
   const boxStyle = {
-    width:           inputWidth,
+    width:           boxWidth,
     padding:         padding,
     margin:          margin,
     display:         display,
@@ -78,32 +101,53 @@ export default function styles (theme, props) {
     justifyContent:  justifyContent,
     flexGrow:        inputGrow,
     backgroundColor: backgroundColor,
+    whiteSpace:      whiteSpace,
+    wordWrap:        'break-word',
   };
 
   const glyphStyle = {
     display:         'flex',
     flexDirection:   'row',
     alignItems:      'center',
-    width:           theme.shapes.lineHeight,
+    minWidth:        theme.shapes.lineHeight,
     height:          theme.shapes.lineHeight,
     padding:         '0px',
     color:           color,
   };
 
   const textStyle = {
+    width:           '100%',
     height:          textHeight,
     display:         display,
     alignItems:      alignItems,
+    justifyContent:  justifyContent,
     fontSize:        Unit.multiply (fontSize, theme.typo.fontScale),
     fontWeight:      fontWeight,
     textTransform:   textTransform,
     color:           color,
+    overflow:     overflow,
+    textOverflow: textOverflow,
+    paddingRight: linePaddingRight,
+  };
+
+  const linesStyle = {
+    width:           '100%',
+    display:         'flex',
+    flexDirection:   'column',
+  };
+
+  const lineStyle = {
+    overflow:     overflow,
+    textOverflow: textOverflow,
+    paddingRight: linePaddingRight,
   };
 
   return {
     box:   boxStyle,
     glyph: glyphStyle,
     text:  textStyle,
+    lines: linesStyle,
+    line:  lineStyle,
   };
 }
 
