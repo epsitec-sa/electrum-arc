@@ -32,11 +32,8 @@ export default class TextField extends React.Component {
     const inputMessageWarning = this.read ('message-warning');
     const inputHintText       = this.read ('hint-text');
 
-    const boxStyle            = this.mergeStyles ('box');
-    const fieldStyle          = this.mergeStyles ('field');
-    const messageBoxStyle     = this.mergeStyles ('messageBox');
-    const messageTopStyle     = this.mergeStyles ('messageTop');
-    const messageBottomStyle  = this.mergeStyles ('messageBottom');
+    const boxStyle   = this.mergeStyles ('box');
+    const fieldStyle = this.mergeStyles ('field');
 
     const htmlInput = (
       <input
@@ -58,9 +55,10 @@ export default class TextField extends React.Component {
         />
     );
 
-    let topText    = null;
-    let bottomText = null;
+    let htmlFlyingBalloon = null;
     if (inputMessageInfo || inputMessageWarning) {
+      let topText    = null;
+      let bottomText = null;
       const message = inputMessageInfo ? inputMessageInfo : inputMessageWarning;
       const i = message.indexOf ('|');
       if (i) {
@@ -69,63 +67,20 @@ export default class TextField extends React.Component {
       } else {
         bottomText = message;
       }
-    }
-    let htmlMessage = null;
-    if (topText && bottomText) {
-      htmlMessage = (
-        <div style={messageBoxStyle}>
-          <span style={messageTopStyle}>{topText}</span>
-          <span style={messageBottomStyle}>{bottomText}</span>
-        </div>
-      );
-    } else if (bottomText) {
-      htmlMessage = (
-        <div style={messageBoxStyle}>
-          <span style={messageBottomStyle}>{bottomText}</span>
-        </div>
+      htmlFlyingBalloon = (
+        <FlyingBalloon primary-text={topText} secondary-text={bottomText} {...this.link ()} />
       );
     }
 
-    // return (
-    //   <span
-    //     disabled={disabled}
-    //     style={boxStyle}
-    //     >
-    //     {htmlInput}
-    //     {htmlMessage}
-    //   </span>
-    // );
-
-    if (topText && bottomText) {
-      return (
-        <span
-          disabled={disabled}
-          style={boxStyle}
-          >
-          {htmlInput}
-          <FlyingBalloon primary-text={topText} secondary-text={bottomText} {...this.link ()} />
-        </span>
-      );
-    } else if (bottomText) {
-      return (
-        <span
-          disabled={disabled}
-          style={boxStyle}
-          >
-          {htmlInput}
-          <FlyingBalloon text={bottomText} {...this.link ()} />
-        </span>
-      );
-    } else {
-      return (
-        <span
-          disabled={disabled}
-          style={boxStyle}
-          >
-          {htmlInput}
-        </span>
-      );
-    }
+    return (
+     <span
+       disabled={disabled}
+       style={boxStyle}
+       >
+       {htmlInput}
+       {htmlFlyingBalloon}
+     </span>
+    );
   }
 }
 

@@ -5,15 +5,16 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  const inputWidth = props.width;
+  const inputWidth       = props.width;
+  const inputPrimaryText = props.primaryText;
 
-  const t = Unit.add (theme.shapes.flyingBalloonTriangleSize, '0px', 0);  // suppress decimals
+  const t = Unit.add (theme.shapes.flyingBalloonTriangleSize, '0px', 0);  // round (suppress decimals)
   const p = theme.shapes.flyingBalloonPadding;
 
   const boxStyle = {
     width:           inputWidth,
     display:         'flex',
-    flexDirection:   'row',
+    flexDirection:   'column',
     justifyContent:  'center',
     alignItems:      'center',
     position:        'absolute',
@@ -37,6 +38,11 @@ export default function styles (theme, props) {
     borderBottom: t + ' solid ' + theme.palette.flyingBalloonBackground,
   };
 
+  const contentStyle = {
+    display:         'flex',
+    flexDirection:   'column',
+  };
+
   const primaryTextStyle = {
     display:         'inline-block',
     verticalAlign:   'middle',
@@ -47,12 +53,13 @@ export default function styles (theme, props) {
   const secondaryTextStyle = {
     display:         'inline-block',
     verticalAlign:   'middle',
-    padding:         p + ' 0px 0px 0px',
+    padding:         (inputPrimaryText ? p : '0px') + ' 0px 0px 0px',
   };
 
   return {
     box:           boxStyle,
     triangle:      triangleStyle,
+    content:       contentStyle,
     primaryText:   primaryTextStyle,
     secondaryText: secondaryTextStyle,
   };
