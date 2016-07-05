@@ -25,11 +25,11 @@ export default class Label extends React.Component {
 
   getLines (lines) {
     const array = [];
-    const lineStyle  = this.mergeStyles ('line');
+    const textStyle  = this.mergeStyles ('text');
     lines.map (
       line => {
         const htmlText = (
-          <div style={lineStyle}>{line}</div>
+          <div style={textStyle}>{line}</div>
         );
         array.push (htmlText);
       }

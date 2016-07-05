@@ -226,6 +226,7 @@ export default function styles (theme, props) {
     let bottomMargin     = s;
     let leftMargin       = '0px';
     if (inputSubkind === 'info') {
+      inputHeight      = theme.shapes.lineHeight;
       backgroundColor  = theme.palette.infoBackground;
       fontWeight       = 'bold';
     } else if (inputSubkind === 'wide-info') {
@@ -266,9 +267,11 @@ export default function styles (theme, props) {
       padding           = '0px';
     }
     if (inputSpacing === 'compact') {
-      bottomMargin    = '0px';
+      inputHeight      = theme.shapes.lineHeight;
+      bottomMargin     = '0px';
     } else if (inputSpacing === 'glued') {
-      bottomMargin    = Unit.multiply (halfMargin, -1);
+      inputHeight      = theme.shapes.lineHeight;
+      bottomMargin     = Unit.multiply (halfMargin, -1);
     }
     margin = topMargin + ' ' + rightMargin + ' ' + bottomMargin + ' ' + leftMargin;
   }

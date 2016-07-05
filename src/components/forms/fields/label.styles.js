@@ -12,23 +12,21 @@ export default function styles (theme, props) {
   const inputSpacing = props.spacing;
   const inputWrap    = props.wrap;
 
-  let boxWidth         = null;
-  let textHeight       = null;
-  let backgroundColor  = null;
-  let padding          = null;
-  let margin           = null;
-  let display          = 'flex';
-  let flexDirection    = 'row';
-  let justifyContent   = 'flex-start';
-  let alignItems       = 'center';
-  let fontSize         = theme.shapes.labelTextSize;
-  let fontWeight       = null;
-  let textTransform    = null;
-  let color            = theme.palette.text;
-  let whiteSpace       = null;
-  let overflow         = null;
-  let textOverflow     = null;
-  let linePaddingRight = null;
+  let boxWidth           = null;
+  let textHeight         = null;
+  let backgroundColor    = null;
+  let padding            = null;
+  let margin             = null;
+  let textAlignItems     = null;
+  let fontSize           = theme.shapes.labelTextSize;
+  let fontWeight         = null;
+  let textTransform      = null;
+  let color              = theme.palette.text;
+  let linesOverflow      = null;
+  let textDisplay        = 'flex';
+  let textOverflow       = null;
+  let textTextOverflow   = null;
+  let textWhiteSpace     = null;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -61,20 +59,20 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'info') {
-    textHeight      = theme.shapes.lineHeight;
+    // textHeight      = theme.shapes.lineHeight;
     backgroundColor = theme.palette.infoBackground;
-    justifyContent  = 'center';
+    textAlignItems  = 'center';
     padding         = '0 10px 0 10px';
   }
 
   if (inputKind === 'justify-left') {
-    textHeight      = theme.shapes.lineHeight;
-    justifyContent  = 'flex-start';
+    // textHeight      = theme.shapes.lineHeight;
+    textAlignItems = 'flex-start';
   }
 
   if (inputKind === 'justify-right') {
-    textHeight      = theme.shapes.lineHeight;
-    justifyContent  = 'flex-end';
+    // textHeight      = theme.shapes.lineHeight;
+    textAlignItems = 'flex-end';
   }
 
   if (inputKind === 'footer') {
@@ -83,26 +81,22 @@ export default function styles (theme, props) {
   }
 
   if (inputWrap === 'no') {
-    display      = null;
-    whiteSpace   = 'nowrap';
-    overflow     = 'hidden';
-    textOverflow = 'ellipsis';
-    if (inputGlyph) {
-      linePaddingRight = theme.shapes.lineHeight;
-    }
+    textDisplay      = null;
+    linesOverflow    = 'hidden';
+    textOverflow     = 'hidden';
+    textTextOverflow = 'ellipsis';
+    textWhiteSpace   = 'nowrap';
   }
 
   const boxStyle = {
     width:           boxWidth,
     padding:         padding,
     margin:          margin,
-    display:         display,
-    flexDirection:   flexDirection,
-    justifyContent:  justifyContent,
+    display:         'flex',
+    flexDirection:   'row',
+    justifyContent:  'flex-start',
     flexGrow:        inputGrow,
     backgroundColor: backgroundColor,
-    whiteSpace:      whiteSpace,
-    wordWrap:        'break-word',
   };
 
   const glyphStyle = {
@@ -115,39 +109,32 @@ export default function styles (theme, props) {
     color:           color,
   };
 
+  const linesStyle = {
+    width:           '100%',
+    overflow:        linesOverflow,
+  };
+
   const textStyle = {
     width:           '100%',
     height:          textHeight,
-    display:         display,
-    alignItems:      alignItems,
-    justifyContent:  justifyContent,
+    display:         textDisplay,
+    flexDirection:   'column',
+    alignItems:      textAlignItems,
     fontSize:        Unit.multiply (fontSize, theme.typo.fontScale),
     fontWeight:      fontWeight,
     textTransform:   textTransform,
     color:           color,
-    overflow:     overflow,
-    textOverflow: textOverflow,
-    paddingRight: linePaddingRight,
-  };
-
-  const linesStyle = {
-    width:           '100%',
-    display:         'flex',
-    flexDirection:   'column',
-  };
-
-  const lineStyle = {
-    overflow:     overflow,
-    textOverflow: textOverflow,
-    paddingRight: linePaddingRight,
+    overflow:        textOverflow,
+    textOverflow:    textTextOverflow,
+    whiteSpace:      textWhiteSpace,
+    wordWrap:        'break-word',
   };
 
   return {
     box:   boxStyle,
     glyph: glyphStyle,
-    text:  textStyle,
     lines: linesStyle,
-    line:  lineStyle,
+    text:  textStyle,
   };
 }
 
