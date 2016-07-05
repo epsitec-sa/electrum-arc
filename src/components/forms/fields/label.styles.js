@@ -11,6 +11,7 @@ export default function styles (theme, props) {
   const inputWidth   = props.width;
   const inputSpacing = props.spacing;
   const inputWrap    = props.wrap;
+  const inputVpos    = props.vpos;
 
   let boxWidth           = null;
   let textHeight         = null;
@@ -20,6 +21,7 @@ export default function styles (theme, props) {
   let textAlignItems     = null;
   let fontSize           = theme.shapes.labelTextSize;
   let fontWeight         = null;
+  let boxAlignSelf       = null;
   let textTransform      = null;
   let color              = theme.palette.text;
   let linesOverflow      = null;
@@ -59,25 +61,26 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'info') {
-    // textHeight      = theme.shapes.lineHeight;
     backgroundColor = theme.palette.infoBackground;
     textAlignItems  = 'center';
     padding         = '0 10px 0 10px';
   }
 
   if (inputKind === 'justify-left') {
-    // textHeight      = theme.shapes.lineHeight;
     textAlignItems = 'flex-start';
   }
 
   if (inputKind === 'justify-right') {
-    // textHeight      = theme.shapes.lineHeight;
     textAlignItems = 'flex-end';
   }
 
   if (inputKind === 'footer') {
     padding         = '0 20px 0 20px';
     color           = theme.palette.footerText;
+  }
+
+  if (inputVpos === 'top') {
+    boxAlignSelf = 'flex-start';
   }
 
   if (inputWrap === 'no') {
@@ -95,6 +98,7 @@ export default function styles (theme, props) {
     display:         'flex',
     flexDirection:   'row',
     justifyContent:  'flex-start',
+    alignSelf:       boxAlignSelf,
     flexGrow:        inputGrow,
     backgroundColor: backgroundColor,
   };

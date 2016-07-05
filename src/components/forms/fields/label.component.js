@@ -20,6 +20,7 @@ export default class Label extends React.Component {
       width:   this.read ('width'),
       spacing: this.read ('spacing'),
       wrap:    this.read ('wrap'),
+      vpos:    this.read ('vpos'),
     };
   }
 
