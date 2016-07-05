@@ -408,6 +408,19 @@ export default function styles (theme, props) {
     fontSize:        Unit.multiply (textSize, theme.typo.fontScale),
   };
 
+  // Generate a triangle with subtle css, see:
+  // https://css-tricks.com/snippets/css/css-triangle/
+  const d = theme.shapes.mainTabTriangleSize;
+  const triangleStyle = {
+    position:     'absolute',
+    right:        '50%',
+    bottom:       '0px',
+    borderLeft:   d + ' solid transparent',
+    borderRight:  d + ' solid transparent',
+    borderBottom: d + ' solid ' + theme.palette.viewTabBackground,
+    margin:       '0px -' + d + ' 0px 0px',
+  };
+
   const menuBoxStyle = {
     position:        'absolute',
     top:             (inputMenuDirection === 'top') ? null : boxHeight,
@@ -419,10 +432,11 @@ export default function styles (theme, props) {
   };
 
   return {
-    box:     boxStyle,
-    glyph:   glyphStyle,
-    text:    textStyle,
-    menuBox: menuBoxStyle,
+    box:      boxStyle,
+    glyph:    glyphStyle,
+    text:     textStyle,
+    triangle: triangleStyle,
+    menuBox:  menuBoxStyle,
   };
 }
 
