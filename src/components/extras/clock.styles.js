@@ -11,6 +11,7 @@ export default function styles (theme, props) {
     flexDirection:   'column',
     padding:         '0px ' + m + ' ' + m + ' ' + m,
     backgroundColor: theme.palette.calendarBackground,
+    boxShadow:       theme.shapes.calendarShadow,
   };
 
   const headerStyle = {
@@ -25,6 +26,9 @@ export default function styles (theme, props) {
     textAlign:       'center',
     lineHeight:      theme.shapes.calendarButtonSize,
     color:           theme.palette.calendarHeaderText,
+    fontWeight:      'bold',
+    textTransform:   'uppercase',
+    alignSelf:       'center',
   };
 
   const lineStyle = {

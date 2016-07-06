@@ -272,27 +272,29 @@ export default function styles (theme, props) {
 
   // Button with a day in Calendar component.
   if (inputKind  === 'calendar') {
-    boxWidth        = theme.shapes.calendarButtonSize;
-    boxHeight       = theme.shapes.calendarButtonSize;
+    borderStyle     = 'none';
+    boxWidth        = theme.shapes.calendarButtonWidth;
+    boxHeight       = theme.shapes.calendarButtonHeight;
     textSize        = theme.shapes.calendarTextSize;
     if (inputActive === 'true') {
       backgroundColor = theme.palette.calendarButtonActiveBackground;
       textColor       = theme.palette.calendarActiveText;
+      borderRadius    = Unit.multiply (theme.shapes.calendarButtonHeight, 0.5);
     } else if (inputActive === 'hidden') {
       backgroundColor = theme.palette.calendarBackground;
-      borderColor     = 'transparent';
+      textColor       = theme.palette.calendarHiddenText;
     } else {
       backgroundColor = theme.palette.calendarButtonInactiveBackground;
       textColor       = theme.palette.calendarInactiveText;
     }
     if (inputNature === 'weekend' && inputActive !== 'hidden') {
-      backgroundColor = darken (backgroundColor, 0.1);
+      backgroundColor = theme.palette.calendarButtonWeekendBackground;
     }
   }
   // Button for month navigation in Calendar component.
   if (inputKind  === 'calendar-navigation') {
-    boxWidth        = theme.shapes.calendarButtonSize;
-    boxHeight       = theme.shapes.calendarButtonSize;
+    boxWidth        = theme.shapes.calendarButtonWidth;
+    boxHeight       = theme.shapes.calendarButtonHeight;
     borderColor     = 'transparent';
     backgroundColor = theme.palette.calendarBackground;
     glyphColor      = theme.palette.calendarHeaderText;
