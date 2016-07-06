@@ -208,7 +208,7 @@ export default function styles (theme, props) {
     flexDirection   = 'column';
     justifyContent  = 'flex-start';
     alignItems      = 'stretch';
-    boxShadow       = theme.shapes.paneShadow;
+    // boxShadow       = theme.shapes.paneShadow;
     margin          = '0px 0px ' + m + ' 0px';
     padding         = m + ' ' + m + ' ' + d + ' ' + m;
     backgroundColor = theme.palette.paneBackground;

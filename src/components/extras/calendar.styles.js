@@ -9,7 +9,7 @@ export default function styles (theme, props) {
     flexDirection:   'column',
     padding:         theme.shapes.calendarMargin,
     backgroundColor: theme.palette.calendarBackground,
-    boxShadow:       theme.shapes.calendarShadow,
+    // boxShadow:       theme.shapes.calendarShadow,
   };
 
   const headerStyle = {

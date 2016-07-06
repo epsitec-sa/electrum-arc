@@ -43,6 +43,7 @@ export default function styles (theme, props) {
     zIndex:          1,
     display:         'flex',
     flexDirection:   'column',
+    boxShadow:       theme.shapes.calendarShadow,
   };
 
   const emptyComboStyle = {

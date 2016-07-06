@@ -11,7 +11,7 @@ export default function styles (theme, props) {
     flexDirection:   'column',
     padding:         '0px ' + m + ' ' + m + ' ' + m,
     backgroundColor: theme.palette.calendarBackground,
-    boxShadow:       theme.shapes.calendarShadow,
+    // boxShadow:       theme.shapes.calendarShadow,
   };
 
   const headerStyle = {
