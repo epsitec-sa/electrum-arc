@@ -5,7 +5,6 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  const inputGlyph   = props.glyph;
   const inputGrow    = props.grow;
   const inputKind    = props.kind;
   const inputWidth   = props.width;

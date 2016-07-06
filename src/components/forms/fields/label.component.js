@@ -55,6 +55,7 @@ export default class Label extends React.Component {
     const inputRotate = this.read ('rotate');
     const inputFlip   = this.read ('flip');
     const inputSpin   = this.read ('spin');
+    const inputGrow   = this.read ('grow');
 
     const boxStyle   = this.mergeStyles ('box');
     const glyphStyle = this.mergeStyles ('glyph');
@@ -69,6 +70,9 @@ export default class Label extends React.Component {
         </div>
       );
     } else {
+      if (!inputGrow || !inputGrow.endsWith ('%')) {
+        throw new Error (`Multiline Label must have a grow in percent (not ${inputGrow})`);
+      }
       htmlText = this.getText (lines);
     }
 
