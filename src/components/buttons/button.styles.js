@@ -279,7 +279,6 @@ export default function styles (theme, props) {
     if (inputActive === 'true') {
       backgroundColor = theme.palette.calendarButtonActiveBackground;
       textColor       = theme.palette.calendarActiveText;
-      borderRadius    = Unit.multiply (theme.shapes.calendarButtonHeight, 0.5);
     } else if (inputActive === 'hidden') {
       backgroundColor = theme.palette.calendarBackground;
       textColor       = theme.palette.calendarHiddenText;
@@ -289,6 +288,8 @@ export default function styles (theme, props) {
     }
     if (inputNature === 'weekend' && inputActive !== 'hidden') {
       backgroundColor = theme.palette.calendarButtonWeekendBackground;
+    } else {
+      borderRadius    = Unit.multiply (theme.shapes.calendarButtonHeight, 0.5);
     }
   }
   // Button for month navigation in Calendar component.
