@@ -54,7 +54,6 @@ export default class Clock extends React.Component {
         text    = {hours}
         kind    = 'calendar'
         active  = {active}
-        spacing = 'overlap'
         action  = {() => this.setHours (hours)}
         {...this.link ()}
       />
@@ -69,7 +68,6 @@ export default class Clock extends React.Component {
         text    = {minutes}
         kind    = 'calendar'
         active  = {active}
-        spacing = 'overlap'
         action  = {() => this.setMinutes (minutes)}
         {...this.link ()}
       />

@@ -34,7 +34,7 @@ export default function styles (theme, props) {
   const lineStyle = {
     display:         'flex',
     flexDirection:   'row',
-    margin:          '0px 0px -1px 0px',
+    margin:          '0px',
   };
 
   const columnStyle = {

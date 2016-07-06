@@ -89,7 +89,6 @@ export default class Calendar extends React.Component {
         kind    = 'calendar'
         active  = {active}
         nature  = {nature}
-        spacing = 'overlap'
         action  = {() => this.setDate (firstDate)}
         {...this.link ()}
       />
