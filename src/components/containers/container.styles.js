@@ -116,6 +116,9 @@ export default function styles (theme, props) {
     justifyContent  = 'flex-start';
     alignItems      = 'center';
     backgroundColor = theme.palette.footerBackground;
+    borderTopWidth  = '1px';
+    borderTopStyle  = 'solid';
+    borderTopColor  = '#666';
   }
 
   if (inputKind === 'views') {
@@ -247,14 +250,14 @@ export default function styles (theme, props) {
       borderBottomColor = theme.palette.paneNavigatorInactiveBorder;
       borderTopWidth    = '1px';
       borderBottomWidth = '1px';
-      borderTopStyle    = 'Solid';
-      borderBottomStyle = 'Solid';
+      borderTopStyle    = 'solid';
+      borderBottomStyle = 'solid';
       topMargin         = halfMargin;
       bottomMargin      = Unit.sub (Unit.multiply (halfMargin, -1), '1px');
       if (inputMarkColor) {
         padding         = halfMargin + ' ' + m;
         borderLeftWidth = theme.shapes.markWidth;
-        borderLeftStyle = 'Solid';
+        borderLeftStyle = 'solid';
         borderLeftColor = GetMarkColor (theme, inputMarkColor);
         leftPadding = Unit.sub (leftPadding, theme.shapes.markWidth);
       }
