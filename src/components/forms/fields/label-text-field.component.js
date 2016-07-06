@@ -39,8 +39,17 @@ export default class LabelTextField extends React.Component {
 
     const boxStyle = this.mergeStyles ('box');
 
-    const buttonShape    = (inputShape === 'rounded') ? 'left-rounded'  : null;
-    const textFieldShape = (inputShape === 'rounded') ? 'right-rounded' : null;
+    const shape = inputShape ? inputShape : 'smooth';
+    const buttonShapes = {
+      smooth:  'left-smooth',
+      rounded: 'left-rounded',
+    };
+    const textFieldShapes = {
+      smooth:  'right-smooth',
+      rounded: 'right-rounded',
+    };
+    const buttonShape    = buttonShapes[shape];
+    const textFieldShape = textFieldShapes[shape];
 
     return (
       <span

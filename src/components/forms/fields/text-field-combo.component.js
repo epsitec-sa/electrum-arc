@@ -84,8 +84,17 @@ export default class TextFieldCombo extends React.Component {
 
     const boxStyle = this.mergeStyles ('box');
 
-    const textFieldShape = (inputShape === 'rounded') ? 'left-rounded'  : null;
-    const buttonShape    = (inputShape === 'rounded') ? 'right-rounded' : null;
+    const shape = inputShape ? inputShape : 'smooth';
+    const textFieldShapes = {
+      smooth:  'left-smooth',
+      rounded: 'left-rounded',
+    };
+    const buttonShapes = {
+      smooth:  'right-smooth',
+      rounded: 'right-rounded',
+    };
+    const textFieldShape = textFieldShapes[shape];
+    const buttonShape    = buttonShapes[shape];
 
     let htmlCalendar = null;
     if (isComboVisible === 'true') {
