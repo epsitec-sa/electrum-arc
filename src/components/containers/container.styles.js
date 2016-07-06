@@ -51,6 +51,7 @@ export default function styles (theme, props) {
   let borderLeftWidth   = null;
   let borderLeftStyle   = null;
   let borderLeftColor   = null;
+  let borderRadius      = null;
   let boxShadow         = null;
   let margin            = '0px';
   let padding           = '0px';
@@ -226,6 +227,7 @@ export default function styles (theme, props) {
     if (inputSubkind === 'info') {
       inputHeight      = theme.shapes.lineHeight;
       backgroundColor  = theme.palette.infoBackground;
+      borderRadius     = theme.shapes.smoothRadius;
       fontWeight       = 'bold';
     } else if (inputSubkind === 'wide-info') {
       rightMargin      = Unit.multiply (m, -1);
@@ -303,6 +305,7 @@ export default function styles (theme, props) {
     borderLeftWidth:   borderLeftWidth,
     borderLeftStyle:   borderLeftStyle,
     borderLeftColor:   borderLeftColor,
+    borderRadius:      borderRadius,
     boxShadow:         boxShadow,
     margin:            margin,
     padding:           padding,

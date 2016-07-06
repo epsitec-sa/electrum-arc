@@ -39,7 +39,7 @@ export default function styles (theme, props) {
     right:           (comboDirection === 'right') ? null : '0px',
     left:            (comboDirection === 'right') ? '0px' : null,
     top:             Unit.add (theme.shapes.lineHeight, '1px'),
-    marginTop:      theme.shapes.lineSpacing,
+    marginTop:       theme.shapes.lineSpacing,
     zIndex:          1,
     display:         'flex',
     flexDirection:   'column',
