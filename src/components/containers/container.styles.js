@@ -234,6 +234,7 @@ export default function styles (theme, props) {
       backgroundColor  = theme.palette.infoBackground;
       borderRadius     = theme.shapes.smoothRadius;
       fontWeight       = 'bold';
+      padding          = '0px ' + halfMargin;
     } else if (inputSubkind === 'wide-info') {
       rightMargin      = Unit.multiply (m, -1);
       leftMargin       = Unit.multiply (m, -1);
