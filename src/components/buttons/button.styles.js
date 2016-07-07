@@ -307,7 +307,9 @@ export default function styles (theme, props) {
   }
 
   if (inputKind  === 'container') {
-    borderStyle          = 'none';
+    borderStyle     = 'none';
+    boxPadding      = '0px ' + Unit.multiply (theme.shapes.containerMargin, 0.25);
+    backgroundColor = null;
   }
 
   if (!inputKind) {

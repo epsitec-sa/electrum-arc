@@ -269,8 +269,8 @@ export default function styles (theme, props) {
       borderBottomColor = theme.palette.paneNavigatorInactiveBorder;
       borderBottomWidth = '1px';
       borderBottomStyle = 'solid';
-      padding           = '0px 0px ' + Unit.multiply (s, 0.5) + ' 0px';
-      bottomMargin      = Unit.multiply (s, 0.5);
+      padding           = '0px';
+      bottomMargin      = '0px';
     } else if (inputSubkind === 'footer') {
       rightMargin       = Unit.multiply (m, -1);
       leftMargin        = Unit.multiply (m, -1);
