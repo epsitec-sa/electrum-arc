@@ -265,6 +265,12 @@ export default function styles (theme, props) {
         leftPadding = Unit.sub (leftPadding, theme.shapes.markWidth);
       }
       padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
+    } else if (inputSubkind === 'list') {
+      borderBottomColor = theme.palette.paneNavigatorInactiveBorder;
+      borderBottomWidth = '1px';
+      borderBottomStyle = 'solid';
+      padding           = '0px 0px ' + Unit.multiply (s, 0.5) + ' 0px';
+      bottomMargin      = Unit.multiply (s, 0.5);
     } else if (inputSubkind === 'footer') {
       rightMargin       = Unit.multiply (m, -1);
       leftMargin        = Unit.multiply (m, -1);
