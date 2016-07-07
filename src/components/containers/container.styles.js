@@ -116,9 +116,6 @@ export default function styles (theme, props) {
     justifyContent  = 'flex-start';
     alignItems      = 'center';
     backgroundColor = theme.palette.footerBackground;
-    borderTopWidth  = '1px';
-    borderTopStyle  = 'solid';
-    borderTopColor  = '#666';
   }
 
   if (inputKind === 'views') {
@@ -198,6 +195,11 @@ export default function styles (theme, props) {
     padding         = m;
     borderStyle     = 'none';
     backgroundColor = theme.shapes.actionBackground;
+    borderTopWidth  = '1px';
+    borderTopStyle  = 'solid';
+    borderTopColor  = theme.palette.actionBorder;
+    boxShadow       = theme.shapes.actionShadow;
+    zIndex          = 2;
   }
 
   if (inputKind === 'panes') {
