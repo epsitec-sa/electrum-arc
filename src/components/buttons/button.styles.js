@@ -307,8 +307,9 @@ export default function styles (theme, props) {
   }
 
   if (inputKind  === 'container') {
+    boxHeight       = null;
     borderStyle     = 'none';
-    boxPadding      = '0px ' + Unit.multiply (theme.shapes.containerMargin, 0.25);
+    boxPadding      = Unit.multiply (theme.shapes.lineSpacing, 0.5) + ' 0px';
     backgroundColor = null;
   }
 
