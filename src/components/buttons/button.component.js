@@ -146,7 +146,16 @@ export default class Button extends React.Component {
       }
     };
 
-    if (inputMenu) {
+    if (inputKind === 'container') {
+      return (
+        <div
+          disabled = {disabled}
+          style    = {boxStyle}
+          title    = {inputTooltip}
+          {...this.props}
+        />
+      );
+    } else if (inputMenu) {
       return (
         <div
           onClick  = {() => this.showMenu ()}  // voir (*)

@@ -306,6 +306,10 @@ export default function styles (theme, props) {
     glyphSize       = theme.palette.calendarGlyphSize;
   }
 
+  if (inputKind  === 'container') {
+    borderStyle          = 'none';
+  }
+
   if (!inputKind) {
     borderRadius = theme.shapes.smoothRadius;
   }
