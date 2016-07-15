@@ -24,6 +24,7 @@ export default function styles (theme, props) {
   const inputMarkColor  = props.markColor;
   const inputHeightType = props.heightType;
   const inputSpacing    = props.spacing;
+  const inputReserve    = props.reserve;
 
   let minWidth          = null;
   let minHeight         = null;
@@ -220,6 +221,15 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'row-pane') {
+    if (inputReserve) {
+      // Ceci est une cochonnerie. Lorsqu'un container contient des éléments en
+      // mode wrap='no' suivis de boutons, il faut indiquer le nombre de boutons
+      // sous la forme reserve='n'.
+      let r = Unit.add (theme.shapes.lineHeight, '2px');  // largeur d'un bouton
+      r = Unit.multiply (r, inputReserve);
+      r = Unit.sub (r, '1px');  // -1 à cause de spacing='overlap' !
+      inputWidth = 'calc(100% - ' + r + ')';
+    }
     const halfMargin     = Unit.multiply (m, 0.5);
     display              = 'flex';
     flexDirection        = 'row';

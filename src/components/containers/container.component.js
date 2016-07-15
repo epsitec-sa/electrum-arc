@@ -20,6 +20,7 @@ export default class Container extends React.Component {
       markColor:  this.read ('mark-color'),
       heightType: this.read ('height-type'),
       spacing:    this.read ('spacing'),
+      reserve:    this.read ('reserve'),
     };
   }
 
