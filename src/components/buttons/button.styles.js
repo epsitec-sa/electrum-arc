@@ -52,7 +52,6 @@ export default function styles (theme, props) {
   let textGrow             = 1;
   let actif                = true;
   let boxPosition          = 'relative';
-  let shape                = inputShape;
 
   // Initialize variables for button without border.
   if (inputBorder === 'none') {
@@ -317,16 +316,16 @@ export default function styles (theme, props) {
     borderRadius = theme.shapes.smoothRadius;
   }
 
-  if (shape) {
+  if (inputShape) {
     const r = Unit.multiply (theme.shapes.lineHeight, 0.5);
     const s = theme.shapes.smoothRadius;
-    if (shape === 'left-rounded') {
+    if (inputShape === 'left-rounded') {
       borderRadius = r + ' 0px 0px ' + r;
-    } else if (shape === 'right-rounded') {
+    } else if (inputShape === 'right-rounded') {
       borderRadius = '0px ' + r + ' ' + r + ' 0px';
-    } else if (shape === 'left-smooth') {
+    } else if (inputShape === 'left-smooth') {
       borderRadius = s + ' 0px 0px ' + s;
-    } else if (shape === 'right-smooth') {
+    } else if (inputShape === 'right-smooth') {
       borderRadius = '0px ' + s + ' ' + s + ' 0px';
     }
   }
