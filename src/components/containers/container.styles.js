@@ -32,6 +32,8 @@ export default function styles (theme, props) {
   let overflowY         = null;
   let flexDirection     = null;
   let flexGrow          = null;
+  let flexShrink        = null;
+  let flexBasis         = null;
   let justifyContent    = null;
   let alignItems        = null;
   let alignContent      = null;
@@ -298,6 +300,8 @@ export default function styles (theme, props) {
     overflowY:         overflowY,
     flexDirection:     flexDirection,
     flexGrow:          flexGrow,
+    flexShrink:        flexShrink,
+    flexBasis:         flexBasis,
     justifyContent:    justifyContent,
     alignItems:        alignItems,
     alignContent:      alignContent,
