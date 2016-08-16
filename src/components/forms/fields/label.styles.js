@@ -17,9 +17,9 @@ export default function styles (theme, props) {
   let backgroundColor    = null;
   let padding            = null;
   let margin             = null;
-  let textAlignItems     = null;
   let fontSize           = theme.shapes.labelTextSize;
   let fontWeight         = null;
+  let boxJustifyContent  = null;
   let boxAlignSelf       = null;
   let textTransform      = null;
   let color              = theme.palette.text;
@@ -64,16 +64,16 @@ export default function styles (theme, props) {
 
   if (inputKind === 'info') {
     backgroundColor = theme.palette.infoBackground;
-    textAlignItems  = 'center';
-    padding         = '0 10px 0 10px';
+    boxJustifyContent = 'center';
+    padding           = '0 10px 0 10px';
   }
 
   if (inputKind === 'justify-left') {
-    textAlignItems = 'flex-start';
+    boxJustifyContent = 'flex-start';
   }
 
   if (inputKind === 'justify-right') {
-    textAlignItems = 'flex-end';
+    boxJustifyContent = 'flex-end';
   }
 
   if (inputKind === 'footer') {
@@ -105,7 +105,7 @@ export default function styles (theme, props) {
     margin:          margin,
     display:         'flex',
     flexDirection:   'row',
-    justifyContent:  'flex-start',
+    justifyContent:  boxJustifyContent,
     alignSelf:       boxAlignSelf,
     flexGrow:        flexGrow,
     flexShrink:      flexShrink,
@@ -132,7 +132,6 @@ export default function styles (theme, props) {
     height:          textHeight,
     display:         textDisplay,
     flexDirection:   'column',
-    alignItems:      textAlignItems,
     fontSize:        Unit.multiply (fontSize, theme.typo.fontScale),
     fontWeight:      fontWeight,
     textTransform:   textTransform,
