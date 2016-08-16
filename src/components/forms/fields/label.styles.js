@@ -28,6 +28,9 @@ export default function styles (theme, props) {
   let textOverflow       = null;
   let textTextOverflow   = null;
   let textWhiteSpace     = null;
+  let flexGrow           = inputGrow;
+  let flexShrink         = null;
+  let flexBasis          = null;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -90,6 +93,11 @@ export default function styles (theme, props) {
     textWhiteSpace   = 'nowrap';
   }
 
+  if (flexGrow) {
+    flexShrink = '1';
+    flexBasis  = '0%';
+  }
+
   const boxStyle = {
     width:           boxWidth,
     minWidth:        '0px',
@@ -99,9 +107,9 @@ export default function styles (theme, props) {
     flexDirection:   'row',
     justifyContent:  'flex-start',
     alignSelf:       boxAlignSelf,
-    flexGrow:        inputGrow,
-    flexShrink:      '1',
-    flexBasis:       '0%',
+    flexGrow:        flexGrow,
+    flexShrink:      flexShrink,
+    flexBasis:       flexBasis,
     backgroundColor: backgroundColor,
   };
 
