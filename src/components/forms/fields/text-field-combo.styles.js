@@ -26,6 +26,8 @@ export default function styles (theme, props) {
     justifyContent: 'flex-start',
     alignItems:     'center',
     flexGrow:       inputGrow,
+    flexShrink:      '1',
+    flexBasis:       '0%',
     padding:        '0px',
     marginTop:      '0px',
     marginLeft:     '0px',
