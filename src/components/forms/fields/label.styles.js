@@ -92,6 +92,7 @@ export default function styles (theme, props) {
 
   const boxStyle = {
     width:           boxWidth,
+    minWidth:        '0px',
     padding:         padding,
     margin:          margin,
     display:         'flex',
@@ -99,6 +100,8 @@ export default function styles (theme, props) {
     justifyContent:  'flex-start',
     alignSelf:       boxAlignSelf,
     flexGrow:        inputGrow,
+    flexShrink:      '1',
+    flexBasis:       '0%',
     backgroundColor: backgroundColor,
   };
 
@@ -118,7 +121,6 @@ export default function styles (theme, props) {
   };
 
   const textStyle = {
-    width:           '100%',
     height:          textHeight,
     display:         textDisplay,
     flexDirection:   'column',
