@@ -5,15 +5,23 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  let   inputGrow      = props.grow;
+  const inputGrow      = props.grow;
   const inputSpacing   = props.spacing;
   const comboDirection = props.comboDirection;
 
-  if (!inputGrow) {
-    inputGrow = 1;
+  let flexGrow    = inputGrow;
+  let flexShrink  = null;
+  let flexBasis   = null;
+  let marginRight = '0px';
+
+  if (!flexGrow) {
+    flexGrow = 1;
+  }
+  if (flexGrow) {
+    flexShrink = '1';
+    flexBasis  = '0%';
   }
 
-  let marginRight = '0px';
   if (inputSpacing === 'overlap') {
     marginRight = '-1px';
   } else if (inputSpacing === 'large') {
@@ -25,9 +33,9 @@ export default function styles (theme, props) {
     flexDirection:  'row',
     justifyContent: 'flex-start',
     alignItems:     'center',
-    flexGrow:       inputGrow,
-    flexShrink:      '1',
-    flexBasis:       '0%',
+    flexGrow:       flexGrow,
+    flexShrink:     flexShrink,
+    flexBasis:      flexBasis,
     padding:        '0px',
     marginTop:      '0px',
     marginLeft:     '0px',
