@@ -70,9 +70,6 @@ export default class Label extends React.Component {
         </div>
       );
     } else {
-      if (!inputGrow || !inputGrow.endsWith ('%')) {
-        throw new Error (`Multiline Label must have a grow in percent (not ${inputGrow})`);
-      }
       htmlText = this.getText (lines);
     }
 
