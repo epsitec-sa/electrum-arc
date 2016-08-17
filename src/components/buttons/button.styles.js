@@ -265,6 +265,10 @@ export default function styles (theme, props) {
     glyphColor      = theme.palette.roundButtonGlyph;
   }
 
+  if (inputKind  === 'frameless') {
+    borderStyle     = 'none';
+  }
+
   if (inputKind  === 'menu-item') {
     textWidth       = 'max-content';
     boxHeight       = theme.shapes.menuButtonHeight;
