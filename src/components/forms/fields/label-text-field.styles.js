@@ -11,6 +11,7 @@ export default function styles (theme, props) {
   let flexGrow    = inputGrow;
   let flexShrink  = null;
   let flexBasis   = null;
+  let marginRight = null;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -20,6 +21,12 @@ export default function styles (theme, props) {
   if (flexGrow) {
     flexShrink = '1';
     flexBasis  = '0%';
+  }
+
+  if (inputSpacing === 'overlap') {
+    marginRight = '-1px';
+  } else if (inputSpacing === 'large') {
+    marginRight = m;
   }
 
   let boxStyle = {
@@ -34,14 +41,8 @@ export default function styles (theme, props) {
     marginTop:      '0px',
     marginLeft:     '0px',
     marginBottom:   '0px',
-    marginRight:    '0px',
+    marginRight:    marginRight,
   };
-
-  if (inputSpacing === 'overlap') {
-    boxStyle.marginRight = '-1px';
-  } else if (inputSpacing === 'large') {
-    boxStyle.marginRight = m;
-  }
 
   return {
     box: boxStyle,
