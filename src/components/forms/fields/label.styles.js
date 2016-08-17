@@ -4,13 +4,26 @@ import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
+function GetMarkColor (theme, mark) {
+  if (mark.startsWith ('#')) {
+    return mark;
+  } else {
+    const fix = {
+      primary:   theme.palette.markPrimary,
+      secondary: theme.palette.markSecondary
+    };
+    return fix[mark];
+  }
+}
+
 export default function styles (theme, props) {
-  const inputGrow    = props.grow;
-  const inputKind    = props.kind;
-  const inputWidth   = props.width;
-  const inputSpacing = props.spacing;
-  const inputWrap    = props.wrap;
-  const inputVpos    = props.vpos;
+  const inputGrow       = props.grow;
+  const inputKind       = props.kind;
+  const inputWidth      = props.width;
+  const inputSpacing    = props.spacing;
+  const inputWrap       = props.wrap;
+  const inputVpos       = props.vpos;
+  const inputGlyphColor = props.glyphColor;
 
   let boxWidth           = null;
   let textHeight         = null;
@@ -91,6 +104,10 @@ export default function styles (theme, props) {
     textOverflow     = 'hidden';
     textTextOverflow = 'ellipsis';
     textWhiteSpace   = 'nowrap';
+  }
+
+  if (inputGlyphColor) {
+    color = GetMarkColor (theme, inputGlyphColor);
   }
 
   if (flexGrow) {
