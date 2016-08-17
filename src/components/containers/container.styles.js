@@ -205,7 +205,6 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'panes') {
-    flexGrow        = 1;
     overflowY       = 'auto';
     padding         = '0px ' + m + ' 0px ' + m;
   }
@@ -288,6 +287,11 @@ export default function styles (theme, props) {
       bottomMargin     = Unit.multiply (halfMargin, -1);
     }
     margin = topMargin + ' ' + rightMargin + ' ' + bottomMargin + ' ' + leftMargin;
+  }
+
+  if (flexGrow) {
+    flexShrink = '1';
+    flexBasis  = '0%';
   }
 
   const boxStyle = {
