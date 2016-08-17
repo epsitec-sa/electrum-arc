@@ -35,7 +35,8 @@ export default function styles (theme, props) {
   let boxJustifyContent  = null;
   let boxAlignSelf       = null;
   let textTransform      = null;
-  let color              = theme.palette.text;
+  let glyphColor         = theme.palette.text;
+  let textColor          = theme.palette.text;
   let linesOverflow      = null;
   let textDisplay        = 'flex';
   let textOverflow       = null;
@@ -66,7 +67,8 @@ export default function styles (theme, props) {
     fontSize        = theme.shapes.paneHeaderTextSize;
     fontWeight      = 'bold';
     textTransform   = 'uppercase';
-    color           = theme.palette.paneHeaderText;
+    glyphColor      = theme.palette.paneHeaderText;
+    textColor       = theme.palette.paneHeaderText;
   }
 
   if (inputKind === 'title') {
@@ -91,7 +93,8 @@ export default function styles (theme, props) {
 
   if (inputKind === 'footer') {
     padding         = '0 20px 0 20px';
-    color           = theme.palette.footerText;
+    glyphColor      = theme.palette.footerText;
+    textColor       = theme.palette.footerText;
   }
 
   if (inputVpos === 'top') {
@@ -107,7 +110,7 @@ export default function styles (theme, props) {
   }
 
   if (inputGlyphColor) {
-    color = GetMarkColor (theme, inputGlyphColor);
+    glyphColor = GetMarkColor (theme, inputGlyphColor);
   }
 
   if (flexGrow) {
@@ -137,7 +140,7 @@ export default function styles (theme, props) {
     minWidth:        theme.shapes.lineHeight,
     height:          theme.shapes.lineHeight,
     padding:         '0px',
-    color:           color,
+    color:           glyphColor,
   };
 
   const linesStyle = {
@@ -152,7 +155,7 @@ export default function styles (theme, props) {
     fontSize:        Unit.multiply (fontSize, theme.typo.fontScale),
     fontWeight:      fontWeight,
     textTransform:   textTransform,
-    color:           color,
+    color:           textColor,
     overflow:        textOverflow,
     textOverflow:    textTextOverflow,
     whiteSpace:      textWhiteSpace,
