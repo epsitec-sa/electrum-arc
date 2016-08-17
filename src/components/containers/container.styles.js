@@ -17,14 +17,16 @@ function GetMarkColor (theme, mark) {
 }
 
 export default function styles (theme, props) {
-  let   inputWidth      = props.width;
-  let   inputHeight     = props.height;
+  const inputWidth      = props.width;
+  const inputHeight     = props.height;
   const inputKind       = props.kind;
   const inputSubkind    = props.subkind;
   const inputMarkColor  = props.markColor;
   const inputHeightType = props.heightType;
   const inputSpacing    = props.spacing;
 
+  let width             = inputWidth;
+  let height            = inputHeight;
   let minWidth          = null;
   let minHeight         = null;
   let display           = null;
@@ -70,7 +72,7 @@ export default function styles (theme, props) {
   if (inputKind === 'root') {
     display         = 'flex';
     flexDirection   = 'row';
-    inputHeight     = '100vh';
+    height          = '100vh';
     backgroundColor = theme.palette.rootBackground;
   }
 
@@ -128,7 +130,7 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'view') {
-    minWidth        = inputWidth;
+    minWidth        = width;
     display         = 'flex';
     flexDirection   = 'column';
     margin          = '0px ' + theme.shapes.viewSpacing + ' 0px 0px';
@@ -143,7 +145,7 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'pane-header') {
-    minHeight       = inputHeight;
+    minHeight       = height;
     flexDirection   = 'row';
     justifyContent  = 'space-between';
     padding         = m;
@@ -231,7 +233,7 @@ export default function styles (theme, props) {
     let bottomMargin     = s;
     let leftMargin       = '0px';
     if (inputSubkind === 'info') {
-      inputHeight      = theme.shapes.lineHeight;
+      height           = theme.shapes.lineHeight;
       backgroundColor  = theme.palette.infoBackground;
       borderRadius     = theme.shapes.smoothRadius;
       fontWeight       = 'bold';
@@ -280,10 +282,10 @@ export default function styles (theme, props) {
       padding           = '0px';
     }
     if (inputSpacing === 'compact') {
-      inputHeight      = theme.shapes.lineHeight;
+      height           = theme.shapes.lineHeight;
       bottomMargin     = '0px';
     } else if (inputSpacing === 'glued') {
-      inputHeight      = theme.shapes.lineHeight;
+      height           = theme.shapes.lineHeight;
       bottomMargin     = Unit.multiply (halfMargin, -1);
     }
     margin = topMargin + ' ' + rightMargin + ' ' + bottomMargin + ' ' + leftMargin;
@@ -295,8 +297,8 @@ export default function styles (theme, props) {
   }
 
   const boxStyle = {
-    width:             inputWidth,
-    height:            inputHeight,
+    width:             width,
+    height:            height,
     minWidth:          minWidth,
     minHeight:         minHeight,
     display:           display,
