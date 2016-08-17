@@ -5,29 +5,36 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  let   inputGrow           = props.grow;
+  const inputGrow           = props.grow;
   const inputSpacing        = props.spacing;
-  let   inputWidth          = props.width;
+  const inputWidth          = props.width;
   const inputShape          = props.shape;
-  const inputMessageInfo    = props.messageInfo;
-  const inputMessageWarning = props.messageWarning;
+
+  let flexGrow    = inputGrow;
+  let flexShrink  = null;
+  let flexBasis   = null;
+  let width       = inputWidth;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
-  if (!inputGrow) {
-    inputGrow = 1;
+  if (!flexGrow) {
+    flexGrow = 1;
+  }
+  if (flexGrow) {
+    flexShrink = '1';
+    flexBasis  = '0%';
   }
 
-  if (!inputWidth) {
-    inputWidth = '10px';  // any non-zero width
+  if (!width) {
+    width = '10px';  // any non-zero width
   } else {
-    inputGrow = null;  // if specific with exist, don't fill
+    width = null;  // if specific with exist, don't fill
   }
 
   // If component has specific width and border, reduce the width to
   // take into account the thickness of the borders left and right.
-  if (inputWidth) {
-    inputWidth = Unit.sub (inputWidth, '2px');
+  if (width) {
+    width = Unit.sub (width, '2px');
   }
 
   let marginLeft   = '0px';
@@ -65,7 +72,9 @@ export default function styles (theme, props) {
     flexDirection:   'row',
     justifyContent:  'flex-start',
     alignItems:      'center',
-    flexGrow:        inputGrow,
+    flexGrow:        flexGrow,
+    flexShrink:      flexShrink,
+    flexBasis:       flexBasis,
     border:          '1px solid ' + theme.palette.buttonBorder,
     borderRadius:    borderRadius,
     backgroundColor: theme.palette.textFieldBackground,
@@ -79,7 +88,7 @@ export default function styles (theme, props) {
 
   const fieldStyle = {
     flexGrow:        1,
-    width:           inputWidth,
+    width:           width,
     height:          theme.shapes.lineHeight,
     border:          'none',
     padding:         '10px',
