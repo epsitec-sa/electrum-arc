@@ -61,16 +61,18 @@ export default class Label extends React.Component {
     const glyphStyle = this.mergeStyles ('glyph');
     const textStyle  = this.mergeStyles ('text');
 
-    let  htmlText;
-    const lines = inputText.split ('\\n');
-    if (lines.length < 2) {
-      htmlText = (
-        <div key='text' style={textStyle}>
-          {inputText}
-        </div>
-      );
-    } else {
-      htmlText = this.getText (lines);
+    let  htmlText = null;
+    if (inputText) {
+      const lines = inputText.split ('\\n');
+      if (lines.length < 2) {
+        htmlText = (
+          <div key='text' style={textStyle}>
+            {inputText}
+          </div>
+        );
+      } else {
+        htmlText = this.getText (lines);
+      }
     }
 
     const renderSpin = inputSpin ? 'fa-spin' : '';
