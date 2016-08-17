@@ -1,7 +1,7 @@
 'use strict';
 
 import {Unit} from 'electrum-theme';
-import {MarkColor} from 'electrum-theme';
+import {ColorHelpers} from 'electrum-theme';
 
 /******************************************************************************/
 
@@ -99,7 +99,7 @@ export default function styles (theme, props) {
   }
 
   if (inputGlyphColor) {
-    glyphColor = MarkColor.GetColor (theme, inputGlyphColor);
+    glyphColor = ColorHelpers.GetMarkColor (theme, inputGlyphColor);
   }
 
   if (flexGrow) {

@@ -1,7 +1,7 @@
 'use strict';
 
 import {Unit} from 'electrum-theme';
-import {MarkColor} from 'electrum-theme';
+import {ColorHelpers} from 'electrum-theme';
 
 /******************************************************************************/
 
@@ -253,7 +253,7 @@ export default function styles (theme, props) {
         padding         = halfMargin + ' ' + m;
         borderLeftWidth = theme.shapes.markWidth;
         borderLeftStyle = 'solid';
-        borderLeftColor = MarkColor.GetColor (theme, inputMarkColor);
+        borderLeftColor = ColorHelpers.GetMarkColor (theme, inputMarkColor);
         leftPadding = Unit.sub (leftPadding, theme.shapes.markWidth);
       }
       padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
