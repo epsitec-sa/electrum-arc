@@ -99,7 +99,7 @@ export default function styles (theme, props) {
   }
 
   if (inputGlyphColor) {
-    glyphColor = MarkColor.GetMarkColor (theme, inputGlyphColor);
+    glyphColor = MarkColor.GetColor (theme, inputGlyphColor);
   }
 
   if (flexGrow) {

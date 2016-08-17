@@ -253,7 +253,7 @@ export default function styles (theme, props) {
         padding         = halfMargin + ' ' + m;
         borderLeftWidth = theme.shapes.markWidth;
         borderLeftStyle = 'solid';
-        borderLeftColor = MarkColor.GetMarkColor (theme, inputMarkColor);
+        borderLeftColor = MarkColor.GetColor (theme, inputMarkColor);
         leftPadding = Unit.sub (leftPadding, theme.shapes.markWidth);
       }
       padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
