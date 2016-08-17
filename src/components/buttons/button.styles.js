@@ -256,6 +256,15 @@ export default function styles (theme, props) {
     }
   }
 
+  if (inputKind  === 'round') {
+    const r = theme.shapes.actionRadius;
+    borderRadius    = r + ' ' + r + ' ' + r + ' ' + r;
+    borderStyle     = 'none';
+    backgroundColor = theme.palette.roundButtonBackground;
+    textColor       = theme.palette.roundButtonText;
+    glyphColor      = theme.palette.roundButtonGlyph;
+  }
+
   if (inputKind  === 'menu-item') {
     textWidth       = 'max-content';
     boxHeight       = theme.shapes.menuButtonHeight;
