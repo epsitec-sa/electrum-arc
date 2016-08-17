@@ -1,20 +1,9 @@
 'use strict';
 
 import {Unit} from 'electrum-theme';
+import {MarkColor} from 'electrum-theme';
 
 /******************************************************************************/
-
-function GetMarkColor (theme, mark) {
-  if (mark.startsWith ('#')) {
-    return mark;
-  } else {
-    const fix = {
-      primary:   theme.palette.markPrimary,
-      secondary: theme.palette.markSecondary
-    };
-    return fix[mark];
-  }
-}
 
 export default function styles (theme, props) {
   const inputGrow       = props.grow;
@@ -110,7 +99,7 @@ export default function styles (theme, props) {
   }
 
   if (inputGlyphColor) {
-    glyphColor = GetMarkColor (theme, inputGlyphColor);
+    glyphColor = MarkColor.GetMarkColor (theme, inputGlyphColor);
   }
 
   if (flexGrow) {

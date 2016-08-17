@@ -1,20 +1,9 @@
 'use strict';
 
 import {Unit} from 'electrum-theme';
+import {MarkColor} from 'electrum-theme';
 
 /******************************************************************************/
-
-function GetMarkColor (theme, mark) {
-  if (mark.startsWith ('#')) {
-    return mark;
-  } else {
-    const fix = {
-      primary:   theme.palette.markPrimary,
-      secondary: theme.palette.markSecondary
-    };
-    return fix[mark];
-  }
-}
 
 export default function styles (theme, props) {
   const inputWidth      = props.width;
@@ -264,7 +253,7 @@ export default function styles (theme, props) {
         padding         = halfMargin + ' ' + m;
         borderLeftWidth = theme.shapes.markWidth;
         borderLeftStyle = 'solid';
-        borderLeftColor = GetMarkColor (theme, inputMarkColor);
+        borderLeftColor = MarkColor.GetMarkColor (theme, inputMarkColor);
         leftPadding = Unit.sub (leftPadding, theme.shapes.markWidth);
       }
       padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
