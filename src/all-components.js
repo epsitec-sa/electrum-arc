@@ -21,6 +21,8 @@ import _MuToolbarGroup from './components/containers/mu-toolbar-group.component.
 import _MuToolbarSeparator from './components/containers/mu-toolbar-separator.component.js';
 import _MuToolbarTitle from './components/containers/mu-toolbar-title.component.js';
 import _MuToolbar from './components/containers/mu-toolbar.component.js';
+import _Separator from './components/containers/separator.component.js';
+import _Separator$styles from './components/containers/separator.styles.js';
 import _Badge from './components/extras/badge.component.js';
 import _Badge$styles from './components/extras/badge.styles.js';
 import _Calendar from './components/extras/calendar.component.js';
@@ -76,6 +78,7 @@ export const MuToolbarGroup = Electrum.wrap ('MuToolbarGroup', _MuToolbarGroup);
 export const MuToolbarSeparator = Electrum.wrap ('MuToolbarSeparator', _MuToolbarSeparator);
 export const MuToolbarTitle = Electrum.wrap ('MuToolbarTitle', _MuToolbarTitle);
 export const MuToolbar = Electrum.wrap ('MuToolbar', _MuToolbar);
+export const Separator = Electrum.wrap ('Separator', _Separator, {styles: _Separator$styles});
 export const Badge = Electrum.wrap ('Badge', _Badge, {styles: _Badge$styles});
 export const Calendar = Electrum.wrap ('Calendar', _Calendar, {styles: _Calendar$styles});
 export const Clock = Electrum.wrap ('Clock', _Clock, {styles: _Clock$styles});
