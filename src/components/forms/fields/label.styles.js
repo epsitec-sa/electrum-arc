@@ -13,6 +13,7 @@ export default function styles (theme, props) {
   const inputWrap       = props.wrap;
   const inputVpos       = props.vpos;
   const inputGlyphColor = props.glyphColor;
+  const inputGlyphSize  = props.glyphSize;
 
   let boxWidth           = null;
   let textHeight         = null;
@@ -24,6 +25,7 @@ export default function styles (theme, props) {
   let boxJustifyContent  = null;
   let boxAlignSelf       = null;
   let textTransform      = null;
+  let glyphSize          = inputGlyphSize;
   let glyphColor         = theme.palette.text;
   let textColor          = theme.palette.text;
   let linesOverflow      = null;
@@ -109,6 +111,16 @@ export default function styles (theme, props) {
     flexBasis  = '0%';
   }
 
+  let glyphTransform = null;
+  if (glyphSize) {
+    const s = Unit.parse (glyphSize);
+    if (s.unit !== '%') {
+      throw new Error (`GlyphSize '${glyphSize}' has an unexpected format`);
+    }
+    const ss = s.value / 100;
+    glyphTransform = 'scale(' + ss + ')';
+  }
+
   const boxStyle = {
     width:           boxWidth,
     minWidth:        '0px',
@@ -132,6 +144,7 @@ export default function styles (theme, props) {
     height:          theme.shapes.lineHeight,
     padding:         '0px',
     color:           glyphColor,
+    transform:       glyphTransform,
   };
 
   const linesStyle = {
