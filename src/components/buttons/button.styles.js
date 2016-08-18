@@ -384,6 +384,7 @@ export default function styles (theme, props) {
     flexGrow:        boxGrow,
     justifyContent:  'center',
     alignItems:      'center',
+    alignSelf:       'flex-start',
     borderWidth:     '1px',
     borderColor:     borderColor,
     borderStyle:     borderStyle,
