@@ -24,7 +24,7 @@ export default function styles (theme, props) {
     borderWidth:       borderWidth,
     borderStyle:       borderStyle,
     borderColor:       borderColor,
-    margin:            s + ' 0px',
+    margin:            '0px 0px ' + s + ' 0px',
     padding:           padding,
   };
 
