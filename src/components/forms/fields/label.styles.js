@@ -28,6 +28,7 @@ export default function styles (theme, props) {
   let textColor          = theme.palette.text;
   let linesOverflow      = null;
   let textDisplay        = 'flex';
+  let textAlign          = null;
   let textOverflow       = null;
   let textTextOverflow   = null;
   let textWhiteSpace     = null;
@@ -64,6 +65,7 @@ export default function styles (theme, props) {
     fontSize        = theme.shapes.labelTitleTextSize;
     fontWeight      = 'bold';
     textTransform   = 'uppercase';
+    textAlign       = 'center';
   }
 
   if (inputKind === 'info') {
@@ -141,6 +143,7 @@ export default function styles (theme, props) {
     height:          textHeight,
     display:         textDisplay,
     flexDirection:   'column',
+    alignSelf:       textAlign,
     fontSize:        Unit.multiply (fontSize, theme.typo.fontScale),
     fontWeight:      fontWeight,
     textTransform:   textTransform,
