@@ -57,6 +57,8 @@ export default function styles (theme, props) {
   const m = theme.shapes.containerMargin;
   const s = theme.shapes.lineSpacing;
   const d = Unit.multiply (m, 0.5);
+  const p = theme.shapes.flyingBalloonPadding;
+  const t = Unit.add (theme.shapes.flyingBalloonTriangleSize, '0px', 0);  // round (suppress decimals)
 
   if (inputKind === 'root') {
     display         = 'flex';
@@ -280,6 +282,18 @@ export default function styles (theme, props) {
     margin = topMargin + ' ' + rightMargin + ' ' + bottomMargin + ' ' + leftMargin;
   }
 
+  if (inputKind === 'flying-balloon') {
+    width           = inputWidth;
+    display         = 'flex';
+    flexDirection   = 'column';
+    justifyContent  = 'center';
+    alignItems      = 'center';
+    position        = 'absolute';
+    margin          = t + ' 0px 0px 0px';
+    padding         = p;
+    backgroundColor = theme.palette.flyingBalloonBackground;
+  }
+
   if (flexGrow) {
     flexShrink = '1';
     flexBasis  = '0%';
@@ -326,8 +340,19 @@ export default function styles (theme, props) {
     position:          position,
   };
 
+  const triangleStyle = (inputKind === 'flying-balloon') ? {
+    position:     'absolute',
+    right:        '50%',
+    top:          '-' + t,
+    margin:       '0px -' + t + ' 0px 0px',
+    borderLeft:   t + ' solid transparent',
+    borderRight:  t + ' solid transparent',
+    borderBottom: t + ' solid ' + theme.palette.flyingBalloonBackground,
+  } : null;
+
   return {
-    box: boxStyle,
+    box:      boxStyle,
+    triangle: triangleStyle,
   };
 }
 
