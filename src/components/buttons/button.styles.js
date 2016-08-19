@@ -464,7 +464,7 @@ export default function styles (theme, props) {
     padding:         '1px 0px 1px 0px',
     left:            '0px',
     backgroundColor: theme.palette.menuBackground,
-    zIndex:          1,
+    zIndex:          2,
   };
 
   return {
