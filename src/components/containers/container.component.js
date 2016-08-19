@@ -26,16 +26,30 @@ export default class Container extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
+    const inputKind = this.read ('kind');
 
-    const boxStyle = this.mergeStyles ('box');
+    const boxStyle      = this.mergeStyles ('box');
+    const triangleStyle = this.mergeStyles ('triangle');
 
-    return (
-      <div
-        disabled={disabled}
-        style={boxStyle}
-        {...this.props}
-        />
-    );
+    if (inputKind === 'flying-balloon') {
+      return (
+        <div
+          disabled={disabled}
+          style={boxStyle}
+          >
+          <div style={triangleStyle} />
+          <div {...this.props} />
+        </div>
+      );
+    } else {
+      return (
+        <div
+          disabled={disabled}
+          style={boxStyle}
+          {...this.props}
+          />
+      );
+    }
   }
 }
 
