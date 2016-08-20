@@ -21,21 +21,10 @@ export default function styles (theme, props) {
     left:            '-1px',
     top:             '100%',
     margin:          t + ' 0px 0px 0px',
-    padding:         p,
     fontSize:        theme.shapes.flyingBalloonTextSize,
     color:           theme.palette.flyingBalloonText,
     backgroundColor: theme.palette.flyingBalloonBackground,
     zIndex:          1,
-  };
-
-  const triangleStyle = {
-    position:     'absolute',
-    right:        '50%',
-    top:          '-' + t,
-    margin:       '0px -' + t + ' 0px 0px',
-    borderLeft:   t + ' solid transparent',
-    borderRight:  t + ' solid transparent',
-    borderBottom: t + ' solid ' + theme.palette.flyingBalloonBackground,
   };
 
   const contentStyle = {
@@ -58,7 +47,6 @@ export default function styles (theme, props) {
 
   return {
     box:           boxStyle,
-    triangle:      triangleStyle,
     content:       contentStyle,
     primaryText:   primaryTextStyle,
     secondaryText: secondaryTextStyle,

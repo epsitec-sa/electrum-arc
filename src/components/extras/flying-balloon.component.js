@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {Action} from 'electrum';
+import {Container} from 'electrum-arc';
 
 /******************************************************************************/
 
@@ -26,14 +27,9 @@ export default class FlyingBalloon extends React.Component {
     const inputSecondaryText = this.read ('secondary-text');
 
     const boxStyle           = this.mergeStyles ('box');
-    const triangleStyle      = this.mergeStyles ('triangle');
     const contentStyle       = this.mergeStyles ('content');
     const primaryTextStyle   = this.mergeStyles ('primaryText');
     const secondaryTextStyle = this.mergeStyles ('secondaryText');
-
-    const htmlTriangle = (
-      <div style={triangleStyle} />
-    );
 
     let htmlContent;
     if (inputPrimaryText && inputSecondaryText) {
@@ -58,14 +54,17 @@ export default class FlyingBalloon extends React.Component {
     }
 
     return (
-      <div
-        disabled={disabled}
-        style={boxStyle}
-        {...this.props}
-      >
-        {htmlTriangle}
-        {htmlContent}
-      </div>
+      <span
+        disabled = {disabled}
+        style    = {boxStyle}
+        >
+        <Container
+          kind = 'flying-balloon'
+          {...this.link ()}
+        >
+          {htmlContent}
+        </Container>
+      </span>
     );
   }
 }
