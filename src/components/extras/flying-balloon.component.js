@@ -26,32 +26,7 @@ export default class FlyingBalloon extends React.Component {
     const inputPrimaryText   = this.read ('primary-text');
     const inputSecondaryText = this.read ('secondary-text');
 
-    const boxStyle           = this.mergeStyles ('box');
-    const contentStyle       = this.mergeStyles ('content');
-    const primaryTextStyle   = this.mergeStyles ('primaryText');
-    const secondaryTextStyle = this.mergeStyles ('secondaryText');
-
-    let htmlContent;
-    if (inputPrimaryText && inputSecondaryText) {
-      htmlContent = (
-        <div style={contentStyle}>
-          <div style={primaryTextStyle}>{inputPrimaryText}</div>
-          <div style={secondaryTextStyle}>{inputSecondaryText}</div>
-        </div>
-      );
-    } else if (inputPrimaryText) {
-      htmlContent = (
-        <div style={contentStyle}>
-          <div style={primaryTextStyle}>{inputPrimaryText}</div>
-        </div>
-      );
-    } else if (inputSecondaryText) {
-      htmlContent = (
-        <div style={contentStyle}>
-          <div style={secondaryTextStyle}>{inputSecondaryText}</div>
-        </div>
-      );
-    }
+    const boxStyle = this.mergeStyles ('box');
 
     return (
       <span
