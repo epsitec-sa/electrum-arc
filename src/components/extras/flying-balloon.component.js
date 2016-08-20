@@ -35,7 +35,7 @@ export default class FlyingBalloon extends React.Component {
           kind = 'flying-balloon'
           {...this.link ()}
           >
-          <Label text={inputPrimaryText}   kind='flying-balloon' {...this.link ()} />
+          <Label text={inputPrimaryText}   kind='flying-balloon' font-weight='bold' {...this.link ()} />
           <Label text={inputSecondaryText} kind='flying-balloon' {...this.link ()} />
         </Container>
       </span>

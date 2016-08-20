@@ -14,6 +14,7 @@ export default function styles (theme, props) {
   const inputVpos       = props.vpos;
   const inputGlyphColor = props.glyphColor;
   const inputGlyphSize  = props.glyphSize;
+  const inputFontWeight = props.fontWeight;
 
   let boxWidth           = null;
   let textHeight         = null;
@@ -114,6 +115,10 @@ export default function styles (theme, props) {
   if (flexGrow) {
     flexShrink = '1';
     flexBasis  = '0%';
+  }
+
+  if (inputFontWeight) {
+    fontWeight = inputFontWeight;
   }
 
   let glyphTransform = null;

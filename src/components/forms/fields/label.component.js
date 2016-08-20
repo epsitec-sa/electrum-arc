@@ -23,6 +23,7 @@ export default class Label extends React.Component {
       vpos:       this.read ('vpos'),
       glyphColor: this.read ('glyph-color'),
       glyphSize:  this.read ('glyph-size'),
+      fontWeight: this.read ('font-weight'),
     };
   }
 
