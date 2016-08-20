@@ -14,9 +14,7 @@ export default class FlyingBalloon extends React.Component {
 
   get styleProps () {
     return {
-      width:         this.read ('width'),
-      primaryText:   this.read ('primary-text'),
-      secondaryText: this.read ('secondary-text'),
+      width: this.read ('width'),
     };
   }
 
