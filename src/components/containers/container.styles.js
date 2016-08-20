@@ -285,6 +285,7 @@ export default function styles (theme, props) {
   if (inputKind === 'flying-balloon') {
     padding         = p;
     backgroundColor = theme.palette.flyingBalloonBackground;
+    position        = 'relative';
   }
 
   if (flexGrow) {
@@ -334,11 +335,10 @@ export default function styles (theme, props) {
   };
 
   const triangleStyle = (inputKind === 'flying-balloon') ? {
-    position:     'relative',
+    position:     'absolute',
     width:        '0px',
     left:         'calc(50% - ' + t + ')',
     top:          '-' + p,
-    margin:       '-' + t + ' 0px 0px 0px',
     borderLeft:   t + ' solid transparent',
     borderRight:  t + ' solid transparent',
     borderBottom: t + ' solid ' + theme.palette.flyingBalloonBackground,
