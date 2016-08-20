@@ -90,6 +90,11 @@ export default function styles (theme, props) {
     textColor       = theme.palette.footerText;
   }
 
+  if (inputKind === 'flying-balloon') {
+    glyphColor      = theme.palette.flyingBalloonText;
+    textColor       = theme.palette.flyingBalloonText;
+  }
+
   if (inputVpos === 'top') {
     boxAlignSelf = 'flex-start';
   }

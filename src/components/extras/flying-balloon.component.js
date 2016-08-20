@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-import {Container} from 'electrum-arc';
+import {Container, Label} from 'electrum-arc';
 
 /******************************************************************************/
 
@@ -61,8 +61,9 @@ export default class FlyingBalloon extends React.Component {
         <Container
           kind = 'flying-balloon'
           {...this.link ()}
-        >
-          {htmlContent}
+          >
+          <Label text={inputPrimaryText}   kind='flying-balloon' {...this.link ()} />
+          <Label text={inputSecondaryText} kind='flying-balloon' {...this.link ()} />
         </Container>
       </span>
     );
