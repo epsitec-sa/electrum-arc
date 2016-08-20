@@ -13,17 +13,18 @@ export default class Label extends React.Component {
 
   get styleProps () {
     return {
-      text:       this.read ('text'),
-      glyph:      this.read ('glyph'),
-      grow:       this.read ('grow'),
-      kind:       this.read ('kind'),
-      width:      this.read ('width'),
-      spacing:    this.read ('spacing'),
-      wrap:       this.read ('wrap'),
-      vpos:       this.read ('vpos'),
-      glyphColor: this.read ('glyph-color'),
-      glyphSize:  this.read ('glyph-size'),
-      fontWeight: this.read ('font-weight'),
+      text:          this.read ('text'),
+      glyph:         this.read ('glyph'),
+      grow:          this.read ('grow'),
+      kind:          this.read ('kind'),
+      width:         this.read ('width'),
+      spacing:       this.read ('spacing'),
+      wrap:          this.read ('wrap'),
+      vpos:          this.read ('vpos'),
+      glyphColor:    this.read ('glyph-color'),
+      glyphSize:     this.read ('glyph-size'),
+      fontWeight:    this.read ('font-weight'),
+      bottomSpacing: this.read ('bottom-spacing'),
     };
   }
 

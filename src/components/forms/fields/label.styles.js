@@ -6,15 +6,16 @@ import {ColorHelpers} from 'electrum-theme';
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  const inputGrow       = props.grow;
-  const inputKind       = props.kind;
-  const inputWidth      = props.width;
-  const inputSpacing    = props.spacing;
-  const inputWrap       = props.wrap;
-  const inputVpos       = props.vpos;
-  const inputGlyphColor = props.glyphColor;
-  const inputGlyphSize  = props.glyphSize;
-  const inputFontWeight = props.fontWeight;
+  const inputGrow          = props.grow;
+  const inputKind          = props.kind;
+  const inputWidth         = props.width;
+  const inputSpacing       = props.spacing;
+  const inputWrap          = props.wrap;
+  const inputVpos          = props.vpos;
+  const inputGlyphColor    = props.glyphColor;
+  const inputGlyphSize     = props.glyphSize;
+  const inputFontWeight    = props.fontWeight;
+  const inputBottomSpacing = props.bottomSpacing;
 
   let boxWidth           = null;
   let textHeight         = null;
@@ -41,13 +42,20 @@ export default function styles (theme, props) {
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
+  // Initialise bottom margin according to bottom-spacing.
+  let bottomMargin = '0px';
+  if (inputBottomSpacing === 'large') {
+    bottomMargin = m;
+  }
   // Initialise right margin according to spacing.
   if (inputSpacing === 'overlap') {
-    margin = '0px -1px 0px 0px';
+    margin = '0px -1px ' + bottomMargin + ' 0px';
   } else if (inputSpacing === 'tiny') {
-    margin = '0px 1px 0px 0px';
+    margin = '0px 1px ' + bottomMargin + ' 0px';
   } else if (inputSpacing === 'large') {
-    margin = '0px ' + m + ' 0px 0px';
+    margin = '0px ' + m + ' ' + bottomMargin + ' 0px';
+  } else {
+    margin = '0px 0px ' + bottomMargin + ' 0px';
   }
 
   if (inputWidth) {
