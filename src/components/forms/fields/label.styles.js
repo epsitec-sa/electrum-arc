@@ -102,6 +102,7 @@ export default function styles (theme, props) {
   if (inputKind === 'flying-balloon') {
     glyphColor      = theme.palette.flyingBalloonText;
     textColor       = theme.palette.flyingBalloonText;
+    fontSize        = theme.shapes.flyingBalloonTextSize;
   }
 
   if (inputVpos === 'top') {

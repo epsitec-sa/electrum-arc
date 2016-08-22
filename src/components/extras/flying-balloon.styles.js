@@ -9,6 +9,8 @@ export default function styles (theme, props) {
 
   const t = Unit.add (theme.shapes.flyingBalloonTriangleSize, '0px', 0);  // round (suppress decimals)
 
+  // This box is an invisible floating box that contains a component Container
+  // with kind='flying-balloon'.
   const boxStyle = {
     width:           inputWidth,
     display:         'flex',
@@ -19,9 +21,6 @@ export default function styles (theme, props) {
     left:            '-1px',
     top:             '100%',
     margin:          t + ' 0px 0px 0px',
-    fontSize:        theme.shapes.flyingBalloonTextSize,
-    color:           theme.palette.flyingBalloonText,
-    backgroundColor: theme.palette.flyingBalloonBackground,
     zIndex:          1,
   };
 
