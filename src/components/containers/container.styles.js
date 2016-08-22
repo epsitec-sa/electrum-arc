@@ -58,7 +58,7 @@ export default function styles (theme, props) {
   const m = theme.shapes.containerMargin;
   const s = theme.shapes.lineSpacing;
   const d = Unit.multiply (m, 0.5);
-  const t = Unit.add (theme.shapes.flyingBalloonTriangleSize, '0px', 0);  // round (suppress decimals)
+  const t = Unit.add (theme.shapes.flyingBalloonTriangleSize, '1px', 0);  // round (suppress decimals)
   const p = theme.shapes.flyingBalloonPadding;
 
   if (inputKind === 'root') {
