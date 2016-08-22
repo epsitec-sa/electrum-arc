@@ -6,13 +6,14 @@ import {ColorHelpers} from 'electrum-theme';
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  const inputWidth      = props.width;
-  const inputHeight     = props.height;
-  const inputKind       = props.kind;
-  const inputSubkind    = props.subkind;
-  const inputMarkColor  = props.markColor;
-  const inputHeightType = props.heightType;
-  const inputSpacing    = props.spacing;
+  const inputWidth            = props.width;
+  const inputHeight           = props.height;
+  const inputKind             = props.kind;
+  const inputSubkind          = props.subkind;
+  const inputMarkColor        = props.markColor;
+  const inputHeightType       = props.heightType;
+  const inputSpacing          = props.spacing;
+  const inputTrianglePosition = props.trianglePosition;
 
   let width             = inputWidth;
   let height            = inputHeight;
@@ -336,15 +337,50 @@ export default function styles (theme, props) {
 
   // A Container with kind='flying-balloon' has a standard behavior. It behaves
   // like a box with a small triangle which overlaps with the upper part.
-  const triangleStyle = (inputKind === 'flying-balloon') ? {
-    position:     'absolute',
-    width:        '0px',
-    left:         'calc(50% - ' + t + ')',
-    top:          '-' + p,
-    borderLeft:   t + ' solid transparent',
-    borderRight:  t + ' solid transparent',
-    borderBottom: t + ' solid ' + theme.palette.flyingBalloonBackground,
-  } : null;
+  let triangleStyle = null;
+  if (inputKind === 'flying-balloon') {
+    if (inputTrianglePosition === 'left') {
+      triangleStyle = {
+        position:     'absolute',
+        height:       '0px',
+        bottom:       'calc(50% - ' + t + ')',
+        left:         '-' + p,
+        borderTop:    t + ' solid transparent',
+        borderBottom: t + ' solid transparent',
+        borderRight:  t + ' solid ' + theme.palette.flyingBalloonBackground,
+      };
+    } else if (inputTrianglePosition === 'right') {
+      triangleStyle = {
+        position:     'absolute',
+        height:       '0px',
+        bottom:       'calc(50% - ' + t + ')',
+        right:        '-' + p,
+        borderTop:    t + ' solid transparent',
+        borderBottom: t + ' solid transparent',
+        borderLeft:   t + ' solid ' + theme.palette.flyingBalloonBackground,
+      };
+    } else if (inputTrianglePosition === 'bottom') {
+      triangleStyle = {
+        position:     'absolute',
+        width:        '0px',
+        left:         'calc(50% - ' + t + ')',
+        bottom:       '-' + p,
+        borderLeft:   t + ' solid transparent',
+        borderRight:  t + ' solid transparent',
+        borderTop:    t + ' solid ' + theme.palette.flyingBalloonBackground,
+      };
+    } else {
+      triangleStyle = {
+        position:     'absolute',
+        width:        '0px',
+        left:         'calc(50% - ' + t + ')',
+        top:          '-' + p,
+        borderLeft:   t + ' solid transparent',
+        borderRight:  t + ' solid transparent',
+        borderBottom: t + ' solid ' + theme.palette.flyingBalloonBackground,
+      };
+    }
+  }
 
   return {
     box:      boxStyle,
