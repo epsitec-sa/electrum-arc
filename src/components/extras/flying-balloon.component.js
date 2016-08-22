@@ -14,15 +14,17 @@ export default class FlyingBalloon extends React.Component {
 
   get styleProps () {
     return {
-      width: this.read ('width'),
+      width:            this.read ('width'),
+      trianglePosition: this.read ('triangle-position'),
     };
   }
 
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputPrimaryText   = this.read ('primary-text');
-    const inputSecondaryText = this.read ('secondary-text');
+    const inputPrimaryText      = this.read ('primary-text');
+    const inputSecondaryText    = this.read ('secondary-text');
+    const inputTrianglePosition = this.read ('triangle-position');
 
     const boxStyle = this.mergeStyles ('box');
 
@@ -38,6 +40,7 @@ export default class FlyingBalloon extends React.Component {
         >
         <Container
           kind = 'flying-balloon'
+          triangle-position = {inputTrianglePosition}
           {...this.link ()}
           >
           <Label text={inputPrimaryText}   kind='flying-balloon' font-weight='bold' bottom-spacing={primaryBottomSpacing} {...this.link ()} />

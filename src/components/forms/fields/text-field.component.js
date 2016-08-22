@@ -58,7 +58,11 @@ export default class TextField extends React.Component {
     let htmlFlyingBalloon = null;
     if (inputMessageWarning || inputMessageInfo) {
       htmlFlyingBalloon = (
-        <FlyingBalloon primary-text={inputMessageWarning} secondary-text={inputMessageInfo} {...this.link ()} />
+        <FlyingBalloon
+          primary-text={inputMessageWarning}
+          secondary-text={inputMessageInfo}
+          triangle-position='right'
+          {...this.link ()} />
       );
     }
 
