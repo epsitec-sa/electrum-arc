@@ -56,18 +56,12 @@ export default class TextField extends React.Component {
         />
     );
 
-    let trianglePosition = null;
-    if (inputFlyingBalloonAnchor) {
-      if (inputFlyingBalloonAnchor === 'bottom') {
-        trianglePosition = 'top';
-      } else if (inputFlyingBalloonAnchor === 'top') {
-        trianglePosition = 'bottom';
-      } else if (inputFlyingBalloonAnchor === 'left') {
-        trianglePosition = 'right';
-      } else if (inputFlyingBalloonAnchor === 'right') {
-        trianglePosition = 'left';
-      }
-    }
+    const trianglePosition = {
+      bottom: 'top',
+      top:    'bottom',
+      left:   'right',
+      right:  'left',
+    } [inputFlyingBalloonAnchor];
 
     let htmlFlyingBalloon = null;
     if (inputMessageWarning || inputMessageInfo) {
