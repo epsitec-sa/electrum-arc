@@ -14,61 +14,30 @@ export default function styles (theme, props) {
   // This box is an invisible floating box that contains a component Container
   // with kind='flying-balloon'. For example, if triangle-position='left', the
   // floating box is positioned to the right the parent box.
-  let boxStyle = null;
+  const boxStyle = {
+    width:           inputWidth    ? inputWidth    : '100%',
+    maxWidth:        inputMaxWidth ? inputMaxWidth : '200px',
+    display:         'flex',
+    flexDirection:   'column',
+    justifyContent:  'flex-start',
+    alignItems:      'flex-start',
+    position:        'absolute',
+    zIndex:          1,
+  };
   if (inputTrianglePosition === 'left') {
-    boxStyle = {
-      width:           inputWidth ? inputWidth : '100%',
-      maxWidth:        inputMaxWidth ? inputMaxWidth : '200px',
-      display:         'flex',
-      flexDirection:   'column',
-      justifyContent:  'flex-start',
-      alignItems:      'flex-start',
-      position:        'absolute',
-      left:            '100%',
-      margin:          '0px 0px 0px ' + t,
-      zIndex:          1,
-    };
+    boxStyle.left   = '100%';
+    boxStyle.margin = '0px 0px 0px ' + t;
   } else if (inputTrianglePosition === 'right') {
-    boxStyle = {
-      width:           inputWidth ? inputWidth : '100%',
-      maxWidth:        inputMaxWidth ? inputMaxWidth : '200px',
-      display:         'flex',
-      flexDirection:   'column',
-      justifyContent:  'flex-start',
-      alignItems:      'flex-start',
-      position:        'absolute',
-      right:           '100%',
-      margin:          '0px ' + t + ' 0px 0px',
-      zIndex:          1,
-    };
+    boxStyle.right  = '100%';
+    boxStyle.margin = '0px ' + t + ' 0px 0px';
   } else if (inputTrianglePosition === 'bottom') {
-    boxStyle = {
-      width:           inputWidth ? inputWidth : '100%',
-      maxWidth:        inputMaxWidth ? inputMaxWidth : '200px',
-      display:         'flex',
-      flexDirection:   'column',
-      justifyContent:  'flex-start',
-      alignItems:      'flex-start',
-      position:        'absolute',
-      left:            '-1px',
-      bottom:          '100%',
-      margin:          '0px 0px ' + t + ' 0px',
-      zIndex:          1,
-    };
+    boxStyle.left   = '-1px';
+    boxStyle.bottom = '100%';
+    boxStyle.margin = '0px 0px ' + t + ' 0px';
   } else {
-    boxStyle = {
-      width:           inputWidth ? inputWidth : '100%',
-      maxWidth:        inputMaxWidth ? inputMaxWidth : '200px',
-      display:         'flex',
-      flexDirection:   'column',
-      justifyContent:  'flex-start',
-      alignItems:      'flex-start',
-      position:        'absolute',
-      left:            '-1px',
-      top:             '100%',
-      margin:          t + ' 0px 0px 0px',
-      zIndex:          1,
-    };
+    boxStyle.left   = '-1px';
+    boxStyle.top    =  '100%';
+    boxStyle.margin = t + ' 0px 0px 0px';
   }
 
   return {
