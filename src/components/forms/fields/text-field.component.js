@@ -27,10 +27,11 @@ export default class TextField extends React.Component {
   render () {
     const {state, id} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputValue          = this.read ('value');
-    const inputMessageWarning = this.read ('message-warning');
-    const inputMessageInfo    = this.read ('message-info');
-    const inputHintText       = this.read ('hint-text');
+    const inputValue               = this.read ('value');
+    const inputMessageWarning      = this.read ('message-warning');
+    const inputMessageInfo         = this.read ('message-info');
+    const inputHintText            = this.read ('hint-text');
+    const inputFlyingBalloonAnchor = this.read ('flying-balloon-anchor');
 
     const boxStyle   = this.mergeStyles ('box');
     const fieldStyle = this.mergeStyles ('field');
@@ -55,13 +56,26 @@ export default class TextField extends React.Component {
         />
     );
 
+    let trianglePosition = null;
+    if (inputFlyingBalloonAnchor) {
+      if (inputFlyingBalloonAnchor === 'bottom') {
+        trianglePosition = 'top';
+      } else if (inputFlyingBalloonAnchor === 'top') {
+        trianglePosition = 'bottom';
+      } else if (inputFlyingBalloonAnchor === 'left') {
+        trianglePosition = 'right';
+      } else if (inputFlyingBalloonAnchor === 'right') {
+        trianglePosition = 'left';
+      }
+    }
+
     let htmlFlyingBalloon = null;
     if (inputMessageWarning || inputMessageInfo) {
       htmlFlyingBalloon = (
         <FlyingBalloon
           primary-text={inputMessageWarning}
           secondary-text={inputMessageInfo}
-          triangle-position='left'
+          triangle-position={trianglePosition}
           {...this.link ()} />
       );
     }
