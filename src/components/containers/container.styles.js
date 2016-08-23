@@ -283,6 +283,15 @@ export default function styles (theme, props) {
     margin = topMargin + ' ' + rightMargin + ' ' + bottomMargin + ' ' + leftMargin;
   }
 
+  if (inputKind === 'compact-row') {
+    display              = 'flex';
+    flexDirection        = 'row';
+    justifyContent       = 'flex-start';
+    alignItems           = 'flex-start';
+    margin               = '0px';
+    padding              = '0px';
+  }
+
   if (inputKind === 'flying-balloon') {
     padding         = p;
     backgroundColor = theme.palette.flyingBalloonBackground;
