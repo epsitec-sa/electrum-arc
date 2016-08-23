@@ -17,6 +17,7 @@ export default class Label extends React.Component {
       glyph:         this.read ('glyph'),
       grow:          this.read ('grow'),
       kind:          this.read ('kind'),
+      justify:       this.read ('justify'),
       width:         this.read ('width'),
       spacing:       this.read ('spacing'),
       wrap:          this.read ('wrap'),

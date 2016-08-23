@@ -8,6 +8,7 @@ import {ColorHelpers} from 'electrum-theme';
 export default function styles (theme, props) {
   const inputGrow          = props.grow;
   const inputKind          = props.kind;
+  const inputJustify       = props.justify;
   const inputWidth         = props.width;
   const inputSpacing       = props.spacing;
   const inputWrap          = props.wrap;
@@ -85,11 +86,15 @@ export default function styles (theme, props) {
     padding           = '0 10px 0 10px';
   }
 
-  if (inputKind === 'justify-left') {
+  if (inputJustify === 'left') {
     boxJustifyContent = 'flex-start';
   }
 
-  if (inputKind === 'justify-right') {
+  if (inputJustify === 'center') {
+    boxJustifyContent = 'center';
+  }
+
+  if (inputJustify === 'right') {
     boxJustifyContent = 'flex-end';
   }
 
