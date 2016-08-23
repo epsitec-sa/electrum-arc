@@ -335,8 +335,8 @@ export default function styles (theme, props) {
     position:          position,
   };
 
-  // A Container with kind='flying-balloon' has a standard behavior. It behaves
-  // like a box with a small triangle which overlaps with the upper part.
+  // A Container with kind='flying-balloon' has a standard behavior. It behaves like
+  // a box with a small triangle which overlaps with the upper part (for example).
   let triangleStyle = null;
   if (inputKind === 'flying-balloon') {
     if (inputTrianglePosition === 'left') {
