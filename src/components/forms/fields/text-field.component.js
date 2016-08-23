@@ -56,6 +56,7 @@ export default class TextField extends React.Component {
         />
     );
 
+    // Conversion from flying-balloon-anchor to triangle-position.
     const trianglePosition = {
       bottom: 'top',
       top:    'bottom',
