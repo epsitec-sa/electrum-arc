@@ -6,6 +6,7 @@ import {Unit} from 'electrum-theme';
 
 export default function styles (theme, props) {
   const inputWidth            = props.width;
+  const inputMaxWidth         = props.maxWidth;
   const inputTrianglePosition = props.trianglePosition;
 
   const t = Unit.add (theme.shapes.flyingBalloonTriangleSize, '0px', 0);  // round (suppress decimals)
@@ -17,6 +18,7 @@ export default function styles (theme, props) {
   if (inputTrianglePosition === 'left') {
     boxStyle = {
       width:           inputWidth ? inputWidth : '100%',
+      maxWidth:        inputMaxWidth ? inputMaxWidth : '200px',
       display:         'flex',
       flexDirection:   'column',
       justifyContent:  'flex-start',
@@ -29,6 +31,7 @@ export default function styles (theme, props) {
   } else if (inputTrianglePosition === 'right') {
     boxStyle = {
       width:           inputWidth ? inputWidth : '100%',
+      maxWidth:        inputMaxWidth ? inputMaxWidth : '200px',
       display:         'flex',
       flexDirection:   'column',
       justifyContent:  'flex-start',
@@ -41,6 +44,7 @@ export default function styles (theme, props) {
   } else if (inputTrianglePosition === 'bottom') {
     boxStyle = {
       width:           inputWidth ? inputWidth : '100%',
+      maxWidth:        inputMaxWidth ? inputMaxWidth : '200px',
       display:         'flex',
       flexDirection:   'column',
       justifyContent:  'flex-start',
@@ -54,6 +58,7 @@ export default function styles (theme, props) {
   } else {
     boxStyle = {
       width:           inputWidth ? inputWidth : '100%',
+      maxWidth:        inputMaxWidth ? inputMaxWidth : '200px',
       display:         'flex',
       flexDirection:   'column',
       justifyContent:  'flex-start',
