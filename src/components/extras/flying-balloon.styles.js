@@ -16,11 +16,11 @@ export default function styles (theme, props) {
   let boxStyle = null;
   if (inputTrianglePosition === 'left') {
     boxStyle = {
-      width:           inputWidth,
+      width:           inputWidth ? inputWidth : '100%',
       display:         'flex',
       flexDirection:   'column',
-      justifyContent:  'center',
-      alignItems:      'center',
+      justifyContent:  'flex-start',
+      alignItems:      'flex-start',
       position:        'absolute',
       left:            '100%',
       margin:          '0px 0px 0px ' + t,
@@ -28,11 +28,11 @@ export default function styles (theme, props) {
     };
   } else if (inputTrianglePosition === 'right') {
     boxStyle = {
-      width:           inputWidth,
+      width:           inputWidth ? inputWidth : '100%',
       display:         'flex',
       flexDirection:   'column',
-      justifyContent:  'center',
-      alignItems:      'center',
+      justifyContent:  'flex-start',
+      alignItems:      'flex-start',
       position:        'absolute',
       right:           '100%',
       margin:          '0px ' + t + ' 0px 0px',
@@ -40,11 +40,11 @@ export default function styles (theme, props) {
     };
   } else if (inputTrianglePosition === 'bottom') {
     boxStyle = {
-      width:           inputWidth,
+      width:           inputWidth ? inputWidth : '100%',
       display:         'flex',
       flexDirection:   'column',
-      justifyContent:  'center',
-      alignItems:      'center',
+      justifyContent:  'flex-start',
+      alignItems:      'flex-start',
       position:        'absolute',
       left:            '-1px',
       bottom:          '100%',
@@ -53,11 +53,11 @@ export default function styles (theme, props) {
     };
   } else {
     boxStyle = {
-      width:           inputWidth,
+      width:           inputWidth ? inputWidth : '100%',
       display:         'flex',
       flexDirection:   'column',
-      justifyContent:  'center',
-      alignItems:      'center',
+      justifyContent:  'flex-start',
+      alignItems:      'flex-start',
       position:        'absolute',
       left:            '-1px',
       top:             '100%',

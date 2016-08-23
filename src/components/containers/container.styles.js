@@ -287,7 +287,6 @@ export default function styles (theme, props) {
     padding         = p;
     backgroundColor = theme.palette.flyingBalloonBackground;
     position        = 'relative';
-    minWidth        = '100px';
   }
 
   if (flexGrow) {
