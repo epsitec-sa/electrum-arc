@@ -123,6 +123,7 @@ export default function styles (theme, props) {
 
   if (inputKind === 'view') {
     minWidth        = width;
+    position        = 'relative';
     display         = 'flex';
     flexDirection   = 'column';
     margin          = '0px ' + theme.shapes.viewSpacing + ' 0px 0px';
