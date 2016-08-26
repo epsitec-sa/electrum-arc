@@ -293,6 +293,22 @@ export default function styles (theme, props) {
     padding              = '0px';
   }
 
+  if (inputKind === 'tickets') {
+    const mm        = Unit.multiply (m, 0.5);
+    overflowY       = 'auto';
+    padding         = '0px ' + mm + ' 0px ' + mm;
+    display         = 'flex';
+    flexDirection   = 'column';
+    flexGrow        = '1';
+    backgroundColor = theme.palette.ticketsBackground;
+  }
+
+  if (inputKind === 'ticket') {
+    margin          = '0px 0px ' + s + ' 0px';
+    padding         = '0px ' + s + ' 0px ' + s;
+    backgroundColor = theme.palette.ticketBackground;
+  }
+
   if (inputKind === 'flying-balloon') {
     padding         = p;
     backgroundColor = theme.palette.flyingBalloonBackground;
