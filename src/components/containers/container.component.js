@@ -24,10 +24,6 @@ export default class Container extends React.Component {
     };
   }
 
-  forwardHtmlProps(props) {
-    return props;
-  }
-
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
@@ -51,7 +47,7 @@ export default class Container extends React.Component {
         <div
           disabled={disabled}
           style={boxStyle}
-          {...this.forwardHtmlProps (this.props)}
+          {...this.props}
           />
       );
     }
