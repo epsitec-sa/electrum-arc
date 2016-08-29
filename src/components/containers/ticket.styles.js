@@ -2,37 +2,47 @@
 
 /******************************************************************************/
 
+// Convert string '123px' to int 123.
+function toInt (value) {
+  if (typeof value === 'string') {
+    return parseInt (value.replace (/px/g, ''));
+  } else {
+    return value;
+  }
+}
+
 // Move to absolute position.
-function moveTo (result, x, y) {
-  result += 'M ' + x + ' ' + y + ' ';
-  return result;
+function moveTo (path, x, y) {
+  path += 'M ' + x + ' ' + y + ' ';
+  return path;
 }
 
 // Line to relative position.
-function lineTo (result, dx, dy) {
-  result += 'l ' + dx + ' ' + dy + ' ';
-  return result;
+function lineTo (path, dx, dy) {
+  path += 'l ' + dx + ' ' + dy + ' ';
+  return path;
 }
 
 // Arc to relative position.
-function arcTo (result, r, cx, cy) {
+function arcTo (path, r, cx, cy) {
   // rx ry x-axis-rotation large-arc-flag sweep-flag x y
   // see http://www.w3.org/TR/SVG/paths.html#PathDataEllipticalArcCommands
-  result += 'a ' + r + ' '  + r + ' 0 0 0 ' + ' ' + cx + ' ' + cy + ' ';
-  return result;
+  path += 'a ' + r + ' '  + r + ' 0 0 0 ' + ' ' + cx + ' ' + cy + ' ';
+  return path;
 }
 
-function horizontalDash (result, r, len, dx) {
+// Draw _n_n_n_n_n_n_n_n_n_n_n_n_n_
+function horizontalDash (path, r, len, dx) {
   const step = parseInt (dx / len);
   const over = (dx - (len * step)) / 2;
-  result = lineTo (result, over + r, 0);
+  path = lineTo (path, over + r, 0);
   let i = 0;
   for (i = 0; i < step - 1; i++) {
-    result = lineTo (result, len - r - r, 0);
-    result = arcTo (result, r, r + r, 0);
+    path = lineTo (path, len - r - r, 0);
+    path = arcTo (path, r, r + r, 0);
   }
-  result = lineTo (result, len - r + over, 0);
-  return result;
+  path = lineTo (path, len - r + over, 0);
+  return path;
 }
 
 
@@ -45,8 +55,6 @@ export default function styles (theme, props) {
   let height          = inputHeight;
   let backgroundColor = null;
 
-  const s = theme.shapes.lineSpacing;
-
   if (inputKind === 'header') {
     backgroundColor = theme.palette.ticketHeaderBackground;
   } else {
@@ -54,30 +62,29 @@ export default function styles (theme, props) {
   }
 
   const boxStyle = {
-    width:           width,
-    height:          height,
-    margin:          '0px 0px ' + s + ' 0px',
-    position:        'relative',
+    width:    width,
+    height:   height,
+    margin:   '0px 0px ' + theme.shapes.ticketVerticalSpacing + ' 0px',
+    position: 'relative',
   };
 
   const shapeStyle = {
-    position:        'absolute',
+    position: 'absolute',
   };
 
-  const r = 10;
-  const rr = r * 0.3;
-  const w = width.replace (/px/g, '');
-  const h = height.replace (/px/g, '');
+  const r = toInt (theme.shapes.ticketCornerRadius);
+  const s = toInt (theme.shapes.ticketLineRadius);
+  const w = toInt (width);
+  const h = toInt (height);
+
   let path = '';
   path = moveTo (path, 0, r);
   path = arcTo (path, r, r, -r);
-  // path = lineTo (path, w - r - r, 0);
-  path = horizontalDash (path, rr, rr * 3, w - r - r);
+  path = horizontalDash (path, s, s * 3, w - r - r);
   path = arcTo (path, r, r, r);
   path = lineTo (path, 0, h - r - r);
   path = arcTo (path, r, -r, r);
-  // path = lineTo (path, -(w - r - r), 0);
-  path = horizontalDash (path, -rr, -rr * 3, -(w - r - r));
+  path = horizontalDash (path, -s, -s * 3, -(w - r - r));
   path = arcTo (path, r, -r, -r);
 
   const svgStyle = {
@@ -86,8 +93,8 @@ export default function styles (theme, props) {
   };
 
   const contentStyle = {
-    position:        'relative',
-    padding:         s,
+    position: 'relative',
+    padding:  theme.shapes.ticketPadding,
   };
 
   return {

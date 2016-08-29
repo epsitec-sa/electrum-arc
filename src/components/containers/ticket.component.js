@@ -30,13 +30,6 @@ export default class Ticket extends React.Component {
 
     const w  = boxStyle.width;
     const h  = boxStyle.height;
-    // const d  = theme.shapes.mainTabTriangleSize;
-    // const x2 = Unit.multiply (w, 0.5);
-    // const x1 = Unit.sub (x2, d);
-    // const y2 = Unit.sub (h,  d);
-    // const x3 = Unit.add (x2, d);
-    // const p  = (x1 + h + x2 + y2 + x3 + h).replace (/px/g, ' ');
-    // const p = '0 0 300 0 100 0';
     const htmlTriangle = (
       <svg width={w} height={h} style={shapeStyle}>
         <path d={svgStyle.path} fill={svgStyle.backgroundColor}/>
