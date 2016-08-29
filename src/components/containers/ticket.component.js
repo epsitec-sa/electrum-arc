@@ -39,7 +39,7 @@ export default class Ticket extends React.Component {
     // const p = '0 0 300 0 100 0';
     const htmlTriangle = (
       <svg width={w} height={h} style={shapeStyle}>
-        <polygon points="0 0 300 0 0 100" fill={svgStyle.backgroundColor}/>
+        <path d="M 0 0 L 300 0 L 0 100" fill={svgStyle.backgroundColor}/>
       </svg>
     );
 

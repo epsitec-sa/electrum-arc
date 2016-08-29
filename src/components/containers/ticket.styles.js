@@ -38,7 +38,7 @@ export default function styles (theme, props) {
 
   const contentStyle = {
     position:        'relative',
-    padding:         '0px ' + s + ' 0px ' + s,
+    padding:         s,
   };
 
   return {
