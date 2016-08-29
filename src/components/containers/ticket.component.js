@@ -33,7 +33,7 @@ export default class Ticket extends React.Component {
     const h = boxStyle.height;
     const htmlShadow = (
       <svg width={w} height={h} style={shadowStyle}>
-        <path d={svgStyle.path} fill={svgStyle.color}/>
+        <path d={svgStyle.path} fill={svgStyle.shadowColor}/>
       </svg>
     );
     const htmlShape = (

@@ -54,14 +54,14 @@ export default function styles (theme, props) {
   let width           = inputWidth;
   let height          = inputHeight;
   let backgroundColor = null;
-  let color           = null;
+  let shadowColor     = null;
 
   if (inputKind === 'header') {
     backgroundColor = theme.palette.ticketHeaderBackground;
-    color           = theme.palette.ticketShadow;
+    shadowColor     = theme.palette.ticketShadow;
   } else {
     backgroundColor = theme.palette.ticketBackground;
-    color           = theme.palette.ticketShadow;
+    shadowColor     = theme.palette.ticketShadow;
   }
 
   const boxStyle = {
@@ -108,7 +108,7 @@ export default function styles (theme, props) {
 
   const svgStyle = {
     backgroundColor: backgroundColor,
-    color:           color,
+    shadowColor:     shadowColor,
     path:            path,
   };
 
