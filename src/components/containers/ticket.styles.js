@@ -2,13 +2,22 @@
 
 /******************************************************************************/
 
+// Move to absolute position.
 function moveTo (result, x, y) {
   result += 'M ' + x + ' ' + y + ' ';
   return result;
 }
 
-function lineTo (result, x, y) {
-  result += 'L ' + x + ' ' + y + ' ';
+// Line to relative position.
+function lineTo (result, dx, dy) {
+  result += 'l ' + dx + ' ' + dy + ' ';
+  return result;
+}
+
+// Arc to relative position.
+function arcTo (result, r, cx, cy) {
+  // rx ry x-axis-rotation large-arc-flag sweep-flag x y
+  result += 'a ' + r + ' '  + r + ' 0 0 0 ' + ' ' + cx + ' ' + cy + ' ';
   return result;
 }
 
@@ -41,10 +50,18 @@ export default function styles (theme, props) {
     position:        'absolute',
   };
 
+  const r = 10;
+  const w = width.replace (/px/g, '');
+  const h = height.replace (/px/g, '');
   let path = '';
-  path = moveTo (path, 0, 0);
-  path = lineTo (path, 300, 0);
-  path = lineTo (path, 0, 100);
+  path = moveTo (path, 0, r);
+  path = arcTo (path, r, r, -r);
+  path = lineTo (path, w - r - r, 0);
+  path = arcTo (path, r, r, r);
+  path = lineTo (path, 0, h - r - r);
+  path = arcTo (path, r, -r, r);
+  path = lineTo (path, -(w - r - r), 0);
+  path = arcTo (path, r, -r, -r);
 
   const svgStyle = {
     backgroundColor: backgroundColor,
