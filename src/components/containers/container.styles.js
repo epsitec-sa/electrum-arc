@@ -14,6 +14,7 @@ export default function styles (theme, props) {
   const inputHeightType       = props.heightType;
   const inputSpacing          = props.spacing;
   const inputTrianglePosition = props.trianglePosition;
+  const inputGrow             = props.grow;
 
   let width             = inputWidth;
   let height            = inputHeight;
@@ -301,6 +302,18 @@ export default function styles (theme, props) {
     flexDirection   = 'column';
     flexGrow        = '1';
     backgroundColor = theme.palette.ticketsBackground;
+  }
+
+  if (inputKind === 'column') {
+    display         = 'flex';
+    flexDirection   = 'column';
+    flexGrow        = inputGrow;
+  }
+
+  if (inputKind === 'row') {
+    display         = 'flex';
+    flexDirection   = 'row';
+    flexGrow        = inputGrow;
   }
 
   if (inputKind === 'flying-balloon') {

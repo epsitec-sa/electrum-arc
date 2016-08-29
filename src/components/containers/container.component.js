@@ -21,6 +21,7 @@ export default class Container extends React.Component {
       heightType:       this.read ('height-type'),
       spacing:          this.read ('spacing'),
       trianglePosition: this.read ('triangle-position'),
+      grow:             this.read ('grow'),
     };
   }
 

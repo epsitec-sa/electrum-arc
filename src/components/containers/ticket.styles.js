@@ -113,8 +113,10 @@ export default function styles (theme, props) {
   };
 
   const contentStyle = {
-    position: 'relative',
-    padding:  theme.shapes.ticketPadding,
+    position:      'relative',
+    padding:       theme.shapes.ticketPadding,
+    display:       'flex',
+    flexDirection: 'row',
   };
 
   return {
