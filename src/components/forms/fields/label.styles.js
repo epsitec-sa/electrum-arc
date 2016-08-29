@@ -15,6 +15,7 @@ export default function styles (theme, props) {
   const inputVpos          = props.vpos;
   const inputGlyphColor    = props.glyphColor;
   const inputGlyphSize     = props.glyphSize;
+  const inputTextColor     = props.textColor;
   const inputFontWeight    = props.fontWeight;
   const inputBottomSpacing = props.bottomSpacing;
 
@@ -124,6 +125,10 @@ export default function styles (theme, props) {
 
   if (inputGlyphColor) {
     glyphColor = ColorHelpers.GetMarkColor (theme, inputGlyphColor);
+  }
+
+  if (inputTextColor) {
+    textColor = ColorHelpers.GetMarkColor (theme, inputTextColor);
   }
 
   if (flexGrow) {
