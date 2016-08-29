@@ -87,21 +87,23 @@ export default function styles (theme, props) {
 
   let path = '';
   if (inputKind === 'header') {
+    // Dash line only on bottom.
     path = moveTo (path, 0, 0);
     path = lineTo (path, w, 0);
     path = lineTo (path, 0, h - r);
-    path = arcTo (path, r, -r, r);
+    path = arcTo (path, r, -r, r);  // bottom-right corner
     path = horizontalDash (path, -s, -s * 3, -(w - r - r));
-    path = arcTo (path, r, -r, -r);
+    path = arcTo (path, r, -r, -r);  // bottom-left corner
   } else {
+    // Dash line on top and bottom.
     path = moveTo (path, 0, r);
-    path = arcTo (path, r, r, -r);
+    path = arcTo (path, r, r, -r);  // top-left corner
     path = horizontalDash (path, s, s * 3, w - r - r);
-    path = arcTo (path, r, r, r);
+    path = arcTo (path, r, r, r);  // top-right corner
     path = lineTo (path, 0, h - r - r);
-    path = arcTo (path, r, -r, r);
+    path = arcTo (path, r, -r, r);  // bottom-right corner
     path = horizontalDash (path, -s, -s * 3, -(w - r - r));
-    path = arcTo (path, r, -r, -r);
+    path = arcTo (path, r, -r, -r);  // bottom-left corner
   }
 
   const svgStyle = {
