@@ -72,8 +72,8 @@ export default function styles (theme, props) {
   };
 
   const shadowStyle = {
-    position:  'absolute',
-    top:       theme.shapes.ticketShadowShift,
+    position: 'absolute',
+    top:      theme.shapes.ticketShadowShift,
   };
 
   const shapeStyle = {

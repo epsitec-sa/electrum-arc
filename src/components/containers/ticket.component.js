@@ -31,6 +31,9 @@ export default class Ticket extends React.Component {
 
     const w = boxStyle.width;
     const h = boxStyle.height;
+    if (!w || !h) {
+      throw new Error (`Undefined ticket width or height`);
+    }
     const htmlShadow = (
       <svg width={w} height={h} style={shadowStyle}>
         <path d={svgStyle.path} fill={svgStyle.shadowColor}/>
