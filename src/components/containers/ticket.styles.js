@@ -34,6 +34,7 @@ export default function styles (theme, props) {
 
   const svgStyle = {
     backgroundColor: backgroundColor,
+    path:            'M 0 0 L 300 0 L 0 100',
   };
 
   const contentStyle = {
