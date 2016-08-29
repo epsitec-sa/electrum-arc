@@ -2,6 +2,17 @@
 
 /******************************************************************************/
 
+function moveTo (result, x, y) {
+  result += 'M ' + x + ' ' + y + ' ';
+  return result;
+}
+
+function lineTo (result, x, y) {
+  result += 'L ' + x + ' ' + y + ' ';
+  return result;
+}
+
+
 export default function styles (theme, props) {
   const inputWidth  = props.width;
   const inputHeight = props.height;
@@ -11,8 +22,6 @@ export default function styles (theme, props) {
   let height          = inputHeight;
   let backgroundColor = null;
 
-  const h = theme.shapes.lineHeight;
-  const m = theme.shapes.containerMargin;
   const s = theme.shapes.lineSpacing;
 
   if (inputKind === 'header') {
@@ -32,9 +41,14 @@ export default function styles (theme, props) {
     position:        'absolute',
   };
 
+  let path = '';
+  path = moveTo (path, 0, 0);
+  path = lineTo (path, 300, 0);
+  path = lineTo (path, 0, 100);
+
   const svgStyle = {
     backgroundColor: backgroundColor,
-    path:            'M 0 0 L 300 0 L 0 100',
+    path:            path,
   };
 
   const contentStyle = {
