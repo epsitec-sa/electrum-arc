@@ -258,11 +258,23 @@ export default function styles (theme, props) {
 
   if (inputKind  === 'round') {
     const r = theme.shapes.actionRadius;
-    borderRadius    = r + ' ' + r + ' ' + r + ' ' + r;
+    borderRadius    = r;
     borderStyle     = 'none';
     backgroundColor = theme.palette.roundButtonBackground;
     textColor       = theme.palette.roundButtonText;
     glyphColor      = theme.palette.roundButtonGlyph;
+  }
+
+  if (inputKind  === 'identity') {
+    const r = theme.shapes.actionRadius;
+    boxWidth        = theme.shapes.identityHeight;
+    boxHeight       = theme.shapes.identityHeight;
+    borderRadius    = r;
+    glyphSize       = theme.shapes.identityGlyphSize;
+    borderStyle     = 'none';
+    backgroundColor = theme.palette.identityButtonBackground;
+    textColor       = theme.palette.identityButtonText;
+    glyphColor      = theme.palette.identityButtonGlyph;
   }
 
   if (inputKind  === 'frameless') {
