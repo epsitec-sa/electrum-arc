@@ -25,6 +25,7 @@ export default class Ticket extends React.Component {
 
     const boxStyle     = this.mergeStyles ('box');
     const shapeStyle   = this.mergeStyles ('shape');
+    const svgStyle     = this.mergeStyles ('svg');
     const contentStyle = this.mergeStyles ('content');
 
     const w  = boxStyle.width;
@@ -35,11 +36,10 @@ export default class Ticket extends React.Component {
     // const y2 = Unit.sub (h,  d);
     // const x3 = Unit.add (x2, d);
     // const p  = (x1 + h + x2 + y2 + x3 + h).replace (/px/g, ' ');
-    const p = '0 0 300 0 100 0';
+    // const p = '0 0 300 0 100 0';
     const htmlTriangle = (
       <svg width={w} height={h} style={shapeStyle}>
-        <polygon points="0 0 300 0 0 100" fill="#00ff00"/>
-        <circle cx="40" cy="40" r="24" fill="#ff0000"/>
+        <polygon points="0 0 300 0 0 100" fill={svgStyle.backgroundColor}/>
       </svg>
     );
 

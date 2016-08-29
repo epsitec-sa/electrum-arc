@@ -1,18 +1,15 @@
 'use strict';
 
-import {Unit} from 'electrum-theme';
-import {ColorHelpers} from 'electrum-theme';
-
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  const inputWidth            = props.width;
-  const inputHeight           = props.height;
-  const inputKind             = props.kind;
+  const inputWidth  = props.width;
+  const inputHeight = props.height;
+  const inputKind   = props.kind;
 
-  let width             = inputWidth;
-  let height            = inputHeight;
-  let backgroundColor   = null;
+  let width           = inputWidth;
+  let height          = inputHeight;
+  let backgroundColor = null;
 
   const h = theme.shapes.lineHeight;
   const m = theme.shapes.containerMargin;
@@ -25,25 +22,29 @@ export default function styles (theme, props) {
   }
 
   const boxStyle = {
-    width:             width,
-    height:            height,
-    margin:            '0px 0px ' + s + ' 0px',
-    backgroundColor:   backgroundColor,
-    position:          'relative',
+    width:           width,
+    height:          height,
+    margin:          '0px 0px ' + s + ' 0px',
+    position:        'relative',
   };
 
   const shapeStyle = {
-    position:          'absolute',
+    position:        'absolute',
+  };
+
+  const svgStyle = {
+    backgroundColor: backgroundColor,
   };
 
   const contentStyle = {
-    position:          'relative',
-    padding:           '0px ' + s + ' 0px ' + s,
+    position:        'relative',
+    padding:         '0px ' + s + ' 0px ' + s,
   };
 
   return {
     box:     boxStyle,
     shape:   shapeStyle,
+    svg:     svgStyle,
     content: contentStyle,
   };
 }
