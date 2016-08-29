@@ -54,11 +54,14 @@ export default function styles (theme, props) {
   let width           = inputWidth;
   let height          = inputHeight;
   let backgroundColor = null;
+  let color           = null;
 
   if (inputKind === 'header') {
     backgroundColor = theme.palette.ticketHeaderBackground;
+    color           = theme.palette.ticketShadow;
   } else {
     backgroundColor = theme.palette.ticketBackground;
+    color           = theme.palette.ticketShadow;
   }
 
   const boxStyle = {
@@ -68,8 +71,13 @@ export default function styles (theme, props) {
     position: 'relative',
   };
 
+  const shadowStyle = {
+    position:  'absolute',
+    top:       theme.shapes.ticketShadowShift,
+  };
+
   const shapeStyle = {
-    position: 'absolute',
+    position:  'absolute',
   };
 
   const r = toInt (theme.shapes.ticketCornerRadius);
@@ -98,6 +106,7 @@ export default function styles (theme, props) {
 
   const svgStyle = {
     backgroundColor: backgroundColor,
+    color:           color,
     path:            path,
   };
 
@@ -108,6 +117,7 @@ export default function styles (theme, props) {
 
   return {
     box:     boxStyle,
+    shadow:  shadowStyle,
     shape:   shapeStyle,
     svg:     svgStyle,
     content: contentStyle,

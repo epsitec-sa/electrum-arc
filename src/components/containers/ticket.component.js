@@ -24,13 +24,19 @@ export default class Ticket extends React.Component {
     const disabled = Action.isDisabled (state);
 
     const boxStyle     = this.mergeStyles ('box');
+    const shadowStyle  = this.mergeStyles ('shadow');
     const shapeStyle   = this.mergeStyles ('shape');
     const svgStyle     = this.mergeStyles ('svg');
     const contentStyle = this.mergeStyles ('content');
 
-    const w  = boxStyle.width;
-    const h  = boxStyle.height;
-    const htmlTriangle = (
+    const w = boxStyle.width;
+    const h = boxStyle.height;
+    const htmlShadow = (
+      <svg width={w} height={h} style={shadowStyle}>
+        <path d={svgStyle.path} fill={svgStyle.color}/>
+      </svg>
+    );
+    const htmlShape = (
       <svg width={w} height={h} style={shapeStyle}>
         <path d={svgStyle.path} fill={svgStyle.backgroundColor}/>
       </svg>
@@ -41,7 +47,8 @@ export default class Ticket extends React.Component {
         disabled={disabled}
         style={boxStyle}
         >
-        {htmlTriangle}
+        {htmlShadow}
+        {htmlShape}
         <div style={contentStyle} {...this.props} />
       </div>
     );
