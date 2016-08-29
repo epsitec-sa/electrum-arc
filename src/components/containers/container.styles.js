@@ -303,16 +303,6 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.ticketsBackground;
   }
 
-  if (inputKind === 'ticket') {
-    margin          = '0px 0px ' + s + ' 0px';
-    padding         = '0px ' + s + ' 0px ' + s;
-    if (inputSubkind === 'header') {
-      backgroundColor = theme.palette.ticketHeaderBackground;
-    } else {
-      backgroundColor = theme.palette.ticketBackground;
-    }
-  }
-
   if (inputKind === 'flying-balloon') {
     padding         = p;
     backgroundColor = theme.palette.flyingBalloonBackground;
