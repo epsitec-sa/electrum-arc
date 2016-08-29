@@ -78,14 +78,23 @@ export default function styles (theme, props) {
   const h = toInt (height);
 
   let path = '';
-  path = moveTo (path, 0, r);
-  path = arcTo (path, r, r, -r);
-  path = horizontalDash (path, s, s * 3, w - r - r);
-  path = arcTo (path, r, r, r);
-  path = lineTo (path, 0, h - r - r);
-  path = arcTo (path, r, -r, r);
-  path = horizontalDash (path, -s, -s * 3, -(w - r - r));
-  path = arcTo (path, r, -r, -r);
+  if (inputKind === 'header') {
+    path = moveTo (path, 0, 0);
+    path = lineTo (path, w, 0);
+    path = lineTo (path, 0, h - r);
+    path = arcTo (path, r, -r, r);
+    path = horizontalDash (path, -s, -s * 3, -(w - r - r));
+    path = arcTo (path, r, -r, -r);
+  } else {
+    path = moveTo (path, 0, r);
+    path = arcTo (path, r, r, -r);
+    path = horizontalDash (path, s, s * 3, w - r - r);
+    path = arcTo (path, r, r, r);
+    path = lineTo (path, 0, h - r - r);
+    path = arcTo (path, r, -r, r);
+    path = horizontalDash (path, -s, -s * 3, -(w - r - r));
+    path = arcTo (path, r, -r, -r);
+  }
 
   const svgStyle = {
     backgroundColor: backgroundColor,
