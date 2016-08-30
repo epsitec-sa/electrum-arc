@@ -98,11 +98,11 @@ export default function styles (theme, props) {
     // Dash line on top and bottom.
     path = moveTo (path, 0, r);
     path = arcTo (path, r, r, -r);  // top-left corner
-    path = horizontalDash (path, s, s * 3, w - r - r);
+    path = horizontalDash (path, s, s * 3.5, w - r - r);
     path = arcTo (path, r, r, r);  // top-right corner
     path = lineTo (path, 0, h - r - r);
     path = arcTo (path, r, -r, r);  // bottom-right corner
-    path = horizontalDash (path, -s, -s * 3, -(w - r - r));
+    path = horizontalDash (path, -s, -s * 3.5, -(w - r - r));
     path = arcTo (path, r, -r, -r);  // bottom-left corner
   }
 
@@ -114,7 +114,7 @@ export default function styles (theme, props) {
 
   const contentStyle = {
     position:      'relative',
-    padding:       theme.shapes.ticketPadding,
+    padding:       theme.shapes.ticketVerticalPadding + ' ' + theme.shapes.ticketHorizontalPadding,
     display:       'flex',
     flexDirection: 'row',
   };
