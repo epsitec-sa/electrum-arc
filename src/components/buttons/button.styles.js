@@ -21,7 +21,6 @@ export default function styles (theme, props) {
   const inputNature        = props.nature;
   const inputPlace         = props.place;
   const inputActive        = props.active;
-  const inputJustify       = props.justify;
   const inputShape         = props.shape;
   const inputMenuDirection = props.menuDirection;
 
@@ -32,6 +31,7 @@ export default function styles (theme, props) {
   let boxHeight            = theme.shapes.lineHeight;
   let boxGrow              = inputGrow;
   let boxDirection         = 'row';
+  let boxJustifyContent    = 'center';
   let boxMargin            = '0px';
   let boxPadding           = '0px';
   let borderColor          = theme.palette.buttonBorder;
@@ -45,11 +45,9 @@ export default function styles (theme, props) {
   let textWidth            = null;
   let textColor            = null;
   let textMargin           = '0px ' + m + ' 0px ' + m;
-  let textJustify          = 'center';
   let textWeight           = null;
   let textTransform        = null;
   let textSize             = theme.shapes.buttonTextSize;
-  let textGrow             = 1;
   let actif                = true;
   let boxPosition          = 'relative';
 
@@ -84,14 +82,6 @@ export default function styles (theme, props) {
     actif = false;
   }
 
-  if (inputJustify) {
-    const justifyType = {
-      left:  'flex-start',
-      right: 'flex-end',
-    };
-    textJustify = inputJustify && justifyType[inputJustify];
-  }
-
   // task-logo button (usual parent container with kind='task').
   if (inputKind === 'task-logo') {
     boxWidth        = theme.shapes.taskButtonWidth;
@@ -104,8 +94,6 @@ export default function styles (theme, props) {
     textTransform   = 'uppercase';
     textWeight      = 'bold';
     textSize        = theme.shapes.taskLogoTextSize;
-    textJustify     = 'center';
-    textGrow        = null;
     glyphSize       = theme.shapes.taskLogoGlyphSize;
   }
 
@@ -120,7 +108,6 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.taskButtonBackground;
     textMargin      = '0px';
     textSize        = theme.shapes.taskTextSize;
-    textGrow        = null;
     glyphSize       = theme.shapes.taskGlyphSize;
   }
 
@@ -282,17 +269,17 @@ export default function styles (theme, props) {
   }
 
   if (inputKind  === 'menu-item') {
-    textWidth       = 'max-content';
-    boxHeight       = theme.shapes.menuButtonHeight;
-    boxMargin       = '0px 0px 1px 0px';
-    boxPadding      = '0px ' + theme.shapes.containerMargin + ' 0px ' + theme.shapes.containerMargin;
-    textMargin      = '0px ' + theme.shapes.containerMargin + ' 0px ' + theme.shapes.containerMargin;
-    textJustify     = 'flex-start';
-    textSize        = theme.shapes.menuTextSize;
-    textTransform   = 'uppercase';
-    textWeight      = 'bold';
-    borderStyle     = 'none';
-    backgroundColor = theme.palette.menuItemBackground;
+    textWidth         = 'max-content';
+    boxHeight         = theme.shapes.menuButtonHeight;
+    boxMargin         = '0px 0px 1px 0px';
+    boxPadding        = '0px ' + theme.shapes.containerMargin + ' 0px ' + theme.shapes.containerMargin;
+    textMargin        = '0px ' + theme.shapes.containerMargin + ' 0px ' + theme.shapes.containerMargin;
+    boxJustifyContent = 'flex-start';
+    textSize          = theme.shapes.menuTextSize;
+    textTransform     = 'uppercase';
+    textWeight        = 'bold';
+    borderStyle       = 'none';
+    backgroundColor   = theme.palette.menuItemBackground;
   }
 
   // Button with a day in Calendar component.
@@ -394,9 +381,9 @@ export default function styles (theme, props) {
     display:         'flex',
     flexDirection:   boxDirection,
     flexGrow:        boxGrow,
-    justifyContent:  'center',
+    justifyContent:  boxJustifyContent,
     alignItems:      'center',
-    alignSelf:       'flex-start',
+    // alignSelf:       'flex-start',
     borderWidth:     '1px',
     borderColor:     borderColor,
     borderStyle:     borderStyle,
@@ -444,11 +431,6 @@ export default function styles (theme, props) {
 
   const textStyle = {
     width:           textWidth,
-    display:         'flex',
-    flexDirection:   'row',
-    justifyContent:  textJustify,
-    alignItems:      'center',
-    flexGrow:        textGrow,
     margin:          textMargin,
     color:           textColor,
     fontWeight:      textWeight,
