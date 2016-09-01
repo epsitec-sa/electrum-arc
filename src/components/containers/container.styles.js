@@ -134,6 +134,18 @@ export default function styles (theme, props) {
     }
   }
 
+  if (inputKind === 'view-right') {
+    minWidth        = width;
+    position        = 'relative';
+    display         = 'flex';
+    flexDirection   = 'column';
+    margin          = '0px';
+    backgroundColor = theme.palette.viewBackground;
+    if (inputHeightType === 'short') {
+      alignSelf     = 'flex-start';
+    }
+  }
+
   if (inputKind === 'view-wedge') {
     flexGrow        = 1;
   }
