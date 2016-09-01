@@ -43,6 +43,7 @@ export default function styles (theme, props) {
   let glyphColor           = null;
   let glyphSize            = null;
   let textWidth            = null;
+  let textGrow             = null;
   let textColor            = null;
   let textMargin           = '0px ' + m + ' 0px ' + m;
   let textWeight           = null;
@@ -72,6 +73,9 @@ export default function styles (theme, props) {
   if (inputGlyph && inputText) {
     if (inputGlyphPosition === 'right') {
       textMargin = '0px 0px 0px ' + m;
+      if (inputWidth) {
+        textGrow = '1';
+      }
     } else {
       textMargin = '0px ' + m + ' 0px 0px';
     }
@@ -432,6 +436,7 @@ export default function styles (theme, props) {
   const textStyle = {
     width:           textWidth,
     margin:          textMargin,
+    flexGrow:        textGrow,
     color:           textColor,
     fontWeight:      textWeight,
     textTransform:   textTransform,
