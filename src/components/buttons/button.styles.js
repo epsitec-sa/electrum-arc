@@ -454,6 +454,10 @@ export default function styles (theme, props) {
     fontWeight:      textWeight,
     textTransform:   textTransform,
     fontSize:        Unit.multiply (textSize, theme.typo.fontScale),
+    overflow:        'hidden',
+    textOverflow:    'ellipsis',
+    whiteSpace:      'nowrap',
+    wordWrap:        'break-word',
   };
 
   // Generate a triangle with subtle css, see:
