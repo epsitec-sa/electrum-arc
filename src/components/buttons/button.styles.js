@@ -207,11 +207,12 @@ export default function styles (theme, props) {
 
   // Action button (usual parent is container with kind='actions').
   if (inputKind  === 'action') {
-    const m = Unit.multiply (theme.shapes.actionHeight, 0.4);
+    const m = Unit.multiply (theme.shapes.actionHeight, 0.1);
     const r = theme.shapes.actionRadius;
     boxHeight       = theme.shapes.actionHeight;
-    boxPadding      = '0px ' + m + ' 0px ' + m;
+    boxPadding      = '0px 0px 0px ' + m;
     borderStyle     = 'none';
+    boxJustifyContent = null;
     backgroundColor = theme.palette.actionButtonBackground;
     textSize        = theme.shapes.actionTextSize;
     glyphSize       = theme.shapes.actionGlyphSize;
@@ -383,7 +384,6 @@ export default function styles (theme, props) {
     flexGrow:        boxGrow,
     justifyContent:  boxJustifyContent,
     alignItems:      'center',
-    // alignSelf:       'flex-start',
     borderWidth:     '1px',
     borderColor:     borderColor,
     borderStyle:     borderStyle,
