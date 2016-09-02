@@ -1,8 +1,13 @@
 'use strict';
 
+import {Action} from 'electrum';
+
 /******************************************************************************/
 
 export default function styles (theme, props) {
+  const {state} = props;
+  const disabled = Action.isDisabled (state);
+  const inputKind = props.kind;
 
   const boxStyle = {
     display:         'flex',

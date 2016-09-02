@@ -92,7 +92,6 @@ export default function styles (theme, props) {
 
   // task-logo button (usual parent container with kind='task').
   if (inputKind === 'task-logo') {
-    boxWidth        = theme.shapes.taskButtonWidth;
     boxHeight       = theme.shapes.taskButtonHeight;
     boxDirection    = 'column';
     boxMargin       = '0px';
@@ -107,7 +106,6 @@ export default function styles (theme, props) {
 
   // Task button (usual parent is container with kind='task').
   if (inputKind === 'task') {
-    boxWidth        = theme.shapes.taskButtonWidth;
     boxHeight       = theme.shapes.taskButtonHeight;
     boxDirection    = 'column';
     boxMargin       = '0px';
@@ -146,6 +144,26 @@ export default function styles (theme, props) {
     } else {
       backgroundColor = theme.palette.viewTabButtonInactiveBackground;
     }
+  }
+
+  // task-tab button (usual parent is container with kind='task').
+  if (inputKind === 'task-tab') {
+    boxHeight         = theme.shapes.taskTabHeight;
+    boxJustifyContent = 'flex-start';
+    if (inputActive === 'true') {
+      backgroundColor = theme.palette.taskTabActiveBackground;
+      textColor       = theme.palette.taskTabActiveText;
+      textWeight      = 'bold';
+    } else {
+      backgroundColor = theme.palette.taskTabInactiveBackground;
+      textColor       = theme.palette.taskTabInactiveText;
+    }
+    boxMargin       = '0px';
+    borderStyle     = 'none none solid none';
+    borderColor     = theme.palette.taskButtonBorder;
+    textMargin      = '0px 0px 0px ' + theme.shapes.taskTabLeftMargin;
+    textSize        = theme.shapes.taskTabTextSize;
+    glyphSize       = theme.shapes.taskTabGlyphSize;
   }
 
   // pane-navigator button (usual parent is container with kind='pane-navigator').

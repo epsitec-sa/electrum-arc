@@ -15,6 +15,12 @@ export default class TabButton extends React.Component {
     super (props);
   }
 
+  get styleProps () {
+    return {
+      kind: this.read ('kind'),
+    };
+  }
+
   onKeyDown (e) {
     const {id, state} = this.props;
     console.log (`onKeyDown: ${id}, ${state.generation} value=${e.target.value}`);
@@ -33,10 +39,19 @@ export default class TabButton extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
+    const inputKind   = this.read ('kind');
     const inputText   = this.read ('text');
     const inputActive = this.read ('active');
 
     const boxStyle = this.mergeStyles ('box');
+
+    let buttonKind = 'view-tab';
+    let textGrow   = null;
+
+    if (inputKind === 'task') {
+      buttonKind = 'task-tab';
+      textGrow   = '1';
+    }
 
     return (
       <span
@@ -44,14 +59,15 @@ export default class TabButton extends React.Component {
         style={boxStyle}
         >
         <Button
-          kind    ='view-tab'
+          kind    = {buttonKind}
+          grow    = {textGrow}
           text    = {inputText}
           spacing = 'overlap'
           active  = {inputActive}
           {...this.link ()}
         />
         <Button
-          kind    = 'view-tab'
+          kind    = {buttonKind}
           glyph   = 'close'
           spacing = 'tiny'
           active  = {inputActive}
