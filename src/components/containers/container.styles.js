@@ -93,6 +93,14 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.mainTabBackground;
   }
 
+  if (inputKind === 'main-tab-identity') {
+    display         = 'flex';
+    flexDirection   = 'row';
+    flexGrow        = 1;
+    justifyContent  = 'flex-end';
+    alignItems      = 'center';
+  }
+
   if (inputKind === 'view-tab') {
     minHeight       = theme.shapes.viewTabHeight;
     display         = 'flex';
