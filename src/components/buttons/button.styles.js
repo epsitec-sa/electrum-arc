@@ -23,6 +23,7 @@ export default function styles (theme, props) {
   const inputActive        = props.active;
   const inputShape         = props.shape;
   const inputMenuDirection = props.menuDirection;
+  const inputTextTransform = props.textTransform;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -47,7 +48,7 @@ export default function styles (theme, props) {
   let textColor            = null;
   let textMargin           = '0px ' + m + ' 0px ' + m;
   let textWeight           = null;
-  let textTransform        = null;
+  let textTransform        = inputTextTransform;
   let textSize             = theme.shapes.buttonTextSize;
   let actif                = true;
   let boxPosition          = 'relative';
@@ -98,7 +99,7 @@ export default function styles (theme, props) {
     borderStyle     = 'none';
     backgroundColor = theme.palette.taskLogoBackground;
     textMargin      = '0px';
-    textTransform   = 'uppercase';
+    textTransform   = inputTextTransform ? inputTextTransform : 'uppercase';
     textWeight      = 'bold';
     textSize        = theme.shapes.taskLogoTextSize;
     glyphSize       = theme.shapes.taskLogoGlyphSize;
