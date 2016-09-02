@@ -74,6 +74,10 @@ export default function styles (theme, props) {
     if (inputGlyphPosition === 'right') {
       textMargin = '0px 0px 0px ' + m;
       if (inputWidth) {
+        // A button with text and glyph (in this order) and a specific width must
+        // have a text push to left border and glyph push to right border:
+        // |text........glyph|
+        // |<-----width----->|
         textGrow = '1';
       }
     } else {
