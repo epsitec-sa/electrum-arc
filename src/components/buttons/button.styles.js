@@ -161,7 +161,8 @@ export default function styles (theme, props) {
     boxMargin       = '0px';
     borderStyle     = 'none none solid none';
     borderColor     = theme.palette.taskButtonBorder;
-    textMargin      = '0px 0px 0px ' + theme.shapes.taskTabLeftMargin;
+    const mm = inputGlyph ? '0px' : theme.shapes.taskTabLeftMargin;
+    textMargin      = '0px 0px 0px ' + mm;
     textSize        = theme.shapes.taskTabTextSize;
     glyphSize       = theme.shapes.taskTabGlyphSize;
   }
