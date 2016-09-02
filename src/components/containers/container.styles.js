@@ -223,7 +223,9 @@ export default function styles (theme, props) {
   if (inputKind === 'panes') {
     overflowY       = 'auto';
     padding         = '0px ' + m + ' 0px ' + m;
-    flexGrow        = '1';
+    if (inputHeightType !== 'short') {
+      flexGrow        = '1';
+    }
     if (inputSubkind === 'top-margin') {
       margin        = m + ' 0px 0px 0px';
     }
