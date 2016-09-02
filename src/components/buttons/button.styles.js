@@ -133,6 +133,14 @@ export default function styles (theme, props) {
     textColor = theme.palette.mainTabText;
   }
 
+  if (inputKind === 'main-tab-identity') {
+    boxHeight            = theme.shapes.mainTabHeight;
+    borderStyle          = 'none';
+    textColor            = theme.palette.mainTabText;
+    backgroundColor      = null;
+    backgroundHoverColor = theme.palette.mainTabButtonActiveBackground;
+  }
+
   // view-tab button (usual parent is container with kind='view-tab').
   if (inputKind === 'view-tab') {
     boxHeight   = theme.shapes.viewTabHeight;
