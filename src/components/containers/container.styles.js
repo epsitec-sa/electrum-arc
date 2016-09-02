@@ -224,6 +224,9 @@ export default function styles (theme, props) {
     overflowY       = 'auto';
     padding         = '0px ' + m + ' 0px ' + m;
     flexGrow        = '1';
+    if (inputSubkind === 'top-margin') {
+      margin        = m + ' 0px 0px 0px';
+    }
   }
 
   if (inputKind === 'pane') {
