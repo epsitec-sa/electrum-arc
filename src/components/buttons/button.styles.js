@@ -240,6 +240,19 @@ export default function styles (theme, props) {
     borderStyle = 'none';
   }
 
+  // Warning button (usual parent is container with kind='footer').
+  if (inputKind === 'warning') {
+    boxHeight       = theme.shapes.footerHeight;
+    boxMargin       = theme.shapes.warningMargin;
+    boxPadding      = '0px 0px 0px ' + theme.shapes.warningLeftPadding;
+    textWeight      = 'bold';
+    borderStyle     = 'none';
+    textSize        = theme.shapes.warningTextSize;
+    glyphSize       = theme.shapes.warningGlyphSize;
+    backgroundColor = theme.palette.warningBackground;
+    textColor       = theme.palette.warningText;
+  }
+
   // Action button (usual parent is container with kind='actions').
   if (inputKind  === 'action') {
     const m = Unit.multiply (theme.shapes.actionHeight, 0.1);
