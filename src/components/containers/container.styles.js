@@ -215,6 +215,7 @@ export default function styles (theme, props) {
   if (inputKind === 'panes') {
     overflowY       = 'auto';
     padding         = '0px ' + m + ' 0px ' + m;
+    flexGrow        = '1';
   }
 
   if (inputKind === 'pane') {
