@@ -111,6 +111,15 @@ export default function styles (theme, props) {
     fontSize        = theme.shapes.flyingBalloonTextSize;
   }
 
+  if (inputKind === 'task') {
+    padding         = theme.shapes.taskLabelTopMargin + ' 0px ' + theme.shapes.taskLabelBottomMargin + ' ' + theme.shapes.taskTabLeftMargin;
+    glyphColor      = theme.palette.taskLabelText;
+    textColor       = theme.palette.taskLabelText;
+    fontWeight      = 'bold';
+    fontSize        = theme.shapes.taskTabTextSize;
+    glyphSize       = theme.shapes.taskTabGlyphSize;
+  }
+
   if (inputVpos === 'top') {
     boxAlignSelf = 'flex-start';
   }
