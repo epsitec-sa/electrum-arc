@@ -243,7 +243,6 @@ export default function styles (theme, props) {
   // Warning button (usual parent is container with kind='footer').
   if (inputKind === 'warning') {
     boxHeight       = theme.shapes.footerHeight;
-    boxMargin       = theme.shapes.warningMargin;
     boxPadding      = '0px 0px 0px ' + theme.shapes.warningLeftPadding;
     textWeight      = 'bold';
     borderStyle     = 'none';
