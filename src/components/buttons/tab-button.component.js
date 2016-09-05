@@ -17,7 +17,8 @@ export default class TabButton extends React.Component {
 
   get styleProps () {
     return {
-      kind: this.read ('kind'),
+      kind:  this.read ('kind'),
+      glyph: this.read ('glyph'),
     };
   }
 
@@ -42,15 +43,21 @@ export default class TabButton extends React.Component {
     const inputKind   = this.read ('kind');
     const inputText   = this.read ('text');
     const inputActive = this.read ('active');
+    const inputGlyph  = this.read ('glyph');
 
     const boxStyle = this.mergeStyles ('box');
 
     let buttonKind = 'view-tab';
     let textGrow   = null;
+    let glyph      = 'close';
 
     if (inputKind === 'task') {
       buttonKind = 'task-tab';
       textGrow   = '1';
+    }
+
+    if (inputGlyph) {
+      glyph = inputGlyph;
     }
 
     return (
@@ -68,7 +75,7 @@ export default class TabButton extends React.Component {
         />
         <Button
           kind    = {buttonKind}
-          glyph   = 'close'
+          glyph   = {glyph}
           spacing = 'tiny'
           active  = {inputActive}
           {...this.link ()}
