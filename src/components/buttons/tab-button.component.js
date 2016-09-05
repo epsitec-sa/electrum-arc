@@ -63,8 +63,8 @@ export default class TabButton extends React.Component {
 
     return (
       <span
-        disabled={disabled}
-        style={boxStyle}
+        disabled = {disabled}
+        style    = {boxStyle}
         >
         <Button
           kind    = {buttonKind}

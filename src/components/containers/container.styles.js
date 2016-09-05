@@ -63,6 +63,7 @@ export default function styles (theme, props) {
   const p = theme.shapes.flyingBalloonPadding;
 
   if (inputKind === 'root') {
+    position        = 'relative';
     display         = 'flex';
     flexDirection   = 'row';
     height          = '100vh';
