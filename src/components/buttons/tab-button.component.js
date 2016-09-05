@@ -40,10 +40,11 @@ export default class TabButton extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputKind   = this.read ('kind');
-    const inputText   = this.read ('text');
-    const inputActive = this.read ('active');
-    const inputGlyph  = this.read ('glyph');
+    const inputKind         = this.read ('kind');
+    const inputText         = this.read ('text');
+    const inputActive       = this.read ('active');
+    const inputGlyph        = this.read ('glyph');
+    const inputGlyphTooltip = this.read ('glyph-tooltip');
 
     const boxStyle = this.mergeStyles ('box');
 
@@ -76,6 +77,7 @@ export default class TabButton extends React.Component {
         <Button
           kind    = {buttonKind}
           glyph   = {glyph}
+          tooltip = {inputGlyphTooltip}
           spacing = 'tiny'
           active  = {inputActive}
           {...this.link ()}
