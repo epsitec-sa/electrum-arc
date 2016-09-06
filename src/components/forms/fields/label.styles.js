@@ -31,6 +31,7 @@ export default function styles (theme, props) {
   let textTransform      = null;
   let glyphSize          = inputGlyphSize;
   let glyphColor         = theme.palette.text;
+  let glyphMinWidth      = theme.shapes.lineHeight;
   let textColor          = theme.palette.text;
   let linesOverflow      = null;
   let textDisplay        = 'flex';
@@ -89,8 +90,22 @@ export default function styles (theme, props) {
     boxJustifyContent = 'center';
   }
 
+  if (inputKind === 'login-header') {
+    glyphMinWidth = null;
+    glyphSize     = theme.shapes.loginHeaderGlyphSize;
+    glyphColor    = theme.palette.loginSecondary;
+    textColor     = theme.palette.loginSecondary;
+  }
+
+  if (inputKind === 'login-footer') {
+    glyphMinWidth = null;
+    fontSize      = theme.shapes.loginFooterTextSize;
+    glyphColor    = theme.palette.loginSecondary;
+    textColor     = theme.palette.loginSecondary;
+  }
+
   if (inputKind === 'info') {
-    backgroundColor = theme.palette.infoBackground;
+    backgroundColor   = theme.palette.infoBackground;
     boxJustifyContent = 'center';
     padding           = '0 10px 0 10px';
   }
@@ -186,7 +201,7 @@ export default function styles (theme, props) {
     display:         'flex',
     flexDirection:   'row',
     alignItems:      'center',
-    minWidth:        theme.shapes.lineHeight,
+    minWidth:        glyphMinWidth,
     height:          theme.shapes.lineHeight,
     padding:         '0px',
     color:           glyphColor,

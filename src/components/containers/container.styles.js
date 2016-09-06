@@ -82,16 +82,45 @@ export default function styles (theme, props) {
     bottom          = '0px';
     display         = 'flex';
     flexDirection   = 'column';
-    width           = '300px';
-    height          = '300px';
     margin          = 'auto';
     padding         = theme.shapes.loginPadding;
     borderRadius    = theme.shapes.loginRadius;
     display         = 'flex';
     flexDirection   = 'column';
     justifyContent  = 'center';
-    backgroundColor = theme.palette.paneBackground;
+    backgroundColor = theme.palette.loginBackground;
     boxShadow       = theme.shapes.loginShadow;
+    zIndex          = '1';
+  }
+
+  if (inputKind === 'login-header') {
+    position        = 'absolute';
+    left            = '0px';
+    right           = '0px';
+    top             = '0px';
+    bottom          = '0px';
+    display         = 'flex';
+    flexDirection   = 'column';
+    margin          = '20px auto auto auto';
+    display         = 'flex';
+    flexDirection   = 'column';
+    justifyContent  = 'center';
+    alignItems      = 'center';
+  }
+
+  if (inputKind === 'login-footer') {
+    position        = 'absolute';
+    left            = '0px';
+    right           = '0px';
+    top             = '0px';
+    bottom          = '0px';
+    display         = 'flex';
+    flexDirection   = 'column';
+    margin          = 'auto auto 0px auto';
+    display         = 'flex';
+    flexDirection   = 'column';
+    justifyContent  = 'center';
+    alignItems      = 'center';
   }
 
   if (inputKind === 'task') {

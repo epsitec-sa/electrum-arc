@@ -47,6 +47,10 @@ export default function styles (theme, props) {
     borderStyle     = 'none';
   }
 
+  if (inputKind === 'login-footer') {
+    borderColor = theme.palette.loginSecondary;
+  }
+
   const boxStyle = {
     width:             width,
     height:            height,
