@@ -94,7 +94,7 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.mainTabBackground;
   }
 
-  if (inputKind === 'main-tab-identity') {
+  if (inputKind === 'main-tab-login') {
     display         = 'flex';
     flexDirection   = 'row';
     flexGrow        = 1;

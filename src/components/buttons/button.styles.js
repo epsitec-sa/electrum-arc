@@ -134,7 +134,7 @@ export default function styles (theme, props) {
     textColor = theme.palette.mainTabText;
   }
 
-  if (inputKind === 'main-tab-identity') {
+  if (inputKind === 'main-tab-login') {
     boxHeight            = theme.shapes.mainTabHeight;
     borderStyle          = 'none';
     textColor            = theme.palette.mainTabText;
