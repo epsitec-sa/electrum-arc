@@ -8,6 +8,7 @@ import {ColorHelpers} from 'electrum-theme';
 export default function styles (theme, props) {
   const inputWidth            = props.width;
   const inputHeight           = props.height;
+  const inputLoginHeight      = props.loginHeight;
   const inputKind             = props.kind;
   const inputSubkind          = props.subkind;
   const inputMarkColor        = props.markColor;
@@ -94,12 +95,12 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'login-header') {
-    if (!inputHeight) {
-      throw new Error ('Container with kind=login-header must have un height');
+    if (!inputLoginHeight) {
+      throw new Error ('Container with kind=login-header must have a login-height');
     }
-    // The property height must correspond to the login Container height !
+    // The property login-height must correspond to the login Container height !
     // The calculate height of login-header Container fill the space on top of login Container.
-    const h = Unit.add (Unit.multiply (inputHeight, 0.5), theme.shapes.loginPadding);
+    const h = Unit.add (Unit.multiply (inputLoginHeight, 0.5), theme.shapes.loginPadding);
     height          = 'calc(50vh - ' + h + ')';
     position        = 'absolute';
     left            = '0px';
