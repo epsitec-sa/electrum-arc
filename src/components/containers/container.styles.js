@@ -91,6 +91,7 @@ export default function styles (theme, props) {
     flexDirection   = 'column';
     justifyContent  = 'center';
     backgroundColor = theme.palette.paneBackground;
+    boxShadow       = theme.shapes.loginShadow;
   }
 
   if (inputKind === 'task') {
