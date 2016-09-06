@@ -97,7 +97,12 @@ export default function styles (theme, props) {
     boxDirection    = 'column';
     boxMargin       = '0px';
     borderStyle     = 'none';
-    backgroundColor = theme.palette.taskLogoBackground;
+    if (inputActive === 'true') {
+      backgroundColor = theme.palette.taskTabActiveBackground;
+      textColor       = theme.palette.taskTabActiveText;
+    } else {
+      backgroundColor = theme.palette.taskLogoBackground;
+    }
     textMargin      = '0px';
     textTransform   = inputTextTransform ? inputTextTransform : 'uppercase';
     textWeight      = 'bold';
@@ -138,7 +143,11 @@ export default function styles (theme, props) {
     boxHeight            = theme.shapes.mainTabHeight;
     borderStyle          = 'none';
     textColor            = theme.palette.mainTabText;
-    backgroundColor      = null;
+    if (inputActive === 'true') {
+      backgroundColor = theme.palette.mainTabButtonActiveBackground;
+    } else {
+      backgroundColor = null;
+    }
     backgroundHoverColor = theme.palette.mainTabButtonActiveBackground;
   }
 
