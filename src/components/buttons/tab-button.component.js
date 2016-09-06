@@ -61,6 +61,20 @@ export default class TabButton extends React.Component {
       glyph = inputGlyph;
     }
 
+    let htmlGlyph = null;
+    if (glyph !== 'none') {
+      htmlGlyph = (
+        <Button
+          kind    = {buttonKind}
+          glyph   = {glyph}
+          tooltip = {inputGlyphTooltip}
+          spacing = 'tiny'
+          active  = {inputActive}
+          {...this.link ()}
+        />
+      );
+    }
+
     return (
       <span
         disabled = {disabled}
@@ -74,14 +88,7 @@ export default class TabButton extends React.Component {
           active  = {inputActive}
           {...this.link ()}
         />
-        <Button
-          kind    = {buttonKind}
-          glyph   = {glyph}
-          tooltip = {inputGlyphTooltip}
-          spacing = 'tiny'
-          active  = {inputActive}
-          {...this.link ()}
-        />
+        {htmlGlyph}
       </span>
     );
   }
