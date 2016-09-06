@@ -24,6 +24,7 @@ export default function styles (theme, props) {
   const inputShape         = props.shape;
   const inputMenuDirection = props.menuDirection;
   const inputTextTransform = props.textTransform;
+  const inputZIndex        = props.zIndex;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -35,6 +36,7 @@ export default function styles (theme, props) {
   let boxJustifyContent    = 'center';
   let boxMargin            = '0px';
   let boxPadding           = '0px';
+  let boxZIndex            = inputZIndex;
   let borderColor          = theme.palette.buttonBorder;
   let borderStyle          = 'solid';
   let borderRadius         = '0px';
@@ -453,6 +455,7 @@ export default function styles (theme, props) {
     backgroundColor: backgroundColor,
     position:        boxPosition,
     transition:      theme.transitions.easeOut (),
+    zIndex:          boxZIndex,
   };
 
   if (!disabled && actif) {

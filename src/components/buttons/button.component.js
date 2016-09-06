@@ -31,6 +31,7 @@ export default class Button extends React.Component {
       shape:         this.read ('shape'),
       menuDirection: this.read ('menu-direction'),
       textTransform: this.read ('text-transform'),
+      zIndex:        this.read ('z-index'),
     };
   }
 
