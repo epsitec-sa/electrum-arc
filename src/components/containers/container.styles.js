@@ -94,6 +94,13 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'login-header') {
+    if (!inputHeight) {
+      throw new Error ('Container with kind=login-header must have un height');
+    }
+    // The property height must correspond to the login Container height !
+    // The calculate height of login-header Container fill the space on top of login Container.
+    const h = Unit.add (Unit.multiply (inputHeight, 0.5), theme.shapes.loginPadding);
+    height          = 'calc(50vh - ' + h + ')';
     position        = 'absolute';
     left            = '0px';
     right           = '0px';
@@ -101,7 +108,7 @@ export default function styles (theme, props) {
     bottom          = '0px';
     display         = 'flex';
     flexDirection   = 'column';
-    margin          = '20px auto auto auto';
+    margin          = '0px auto auto auto';
     display         = 'flex';
     flexDirection   = 'column';
     justifyContent  = 'center';
