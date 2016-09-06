@@ -82,7 +82,7 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'big-center') {
-    fontSize          = Unit.multiply (theme.shapes.labelTitleTextSize, 1.3);
+    fontSize          = theme.shapes.labelBigTextSize;
     fontWeight        = 'bold';
     textTransform     = 'uppercase';
     textAlign         = 'center';
