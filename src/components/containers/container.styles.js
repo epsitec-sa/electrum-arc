@@ -54,6 +54,10 @@ export default function styles (theme, props) {
   let fontWeight        = null;
   let zIndex            = null;
   let position          = null;
+  let left              = null;
+  let right             = null;
+  let top               = null;
+  let bottom            = null;
 
   const h = theme.shapes.lineHeight;
   const m = theme.shapes.containerMargin;
@@ -68,6 +72,25 @@ export default function styles (theme, props) {
     flexDirection   = 'row';
     height          = '100vh';
     backgroundColor = theme.palette.rootBackground;
+  }
+
+  if (inputKind === 'login') {
+    position        = 'absolute';
+    left            = '0px';
+    right           = '0px';
+    top             = '0px';
+    bottom          = '0px';
+    display         = 'flex';
+    flexDirection   = 'column';
+    width           = '300px';
+    height          = '300px';
+    margin          = 'auto';
+    padding         = Unit.multiply (m, 2);
+    borderRadius    = Unit.multiply (m, 0.5);
+    display         = 'flex';
+    flexDirection   = 'column';
+    justifyContent  = 'center';
+    backgroundColor = theme.palette.paneBackground;
   }
 
   if (inputKind === 'task') {
@@ -393,6 +416,10 @@ export default function styles (theme, props) {
     fontWeight:        fontWeight,
     zIndex:            zIndex,
     position:          position,
+    left:              left,
+    right:             right,
+    top:               top,
+    bottom:            bottom,
   };
 
   // A Container with kind='flying-balloon' has a standard behavior. It behaves like

@@ -278,6 +278,9 @@ export default function styles (theme, props) {
       borderRadius = r + ' 0px 0px ' + r;
     } else if (inputPlace === 'right') {
       borderRadius = '0px ' + r + ' ' + r + ' 0px';
+    } else if (inputPlace === 'single') {
+      borderRadius      = r;
+      boxJustifyContent = 'center';
     } else {
       boxMargin = '0px 1px 0px 0px';
     }

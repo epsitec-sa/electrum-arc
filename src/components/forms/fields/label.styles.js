@@ -81,6 +81,14 @@ export default function styles (theme, props) {
     textAlign       = 'center';
   }
 
+  if (inputKind === 'big-center') {
+    fontSize          = Unit.multiply (theme.shapes.labelTitleTextSize, 1.3);
+    fontWeight        = 'bold';
+    textTransform     = 'uppercase';
+    textAlign         = 'center';
+    boxJustifyContent = 'center';
+  }
+
   if (inputKind === 'info') {
     backgroundColor = theme.palette.infoBackground;
     boxJustifyContent = 'center';
