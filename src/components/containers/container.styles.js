@@ -85,8 +85,8 @@ export default function styles (theme, props) {
     width           = '300px';
     height          = '300px';
     margin          = 'auto';
-    padding         = Unit.multiply (m, 2);
-    borderRadius    = Unit.multiply (m, 0.5);
+    padding         = theme.shapes.loginPadding;
+    borderRadius    = theme.shapes.loginRadius;
     display         = 'flex';
     flexDirection   = 'column';
     justifyContent  = 'center';
