@@ -14,6 +14,7 @@ export default class Separator extends React.Component {
   get styleProps () {
     return {
       kind:   this.read ('kind'),
+      width:  this.read ('width'),
       height: this.read ('height'),
     };
   }

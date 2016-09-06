@@ -6,8 +6,10 @@ import {Unit} from 'electrum-theme';
 
 export default function styles (theme, props) {
   const inputKind   = props.kind;
+  const inputWidth  = props.width;
   const inputHeight = props.height;
 
+  let width             = null;
   let height            = '1px';
   let borderWidth       = '1px 0px 0px 0px';
   let borderStyle       = 'solid';
@@ -18,9 +20,12 @@ export default function styles (theme, props) {
 
   const s = theme.shapes.lineSpacing;
 
+  if (inputWidth) {
+    width = inputWidth;
+  }
+
   let topMargin    = '0px';
   let bottomMargin = s;
-
   if (inputHeight) {
     const h = Unit.multiply (inputHeight, 0.5);
     topMargin    = Unit.add (topMargin,    h);
@@ -43,6 +48,7 @@ export default function styles (theme, props) {
   }
 
   const boxStyle = {
+    width:             width,
     height:            height,
     borderWidth:       borderWidth,
     borderStyle:       borderStyle,
