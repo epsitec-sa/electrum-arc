@@ -393,7 +393,11 @@ export default function styles (theme, props) {
     boxAlignItems   = 'stretch';
     borderStyle     = 'none';
     boxMargin       = '0px ' + m + ' ' + m + ' ' + ' 0px';
-    backgroundColor = theme.palette.boxBackground;
+    if (inputActive === 'true') {
+      backgroundColor = theme.palette.boxActiveBackground;
+    } else {
+      backgroundColor = theme.palette.boxBackground;
+    }
   }
 
   if (!inputKind) {
