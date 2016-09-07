@@ -17,6 +17,7 @@ export default function styles (theme, props) {
   const inputSpacing       = props.spacing;
   const inputGrow          = props.grow;
   const inputWidth         = props.width;
+  const inputHeight        = props.height;
   const inputKind          = props.kind;
   const inputNature        = props.nature;
   const inputPlace         = props.place;
@@ -30,10 +31,11 @@ export default function styles (theme, props) {
 
   // Initialize all variables for a standard button.
   let boxWidth             = inputWidth;
-  let boxHeight            = theme.shapes.lineHeight;
+  let boxHeight            = inputHeight ? inputHeight : theme.shapes.lineHeight;
   let boxGrow              = inputGrow;
   let boxDirection         = 'row';
   let boxJustifyContent    = 'center';
+  let boxAlignItems        = 'center';
   let boxMargin            = '0px';
   let boxPadding           = '0px';
   let boxZIndex            = inputZIndex;
@@ -381,9 +383,16 @@ export default function styles (theme, props) {
   }
 
   if (inputKind  === 'container') {
-    boxHeight       = null;
+    boxAlignItems   = 'stretch';
     borderStyle     = 'none';
     boxPadding      = Unit.multiply (theme.shapes.lineSpacing, 0.5) + ' 0px';
+    backgroundColor = null;
+  }
+
+  if (inputKind  === 'box') {
+    boxAlignItems   = 'stretch';
+    borderStyle     = 'none';
+    boxMargin       = '0px ' + m + ' ' + m + ' ' + ' 0px';
     backgroundColor = null;
   }
 
@@ -445,7 +454,7 @@ export default function styles (theme, props) {
     flexDirection:   boxDirection,
     flexGrow:        boxGrow,
     justifyContent:  boxJustifyContent,
-    alignItems:      'center',
+    alignItems:      boxAlignItems,
     borderWidth:     '1px',
     borderColor:     borderColor,
     borderStyle:     borderStyle,

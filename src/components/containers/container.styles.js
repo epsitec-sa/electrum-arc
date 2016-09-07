@@ -25,6 +25,7 @@ export default function styles (theme, props) {
   let overflowX         = null;
   let overflowY         = null;
   let flexDirection     = null;
+  let flexWrap          = null;
   let flexGrow          = null;
   let flexShrink        = null;
   let flexBasis         = null;
@@ -426,6 +427,25 @@ export default function styles (theme, props) {
     flexGrow        = inputGrow;
   }
 
+  if (inputKind === 'boxes') {
+    display         = 'flex';
+    flexDirection   = 'row';
+    flexWrap        = 'wrap';
+    justifyContent  = 'flex-start';
+    alignItems      = 'center';
+  }
+
+  if (inputKind === 'box') {
+    width           = '100%';
+    display         = 'flex';
+    flexDirection   = 'column';
+    flexGrow        = inputGrow;
+    borderWidth     = '1px';
+    borderStyle     = 'solid';
+    borderRadius    = '2px';
+    padding         = '10px';
+  }
+
   if (inputKind === 'row') {
     display         = 'flex';
     flexDirection   = 'row';
@@ -452,6 +472,7 @@ export default function styles (theme, props) {
     overflowX:         overflowX,
     overflowY:         overflowY,
     flexDirection:     flexDirection,
+    flexWrap:          flexWrap,
     flexGrow:          flexGrow,
     flexShrink:        flexShrink,
     flexBasis:         flexBasis,

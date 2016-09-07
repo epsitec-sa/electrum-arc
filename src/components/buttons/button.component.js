@@ -23,6 +23,7 @@ export default class Button extends React.Component {
       spacing:       this.read ('spacing'),
       grow:          this.read ('grow'),
       width:         this.read ('width'),
+      height:        this.read ('height'),
       kind:          this.read ('kind'),
       nature:        this.read ('nature'),
       place:         this.read ('place'),
@@ -147,7 +148,7 @@ export default class Button extends React.Component {
       }
     };
 
-    if (inputKind === 'container') {
+    if (inputKind === 'container' || inputKind === 'box') {
       return (
         <div
           disabled = {disabled}
