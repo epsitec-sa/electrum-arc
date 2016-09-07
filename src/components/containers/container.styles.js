@@ -445,6 +445,7 @@ export default function styles (theme, props) {
     borderStyle     = 'solid';
     borderRadius    = '2px';
     padding         = '10px';
+    backgroundColor = theme.palette.boxBackground;
   }
 
   if (inputKind === 'row') {
