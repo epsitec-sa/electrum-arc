@@ -443,8 +443,8 @@ export default function styles (theme, props) {
     justifyContent  = 'center';
     borderWidth     = '1px';
     borderStyle     = 'solid';
-    borderRadius    = '2px';
-    padding         = '10px';
+    borderRadius    = theme.shapes.boxRadius;
+    padding         = s;
     backgroundColor = theme.palette.boxBackground;
   }
 
