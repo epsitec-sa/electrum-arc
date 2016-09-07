@@ -442,7 +442,7 @@ export default function styles (theme, props) {
     flexGrow        = inputGrow;
     justifyContent  = 'center';
     borderWidth     = '1px';
-    borderStyle     = 'solid';
+    borderStyle     = inputSubkind ? inputSubkind : 'solid';
     borderRadius    = theme.shapes.boxRadius;
     padding         = s;
   }
