@@ -246,7 +246,6 @@ export default function styles (theme, props) {
     display         = 'flex';
     flexDirection   = 'column';
     margin          = '0px';
-    backgroundColor = theme.palette.viewBackground;
   }
 
   if (inputKind === 'pane-header') {
@@ -307,7 +306,7 @@ export default function styles (theme, props) {
     borderTopWidth  = '1px';
     borderTopStyle  = 'solid';
     borderTopColor  = theme.palette.actionBorder;
-    boxShadow       = theme.shapes.actionShadow;
+    boxShadow       = (inputSubkind === 'no-shadow') ? null : theme.shapes.actionShadow;
     zIndex          = 2;
   }
 
