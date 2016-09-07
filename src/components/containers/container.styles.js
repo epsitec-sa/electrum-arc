@@ -239,6 +239,15 @@ export default function styles (theme, props) {
     flexGrow        = 1;
   }
 
+  if (inputKind === 'full-view') {
+    width           = '10000px';
+    position        = 'relative';
+    display         = 'flex';
+    flexDirection   = 'column';
+    margin          = '0px';
+    backgroundColor = theme.palette.viewBackground;
+  }
+
   if (inputKind === 'pane-header') {
     minHeight       = height;
     flexDirection   = 'row';
