@@ -47,8 +47,8 @@ export default function styles (theme, props) {
     borderStyle     = 'none';
   }
 
-  if (inputKind === 'login-footer') {
-    borderColor = theme.palette.loginSecondary;
+  if (inputKind === 'floating-footer') {
+    borderColor = theme.palette.floatingSecondary;
   }
 
   const boxStyle = {

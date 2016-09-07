@@ -90,18 +90,18 @@ export default function styles (theme, props) {
     boxJustifyContent = 'center';
   }
 
-  if (inputKind === 'login-header') {
+  if (inputKind === 'floating-header') {
     glyphMinWidth = null;
-    glyphSize     = theme.shapes.loginHeaderGlyphSize;
-    glyphColor    = theme.palette.loginSecondary;
-    textColor     = theme.palette.loginSecondary;
+    glyphSize     = theme.shapes.floatingHeaderGlyphSize;
+    glyphColor    = theme.palette.floatingSecondary;
+    textColor     = theme.palette.floatingSecondary;
   }
 
-  if (inputKind === 'login-footer') {
+  if (inputKind === 'floating-footer') {
     glyphMinWidth = null;
-    fontSize      = theme.shapes.loginFooterTextSize;
-    glyphColor    = theme.palette.loginSecondary;
-    textColor     = theme.palette.loginSecondary;
+    fontSize      = theme.shapes.floatingFooterTextSize;
+    glyphColor    = theme.palette.floatingSecondary;
+    textColor     = theme.palette.floatingSecondary;
   }
 
   if (inputKind === 'info') {

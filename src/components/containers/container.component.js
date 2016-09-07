@@ -15,7 +15,7 @@ export default class Container extends React.Component {
     return {
       width:            this.read ('width'),
       height:           this.read ('height'),
-      loginHeight:      this.read ('login-height'),
+      floatingHeight:   this.read ('floating-height'),
       kind:             this.read ('kind'),
       subkind:          this.read ('subkind'),
       markColor:        this.read ('mark-color'),

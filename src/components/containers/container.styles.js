@@ -8,7 +8,7 @@ import {ColorHelpers} from 'electrum-theme';
 export default function styles (theme, props) {
   const inputWidth            = props.width;
   const inputHeight           = props.height;
-  const inputLoginHeight      = props.loginHeight;
+  const inputFloatingHeight   = props.floatingHeight;
   const inputKind             = props.kind;
   const inputSubkind          = props.subkind;
   const inputMarkColor        = props.markColor;
@@ -75,7 +75,7 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.rootBackground;
   }
 
-  if (inputKind === 'login') {
+  if (inputKind === 'floating') {
     position        = 'absolute';
     left            = '0px';
     right           = '0px';
@@ -84,23 +84,23 @@ export default function styles (theme, props) {
     display         = 'flex';
     flexDirection   = 'column';
     margin          = 'auto';
-    padding         = theme.shapes.loginPadding;
-    borderRadius    = theme.shapes.loginRadius;
+    padding         = theme.shapes.floatingPadding;
+    borderRadius    = theme.shapes.floatingRadius;
     display         = 'flex';
     flexDirection   = 'column';
     justifyContent  = 'center';
-    backgroundColor = theme.palette.loginBackground;
-    boxShadow       = theme.shapes.loginShadow;
+    backgroundColor = theme.palette.floatingBackground;
+    boxShadow       = theme.shapes.floatingShadow;
     zIndex          = '1';
   }
 
-  if (inputKind === 'login-header') {
-    if (!inputLoginHeight) {
-      throw new Error ('Container with kind=login-header must have a login-height');
+  if (inputKind === 'floating-header') {
+    if (!inputFloatingHeight) {
+      throw new Error ('Container with kind=floating-header must have a floating-height');
     }
-    // The property login-height must correspond to the login Container height !
-    // The calculate height of login-header Container fill the space on top of login Container.
-    const h = Unit.add (Unit.multiply (inputLoginHeight, 0.5), theme.shapes.loginPadding);
+    // The property floating-height must correspond to the floating Container height !
+    // The calculate height of floating-header Container fill the space on top of floating Container.
+    const h = Unit.add (Unit.multiply (inputFloatingHeight, 0.5), theme.shapes.floatingPadding);
     height          = 'calc(50vh - ' + h + ')';
     position        = 'absolute';
     left            = '0px';
@@ -116,7 +116,7 @@ export default function styles (theme, props) {
     alignItems      = 'center';
   }
 
-  if (inputKind === 'login-footer') {
+  if (inputKind === 'floating-footer') {
     position        = 'absolute';
     left            = '0px';
     right           = '0px';
@@ -140,13 +140,13 @@ export default function styles (theme, props) {
     display         = 'flex';
     flexDirection   = 'column';
     margin          = 'auto';
-    padding         = theme.shapes.loginPadding;
-    borderRadius    = theme.shapes.loginRadius;
+    padding         = theme.shapes.floatingPadding;
+    borderRadius    = theme.shapes.floatingRadius;
     display         = 'flex';
     flexDirection   = 'column';
     justifyContent  = 'center';
-    backgroundColor = theme.palette.loginBackground;
-    boxShadow       = theme.shapes.loginShadow;
+    backgroundColor = theme.palette.floatingBackground;
+    boxShadow       = theme.shapes.floatingShadow;
     zIndex          = '1';
   }
 
