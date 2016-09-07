@@ -393,7 +393,7 @@ export default function styles (theme, props) {
     boxAlignItems   = 'stretch';
     borderStyle     = 'none';
     boxMargin       = '0px ' + m + ' ' + m + ' ' + ' 0px';
-    backgroundColor = null;
+    backgroundColor = theme.palette.boxBackground;
   }
 
   if (!inputKind) {
