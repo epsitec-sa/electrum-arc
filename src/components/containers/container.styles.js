@@ -298,7 +298,7 @@ export default function styles (theme, props) {
     minHeight       = theme.shapes.actionHeight;
     display         = 'flex';
     flexDirection   = 'row';
-    justifyContent  = 'space-between';
+    justifyContent  = 'flex-start';
     alignItems      = 'center';
     padding         = m;
     borderStyle     = 'none';
