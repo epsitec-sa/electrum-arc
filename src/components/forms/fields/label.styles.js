@@ -143,6 +143,12 @@ export default function styles (theme, props) {
     glyphSize       = theme.shapes.taskTabGlyphSize;
   }
 
+  if (inputKind === 'center-to-box') {
+    glyphMinWidth     = null;
+    boxJustifyContent = 'center';
+    margin            = m + ' 0px';
+  }
+
   if (inputVpos === 'top') {
     boxAlignSelf = 'flex-start';
   }

@@ -440,6 +440,7 @@ export default function styles (theme, props) {
     display         = 'flex';
     flexDirection   = 'column';
     flexGrow        = inputGrow;
+    justifyContent  = 'center';
     borderWidth     = '1px';
     borderStyle     = 'solid';
     borderRadius    = '2px';
