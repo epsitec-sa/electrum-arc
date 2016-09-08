@@ -28,6 +28,7 @@ export default class LabelTextField extends React.Component {
   render () {
     const {state, id} = this.props;
     const disabled = Action.isDisabled (state);
+    const inputType       = this.read ('type');
     const inputShape      = this.read ('shape');
     const inputLabelGlyph = this.read ('label-glyph');
     const inputLabelText  = this.read ('label-text');
@@ -68,6 +69,7 @@ export default class LabelTextField extends React.Component {
         />
         <TextField
           id          = {id}
+          type        = {inputType}
           width       = {inputFieldWidth}
           value       = {inputValue}
           hint-text   = {inputHintText}
