@@ -81,6 +81,7 @@ export default class TabButton extends React.Component {
         style    = {boxStyle}
         >
         <Button
+          onClick = {this.onClick}
           kind    = {buttonKind}
           grow    = {textGrow}
           text    = {inputText}
