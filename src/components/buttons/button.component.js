@@ -151,6 +151,7 @@ export default class Button extends React.Component {
     if (inputKind === 'container' || inputKind === 'box') {
       return (
         <div
+          onClick  = {this.onClick}  // voir (*)
           disabled = {disabled}
           style    = {boxStyle}
           title    = {inputTooltip}
