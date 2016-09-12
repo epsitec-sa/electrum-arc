@@ -366,10 +366,10 @@ export default function styles (theme, props) {
     if (inputNature === 'weekend' && inputActive !== 'hidden') {
       backgroundColor = theme.palette.calendarButtonWeekendBackground;
     } else {
-      const mm = Unit.multiply (Unit.sub (theme.shapes.calendarButtonWidth, theme.shapes.calendarButtonHeight), 0.5);
-      boxMargin       = '0px ' + mm;
+      // const mm = Unit.multiply (Unit.sub (theme.shapes.calendarButtonWidth, theme.shapes.calendarButtonHeight), 0.5);
+      // boxMargin       = '0px ' + mm;
       borderRadius    = Unit.multiply (theme.shapes.calendarButtonHeight, 0.5);
-      boxWidth        = theme.shapes.calendarButtonHeight;
+      // boxWidth        = theme.shapes.calendarButtonHeight;
     }
   }
   // Button for month navigation in Calendar component.
