@@ -383,6 +383,7 @@ export default function styles (theme, props) {
   }
 
   if (inputKind  === 'container') {
+    boxHeight       = null;
     boxAlignItems   = 'stretch';
     borderStyle     = 'none';
     boxPadding      = Unit.multiply (theme.shapes.lineSpacing, 0.5) + ' 0px';
