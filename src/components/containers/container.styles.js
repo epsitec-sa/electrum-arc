@@ -205,6 +205,15 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.footerBackground;
   }
 
+  if (inputKind === 'footer-content') {
+    minHeight       = theme.shapes.footerHeight;
+    display         = 'flex';
+    flexDirection   = 'row';
+    flexGrow        = 1;
+    justifyContent  = 'flex-start';
+    alignItems      = 'center';
+  }
+
   if (inputKind === 'views') {
     display         = 'flex';
     flexDirection   = 'row';
