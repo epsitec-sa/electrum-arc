@@ -14,11 +14,10 @@ export default class Calendar extends React.Component {
 
   get styleProps () {
     return {
-      width:      this.read ('width'),
-      height:     this.read ('height'),
-      kind:       this.read ('kind'),
-      heightType: this.read ('height-type'),
-      spacing:    this.read ('spacing'),
+      width:   this.read ('width'),
+      height:  this.read ('height'),
+      kind:    this.read ('kind'),
+      spacing: this.read ('spacing'),
     };
   }
 

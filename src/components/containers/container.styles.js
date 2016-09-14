@@ -246,10 +246,6 @@ export default function styles (theme, props) {
     flexDirection   = 'column';
     margin          = '0px';
     backgroundColor = theme.palette.viewBackground;
-    // TODO: vérifier que ce n'est plus utilisé !
-    // if (inputHeightType === 'short') {
-    //   alignSelf     = 'flex-start';
-    // }
   }
 
   if (inputKind === 'view-wedge') {
@@ -329,10 +325,6 @@ export default function styles (theme, props) {
   if (inputKind === 'panes') {
     overflowY       = 'auto';
     padding         = '0px ' + m + ' 0px ' + m;
-    // TODO: vérifier que ce n'est plus utilisé !
-    // if (inputHeightType !== 'short') {
-    //   flexGrow        = '1';
-    // }
     if (inputSubkind === 'top-margin') {
       margin        = m + ' 0px 0px 0px';
     }
