@@ -12,7 +12,6 @@ export default function styles (theme, props) {
   const inputKind             = props.kind;
   const inputSubkind          = props.subkind;
   const inputMarkColor        = props.markColor;
-  const inputHeightType       = props.heightType;
   const inputSpacing          = props.spacing;
   const inputTrianglePosition = props.trianglePosition;
   const inputGrow             = props.grow;
@@ -228,9 +227,16 @@ export default function styles (theme, props) {
     flexDirection   = 'column';
     margin          = '0px ' + theme.shapes.viewSpacing + ' 0px 0px';
     backgroundColor = theme.palette.viewBackground;
-    if (inputHeightType === 'short') {
-      alignSelf     = 'flex-start';
-    }
+  }
+
+  if (inputKind === 'view-short') {
+    minWidth        = width;
+    position        = 'relative';
+    display         = 'flex';
+    flexDirection   = 'column';
+    margin          = '0px ' + theme.shapes.viewSpacing + ' 0px 0px';
+    backgroundColor = theme.palette.viewBackground;
+    alignSelf       = 'flex-start';
   }
 
   if (inputKind === 'view-right') {
@@ -240,9 +246,10 @@ export default function styles (theme, props) {
     flexDirection   = 'column';
     margin          = '0px';
     backgroundColor = theme.palette.viewBackground;
-    if (inputHeightType === 'short') {
-      alignSelf     = 'flex-start';
-    }
+    // TODO: vérifier que ce n'est plus utilisé !
+    // if (inputHeightType === 'short') {
+    //   alignSelf     = 'flex-start';
+    // }
   }
 
   if (inputKind === 'view-wedge') {
@@ -322,9 +329,10 @@ export default function styles (theme, props) {
   if (inputKind === 'panes') {
     overflowY       = 'auto';
     padding         = '0px ' + m + ' 0px ' + m;
-    if (inputHeightType !== 'short') {
-      flexGrow        = '1';
-    }
+    // TODO: vérifier que ce n'est plus utilisé !
+    // if (inputHeightType !== 'short') {
+    //   flexGrow        = '1';
+    // }
     if (inputSubkind === 'top-margin') {
       margin        = m + ' 0px 0px 0px';
     }

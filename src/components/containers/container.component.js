@@ -19,7 +19,6 @@ export default class Container extends React.Component {
       kind:             this.read ('kind'),
       subkind:          this.read ('subkind'),
       markColor:        this.read ('mark-color'),
-      heightType:       this.read ('height-type'),
       spacing:          this.read ('spacing'),
       trianglePosition: this.read ('triangle-position'),
       grow:             this.read ('grow'),
