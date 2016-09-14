@@ -15,6 +15,7 @@ export default function styles (theme, props) {
   const inputSpacing          = props.spacing;
   const inputTrianglePosition = props.trianglePosition;
   const inputGrow             = props.grow;
+  const inputSelected         = props.selected;
 
   let width             = inputWidth;
   let height            = inputHeight;
@@ -52,6 +53,7 @@ export default function styles (theme, props) {
   let margin            = '0px';
   let padding           = '0px';
   let backgroundColor   = null;
+  let color             = null;
   let fontWeight        = null;
   let zIndex            = null;
   let position          = null;
@@ -73,6 +75,7 @@ export default function styles (theme, props) {
     flexDirection   = 'row';
     height          = '100vh';
     backgroundColor = theme.palette.rootBackground;
+    color           = theme.palette.text;
   }
 
   if (inputKind === 'floating') {
@@ -407,6 +410,11 @@ export default function styles (theme, props) {
       height           = theme.shapes.lineHeight;
       bottomMargin     = Unit.multiply (halfMargin, -1);
     }
+    if (inputSelected === 'true') {
+      // MOCK: see with Gilles for final code !
+      backgroundColor = theme.palette.paneSelectedBackground;
+      color           = theme.palette.paneSelectedText;
+    }
     margin = topMargin + ' ' + rightMargin + ' ' + bottomMargin + ' ' + leftMargin;
   }
 
@@ -509,6 +517,7 @@ export default function styles (theme, props) {
     margin:            margin,
     padding:           padding,
     backgroundColor:   backgroundColor,
+    color:             color,
     fontWeight:        fontWeight,
     zIndex:            zIndex,
     position:          position,
