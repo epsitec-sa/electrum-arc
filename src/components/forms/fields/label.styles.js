@@ -30,9 +30,9 @@ export default function styles (theme, props) {
   let boxAlignSelf       = null;
   let textTransform      = null;
   let glyphSize          = inputGlyphSize;
-  let glyphColor         = null;  // theme.palette.text;
+  let glyphColor         = null;
   let glyphMinWidth      = theme.shapes.lineHeight;
-  let textColor          = null;  // theme.palette.text;
+  let textColor          = null;
   let linesOverflow      = null;
   let textDisplay        = 'flex';
   let textAlign          = null;
