@@ -35,14 +35,14 @@ describe ('Style resolution', () => {
   describe ('<Foo>', () => {
     it ('applies base style to <div> element', () => {
       const html = ReactDOMServer.renderToStaticMarkup (<Foo state={state} theme={theme}/>);
-      expect (html).to.equal ('<div style="font-family:Verdana;"></div>');
+      expect (html).to.equal ('<div style="font-family:Verdana;" data-radium="true"></div>');
     });
   });
 
   describe ('<Foo kind="nice">', () => {
     it ('applies base style and nice style to <div> element', () => {
       const html = ReactDOMServer.renderToStaticMarkup (<Foo state={state} theme={theme} kind='nice'/>);
-      expect (html).to.equal ('<div style="font-family:Verdana;color:purple;"></div>');
+      expect (html).to.equal ('<div style="font-family:Verdana;color:purple;" data-radium="true"></div>');
     });
   });
 
