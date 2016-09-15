@@ -110,9 +110,9 @@ export default class Label extends React.Component {
         onClick={this.onClick}
         disabled={disabled}
         style={boxStyle}
-        {...this.props}
       >
         {layout ().map ((comp) => comp)}
+        {this.props.children}
       </div>
     );
   }

@@ -155,8 +155,9 @@ export default class Button extends React.Component {
           disabled = {disabled}
           style    = {boxStyle}
           title    = {inputTooltip}
-          {...this.props}
-        />
+        >
+          {this.props.children}
+        </div>
       );
     } else if (inputMenu) {
       return (
@@ -165,12 +166,12 @@ export default class Button extends React.Component {
           disabled = {disabled}
           style    = {boxStyle}
           title    = {inputTooltip}
-          {...this.props}
         >
           {layout ().map ((comp) => comp)}
           {htmlTriangle}
           {htmlBadge}
           {htmlMenu}
+          {this.props.children}
         </div>
       );
     } else {
@@ -180,12 +181,12 @@ export default class Button extends React.Component {
           disabled = {disabled}
           style    = {boxStyle}
           title    = {inputTooltip}
-          {...this.props}
         >
           {layout ().map ((comp) => comp)}
           {htmlTriangle}
           {htmlBadge}
           {htmlMenu}
+          {this.props.children}
         </div>
       );
     }

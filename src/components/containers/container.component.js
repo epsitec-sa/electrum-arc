@@ -34,23 +34,23 @@ export default class Container extends React.Component {
     const boxStyle      = this.mergeStyles ('box');
     const triangleStyle = this.mergeStyles ('triangle');
 
+
     if (inputKind === 'flying-balloon') {
       return (
         <div
           disabled={disabled}
           style={boxStyle}
           >
-          <div style={triangleStyle} />
-          <div {...this.props} />
+          <div style={triangleStyle}>
+            {this.props.children}
+          </div>
         </div>
       );
     } else {
       return (
-        <div
-          disabled={disabled}
-          style={boxStyle}
-          {...this.props}
-          />
+        <div disabled={disabled} style={boxStyle}>
+          {this.props.children}
+        </div>
       );
     }
   }
