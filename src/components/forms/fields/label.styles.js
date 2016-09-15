@@ -63,8 +63,6 @@ export default function styles (theme, props) {
 
   if (inputWidth) {
     boxWidth = inputWidth;
-  } else if (inputGrow && inputGrow.endsWith ('%')) {
-    boxWidth = inputGrow;
   }
 
   if (inputKind === 'pane-header') {
