@@ -57,6 +57,9 @@ export default function styles (theme, props) {
     margin = '0px 1px ' + bottomMargin + ' 0px';
   } else if (inputSpacing === 'large') {
     margin = '0px ' + m + ' ' + bottomMargin + ' 0px';
+  } else if (inputSpacing === 'compact') {
+    margin = '0px 5px ' + bottomMargin + ' 0px';
+    glyphMinWidth = null;
   } else {
     margin = '0px 0px ' + bottomMargin + ' 0px';
   }
