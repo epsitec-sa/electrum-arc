@@ -52,7 +52,9 @@ export default class Ticket extends React.Component {
         >
         {htmlShadow}
         {htmlShape}
-        <div style={contentStyle} {...this.props} />
+        <div style={contentStyle}>
+          {this.props.children}
+        </div>
       </div>
     );
   }

@@ -180,7 +180,6 @@ export default class Clock extends React.Component {
       <div
         disabled={disabled}
         style={boxStyle}
-        {...this.props}
       >
         {htmlClock}
       </div>

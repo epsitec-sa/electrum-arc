@@ -29,8 +29,9 @@ export default class Dialog extends React.Component {
       <div
         disabled={disabled}
         style={boxStyle}
-        {...this.props}
-        />
+      >
+        {this.props.children}
+      </div>
     );
   }
 }

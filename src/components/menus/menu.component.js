@@ -28,7 +28,6 @@ export default class Menu extends React.Component {
       <div
         disabled={disabled}
         style={boxStyle}
-        {...this.props}
       >
         {inputItems.map (item => item ())}
       </div>

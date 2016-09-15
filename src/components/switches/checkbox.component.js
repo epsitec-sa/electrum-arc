@@ -37,8 +37,9 @@ export default class Checkbox extends React.Component {
         disabled={disabled}
         type='checkbox'
         {...checkprop}
-        {...this.props}
-        />
+      >
+        {this.props.children}
+      </input>
       {label}
       </span>
     );

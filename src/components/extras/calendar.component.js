@@ -259,7 +259,6 @@ export default class Calendar extends React.Component {
       <div
         disabled={disabled}
         style={boxStyle}
-        {...this.props}
       >
         {htmlCalendar}
       </div>
