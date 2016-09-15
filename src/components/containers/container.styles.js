@@ -446,9 +446,55 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.ticketsBackground;
   }
 
+  if (inputKind === 'tickets-root') {
+    display         = 'flex';
+    flexDirection   = 'column';
+    flexGrow        = 1;
+    // overflowX       = 'auto';
+  }
+
+  if (inputKind === 'tickets-runners') {
+    display         = 'flex';
+    flexDirection   = 'row';
+    flexGrow        = 1;
+    overflowX       = 'auto';
+  }
+
+  if (inputKind === 'tickets-runner') {
+    const mm        = Unit.multiply (m, 0.5);
+    padding         = '0px ' + mm + ' 0px ' + mm;
+    display         = 'flex';
+    flexDirection   = 'column';
+    flexGrow        = 1;
+    margin          = '0px ' + theme.shapes.viewSpacing + ' 0px 0px';
+    backgroundColor = theme.palette.ticketsBackground;
+  }
+
+  if (inputKind === 'tickets-runs') {
+    display         = 'flex';
+    flexDirection   = 'column';
+    flexGrow        = 1;
+    overflowX       = 'hidden';
+    overflowY       = 'auto';
+  }
+
+  if (inputKind === 'tickets-basket') {
+    display         = 'flex';
+    flexDirection   = 'row';
+    margin          = Unit.multiply (theme.shapes.containerMargin, 0.5) + ' 0px 0px 0px';
+    padding         = Unit.multiply (theme.shapes.containerMargin, 2.0);
+    backgroundColor = theme.palette.ticketsBackground;
+  }
+
   if (inputKind === 'column') {
     display         = 'flex';
     flexDirection   = 'column';
+    flexGrow        = inputGrow;
+  }
+
+  if (inputKind === 'row') {
+    display         = 'flex';
+    flexDirection   = 'row';
     flexGrow        = inputGrow;
   }
 
@@ -470,12 +516,6 @@ export default function styles (theme, props) {
     borderStyle     = inputSubkind ? inputSubkind : 'solid';
     borderRadius    = theme.shapes.boxRadius;
     padding         = s;
-  }
-
-  if (inputKind === 'row') {
-    display         = 'flex';
-    flexDirection   = 'row';
-    flexGrow        = inputGrow;
   }
 
   if (inputKind === 'flying-balloon') {
