@@ -29,8 +29,6 @@
     "electrum-style-reload": "^1.2.0",
     "electrum-theme": "^4.4.0",
     "leaflet": "^0.7.7",
-    "material-ui": "^0.15.0",
-    "react-tap-event-plugin": "^1.0.0",
     "velocity-animate": "^1.2.3"
   },
   "devDependencies": {
