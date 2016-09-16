@@ -61,6 +61,7 @@ export default function styles (theme, props) {
   let right             = null;
   let top               = null;
   let bottom            = null;
+  let fontFamily        = null;
 
   const h = theme.shapes.lineHeight;
   const m = theme.shapes.containerMargin;
@@ -70,6 +71,7 @@ export default function styles (theme, props) {
   const p = theme.shapes.flyingBalloonPadding;
 
   if (inputKind === 'root') {
+    fontFamily      = theme.typo.font;
     position        = 'relative';
     display         = 'flex';
     flexDirection   = 'row';
@@ -530,6 +532,7 @@ export default function styles (theme, props) {
   }
 
   const boxStyle = {
+    fontFamily:        fontFamily,
     width:             width,
     height:            height,
     minWidth:          minWidth,
