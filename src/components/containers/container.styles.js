@@ -16,6 +16,11 @@ export default function styles (theme, props) {
   const inputTrianglePosition = props.trianglePosition;
   const inputGrow             = props.grow;
   const inputSelected         = props.selected;
+  const inputLeft             = props.left;
+  const inputRight            = props.right;
+  const inputTop              = props.top;
+  const inputBottom           = props.bottom;
+  const inputRotate           = props.rotate;
 
   let width             = inputWidth;
   let height            = inputHeight;
@@ -61,6 +66,7 @@ export default function styles (theme, props) {
   let right             = null;
   let top               = null;
   let bottom            = null;
+  let transform         = null;
   let fontFamily        = null;
 
   const h = theme.shapes.lineHeight;
@@ -482,6 +488,7 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'tickets-basket') {
+    position        = 'relative';
     display         = 'flex';
     flexDirection   = 'row';
     margin          = Unit.multiply (theme.shapes.containerMargin, 0.5) + ' 0px 0px 0px';
@@ -489,7 +496,12 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'tickets-glue') {
-    margin          = Unit.multiply (theme.shapes.containerMargin, 2.0);
+    position        = 'absolute';
+    left            = inputLeft;
+    right           = inputRight;
+    top             = inputTop;
+    bottom          = inputBottom;
+    transform       = 'rotate(' + inputRotate + ')';
   }
 
   if (inputKind === 'column') {
@@ -581,6 +593,7 @@ export default function styles (theme, props) {
     right:             right,
     top:               top,
     bottom:            bottom,
+    transform:         transform,
   };
 
   // A Container with kind='flying-balloon' has a standard behavior. It behaves like

@@ -23,6 +23,11 @@ export default class Container extends React.Component {
       trianglePosition: this.read ('triangle-position'),
       grow:             this.read ('grow'),
       selected:         this.read ('selected'),
+      left:             this.read ('left'),
+      right:            this.read ('right'),
+      top:              this.read ('top'),
+      bottom:           this.read ('bottom'),
+      rotate:           this.read ('rotate'),
     };
   }
 
