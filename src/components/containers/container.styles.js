@@ -485,8 +485,11 @@ export default function styles (theme, props) {
     display         = 'flex';
     flexDirection   = 'row';
     margin          = Unit.multiply (theme.shapes.containerMargin, 0.5) + ' 0px 0px 0px';
-    padding         = Unit.multiply (theme.shapes.containerMargin, 2.0);
     backgroundColor = theme.palette.ticketsBackground;
+  }
+
+  if (inputKind === 'tickets-glue') {
+    margin          = Unit.multiply (theme.shapes.containerMargin, 2.0);
   }
 
   if (inputKind === 'column') {
