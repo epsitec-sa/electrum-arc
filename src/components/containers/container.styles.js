@@ -117,8 +117,9 @@ export default function styles (theme, props) {
     margin          = '0px auto auto auto';
     display         = 'flex';
     flexDirection   = 'column';
-    justifyContent  = 'center';
+    justifyContent  = 'flex-end';
     alignItems      = 'center';
+    zIndex          = '2';
   }
 
   if (inputKind === 'floating-footer') {

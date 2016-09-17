@@ -29,9 +29,10 @@ export default function styles (theme, props) {
   let boxJustifyContent  = null;
   let boxAlignSelf       = null;
   let textTransform      = null;
+  let glyphHeight        = theme.shapes.lineHeight;
+  let glyphMinWidth      = theme.shapes.lineHeight;
   let glyphSize          = inputGlyphSize;
   let glyphColor         = null;
-  let glyphMinWidth      = theme.shapes.lineHeight;
   let textColor          = null;
   let linesOverflow      = null;
   let textDisplay        = 'flex';
@@ -93,9 +94,10 @@ export default function styles (theme, props) {
 
   if (inputKind === 'floating-header') {
     glyphMinWidth = null;
+    glyphHeight   = theme.shapes.floatingHeaderGlyphHeight;
     glyphSize     = theme.shapes.floatingHeaderGlyphSize;
-    glyphColor    = theme.palette.floatingSecondary;
-    textColor     = theme.palette.floatingSecondary;
+    glyphColor    = theme.palette.floatingBackground;
+    textColor     = theme.palette.floatingBackground;
   }
 
   if (inputKind === 'floating-footer') {
@@ -209,7 +211,7 @@ export default function styles (theme, props) {
     flexDirection:   'row',
     alignItems:      'center',
     minWidth:        glyphMinWidth,
-    height:          theme.shapes.lineHeight,
+    height:          glyphHeight,
     padding:         '0px',
     color:           glyphColor,
     transform:       glyphTransform,
