@@ -502,6 +502,8 @@ export default function styles (theme, props) {
     top             = inputTop;
     bottom          = inputBottom;
     transform       = 'rotate(' + inputRotate + ')';
+    backgroundColor = theme.palette.ticketGlueBackground;
+    boxShadow       = theme.shapes.ticketGlueShadow;
   }
 
   if (inputKind === 'column') {
