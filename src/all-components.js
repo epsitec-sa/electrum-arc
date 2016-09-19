@@ -38,6 +38,7 @@ import _Link from './components/links/link.component.js';
 import _Link$styles from './components/links/link.styles.js';
 import _Menu from './components/menus/menu.component.js';
 import _Menu$styles from './components/menus/menu.styles.js';
+import _PickDropTicket from './components/polypheme/pick-drop-ticket.component.js';
 import _Checkbox from './components/switches/checkbox.component.js';
 export const Button = Electrum.wrap ('Button', _Button, {styles: _Button$styles});
 export const TabButton = Electrum.wrap ('TabButton', _TabButton, {styles: _TabButton$styles});
@@ -59,4 +60,5 @@ export const TextField = Electrum.wrap ('TextField', _TextField, {styles: _TextF
 export const Layout = Electrum.wrap ('Layout', _Layout);
 export const Link = Electrum.wrap ('Link', _Link, {styles: _Link$styles});
 export const Menu = Electrum.wrap ('Menu', _Menu, {styles: _Menu$styles});
+export const PickDropTicket = Electrum.wrap ('PickDropTicket', _PickDropTicket);
 export const Checkbox = Electrum.wrap ('Checkbox', _Checkbox);
