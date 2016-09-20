@@ -49,7 +49,7 @@ export default class RunTicket extends React.Component {
     const direction  = (data.type === 'pick') ? 'upload' : 'download';
 
     return (
-      <Ticket width={width} height={height} {...this.link ()} >
+      <Ticket width={width} height={height} selected={data.selected} color={data.color} {...this.link ()} >
         <Container kind='column' grow='1' {...this.link ()} >
           <Label text={data.pickTime} font-weight={pickWeight} {...this.link ()} />
           <Label text={data.dropTime} font-weight={dropWeight} {...this.link ()} />

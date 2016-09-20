@@ -13,9 +13,11 @@ export default class Ticket extends React.Component {
 
   get styleProps () {
     return {
-      width:  this.read ('width'),
-      height: this.read ('height'),
-      kind:   this.read ('kind'),
+      width:    this.read ('width'),
+      height:   this.read ('height'),
+      kind:     this.read ('kind'),
+      selected: this.read ('selected'),
+      color:    this.read ('color'),
     };
   }
 

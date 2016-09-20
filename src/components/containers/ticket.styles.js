@@ -1,5 +1,7 @@
 'use strict';
 
+import {ColorHelpers} from 'electrum-theme';
+
 /******************************************************************************/
 
 // Convert string '123px' to int 123.
@@ -47,9 +49,11 @@ function horizontalDash (path, r, len, dx) {
 
 
 export default function styles (theme, props) {
-  const inputWidth  = props.width;
-  const inputHeight = props.height;
-  const inputKind   = props.kind;
+  const inputWidth    = props.width;
+  const inputHeight   = props.height;
+  const inputKind     = props.kind;
+  const inputSelected = props.selected;
+  const inputColor    = props.color;
 
   let width           = inputWidth;
   let height          = inputHeight;
@@ -62,6 +66,17 @@ export default function styles (theme, props) {
   } else {
     backgroundColor = theme.palette.ticketBackground;
     shadowColor     = theme.palette.ticketShadow;
+  }
+
+  if (inputColor) {
+    backgroundColor = {
+      blue:   theme.palette.ticketBlueBackground,
+      yellow: theme.palette.ticketYellowBackground,
+      red:    theme.palette.ticketRedBackground,
+      green:  theme.palette.ticketGreenBackground,
+    } [inputColor];
+  } else if (inputSelected === 'true') {
+    backgroundColor = theme.palette.ticketSelectedBackground;
   }
 
   const boxStyle = {
