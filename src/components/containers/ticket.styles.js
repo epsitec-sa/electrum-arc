@@ -57,16 +57,8 @@ export default function styles (theme, props) {
 
   let width           = inputWidth;
   let height          = inputHeight;
-  let backgroundColor = null;
-  let shadowColor     = null;
-
-  if (inputKind === 'header') {
-    backgroundColor = theme.palette.ticketHeaderBackground;
-    shadowColor     = theme.palette.ticketShadow;
-  } else {
-    backgroundColor = theme.palette.ticketBackground;
-    shadowColor     = theme.palette.ticketShadow;
-  }
+  let backgroundColor = theme.palette.ticketBackground;
+  let shadowColor     = theme.palette.ticketShadow;
 
   if (inputColor) {
     backgroundColor = {
