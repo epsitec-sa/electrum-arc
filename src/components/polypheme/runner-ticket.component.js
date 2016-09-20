@@ -18,7 +18,7 @@ export default class RunnerTicket extends React.Component {
     const data   = this.read ('data');
 
     return (
-      <Ticket kind='header' width={width} height={height} {...this.link ()} >
+      <Ticket kind='header' width={width} height={height} selected={data.selected} color={data.color} {...this.link ()} >
         <Container kind='column' grow='2' {...this.link ()} >
           <Button glyph={data.photo} kind='identity' {...this.link ()} />
         </Container>
