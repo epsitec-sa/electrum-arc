@@ -28,6 +28,7 @@ export default class Container extends React.Component {
       top:              this.read ('top'),
       bottom:           this.read ('bottom'),
       rotate:           this.read ('rotate'),
+      border:           this.read ('border'),
     };
   }
 

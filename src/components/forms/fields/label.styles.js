@@ -16,7 +16,9 @@ export default function styles (theme, props) {
   const inputGlyphColor    = props.glyphColor;
   const inputGlyphSize     = props.glyphSize;
   const inputTextColor     = props.textColor;
+  const inputTextTransform = props.textTransform;
   const inputFontWeight    = props.fontWeight;
+  const inputFontSize      = props.fontSize;
   const inputBottomSpacing = props.bottomSpacing;
 
   let boxWidth           = null;
@@ -24,11 +26,11 @@ export default function styles (theme, props) {
   let backgroundColor    = null;
   let padding            = null;
   let margin             = null;
-  let fontSize           = theme.shapes.labelTextSize;
+  let fontSize           = inputFontSize ? inputFontSize : theme.shapes.labelTextSize;
   let fontWeight         = null;
   let boxJustifyContent  = null;
   let boxAlignSelf       = null;
-  let textTransform      = null;
+  let textTransform      = inputTextTransform ? inputTextTransform : null;
   let glyphHeight        = theme.shapes.lineHeight;
   let glyphMinWidth      = theme.shapes.lineHeight;
   let glyphSize          = inputGlyphSize;

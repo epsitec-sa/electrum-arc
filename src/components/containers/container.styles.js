@@ -21,6 +21,7 @@ export default function styles (theme, props) {
   const inputTop              = props.top;
   const inputBottom           = props.bottom;
   const inputRotate           = props.rotate;
+  const inputBorder           = props.border;
 
   let width             = inputWidth;
   let height            = inputHeight;
@@ -38,6 +39,7 @@ export default function styles (theme, props) {
   let alignItems        = null;
   let alignContent      = null;
   let alignSelf         = null;
+  let boxSizing         = null;
   let borderWidth       = null;
   let borderStyle       = 'none';
   let borderColor       = null;
@@ -538,6 +540,24 @@ export default function styles (theme, props) {
     padding         = s;
   }
 
+  if (inputKind && inputKind.startsWith ('thin-')) {
+    if (inputBorder) {
+      if (inputBorder === 'top') {
+        borderStyle = 'solid none none none';
+      } else if (inputBorder === 'right') {
+        borderStyle = 'none solid none none';
+      } else if (inputBorder === 'bottom') {
+        borderStyle = 'none none solid none';
+      } else if (inputBorder === 'left') {
+        borderStyle = 'none none none solid';
+      }
+      borderWidth = '1px';
+      borderColor = '#bbb';
+    } else {
+      borderStyle = 'none';
+    }
+  }
+
   if (inputKind === 'thin-main') {
     display         = 'flex';
     flexDirection   = 'row';
@@ -545,6 +565,16 @@ export default function styles (theme, props) {
     justifyContent  = 'center';
     borderWidth     = '1px';
     borderStyle     = 'solid';
+    borderColor     = '#bbb';
+    borderRadius    = '3px';
+  }
+
+  if (inputKind === 'thin-center') {
+    display         = 'flex';
+    flexDirection   = 'column';
+    flexGrow        = inputGrow;
+    justifyContent  = 'center';
+    alignItems      = 'center';
   }
 
   if (inputKind === 'thin-column') {
@@ -552,17 +582,15 @@ export default function styles (theme, props) {
     flexDirection   = 'column';
     flexGrow        = inputGrow;
     justifyContent  = 'center';
-    borderWidth     = '1px';
-    borderStyle     = 'solid';
   }
 
   if (inputKind === 'thin-row') {
     display         = 'flex';
     flexDirection   = 'row';
     flexGrow        = inputGrow;
-    justifyContent  = 'center';
-    borderWidth     = '1px';
-    borderStyle     = 'solid';
+    justifyContent  = 'flex-start';
+    alignItems      = 'center';
+    padding         = '0px 0px 0px 5px';
   }
 
   if (inputKind === 'flying-balloon') {
@@ -594,6 +622,7 @@ export default function styles (theme, props) {
     alignItems:        alignItems,
     alignContent:      alignContent,
     alignSelf:         alignSelf,
+    boxSizing:         boxSizing,
     borderWidth:       borderWidth,
     borderStyle:       borderStyle,
     borderColor:       borderColor,
