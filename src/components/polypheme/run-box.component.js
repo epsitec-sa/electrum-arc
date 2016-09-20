@@ -51,7 +51,7 @@ export default class RunBox extends React.Component {
 
     return (
       <Container kind='thin-main' width={width} height={h} grow='1' selected={data.selected} color={data.color} {...this.link ()} >
-        <Container kind='thin-center' border='right' width='20px' {...this.link ()} >
+        <Container kind='thin-center' border='right' width='24px' {...this.link ()} >
           <Label kind='center-to-box' glyph='arrows-alt' {...this.link ()} />
         </Container>
         <Container kind='thin-column' border='right' grow='4' {...this.link ()} >
@@ -128,7 +128,7 @@ export default class RunBox extends React.Component {
             </Container>
           </Container>
         </Container>
-        <Container kind='thin-center' width='20px' {...this.link ()} >
+        <Container kind='thin-center' width='24px' {...this.link ()} >
           <Label kind='center-to-box' glyph='caret-right' {...this.link ()} />
         </Container>
       </Container>

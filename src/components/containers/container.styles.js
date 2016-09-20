@@ -297,6 +297,19 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.paneNavigatorBackground;
   }
 
+  if (inputKind === 'pane-top') {
+    minHeight       = h;
+    display         = 'flex';
+    flexDirection   = 'row';
+    justifyContent  = 'space-between';
+    alignItems      = 'center';
+    padding         = m + ' ' + m + ' 0px ' + m;
+    margin          = '0px 0px ' + m + ' 0px';
+    borderStyle     = 'none';
+    borderColor     = theme.palette.paneNavigatorInactiveBorder;
+    backgroundColor = theme.palette.paneNavigatorBackground;
+  }
+
   if (inputKind === 'pane-hnavigator') {
     minHeight       = h;
     display         = 'flex';
