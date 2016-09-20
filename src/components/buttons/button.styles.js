@@ -329,6 +329,23 @@ export default function styles (theme, props) {
     glyphColor      = theme.palette.identityButtonGlyph;
   }
 
+  if (inputKind  === 'thin-left') {
+    const r = theme.shapes.thinRadius;
+    boxHeight       = null;
+    borderStyle     = 'none solid none none';
+    borderRadius    = r + ' 0px 0px ' + r;
+    borderColor     = theme.palette.thinBorder;
+    backgroundColor = null;
+  }
+  if (inputKind  === 'thin-right') {
+    const r = theme.shapes.thinRadius;
+    boxHeight       = null;
+    borderStyle     = 'none none none solid';
+    borderRadius    = '0px ' + r + ' ' + r + ' 0px';
+    borderColor     = theme.palette.thinBorder;
+    backgroundColor = null;
+  }
+
   if (inputKind  === 'frameless') {
     borderStyle     = 'none';
   }
