@@ -580,6 +580,10 @@ export default function styles (theme, props) {
     borderStyle     = 'solid';
     borderColor     = theme.palette.thinBorder;
     borderRadius    = theme.shapes.thinRadius;
+    if (inputSelected === 'true') {
+      backgroundColor = theme.palette.paneSelectedBackground;
+      color           = theme.palette.paneSelectedText;
+    }
   }
 
   if (inputKind === 'thin-center') {

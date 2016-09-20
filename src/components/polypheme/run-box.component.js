@@ -46,7 +46,7 @@ export default class RunBox extends React.Component {
     const data   = this.read ('data');
 
     const h = '70px';
-    const dimmedColor = '#999';
+    const dimmedColor = '#bbb';
     const dimmedSize  = '75%';
 
     return (
