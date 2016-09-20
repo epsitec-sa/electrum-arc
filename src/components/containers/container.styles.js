@@ -538,6 +538,33 @@ export default function styles (theme, props) {
     padding         = s;
   }
 
+  if (inputKind === 'thin-main') {
+    display         = 'flex';
+    flexDirection   = 'row';
+    flexGrow        = inputGrow;
+    justifyContent  = 'center';
+    borderWidth     = '1px';
+    borderStyle     = 'solid';
+  }
+
+  if (inputKind === 'thin-column') {
+    display         = 'flex';
+    flexDirection   = 'column';
+    flexGrow        = inputGrow;
+    justifyContent  = 'center';
+    borderWidth     = '1px';
+    borderStyle     = 'solid';
+  }
+
+  if (inputKind === 'thin-row') {
+    display         = 'flex';
+    flexDirection   = 'row';
+    flexGrow        = inputGrow;
+    justifyContent  = 'center';
+    borderWidth     = '1px';
+    borderStyle     = 'solid';
+  }
+
   if (inputKind === 'flying-balloon') {
     padding         = p;
     backgroundColor = theme.palette.flyingBalloonBackground;
