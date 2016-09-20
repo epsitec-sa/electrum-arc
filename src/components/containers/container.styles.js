@@ -552,7 +552,7 @@ export default function styles (theme, props) {
         borderStyle = 'none none none solid';
       }
       borderWidth = '1px';
-      borderColor = '#bbb';
+      borderColor = theme.palette.thinBorder;
     } else {
       borderStyle = 'none';
     }
@@ -565,8 +565,8 @@ export default function styles (theme, props) {
     justifyContent  = 'center';
     borderWidth     = '1px';
     borderStyle     = 'solid';
-    borderColor     = '#bbb';
-    borderRadius    = '3px';
+    borderColor     = theme.palette.thinBorder;
+    borderRadius    = theme.shapes.thinRadius;
   }
 
   if (inputKind === 'thin-center') {
@@ -590,7 +590,7 @@ export default function styles (theme, props) {
     flexGrow        = inputGrow;
     justifyContent  = 'flex-start';
     alignItems      = 'center';
-    padding         = '0px 0px 0px 5px';
+    padding         = '0px 0px 0px ' + theme.shapes.thinLeftMargin;
   }
 
   if (inputKind === 'flying-balloon') {

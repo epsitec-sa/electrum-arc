@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import {Unit} from 'electrum-theme';
 import {Container, Label} from '../../all-components.js';
 
 /******************************************************************************/
@@ -44,8 +45,12 @@ export default class RunBox extends React.Component {
     const height = this.read ('height');
     const data   = this.read ('data');
 
+    const h = '70px';
+    const dimmedColor = '#999';
+    const dimmedSize  = '75%';
+
     return (
-      <Container kind='thin-main' width={width} height='70px' grow='1' selected={data.selected} color={data.color} {...this.link ()} >
+      <Container kind='thin-main' width={width} height={h} grow='1' selected={data.selected} color={data.color} {...this.link ()} >
         <Container kind='thin-center' border='right' width='20px' {...this.link ()} >
           <Label kind='center-to-box' glyph='arrows-alt' {...this.link ()} />
         </Container>
@@ -61,7 +66,7 @@ export default class RunBox extends React.Component {
               <Label text={data.pickDesc} wrap='no' {...this.link ()} />
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
-              <Label text={data.pickZone} text-transform='uppercase' wrap='no' font-size='75%' {...this.link ()} />
+              <Label text={data.pickZone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
               <Label grow='1' {...this.link ()} />
@@ -79,7 +84,7 @@ export default class RunBox extends React.Component {
               <Label text={data.dropDesc} wrap='no' {...this.link ()} />
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
-              <Label text={data.dropZone} text-transform='uppercase' wrap='no' font-size='75%' {...this.link ()} />
+              <Label text={data.dropZone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
               <Label grow='1' {...this.link ()} />
@@ -90,7 +95,7 @@ export default class RunBox extends React.Component {
         <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
           <Container kind='thin-row' grow='1' {...this.link ()} >
             <Container kind='thin-row' grow='2' {...this.link ()} >
-              <Label glyph='cube' glyph-color='#ccc' {...this.link ()} />
+              <Label glyph='cube' glyph-color={dimmedColor} {...this.link ()} />
             </Container>
             <Container kind='thin-row' grow='3' {...this.link ()} >
               <Label text={data.count} wrap='no' {...this.link ()} />
@@ -98,7 +103,7 @@ export default class RunBox extends React.Component {
           </Container>
           <Container kind='thin-row' grow='1' {...this.link ()} >
             <Container kind='thin-row' grow='2' {...this.link ()} >
-              <Label text='total' font-size='75%' text-color='#ccc' {...this.link ()} />
+              <Label text='total' font-size={dimmedSize} text-color={dimmedColor} {...this.link ()} />
             </Container>
             <Container kind='thin-row' grow='3' {...this.link ()} >
               <Label text={data.weight} wrap='no' {...this.link ()} />
@@ -108,7 +113,7 @@ export default class RunBox extends React.Component {
         <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
           <Container kind='thin-row' grow='1' {...this.link ()} >
             <Container kind='thin-row' grow='2' {...this.link ()} >
-              <Label text='CHF' font-size='75%' text-color='#ccc' {...this.link ()} />
+              <Label text='CHF' font-size={dimmedSize} text-color={dimmedColor} {...this.link ()} />
             </Container>
             <Container kind='thin-row' grow='3' {...this.link ()} >
               <Label text={data.price} wrap='no' {...this.link ()} />
