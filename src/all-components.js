@@ -38,6 +38,7 @@ import _Link from './components/links/link.component.js';
 import _Link$styles from './components/links/link.styles.js';
 import _Menu from './components/menus/menu.component.js';
 import _Menu$styles from './components/menus/menu.styles.js';
+import _RunBox from './components/polypheme/run-box.component.js';
 import _RunTicket from './components/polypheme/run-ticket.component.js';
 import _RunnerTicket from './components/polypheme/runner-ticket.component.js';
 import _Checkbox from './components/switches/checkbox.component.js';
@@ -61,6 +62,7 @@ export const TextField = Electrum.wrap ('TextField', _TextField, {styles: _TextF
 export const Layout = Electrum.wrap ('Layout', _Layout);
 export const Link = Electrum.wrap ('Link', _Link, {styles: _Link$styles});
 export const Menu = Electrum.wrap ('Menu', _Menu, {styles: _Menu$styles});
+export const RunBox = Electrum.wrap ('RunBox', _RunBox);
 export const RunTicket = Electrum.wrap ('RunTicket', _RunTicket);
 export const RunnerTicket = Electrum.wrap ('RunnerTicket', _RunnerTicket);
 export const Checkbox = Electrum.wrap ('Checkbox', _Checkbox);
