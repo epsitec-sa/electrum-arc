@@ -521,6 +521,12 @@ export default function styles (theme, props) {
     boxShadow       = theme.shapes.ticketGlueShadow;
   }
 
+  if (inputKind === 'column-full') {
+    display         = 'flex';
+    flexDirection   = 'column';
+    flexGrow        = '1';
+  }
+
   if (inputKind === 'column') {
     display         = 'flex';
     flexDirection   = 'column';
