@@ -36,7 +36,10 @@ export default class Container extends React.Component {
   }
 
   componentWillMount () {
-    this.setState ({managedChildren: this.props.children});
+    const navFor = this.read ('navigation-for');
+    if (navFor) {
+      this.initNavigation ();
+    }
   }
 
   componentDidMount () {
@@ -61,6 +64,16 @@ export default class Container extends React.Component {
         panelElem.removeEventListener ('scroll', this.handleScroll, true);
       }
     }
+  }
+
+  initNavigation () {
+    const children = React.Children.map (this.props.children, (child, i) => {
+      const active = {
+        active: i === 0 ? 'true' : 'false'
+      };
+      return React.cloneElement (child, active);
+    });
+    this.setState ({managedChildren: children});
   }
 
   handleScroll (e) {
