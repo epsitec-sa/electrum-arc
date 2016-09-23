@@ -29,7 +29,6 @@ export default class Separator extends React.Component {
       <div
         disabled={disabled}
         style={boxStyle}
-        {...this.props}
         />
     );
   }
