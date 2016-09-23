@@ -79,12 +79,18 @@ export default class Container extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputKind    = this.read ('kind');
-    const inputAnchor  = this.read ('anchor');
+    const inputKind     = this.read ('kind');
+    const inputAnchor   = this.read ('anchor');
     const inputNavName  = this.read ('navigation-name');
 
     const boxStyle      = this.mergeStyles ('box');
     const triangleStyle = this.mergeStyles ('triangle');
+
+    const useManagedChildren = [
+      'pane-navigator',
+      'pane-vnavigator',
+      'pane-hnavigator'
+    ];
 
     if (inputKind === 'flying-balloon') {
       return (
@@ -100,7 +106,7 @@ export default class Container extends React.Component {
     } else {
       return (
         <div data-navigation-name={inputNavName} disabled={disabled} style={boxStyle} id={inputAnchor} ref="container">
-          {this.state.managedChildren}
+          {useManagedChildren.includes (inputKind) ? this.state.managedChildren : this.props.children}
         </div>
       );
     }
