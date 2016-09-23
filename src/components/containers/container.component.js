@@ -35,11 +35,11 @@ export default class Container extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputKind = this.read ('kind');
+    const inputKind   = this.read ('kind');
+    const inputAnchor = this.read ('anchor');
 
     const boxStyle      = this.mergeStyles ('box');
     const triangleStyle = this.mergeStyles ('triangle');
-
 
     if (inputKind === 'flying-balloon') {
       return (
@@ -54,7 +54,7 @@ export default class Container extends React.Component {
       );
     } else {
       return (
-        <div disabled={disabled} style={boxStyle}>
+        <div disabled={disabled} style={boxStyle} id={inputAnchor}>
           {this.props.children}
         </div>
       );

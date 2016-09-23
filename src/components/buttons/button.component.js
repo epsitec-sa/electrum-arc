@@ -69,6 +69,7 @@ export default class Button extends React.Component {
     const inputBadgeValue    = this.read ('badge-value');
     const inputTooltip       = this.read ('tooltip');
     const inputMenu          = this.read ('menu');
+    const inputToAnchor      = this.read ('to-anchor');
 
     // Get or create the internalState.
     let isMenuVisible = 'false';
@@ -173,6 +174,22 @@ export default class Button extends React.Component {
           {htmlMenu}
           {this.props.children}
         </div>
+      );
+    } else if (inputToAnchor) {
+      return (
+        <a
+          onClick  = {this.onClick}  // voir (*)
+          disabled = {disabled}
+          style    = {boxStyle}
+          title    = {inputTooltip}
+          href     = {'#' + inputToAnchor}
+        >
+          {layout ().map ((comp) => comp)}
+          {htmlTriangle}
+          {htmlBadge}
+          {htmlMenu}
+          {this.props.children}
+        </a>
       );
     } else {
       return (
