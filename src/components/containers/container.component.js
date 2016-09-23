@@ -32,6 +32,21 @@ export default class Container extends React.Component {
     };
   }
 
+  componentDidMount () {
+    const kind = this.read ('kind');
+    if (kind === 'pane-navigator') {
+      const navElem = this.refs.container.children;
+      const navItemsRefs = navElem.map (e => {
+        const navItemRef = e.attributes.href;
+        if (navItemRef.length) {
+          return navItemRef;
+        }
+      });
+      console.log ('hrefs:');
+      console.dir (navItemsRefs);
+    }
+  }
+
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
@@ -54,7 +69,7 @@ export default class Container extends React.Component {
       );
     } else {
       return (
-        <div disabled={disabled} style={boxStyle} id={inputAnchor}>
+        <div disabled={disabled} style={boxStyle} id={inputAnchor} ref="container">
           {this.props.children}
         </div>
       );
