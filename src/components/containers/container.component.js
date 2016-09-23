@@ -9,6 +9,9 @@ export default class Container extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      managedChildren: null
+    };
   }
 
   get styleProps () {
@@ -32,26 +35,53 @@ export default class Container extends React.Component {
     };
   }
 
+  componentWillMount () {
+    this.setState ({managedChildren: this.props.children});
+  }
+
   componentDidMount () {
-    const kind = this.read ('kind');
-    if (kind === 'pane-navigator') {
-      const navElem = this.refs.container.children;
-      const navItemsRefs = navElem.map (e => {
-        const navItemRef = e.attributes.href;
-        if (navItemRef.length) {
-          return navItemRef;
-        }
-      });
-      console.log ('hrefs:');
-      console.dir (navItemsRefs);
+    const navFor = this.read ('navigation-for');
+    if (navFor) {
+      const panelElem = document.querySelectorAll (
+        `[data-navigation-name="${navFor}"]`
+      )[0];
+      if (panelElem) {
+        panelElem.addEventListener ('scroll', this.handleScroll, true);
+      }
     }
+  }
+
+  componentWillUnmount () {
+    const navFor = this.read ('navigation-for');
+    if (navFor) {
+      const panelElem = document.querySelectorAll (
+        `[data-navigation-name="${navFor}"]`
+      )[0];
+      if (panelElem) {
+        panelElem.removeEventListener ('scroll', this.handleScroll, true);
+      }
+    }
+  }
+
+  handleScroll (e) {
+    // TODO: impl. better algo.
+    const index = parseInt (e.target.scrollTop / 200);
+    const children = React.Children.map (this.props.children, (child, i) => {
+      const active = {
+        active: index === i ? 'true' : 'false'
+      };
+      return React.cloneElement (child, active);
+    });
+
+    this.setState ({managedChildren: children});
   }
 
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputKind   = this.read ('kind');
-    const inputAnchor = this.read ('anchor');
+    const inputKind    = this.read ('kind');
+    const inputAnchor  = this.read ('anchor');
+    const inputNavName  = this.read ('navigation-name');
 
     const boxStyle      = this.mergeStyles ('box');
     const triangleStyle = this.mergeStyles ('triangle');
@@ -69,8 +99,8 @@ export default class Container extends React.Component {
       );
     } else {
       return (
-        <div disabled={disabled} style={boxStyle} id={inputAnchor} ref="container">
-          {this.props.children}
+        <div data-navigation-name={inputNavName} disabled={disabled} style={boxStyle} id={inputAnchor} ref="container">
+          {this.state.managedChildren}
         </div>
       );
     }
