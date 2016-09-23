@@ -49,6 +49,7 @@ export default class Container extends React.Component {
         `[data-navigation-name="${navFor}"]`
       )[0];
       if (panelElem) {
+        this.getHeights (panelElem);
         panelElem.addEventListener ('scroll', this.handleScroll, true);
       }
     }
@@ -64,6 +65,16 @@ export default class Container extends React.Component {
         panelElem.removeEventListener ('scroll', this.handleScroll, true);
       }
     }
+  }
+
+  getHeights(panelElem) {
+    const heights = [];
+    const children = [].slice.call (panelElem.children);
+    children.map (c => {
+      heights.push (c.offsetHeight);
+    });
+    console.dir (heights);
+    return heights;
   }
 
   initNavigation () {
