@@ -487,6 +487,7 @@ export default function styles (theme, props) {
     position:        boxPosition,
     transition:      theme.transitions.easeOut (),
     zIndex:          boxZIndex,
+    textDecoration:  'none',
   };
 
   if (!disabled && actif) {
