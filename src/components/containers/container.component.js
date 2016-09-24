@@ -12,6 +12,7 @@ export default class Container extends React.Component {
     this.state = {
       managedChildren: null
     };
+    this.panelBottoms = [];
   }
 
   get styleProps () {
@@ -67,8 +68,6 @@ export default class Container extends React.Component {
     }
   }
 
-  panelBottoms = [];
-
   // Compute all cumulative bottom positions of panels.
   computePanelBottoms(panelElem) {
     this.panelBottoms = [];
@@ -86,7 +85,7 @@ export default class Container extends React.Component {
 
   // Return the index of the top panel, according to  scroll position.
   getPanelIndex(scrollTop) {
-    for (var i=0; i<this.panelBottoms.length; i++) {
+    for (var i = 0; i < this.panelBottoms.length; i++) {
       if (scrollTop < this.panelBottoms[i]) {
         return i;
       }
@@ -105,7 +104,7 @@ export default class Container extends React.Component {
   }
 
   handleScroll (e) {
-    const index = this.getPanelIndex(e.target.scrollTop);
+    const index = this.getPanelIndex (e.target.scrollTop);
     const children = React.Children.map (this.props.children, (child, i) => {
       const active = {
         active: index === i ? 'true' : 'false'
