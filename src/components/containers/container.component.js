@@ -84,13 +84,18 @@ export default class Container extends React.Component {
   }
 
   // Return the index of the top panel, according to  scroll position.
-  getPanelIndex(scrollTop) {
-    for (var i = 0; i < this.panelBottoms.length; i++) {
-      if (scrollTop < this.panelBottoms[i]) {
-        return i;
+  getPanelIndex(scrollTop, scrollMax) {
+    if (scrollTop >= scrollMax) {
+      // If scroller is on bottom, return the last index.
+      return this.panelBottoms.length - 1;
+    } else {
+      for (var i = 0; i < this.panelBottoms.length; i++) {
+        if (scrollTop < this.panelBottoms[i]) {
+          return i;
+        }
       }
+      return -1;
     }
-    return -1;
   }
 
   setNavigation (index) {
@@ -108,7 +113,8 @@ export default class Container extends React.Component {
   }
 
   handleScroll (e) {
-    const index = this.getPanelIndex (e.target.scrollTop);
+    const max = e.target.scrollHeight - e.target.offsetHeight;
+    const index = this.getPanelIndex (e.target.scrollTop, max);
     this.setNavigation (index);
   }
 
