@@ -85,7 +85,7 @@ export default class Container extends React.Component {
 
   // Return the index of the top panel, according to  scroll position.
   getPanelIndex(scrollTop, scrollMax) {
-    if (scrollTop >= scrollMax) {
+    if (scrollTop >= scrollMax - 4) {  // 4 = chouia for mouse wheel
       // If scroller is on bottom, return the last index.
       return this.panelBottoms.length - 1;
     } else {
