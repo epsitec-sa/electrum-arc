@@ -73,16 +73,15 @@ export default class Container extends React.Component {
   computePanelBottoms(panelElem) {
     this.panelBottoms = [];
     const children = [].slice.call (panelElem.children);
-    if (children.length > 1) {
-      // Scheming to find the vertical spacing between the panels.
-      const verticalSpacing = children[1].offsetTop - children[0].offsetTop - children[0].offsetHeight;
-      var top = 0;
-      children.map (c => {
-        console.dir (c);
-        top += c.offsetHeight + verticalSpacing;
-        this.panelBottoms.push (top);
-      });
-    }
+    var first = -1;
+    children.map (c => {
+      if (first === -1) {
+        first = c.offsetTop;
+      } else {
+        this.panelBottoms.push (c.offsetTop - first);
+      }
+    });
+    this.panelBottoms.push (1000000);
   }
 
   // Return the index of the top panel, according to  scroll position.
