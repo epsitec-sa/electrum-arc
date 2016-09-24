@@ -49,7 +49,7 @@ export default class Container extends React.Component {
         `[data-navigation-name="${navFor}"]`
       )[0];
       if (panelElem) {
-        this.getHeights (panelElem);
+        this.computePanelBottoms (panelElem);
         panelElem.addEventListener ('scroll', this.handleScroll, true);
       }
     }
@@ -67,14 +67,32 @@ export default class Container extends React.Component {
     }
   }
 
-  getHeights(panelElem) {
-    const heights = [];
+  panelBottoms = [];
+
+  // Compute all cumulative bottom positions of panels.
+  computePanelBottoms(panelElem) {
+    this.panelBottoms = [];
     const children = [].slice.call (panelElem.children);
-    children.map (c => {
-      heights.push (c.offsetHeight);
-    });
-    console.dir (heights);
-    return heights;
+    if (children.length > 1) {
+      // Scheming to find the vertical spacing between the panels.
+      const verticalSpacing = children[1].offsetTop - children[0].offsetTop - children[0].offsetHeight;
+      var top = 0;
+      children.map (c => {
+        console.dir (c);
+        top += c.offsetHeight + verticalSpacing;
+        this.panelBottoms.push (top);
+      });
+    }
+  }
+
+  // Return the index of the top panel, according to  scroll position.
+  getPanelIndex(scrollTop) {
+    for (var i=0; i<this.panelBottoms.length; i++) {
+      if (scrollTop < this.panelBottoms[i]) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   initNavigation () {
@@ -88,8 +106,7 @@ export default class Container extends React.Component {
   }
 
   handleScroll (e) {
-    // TODO: impl. better algo.
-    const index = parseInt (e.target.scrollTop / 200);
+    const index = this.getPanelIndex(e.target.scrollTop);
     const children = React.Children.map (this.props.children, (child, i) => {
       const active = {
         active: index === i ? 'true' : 'false'
