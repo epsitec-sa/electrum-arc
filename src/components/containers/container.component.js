@@ -93,26 +93,23 @@ export default class Container extends React.Component {
     return -1;
   }
 
-  initNavigation () {
+  setNavigation (index) {
     const children = React.Children.map (this.props.children, (child, i) => {
       const active = {
-        active: i === 0 ? 'true' : 'false'
+        active: i === index ? 'true' : 'false'
       };
       return React.cloneElement (child, active);
     });
     this.setState ({managedChildren: children});
   }
 
+  initNavigation () {
+    this.setNavigation (0);
+  }
+
   handleScroll (e) {
     const index = this.getPanelIndex (e.target.scrollTop);
-    const children = React.Children.map (this.props.children, (child, i) => {
-      const active = {
-        active: index === i ? 'true' : 'false'
-      };
-      return React.cloneElement (child, active);
-    });
-
-    this.setState ({managedChildren: children});
+    this.setNavigation (index);
   }
 
   render () {
