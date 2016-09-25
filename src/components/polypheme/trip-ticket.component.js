@@ -6,7 +6,7 @@ import {Ticket, Container, Label} from '../../all-components.js';
 
 /******************************************************************************/
 
-export default class RunTicket extends React.Component {
+export default class TripTicket extends React.Component {
 
   constructor (props) {
     super (props);

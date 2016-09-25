@@ -6,7 +6,7 @@ import {Ticket, Container, Label, Button} from '../../all-components.js';
 
 /******************************************************************************/
 
-export default class RunnerTicket extends React.Component {
+export default class MessengerTicket extends React.Component {
 
   constructor (props) {
     super (props);

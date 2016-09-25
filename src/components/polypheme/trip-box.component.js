@@ -7,7 +7,7 @@ import {Container, Label, Button} from '../../all-components.js';
 
 /******************************************************************************/
 
-export default class RunBox extends React.Component {
+export default class TripBox extends React.Component {
 
   constructor (props) {
     super (props);

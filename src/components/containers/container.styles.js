@@ -477,14 +477,14 @@ export default function styles (theme, props) {
     // overflowX       = 'auto';
   }
 
-  if (inputKind === 'tickets-runners') {
+  if (inputKind === 'tickets-messengers') {
     display         = 'flex';
     flexDirection   = 'row';
     flexGrow        = 1;
     overflowX       = 'auto';
   }
 
-  if (inputKind === 'tickets-runner') {
+  if (inputKind === 'tickets-messenger') {
     const mm        = Unit.multiply (m, 0.5);
     padding         = '0px ' + mm + ' 0px ' + mm;
     display         = 'flex';
@@ -494,7 +494,7 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.ticketsBackground;
   }
 
-  if (inputKind === 'tickets-runs') {
+  if (inputKind === 'tickets-trips') {
     display         = 'flex';
     flexDirection   = 'column';
     flexGrow        = 1;
