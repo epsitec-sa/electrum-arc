@@ -140,7 +140,8 @@ export default class Container extends React.Component {
           disabled = {disabled}
           style    = {boxStyle}
           >
-          <div style = {triangleStyle}>
+          <div style = {triangleStyle}/>
+          <div>
             {this.props.children}
           </div>
         </div>
