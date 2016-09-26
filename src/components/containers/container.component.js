@@ -77,7 +77,7 @@ export default class Container extends React.Component {
       if (first === -1) {
         first = c.offsetTop;
       } else {
-        this.panelBottoms.push (c.offsetTop - first);
+        this.panelBottoms.push (c.offsetTop - first - (c.offsetHeight / 2));
       }
     });
     this.panelBottoms.push (1000000);
