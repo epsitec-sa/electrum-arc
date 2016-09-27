@@ -13,18 +13,20 @@ export default class MessengerTicket extends React.Component {
   }
 
   render () {
-    const width  = this.read ('width');
-    const height = this.read ('height');
-    const data   = this.read ('data');
+    const width    = this.read ('width');
+    const height   = this.read ('height');
+    const selected = this.read ('selected');
+    const color    = this.read ('color');
+    const data     = this.read ('data');
 
     if (!data || typeof data.name === 'undefined') {
       return (
-        <Ticket kind='header' width={width} height={height} {...this.link ()} >
+        <Ticket kind='header' width={width} height={height} selected={selected} color={color} {...this.link ()} >
         </Ticket>
       );
     } else {
       return (
-        <Ticket kind='header' width={width} height={height} selected={data.selected} color={data.color} {...this.link ()} >
+        <Ticket kind='header' width={width} height={height} selected={selected} color={color} {...this.link ()} >
           <Container kind='column' grow='2' {...this.link ()} >
             <Button glyph={data.photo} kind='identity' {...this.link ()} />
           </Container>
