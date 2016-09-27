@@ -45,90 +45,98 @@ export default class TripBox extends React.Component {
     const height = this.read ('height');
     const data   = this.read ('data');
 
-    const h = '70px';
-    const dimmedColor = '#bbb';
-    const dimmedSize  = '75%';
+    const h = height ? height : '70px';
 
-    return (
-      <Container kind='thin-main' width={width} height={h} grow='1' selected={data.selected} color={data.color} {...this.link ()} >
-        <Button kind='thin-left' glyph='arrows-alt' width='24px' {...this.link ()} />
-        <Container kind='thin-column' border='right' grow='4' {...this.link ()} >
-          <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
-            <Container kind='thin-row' grow='1' {...this.link ()} >
-              <Label text={data.pickTime} font-weight='bold' {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' width='20px' {...this.link ()} >
-              <Label glyph='upload' glyph-color={dimmedColor} {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' grow='3' {...this.link ()} >
-              <Label text={data.pickDesc} wrap='no' {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' grow='1' {...this.link ()} >
-              <Label text={data.pickZone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' grow='1' {...this.link ()} >
-              <Label grow='1' {...this.link ()} />
-              {this.getGlyphs (data.pickGlyphs)}
-            </Container>
-          </Container>
-          <Container kind='thin-row' grow='1' {...this.link ()} >
-            <Container kind='thin-row' grow='1' {...this.link ()} >
-              <Label text={data.dropTime} font-weight='bold' {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' width='20px' {...this.link ()} >
-              <Label glyph='download' glyph-color={dimmedColor} {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' grow='3' {...this.link ()} >
-              <Label text={data.dropDesc} wrap='no' {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' grow='1' {...this.link ()} >
-              <Label text={data.dropZone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' grow='1' {...this.link ()} >
-              <Label grow='1' {...this.link ()} />
-              {this.getGlyphs (data.dropGlyphs)}
-            </Container>
-          </Container>
+    if (!data || typeof data.pickTime === 'undefined' || typeof data.dropTime === 'undefined') {
+      return (
+        <Container kind='thin-main' width={width} height={h} grow='1' {...this.link ()} >
         </Container>
-        <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
-          <Container kind='thin-row' grow='1' {...this.link ()} >
-            <Container kind='thin-row' grow='2' {...this.link ()} >
-              <Label glyph='cube' glyph-color={dimmedColor} {...this.link ()} />
+      );
+    } else {
+      const dimmedColor = '#bbb';
+      const dimmedSize  = '75%';
+
+      return (
+        <Container kind='thin-main' width={width} height={h} grow='1' selected={data.selected} color={data.color} {...this.link ()} >
+          <Button kind='thin-left' glyph='arrows-alt' width='24px' {...this.link ()} />
+          <Container kind='thin-column' border='right' grow='4' {...this.link ()} >
+            <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
+              <Container kind='thin-row' grow='1' {...this.link ()} >
+                <Label text={data.pickTime} font-weight='bold' {...this.link ()} />
+              </Container>
+              <Container kind='thin-row' width='20px' {...this.link ()} >
+                <Label glyph='upload' glyph-color={dimmedColor} {...this.link ()} />
+              </Container>
+              <Container kind='thin-row' grow='3' {...this.link ()} >
+                <Label text={data.pickDesc} wrap='no' {...this.link ()} />
+              </Container>
+              <Container kind='thin-row' grow='1' {...this.link ()} >
+                <Label text={data.pickZone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
+              </Container>
+              <Container kind='thin-row' grow='1' {...this.link ()} >
+                <Label grow='1' {...this.link ()} />
+                {this.getGlyphs (data.pickGlyphs)}
+              </Container>
             </Container>
-            <Container kind='thin-row' grow='3' {...this.link ()} >
-              <Label text={data.count} wrap='no' {...this.link ()} />
+            <Container kind='thin-row' grow='1' {...this.link ()} >
+              <Container kind='thin-row' grow='1' {...this.link ()} >
+                <Label text={data.dropTime} font-weight='bold' {...this.link ()} />
+              </Container>
+              <Container kind='thin-row' width='20px' {...this.link ()} >
+                <Label glyph='download' glyph-color={dimmedColor} {...this.link ()} />
+              </Container>
+              <Container kind='thin-row' grow='3' {...this.link ()} >
+                <Label text={data.dropDesc} wrap='no' {...this.link ()} />
+              </Container>
+              <Container kind='thin-row' grow='1' {...this.link ()} >
+                <Label text={data.dropZone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
+              </Container>
+              <Container kind='thin-row' grow='1' {...this.link ()} >
+                <Label grow='1' {...this.link ()} />
+                {this.getGlyphs (data.dropGlyphs)}
+              </Container>
             </Container>
           </Container>
-          <Container kind='thin-row' grow='1' {...this.link ()} >
-            <Container kind='thin-row' grow='2' {...this.link ()} >
-              <Label text='total' font-size={dimmedSize} text-color={dimmedColor} {...this.link ()} />
+          <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
+            <Container kind='thin-row' grow='1' {...this.link ()} >
+              <Container kind='thin-row' grow='2' {...this.link ()} >
+                <Label glyph='cube' glyph-color={dimmedColor} {...this.link ()} />
+              </Container>
+              <Container kind='thin-row' grow='3' {...this.link ()} >
+                <Label text={data.count} wrap='no' {...this.link ()} />
+              </Container>
             </Container>
-            <Container kind='thin-row' grow='3' {...this.link ()} >
-              <Label text={data.weight} wrap='no' {...this.link ()} />
+            <Container kind='thin-row' grow='1' {...this.link ()} >
+              <Container kind='thin-row' grow='2' {...this.link ()} >
+                <Label text='total' font-size={dimmedSize} text-color={dimmedColor} {...this.link ()} />
+              </Container>
+              <Container kind='thin-row' grow='3' {...this.link ()} >
+                <Label text={data.weight} wrap='no' {...this.link ()} />
+              </Container>
             </Container>
           </Container>
+          <Container kind='thin-column' grow='1' {...this.link ()} >
+            <Container kind='thin-row' grow='1' {...this.link ()} >
+              <Container kind='thin-row' grow='2' {...this.link ()} >
+                <Label text='CHF' font-size={dimmedSize} text-color={dimmedColor} {...this.link ()} />
+              </Container>
+              <Container kind='thin-row' grow='3' {...this.link ()} >
+                <Label text={data.price} wrap='no' {...this.link ()} />
+              </Container>
+            </Container>
+            <Container kind='thin-row' grow='1' {...this.link ()} >
+              <Container kind='thin-row' grow='2' {...this.link ()} >
+              </Container>
+              <Container kind='thin-row' grow='3' {...this.link ()} >
+                <Label grow='1' {...this.link ()} />
+                {this.getGlyphs (data.priceGlyphs)}
+              </Container>
+            </Container>
+          </Container>
+          <Button kind='thin-right' glyph='caret-right' width='24px' {...this.link ()} />
         </Container>
-        <Container kind='thin-column' grow='1' {...this.link ()} >
-          <Container kind='thin-row' grow='1' {...this.link ()} >
-            <Container kind='thin-row' grow='2' {...this.link ()} >
-              <Label text='CHF' font-size={dimmedSize} text-color={dimmedColor} {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' grow='3' {...this.link ()} >
-              <Label text={data.price} wrap='no' {...this.link ()} />
-            </Container>
-          </Container>
-          <Container kind='thin-row' grow='1' {...this.link ()} >
-            <Container kind='thin-row' grow='2' {...this.link ()} >
-            </Container>
-            <Container kind='thin-row' grow='3' {...this.link ()} >
-              <Label grow='1' {...this.link ()} />
-              {this.getGlyphs (data.priceGlyphs)}
-            </Container>
-          </Container>
-        </Container>
-        <Button kind='thin-right' glyph='caret-right' width='24px' {...this.link ()} />
-      </Container>
-    );
+      );
+    }
   }
 }
 
