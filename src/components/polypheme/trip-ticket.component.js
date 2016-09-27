@@ -40,31 +40,34 @@ export default class TripTicket extends React.Component {
   }
 
   render () {
-    const width  = this.read ('width');
-    const height = this.read ('height');
-    const data   = this.read ('data');
+    const width    = this.read ('width');
+    const height   = this.read ('height');
+    const selected = this.read ('selected');
+    const color    = this.read ('color');
+    const type     = this.read ('type');
+    const data     = this.read ('data');
 
     console.dir (data);
-    if (!data || typeof data.type === 'undefined') {
+    if (!data || typeof data.pick === 'undefined' || typeof data.drop === 'undefined') {
       return (
-        <Ticket width={width} height={height} {...this.link ()} >
+        <Ticket width={width} height={height} selected={selected} color={color} {...this.link ()} >
         </Ticket>
       );
     } else {
-      const pickWeight = (data.type === 'pick') ? 'bold' : 'normal';
-      const dropWeight = (data.type === 'drop') ? 'bold' : 'normal';
-      const direction  = (data.type === 'pick') ? 'upload' : 'download';
+      const pickWeight = (type === 'pick') ? 'bold' : 'normal';
+      const dropWeight = (type === 'drop') ? 'bold' : 'normal';
+      const direction  = (type === 'pick') ? 'upload' : 'download';
 
       return (
-        <Ticket width={width} height={height} selected={data.selected} color={data.color} {...this.link ()} >
+        <Ticket width={width} height={height} selected={selected} color={color} {...this.link ()} >
           <Container kind='column' grow='1' {...this.link ()} >
-            <Label text={data.pickTime} font-weight={pickWeight} {...this.link ()} />
-            <Label text={data.dropTime} font-weight={dropWeight} {...this.link ()} />
+            <Label text={data.pick.time} font-weight={pickWeight} {...this.link ()} />
+            <Label text={data.drop.time} font-weight={dropWeight} {...this.link ()} />
             <Label glyph={direction} {...this.link ()} />
           </Container>
           <Container kind='column' grow='3' {...this.link ()} >
-            <Label text={data.pickDesc} font-weight={pickWeight} {...this.link ()} />
-            <Label text={data.dropDesc} font-weight={dropWeight} {...this.link ()} />
+            <Label text={data.pick.desc} font-weight={pickWeight} {...this.link ()} />
+            <Label text={data.drop.desc} font-weight={dropWeight} {...this.link ()} />
             <Container kind='row' {...this.link ()} >
               <Label glyph='cube' spacing='compact' {...this.link ()} />
               <Label text={data.count + 'x'} grow='1' {...this.link ()} />
