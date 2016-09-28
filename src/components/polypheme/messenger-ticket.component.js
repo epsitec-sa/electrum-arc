@@ -13,8 +13,8 @@ export default class MessengerTicket extends React.Component {
   }
 
   render () {
-    const width    = this.read ('width');
-    const height   = this.read ('height');
+    const width    = '220px';
+    const height   = '70px';
     const selected = this.read ('selected');
     const color    = this.read ('color');
     const data     = this.read ('data');

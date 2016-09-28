@@ -41,17 +41,14 @@ export default class TripBox extends React.Component {
   }
 
   render () {
-    const width    = this.read ('width');
-    const height   = this.read ('height');
+    const height   = '70px';
     const selected = this.read ('selected');
     const color    = this.read ('color');
     const data     = this.read ('data');
 
-    const h = height ? height : '70px';
-
     if (!data || typeof data.pick === 'undefined' || typeof data.drop === 'undefined') {
       return (
-        <Container kind='thin-main' width={width} height={h} selected={selected} color={color} grow='1' {...this.link ()} >
+        <Container kind='thin-main' height={height} selected={selected} color={color} grow='1' {...this.link ()} >
         </Container>
       );
     } else {
@@ -59,7 +56,7 @@ export default class TripBox extends React.Component {
       const dimmedSize  = '75%';
 
       return (
-        <Container kind='thin-main' width={width} height={h} selected={selected} color={color} grow='1' {...this.link ()} >
+        <Container kind='thin-main' height={height} selected={selected} color={color} grow='1' {...this.link ()} >
           <Button kind='thin-left' glyph='arrows-alt' width='24px' {...this.link ()} />
           <Container kind='thin-column' border='right' grow='4' {...this.link ()} >
             <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
