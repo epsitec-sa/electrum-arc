@@ -46,7 +46,7 @@ export default class TripBox extends React.Component {
     const color    = this.read ('color');
     const data     = this.read ('data');
 
-    if (!data || typeof data.pick === 'undefined' || typeof data.drop === 'undefined') {
+    if (!data || typeof data.Pick === 'undefined' || typeof data.Drop === 'undefined') {
       return (
         <Container kind='thin-main' height={height} selected={selected} color={color} grow='1' {...this.link ()} >
         </Container>
@@ -61,38 +61,38 @@ export default class TripBox extends React.Component {
           <Container kind='thin-column' border='right' grow='4' {...this.link ()} >
             <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
               <Container kind='thin-row' grow='1' {...this.link ()} >
-                <Label text={data.pick.time} font-weight='bold' {...this.link ()} />
+                <Label text={data.Pick.Time} font-weight='bold' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
                 <Label glyph='upload' glyph-color={dimmedColor} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
-                <Label text={data.pick.desc} wrap='no' {...this.link ()} />
+                <Label text={data.Pick.Desc} wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
-                <Label text={data.pick.zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
+                <Label text={data.Pick.Zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label grow='1' {...this.link ()} />
-                {this.getGlyphs (data.pick.glyphs)}
+                {this.getGlyphs (data.Pick.Glyphs)}
               </Container>
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
               <Container kind='thin-row' grow='1' {...this.link ()} >
-                <Label text={data.drop.time} font-weight='bold' {...this.link ()} />
+                <Label text={data.Drop.Time} font-weight='bold' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
                 <Label glyph='download' glyph-color={dimmedColor} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
-                <Label text={data.drop.desc} wrap='no' {...this.link ()} />
+                <Label text={data.Drop.Desc} wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
-                <Label text={data.drop.zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
+                <Label text={data.Drop.Zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label grow='1' {...this.link ()} />
-                {this.getGlyphs (data.drop.glyphs)}
+                {this.getGlyphs (data.Drop.Glyphs)}
               </Container>
             </Container>
           </Container>
@@ -102,7 +102,7 @@ export default class TripBox extends React.Component {
                 <Label glyph='cube' glyph-color={dimmedColor} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
-                <Label text={data.count} wrap='no' {...this.link ()} />
+                <Label text={data.Count} wrap='no' {...this.link ()} />
               </Container>
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
@@ -110,7 +110,7 @@ export default class TripBox extends React.Component {
                 <Label text='total' font-size={dimmedSize} text-color={dimmedColor} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
-                <Label text={data.weight} wrap='no' {...this.link ()} />
+                <Label text={data.Weight} wrap='no' {...this.link ()} />
               </Container>
             </Container>
           </Container>
@@ -120,7 +120,7 @@ export default class TripBox extends React.Component {
                 <Label text='CHF' font-size={dimmedSize} text-color={dimmedColor} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
-                <Label text={data.price} wrap='no' {...this.link ()} />
+                <Label text={data.Price} wrap='no' {...this.link ()} />
               </Container>
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
@@ -128,7 +128,7 @@ export default class TripBox extends React.Component {
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
                 <Label grow='1' {...this.link ()} />
-                {this.getGlyphs (data.priceGlyphs)}
+                {this.getGlyphs (data.PriceGlyphs)}
               </Container>
             </Container>
           </Container>

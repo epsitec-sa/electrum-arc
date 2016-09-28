@@ -48,7 +48,7 @@ export default class TripTicket extends React.Component {
     const data     = this.read ('data');
 
     console.dir (data);
-    if (!data || typeof data.pick === 'undefined' || typeof data.drop === 'undefined') {
+    if (!data || typeof data.Pick === 'undefined' || typeof data.Drop === 'undefined') {
       return (
         <Ticket width={width} height={height} selected={selected} color={color} {...this.link ()} >
         </Ticket>
@@ -61,17 +61,17 @@ export default class TripTicket extends React.Component {
       return (
         <Ticket width={width} height={height} selected={selected} color={color} {...this.link ()} >
           <Container kind='column' grow='1' {...this.link ()} >
-            <Label text={data.pick.time} font-weight={pickWeight} {...this.link ()} />
-            <Label text={data.drop.time} font-weight={dropWeight} {...this.link ()} />
+            <Label text={data.Pick.Time} font-weight={pickWeight} {...this.link ()} />
+            <Label text={data.Drop.Time} font-weight={dropWeight} {...this.link ()} />
             <Label glyph={direction} {...this.link ()} />
           </Container>
           <Container kind='column' grow='3' {...this.link ()} >
-            <Label text={data.pick.desc} font-weight={pickWeight} {...this.link ()} />
-            <Label text={data.drop.desc} font-weight={dropWeight} {...this.link ()} />
+            <Label text={data.Pick.Desc} font-weight={pickWeight} {...this.link ()} />
+            <Label text={data.Drop.Desc} font-weight={dropWeight} {...this.link ()} />
             <Container kind='row' {...this.link ()} >
               <Label glyph='cube' spacing='compact' {...this.link ()} />
-              <Label text={data.count + 'x'} grow='1' {...this.link ()} />
-              {this.getGlyphs (data.glyphs)}
+              <Label text={data.Count + 'x'} grow='1' {...this.link ()} />
+              {this.getGlyphs (data.Glyphs)}
             </Container>
           </Container>
         </Ticket>

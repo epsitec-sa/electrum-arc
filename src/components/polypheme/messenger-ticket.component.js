@@ -19,7 +19,7 @@ export default class MessengerTicket extends React.Component {
     const color    = this.read ('color');
     const data     = this.read ('data');
 
-    if (!data || typeof data.name === 'undefined') {
+    if (!data || typeof data.Name === 'undefined') {
       return (
         <Ticket kind='header' width={width} height={height} selected={selected} color={color} {...this.link ()} >
         </Ticket>
@@ -28,14 +28,14 @@ export default class MessengerTicket extends React.Component {
       return (
         <Ticket kind='header' width={width} height={height} selected={selected} color={color} {...this.link ()} >
           <Container kind='column' grow='2' {...this.link ()} >
-            <Button glyph={data.photo} kind='identity' {...this.link ()} />
+            <Button glyph={data.Photo} kind='identity' {...this.link ()} />
           </Container>
           <Container kind='column' grow='1' {...this.link ()} >
-            <Label glyph={data.transportation} glyph-size='150%' {...this.link ()} />
+            <Label glyph={data.Transportation} glyph-size='150%' {...this.link ()} />
           </Container>
           <Container kind='column' grow='3' {...this.link ()} >
-            <Label text={data.name} font-weight='bold' text-color='#fff' {...this.link ()} />
-            <Label text={data.total} font-weight='bold' text-color='#fff' {...this.link ()} />
+            <Label text={data.Name} font-weight='bold' text-color='#fff' {...this.link ()} />
+            <Label text={data.Total} font-weight='bold' text-color='#fff' {...this.link ()} />
           </Container>
         </Ticket>
       );
