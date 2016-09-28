@@ -27,6 +27,8 @@ export default function styles (theme, props) {
   let height            = inputHeight;
   let minWidth          = null;
   let minHeight         = null;
+  let maxWidth          = null;
+  let maxHeight         = null;
   let display           = null;
   let overflowX         = null;
   let overflowY         = null;
@@ -489,7 +491,7 @@ export default function styles (theme, props) {
     padding         = '0px ' + mm + ' 0px ' + mm;
     display         = 'flex';
     flexDirection   = 'column';
-    flexGrow        = 1;
+    flexGrow        = 0;
     margin          = '0px ' + theme.shapes.viewSpacing + ' 0px 0px';
     backgroundColor = theme.palette.ticketsBackground;
   }
@@ -633,6 +635,8 @@ export default function styles (theme, props) {
     height:            height,
     minWidth:          minWidth,
     minHeight:         minHeight,
+    maxWidth:          maxWidth,
+    maxHeight:         maxHeight,
     display:           display,
     overflowX:         overflowX,
     overflowY:         overflowY,
