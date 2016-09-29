@@ -34,7 +34,7 @@ export default class MessengerTicket extends React.Component {
             <Label glyph={data.Transportation} glyph-size='150%' {...this.link ()} />
           </Container>
           <Container kind='column' grow='3' {...this.link ()} >
-            <Label text={data.Name} font-weight='bold' text-color='#fff' {...this.link ()} />
+            <Label text={data.Name} text-color='#fff' {...this.link ()} />
             <Label text={data.Total} font-weight='bold' text-color='#fff' {...this.link ()} />
           </Container>
         </Ticket>
