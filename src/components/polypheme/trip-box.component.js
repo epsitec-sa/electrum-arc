@@ -66,7 +66,7 @@ export default class TripBox extends React.Component {
                 <Label glyph='upload' glyph-color={dimmedColor} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
-                <Label text={data.Pick.Desc} wrap='no' {...this.link ()} />
+                <Label text={data.Pick.Description} wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label text={data.Pick.Zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
@@ -84,7 +84,7 @@ export default class TripBox extends React.Component {
                 <Label glyph='download' glyph-color={dimmedColor} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
-                <Label text={data.Drop.Desc} wrap='no' {...this.link ()} />
+                <Label text={data.Drop.Description} wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label text={data.Drop.Zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />

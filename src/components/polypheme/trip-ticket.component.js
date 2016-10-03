@@ -64,11 +64,11 @@ export default class TripTicket extends React.Component {
             <Label glyph={direction} {...this.link ()} />
           </Container>
           <Container kind='column' grow='3' {...this.link ()} >
-            <Label text={data.Trip.Pick.Desc} font-weight={pickWeight} {...this.link ()} />
-            <Label text={data.Trip.Drop.Desc} font-weight={dropWeight} {...this.link ()} />
+            <Label text={data.Trip.Pick.Description} font-weight={pickWeight} {...this.link ()} />
+            <Label text={data.Trip.Drop.Description} font-weight={dropWeight} {...this.link ()} />
             <Container kind='row' {...this.link ()} >
               <Label glyph='cube' spacing='compact' {...this.link ()} />
-              <Label text={data.Trip.Count + 'x'} grow='1' {...this.link ()} />
+              <Label text={data.Trip.Count} grow='1' {...this.link ()} />
               {this.getGlyphs (data.Trip.Glyphs)}
             </Container>
           </Container>
