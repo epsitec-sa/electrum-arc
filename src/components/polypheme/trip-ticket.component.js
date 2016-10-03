@@ -13,14 +13,15 @@ export default class TripTicket extends React.Component {
   }
 
   getGlyph (glyph) {
-    if (glyph.startsWith ('bookmark-')) {
-      const color = glyph.substring (9);
+    const g = glyph.Glyph;
+    if (g.startsWith ('bookmark-')) {
+      const color = g.substring (9);
       return (
         <Label glyph='bookmark' glyph-color={color} spacing='compact' {...this.link ()} />
       );
     } else {
       return (
-        <Label glyph={glyph} spacing='compact' {...this.link ()} />
+        <Label glyph={g} spacing='compact' {...this.link ()} />
       );
     }
   }
@@ -28,8 +29,6 @@ export default class TripTicket extends React.Component {
   getGlyphs (glyphs) {
     if (glyphs === null) {
       return null;
-    } else if (typeof (glyphs) === 'string') {
-      return this.getGlyph (glyphs);
     } else {
       let line = [];
       glyphs.forEach (glyph => {

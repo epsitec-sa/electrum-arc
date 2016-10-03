@@ -32,10 +32,10 @@ export default class MessengerTicket extends React.Component {
       return (
         <Ticket kind='header' width={width} height={height} selected={selected} color={color} {...this.link ()} >
           <Container kind='column' grow='2' {...this.link ()} >
-            <Button glyph={data.Photo} kind='identity' {...this.link ()} />
+            <Button glyph={data.Photo.Glyph} kind='identity' {...this.link ()} />
           </Container>
           <Container kind='column' grow='1' {...this.link ()} >
-            <Label glyph={data.Transportation} glyph-size='150%' {...this.link ()} />
+            <Label glyph={data.Transportation.Glyph} glyph-size='150%' {...this.link ()} />
           </Container>
           <Container kind='column' grow='3' {...this.link ()} >
             <Label text={data.Name} text-color='#fff' {...this.link ()} />
