@@ -46,8 +46,7 @@ export default class TripTicket extends React.Component {
     const type     = this.read ('type');
     const data     = this.read ('data');
 
-    console.dir (data);
-    if (!data || typeof data.Pick === 'undefined' || typeof data.Drop === 'undefined') {
+    if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       return (
         <Ticket width={width} height={height} selected={selected} color={color} {...this.link ()} >
         </Ticket>
@@ -60,17 +59,17 @@ export default class TripTicket extends React.Component {
       return (
         <Ticket width={width} height={height} selected={selected} color={color} {...this.link ()} >
           <Container kind='column' grow='1' {...this.link ()} >
-            <Label text={data.Pick.Time} font-weight={pickWeight} {...this.link ()} />
-            <Label text={data.Drop.Time} font-weight={dropWeight} {...this.link ()} />
+            <Label text={data.Trip.Pick.Time} font-weight={pickWeight} {...this.link ()} />
+            <Label text={data.Trip.Drop.Time} font-weight={dropWeight} {...this.link ()} />
             <Label glyph={direction} {...this.link ()} />
           </Container>
           <Container kind='column' grow='3' {...this.link ()} >
-            <Label text={data.Pick.Desc} font-weight={pickWeight} {...this.link ()} />
-            <Label text={data.Drop.Desc} font-weight={dropWeight} {...this.link ()} />
+            <Label text={data.Trip.Pick.Desc} font-weight={pickWeight} {...this.link ()} />
+            <Label text={data.Trip.Drop.Desc} font-weight={dropWeight} {...this.link ()} />
             <Container kind='row' {...this.link ()} >
               <Label glyph='cube' spacing='compact' {...this.link ()} />
-              <Label text={data.Count + 'x'} grow='1' {...this.link ()} />
-              {this.getGlyphs (data.Glyphs)}
+              <Label text={data.Trip.Count + 'x'} grow='1' {...this.link ()} />
+              {this.getGlyphs (data.Trip.Glyphs)}
             </Container>
           </Container>
         </Ticket>
