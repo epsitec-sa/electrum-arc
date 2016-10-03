@@ -39,6 +39,16 @@ export default class TripBox extends React.Component {
     }
   }
 
+  getTime (time) {
+    if (time && time.length === 19) {
+      // If format '2016-03-31T14:30:00', extract 'hh:mm'.
+      let h = time.substring (11, 13);
+      let m = time.substring (14, 16);
+      time = h + ':' + m;
+    }
+    return time;
+  }
+
   render () {
     const height   = '70px';
     const selected = this.read ('selected');
@@ -60,7 +70,7 @@ export default class TripBox extends React.Component {
           <Container kind='thin-column' border='right' grow='4' {...this.link ()} >
             <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
               <Container kind='thin-row' grow='1' {...this.link ()} >
-                <Label text={data.Pick.Time} font-weight='bold' {...this.link ()} />
+                <Label text={this.getTime (data.Pick.Time)} font-weight='bold' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
                 <Label glyph='upload' glyph-color={dimmedColor} {...this.link ()} />
@@ -78,7 +88,7 @@ export default class TripBox extends React.Component {
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
               <Container kind='thin-row' grow='1' {...this.link ()} >
-                <Label text={data.Drop.Time} font-weight='bold' {...this.link ()} />
+                <Label text={this.getTime (data.Drop.Time)} font-weight='bold' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
                 <Label glyph='download' glyph-color={dimmedColor} {...this.link ()} />
