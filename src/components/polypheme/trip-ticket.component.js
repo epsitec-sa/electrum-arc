@@ -38,6 +38,16 @@ export default class TripTicket extends React.Component {
     }
   }
 
+  getTime (time) {
+    if (time && time.length === 19) {
+      // If format '2016-03-31T14:30:00', extract 'hh:mm'.
+      let h = time.substring (11, 13);
+      let m = time.substring (14, 16);
+      time = h + ':' + m;
+    }
+    return time;
+  }
+
   render () {
     const width    = '220px';
     const height   = '90px';
@@ -59,8 +69,8 @@ export default class TripTicket extends React.Component {
       return (
         <Ticket width={width} height={height} selected={selected} color={color} {...this.link ()} >
           <Container kind='column' grow='1' {...this.link ()} >
-            <Label text={data.Trip.Pick.Time} font-weight={pickWeight} {...this.link ()} />
-            <Label text={data.Trip.Drop.Time} font-weight={dropWeight} {...this.link ()} />
+            <Label text={this.getTime (data.Trip.Pick.Time)} font-weight={pickWeight} {...this.link ()} />
+            <Label text={this.getTime (data.Trip.Drop.Time)} font-weight={dropWeight} {...this.link ()} />
             <Label glyph={direction} {...this.link ()} />
           </Container>
           <Container kind='column' grow='3' {...this.link ()} >
