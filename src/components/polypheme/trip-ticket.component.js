@@ -27,7 +27,7 @@ export default class TripTicket extends React.Component {
   }
 
   getGlyphs (glyphs) {
-    if (glyphs === null) {
+    if (!glyphs) {
       return null;
     } else {
       let line = [];

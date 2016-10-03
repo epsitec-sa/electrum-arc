@@ -28,7 +28,7 @@ export default class TripBox extends React.Component {
   }
 
   getGlyphs (glyphs) {
-    if (glyphs === null) {
+    if (!glyphs) {
       return null;
     } else {
       let line = [];
