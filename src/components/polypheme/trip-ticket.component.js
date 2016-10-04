@@ -63,13 +63,10 @@ export default class TripTicket extends React.Component {
         </Ticket>
       );
     } else {
-      console.dir (type);
-      console.dir (data);
       const pickWeight = (type === 'pick') ? 'bold' : 'normal';
       const dropWeight = (type === 'drop') ? 'bold' : 'normal';
       const direction  = (type === 'pick') ? 'upload' : 'download';
       const glyphs     = (type === 'pick') ? data.Trip.Pick.Glyphs : data.Trip.Drop.Glyphs;
-      console.dir (glyphs);
 
       return (
         <Ticket width={width} height={height} selected={selected} color={color} {...this.link ()} >
