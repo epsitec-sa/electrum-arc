@@ -52,9 +52,9 @@ export default class TripTicket extends React.Component {
     const width    = '220px';
     const height   = '90px';
     const selected = this.read ('Selected');
-    const color    = this.read ('Color');
-    const type     = this.read ('Type');
     const data     = this.read ('data');
+    const color    = data.Color;
+    const type     = data.Type;
 
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       return (

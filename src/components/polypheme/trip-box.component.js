@@ -70,7 +70,7 @@ export default class TripBox extends React.Component {
           <Container kind='thin-column' border='right' grow='4' {...this.link ()} >
             <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
               <Container kind='thin-row' grow='1' {...this.link ()} >
-                <Label text={this.getTime (data.Pick.Time)} font-weight='bold' {...this.link ()} />
+                <Label text={this.getTime (data.Pick.Time)} font-weight='bold' wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
                 <Label glyph='upload' glyph-color={dimmedColor} {...this.link ()} />
@@ -88,7 +88,7 @@ export default class TripBox extends React.Component {
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
               <Container kind='thin-row' grow='1' {...this.link ()} >
-                <Label text={this.getTime (data.Drop.Time)} font-weight='bold' {...this.link ()} />
+                <Label text={this.getTime (data.Drop.Time)} font-weight='bold' wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
                 <Label glyph='download' glyph-color={dimmedColor} {...this.link ()} />
