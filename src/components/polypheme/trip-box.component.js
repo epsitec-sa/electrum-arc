@@ -51,8 +51,8 @@ export default class TripBox extends React.Component {
 
   render () {
     const height   = '70px';
-    const selected = this.read ('selected');
-    const color    = this.read ('color');
+    const selected = this.read ('Selected');
+    const color    = this.read ('Color');
     const data     = this.read ('data');
 
     if (!data || typeof data.Pick === 'undefined' || typeof data.Drop === 'undefined') {

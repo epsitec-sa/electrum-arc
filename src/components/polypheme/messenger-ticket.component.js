@@ -15,8 +15,8 @@ export default class MessengerTicket extends React.Component {
   render () {
     const width    = '220px';
     const height   = '70px';
-    const selected = this.read ('selected');
-    let   color    = this.read ('color');
+    const selected = this.read ('Selected');
+    let   color    = this.read ('Color');
     const data     = this.read ('data');
 
     if (!color) {

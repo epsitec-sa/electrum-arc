@@ -51,9 +51,9 @@ export default class TripTicket extends React.Component {
   render () {
     const width    = '220px';
     const height   = '90px';
-    const selected = this.read ('selected');
-    const color    = this.read ('color');
-    const type     = this.read ('type');
+    const selected = this.read ('Selected');
+    const color    = this.read ('Color');
+    const type     = this.read ('Type');
     const data     = this.read ('data');
 
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
@@ -62,6 +62,8 @@ export default class TripTicket extends React.Component {
         </Ticket>
       );
     } else {
+      console.dir (type);
+      console.dir (data);
       const pickWeight = (type === 'pick') ? 'bold' : 'normal';
       const dropWeight = (type === 'drop') ? 'bold' : 'normal';
       const direction  = (type === 'pick') ? 'upload' : 'download';
