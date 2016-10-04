@@ -62,7 +62,7 @@ export default function styles (theme, props) {
     margin = '0px ' + m + ' ' + bottomMargin + ' 0px';
   } else if (inputSpacing === 'compact') {
     margin = '0px 5px ' + bottomMargin + ' 0px';
-    glyphMinWidth = Unit.multiply (glyphMinWidth, 0.75);
+    glyphMinWidth = null;
   } else {
     margin = '0px 0px ' + bottomMargin + ' 0px';
   }

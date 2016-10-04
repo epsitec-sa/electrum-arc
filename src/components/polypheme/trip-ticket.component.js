@@ -13,15 +13,14 @@ export default class TripTicket extends React.Component {
   }
 
   getGlyph (glyph) {
-    const g = glyph.Glyph;
-    if (g.startsWith ('bookmark-')) {
-      const color = g.substring (9);
+    if (glyph.startsWith ('bookmark-')) {
+      const color = glyph.substring (9);
       return (
         <Label glyph='bookmark' glyph-color={color} spacing='compact' {...this.link ()} />
       );
     } else {
       return (
-        <Label glyph={g} spacing='compact' {...this.link ()} />
+        <Label glyph={glyph} spacing='compact' {...this.link ()} />
       );
     }
   }
@@ -32,7 +31,9 @@ export default class TripTicket extends React.Component {
     } else {
       let line = [];
       glyphs.forEach (glyph => {
-        line.push (this.getGlyph (glyph));
+        if (glyph && glyph.Glyph) {
+          line.push (this.getGlyph (glyph.Glyph));
+        }
       });
       return line;
     }
@@ -67,6 +68,8 @@ export default class TripTicket extends React.Component {
       const pickWeight = (type === 'pick') ? 'bold' : 'normal';
       const dropWeight = (type === 'drop') ? 'bold' : 'normal';
       const direction  = (type === 'pick') ? 'upload' : 'download';
+      const glyphs     = (type === 'pick') ? data.Trip.Pick.Glyphs : data.Trip.Drop.Glyphs;
+      console.dir (glyphs);
 
       return (
         <Ticket width={width} height={height} selected={selected} color={color} {...this.link ()} >
@@ -81,7 +84,7 @@ export default class TripTicket extends React.Component {
             <Container kind='row' {...this.link ()} >
               <Label glyph='cube' spacing='compact' {...this.link ()} />
               <Label text={data.Trip.Count} grow='1' {...this.link ()} />
-              {this.getGlyphs (data.Trip.Glyphs)}
+              {this.getGlyphs (glyphs)}
             </Container>
           </Container>
         </Ticket>
