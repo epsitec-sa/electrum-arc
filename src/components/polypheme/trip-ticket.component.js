@@ -31,8 +31,8 @@ export default class TripTicket extends React.Component {
     } else {
       let line = [];
       glyphs.forEach (glyph => {
-        if (glyph && glyph.Glyph) {
-          line.push (this.getGlyph (glyph.Glyph));
+        if (glyph && glyph.value && glyph.value.Glyph) {
+          line.push (this.getGlyph (glyph.value.Glyph));
         }
       });
       return line;
