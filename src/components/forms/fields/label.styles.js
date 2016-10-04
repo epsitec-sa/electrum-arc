@@ -38,7 +38,7 @@ export default function styles (theme, props) {
   let textColor          = null;
   let linesOverflow      = null;
   let textDisplay        = 'flex';
-  let textAlign          = null;
+  let textAlign          = 'center';
   let textOverflow       = null;
   let textTextOverflow   = null;
   let textWhiteSpace     = null;
@@ -62,7 +62,7 @@ export default function styles (theme, props) {
     margin = '0px ' + m + ' ' + bottomMargin + ' 0px';
   } else if (inputSpacing === 'compact') {
     margin = '0px 5px ' + bottomMargin + ' 0px';
-    glyphMinWidth = null;
+    glyphMinWidth = Unit.multiply (glyphMinWidth, 0.75);
   } else {
     margin = '0px 0px ' + bottomMargin + ' 0px';
   }
@@ -83,14 +83,12 @@ export default function styles (theme, props) {
     fontSize        = theme.shapes.labelTitleTextSize;
     fontWeight      = 'bold';
     textTransform   = 'uppercase';
-    textAlign       = 'center';
   }
 
   if (inputKind === 'big-center') {
     fontSize          = theme.shapes.labelBigTextSize;
     fontWeight        = 'bold';
     textTransform     = 'uppercase';
-    textAlign         = 'center';
     boxJustifyContent = 'center';
   }
 
