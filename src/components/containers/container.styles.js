@@ -437,6 +437,16 @@ export default function styles (theme, props) {
       topMargin         = halfMargin;
       bottomMargin      = Unit.sub (Unit.multiply (halfMargin, -1), '1px');
       padding           = '0px';
+    } else if (inputSubkind === 'wrap') {
+      display         = 'flex';
+      flexDirection   = 'row';
+      flexWrap        = 'wrap';
+      justifyContent  = 'flex-start';
+      alignItems      = 'center';
+      leftMargin      = Unit.multiply (m, -0.25);
+      rightMargin     = Unit.multiply (m, -0.25);
+      topMargin       = Unit.multiply (m, -0.25);
+      bottomMargin    = Unit.multiply (m,  0.25);
     }
     if (inputSpacing === 'compact') {
       height           = theme.shapes.lineHeight;
@@ -451,6 +461,10 @@ export default function styles (theme, props) {
       color           = theme.palette.paneSelectedText;
     }
     margin = topMargin + ' ' + rightMargin + ' ' + bottomMargin + ' ' + leftMargin;
+  }
+
+  if (inputKind === 'row-wrap') {
+    margin               = Unit.multiply (m, 0.25);
   }
 
   if (inputKind === 'compact-row') {
