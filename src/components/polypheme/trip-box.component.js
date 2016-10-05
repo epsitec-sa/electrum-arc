@@ -50,6 +50,14 @@ export default class TripBox extends React.Component {
     return time;
   }
 
+  getZone (data) {
+    if (data && data.Name) {
+      return data.Name;
+    } else {
+      return null;
+    }
+  }
+
   render () {
     const height   = '70px';
     const selected = this.read ('Selected');
@@ -81,7 +89,7 @@ export default class TripBox extends React.Component {
                 <Label text={data.Trip.Pick.Description} wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
-                <Label text={data.Trip.Pick.Zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
+                <Label text={this.getZone (data.Trip.Pick.Zone)} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label grow='1' {...this.link ()} />
@@ -99,7 +107,7 @@ export default class TripBox extends React.Component {
                 <Label text={data.Trip.Drop.Description} wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
-                <Label text={data.Trip.Drop.Zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
+                <Label text={this.getZone (data.Trip.Drop.Zone)} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label grow='1' {...this.link ()} />
