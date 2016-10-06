@@ -2,8 +2,6 @@
 import Electrum from 'electrum';
 import _Button from './components/buttons/button.component.js';
 import _Button$styles from './components/buttons/button.styles.js';
-import _TabButton from './components/buttons/tab-button.component.js';
-import _TabButton$styles from './components/buttons/tab-button.styles.js';
 import _AppCanvas from './components/containers/app-canvas.component.js';
 import _AppCanvas$styles from './components/containers/app-canvas.styles.js';
 import _Container from './components/containers/container.component.js';
@@ -43,7 +41,6 @@ import _TripBox from './components/polypheme/trip-box.component.js';
 import _TripTicket from './components/polypheme/trip-ticket.component.js';
 import _Checkbox from './components/switches/checkbox.component.js';
 export const Button = Electrum.wrap ('Button', _Button, {styles: _Button$styles});
-export const TabButton = Electrum.wrap ('TabButton', _TabButton, {styles: _TabButton$styles});
 export const AppCanvas = Electrum.wrap ('AppCanvas', _AppCanvas, {styles: _AppCanvas$styles});
 export const Container = Electrum.wrap ('Container', _Container, {styles: _Container$styles});
 export const Dialog = Electrum.wrap ('Dialog', _Dialog, {styles: _Dialog$styles});

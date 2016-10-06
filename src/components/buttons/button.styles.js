@@ -158,6 +158,7 @@ export default function styles (theme, props) {
   // view-tab button (usual parent is container with kind='view-tab').
   if (inputKind === 'view-tab') {
     boxHeight   = theme.shapes.viewTabHeight;
+    boxMargin   = '0px 1px 0px 0px';
     borderStyle = 'none';
     textSize    = theme.shapes.viewTabTextSize;
     glyphColor  = theme.palette.viewTabGlyph;
