@@ -456,7 +456,6 @@ export default function styles (theme, props) {
       bottomMargin     = Unit.multiply (halfMargin, -1);
     }
     if (inputSelected === 'true') {
-      // MOCK: see with Gilles for final code !
       backgroundColor = theme.palette.paneSelectedBackground;
       color           = theme.palette.paneSelectedText;
     }
