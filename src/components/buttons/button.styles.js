@@ -19,6 +19,7 @@ export default function styles (theme, props) {
   const inputWidth         = props.width;
   const inputHeight        = props.height;
   const inputKind          = props.kind;
+  const inputSubkind       = props.subkind;
   const inputNature        = props.nature;
   const inputPlace         = props.place;
   const inputActive        = props.active;

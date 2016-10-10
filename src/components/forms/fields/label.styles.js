@@ -152,6 +152,15 @@ export default function styles (theme, props) {
     margin            = m + ' 0px';
   }
 
+  if (inputKind === 'large-left') {
+    const hm          = Unit.multiply (m, 0.5);
+    margin            = hm + ' 0px ' + hm + ' ' + m;
+  }
+  if (inputKind === 'large-right') {
+    const hm          = Unit.multiply (m, 0.5);
+    margin            = hm + ' ' + m + ' ' + hm + ' 0px';
+  }
+
   if (inputVpos === 'top') {
     boxAlignSelf = 'flex-start';
   }

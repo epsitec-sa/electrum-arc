@@ -408,7 +408,6 @@ export default function styles (theme, props) {
       let rightPadding  = m;
       let bottomPadding = halfMargin;
       let leftPadding   = m;
-      padding           = halfMargin + ' ' + m;
       borderTopColor    = theme.palette.paneNavigatorInactiveBorder;
       borderBottomColor = theme.palette.paneNavigatorInactiveBorder;
       borderTopWidth    = '1px';
@@ -425,6 +424,17 @@ export default function styles (theme, props) {
         leftPadding = Unit.sub (leftPadding, theme.shapes.markWidth);
       }
       padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
+    } else if (inputSubkind === 'large-box') {
+      rightMargin       = Unit.multiply (m, -1);
+      leftMargin        = Unit.multiply (m, -1);
+      borderTopColor    = theme.palette.paneNavigatorInactiveBorder;
+      borderBottomColor = theme.palette.paneNavigatorInactiveBorder;
+      borderTopWidth    = '1px';
+      borderBottomWidth = '1px';
+      borderTopStyle    = 'solid';
+      borderBottomStyle = 'solid';
+      topMargin         = halfMargin;
+      bottomMargin      = Unit.sub (Unit.multiply (halfMargin, -1), '1px');
     } else if (inputSubkind === 'list') {
       borderBottomColor = theme.palette.paneNavigatorInactiveBorder;
       borderBottomWidth = '1px';

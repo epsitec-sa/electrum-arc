@@ -25,6 +25,7 @@ export default class Button extends React.Component {
       width:         this.read ('width'),
       height:        this.read ('height'),
       kind:          this.read ('kind'),
+      subkind:       this.read ('subkind'),
       nature:        this.read ('nature'),
       place:         this.read ('place'),
       active:        this.read ('active'),
