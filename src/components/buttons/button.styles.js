@@ -23,6 +23,7 @@ export default function styles (theme, props) {
   const inputNature        = props.nature;
   const inputPlace         = props.place;
   const inputActive        = props.active;
+  const inputBadgeValue    = props.badgeValue;
   const inputShape         = props.shape;
   const inputMenuDirection = props.menuDirection;
   const inputTextTransform = props.textTransform;
@@ -144,7 +145,7 @@ export default function styles (theme, props) {
     textColor = theme.palette.mainTabText;
   }
 
-  if (inputKind === 'main-tab-login') {
+  if (inputKind === 'main-tab-right') {
     boxHeight            = theme.shapes.mainTabHeight;
     borderStyle          = 'none';
     textColor            = theme.palette.mainTabText;
@@ -174,6 +175,15 @@ export default function styles (theme, props) {
     } else {
       backgroundColor = theme.palette.viewTabButtonInactiveBackground;
     }
+  }
+
+  if (inputKind === 'view-tab-right') {
+    boxHeight       = Unit.add (theme.shapes.containerMargin, theme.shapes.viewTabHeight);
+    borderStyle     = 'none';
+    textWeight      = 'bold';
+    textColor       = theme.palette.viewTabRightText;
+    glyphColor      = theme.palette.viewTabRightText;
+    backgroundColor = theme.palette.viewTabRightTextBackground;
   }
 
   // task-tab button (usual parent is container with kind='task').
@@ -517,6 +527,8 @@ export default function styles (theme, props) {
     glyphTransform = 'scale(' + ss + ')';
     const mm = Unit.multiply (m, ss);
     glyphMargin = '0px ' + mm + ' 0px ' + mm;
+  } else if (inputGlyphPosition === 'right' && inputBadgeValue) {
+    glyphMargin = '0px 10px 0px 0px';
   }
 
   const glyphStyle = {

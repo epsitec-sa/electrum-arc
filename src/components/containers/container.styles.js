@@ -190,7 +190,7 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.mainTabBackground;
   }
 
-  if (inputKind === 'main-tab-login') {
+  if (inputKind === 'main-tab-right') {
     display         = 'flex';
     flexDirection   = 'row';
     flexGrow        = 1;
@@ -208,6 +208,15 @@ export default function styles (theme, props) {
     padding         = m + ' 0px 0px 0px';
     borderStyle     = 'none';
     backgroundColor = theme.palette.viewTabBackground;
+  }
+
+  if (inputKind === 'view-tab-right') {
+    display         = 'flex';
+    flexDirection   = 'row';
+    flexGrow        = 1;
+    justifyContent  = 'flex-end';
+    alignItems      = 'center';
+    margin          = Unit.multiply (theme.shapes.containerMargin, -1) + ' 0px 0px 0px';
   }
 
   if (inputKind === 'footer') {
