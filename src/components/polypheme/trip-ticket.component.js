@@ -63,17 +63,19 @@ export default class TripTicket extends React.Component {
         </Ticket>
       );
     } else {
-      const pickWeight = (type === 'pick') ? 'bold' : 'normal';
-      const dropWeight = (type === 'drop') ? 'bold' : 'normal';
-      const direction  = (type === 'pick') ? 'upload' : 'download';
-      const glyphs     = (type === 'pick') ? data.Trip.Pick.Glyphs : data.Trip.Drop.Glyphs;
+      const pickWeight     = (type === 'pick') ? 'bold' : 'normal';
+      const dropWeight     = (type === 'drop') ? 'bold' : 'normal';
+      // const direction      = (type === 'pick') ? 'upload' : 'download';
+      const directionGlyph = (type === 'pick') ? 'dot-circle-o' : 'check-circle';
+      const directionColor = (type === 'pick') ? '#f00' : '#22cb00';
+      const glyphs         = (type === 'pick') ? data.Trip.Pick.Glyphs : data.Trip.Drop.Glyphs;
 
       return (
         <Ticket width={width} height={height} selected={selected} color={color} {...this.link ()} >
           <Container kind='column' grow='1' {...this.link ()} >
             <Label text={this.getTime (data.Trip.Pick.Time)} font-weight={pickWeight} {...this.link ()} />
             <Label text={this.getTime (data.Trip.Drop.Time)} font-weight={dropWeight} {...this.link ()} />
-            <Label glyph={direction} {...this.link ()} />
+            <Label glyph={directionGlyph} glyph-color={directionColor} {...this.link ()} />
           </Container>
           <Container kind='column' grow='3' {...this.link ()} >
             <Label text={data.Trip.Pick.Description} font-weight={pickWeight} {...this.link ()} />
