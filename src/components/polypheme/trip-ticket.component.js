@@ -52,7 +52,7 @@ export default class TripTicket extends React.Component {
 
   render () {
     const width    = '220px';
-    const height   = '90px';
+    const height   = '82px';
     const selected = this.read ('Selected');
     const data     = this.read ('data');
     const color    = data.Color;
