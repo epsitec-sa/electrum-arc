@@ -341,7 +341,7 @@ export default function styles (theme, props) {
     boxHeight       = null;
     borderStyle     = 'none solid none none';
     borderRadius    = r + ' 0px 0px ' + r;
-    borderColor     = theme.palette.thinBorder;
+    borderColor     = theme.palette.buttonBorder;
     backgroundColor = null;
   }
   if (inputKind  === 'thin-right') {
@@ -349,7 +349,7 @@ export default function styles (theme, props) {
     boxHeight       = null;
     borderStyle     = 'none none none solid';
     borderRadius    = '0px ' + r + ' ' + r + ' 0px';
-    borderColor     = theme.palette.thinBorder;
+    borderColor     = theme.palette.buttonBorder;
     backgroundColor = null;
   }
 

@@ -587,7 +587,7 @@ export default function styles (theme, props) {
         borderStyle = 'none none none solid';
       }
       borderWidth = '1px';
-      borderColor = theme.palette.thinBorder;
+      borderColor = theme.palette.buttonBorder;
     } else {
       borderStyle = 'none';
     }
@@ -600,7 +600,7 @@ export default function styles (theme, props) {
     justifyContent  = 'center';
     borderWidth     = '1px';
     borderStyle     = 'solid';
-    borderColor     = theme.palette.thinBorder;
+    borderColor     = theme.palette.buttonBorder;
     borderRadius    = theme.shapes.thinRadius;
     if (inputSelected === 'true') {
       backgroundColor = theme.palette.paneSelectedBackground;
