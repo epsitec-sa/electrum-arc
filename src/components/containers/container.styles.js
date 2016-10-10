@@ -555,6 +555,26 @@ export default function styles (theme, props) {
     boxShadow       = theme.shapes.ticketGlueShadow;
   }
 
+  if (inputKind === 'notification') {
+    minWidth        = width;
+    position        = 'relative';
+    display         = 'flex';
+    flexDirection   = 'column';
+    margin          = '0px';
+    backgroundColor = null;
+  }
+
+  if (inputKind === 'notification-box') {
+    display         = 'flex';
+    flexDirection   = 'row';
+    padding         = m;
+    borderWidth     = '1px';
+    borderStyle     = 'none none solid none';
+    borderColor     = theme.palette.notificationBorder;
+    backgroundColor = theme.palette.notificationBackground;
+    color           = theme.palette.notificationText;
+  }
+
   if (inputKind === 'column-full') {
     display         = 'flex';
     flexDirection   = 'column';
