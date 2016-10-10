@@ -3,6 +3,7 @@
 import React from 'react';
 
 import {Ticket, Container, Label} from '../../all-components.js';
+import {ColorHelpers} from 'electrum-theme';
 
 /******************************************************************************/
 
@@ -63,12 +64,13 @@ export default class TripTicket extends React.Component {
         </Ticket>
       );
     } else {
+      console.dir (this);
+      console.dir (data);
       const pickWeight     = (type === 'pick') ? 'bold' : 'normal';
       const dropWeight     = (type === 'drop') ? 'bold' : 'normal';
       // const directionGlyph = (type === 'pick') ? 'upload' : 'download';
       const directionGlyph = (type === 'pick') ? 'dot-circle-o' : 'check-circle';
-      const directionColor = (type === 'pick') ? '#f00' : '#22cb00';
-      // const directionColor = ColorHelpers.GetMarkColor (theme, inputGlyphColor);
+      const directionColor = ColorHelpers.GetMarkColor (this.theme, (type === 'pick') ? 'primary' : 'success');
       const glyphs         = (type === 'pick') ? data.Trip.Pick.Glyphs : data.Trip.Drop.Glyphs;
 
       return (
