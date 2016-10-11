@@ -586,8 +586,12 @@ export default function styles (theme, props) {
     borderWidth     = '1px';
     borderStyle     = 'none none solid none';
     borderColor     = theme.palette.notificationBorder;
-    backgroundColor = theme.palette.notificationBackground;
     color           = theme.palette.notificationText;
+    if (inputSubkind === 'not-read') {
+      backgroundColor = theme.palette.notificationBackgroundNotRead;
+    } else {
+      backgroundColor = theme.palette.notificationBackground;
+    }
   }
 
   if (inputKind === 'column-full') {
