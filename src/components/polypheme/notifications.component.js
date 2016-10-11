@@ -30,7 +30,7 @@ export default class Notifications extends React.Component {
     const data = this.read ('data');
 
     return (
-      <Container kind='notifications' width='300px' {...this.link ()} >
+      <Container kind='notifications' width='400px' {...this.link ()} >
         {this.getNotifications (data)}
       </Container>
     );
