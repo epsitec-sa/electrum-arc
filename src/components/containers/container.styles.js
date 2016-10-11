@@ -555,9 +555,10 @@ export default function styles (theme, props) {
     boxShadow       = theme.shapes.ticketGlueShadow;
   }
 
-  if (inputKind === 'notification') {
+  if (inputKind === 'notifications') {
     minWidth        = width;
-    position        = 'relative';
+    position        = 'absolute';
+    right           = '0px';
     display         = 'flex';
     flexDirection   = 'column';
     margin          = '0px';
