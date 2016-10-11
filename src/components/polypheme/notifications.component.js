@@ -31,7 +31,7 @@ export default class Notifications extends React.Component {
   getNotifications (notifications, generation) {
     var array = [];
     // The most recent notification first (on top).
-    notifications.slice (0).forEach (n => {
+    notifications.slice (0).reverse ().forEach (n => {
       array.push (this.getNotification (n, generation));
     });
     return array;
@@ -46,8 +46,8 @@ export default class Notifications extends React.Component {
 
     return (
       <Container kind='notifications' subkind={subkind} width='400px' {...this.link ()} >
-        {this.getNotifications (data, generation)}
         {this.getHeader ()}
+        {this.getNotifications (data, generation)}
       </Container>
     );
   }
