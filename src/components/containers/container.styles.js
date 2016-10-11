@@ -556,8 +556,16 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'notifications') {
+    // TODO: improve this code !
+    // Subtracting the current items supposed to be present at the total height
+    // (main-tab, view-tab and footer).
+    let h = '0px';
+    h = Unit.add (h, theme.shapes.mainTabHeight);
+    h = Unit.add (h, theme.shapes.containerMargin);
+    h = Unit.add (h, theme.shapes.viewTabHeight);
+    h = Unit.add (h, theme.shapes.footerHeight);
     minWidth        = width;
-    maxHeight       = '600px';
+    maxHeight       = 'calc(100vh - ' + h + ')';
     position        = 'absolute';
     right           = '0px';
     display         = 'flex';
@@ -568,6 +576,7 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'notification-header') {
+    minHeight       = '32px';
     display         = 'flex';
     flexDirection   = 'row';
     padding         = m;
