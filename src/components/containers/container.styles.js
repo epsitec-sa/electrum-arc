@@ -431,7 +431,7 @@ export default function styles (theme, props) {
         borderLeftWidth = theme.shapes.markWidth;
         borderLeftStyle = 'solid';
         borderLeftColor = ColorHelpers.GetMarkColor (theme, inputMarkColor);
-        leftPadding = Unit.sub (leftPadding, theme.shapes.markWidth);
+        leftPadding     = Unit.sub (leftPadding, theme.shapes.markWidth);
       }
       padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
     } else if (inputSubkind === 'large-box') {
@@ -591,19 +591,27 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'notification-box') {
-    minHeight       = '32px';
-    display         = 'flex';
-    flexDirection   = 'row';
-    padding         = m + ' 0px ' + m + ' ' + m;
-    borderWidth     = '1px';
-    borderStyle     = 'none none solid none';
-    borderColor     = theme.palette.notificationBorder;
-    color           = theme.palette.notificationText;
+    let topPadding    = m;
+    let rightPadding  = '0px';
+    let bottomPadding = m;
+    let leftPadding   = m;
+    minHeight         = '32px';
+    display           = 'flex';
+    flexDirection     = 'row';
+    borderWidth       = '1px';
+    borderStyle       = 'none none solid none';
+    borderColor       = theme.palette.notificationBorder;
+    color             = theme.palette.notificationText;
     if (inputSubkind === 'not-read') {
+      leftPadding     = Unit.sub (leftPadding, theme.shapes.markWidth);
+      borderLeftWidth = theme.shapes.markWidth;
+      borderLeftStyle = 'solid';
+      borderLeftColor = ColorHelpers.GetMarkColor (theme, 'primary');
       backgroundColor = theme.palette.notificationBackgroundNotRead;
     } else {
       backgroundColor = theme.palette.notificationBackground;
     }
+    padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
   }
 
   if (inputKind === 'column-full') {
