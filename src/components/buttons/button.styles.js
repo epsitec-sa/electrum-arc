@@ -184,7 +184,11 @@ export default function styles (theme, props) {
     textWeight      = 'bold';
     textColor       = theme.palette.viewTabRightText;
     glyphColor      = theme.palette.viewTabRightText;
-    backgroundColor = theme.palette.viewTabRightTextBackground;
+    if (inputText) {
+      backgroundColor = theme.palette.viewTabRightTextBackground;
+    } else {
+      backgroundColor = theme.palette.viewTabBackground;
+    }
   }
 
   // task-tab button (usual parent is container with kind='task').
