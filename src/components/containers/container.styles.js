@@ -72,6 +72,7 @@ export default function styles (theme, props) {
   let bottom            = null;
   let transform         = null;
   let fontFamily        = null;
+  let transition        = null;
 
   const h = theme.shapes.lineHeight;
   const m = theme.shapes.containerMargin;
@@ -564,15 +565,17 @@ export default function styles (theme, props) {
     h = Unit.add (h, theme.shapes.containerMargin);
     h = Unit.add (h, theme.shapes.viewTabHeight);
     h = Unit.add (h, theme.shapes.footerHeight);
-    minWidth        = width;
-    maxHeight       = 'calc(100vh - ' + h + ')';
-    position        = 'absolute';
-    right           = '0px';
-    display         = 'flex';
-    flexDirection   = 'column';
-    margin          = '0px';
-    backgroundColor = null;
-    overflowY       = 'auto';
+    minWidth          = width;
+    maxHeight         = 'calc(100vh - ' + h + ')';
+    position          = 'fixed';
+    right             = (inputSubkind === 'hidden') ? Unit.multiply (width, -1) : '0px';
+    display           = 'flex';
+    flexDirection     = 'column';
+    margin            = '0px';
+    backgroundColor   = null;
+    overflowY         = 'auto';
+    transition        = theme.transitions.easeOut ();
+    zIndex            = 2;
   }
 
   if (inputKind === 'notification-header') {
@@ -759,6 +762,7 @@ export default function styles (theme, props) {
     top:               top,
     bottom:            bottom,
     transform:         transform,
+    transition:        transition,
   };
 
   // A Container with kind='flying-balloon' has a standard behavior. It behaves like
