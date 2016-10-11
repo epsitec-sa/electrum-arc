@@ -17,6 +17,7 @@ export default class Notifications extends React.Component {
       <Container kind='notification-header' grow='1' {...this.link ()} >
         <Button text='Ne pas me déranger' glyph='toggle-off' glyph-position='right'
           kind='notification' spacing='large' {...this.link ()} />
+        <Label grow='1' {...this.link ()} />
         <Button text='Tout effacer' kind='notification' {...this.link ()} />
       </Container>
     );
