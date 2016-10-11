@@ -273,6 +273,16 @@ export default function styles (theme, props) {
     borderStyle = 'none';
   }
 
+  // Notification button (usual parent is container with kind='notification-header').
+  if (inputKind === 'notification') {
+    textSize        = theme.shapes.notificationButtonTextSize;
+    glyphSize       = theme.shapes.notificationButtonGlyphSize;
+    backgroundColor = theme.palette.notificationBackground;
+    glyphColor      = theme.palette.notificationText;
+    textColor       = theme.palette.notificationText;
+    borderStyle     = 'none';
+  }
+
   // Warning button (usual parent is container with kind='footer').
   if (inputKind === 'warning') {
     boxHeight       = theme.shapes.footerHeight;

@@ -24,7 +24,7 @@ export default class Notification extends React.Component {
     return (
       <Container kind='notification-box' grow='1' {...this.link ()} >
         <Button glyph={data.Glyph} background-color={color} kind='round' spacing='large' {...this.link ()} />
-        <Label text={data.Message} grow='1' {...this.link ()} />
+        <Label text={data.Message} kind='notification' grow='1' {...this.link ()} />
       </Container>
     );
   }

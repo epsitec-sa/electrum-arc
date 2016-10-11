@@ -131,6 +131,11 @@ export default function styles (theme, props) {
     textColor       = theme.palette.footerText;
   }
 
+  if (inputKind === 'notification') {
+    glyphColor      = theme.palette.notificationMessage;
+    textColor       = theme.palette.notificationMessage;
+  }
+
   if (inputKind === 'flying-balloon') {
     glyphColor      = theme.palette.flyingBalloonText;
     textColor       = theme.palette.flyingBalloonText;

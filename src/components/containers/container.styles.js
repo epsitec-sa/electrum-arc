@@ -567,6 +567,17 @@ export default function styles (theme, props) {
     overflowY       = 'auto';
   }
 
+  if (inputKind === 'notification-header') {
+    display         = 'flex';
+    flexDirection   = 'row';
+    padding         = m;
+    borderWidth     = '1px';
+    borderStyle     = 'none none solid none';
+    borderColor     = theme.palette.notificationBorder;
+    backgroundColor = theme.palette.notificationBackground;
+    color           = theme.palette.notificationText;
+  }
+
   if (inputKind === 'notification-box') {
     minHeight       = '32px';
     display         = 'flex';

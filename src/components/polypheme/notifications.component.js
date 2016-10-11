@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {Container, Notification} from '../../all-components.js';
+import {Container, Notification, Button, Label} from '../../all-components.js';
 
 /******************************************************************************/
 
@@ -10,6 +10,15 @@ export default class Notifications extends React.Component {
 
   constructor (props) {
     super (props);
+  }
+
+  getHeader () {
+    return (
+      <Container kind='notification-header' grow='1' {...this.link ()} >
+        <Button text='Ne pas me déranger' glyph='toggle-off' glyph-position='right'
+          kind='notification' {...this.link ()} />
+      </Container>
+    );
   }
 
   getNotification (data) {
@@ -31,6 +40,7 @@ export default class Notifications extends React.Component {
 
     return (
       <Container kind='notifications' width='400px' {...this.link ()} >
+        {this.getHeader (data)}
         {this.getNotifications (data)}
       </Container>
     );
