@@ -570,7 +570,7 @@ export default function styles (theme, props) {
     position          = 'fixed';
     right             = (inputSubkind === 'hidden') ? Unit.multiply (width, -1) : '0px';
     display           = 'flex';
-    flexDirection     = 'column';
+    flexDirection     = 'column-reverse';
     margin            = '0px';
     backgroundColor   = null;
     overflowY         = 'auto';

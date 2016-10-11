@@ -16,7 +16,8 @@ export default class Notifications extends React.Component {
     return (
       <Container kind='notification-header' grow='1' {...this.link ()} >
         <Button text='Ne pas me déranger' glyph='toggle-off' glyph-position='right'
-          kind='notification' {...this.link ()} />
+          kind='notification' spacing='large' {...this.link ()} />
+        <Button text='Tout effacer' kind='notification' {...this.link ()} />
       </Container>
     );
   }
@@ -30,7 +31,7 @@ export default class Notifications extends React.Component {
   getNotifications (notifications, generation) {
     var array = [];
     // The most recent notification first (on top).
-    notifications.slice (0).reverse ().forEach (n => {
+    notifications.slice (0).forEach (n => {
       array.push (this.getNotification (n, generation));
     });
     return array;
@@ -45,8 +46,8 @@ export default class Notifications extends React.Component {
 
     return (
       <Container kind='notifications' subkind={subkind} width='400px' {...this.link ()} >
-        {this.getHeader ()}
         {this.getNotifications (data, generation)}
+        {this.getHeader ()}
       </Container>
     );
   }
