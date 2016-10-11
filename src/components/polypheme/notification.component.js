@@ -14,7 +14,8 @@ export default class Notification extends React.Component {
   }
 
   render () {
-    const data = this.read ('data');
+    const data       = this.read ('data');
+    const generation = this.read ('generation');
 
     let glyphColor = data.Color;
     if (glyphColor) {

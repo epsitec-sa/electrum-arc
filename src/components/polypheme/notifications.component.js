@@ -21,30 +21,32 @@ export default class Notifications extends React.Component {
     );
   }
 
-  getNotification (data) {
+  getNotification (data, generation) {
     return (
-      <Notification data={data} {...this.link ()} />
+      <Notification data={data} generation={generation} {...this.link ()} />
     );
   }
 
-  getNotifications (notifications) {
+  getNotifications (notifications, generation) {
     var array = [];
+    // The most recent notification first (on top).
     notifications.slice (0).reverse ().forEach (n => {
-      array.push (this.getNotification (n));
+      array.push (this.getNotification (n, generation));
     });
     return array;
   }
 
   render () {
-    const data = this.read ('data');
-    const show = this.read ('show');
+    const data       = this.read ('data');
+    const show       = this.read ('show');
+    const generation = this.read ('generation');
 
     const subkind = show ? 'show' : 'hidden';
 
     return (
       <Container kind='notifications' subkind={subkind} width='400px' {...this.link ()} >
-        {this.getHeader (data)}
-        {this.getNotifications (data)}
+        {this.getHeader ()}
+        {this.getNotifications (data, generation)}
       </Container>
     );
   }
