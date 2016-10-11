@@ -557,15 +557,18 @@ export default function styles (theme, props) {
 
   if (inputKind === 'notifications') {
     minWidth        = width;
+    maxHeight       = '600px';
     position        = 'absolute';
     right           = '0px';
     display         = 'flex';
     flexDirection   = 'column';
     margin          = '0px';
     backgroundColor = null;
+    overflowY       = 'auto';
   }
 
   if (inputKind === 'notification-box') {
+    minHeight       = '32px';
     display         = 'flex';
     flexDirection   = 'row';
     padding         = m;
