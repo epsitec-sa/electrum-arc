@@ -509,7 +509,7 @@ export default function styles (theme, props) {
     display         = 'flex';
     flexDirection   = 'column';
     flexGrow        = 1;
-    // overflowX       = 'auto';
+    overflowX       = 'hidden';
   }
 
   if (inputKind === 'tickets-messengers') {
