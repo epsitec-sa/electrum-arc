@@ -594,7 +594,7 @@ export default function styles (theme, props) {
     minHeight       = '32px';
     display         = 'flex';
     flexDirection   = 'row';
-    padding         = m;
+    padding         = m + ' 0px ' + m + ' ' + m;
     borderWidth     = '1px';
     borderStyle     = 'none none solid none';
     borderColor     = theme.palette.notificationBorder;

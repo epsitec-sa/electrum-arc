@@ -286,6 +286,13 @@ export default function styles (theme, props) {
     textColor       = theme.palette.notificationText;
     borderStyle     = 'none';
   }
+  if (inputKind === 'notification-close') {
+    boxMargin       = Unit.multiply (theme.shapes.containerMargin, -1) + ' 0px 0px 0px';
+    glyphColor      = theme.palette.notificationText;
+    textColor       = theme.palette.notificationText;
+    borderStyle     = 'none';
+    backgroundColor = null;
+  }
 
   // Warning button (usual parent is container with kind='footer').
   if (inputKind === 'warning') {
