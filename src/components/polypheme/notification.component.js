@@ -16,14 +16,14 @@ export default class Notification extends React.Component {
   render () {
     const data = this.read ('data');
 
-    let color = data.Color;
-    if (color) {
-      color = ColorHelpers.GetMarkColor (this.theme, color);
+    let glyphColor = data.Color;
+    if (glyphColor) {
+      glyphColor = ColorHelpers.GetMarkColor (this.theme, glyphColor);
     }
 
     return (
-      <Container kind='notification-box' grow='1' {...this.link ()} >
-        <Button glyph={data.Glyph} background-color={color} kind='round' spacing='large' {...this.link ()} />
+      <Container kind='notification-box' subkind={data.Status} grow='1' {...this.link ()} >
+        <Button glyph={data.Glyph} background-color={glyphColor} kind='round' spacing='large' {...this.link ()} />
         <Label text={data.Message} kind='notification' grow='1' {...this.link ()} />
       </Container>
     );
