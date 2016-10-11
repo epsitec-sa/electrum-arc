@@ -132,6 +132,7 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'notification') {
+    margin          = '0px 0px 0px ' + m;
     glyphColor      = theme.palette.notificationMessage;
     textColor       = theme.palette.notificationMessage;
   }
