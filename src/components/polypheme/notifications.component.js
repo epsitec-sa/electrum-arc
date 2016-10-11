@@ -20,7 +20,7 @@ export default class Notifications extends React.Component {
 
   getNotifications (notifications) {
     var array = [];
-    notifications.forEach (n => {
+    notifications.slice (0).reverse ().forEach (n => {
       array.push (this.getNotification (n));
     });
     return array;
