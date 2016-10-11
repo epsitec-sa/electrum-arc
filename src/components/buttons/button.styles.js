@@ -10,24 +10,25 @@ const {darken, emphasize} = ColorManipulator;
 export default function styles (theme, props) {
   const {state} = props;
   const disabled = Action.isDisabled (state);
-  const inputGlyph         = props.glyph;
-  const inputText          = props.text;
-  const inputBorder        = props.border;
-  const inputGlyphPosition = props.glyphPosition;
-  const inputSpacing       = props.spacing;
-  const inputGrow          = props.grow;
-  const inputWidth         = props.width;
-  const inputHeight        = props.height;
-  const inputKind          = props.kind;
-  const inputSubkind       = props.subkind;
-  const inputNature        = props.nature;
-  const inputPlace         = props.place;
-  const inputActive        = props.active;
-  const inputBadgeValue    = props.badgeValue;
-  const inputShape         = props.shape;
-  const inputMenuDirection = props.menuDirection;
-  const inputTextTransform = props.textTransform;
-  const inputZIndex        = props.zIndex;
+  const inputGlyph           = props.glyph;
+  const inputText            = props.text;
+  const inputBorder          = props.border;
+  const inputGlyphPosition   = props.glyphPosition;
+  const inputSpacing         = props.spacing;
+  const inputGrow            = props.grow;
+  const inputWidth           = props.width;
+  const inputHeight          = props.height;
+  const inputKind            = props.kind;
+  const inputSubkind         = props.subkind;
+  const inputNature          = props.nature;
+  const inputPlace           = props.place;
+  const inputActive          = props.active;
+  const inputBadgeValue      = props.badgeValue;
+  const inputShape           = props.shape;
+  const inputMenuDirection   = props.menuDirection;
+  const inputTextTransform   = props.textTransform;
+  const inputBackgroundColor = props.backgroundColor;
+  const inputZIndex          = props.zIndex;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -452,6 +453,10 @@ export default function styles (theme, props) {
     } else if (inputShape === 'right-smooth') {
       borderRadius = '0px ' + s + ' ' + s + ' 0px';
     }
+  }
+
+  if (inputBackgroundColor) {
+    backgroundColor = inputBackgroundColor;
   }
 
   // Compute colors for glyph, text and hover if necessary.
