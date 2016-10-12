@@ -583,15 +583,18 @@ export default function styles (theme, props) {
 
   if (!disabled && actif) {
     boxStyle[':hover'] = {
-      color:           textHoverColor,
+      color:           textHoverColor,  // (*)
       borderColor:     borderHoverColor,
       backgroundColor: backgroundHoverColor,
       opacity:         1.0,
     };
     if (textHoverColor) {
-      textStyle.color  = null;
-      glyphStyle.color = null;
+      textStyle.color  = null;  // (*)
+      glyphStyle.color = null;  // (*)
     }
+    // (*) If hover change the color of glyph and text, it is necessary to change
+    //     the color of parent (and not the glyph/text children). This system
+    //     causes the change simultaneously for the two children.
   }
 
   // Generate a triangle with subtle css, see:
