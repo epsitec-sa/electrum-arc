@@ -46,6 +46,7 @@ export default function styles (theme, props) {
   let borderStyle          = 'solid';
   let borderRadius         = '0px';
   let backgroundColor      = theme.palette.buttonBackground;
+  let textHoverColor       = null;
   let borderHoverColor     = null;
   let backgroundHoverColor = null;
   let glyphColor           = null;
@@ -279,19 +280,23 @@ export default function styles (theme, props) {
 
   // Notification button (usual parent is container with kind='notification-header').
   if (inputKind === 'notification') {
-    textSize        = theme.shapes.notificationButtonTextSize;
-    glyphSize       = theme.shapes.notificationButtonGlyphSize;
-    backgroundColor = theme.palette.notificationBackground;
-    glyphColor      = theme.palette.notificationText;
-    textColor       = theme.palette.notificationText;
-    borderStyle     = 'none';
+    textSize             = theme.shapes.notificationButtonTextSize;
+    glyphSize            = theme.shapes.notificationButtonGlyphSize;
+    backgroundColor      = theme.palette.notificationBackground;
+    glyphColor           = theme.palette.notificationText;
+    textColor            = theme.palette.notificationText;
+    borderStyle          = 'none';
+    textHoverColor       = theme.palette.notificationTextHover;
+    backgroundHoverColor = theme.palette.notificationBackground;
   }
   if (inputKind === 'notification-close') {
-    boxMargin       = Unit.multiply (theme.shapes.containerMargin, -1) + ' 0px 0px 0px';
-    glyphColor      = theme.palette.notificationText;
-    textColor       = theme.palette.notificationText;
-    borderStyle     = 'none';
-    backgroundColor = null;
+    boxMargin            = Unit.multiply (theme.shapes.containerMargin, -1) + ' 0px 0px 0px';
+    glyphColor           = theme.palette.notificationText;
+    textColor            = theme.palette.notificationText;
+    borderStyle          = 'none';
+    backgroundColor      = null;
+    textHoverColor       = theme.palette.notificationTextHover;
+    backgroundHoverColor = theme.palette.notificationBackground;
   }
 
   // Warning button (usual parent is container with kind='footer').
@@ -534,14 +539,6 @@ export default function styles (theme, props) {
     textDecoration:  'none',
   };
 
-  if (!disabled && actif) {
-    boxStyle[':hover'] = {
-      borderColor:     borderHoverColor,
-      backgroundColor: backgroundHoverColor,
-      opacity:         1.0,
-    };
-  }
-
   let glyphTransform = null;
   let glyphMargin    = '0px';
   if (glyphSize) {
@@ -583,6 +580,19 @@ export default function styles (theme, props) {
     whiteSpace:      'nowrap',
     wordWrap:        'break-word',
   };
+
+  if (!disabled && actif) {
+    boxStyle[':hover'] = {
+      color:           textHoverColor,
+      borderColor:     borderHoverColor,
+      backgroundColor: backgroundHoverColor,
+      opacity:         1.0,
+    };
+    if (textHoverColor) {
+      textStyle.color  = null;
+      glyphStyle.color = null;
+    }
+  }
 
   // Generate a triangle with subtle css, see:
   // https://css-tricks.com/snippets/css/css-triangle/
