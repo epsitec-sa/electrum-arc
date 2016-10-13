@@ -46,9 +46,11 @@ export default class Notifications extends React.Component {
     const subkind = show ? 'show' : 'hidden';
 
     return (
-      <Container kind='notifications' subkind={subkind} width='400px' {...this.link ()} >
+      <Container kind='notifications-panel' subkind={subkind} width='400px' {...this.link ()} >
         {this.getHeader ()}
-        {this.getNotifications (data, generation)}
+        <Container kind='notifications' {...this.link ()} >
+          {this.getNotifications (data, generation)}
+        </Container>
       </Container>
     );
   }

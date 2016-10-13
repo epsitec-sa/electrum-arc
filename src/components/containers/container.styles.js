@@ -556,7 +556,7 @@ export default function styles (theme, props) {
     boxShadow       = theme.shapes.ticketGlueShadow;
   }
 
-  if (inputKind === 'notifications') {
+  if (inputKind === 'notifications-panel') {
     // TODO: improve this code !
     // Subtracting the current items supposed to be present at the total height
     // (main-tab, view-tab and footer).
@@ -573,7 +573,6 @@ export default function styles (theme, props) {
     flexDirection     = 'column';
     margin            = '0px';
     backgroundColor   = null;
-    overflowY         = 'auto';
     transition        = theme.transitions.easeOut ();
     zIndex            = 2;
   }
@@ -588,6 +587,14 @@ export default function styles (theme, props) {
     borderColor     = theme.palette.notificationBorder;
     backgroundColor = theme.palette.notificationBackground;
     color           = theme.palette.notificationText;
+  }
+
+  if (inputKind === 'notifications') {
+    display           = 'flex';
+    flexDirection     = 'column';
+    margin            = '0px';
+    backgroundColor   = null;
+    overflowY         = 'auto';
   }
 
   if (inputKind === 'notification-box') {
