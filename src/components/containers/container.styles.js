@@ -580,7 +580,7 @@ export default function styles (theme, props) {
   if (inputKind === 'notification-header') {
     minHeight       = '32px';
     display         = 'flex';
-    flexDirection   = 'row';
+    flexDirection   = 'column';
     padding         = m;
     borderWidth     = '1px';
     borderStyle     = 'none none solid none';
