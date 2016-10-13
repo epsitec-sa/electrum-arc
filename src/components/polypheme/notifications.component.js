@@ -20,7 +20,7 @@ export default class Notifications extends React.Component {
             kind='notification' {...this.link ()} />
         </Container>
         <Container kind='notification-header-row' {...this.link ()} >
-          <Button glyph='toggle-off' text='Seulement les nouveaux'
+          <Button glyph='toggle-off' text='Seulement les nouvelles'
             kind='notification' {...this.link ()} />
           <Label grow='1' {...this.link ()} />
           <Button text='Tout effacer' kind='notification' {...this.link ()} />
