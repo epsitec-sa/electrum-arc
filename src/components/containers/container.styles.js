@@ -578,15 +578,19 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'notification-header') {
-    minHeight       = '32px';
-    display         = 'flex';
-    flexDirection   = 'column';
-    padding         = m;
-    borderWidth     = '1px';
+    display         = 'inline';
+    padding         = Unit.multiply (m, 0.5) + ' ' + m;
+    borderWidth     = s;
     borderStyle     = 'none none solid none';
     borderColor     = theme.palette.notificationBorder;
     backgroundColor = theme.palette.notificationBackgroundHeader;
     color           = theme.palette.notificationText;
+  }
+
+  if (inputKind === 'notification-header-row') {
+    minHeight       = '32px';
+    display         = 'flex';
+    flexDirection   = 'row';
   }
 
   if (inputKind === 'notifications') {

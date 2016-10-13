@@ -15,11 +15,11 @@ export default class Notifications extends React.Component {
   getHeader () {
     return (
       <Container kind='notification-header' grow='1' {...this.link ()} >
-        <Container kind='row' {...this.link ()} >
+        <Container kind='notification-header-row' {...this.link ()} >
           <Button glyph='toggle-off' text='Ne pas me déranger'
             kind='notification' {...this.link ()} />
         </Container>
-        <Container kind='row' {...this.link ()} >
+        <Container kind='notification-header-row' {...this.link ()} >
           <Button glyph='toggle-off' text='Seulement les nouveaux'
             kind='notification' {...this.link ()} />
           <Label grow='1' {...this.link ()} />

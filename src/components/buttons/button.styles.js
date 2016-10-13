@@ -49,6 +49,8 @@ export default function styles (theme, props) {
   let textHoverColor       = null;
   let borderHoverColor     = null;
   let backgroundHoverColor = null;
+  let glyphWidth           = theme.shapes.lineHeight;
+  let glyphHeight          = theme.shapes.lineHeight;
   let glyphColor           = null;
   let glyphSize            = null;
   let glyphTransform       = null;
@@ -282,10 +284,11 @@ export default function styles (theme, props) {
 
   // Notification button (usual parent is container with kind='notification-header').
   if (inputKind === 'notification') {
-    boxHeight            = null;
+    boxHeight            = '32px';
+    glyphHeight          = null;
     textSize             = theme.shapes.notificationButtonTextSize;
     glyphSize            = theme.shapes.notificationButtonGlyphSize;
-    glyphMargin          = '0px 20px 0px 0px';
+    glyphMargin          = '10px 20px 10px 0px';
     backgroundColor      = 'transparent';
     glyphColor           = theme.palette.notificationText;
     textColor            = theme.palette.notificationText;
@@ -565,8 +568,8 @@ export default function styles (theme, props) {
     flexDirection:   'row',
     justifyContent:  'center',
     alignItems:      'center',
-    width:           theme.shapes.lineHeight,
-    height:          theme.shapes.lineHeight,
+    width:           glyphWidth,
+    height:          glyphHeight,
     padding:         '0px',
     margin:          glyphMargin,
     color:           glyphColor,
