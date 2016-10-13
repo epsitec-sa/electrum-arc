@@ -51,6 +51,8 @@ export default function styles (theme, props) {
   let backgroundHoverColor = null;
   let glyphColor           = null;
   let glyphSize            = null;
+  let glyphTransform       = null;
+  let glyphMargin          = null;
   let textWidth            = null;
   let textGrow             = null;
   let textColor            = null;
@@ -280,8 +282,10 @@ export default function styles (theme, props) {
 
   // Notification button (usual parent is container with kind='notification-header').
   if (inputKind === 'notification') {
+    boxHeight            = null;
     textSize             = theme.shapes.notificationButtonTextSize;
     glyphSize            = theme.shapes.notificationButtonGlyphSize;
+    glyphMargin          = '0px 20px 0px 0px';
     backgroundColor      = theme.palette.notificationBackgroundHeader;
     glyphColor           = theme.palette.notificationText;
     textColor            = theme.palette.notificationText;
@@ -539,18 +543,20 @@ export default function styles (theme, props) {
     textDecoration:  'none',
   };
 
-  let glyphTransform = null;
-  let glyphMargin    = '0px';
   if (glyphSize) {
     const s = Unit.parse (glyphSize);
     if (s.unit !== '%') {
       throw new Error (`GlyphSize '${glyphSize}' has an unexpected format`);
     }
     const ss = s.value / 100;
-    glyphTransform = 'scale(' + ss + ')';
-    const mm = Unit.multiply (m, ss);
-    glyphMargin = '0px ' + mm + ' 0px ' + mm;
-  } else if (inputGlyphPosition === 'right' && inputBadgeValue) {
+    if (!glyphTransform) {
+      glyphTransform = 'scale(' + ss + ')';
+    }
+    if (!glyphMargin) {
+      const mm = Unit.multiply (m, ss);
+      glyphMargin = '0px ' + mm + ' 0px ' + mm;
+    }
+  } else if (inputGlyphPosition === 'right' && inputBadgeValue && !glyphMargin) {
     glyphMargin = '0px 10px 0px 0px';
   }
 
