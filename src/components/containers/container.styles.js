@@ -610,8 +610,8 @@ export default function styles (theme, props) {
     borderColor       = theme.palette.notificationBorder;
     color             = theme.palette.notificationText;
     if (inputSubkind === 'not-read') {
-      leftPadding     = Unit.sub (leftPadding, theme.shapes.markWidth);
-      borderLeftWidth = theme.shapes.markWidth;
+      leftPadding     = Unit.sub (leftPadding, theme.shapes.notificationMarkWidth);
+      borderLeftWidth = theme.shapes.notificationMarkWidth;
       borderLeftStyle = 'solid';
       borderLeftColor = ColorHelpers.GetMarkColor (theme, 'primary');
       backgroundColor = theme.palette.notificationBackgroundNotRead;
