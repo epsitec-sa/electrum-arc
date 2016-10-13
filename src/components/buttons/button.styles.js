@@ -282,12 +282,12 @@ export default function styles (theme, props) {
   if (inputKind === 'notification') {
     textSize             = theme.shapes.notificationButtonTextSize;
     glyphSize            = theme.shapes.notificationButtonGlyphSize;
-    backgroundColor      = theme.palette.notificationBackground;
+    backgroundColor      = theme.palette.notificationBackgroundHeader;
     glyphColor           = theme.palette.notificationText;
     textColor            = theme.palette.notificationText;
     borderStyle          = 'none';
     textHoverColor       = theme.palette.notificationTextHover;
-    backgroundHoverColor = theme.palette.notificationBackground;
+    backgroundHoverColor = theme.palette.notificationBackgroundHeader;
   }
   if (inputKind === 'notification-close') {
     boxMargin            = Unit.multiply (theme.shapes.containerMargin, -1) + ' 0px 0px 0px';
@@ -296,7 +296,7 @@ export default function styles (theme, props) {
     borderStyle          = 'none';
     backgroundColor      = null;
     textHoverColor       = theme.palette.notificationTextHover;
-    backgroundHoverColor = theme.palette.notificationBackground;
+    backgroundHoverColor = theme.palette.notificationBackgroundHeader;
   }
 
   // Warning button (usual parent is container with kind='footer').

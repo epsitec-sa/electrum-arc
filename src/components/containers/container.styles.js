@@ -585,7 +585,7 @@ export default function styles (theme, props) {
     borderWidth     = '1px';
     borderStyle     = 'none none solid none';
     borderColor     = theme.palette.notificationBorder;
-    backgroundColor = theme.palette.notificationBackground;
+    backgroundColor = theme.palette.notificationBackgroundHeader;
     color           = theme.palette.notificationText;
   }
 
@@ -616,7 +616,7 @@ export default function styles (theme, props) {
       borderLeftColor = ColorHelpers.GetMarkColor (theme, 'primary');
       backgroundColor = theme.palette.notificationBackgroundNotRead;
     } else {
-      backgroundColor = theme.palette.notificationBackground;
+      backgroundColor = theme.palette.notificationBackgroundRead;
     }
     padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
   }
