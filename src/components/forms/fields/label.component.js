@@ -71,15 +71,23 @@ export default class Label extends React.Component {
 
     let  htmlText = null;
     if (inputText) {
-      const lines = inputText.split ('\\n');
-      if (lines.length < 2) {
+      if (typeof inputText === 'string') {
+        const lines = inputText.split ('\\n');
+        if (lines.length < 2) {
+          htmlText = (
+            <div key='text' style={textStyle}>
+              {inputText}
+            </div>
+          );
+        } else {
+          htmlText = this.getText (lines);
+        }
+      } else {
         htmlText = (
           <div key='text' style={textStyle}>
             {inputText}
           </div>
         );
-      } else {
-        htmlText = this.getText (lines);
       }
     }
 
