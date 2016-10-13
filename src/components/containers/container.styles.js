@@ -572,17 +572,15 @@ export default function styles (theme, props) {
     display           = 'flex';
     flexDirection     = 'column';
     margin            = '0px';
-    backgroundColor   = null;
+    backgroundColor   = theme.palette.notificationBackground;
     transition        = theme.transitions.easeOut ();
-    zIndex            = 2;
+    zIndex            = 3;
   }
 
   if (inputKind === 'notification-header') {
     display         = 'inline';
     padding         = Unit.multiply (m, 0.5) + ' ' + m;
-    borderWidth     = s;
-    borderStyle     = 'none none solid none';
-    borderColor     = theme.palette.notificationBorder;
+    margin          = '0px 0px ' + Unit.multiply (s, 0.4) + ' 0px';
     backgroundColor = theme.palette.notificationBackgroundHeader;
     color           = theme.palette.notificationText;
   }
@@ -609,17 +607,16 @@ export default function styles (theme, props) {
     minHeight         = '32px';
     display           = 'flex';
     flexDirection     = 'row';
-    borderWidth       = '1px';
-    borderStyle       = 'none none solid none';
-    borderColor       = theme.palette.notificationBorder;
     color             = theme.palette.notificationText;
     if (inputSubkind === 'not-read') {
+      margin          = '0px 0px ' + Unit.multiply (s, 0.4) + ' 0px';
       leftPadding     = Unit.sub (leftPadding, theme.shapes.notificationMarkWidth);
       borderLeftWidth = theme.shapes.notificationMarkWidth;
       borderLeftStyle = 'solid';
       borderLeftColor = ColorHelpers.GetMarkColor (theme, 'primary');
       backgroundColor = theme.palette.notificationBackgroundNotRead;
     } else {
+      margin          = '0px 0px 1px 0px';
       backgroundColor = theme.palette.notificationBackgroundRead;
     }
     padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
