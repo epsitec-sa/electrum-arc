@@ -167,9 +167,16 @@ export default function styles (theme, props) {
     zIndex          = '1';
   }
 
-  if (inputKind === 'task') {
+  if (inputKind === 'left-bar') {
     zIndex          = 2;
+    display         = 'flex';
+    flexDirection   = 'column';
+  }
+
+  if (inputKind === 'task-bar') {
     minWidth        = theme.shapes.taskButtonWidth;
+    display         = 'flex';
+    flexDirection   = 'column';
     backgroundColor = theme.palette.taskBackground;
     boxShadow       = theme.shapes.taskShadow;
   }
@@ -181,29 +188,40 @@ export default function styles (theme, props) {
     overflowX       = 'hidden';
   }
 
+  if (inputKind === 'top-bar') {
+    display         = 'flex';
+    flexDirection   = 'row';
+  }
+
   if (inputKind === 'main-tab') {
     minHeight       = theme.shapes.mainTabHeight;
     display         = 'flex';
     flexDirection   = 'row';
-    flexGrow        = 0;
+    flexGrow        = 1;
     justifyContent  = 'flex-start';
     alignItems      = 'center';
     backgroundColor = theme.palette.mainTabBackground;
   }
 
   if (inputKind === 'main-tab-right') {
+    minHeight       = theme.shapes.mainTabHeight;
     display         = 'flex';
     flexDirection   = 'row';
-    flexGrow        = 1;
-    justifyContent  = 'flex-end';
+    justifyContent  = 'flex-start';
     alignItems      = 'center';
+    backgroundColor = theme.palette.mainTabBackground;
+  }
+
+  if (inputKind === 'second-bar') {
+    display         = 'flex';
+    flexDirection   = 'row';
   }
 
   if (inputKind === 'view-tab') {
     minHeight       = theme.shapes.viewTabHeight;
     display         = 'flex';
     flexDirection   = 'row';
-    flexGrow        = 0;
+    flexGrow        = 1;
     justifyContent  = 'flex-start';
     alignItems      = 'center';
     padding         = m + ' 0px 0px 0px';
@@ -214,10 +232,9 @@ export default function styles (theme, props) {
   if (inputKind === 'view-tab-right') {
     display         = 'flex';
     flexDirection   = 'row';
-    flexGrow        = 1;
-    justifyContent  = 'flex-end';
+    justifyContent  = 'flex-start';
     alignItems      = 'center';
-    margin          = Unit.multiply (theme.shapes.containerMargin, -1) + ' 0px 0px 0px';
+    backgroundColor = theme.palette.viewTabBackground;
   }
 
   if (inputKind === 'footer') {

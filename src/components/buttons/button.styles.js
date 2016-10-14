@@ -103,7 +103,7 @@ export default function styles (theme, props) {
     actif = false;
   }
 
-  // task-logo button (usual parent container with kind='task').
+  // task-logo button (usual parent container with kind='task-bar').
   if (inputKind === 'task-logo') {
     boxHeight       = theme.shapes.taskButtonHeight;
     boxDirection    = 'column';
@@ -122,8 +122,8 @@ export default function styles (theme, props) {
     glyphSize       = theme.shapes.taskLogoGlyphSize;
   }
 
-  // Task button (usual parent is container with kind='task').
-  if (inputKind === 'task') {
+  // Task button (usual parent is container with kind='task-bar').
+  if (inputKind === 'task-bar') {
     boxHeight       = theme.shapes.taskButtonHeight;
     boxDirection    = 'column';
     boxMargin       = '0px';
@@ -196,7 +196,7 @@ export default function styles (theme, props) {
     }
   }
 
-  // task-tab button (usual parent is container with kind='task').
+  // task-tab button (usual parent is container with kind='task-bar').
   if (inputKind === 'task-tab') {
     boxHeight         = theme.shapes.taskTabHeight;
     boxJustifyContent = 'flex-start';
