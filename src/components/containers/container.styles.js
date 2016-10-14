@@ -581,10 +581,12 @@ export default function styles (theme, props) {
     h = Unit.add (h, theme.shapes.mainTabHeight);
     h = Unit.add (h, theme.shapes.containerMargin);
     h = Unit.add (h, theme.shapes.viewTabHeight);
+    const y = h;
     h = Unit.add (h, theme.shapes.footerHeight);
     minWidth          = width;
     maxHeight         = 'calc(100vh - ' + h + ')';
     position          = 'fixed';
+    top               = y;
     right             = (inputSubkind === 'hidden') ? Unit.multiply (width, -1) : '0px';
     display           = 'flex';
     flexDirection     = 'column';
