@@ -171,14 +171,14 @@ export default function styles (theme, props) {
     zIndex          = 2;
     display         = 'flex';
     flexDirection   = 'column';
+    backgroundColor = theme.palette.taskBackground;
+    boxShadow       = theme.shapes.taskShadow;
   }
 
   if (inputKind === 'task-bar') {
     minWidth        = theme.shapes.taskButtonWidth;
     display         = 'flex';
     flexDirection   = 'column';
-    backgroundColor = theme.palette.taskBackground;
-    boxShadow       = theme.shapes.taskShadow;
   }
 
   if (inputKind === 'right') {
@@ -191,6 +191,7 @@ export default function styles (theme, props) {
   if (inputKind === 'top-bar') {
     display         = 'flex';
     flexDirection   = 'row';
+    backgroundColor = theme.palette.mainTabBackground;
   }
 
   if (inputKind === 'main-tab') {
@@ -200,7 +201,6 @@ export default function styles (theme, props) {
     flexGrow        = 1;
     justifyContent  = 'flex-start';
     alignItems      = 'center';
-    backgroundColor = theme.palette.mainTabBackground;
   }
 
   if (inputKind === 'main-tab-right') {
@@ -215,6 +215,7 @@ export default function styles (theme, props) {
   if (inputKind === 'second-bar') {
     display         = 'flex';
     flexDirection   = 'row';
+    backgroundColor = theme.palette.viewTabBackground;
   }
 
   if (inputKind === 'view-tab') {
@@ -226,7 +227,6 @@ export default function styles (theme, props) {
     alignItems      = 'center';
     padding         = m + ' 0px 0px 0px';
     borderStyle     = 'none';
-    backgroundColor = theme.palette.viewTabBackground;
   }
 
   if (inputKind === 'view-tab-right') {
