@@ -58,7 +58,7 @@ export default class Splitter extends React.Component {
     return (
       <SplitPane split='horizontal' resizerStyle={resizer}>
         {this.props.children}
-     </SplitPane>
+      </SplitPane>
     );
   }
 }
