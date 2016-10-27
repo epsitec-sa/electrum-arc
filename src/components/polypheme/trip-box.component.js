@@ -63,7 +63,6 @@ export default class TripBox extends React.Component {
     const selected = this.read ('Selected');
     const data     = this.read ('data');
     const color    = data.Color;
-    console.dir (data);
 
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       return (
