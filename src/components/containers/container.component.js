@@ -122,7 +122,15 @@ export default class Container extends React.Component {
   enableDragAndDrop (ref, mode) {
     if (mode === 'true') {
       var dragNode = ReactDOM.findDOMNode (ref);
-      Dragula ([dragNode]);
+      Dragula ([dragNode], {
+        moves: function (el, source, handle, sibling) {
+          console.dir (el);
+          console.dir (source);
+          console.dir (handle);
+          console.dir (sibling);
+          return true;
+        }
+      });
     }
   }
 
@@ -133,8 +141,9 @@ export default class Container extends React.Component {
     const inputAnchor      = this.read ('anchor');
     const inputNavName     = this.read ('navigation-name');
     const inputDragAndDrop = this.read ('drag-and-drop');
-    const boxStyle         = this.mergeStyles ('box');
-    const triangleStyle    = this.mergeStyles ('triangle');
+
+    const boxStyle      = this.mergeStyles ('box');
+    const triangleStyle = this.mergeStyles ('triangle');
 
     const useManagedChildren = [
       'pane-navigator',
