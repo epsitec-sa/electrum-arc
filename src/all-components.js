@@ -8,6 +8,7 @@ import _Container from './components/containers/container.component.js';
 import _Container$styles from './components/containers/container.styles.js';
 import _Dialog from './components/containers/dialog.component.js';
 import _Dialog$styles from './components/containers/dialog.styles.js';
+import _Splitter from './components/containers/splitter.component.js';
 import _Ticket from './components/containers/ticket.component.js';
 import _Ticket$styles from './components/containers/ticket.styles.js';
 import _Badge from './components/extras/badge.component.js';
@@ -46,6 +47,7 @@ export const Button = Electrum.wrap ('Button', _Button, {styles: _Button$styles}
 export const AppCanvas = Electrum.wrap ('AppCanvas', _AppCanvas, {styles: _AppCanvas$styles});
 export const Container = Electrum.wrap ('Container', _Container, {styles: _Container$styles});
 export const Dialog = Electrum.wrap ('Dialog', _Dialog, {styles: _Dialog$styles});
+export const Splitter = Electrum.wrap ('Splitter', _Splitter);
 export const Ticket = Electrum.wrap ('Ticket', _Ticket, {styles: _Ticket$styles});
 export const Badge = Electrum.wrap ('Badge', _Badge, {styles: _Badge$styles});
 export const Calendar = Electrum.wrap ('Calendar', _Calendar, {styles: _Calendar$styles});
