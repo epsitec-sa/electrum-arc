@@ -1,8 +1,9 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {Action} from 'electrum';
-
+import Dragula from 'react-dragula';
 /******************************************************************************/
 
 export default class Container extends React.Component {
@@ -118,15 +119,22 @@ export default class Container extends React.Component {
     this.setNavigation (index);
   }
 
+  enableDragAndDrop (ref, mode) {
+    if (mode === 'true') {
+      var dragNode = ReactDOM.findDOMNode (ref);
+      Dragula ([dragNode]);
+    }
+  }
+
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputKind    = this.read ('kind');
-    const inputAnchor  = this.read ('anchor');
-    const inputNavName = this.read ('navigation-name');
-
-    const boxStyle      = this.mergeStyles ('box');
-    const triangleStyle = this.mergeStyles ('triangle');
+    const inputKind        = this.read ('kind');
+    const inputAnchor      = this.read ('anchor');
+    const inputNavName     = this.read ('navigation-name');
+    const inputDragAndDrop = this.read ('drag-and-drop');
+    const boxStyle         = this.mergeStyles ('box');
+    const triangleStyle    = this.mergeStyles ('triangle');
 
     const useManagedChildren = [
       'pane-navigator',
@@ -153,7 +161,7 @@ export default class Container extends React.Component {
           disabled             = {disabled}
           style                = {boxStyle}
           id                   = {inputAnchor}
-          ref                  = "container"
+          ref                  = {c => this.enableDragAndDrop (c, inputDragAndDrop)}
           >
           {useManagedChildren.includes (inputKind) ? this.state.managedChildren : this.props.children}
         </div>
