@@ -11,7 +11,7 @@ export default class Container extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      managedChildren: null
+      managedChildren: null,
     };
     this.panelBottoms = [];
   }
@@ -46,6 +46,7 @@ export default class Container extends React.Component {
 
   componentDidMount () {
     const navFor = this.read ('navigation-for');
+    const dragController = this.read ('drag-controller');
     if (navFor) {
       const panelElem = document.querySelectorAll (
         `[data-navigation-name="${navFor}"]`
@@ -55,7 +56,11 @@ export default class Container extends React.Component {
         panelElem.addEventListener ('scroll', this.handleScroll, true);
       }
     }
-    this.initDragula ();
+    if (dragController) {
+      const dc = window.document.dragControllers[dragController];
+      dc.register (this);
+      console.dir (dc);
+    }
   }
 
   componentWillUnmount () {
@@ -174,11 +179,11 @@ export default class Container extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputKind        = this.read ('kind');
-    const inputAnchor      = this.read ('anchor');
-    const inputNavName     = this.read ('navigation-name');
-    const inputDragAndDrop = this.read ('drag-and-drop');
-
+    const inputKind           = this.read ('kind');
+    const inputAnchor         = this.read ('anchor');
+    const inputNavName        = this.read ('navigation-name');
+    const inputDragController = this.read ('drag-controller');
+    const inputDragHandle     = this.read ('drag-handle');
     const boxStyle      = this.mergeStyles ('box');
     const triangleStyle = this.mergeStyles ('triangle');
 
@@ -207,7 +212,8 @@ export default class Container extends React.Component {
           disabled             = {disabled}
           style                = {boxStyle}
           id                   = {inputAnchor}
-          ref                  = {c => this.enableDragAndDrop (c, inputDragAndDrop)}
+          data-drag-controller = {inputDragController}
+          data-drag-handle     = {inputDragHandle}
           >
           {useManagedChildren.includes (inputKind) ? this.state.managedChildren : this.props.children}
         </div>

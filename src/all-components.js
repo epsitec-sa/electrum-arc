@@ -17,6 +17,7 @@ import _Calendar from './components/extras/calendar.component.js';
 import _Calendar$styles from './components/extras/calendar.styles.js';
 import _Clock from './components/extras/clock.component.js';
 import _Clock$styles from './components/extras/clock.styles.js';
+import _DragController from './components/extras/drag-controller.component.js';
 import _FlyingBalloon from './components/extras/flying-balloon.component.js';
 import _FlyingBalloon$styles from './components/extras/flying-balloon.styles.js';
 import _GoogleFontLoader from './components/extras/google-font-loader.component.js';
@@ -52,6 +53,7 @@ export const Ticket = Electrum.wrap ('Ticket', _Ticket, {styles: _Ticket$styles}
 export const Badge = Electrum.wrap ('Badge', _Badge, {styles: _Badge$styles});
 export const Calendar = Electrum.wrap ('Calendar', _Calendar, {styles: _Calendar$styles});
 export const Clock = Electrum.wrap ('Clock', _Clock, {styles: _Clock$styles});
+export const DragController = Electrum.wrap ('DragController', _DragController);
 export const FlyingBalloon = Electrum.wrap ('FlyingBalloon', _FlyingBalloon, {styles: _FlyingBalloon$styles});
 export const GoogleFontLoader = Electrum.wrap ('GoogleFontLoader', _GoogleFontLoader);
 export const Separator = Electrum.wrap ('Separator', _Separator, {styles: _Separator$styles});
