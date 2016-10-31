@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/epsitec-sa/electrum-arc",
   "dependencies": {
+    "dom-autoscroller": "^2.1.6",
     "electrum": "^4.14.0",
     "electrum-style-reload": "^1.2.0",
     "electrum-theme": "^4.4.1",

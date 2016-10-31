@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Action} from 'electrum';
 import Dragula from 'react-dragula';
+import autoScroll from 'dom-autoscroller';
 
 /******************************************************************************/
 
@@ -18,10 +19,6 @@ export default class DragController extends React.Component {
   }
 
   initDragula () {
-    console.log (`creating global drag controller for
-      ${this.controllerName}`
-    );
-
     // restrict controller with handle constraint or not
     if (this.dragHandle) {
       this.drake = Dragula ([], {
@@ -35,6 +32,22 @@ export default class DragController extends React.Component {
         invalid: (el) => this.isInvalid (el)
       });
     }
+
+    // Configure auto-scroll
+    /*let drake = this.drake;
+    autoScroll ([
+      document.querySelectorAll (
+        `[data-drag-controller="${this.controllerName}"]`
+      )
+      ], {
+      margin: 20,
+      maxSpeed: 5,
+      scrollWhenOutside: true,
+      autoScroll: function () {
+          //Only scroll when the pointer is down, and there is a child being dragged.
+          return this.down && drake.dragging;
+        }
+    });*/
 
     // Register controller in document
     // TODO: register a namespace
@@ -50,8 +63,6 @@ export default class DragController extends React.Component {
       `[data-drag-controller="${this.controllerName}"]`
     );
     containersNodes.forEach (c => this.drake.containers.push (c));
-
-    console.dir (this.drake.containers);
   }
 
   componentDidMount () {
@@ -62,7 +73,6 @@ export default class DragController extends React.Component {
     let containers = this.drake.containers;
     const node = ReactDOM.findDOMNode (component);
     containers.push (node);
-    console.dir (containers);
   }
 
   movesWithHandle (handle) {

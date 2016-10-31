@@ -59,7 +59,6 @@ export default class Container extends React.Component {
     if (dragController) {
       const dc = window.document.dragControllers[dragController];
       dc.register (this);
-      console.dir (dc);
     }
   }
 
@@ -123,57 +122,6 @@ export default class Container extends React.Component {
     const max = e.target.scrollHeight - e.target.offsetHeight;
     const index = this.getPanelIndex (e.target.scrollTop, max);
     this.setNavigation (index);
-  }
-
-  convertToNodes (result) {
-    const converted = [];
-    result.map (c => {
-      const n = ReactDOM.findDOMNode (c);
-      converted.push (n);
-    });
-    return converted;
-  }
-
-  initDragula () {
-    const inputDragAndDrop = this.read ('drag-and-drop');
-    if (inputDragAndDrop === 'root') {
-      const result = [];
-      this.exploreComponentsForDragula (result, this);
-      console.dir (result);
-      Dragula (this.convertToNodes (result));
-    }
-  }
-
-  exploreComponentsForDragula (result, component) {
-    // console.dir ('coucou');
-    if (component.props && component.props.children) {
-      const children = [].slice.call (component.props.children);
-      children.map (c => {
-        console.dir (c);
-        if (c.props['drag-and-drop'] === 'child') {
-          // const n = ReactDOM.findDOMNode (c);
-          // result.push (n);
-          result.push (c);
-        }
-        this.exploreComponentsForDragula (result, c);
-      });
-    }
-  }
-
-  enableDragAndDrop (ref, mode) {
-    return;  // ??
-    if (mode === 'true') {
-      var dragNode = ReactDOM.findDOMNode (ref);
-      var drake = Dragula ([dragNode], {
-        moves: function (el, source, handle, sibling) {
-          console.dir (el);
-          console.dir (source);
-          console.dir (handle);
-          console.dir (sibling);
-          return true;
-        }
-      });
-    }
   }
 
   render () {
