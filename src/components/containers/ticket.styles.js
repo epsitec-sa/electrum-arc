@@ -128,12 +128,22 @@ export default function styles (theme, props) {
     flexDirection: 'row',
   };
 
+  const dragZoneStyle = {
+    position:     'absolute',
+    width:        '100%',
+    height:       '100%',
+    top:          '0px',
+    left:         '0px',
+    zIndex:       '10'
+  };
+
   return {
     box:     boxStyle,
     shadow:  shadowStyle,
     shape:   shapeStyle,
     svg:     svgStyle,
     content: contentStyle,
+    dragZoneStyle: dragZoneStyle
   };
 }
 

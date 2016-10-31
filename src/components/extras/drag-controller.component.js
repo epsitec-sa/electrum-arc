@@ -14,22 +14,27 @@ export default class DragController extends React.Component {
     this.controllerName = null;
     this.drake = null;
     this.dragHandle = null;
+    this.direction = 'vertical';
   }
 
   initDragula () {
     console.log (`creating global drag controller for
       ${this.controllerName}`
     );
+
+    // restrict controller with handle constraint or not
     if (this.dragHandle) {
       this.drake = Dragula ([], {
-        moves:  (e,s,h) => this.movesWithHandle (h),
+        moves:  (el, container, handle) => this.movesWithHandle (handle),
+        invalid: (el, handle) => this.isInvalid (handle),
+        direction: this.direction
       });
     } else {
-      this.drake = Dragula ();
+      this.drake = Dragula ([], {
+        direction: this.direction,
+        invalid: (el) => this.isInvalid (el)
+      });
     }
-
-
-    let containers = this.drake.containers;
 
     // Register controller in document
     // TODO: register a namespace
@@ -61,15 +66,18 @@ export default class DragController extends React.Component {
   }
 
   movesWithHandle (handle) {
-    console.log (handle.dataset.dragHandle === this.dragHandle);
     return handle.dataset.dragHandle === this.dragHandle;
   }
 
+  isInvalid (el) {
+    return el.dataset.dragInvalid === 'true' || el.dataset.dragInvalid === true;
+  }
+
   render () {
-    const {state} = this.props;
     this.controllerName = this.read ('name');
     this.dragHandle     = this.read ('drag-handle');
-    return (<div data-drag-controller={this.controllerName}/>);
+    this.direction      = this.read ('direction');
+    return (<div data-drag-controller={this.controllerName} />);
   }
 }
 

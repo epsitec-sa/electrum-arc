@@ -22,14 +22,17 @@ export default class Ticket extends React.Component {
   }
 
   render () {
-    const {state} = this.props;
-    const disabled = Action.isDisabled (state);
+    const {state}       = this.props;
+    const disabled      = Action.isDisabled (state);
+    const dragHandle    = this.read ('drag-handle');
+    const notDraggable  = this.read ('no-drag');
 
-    const boxStyle     = this.mergeStyles ('box');
-    const shadowStyle  = this.mergeStyles ('shadow');
-    const shapeStyle   = this.mergeStyles ('shape');
-    const svgStyle     = this.mergeStyles ('svg');
-    const contentStyle = this.mergeStyles ('content');
+    const boxStyle      = this.mergeStyles ('box');
+    const shadowStyle   = this.mergeStyles ('shadow');
+    const shapeStyle    = this.mergeStyles ('shape');
+    const svgStyle      = this.mergeStyles ('svg');
+    const contentStyle  = this.mergeStyles ('content');
+    const dragZoneStyle = this.mergeStyles ('dragZoneStyle');
 
     const w = boxStyle.width;
     const h = boxStyle.height;
@@ -54,6 +57,7 @@ export default class Ticket extends React.Component {
         >
         {htmlShadow}
         {htmlShape}
+        <div data-drag-handle={dragHandle} style={dragZoneStyle} data-drag-invalid={notDraggable === 'true'} />
         <div style={contentStyle}>
           {this.props.children}
         </div>
