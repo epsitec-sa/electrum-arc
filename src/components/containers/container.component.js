@@ -34,6 +34,7 @@ export default class Container extends React.Component {
       bottom:           this.read ('bottom'),
       rotate:           this.read ('rotate'),
       border:           this.read ('border'),
+      noDrag:           this.read ('no-drag'),
     };
   }
 
@@ -128,7 +129,7 @@ export default class Container extends React.Component {
     const inputNavName        = this.read ('navigation-name');
     const inputDragController = this.read ('drag-controller');
     const inputDragHandle     = this.read ('drag-handle');
-    const inputNotDraggable   = this.read ('no-drag');
+    const inputNoDrag         = this.read ('no-drag');
 
     const boxStyle      = this.mergeStyles ('box');
     const triangleStyle = this.mergeStyles ('triangle');
@@ -154,13 +155,13 @@ export default class Container extends React.Component {
     } else {
       return (
         <div
-          data-navigation-name     = {inputNavName}
-          disabled                 = {disabled}
-          style                    = {boxStyle}
-          id                       = {inputAnchor}
-          data-drag-container-for  = {inputDragController}
-          data-drag-handle         = {inputDragHandle ? inputDragHandle : 'Container'}
-          data-drag-invalid        = {inputNotDraggable === 'true'}
+          data-navigation-name = {inputNavName}
+          disabled             = {disabled}
+          style                = {boxStyle}
+          id                   = {inputAnchor}
+          data-drag-controller = {inputDragController}
+          data-drag-handle     = {inputDragHandle ? inputDragHandle : 'Container'}
+          data-drag-invalid    = {inputNoDrag === 'true'}
           >
           {useManagedChildren.includes (inputKind) ? this.state.managedChildren : this.props.children}
         </div>

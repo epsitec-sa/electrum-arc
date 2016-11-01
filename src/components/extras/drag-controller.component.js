@@ -10,10 +10,10 @@ export default class DragController extends React.Component {
 
   constructor (props) {
     super (props);
+    this.drake          = null;
     this.controllerName = null;
-    this.drake = null;
-    this.dragHandle = null;
-    this.direction = 'vertical';
+    this.dragHandle     = null;
+    this.direction      = 'vertical';
   }
 
   initDragula () {
@@ -59,6 +59,9 @@ export default class DragController extends React.Component {
   }
 
   movesWithHandle (handle) {
+    console.log ('coucou');
+    console.dir (handle.dataset.dragHandle);
+    console.dir (this.dragHandle);
     return handle.dataset.dragHandle === this.dragHandle;
   }
 
@@ -70,7 +73,9 @@ export default class DragController extends React.Component {
     this.controllerName = this.read ('name');
     this.dragHandle     = this.read ('drag-handle');
     this.direction      = this.read ('direction');
-    return (<div data-drag-controller={this.controllerName} />);
+    return (
+      <div data-drag-controller = {this.controllerName} />
+    );
   }
 }
 
