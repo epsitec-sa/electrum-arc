@@ -73,6 +73,7 @@ export default class Button extends React.Component {
     const inputMenu          = this.read ('menu');
     const inputToAnchor      = this.read ('to-anchor');
     const inputDragHandle    = this.read ('drag-handle');
+    const inputNoDrag        = this.read ('no-drag');
 
     // Get or create the internalState.
     let isMenuVisible = 'false';
@@ -155,11 +156,12 @@ export default class Button extends React.Component {
     if (inputKind === 'container' || inputKind === 'box') {
       return (
         <div
-          onClick  = {this.onClick}  // voir (*)
-          disabled = {disabled}
-          style    = {boxStyle}
-          title    = {inputTooltip}
-          data-drag-handle = {inputDragHandle ? inputDragHandle : 'Button'}
+          onClick           = {this.onClick}  // voir (*)
+          disabled          = {disabled}
+          style             = {boxStyle}
+          title             = {inputTooltip}
+          data-drag-handle  = {inputDragHandle ? inputDragHandle : 'Button'}
+          data-drag-invalid = {inputNoDrag === 'true'}
         >
           {this.props.children}
         </div>
@@ -198,10 +200,12 @@ export default class Button extends React.Component {
     } else {
       return (
         <div
-          onClick  = {this.onClick}  // voir (*)
-          disabled = {disabled}
-          style    = {boxStyle}
-          title    = {inputTooltip}
+          onClick           = {this.onClick}  // voir (*)
+          disabled          = {disabled}
+          style             = {boxStyle}
+          title             = {inputTooltip}
+          data-drag-handle  = {inputDragHandle ? inputDragHandle : 'Button'}
+          data-drag-invalid = {inputNoDrag === 'true'}
         >
           {layout ().map ((comp) => comp)}
           {htmlTriangle}

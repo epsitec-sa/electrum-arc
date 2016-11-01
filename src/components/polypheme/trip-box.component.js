@@ -68,7 +68,7 @@ export default class TripBox extends React.Component {
 
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       return (
-        <Container kind='thin-main' drag-handle='TripBox' no-drag={noDrag} height={height} selected={selected} color={color} grow='1' {...this.link ()} >
+        <Container kind='thin-main' no-drag={noDrag} height={height} selected={selected} color={color} grow='1' {...this.link ()} >
         </Container>
       );
     } else {
