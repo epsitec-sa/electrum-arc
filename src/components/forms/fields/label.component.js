@@ -35,10 +35,11 @@ export default class Label extends React.Component {
   getLines (lines) {
     const array = [];
     const textStyle  = this.mergeStyles ('text');
+    let keyIndex = 0;
     lines.map (
       line => {
         const htmlText = (
-          <div style={textStyle}>{line}</div>
+          <div key={keyIndex++} style={textStyle}>{line}</div>
         );
         array.push (htmlText);
       }
@@ -46,10 +47,10 @@ export default class Label extends React.Component {
     return array;
   }
 
-  getText (lines) {
+  getText (index, lines) {
     const linesStyle = this.mergeStyles ('lines');
     return (
-      <div style={linesStyle}>
+      <div key={index} style={linesStyle}>
         {this.getLines (lines).map ((comp) => comp)}
       </div>
     );
@@ -69,22 +70,22 @@ export default class Label extends React.Component {
     const glyphStyle = this.mergeStyles ('glyph');
     const textStyle  = this.mergeStyles ('text');
 
-    let  htmlText = null;
+    let htmlText = () => null;
     if (inputText) {
       if (typeof inputText === 'string') {
         const lines = inputText.split ('\\n');
         if (lines.length < 2) {
-          htmlText = (
-            <div key='text' style={textStyle}>
+          htmlText = (index) => (
+            <div key={index} style={textStyle}>
               {inputText}
             </div>
           );
         } else {
-          htmlText = this.getText (lines);
+          htmlText = (index) => this.getText (index, lines);
         }
       } else {
-        htmlText = (
-          <div key='text' style={textStyle}>
+        htmlText = (index) => (
+          <div key={index} style={textStyle}>
             {inputText}
           </div>
         );
@@ -92,8 +93,8 @@ export default class Label extends React.Component {
     }
 
     const renderSpin = inputSpin ? 'fa-spin' : '';
-    const htmlGlyph = (
-      <i key='icon'
+    const htmlGlyph = (index) => (
+      <i key={index}
         style={glyphStyle}
         className={`fa
         fa-${inputGlyph}
@@ -106,12 +107,12 @@ export default class Label extends React.Component {
     const layout = () => {
       if (inputGlyph) {
         if (inputText) {
-          return [htmlGlyph, htmlText];
+          return [htmlGlyph (0), htmlText (1)];
         } else {
-          return [htmlGlyph];
+          return [htmlGlyph (0)];
         }
       } else {
-        return [htmlText];
+        return [htmlText (0)];
       }
     };
 

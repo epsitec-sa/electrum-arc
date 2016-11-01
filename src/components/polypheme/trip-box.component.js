@@ -13,15 +13,15 @@ export default class TripBox extends React.Component {
     super (props);
   }
 
-  getGlyph (glyph) {
+  getGlyph (glyph, keyIndex) {
     if (glyph.startsWith ('bookmark-')) {
       const color = glyph.substring (9);
       return (
-        <Label glyph='bookmark' glyph-color={color} spacing='compact' {...this.link ()} />
+        <Label key={keyIndex} glyph='bookmark' glyph-color={color} spacing='compact' {...this.link ()} />
       );
     } else {
       return (
-        <Label glyph={glyph} spacing='compact' {...this.link ()} />
+        <Label key={keyIndex} glyph={glyph} spacing='compact' {...this.link ()} />
       );
     }
   }
@@ -31,9 +31,10 @@ export default class TripBox extends React.Component {
       return null;
     } else {
       let line = [];
+      let keyIndex = 0;
       glyphs.forEach (glyph => {
         if (glyph && glyph.value && glyph.value.Glyph) {
-          line.push (this.getGlyph (glyph.value.Glyph));
+          line.push (this.getGlyph (glyph.value.Glyph, keyIndex++));
         }
       });
       return line;

@@ -29,17 +29,18 @@ export default class Notifications extends React.Component {
     );
   }
 
-  getNotification (data, generation) {
+  getNotification (data, generation, keyIndex) {
     return (
-      <Notification data={data} generation={generation} {...this.link ()} />
+      <Notification key={keyIndex} data={data} generation={generation} {...this.link ()} />
     );
   }
 
   getNotifications (notifications, generation) {
     var array = [];
+    let keyIndex = 0;
     // The most recent notification first (on top).
     notifications.slice (0).reverse ().forEach (n => {
-      array.push (this.getNotification (n, generation));
+      array.push (this.getNotification (n, generation, keyIndex++));
     });
     return array;
   }
