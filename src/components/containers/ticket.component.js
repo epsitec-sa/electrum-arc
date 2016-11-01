@@ -18,6 +18,7 @@ export default class Ticket extends React.Component {
       kind:     this.read ('kind'),
       selected: this.read ('selected'),
       color:    this.read ('color'),
+      noDrag:   this.read ('no-drag'),
     };
   }
 

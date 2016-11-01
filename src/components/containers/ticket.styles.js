@@ -54,6 +54,7 @@ export default function styles (theme, props) {
   const inputKind     = props.kind;
   const inputSelected = props.selected;
   const inputColor    = props.color;
+  const inputNoDrag   = props.noDrag;
 
   let width           = inputWidth;
   let height          = inputHeight;
@@ -134,15 +135,16 @@ export default function styles (theme, props) {
     height:       '100%',
     top:          '0px',
     left:         '0px',
-    zIndex:       '10'
+    zIndex:       '10',
+    cursor:       inputNoDrag === 'true' ? null : 'move',
   };
 
   return {
-    box:     boxStyle,
-    shadow:  shadowStyle,
-    shape:   shapeStyle,
-    svg:     svgStyle,
-    content: contentStyle,
+    box:           boxStyle,
+    shadow:        shadowStyle,
+    shape:         shapeStyle,
+    svg:           svgStyle,
+    content:       contentStyle,
     dragZoneStyle: dragZoneStyle
   };
 }
