@@ -57,7 +57,7 @@ export default class TripTicket extends React.Component {
     const data     = this.read ('data');
     const color    = data.Color;
     const type     = data.Type;
-    const noDrag   = data.NotDraggable;
+    const noDrag   = data.NoDrag;
 
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       return (
