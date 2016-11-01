@@ -61,7 +61,7 @@ export default class TripTicket extends React.Component {
 
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       return (
-        <Ticket width={width} height={height} selected={selected} color={color} drag-handle='TripTicket' {...this.link ()} >
+        <Ticket width={width} height={height} selected={selected} color={color} drag-handle='TripTicket' no-drag={noDrag} {...this.link ()} >
         </Ticket>
       );
     } else {

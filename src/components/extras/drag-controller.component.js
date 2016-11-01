@@ -12,8 +12,8 @@ export default class DragController extends React.Component {
 
   constructor (props) {
     super (props);
-    this.controllerName = null;
     this.drake          = null;
+    this.controllerName = null;
     this.dragHandle     = null;
     this.direction      = 'vertical';
   }
@@ -28,8 +28,8 @@ export default class DragController extends React.Component {
       });
     } else {
       this.drake = Dragula ([], {
-        direction: this.direction,
-        invalid:   (el) => this.isInvalid (el)
+        invalid:   (el) => this.isInvalid (el),
+        direction: this.direction
       });
     }
 
@@ -76,6 +76,9 @@ export default class DragController extends React.Component {
   }
 
   movesWithHandle (handle) {
+    console.log ('coucou');
+    console.dir (handle.dataset.dragHandle);
+    console.dir (this.dragHandle);
     return handle.dataset.dragHandle === this.dragHandle;
   }
 
@@ -88,7 +91,7 @@ export default class DragController extends React.Component {
     this.dragHandle     = this.read ('drag-handle');
     this.direction      = this.read ('direction');
     return (
-      <div data-drag-controller={this.controllerName} />
+      <div data-drag-controller = {this.controllerName} />
     );
   }
 }

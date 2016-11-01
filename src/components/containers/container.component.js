@@ -34,6 +34,7 @@ export default class Container extends React.Component {
       bottom:           this.read ('bottom'),
       rotate:           this.read ('rotate'),
       border:           this.read ('border'),
+      noDrag:           this.read ('no-drag'),
     };
   }
 
