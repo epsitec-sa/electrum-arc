@@ -155,13 +155,13 @@ export default class Container extends React.Component {
     } else {
       return (
         <div
-          data-navigation-name = {inputNavName}
-          disabled             = {disabled}
-          style                = {boxStyle}
-          id                   = {inputAnchor}
-          data-drag-controller = {inputDragController}
-          data-drag-handle     = {inputDragHandle ? inputDragHandle : 'Container'}
-          data-drag-invalid    = {inputNoDrag === 'true'}
+          data-navigation-name    = {inputNavName}
+          disabled                = {disabled}
+          style                   = {boxStyle}
+          id                      = {inputAnchor}
+          data-drag-container-for = {inputDragController}
+          data-drag-handle        = {inputDragHandle ? inputDragHandle : 'Container'}
+          data-drag-invalid       = {inputNoDrag === 'true'}
           >
           {useManagedChildren.includes (inputKind) ? this.state.managedChildren : this.props.children}
         </div>

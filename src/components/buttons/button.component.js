@@ -72,6 +72,7 @@ export default class Button extends React.Component {
     const inputTooltip       = this.read ('tooltip');
     const inputMenu          = this.read ('menu');
     const inputToAnchor      = this.read ('to-anchor');
+    const inputDragHandle    = this.read ('drag-handle');
 
     // Get or create the internalState.
     let isMenuVisible = 'false';
@@ -158,6 +159,7 @@ export default class Button extends React.Component {
           disabled = {disabled}
           style    = {boxStyle}
           title    = {inputTooltip}
+          data-drag-handle = {inputDragHandle ? inputDragHandle : 'Button'}
         >
           {this.props.children}
         </div>
