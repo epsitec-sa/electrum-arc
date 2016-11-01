@@ -55,6 +55,7 @@ export default function styles (theme, props) {
   const inputSelected = props.selected;
   const inputColor    = props.color;
   const inputNoDrag   = props.noDrag;
+  const inputCursor   = props.cursor;
 
   let width           = inputWidth;
   let height          = inputHeight;
@@ -79,6 +80,7 @@ export default function styles (theme, props) {
     // margin:   '0px 0px ' + theme.shapes.ticketVerticalSpacing + ' 0px',
     margin:   '0px ' + theme.shapes.ticketVerticalSpacing + ' ' + theme.shapes.ticketVerticalSpacing + ' 0px',
     position: 'relative',
+    cursor:   inputCursor,
   };
 
   const shadowStyle = {
@@ -136,7 +138,6 @@ export default function styles (theme, props) {
     top:          '0px',
     left:         '0px',
     zIndex:       '10',
-    cursor:       inputNoDrag === 'true' ? null : 'move',
   };
 
   return {

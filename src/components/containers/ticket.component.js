@@ -19,6 +19,7 @@ export default class Ticket extends React.Component {
       selected: this.read ('selected'),
       color:    this.read ('color'),
       noDrag:   this.read ('no-drag'),
+      cursor:   this.read ('cursor'),
     };
   }
 
@@ -53,8 +54,8 @@ export default class Ticket extends React.Component {
 
     return (
       <div
-        disabled={disabled}
-        style={boxStyle}
+        disabled = {disabled}
+        style    = {boxStyle}
         >
         {htmlShadow}
         {htmlShape}
@@ -63,7 +64,7 @@ export default class Ticket extends React.Component {
           data-drag-handle  = {inputDragHandle}
           data-drag-invalid = {inputNoDrag === 'true'}
           />
-        <div style={contentStyle}>
+        <div style = {contentStyle}>
           {this.props.children}
         </div>
       </div>

@@ -29,6 +29,7 @@ export default function styles (theme, props) {
   const inputTextTransform   = props.textTransform;
   const inputBackgroundColor = props.backgroundColor;
   const inputZIndex          = props.zIndex;
+  const inputCursor          = props.cursor;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -544,6 +545,7 @@ export default function styles (theme, props) {
     transition:      theme.transitions.easeOut (),
     zIndex:          boxZIndex,
     textDecoration:  'none',
+    cursor:          inputCursor,
   };
 
   if (glyphSize) {

@@ -35,6 +35,7 @@ export default class Button extends React.Component {
       textTransform:   this.read ('text-transform'),
       backgroundColor: this.read ('background-color'),
       zIndex:          this.read ('z-index'),
+      cursor:          this.read ('cursor'),
     };
   }
 

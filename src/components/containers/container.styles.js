@@ -22,6 +22,7 @@ export default function styles (theme, props) {
   const inputBottom           = props.bottom;
   const inputRotate           = props.rotate;
   const inputBorder           = props.border;
+  const inputCursor           = props.cursor;
 
   let width             = inputWidth;
   let height            = inputHeight;
@@ -798,6 +799,7 @@ export default function styles (theme, props) {
     bottom:            bottom,
     transform:         transform,
     transition:        transition,
+    cursor:            inputCursor,
   };
 
   // A Container with kind='flying-balloon' has a standard behavior. It behaves like
