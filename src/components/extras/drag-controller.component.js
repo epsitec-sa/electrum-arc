@@ -1,10 +1,8 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {Action} from 'electrum';
-import Dragula from 'react-dragula';
-import autoScroll from 'dom-autoscroller';
+import {default as dragula} from 'react-dragula';
+// import autoScroll from 'dom-autoscroller';
 
 /******************************************************************************/
 
@@ -21,13 +19,13 @@ export default class DragController extends React.Component {
   initDragula () {
     // restrict controller with handle constraint or not
     if (this.dragHandle) {
-      this.drake = Dragula ([], {
+      this.drake = dragula ([], {
         moves:  (el, container, handle) => this.movesWithHandle (handle),
         invalid: (el, handle) => this.isInvalid (handle),
         direction: this.direction
       });
     } else {
-      this.drake = Dragula ([], {
+      this.drake = dragula ([], {
         direction: this.direction,
         invalid: (el) => this.isInvalid (el)
       });
@@ -49,30 +47,15 @@ export default class DragController extends React.Component {
         }
     });*/
 
-    // Register controller in document
-    // TODO: register a namespace
-    if (!window.document.dragControllers) {
-      window.document.dragControllers = {};
-    }
-    let dCtrls = window.document.dragControllers;
-    dCtrls[this.controllerName] = {};
-    dCtrls[this.controllerName].register = (c) => this.register (c);
-
-    // register existing
+    // find and add existing containers in dom
     const containersNodes = document.querySelectorAll (
-      `[data-drag-controller="${this.controllerName}"]`
+      `[data-drag-container-for="${this.controllerName}"]`
     );
     containersNodes.forEach (c => this.drake.containers.push (c));
   }
 
   componentDidMount () {
     this.initDragula ();
-  }
-
-  register (component) {
-    let containers = this.drake.containers;
-    const node = ReactDOM.findDOMNode (component);
-    containers.push (node);
   }
 
   movesWithHandle (handle) {

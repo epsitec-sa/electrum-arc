@@ -46,7 +46,6 @@ export default class Container extends React.Component {
 
   componentDidMount () {
     const navFor = this.read ('navigation-for');
-    const dragController = this.read ('drag-controller');
     if (navFor) {
       const panelElem = document.querySelectorAll (
         `[data-navigation-name="${navFor}"]`
@@ -56,14 +55,11 @@ export default class Container extends React.Component {
         panelElem.addEventListener ('scroll', this.handleScroll, true);
       }
     }
-    if (dragController) {
-      const dc = window.document.dragControllers[dragController];
-      dc.register (this);
-    }
   }
 
   componentWillUnmount () {
     const navFor = this.read ('navigation-for');
+
     if (navFor) {
       const panelElem = document.querySelectorAll (
         `[data-navigation-name="${navFor}"]`
@@ -158,13 +154,13 @@ export default class Container extends React.Component {
     } else {
       return (
         <div
-          data-navigation-name = {inputNavName}
-          disabled             = {disabled}
-          style                = {boxStyle}
-          id                   = {inputAnchor}
-          data-drag-controller = {inputDragController}
-          data-drag-handle     = {inputDragHandle ? inputDragHandle : 'Container'}
-          data-drag-invalid    = {inputNotDraggable === 'true'}
+          data-navigation-name     = {inputNavName}
+          disabled                 = {disabled}
+          style                    = {boxStyle}
+          id                       = {inputAnchor}
+          data-drag-container-for  = {inputDragController}
+          data-drag-handle         = {inputDragHandle ? inputDragHandle : 'Container'}
+          data-drag-invalid        = {inputNotDraggable === 'true'}
           >
           {useManagedChildren.includes (inputKind) ? this.state.managedChildren : this.props.children}
         </div>
