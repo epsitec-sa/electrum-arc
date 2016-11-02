@@ -8,6 +8,10 @@ import {ColorHelpers} from 'electrum-theme';
 export default function styles (theme, props) {
   const inputWidth            = props.width;
   const inputHeight           = props.height;
+  const inputMinWidth         = props.minWidth;
+  const inputMinHeight        = props.minHeight;
+  const inputMaxWidth         = props.maxWidth;
+  const inputMaxHeight        = props.maxHeight;
   const inputFloatingHeight   = props.floatingHeight;
   const inputKind             = props.kind;
   const inputSubkind          = props.subkind;
@@ -26,10 +30,10 @@ export default function styles (theme, props) {
 
   let width             = inputWidth;
   let height            = inputHeight;
-  let minWidth          = null;
-  let minHeight         = null;
-  let maxWidth          = null;
-  let maxHeight         = null;
+  let minWidth          = inputMinWidth;
+  let minHeight         = inputMinHeight;
+  let maxWidth          = inputMaxWidth;
+  let maxHeight         = inputMaxHeight;
   let display           = null;
   let overflowX         = null;
   let overflowY         = null;

@@ -20,6 +20,10 @@ export default class Container extends React.Component {
     return {
       width:            this.read ('width'),
       height:           this.read ('height'),
+      minWidth:         this.read ('min-width'),
+      minHeight:        this.read ('min-height'),
+      maxWidth:         this.read ('max-width'),
+      maxHeight:        this.read ('max-height'),
       floatingHeight:   this.read ('floating-height'),
       kind:             this.read ('kind'),
       subkind:          this.read ('subkind'),
