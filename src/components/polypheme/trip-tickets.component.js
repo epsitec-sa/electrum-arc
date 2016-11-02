@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {TripTicket, Container} from '../../all-components.js';
+import {TripTicket, Container, Button} from '../../all-components.js';
 import {ColorHelpers} from 'electrum-theme';
 
 /******************************************************************************/
@@ -22,9 +22,11 @@ export default class TripTickets extends React.Component {
     const drop = data.Drop;
 
     return (
-      <Container kind='column' min-width={width} min-height={height} {...this.link ()} >
+      <Container kind='column' min-width={width} min-height={height} position='relative' {...this.link ()} >
         <TripTicket data={pick} kind='footer' {...this.link ()} />
         <TripTicket data={drop} kind='header' {...this.link ()} />
+        <Button glyph='scissors' flip='horizontal' border='none' position='absolute'
+          width='32px' height='32px' right='0px' top='calc(50% - 16px)' {...this.link ()} />
       </Container>
     );
   }

@@ -40,6 +40,7 @@ export default class Container extends React.Component {
       border:           this.read ('border'),
       noDrag:           this.read ('no-drag'),
       cursor:           this.read ('cursor'),
+      position:         this.read ('position'),
     };
   }
 

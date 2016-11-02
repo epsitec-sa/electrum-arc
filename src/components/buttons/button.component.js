@@ -24,6 +24,10 @@ export default class Button extends React.Component {
       grow:            this.read ('grow'),
       width:           this.read ('width'),
       height:          this.read ('height'),
+      left:            this.read ('left'),
+      right:           this.read ('right'),
+      top:             this.read ('top'),
+      bottom:          this.read ('bottom'),
       kind:            this.read ('kind'),
       subkind:         this.read ('subkind'),
       nature:          this.read ('nature'),
@@ -36,6 +40,7 @@ export default class Button extends React.Component {
       backgroundColor: this.read ('background-color'),
       zIndex:          this.read ('z-index'),
       cursor:          this.read ('cursor'),
+      position:        this.read ('position'),
     };
   }
 

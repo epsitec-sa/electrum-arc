@@ -18,6 +18,10 @@ export default function styles (theme, props) {
   const inputGrow            = props.grow;
   const inputWidth           = props.width;
   const inputHeight          = props.height;
+  const inputLeft            = props.left;
+  const inputRight           = props.right;
+  const inputTop             = props.top;
+  const inputBottom          = props.bottom;
   const inputKind            = props.kind;
   const inputSubkind         = props.subkind;
   const inputNature          = props.nature;
@@ -30,6 +34,7 @@ export default function styles (theme, props) {
   const inputBackgroundColor = props.backgroundColor;
   const inputZIndex          = props.zIndex;
   const inputCursor          = props.cursor;
+  const inputPosition        = props.position;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -64,7 +69,7 @@ export default function styles (theme, props) {
   let textTransform        = inputTextTransform;
   let textSize             = theme.shapes.buttonTextSize;
   let actif                = true;
-  let boxPosition          = 'relative';
+  let boxPosition          = inputPosition ? inputPosition : 'relative';
 
   // Initialize variables for button without border.
   if (inputBorder === 'none') {
@@ -529,6 +534,10 @@ export default function styles (theme, props) {
   let boxStyle = {
     width:           boxWidth,
     height:          boxHeight,
+    left:            inputLeft,
+    right:           inputRight,
+    top:             inputTop,
+    bottom:          inputBottom,
     display:         'flex',
     flexDirection:   boxDirection,
     flexGrow:        boxGrow,
