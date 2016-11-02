@@ -74,11 +74,11 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.ticketSelectedBackground;
   }
 
+  const v = (inputKind === 'footer') ? '1px' : theme.shapes.ticketVerticalSpacing;
   const boxStyle = {
     width:    width,
     height:   height,
-    // margin:   '0px 0px ' + theme.shapes.ticketVerticalSpacing + ' 0px',
-    margin:   '0px ' + theme.shapes.ticketVerticalSpacing + ' ' + theme.shapes.ticketVerticalSpacing + ' 0px',
+    margin:   '0px 0px ' + v + ' 0px',
     position: 'relative',
     cursor:   inputCursor,
   };
