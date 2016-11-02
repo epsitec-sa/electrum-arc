@@ -78,7 +78,7 @@ export default class TripTicket extends React.Component {
       const glyphs         = (type === 'pick') ? data.Trip.Pick.Glyphs : data.Trip.Drop.Glyphs;
 
       return (
-        <Ticket width={width} height={height} selected={selected} kind={kind} olor={color}
+        <Ticket width={width} height={height} selected={selected} kind={kind} color={color}
           drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} {...this.link ()} >
           <Container kind='column' grow='1' {...this.link ()} >
             <Label text={this.getTime (data.Trip.Pick.Time)} font-weight={pickWeight} {...this.link ()} />
