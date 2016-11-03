@@ -24,17 +24,17 @@ export default function styles (theme, props) {
   }
 
   let resizerStyle = {
-    zIndex:     1,
-    width:      width,
-    minWidth:   width,
-    height:     height,
-    minHeight:  height,
-    cursor:     cursor,
-    background: theme.palette.splitterBackground,
+    zIndex:          1,
+    width:           width,
+    minWidth:        width,
+    height:          height,
+    minHeight:       height,
+    cursor:          cursor,
+    backgroundColor: theme.palette.splitterBackground,
   };
 
   resizerStyle[':hover'] = {
-    background: theme.palette.splitterBackgroundHover,  // TODO: does not work !!!
+    backgroundColor: theme.palette.splitterBackgroundHover,  // TODO: does not work !!!
   };
 
   return {
