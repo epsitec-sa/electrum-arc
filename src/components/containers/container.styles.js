@@ -551,6 +551,7 @@ export default function styles (theme, props) {
     flexDirection   = 'row';
     flexGrow        = 1;
     overflowX       = 'auto';
+    backgroundColor = theme.palette.rootBackground;
   }
 
   if (inputKind === 'tickets-messenger') {
