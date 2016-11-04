@@ -1,7 +1,9 @@
 'use strict';
 
 import React from 'react';
-import {Action} from 'electrum';
+import {Action, ColorManipulator} from 'electrum';
+
+const {emphasize} = ColorManipulator;
 
 /******************************************************************************/
 
@@ -9,6 +11,9 @@ export default class Ticket extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      hover: false,
+    };
   }
 
   get styleProps () {
@@ -23,6 +28,26 @@ export default class Ticket extends React.Component {
     };
   }
 
+  getHover () {
+    return this.state.hover;
+  }
+
+  setHover (value) {
+    this.setState ( {
+      hover: value
+    });
+  }
+
+  mouseIn () {
+    console.log ('in');
+    this.setHover (true);
+  }
+
+  mouseOut () {
+    console.log ('out');
+    this.setHover (false);
+  }
+
   render () {
     const {state}    = this.props;
     const disabled   = Action.isDisabled (state);
@@ -35,6 +60,10 @@ export default class Ticket extends React.Component {
     const svgStyle      = this.mergeStyles ('svg');
     const contentStyle  = this.mergeStyles ('content');
     const dragZoneStyle = this.mergeStyles ('dragZoneStyle');
+
+    if (this.getHover ()) {
+      shapeStyle.fill = emphasize (shapeStyle.fill, 0.1);
+    }
 
     const w = boxStyle.width;
     const h = boxStyle.height;
@@ -60,6 +89,8 @@ export default class Ticket extends React.Component {
         {htmlShadow}
         {htmlShape}
         <div
+          onMouseOver       = {() => this.mouseIn ()}
+          onMouseOut        = {() => this.mouseOut ()}
           style             = {dragZoneStyle}
           data-drag-handle  = {inputDragHandle}
           data-drag-invalid = {inputNoDrag === 'true'}

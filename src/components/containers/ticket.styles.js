@@ -89,13 +89,14 @@ export default function styles (theme, props) {
     fill:     shadowColor,
   };
 
-  let shapeStyle = {
+  const shapeStyle = {
     position: 'absolute',
     fill:     backgroundColor,
   };
-  shapeStyle[':hover'] = {
-    fill: '#f00',
-  };
+  // TODO: Why does not work ???
+  // shapeStyle[':hover'] = {
+  //   fill: '#f00',
+  // };
 
   const r = toInt (theme.shapes.ticketCornerRadius);
   const s = toInt (theme.shapes.ticketLineRadius);
