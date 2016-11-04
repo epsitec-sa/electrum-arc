@@ -27,7 +27,6 @@ export default function styles (theme, props) {
   const inputRotate           = props.rotate;
   const inputBorder           = props.border;
   const inputCursor           = props.cursor;
-  const inputPosition         = props.position;
 
   let width             = inputWidth;
   let height            = inputHeight;
@@ -71,7 +70,7 @@ export default function styles (theme, props) {
   let color             = null;
   let fontWeight        = null;
   let zIndex            = null;
-  let position          = inputPosition;
+  let position          = null;
   let left              = null;
   let right             = null;
   let top               = null;
@@ -450,6 +449,7 @@ export default function styles (theme, props) {
       topMargin         = halfMargin;
       bottomMargin      = Unit.sub (Unit.multiply (halfMargin, -1), '1px');
       if (inputMarkColor) {
+        padding         = halfMargin + ' ' + m;
         borderLeftWidth = theme.shapes.markWidth;
         borderLeftStyle = 'solid';
         borderLeftColor = ColorHelpers.GetMarkColor (theme, inputMarkColor);
@@ -459,10 +459,6 @@ export default function styles (theme, props) {
     } else if (inputSubkind === 'large-box') {
       rightMargin       = Unit.multiply (m, -1);
       leftMargin        = Unit.multiply (m, -1);
-      let topPadding    = '0px';
-      let rightPadding  = '0px';
-      let bottomPadding = '0px';
-      let leftPadding   = theme.shapes.markWidth;
       borderTopColor    = theme.palette.paneNavigatorInactiveBorder;
       borderBottomColor = theme.palette.paneNavigatorInactiveBorder;
       borderTopWidth    = '1px';
@@ -471,13 +467,6 @@ export default function styles (theme, props) {
       borderBottomStyle = 'solid';
       topMargin         = halfMargin;
       bottomMargin      = Unit.sub (Unit.multiply (halfMargin, -1), '1px');
-      if (inputSelected === 'true') {
-        borderLeftWidth = theme.shapes.markWidth;
-        borderLeftStyle = 'solid';
-        borderLeftColor = ColorHelpers.GetMarkColor (theme, 'base');
-        leftPadding     = Unit.sub (leftPadding, theme.shapes.markWidth);
-      }
-      padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
     } else if (inputSubkind === 'list') {
       borderBottomColor = theme.palette.paneNavigatorInactiveBorder;
       borderBottomWidth = '1px';
@@ -508,7 +497,7 @@ export default function styles (theme, props) {
       height           = theme.shapes.lineHeight;
       bottomMargin     = Unit.multiply (halfMargin, -1);
     }
-    if (inputSelected === 'true' && inputSubkind !== 'large-box') {
+    if (inputSelected === 'true') {
       backgroundColor = theme.palette.paneSelectedBackground;
       color           = theme.palette.paneSelectedText;
     }
@@ -543,7 +532,6 @@ export default function styles (theme, props) {
     flexDirection   = 'column';
     flexGrow        = 1;
     overflowX       = 'hidden';
-    backgroundColor = theme.palette.ticketsBackground;
   }
 
   if (inputKind === 'tickets-messengers') {
@@ -551,7 +539,6 @@ export default function styles (theme, props) {
     flexDirection   = 'row';
     flexGrow        = 1;
     overflowX       = 'auto';
-    backgroundColor = theme.palette.rootBackground;
   }
 
   if (inputKind === 'tickets-messenger') {
@@ -576,7 +563,7 @@ export default function styles (theme, props) {
     position        = 'relative';
     display         = 'flex';
     flexDirection   = 'row';
-    flexGrow        = 1;
+    margin          = Unit.multiply (theme.shapes.containerMargin, 0.5) + ' 0px 0px 0px';
     backgroundColor = theme.palette.ticketsBackground;
   }
 
