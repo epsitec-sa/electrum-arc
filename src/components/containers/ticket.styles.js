@@ -90,8 +90,9 @@ export default function styles (theme, props) {
   };
 
   const shapeStyle = {
-    position: 'absolute',
-    fill:     backgroundColor,
+    position:   'absolute',
+    fill:       backgroundColor,
+    transition: theme.transitions.easeOut (),
   };
   // TODO: Why does not work ???
   // shapeStyle[':hover'] = {
