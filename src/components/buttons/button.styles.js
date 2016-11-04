@@ -531,7 +531,7 @@ export default function styles (theme, props) {
     boxWidth = Unit.sub (boxWidth, '2px');
   }
 
-  let boxStyle = {
+  const boxStyle = {
     width:           boxWidth,
     height:          boxHeight,
     left:            inputLeft,
