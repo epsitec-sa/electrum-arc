@@ -474,7 +474,7 @@ export default function styles (theme, props) {
         borderLeftWidth = theme.shapes.markWidth;
         borderLeftStyle = 'solid';
         borderLeftColor = ColorHelpers.GetMarkColor (theme, 'base');
-        leftPadding     = Unit.sub (leftPadding, theme.shapes.markWidth);
+        leftPadding     = '0px';
       }
       padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
     } else if (inputSubkind === 'list') {
