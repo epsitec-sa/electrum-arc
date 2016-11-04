@@ -43,12 +43,12 @@ export default class Ticket extends React.Component {
     }
     const htmlShadow = (
       <svg width={w} height={h} style={shadowStyle}>
-        <path d={svgStyle.path} fill={svgStyle.shadowColor}/>
+        <path d={svgStyle.path} />
       </svg>
     );
     const htmlShape = (
       <svg width={w} height={h} style={shapeStyle}>
-        <path d={svgStyle.path} fill={svgStyle.backgroundColor}/>
+        <path d={svgStyle.path} />
       </svg>
     );
 

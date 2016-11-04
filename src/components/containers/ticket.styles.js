@@ -86,10 +86,15 @@ export default function styles (theme, props) {
   const shadowStyle = {
     position: 'absolute',
     top:      theme.shapes.ticketShadowShift,
+    fill:     shadowColor,
   };
 
-  const shapeStyle = {
-    position:  'absolute',
+  let shapeStyle = {
+    position: 'absolute',
+    fill:     backgroundColor,
+  };
+  shapeStyle[':hover'] = {
+    fill: '#f00',
   };
 
   const r = toInt (theme.shapes.ticketCornerRadius);
@@ -127,9 +132,7 @@ export default function styles (theme, props) {
   }
 
   const svgStyle = {
-    backgroundColor: backgroundColor,
-    shadowColor:     shadowColor,
-    path:            path,
+    path: path,
   };
 
   const contentStyle = {
