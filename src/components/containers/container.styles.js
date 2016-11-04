@@ -449,7 +449,6 @@ export default function styles (theme, props) {
       topMargin         = halfMargin;
       bottomMargin      = Unit.sub (Unit.multiply (halfMargin, -1), '1px');
       if (inputMarkColor) {
-        padding         = halfMargin + ' ' + m;
         borderLeftWidth = theme.shapes.markWidth;
         borderLeftStyle = 'solid';
         borderLeftColor = ColorHelpers.GetMarkColor (theme, inputMarkColor);
@@ -459,6 +458,10 @@ export default function styles (theme, props) {
     } else if (inputSubkind === 'large-box') {
       rightMargin       = Unit.multiply (m, -1);
       leftMargin        = Unit.multiply (m, -1);
+      let topPadding    = '0px';
+      let rightPadding  = '0px';
+      let bottomPadding = '0px';
+      let leftPadding   = theme.shapes.markWidth;
       borderTopColor    = theme.palette.paneNavigatorInactiveBorder;
       borderBottomColor = theme.palette.paneNavigatorInactiveBorder;
       borderTopWidth    = '1px';
@@ -467,6 +470,13 @@ export default function styles (theme, props) {
       borderBottomStyle = 'solid';
       topMargin         = halfMargin;
       bottomMargin      = Unit.sub (Unit.multiply (halfMargin, -1), '1px');
+      if (inputSelected === 'true') {
+        borderLeftWidth = theme.shapes.markWidth;
+        borderLeftStyle = 'solid';
+        borderLeftColor = ColorHelpers.GetMarkColor (theme, 'base');
+        leftPadding     = Unit.sub (leftPadding, theme.shapes.markWidth);
+      }
+      padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
     } else if (inputSubkind === 'list') {
       borderBottomColor = theme.palette.paneNavigatorInactiveBorder;
       borderBottomWidth = '1px';
@@ -497,7 +507,7 @@ export default function styles (theme, props) {
       height           = theme.shapes.lineHeight;
       bottomMargin     = Unit.multiply (halfMargin, -1);
     }
-    if (inputSelected === 'true') {
+    if (inputSelected === 'true' && inputSubkind !== 'large-box') {
       backgroundColor = theme.palette.paneSelectedBackground;
       color           = theme.palette.paneSelectedText;
     }
