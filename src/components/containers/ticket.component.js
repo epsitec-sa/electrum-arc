@@ -29,15 +29,30 @@ export default class Ticket extends React.Component {
   }
 
   componentDidMount () {
-    const inputTripId = this.read ('trip-id');
-    if (inputTripId) {
+    const inputTicketId = this.read ('ticket-id');
+    const inputTripId   = this.read ('trip-id');
+    if (inputTicketId && inputTripId) {
       if (!window.document.tickets) {
         window.document.tickets = {};
       }
       if (!window.document.tickets[inputTripId]) {
-        window.document.tickets[inputTripId] = [];
+        window.document.tickets[inputTripId] = new Map ();
       }
-      window.document.tickets[inputTripId].push ((hover) => this.change (this, hover));
+      window.document.tickets[inputTripId].set (inputTicketId, (hover) => this.change (this, hover));
+    }
+  }
+
+  componentWillUnmount () {
+    const inputTicketId = this.read ('ticket-id');
+    const inputTripId   = this.read ('trip-id');
+    if (inputTicketId && inputTripId) {
+      if (!window.document.tickets) {
+        throw new Error (`Fatal error during Ticket.componentWillUnmount with tripId=${inputTripId} (#1)`);
+      }
+      if (!window.document.tickets[inputTripId]) {
+        throw new Error (`Fatal error during Ticket.componentWillUnmount tripId=${inputTripId} (#2)`);
+      }
+      window.document.tickets[inputTripId].delete (inputTicketId);
     }
   }
 
@@ -47,7 +62,7 @@ export default class Ticket extends React.Component {
 
   search(tripId, hover) {
     if (tripId) {
-      window.document.tickets[tripId].forEach (c => c (hover));
+      window.document.tickets[tripId].forEach ((value, key, map) => value (hover));
     }
   }
 
@@ -76,7 +91,12 @@ export default class Ticket extends React.Component {
     const disabled   = Action.isDisabled (state);
     const inputDragHandle = this.read ('drag-handle');
     const inputNoDrag     = this.read ('no-drag');
+    const inputTicketId   = this.read ('ticket-id');
     const inputTripId     = this.read ('trip-id');
+
+    if (!inputTicketId) {
+      // throw new Error (`Undefined ticket ticket-id`);
+    }
 
     const boxStyle      = this.mergeStyles ('box');
     const shadowStyle   = this.mergeStyles ('shadow');

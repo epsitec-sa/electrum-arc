@@ -20,8 +20,11 @@ export default class TripTickets extends React.Component {
 
     const pick = data.Pick;
     const drop = data.Drop;
-    pick.TripId = data.TripId;
-    drop.TripId = data.TripId;
+
+    pick.TicketId = data.Pick.Trip.TicketId;
+    drop.TicketId = data.Drop.Trip.TicketId;
+    pick.TripId   = data.Pick.Trip.TripId;
+    drop.TripId   = data.Drop.Trip.TripId;
 
     return (
       <Container kind='column' min-width={width} min-height={height} position='relative' {...this.link ()} >
