@@ -59,9 +59,6 @@ export default class DragController extends React.Component {
   }
 
   movesWithHandle (handle) {
-    console.log ('coucou');
-    console.dir (handle.dataset.dragHandle);
-    console.dir (this.dragHandle);
     return handle.dataset.dragHandle === this.dragHandle;
   }
 

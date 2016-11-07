@@ -28,6 +28,15 @@ export default class Ticket extends React.Component {
     };
   }
 
+  search(tripId) {
+    console.log ('search');
+    console.log (tripId);
+    const nodes = document.querySelectorAll (
+      `[trip-id="${tripId}"]`
+    );
+    console.dir (nodes);
+  }
+
   getHover () {
     return this.state.hover;
   }
@@ -38,13 +47,12 @@ export default class Ticket extends React.Component {
     });
   }
 
-  mouseIn () {
-    console.log ('in');
+  mouseIn (tripId) {
     this.setHover (true);
+    this.search (tripId);
   }
 
-  mouseOut () {
-    console.log ('out');
+  mouseOut (tripId) {
     this.setHover (false);
   }
 
@@ -53,6 +61,7 @@ export default class Ticket extends React.Component {
     const disabled   = Action.isDisabled (state);
     const inputDragHandle = this.read ('drag-handle');
     const inputNoDrag     = this.read ('no-drag');
+    const inputTripId     = this.read ('trip-id');
 
     const boxStyle      = this.mergeStyles ('box');
     const shadowStyle   = this.mergeStyles ('shadow');
@@ -89,8 +98,8 @@ export default class Ticket extends React.Component {
         {htmlShadow}
         {htmlShape}
         <div
-          onMouseOver       = {() => this.mouseIn ()}
-          onMouseOut        = {() => this.mouseOut ()}
+          onMouseOver       = {() => this.mouseIn (inputTripId)}
+          onMouseOut        = {() => this.mouseOut (inputTripId)}
           style             = {dragZoneStyle}
           data-drag-handle  = {inputDragHandle}
           data-drag-invalid = {inputNoDrag === 'true'}
