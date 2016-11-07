@@ -34,9 +34,7 @@ export default class DragController extends React.Component {
     // Configure auto-scroll
     /*let drake = this.drake;
     autoScroll ([
-      document.querySelectorAll (
-        `[data-drag-controller="${this.controllerName}"]`
-      )
+      document.querySelectorAll (`[data-drag-controller="${this.controllerName}"]`)
       ], {
       margin: 20,
       maxSpeed: 5,
@@ -48,9 +46,7 @@ export default class DragController extends React.Component {
     });*/
 
     // find and add existing containers in dom
-    const containersNodes = document.querySelectorAll (
-      `[data-drag-container-for="${this.controllerName}"]`
-    );
+    const containersNodes = document.querySelectorAll (`[data-drag-container-for="${this.controllerName}"]`);
     containersNodes.forEach (c => this.drake.containers.push (c));
   }
 

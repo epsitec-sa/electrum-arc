@@ -54,9 +54,7 @@ export default class Container extends React.Component {
   componentDidMount () {
     const navFor = this.read ('navigation-for');
     if (navFor) {
-      const panelElem = document.querySelectorAll (
-        `[data-navigation-name="${navFor}"]`
-      )[0];
+      const panelElem = document.querySelectorAll (`[data-navigation-name="${navFor}"]`)[0];
       if (panelElem) {
         this.computePanelBottoms (panelElem);
         panelElem.addEventListener ('scroll', this.handleScroll, true);
@@ -68,9 +66,7 @@ export default class Container extends React.Component {
     const navFor = this.read ('navigation-for');
 
     if (navFor) {
-      const panelElem = document.querySelectorAll (
-        `[data-navigation-name="${navFor}"]`
-      )[0];
+      const panelElem = document.querySelectorAll (`[data-navigation-name="${navFor}"]`)[0];
       if (panelElem) {
         panelElem.removeEventListener ('scroll', this.handleScroll, true);
       }

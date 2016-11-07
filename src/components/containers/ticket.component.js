@@ -28,13 +28,27 @@ export default class Ticket extends React.Component {
     };
   }
 
-  search(tripId) {
-    console.log ('search');
-    console.log (tripId);
-    const nodes = document.querySelectorAll (
-      `[trip-id="${tripId}"]`
-    );
-    console.dir (nodes);
+  componentDidMount () {
+    const inputTripId = this.read ('trip-id');
+    if (inputTripId) {
+      if (!window.document.tickets) {
+        window.document.tickets = {};
+      }
+      if (!window.document.tickets[inputTripId]) {
+        window.document.tickets[inputTripId] = [];
+      }
+      window.document.tickets[inputTripId].push ((hover) => this.change (this, hover));
+    }
+  }
+
+  change(that, hover) {
+    that.setHover (hover);
+  }
+
+  search(tripId, hover) {
+    if (tripId) {
+      window.document.tickets[tripId].forEach (c => c (hover));
+    }
   }
 
   getHover () {
@@ -49,11 +63,12 @@ export default class Ticket extends React.Component {
 
   mouseIn (tripId) {
     this.setHover (true);
-    this.search (tripId);
+    this.search (tripId, true);
   }
 
   mouseOut (tripId) {
     this.setHover (false);
+    this.search (tripId, false);
   }
 
   render () {
