@@ -724,6 +724,8 @@ export default function styles (theme, props) {
     if (inputSelected === 'true') {
       backgroundColor = theme.palette.paneSelectedBackground;
       color           = theme.palette.paneSelectedText;
+    } else {
+      backgroundColor = theme.palette.paneBackground;
     }
   }
 
