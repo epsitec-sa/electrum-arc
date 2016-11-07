@@ -13,6 +13,7 @@ export default class Ticket extends React.Component {
     super (props);
     this.state = {
       hover: false,
+      link:  false,
     };
   }
 
@@ -26,6 +27,26 @@ export default class Ticket extends React.Component {
       noDrag:   this.read ('no-drag'),
       cursor:   this.read ('cursor'),
     };
+  }
+
+  getHover () {
+    return this.state.hover;
+  }
+
+  setHover (value) {
+    this.setState ( {
+      hover: value
+    });
+  }
+
+  getLink () {
+    return this.state.link;
+  }
+
+  setLink (value) {
+    this.setState ( {
+      link: value
+    });
   }
 
   componentDidMount () {
@@ -56,24 +77,14 @@ export default class Ticket extends React.Component {
     }
   }
 
-  change(that, hover) {
-    that.setHover (hover);
+  change(that, link) {
+    that.setLink (link);
   }
 
-  search(tripId, hover) {
+  search(tripId, link) {
     if (tripId) {
-      window.document.tickets[tripId].forEach ((value, key, map) => value (hover));
+      window.document.tickets[tripId].forEach ((value, key, map) => value (link));
     }
-  }
-
-  getHover () {
-    return this.state.hover;
-  }
-
-  setHover (value) {
-    this.setState ( {
-      hover: value
-    });
   }
 
   mouseIn (tripId) {
@@ -107,6 +118,10 @@ export default class Ticket extends React.Component {
 
     if (this.getHover ()) {
       shapeStyle.fill = emphasize (shapeStyle.fill, 0.1);
+    } else if (this.getLink ()) {
+      shapeStyle.stroke = 'black';
+      shapeStyle.strokeWidth = 3;
+      shapeStyle.strokeOpacity = 0.3;
     }
 
     const w = boxStyle.width;

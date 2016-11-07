@@ -33,6 +33,12 @@ function arcTo (path, r, cx, cy) {
   return path;
 }
 
+// Close path.
+function close (path) {
+  path += 'z';
+  return path;
+}
+
 // Draw _n_n_n_n_n_n_n_n_n_n_n_n_n_
 function horizontalDash (path, r, len, dx) {
   const step = parseInt (dx / len);
@@ -113,6 +119,7 @@ export default function styles (theme, props) {
     path = arcTo (path, r, -r, r);  // bottom-right corner
     path = horizontalDash (path, -s, -s * 3.5, -(w - r - r));
     path = arcTo (path, r, -r, -r);  // bottom-left corner
+    path = close (path);
   } else if (inputKind === 'footer') {
     // Dash line only on top.
     path = moveTo (path, 0, r);
@@ -121,6 +128,7 @@ export default function styles (theme, props) {
     path = arcTo (path, r, r, r);  // top-right corner
     path = lineTo (path, 0, h - r);
     path = lineTo (path, -w, 0);
+    path = close (path);
   } else {
     // Dash line on top and bottom.
     path = moveTo (path, 0, r);
@@ -131,6 +139,7 @@ export default function styles (theme, props) {
     path = arcTo (path, r, -r, r);  // bottom-right corner
     path = horizontalDash (path, -s, -s * 3.5, -(w - r - r));
     path = arcTo (path, r, -r, -r);  // bottom-left corner
+    path = close (path);
   }
 
   const svgStyle = {
