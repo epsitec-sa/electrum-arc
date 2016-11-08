@@ -25,6 +25,8 @@ export default class Splitter extends React.Component {
     const disabled = Action.isDisabled (state);
     const inputKind        = this.read ('kind');
     const inputDefaultSize = this.read ('default-size');
+    const inputMinSize     = this.read ('min-size');
+    const inputMaxSize     = this.read ('max-size');
 
     if (!inputKind) {
       throw new Error (`Undefined splitter kind`);
@@ -33,7 +35,8 @@ export default class Splitter extends React.Component {
     const resizerStyle = this.mergeStyles ('resizerStyle');
 
     return (
-      <SplitPane split={inputKind} resizerStyle={resizerStyle} defaultSize={inputDefaultSize} >
+      <SplitPane split={inputKind} resizerStyle={resizerStyle}
+        defaultSize={inputDefaultSize} minSize={inputMinSize} maxSize={inputMaxSize} >
         {this.props.children}
       </SplitPane>
     );
