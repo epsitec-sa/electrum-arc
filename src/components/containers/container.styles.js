@@ -574,7 +574,7 @@ export default function styles (theme, props) {
     position        = 'relative';
     display         = 'flex';
     flexDirection   = 'row';
-    margin          = Unit.multiply (theme.shapes.containerMargin, 0.5) + ' 0px 0px 0px';
+    flexGrow        = 1;
     backgroundColor = theme.palette.ticketsBackground;
   }
 

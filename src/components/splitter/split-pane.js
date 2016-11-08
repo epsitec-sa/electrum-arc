@@ -285,46 +285,46 @@ class SplitPane extends Component {
 }
 
 SplitPane.propTypes = {
-    primary: PropTypes.oneOf (['first', 'second']),
-    minSize: PropTypes.oneOfType ([
-      React.PropTypes.string,
-      React.PropTypes.number,
-    ]),
-    maxSize: PropTypes.oneOfType ([
-      React.PropTypes.string,
-      React.PropTypes.number,
-    ]),
-    // eslint-disable-next-line react/no-unused-prop-types
-    defaultSize: PropTypes.oneOfType ([
-      React.PropTypes.string,
-      React.PropTypes.number,
-    ]),
-    size: PropTypes.oneOfType ([
-      React.PropTypes.string,
-      React.PropTypes.number,
-    ]),
-    allowResize: PropTypes.bool,
-    split: PropTypes.oneOf (['vertical', 'horizontal']),
-    onDragStarted: PropTypes.func,
-    onDragFinished: PropTypes.func,
-    onChange: PropTypes.func,
-    prefixer: PropTypes.instanceOf (Prefixer).isRequired,
-    style: stylePropType,
-    resizerStyle: stylePropType,
-    paneStyle: stylePropType,
-    pane1Style: stylePropType,
-    pane2Style: stylePropType,
-    className: PropTypes.string,
-    resizerClassName: PropTypes.string,
-    children: PropTypes.arrayOf (PropTypes.node).isRequired,
-  };
+  primary: PropTypes.oneOf (['first', 'second']),
+  minSize: PropTypes.oneOfType ([
+    React.PropTypes.string,
+    React.PropTypes.number,
+  ]),
+  maxSize: PropTypes.oneOfType ([
+    React.PropTypes.string,
+    React.PropTypes.number,
+  ]),
+  // eslint-disable-next-line react/no-unused-prop-types
+  defaultSize: PropTypes.oneOfType ([
+    React.PropTypes.string,
+    React.PropTypes.number,
+  ]),
+  size: PropTypes.oneOfType ([
+    React.PropTypes.string,
+    React.PropTypes.number,
+  ]),
+  allowResize: PropTypes.bool,
+  split: PropTypes.oneOf (['vertical', 'horizontal']),
+  onDragStarted: PropTypes.func,
+  onDragFinished: PropTypes.func,
+  onChange: PropTypes.func,
+  prefixer: PropTypes.instanceOf (Prefixer).isRequired,
+  style: stylePropType,
+  resizerStyle: stylePropType,
+  paneStyle: stylePropType,
+  pane1Style: stylePropType,
+  pane2Style: stylePropType,
+  className: PropTypes.string,
+  resizerClassName: PropTypes.string,
+  children: PropTypes.arrayOf (PropTypes.node).isRequired,
+};
 
 SplitPane.defaultProps = {
-    split: 'vertical',
-    minSize: 50,
-    allowResize: true,
-    prefixer: new Prefixer ({userAgent: USER_AGENT}),
-    primary: 'first',
-  };
+  split: 'vertical',
+  minSize: 50,
+  allowResize: true,
+  prefixer: new Prefixer ({userAgent: USER_AGENT}),
+  primary: 'first',
+};
 
 export default SplitPane;
