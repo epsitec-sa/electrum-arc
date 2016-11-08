@@ -23,7 +23,7 @@ export default function styles (theme, props) {
     cursor = 'row-resize';
   }
 
-  let resizerStyle = {
+  const resizerStyle = {
     zIndex:          1,
     width:           width,
     minWidth:        width,
@@ -33,9 +33,9 @@ export default function styles (theme, props) {
     backgroundColor: theme.palette.splitterBackground,
   };
 
-  resizerStyle[':hover'] = {
-    backgroundColor: theme.palette.splitterBackgroundHover,  // TODO: does not work !!!
-  };
+  // resizerStyle[':hover'] = {
+  //   backgroundColor: theme.palette.splitterBackgroundHover,  // TODO: does not work !!!
+  // };
 
   return {
     resizerStyle: resizerStyle,

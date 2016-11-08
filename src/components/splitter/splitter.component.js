@@ -10,10 +10,6 @@ export default class Splitter extends React.Component {
 
   constructor (props) {
     super (props);
-    this.state = {
-      managedChildren: null
-    };
-    this.panelBottoms = [];
   }
 
   get styleProps () {
@@ -27,7 +23,8 @@ export default class Splitter extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputKind = this.read ('kind');
+    const inputKind        = this.read ('kind');
+    const inputDefaultSize = this.read ('default-size');
 
     if (!inputKind) {
       throw new Error (`Undefined splitter kind`);
@@ -36,7 +33,7 @@ export default class Splitter extends React.Component {
     const resizerStyle = this.mergeStyles ('resizerStyle');
 
     return (
-      <SplitPane split={inputKind} resizerStyle={resizerStyle}>
+      <SplitPane split={inputKind} resizerStyle={resizerStyle} defaultSize={inputDefaultSize} >
         {this.props.children}
       </SplitPane>
     );
