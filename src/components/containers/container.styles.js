@@ -751,7 +751,7 @@ export default function styles (theme, props) {
     flexGrow        = inputGrow;
     justifyContent  = 'flex-start';
     alignItems      = 'center';
-    padding         = '0px 0px 0px ' + theme.shapes.thinLeftMargin;
+    padding         = '0px ' + theme.shapes.thinLeftMargin;
   }
 
   if (inputKind === 'flying-balloon') {

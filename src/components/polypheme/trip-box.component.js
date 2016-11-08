@@ -4,6 +4,7 @@ import React from 'react';
 
 import {Unit} from 'electrum-theme';
 import {Container, Label, Button} from '../../all-components.js';
+import {ColorHelpers} from 'electrum-theme';
 
 /******************************************************************************/
 
@@ -68,6 +69,9 @@ export default class TripBox extends React.Component {
 
     const cursor = (noDrag === 'true') ? null : 'move';
 
+    const directionColorPick = ColorHelpers.GetMarkColor (this.theme, 'primary');
+    const directionColorDrop = ColorHelpers.GetMarkColor (this.theme, 'success');
+
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       return (
         <Container kind='thin-main' no-drag={noDrag} height={height} selected={selected} color={color} grow='1' {...this.link ()} >
@@ -78,14 +82,15 @@ export default class TripBox extends React.Component {
       const dimmedSize  = '75%';
 
       return (
-        <Container kind='thin-main' no-drag={noDrag} height={height} selected={selected} color={color} cursor={cursor} grow='1' {...this.link ()} >
-          <Container kind='thin-column' border='right' grow='4' {...this.link ()} >
+        <Container kind='thin-main' no-drag={noDrag} drag-handle='TripTicket' height={height}
+          selected={selected} color={color} cursor={cursor} grow='1' {...this.link ()} >
+          <Container kind='thin-column' border='right' grow='3.5' {...this.link ()} >
             <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
               <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label text={this.getTime (data.Trip.Pick.Time)} font-weight='bold' wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
-                <Label glyph='upload' glyph-color={dimmedColor} {...this.link ()} />
+                <Label glyph='dot-circle-o' glyph-color={directionColorPick} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
                 <Label text={data.Trip.Pick.Description} wrap='no' {...this.link ()} />
@@ -103,7 +108,7 @@ export default class TripBox extends React.Component {
                 <Label text={this.getTime (data.Trip.Drop.Time)} font-weight='bold' wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
-                <Label glyph='download' glyph-color={dimmedColor} {...this.link ()} />
+                <Label glyph='check-circle' glyph-color={directionColorDrop} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
                 <Label text={data.Trip.Drop.Description} wrap='no' {...this.link ()} />
@@ -119,19 +124,19 @@ export default class TripBox extends React.Component {
           </Container>
           <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
             <Container kind='thin-row' grow='1' {...this.link ()} >
-              <Container kind='thin-row' grow='2' {...this.link ()} >
+              <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label glyph='cube' glyph-color={dimmedColor} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
-                <Label text={data.Trip.Count} wrap='no' {...this.link ()} />
+                <Label text={data.Trip.Count} justify='right' grow='1' wrap='no' {...this.link ()} />
               </Container>
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
-              <Container kind='thin-row' grow='2' {...this.link ()} >
+              <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label text='total' font-size={dimmedSize} text-color={dimmedColor} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
-                <Label text={data.Trip.Weight} wrap='no' {...this.link ()} />
+                <Label text={data.Trip.Weight} justify='right' grow='1' wrap='no' {...this.link ()} />
               </Container>
             </Container>
           </Container>
@@ -141,7 +146,7 @@ export default class TripBox extends React.Component {
                 <Label text='CHF' font-size={dimmedSize} text-color={dimmedColor} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
-                <Label text={data.Trip.Price} wrap='no' {...this.link ()} />
+                <Label text={data.Trip.Price} justify='right' grow='1' wrap='no' {...this.link ()} />
               </Container>
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
