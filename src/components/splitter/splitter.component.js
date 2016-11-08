@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-import SplitPane from 'react-split-pane';
+import SplitPane from './split-pane.js';
 
 /******************************************************************************/
 
