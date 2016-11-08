@@ -60,13 +60,15 @@ export default class TripTicket extends React.Component {
     const color    = data.Color;
     const type     = data.Type;
     const noDrag   = data.NoDrag;
+    const ticketId = this.read ('ticket-id');
+    const tripId   = this.read ('trip-id');
 
     const cursor = (noDrag === 'true') ? null : 'move';
 
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       return (
         <Ticket width={width} height={height} selected={selected} color={color}
-          drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} {...this.link ()} >
+          drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} ticket-id={ticketId} trip-id={tripId} {...this.link ()} >
         </Ticket>
       );
     } else {
@@ -79,7 +81,7 @@ export default class TripTicket extends React.Component {
 
       return (
         <Ticket width={width} height={height} selected={selected} kind={kind} color={color}
-          drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} ticket-id={data.Trip.TicketId} trip-id={data.Trip.TripId} {...this.link ()} >
+          drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} ticket-id={ticketId} trip-id={tripId} {...this.link ()} >
           <Container kind='column' grow='1' {...this.link ()} >
             <Label text={this.getTime (data.Trip.Pick.Time)} font-weight={pickWeight} {...this.link ()} />
             <Label text={this.getTime (data.Trip.Drop.Time)} font-weight={dropWeight} {...this.link ()} />
