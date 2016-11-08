@@ -106,7 +106,7 @@ export default class Ticket extends React.Component {
     const inputTripId     = this.read ('trip-id');
 
     if (!inputTicketId) {
-      // throw new Error (`Undefined ticket ticket-id`);
+      throw new Error (`Undefined ticket ticket-id`);
     }
 
     const boxStyle      = this.mergeStyles ('box');
@@ -122,6 +122,7 @@ export default class Ticket extends React.Component {
       shapeStyle.stroke = 'black';
       shapeStyle.strokeWidth = 3;
       shapeStyle.strokeOpacity = 0.3;
+      shapeStyle.transform = 'scale(0.98)';
     }
 
     const w = boxStyle.width;
