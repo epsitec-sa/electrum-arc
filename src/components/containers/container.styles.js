@@ -27,6 +27,7 @@ export default function styles (theme, props) {
   const inputRotate           = props.rotate;
   const inputBorder           = props.border;
   const inputCursor           = props.cursor;
+  const inputPosition         = props.position;
 
   let width             = inputWidth;
   let height            = inputHeight;
@@ -70,7 +71,7 @@ export default function styles (theme, props) {
   let color             = null;
   let fontWeight        = null;
   let zIndex            = null;
-  let position          = null;
+  let position          = inputPosition;
   let left              = null;
   let right             = null;
   let top               = null;
