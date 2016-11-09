@@ -118,10 +118,15 @@ export default class Ticket extends React.Component {
 
     if (this.getHover ()) {
       shapeStyle.fill = emphasize (shapeStyle.fill, 0.1);
+      // shapeStyle.transform   = 'scale(0.9)';
+      // contentStyle.transform = 'scale(0.9)';
     } else if (this.getLink ()) {
-      shapeStyle.stroke        = 'black';
-      shapeStyle.strokeWidth   = 3;
-      shapeStyle.strokeOpacity = 0.3;
+      // shapeStyle.fill        = emphasize (shapeStyle.fill,  0.1);
+      shapeStyle.transform   = 'scale(0.8)';
+      contentStyle.transform = 'scale(0.8)';
+      // shapeStyle.stroke        = 'black';
+      // shapeStyle.strokeWidth   = 3;
+      // shapeStyle.strokeOpacity = 0.3;
     }
 
     const w = boxStyle.width;
