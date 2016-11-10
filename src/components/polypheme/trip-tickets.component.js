@@ -30,7 +30,7 @@ export default class TripTickets extends React.Component {
         <TripTicket data={pick} ticket-id={ticketIdPick} trip-id={tripId} kind='footer' {...this.link ()} />
         <TripTicket data={drop} ticket-id={ticketIdDrop} trip-id={tripId} kind='header' {...this.link ()} />
         <Button glyph='scissors' flip='horizontal' border='none' position='absolute'
-          width='32px' height='32px' right='0px' top='calc(50% - 16px)' {...this.link ()} />
+          width='32px' height='32px' left='188px' top='calc(50% - 16px)' {...this.link ()} />
       </Container>
     );
   }
