@@ -17,17 +17,17 @@ export default class DragController extends React.Component {
   }
 
   initDragula () {
-    // restrict controller with handle constraint or not
+    // Restrict controller with handle constraint or not.
     if (this.dragHandle) {
       this.drake = dragula ([], {
-        moves:  (el, container, handle) => this.movesWithHandle (handle),
-        invalid: (el, handle) => this.isInvalid (handle),
-        direction: this.direction
+        moves:     (el, container, handle) => this.movesWithHandle (handle),
+        invalid:   (el, handle) => this.isInvalid (handle),
+        direction: this.direction,
       });
     } else {
       this.drake = dragula ([], {
+        invalid:   (el) => this.isInvalid (el),
         direction: this.direction,
-        invalid: (el) => this.isInvalid (el)
       });
     }
 

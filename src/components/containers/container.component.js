@@ -24,6 +24,7 @@ export default class Container extends React.Component {
       minHeight:        this.read ('min-height'),
       maxWidth:         this.read ('max-width'),
       maxHeight:        this.read ('max-height'),
+      marginBottom:     this.read ('margin-bottom'),
       floatingHeight:   this.read ('floating-height'),
       kind:             this.read ('kind'),
       subkind:          this.read ('subkind'),
@@ -162,7 +163,7 @@ export default class Container extends React.Component {
           style                   = {boxStyle}
           id                      = {inputAnchor}
           data-drag-container-for = {inputDragController}
-          data-drag-handle        = {inputDragHandle ? inputDragHandle : 'Container'}
+          data-drag-handle        = {inputDragHandle}
           data-drag-invalid       = {inputNoDrag === 'true'}
           >
           {useManagedChildren.includes (inputKind) ? this.state.managedChildren : this.props.children}

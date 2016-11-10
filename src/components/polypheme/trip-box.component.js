@@ -74,7 +74,7 @@ export default class TripBox extends React.Component {
 
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       return (
-        <Container kind='thin-main' no-drag={noDrag} height={height} selected={selected} color={color} grow='1' {...this.link ()} >
+        <Container kind='thin-main' drag-handle='TripTicket' no-drag={noDrag} height={height} selected={selected} color={color} grow='1' {...this.link ()} >
         </Container>
       );
     } else {
@@ -82,8 +82,8 @@ export default class TripBox extends React.Component {
       const dimmedSize  = '75%';
 
       return (
-        <Container kind='thin-main' no-drag={noDrag} drag-handle='TripTicket' height={height}
-          selected={selected} color={color} cursor={cursor} grow='1' {...this.link ()} >
+        <Container kind='thin-main' drag-handle='TripTicket' no-drag={noDrag} min-height={height}
+          margin-bottom='10px' selected={selected} color={color} cursor={cursor} grow='1' {...this.link ()} >
           <Container kind='thin-column' border='right' grow='3.5' {...this.link ()} >
             <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
               <Container kind='thin-row' grow='1' {...this.link ()} >

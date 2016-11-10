@@ -12,6 +12,7 @@ export default function styles (theme, props) {
   const inputMinHeight        = props.minHeight;
   const inputMaxWidth         = props.maxWidth;
   const inputMaxHeight        = props.maxHeight;
+  const inputMarginBottom     = props.marginBottom;
   const inputFloatingHeight   = props.floatingHeight;
   const inputKind             = props.kind;
   const inputSubkind          = props.subkind;
@@ -65,7 +66,7 @@ export default function styles (theme, props) {
   let borderLeftColor   = null;
   let borderRadius      = null;
   let boxShadow         = null;
-  let margin            = '0px';
+  let margin            = inputMarginBottom ? '0px 0px ' + inputMarginBottom + ' 0px' : '0px';
   let padding           = '0px';
   let backgroundColor   = null;
   let color             = null;
