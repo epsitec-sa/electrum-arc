@@ -1,9 +1,7 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Action} from 'electrum';
-import Dragula from 'react-dragula';
 /******************************************************************************/
 
 export default class Container extends React.Component {
@@ -136,6 +134,7 @@ export default class Container extends React.Component {
 
     const boxStyle      = this.mergeStyles ('box');
     const triangleStyle = this.mergeStyles ('triangle');
+    const dragZoneStyle = this.mergeStyles ('dragZone');
 
     const useManagedChildren = [
       'pane-navigator',
@@ -155,6 +154,23 @@ export default class Container extends React.Component {
           </div>
         </div>
       );
+    } if (inputNoDrag === 'false') {
+      return (
+        <div
+          data-navigation-name    = {inputNavName}
+          disabled                = {disabled}
+          style                   = {boxStyle}
+          id                      = {inputAnchor}
+          data-drag-container-for = {inputDragController}
+          >
+          <div
+            style             = {dragZoneStyle}
+            data-drag-handle  = {inputDragHandle}
+            data-drag-invalid = {inputNoDrag === 'true'}
+            />
+          {useManagedChildren.includes (inputKind) ? this.state.managedChildren : this.props.children}
+        </div>
+      );
     } else {
       return (
         <div
@@ -163,8 +179,6 @@ export default class Container extends React.Component {
           style                   = {boxStyle}
           id                      = {inputAnchor}
           data-drag-container-for = {inputDragController}
-          data-drag-handle        = {inputDragHandle}
-          data-drag-invalid       = {inputNoDrag === 'true'}
           >
           {useManagedChildren.includes (inputKind) ? this.state.managedChildren : this.props.children}
         </div>

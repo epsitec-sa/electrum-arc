@@ -715,6 +715,7 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'thin-main') {
+    position        = 'relative';
     display         = 'flex';
     flexDirection   = 'row';
     flexGrow        = inputGrow;
@@ -867,9 +868,19 @@ export default function styles (theme, props) {
     }
   }
 
+  const dragZoneStyle = {
+    position: 'absolute',
+    width:    '100%',
+    height:   '100%',
+    top:      '0px',
+    left:     '0px',
+    zIndex:   '10',
+  };
+
   return {
     box:      boxStyle,
     triangle: triangleStyle,
+    dragZone: dragZoneStyle,
   };
 }
 
