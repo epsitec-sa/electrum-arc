@@ -155,6 +155,7 @@ export default function styles (theme, props) {
     transition:    theme.transitions.easeOut (),
   };
 
+  // Invisible zone for drag & drop detection.
   const dragZoneStyle = {
     position:     'absolute',
     width:        '100%',

@@ -879,6 +879,7 @@ export default function styles (theme, props) {
     }
   }
 
+  // Invisible zone for drag & drop detection.
   const dragZoneStyle = {
     position: 'absolute',
     width:    '100%',
