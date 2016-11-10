@@ -885,7 +885,7 @@ export default function styles (theme, props) {
     height:   '100%',
     top:      '0px',
     left:     '0px',
-    zIndex:   '10',
+    // zIndex:   '10',  // prohibited, it extends the detection area beyond the hidden parts by the splitter!
   };
 
   return {
