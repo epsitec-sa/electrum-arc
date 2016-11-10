@@ -590,17 +590,6 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.ticketsBackground;
   }
 
-  if (inputKind === 'tickets-glue') {
-    position        = 'absolute';
-    left            = inputLeft;
-    right           = inputRight;
-    top             = inputTop;
-    bottom          = inputBottom;
-    transform       = 'rotate(' + inputRotate + ')';
-    backgroundColor = theme.palette.ticketGlueBackground;
-    boxShadow       = theme.shapes.ticketGlueShadow;
-  }
-
   if (inputKind === 'notifications-panel') {
     // TODO: improve this code !
     // Subtracting the current items supposed to be present at the total height
