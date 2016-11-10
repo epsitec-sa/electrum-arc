@@ -63,6 +63,12 @@ export default class TicketsGlue extends React.Component {
     const titleStyle     = this.mergeStyles ('title');
     const containerStyle = this.mergeStyles ('container');
 
+    if (this.getEdit ()) {
+      titleStyle.margin   = '0px';
+      titleStyle.position = 'relative';
+      titleStyle.top      = '-5px';
+    }
+
     let htmlEdit;
     if (this.getEdit ()) {
       htmlEdit = (
