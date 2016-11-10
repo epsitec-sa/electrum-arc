@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import {TextField} from 'electrum-arc';
+import {Label, TextField} from 'electrum-arc';
 
 /******************************************************************************/
 
@@ -25,16 +25,34 @@ export default class TicketsGlue extends React.Component {
 
   render () {
     const inputDragController = this.read ('drag-controller');
+    const inputTitle          = this.read ('title');
+    const inputMode           = this.read ('mode');
 
-    const boxStyle = this.mergeStyles ('box');
+    const boxStyle       = this.mergeStyles ('box');
+    const containerStyle = this.mergeStyles ('container');
+
+    let htmlEdit;
+    if (inputMode === 'edit') {
+      htmlEdit = (
+        <TextField value={inputTitle} {...this.link ()} />
+      );
+    } else {
+      htmlEdit = (
+        <Label kind='tickets-glue' text={inputTitle} {...this.link ()} />
+      );
+    }
 
     return (
       <div
-        style                   = {boxStyle}
-        data-drag-container-for = {inputDragController ? inputDragController : 'tickets'}
+        style = {boxStyle}
         >
-        <TextField {...this.link ()} />
-        {this.props.children}
+        {htmlEdit}
+        <div
+          style                   = {containerStyle}
+          data-drag-container-for = {inputDragController ? inputDragController : 'tickets'}
+          >
+          {this.props.children}
+        </div>
       </div>
     );
   }

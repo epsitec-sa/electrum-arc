@@ -18,14 +18,18 @@ export default function styles (theme, props) {
     top:             inputTop,
     bottom:          inputBottom,
     transform:       inputRotate ? 'rotate(' + inputRotate + ')' : null,
-    minWidth:        inputWidth  ? inputWidth  : '220px',
-    minHeight:       inputHeight ? inputHeight : '164px',
     backgroundColor: theme.palette.ticketGlueBackground,
     boxShadow:       theme.shapes.ticketGlueShadow,
   };
 
+  const containerStyle = {
+    minWidth:        inputWidth  ? inputWidth  : '220px',
+    minHeight:       inputHeight ? inputHeight : '164px',
+  };
+
   return {
-    box:      boxStyle,
+    box:       boxStyle,
+    container: containerStyle,
   };
 }
 

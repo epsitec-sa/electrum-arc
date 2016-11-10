@@ -167,6 +167,12 @@ export default function styles (theme, props) {
     margin            = hm + ' ' + m + ' ' + hm + ' 0px';
   }
 
+  if (inputKind === 'tickets-glue') {
+    textColor       = theme.palette.ticketGlueTitle;
+    fontWeight      = 'bold';
+    fontSize        = theme.shapes.ticketGlueTitleSize;
+  }
+
   if (inputVpos === 'top') {
     boxAlignSelf = 'flex-start';
   }
