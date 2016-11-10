@@ -9,14 +9,14 @@ export default function styles (theme, props) {
   const inputWidth  = props.width;
   const inputHeight = props.height;
 
-  let width             = null;
-  let height            = '1px';
-  let borderWidth       = '1px 0px 0px 0px';
-  let borderStyle       = 'solid';
-  let borderColor       = theme.palette.paneNavigatorInactiveBorder;
-  let margin            = '0px';
-  let padding           = '0px';
-  let backgroundColor   = null;
+  let width           = null;
+  let height          = '1px';
+  let borderWidth     = '1px 0px 0px 0px';
+  let borderStyle     = 'solid';
+  let borderColor     = theme.palette.paneNavigatorInactiveBorder;
+  let margin          = '0px';
+  let padding         = '0px';
+  let backgroundColor = null;
 
   const s = theme.shapes.lineSpacing;
 

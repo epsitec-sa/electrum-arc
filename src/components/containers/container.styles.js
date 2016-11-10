@@ -21,11 +21,6 @@ export default function styles (theme, props) {
   const inputTrianglePosition = props.trianglePosition;
   const inputGrow             = props.grow;
   const inputSelected         = props.selected;
-  const inputLeft             = props.left;
-  const inputRight            = props.right;
-  const inputTop              = props.top;
-  const inputBottom           = props.bottom;
-  const inputRotate           = props.rotate;
   const inputBorder           = props.border;
   const inputCursor           = props.cursor;
   const inputPosition         = props.position;

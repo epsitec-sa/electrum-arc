@@ -1,9 +1,7 @@
 'use strict';
 
 import React from 'react';
-
-import {TextField} from '../../all-components.js';
-import {ColorHelpers} from 'electrum-theme';
+import {TextField} from 'electrum-arc';
 
 /******************************************************************************/
 
@@ -13,33 +11,27 @@ export default class TicketsGlue extends React.Component {
     super (props);
   }
 
+  get styleProps () {
+    return {
+      width:  this.read ('width'),
+      height: this.read ('height'),
+      left:   this.read ('left'),
+      right:  this.read ('right'),
+      top:    this.read ('top'),
+      bottom: this.read ('bottom'),
+      rotate: this.read ('rotate'),
+    };
+  }
+
   render () {
-    const width  = '220px';
-    const height = '164px';  // '82px' * 2
-    const inputLeft           = this.read ('left');
-    const inputRight          = this.read ('right');
-    const inputTop            = this.read ('top');
-    const inputBottom         = this.read ('bottom');
-    const inputRotate         = this.read ('rotate');
     const inputDragController = this.read ('drag-controller');
 
-    const boxStyle = {
-      position:        'absolute',
-      left:            inputLeft,
-      right:           inputRight,
-      top:             inputTop,
-      bottom:          inputBottom,
-      transform:       'rotate(' + inputRotate + ')',
-      minWidth:        width,
-      minHeight:       height,
-      backgroundColor: this.props.theme.palette.ticketGlueBackground,
-      boxShadow:       this.props.theme.shapes.ticketGlueShadow,
-    };
+    const boxStyle = this.mergeStyles ('box');
 
     return (
       <div
         style                   = {boxStyle}
-        data-drag-container-for = {inputDragController}
+        data-drag-container-for = {inputDragController ? inputDragController : 'tickets'}
         >
         <TextField {...this.link ()} />
         {this.props.children}
