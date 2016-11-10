@@ -10,31 +10,30 @@ export default class DragController extends React.Component {
 
   constructor (props) {
     super (props);
-    this.drake          = null;
-    this.controllerName = null;
-    this.dragHandle     = null;
-    this.direction      = 'vertical';
   }
 
   initDragula () {
     // Restrict controller with handle constraint or not.
-    if (this.dragHandle) {
-      this.drake = dragula ([], {
+    const controllerName = this.read ('name');
+    const direction      = this.read ('direction');
+    const dragHandle     = this.read ('drag-handle');
+    let drake;
+    if (dragHandle) {
+      drake = dragula ([], {
         moves:     (el, container, handle) => this.movesWithHandle (handle),
         invalid:   (el, handle) => this.isInvalid (handle),
-        direction: this.direction,
+        direction: direction,
       });
     } else {
-      this.drake = dragula ([], {
+      drake = dragula ([], {
         invalid:   (el) => this.isInvalid (el),
-        direction: this.direction,
+        direction: direction,
       });
     }
 
     // Configure auto-scroll
-    /*let drake = this.drake;
-    autoScroll ([
-      document.querySelectorAll (`[data-drag-controller="${this.controllerName}"]`)
+    /*autoScroll ([
+      document.querySelectorAll (`[data-drag-controller="${controllerName}"]`)
       ], {
       margin: 20,
       maxSpeed: 5,
@@ -46,8 +45,8 @@ export default class DragController extends React.Component {
     });*/
 
     // find and add existing containers in dom
-    const containersNodes = document.querySelectorAll (`[data-drag-container-for="${this.controllerName}"]`);
-    containersNodes.forEach (c => this.drake.containers.push (c));
+    const containersNodes = document.querySelectorAll (`[data-drag-container-for="${controllerName}"]`);
+    containersNodes.forEach (c => drake.containers.push (c));
   }
 
   componentDidMount () {
@@ -55,7 +54,8 @@ export default class DragController extends React.Component {
   }
 
   movesWithHandle (handle) {
-    return handle.dataset.dragHandle === this.dragHandle;
+    const dragHandle = this.read ('drag-handle');
+    return handle.dataset.dragHandle === dragHandle;
   }
 
   isInvalid (el) {
@@ -63,11 +63,10 @@ export default class DragController extends React.Component {
   }
 
   render () {
-    this.controllerName = this.read ('name');
-    this.dragHandle     = this.read ('drag-handle');
-    this.direction      = this.read ('direction');
+    const controllerName = this.read ('name');
+
     return (
-      <div data-drag-controller = {this.controllerName} />
+      <div data-drag-controller = {controllerName} />
     );
   }
 }
