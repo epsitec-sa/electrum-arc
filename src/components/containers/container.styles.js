@@ -280,6 +280,16 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.viewBackground;
   }
 
+  if (inputKind === 'view-stretch') {
+    minWidth        = width;
+    position        = 'relative';
+    display         = 'flex';
+    flexDirection   = 'column';
+    flexGrow        = 1;
+    margin          = '0px';
+    backgroundColor = theme.palette.viewBackground;
+  }
+
   if (inputKind === 'view-short') {
     minWidth        = width;
     position        = 'relative';
