@@ -85,45 +85,45 @@ export default class TripBox extends React.Component {
         <Container kind='thin-main' drag-handle='TripTicket' no-drag={noDrag}
           min-height={height} max-height={height} margin-bottom='10px'
           selected={selected} color={color} cursor={cursor} grow='1' {...this.link ()} >
-          <Container kind='thin-column' border='right' grow='3.5' {...this.link ()} >
+          <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
             <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
-              <Container kind='thin-row' grow='1' {...this.link ()} >
+              <Container kind='thin-row' width='50px' {...this.link ()} >
                 <Label text={this.getTime (data.Trip.Pick.Time)} font-weight='bold' wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
                 <Label glyph='dot-circle-o' glyph-color={directionColorPick} {...this.link ()} />
               </Container>
-              <Container kind='thin-row' grow='3' {...this.link ()} >
+              <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label text={data.Trip.Pick.Description} wrap='no' {...this.link ()} />
               </Container>
-              <Container kind='thin-row' grow='1' {...this.link ()} >
+              <Container kind='thin-row' width='50px' {...this.link ()} >
                 <Label text={this.getZone (data.Trip.Pick.Zone)} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
               </Container>
-              <Container kind='thin-row' grow='1' {...this.link ()} >
+              <Container kind='thin-row' width='80px' {...this.link ()} >
                 <Label grow='1' {...this.link ()} />
                 {this.getGlyphs (data.Trip.Pick.Glyphs)}
               </Container>
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
-              <Container kind='thin-row' grow='1' {...this.link ()} >
+              <Container kind='thin-row' width='50px' {...this.link ()} >
                 <Label text={this.getTime (data.Trip.Drop.Time)} font-weight='bold' wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
                 <Label glyph='check-circle' glyph-color={directionColorDrop} {...this.link ()} />
               </Container>
-              <Container kind='thin-row' grow='3' {...this.link ()} >
+              <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label text={data.Trip.Drop.Description} wrap='no' {...this.link ()} />
               </Container>
-              <Container kind='thin-row' grow='1' {...this.link ()} >
+              <Container kind='thin-row' width='50px' {...this.link ()} >
                 <Label text={this.getZone (data.Trip.Drop.Zone)} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
               </Container>
-              <Container kind='thin-row' grow='1' {...this.link ()} >
+              <Container kind='thin-row' width='80px' {...this.link ()} >
                 <Label grow='1' {...this.link ()} />
                 {this.getGlyphs (data.Trip.Drop.Glyphs)}
               </Container>
             </Container>
           </Container>
-          <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
+          <Container kind='thin-column' border='right' width='110px' {...this.link ()} >
             <Container kind='thin-row' grow='1' {...this.link ()} >
               <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label glyph='cube' glyph-color={dimmedColor} {...this.link ()} />
@@ -141,7 +141,7 @@ export default class TripBox extends React.Component {
               </Container>
             </Container>
           </Container>
-          <Container kind='thin-column' grow='1' {...this.link ()} >
+          <Container kind='thin-column' width='110px' {...this.link ()} >
             <Container kind='thin-row' grow='1' {...this.link ()} >
               <Container kind='thin-row' grow='2' {...this.link ()} >
                 <Label text='CHF' font-size={dimmedSize} text-color={dimmedColor} {...this.link ()} />
