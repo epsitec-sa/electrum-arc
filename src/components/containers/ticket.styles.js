@@ -82,11 +82,12 @@ export default function styles (theme, props) {
 
   const v = (inputKind === 'footer') ? '1px' : theme.shapes.ticketVerticalSpacing;
   const boxStyle = {
-    width:    width,
-    height:   height,
-    margin:   '0px 0px ' + v + ' 0px',
-    position: 'relative',
-    cursor:   inputCursor,
+    width:      width,
+    height:     height,
+    margin:     '0px 0px ' + v + ' 0px',
+    position:   'relative',
+    cursor:     inputCursor,
+    transition: theme.transitions.easeOut (),
   };
 
   const shadowStyle = {
@@ -151,6 +152,7 @@ export default function styles (theme, props) {
     padding:       theme.shapes.ticketVerticalPadding + ' ' + theme.shapes.ticketHorizontalPadding,
     display:       'flex',
     flexDirection: 'row',
+    transition:    theme.transitions.easeOut (),
   };
 
   const dragZoneStyle = {
