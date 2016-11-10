@@ -275,6 +275,7 @@ export default function styles (theme, props) {
     position        = 'relative';
     display         = 'flex';
     flexDirection   = 'column';
+    flexGrow        = inputGrow;
     margin          = '0px ' + theme.shapes.viewSpacing + ' 0px 0px';
     backgroundColor = theme.palette.viewBackground;
   }
