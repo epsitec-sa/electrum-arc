@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import {Label, TextField} from 'electrum-arc';
+import {Label, TextField, Button} from 'electrum-arc';
 
 /******************************************************************************/
 
@@ -9,6 +9,10 @@ export default class TicketsGlue extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      title: null,
+      edit:  false,
+    };
   }
 
   get styleProps () {
@@ -23,30 +27,61 @@ export default class TicketsGlue extends React.Component {
     };
   }
 
+  getTitle () {
+    return this.state.title;
+  }
+
+  setTitle (value) {
+    this.setState ( {
+      title: value
+    });
+  }
+
+  getEdit () {
+    return this.state.edit;
+  }
+
+  setEdit (value) {
+    this.setState ( {
+      edit: value
+    });
+  }
+
+  componentDidMount () {
+    const inputTitle = this.read ('title');
+    this.setTitle (inputTitle);
+  }
+
+  mouseDown () {
+    this.setEdit (!this.getEdit ());
+  }
+
   render () {
     const inputDragController = this.read ('drag-controller');
-    const inputTitle          = this.read ('title');
-    const inputMode           = this.read ('mode');
 
     const boxStyle       = this.mergeStyles ('box');
+    const titleStyle     = this.mergeStyles ('title');
     const containerStyle = this.mergeStyles ('container');
 
     let htmlEdit;
-    if (inputMode === 'edit') {
+    if (this.getEdit ()) {
       htmlEdit = (
-        <TextField value={inputTitle} {...this.link ()} />
+        <TextField value={this.getTitle ()} {...this.link ()} />
       );
     } else {
       htmlEdit = (
-        <Label kind='tickets-glue' text={inputTitle} {...this.link ()} />
+        <Label kind='tickets-glue' text={this.getTitle ()} {...this.link ()} />
       );
     }
 
     return (
-      <div
-        style = {boxStyle}
-        >
-        {htmlEdit}
+      <div style={boxStyle}>
+        <div
+          style       = {titleStyle}
+          onMouseDown = {() => this.mouseDown ()}
+          >
+          {htmlEdit}
+        </div>
         <div
           style                   = {containerStyle}
           data-drag-container-for = {inputDragController ? inputDragController : 'tickets'}

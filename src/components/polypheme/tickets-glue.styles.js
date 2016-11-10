@@ -22,6 +22,14 @@ export default function styles (theme, props) {
     boxShadow:       theme.shapes.ticketGlueShadow,
   };
 
+  const titleStyle = {
+    display:         'flex',
+    minHeight:       '30px',
+    maxHeight:       '30px',
+    margin:          '0px 10px',
+    cursor:          'pointer',
+  };
+
   const containerStyle = {
     minWidth:        inputWidth  ? inputWidth  : '220px',
     minHeight:       inputHeight ? inputHeight : '164px',
@@ -29,6 +37,7 @@ export default function styles (theme, props) {
 
   return {
     box:       boxStyle,
+    title:     titleStyle,
     container: containerStyle,
   };
 }
