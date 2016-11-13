@@ -97,10 +97,32 @@ export default class Ticket extends React.Component {
     this.search (tripId, false);
   }
 
+  computeHover(shadowStyle, shapeStyle, contentStyle) {
+    const inputKind = this.read ('kind');
+
+    // shapeStyle.fill        = emphasize (shapeStyle.fill, 0.1);
+    shadowStyle.top          = '0px';
+    contentStyle.transform   = 'scale(0.85)';
+    shapeStyle.stroke        = emphasize (shadowStyle.fill, 0.3);
+    shapeStyle.strokeWidth   = 1;
+    if (inputKind === 'header') {
+      // Dash line only on bottom.
+      shapeStyle.transform         = 'scaleX(0.94) scaleY(0.9)';
+      shapeStyle.transformOrigin   = 'top';
+      contentStyle.transformOrigin = 'top';
+    } else if (inputKind === 'footer') {
+      // Dash line only on top.
+      shapeStyle.transform         = 'scaleX(0.94) scaleY(0.9)';
+      shapeStyle.transformOrigin   = 'bottom';
+      contentStyle.transformOrigin = 'bottom';
+    } else {
+      shapeStyle.transform         = 'scaleX(0.94) scaleY(0.85)';
+    }
+  }
+
   render () {
     const {state}    = this.props;
     const disabled   = Action.isDisabled (state);
-    const inputKind       = this.read ('kind');
     const inputDragHandle = this.read ('drag-handle');
     const inputNoDrag     = this.read ('no-drag');
     const inputTicketId   = this.read ('ticket-id');
@@ -118,26 +140,9 @@ export default class Ticket extends React.Component {
     const dragZoneStyle = this.mergeStyles ('dragZoneStyle');
 
     if (this.getHover ()) {
-      // nothing...
+      this.computeHover (shadowStyle, shapeStyle, contentStyle);
     } else if (this.getLink ()) {
-      // shapeStyle.fill        = emphasize (shapeStyle.fill, 0.1);
-      shadowStyle.top          = '0px';
-      contentStyle.transform   = 'scale(0.85)';
-      shapeStyle.stroke        = emphasize (shadowStyle.fill, 0.3);
-      shapeStyle.strokeWidth   = 1;
-      if (inputKind === 'header') {
-        // Dash line only on bottom.
-        shapeStyle.transform         = 'scaleX(0.94) scaleY(0.9)';
-        shapeStyle.transformOrigin   = 'top';
-        contentStyle.transformOrigin = 'top';
-      } else if (inputKind === 'footer') {
-        // Dash line only on top.
-        shapeStyle.transform         = 'scaleX(0.94) scaleY(0.9)';
-        shapeStyle.transformOrigin   = 'bottom';
-        contentStyle.transformOrigin = 'bottom';
-      } else {
-        shapeStyle.transform         = 'scaleX(0.94) scaleY(0.85)';
-      }
+      this.computeHover (shadowStyle, shapeStyle, contentStyle);
     }
 
     const w = boxStyle.width;
