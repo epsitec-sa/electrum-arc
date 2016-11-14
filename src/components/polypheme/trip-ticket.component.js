@@ -74,7 +74,6 @@ export default class TripTicket extends React.Component {
     } else {
       const pickWeight     = (type === 'pick') ? 'bold' : 'normal';
       const dropWeight     = (type === 'drop') ? 'bold' : 'normal';
-      // const directionGlyph = (type === 'pick') ? 'upload' : 'download';
       const directionGlyph = (type === 'pick') ? 'chevron-circle-up' : 'chevron-circle-down';
       const directionColor = ColorHelpers.GetMarkColor (this.theme, type);
       const glyphs         = (type === 'pick') ? data.Trip.Pick.Glyphs : data.Trip.Drop.Glyphs;
@@ -88,8 +87,8 @@ export default class TripTicket extends React.Component {
             <Label glyph={directionGlyph} glyph-color={directionColor} {...this.link ()} />
           </Container>
           <Container kind='column' grow='3' {...this.link ()} >
-            <Label text={data.Trip.Pick.Description} font-weight={pickWeight} {...this.link ()} />
-            <Label text={data.Trip.Drop.Description} font-weight={dropWeight} {...this.link ()} />
+            <Label text={data.Trip.Pick.Description} font-weight={pickWeight} wrap='no' {...this.link ()} />
+            <Label text={data.Trip.Drop.Description} font-weight={dropWeight} wrap='no' {...this.link ()} />
             <Container kind='row' {...this.link ()} >
               <Label glyph='cube' spacing='compact' {...this.link ()} />
               <Label text={data.Trip.Count} grow='1' {...this.link ()} />

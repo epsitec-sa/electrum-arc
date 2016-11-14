@@ -15,9 +15,6 @@ export default class TripBox extends React.Component {
   }
 
   getGlyph (glyph, keyIndex) {
-    if (!glyph) {
-      throw new Error (`Aaaaaaah...`);
-    }
     if (glyph.startsWith ('bookmark-')) {
       const color = glyph.substring (9);
       return (
