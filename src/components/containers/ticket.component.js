@@ -98,23 +98,21 @@ export default class Ticket extends React.Component {
   }
 
   computeHover(shadowStyle, shapeStyle, contentStyle) {
-    const inputKind = this.read ('kind');
+    const inputSubkind = this.read ('subkind');
 
     shadowStyle.fill         = this.props.theme.palette.ticketShadowHover;
     shadowStyle.top          = '0px';
     contentStyle.transform   = 'scale(0.93)';
     shapeStyle.stroke        = emphasize (shadowStyle.fill, 0.3);
     shapeStyle.strokeWidth   = 1;
-    if (inputKind === 'header') {
-      // Dash line only on bottom.
-      shapeStyle.transform         = 'scaleX(0.97) scaleY(0.95)';
-      shapeStyle.transformOrigin   = 'top';
-      contentStyle.transformOrigin = 'top';
-    } else if (inputKind === 'footer') {
-      // Dash line only on top.
-      shapeStyle.transform         = 'scaleX(0.97) scaleY(0.95)';
+    if (inputSubkind === 'pick') {
+      shapeStyle.transform         = 'scaleX(0.97) scaleY(0.93)';
       shapeStyle.transformOrigin   = 'bottom';
       contentStyle.transformOrigin = 'bottom';
+    } else if (inputSubkind === 'drop') {
+      shapeStyle.transform         = 'scaleX(0.97) scaleY(0.93)';
+      shapeStyle.transformOrigin   = 'top';
+      contentStyle.transformOrigin = 'top';
     } else {
       shapeStyle.transform         = 'scaleX(0.97) scaleY(0.90)';
     }
