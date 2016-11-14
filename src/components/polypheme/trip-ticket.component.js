@@ -81,12 +81,12 @@ export default class TripTicket extends React.Component {
       return (
         <Ticket width={width} height={height} selected={selected} kind={kind} color={color}
           drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} ticket-id={ticketId} trip-id={tripId} {...this.link ()} >
-          <Container kind='column' grow='1' {...this.link ()} >
+          <Container kind='column' width='50px' {...this.link ()} >
             <Label text={this.getTime (data.Trip.Pick.Time)} font-weight={pickWeight} {...this.link ()} />
             <Label text={this.getTime (data.Trip.Drop.Time)} font-weight={dropWeight} {...this.link ()} />
             <Label glyph={directionGlyph} glyph-color={directionColor} {...this.link ()} />
           </Container>
-          <Container kind='column' grow='3' {...this.link ()} >
+          <Container kind='column-full' {...this.link ()} >
             <Label text={data.Trip.Pick.Description} font-weight={pickWeight} wrap='no' {...this.link ()} />
             <Label text={data.Trip.Drop.Description} font-weight={dropWeight} wrap='no' {...this.link ()} />
             <Container kind='row' {...this.link ()} >
