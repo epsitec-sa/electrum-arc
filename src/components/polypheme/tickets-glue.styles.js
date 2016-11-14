@@ -31,7 +31,7 @@ export default function styles (theme, props) {
   };
 
   const containerStyle = {
-    minWidth:        inputWidth  ? inputWidth  : '220px',
+    minWidth:        inputWidth  ? inputWidth  : '250px',
     minHeight:       inputHeight ? inputHeight : '136px',
   };
 

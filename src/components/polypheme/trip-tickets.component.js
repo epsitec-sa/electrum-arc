@@ -14,7 +14,7 @@ export default class TripTickets extends React.Component {
   }
 
   render () {
-    const width  = '220px';
+    const width  = '250px';
     const height = '136px';  // '68px' * 2
     const data   = this.read ('data');
     const tripId = this.read ('trip-id');
