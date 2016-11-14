@@ -75,8 +75,8 @@ export default class TripTicket extends React.Component {
       const pickWeight     = (type === 'pick') ? 'bold' : 'normal';
       const dropWeight     = (type === 'drop') ? 'bold' : 'normal';
       // const directionGlyph = (type === 'pick') ? 'upload' : 'download';
-      const directionGlyph = (type === 'pick') ? 'dot-circle-o' : 'check-circle';
-      const directionColor = ColorHelpers.GetMarkColor (this.theme, (type === 'pick') ? 'primary' : 'success');
+      const directionGlyph = (type === 'pick') ? 'chevron-circle-up' : 'chevron-circle-down';
+      const directionColor = ColorHelpers.GetMarkColor (this.theme, type);
       const glyphs         = (type === 'pick') ? data.Trip.Pick.Glyphs : data.Trip.Drop.Glyphs;
 
       return (

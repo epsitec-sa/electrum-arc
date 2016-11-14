@@ -15,6 +15,9 @@ export default class TripBox extends React.Component {
   }
 
   getGlyph (glyph, keyIndex) {
+    if (!glyph) {
+      throw new Error (`Aaaaaaah...`);
+    }
     if (glyph.startsWith ('bookmark-')) {
       const color = glyph.substring (9);
       return (
@@ -69,8 +72,8 @@ export default class TripBox extends React.Component {
 
     const cursor = (noDrag === 'true') ? null : 'move';
 
-    const directionColorPick = ColorHelpers.GetMarkColor (this.theme, 'primary');
-    const directionColorDrop = ColorHelpers.GetMarkColor (this.theme, 'success');
+    const directionColorPick = ColorHelpers.GetMarkColor (this.theme, 'pick');
+    const directionColorDrop = ColorHelpers.GetMarkColor (this.theme, 'drop');
 
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       return (
@@ -91,7 +94,7 @@ export default class TripBox extends React.Component {
                 <Label text={this.getTime (data.Trip.Pick.Time)} font-weight='bold' wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
-                <Label glyph='dot-circle-o' glyph-color={directionColorPick} {...this.link ()} />
+                <Label glyph='chevron-circle-up' glyph-color={directionColorPick} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label text={data.Trip.Pick.Description} wrap='no' {...this.link ()} />
@@ -109,7 +112,7 @@ export default class TripBox extends React.Component {
                 <Label text={this.getTime (data.Trip.Drop.Time)} font-weight='bold' wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
-                <Label glyph='check-circle' glyph-color={directionColorDrop} {...this.link ()} />
+                <Label glyph='chevron-circle-down' glyph-color={directionColorDrop} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label text={data.Trip.Drop.Description} wrap='no' {...this.link ()} />
