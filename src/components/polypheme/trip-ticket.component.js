@@ -74,7 +74,7 @@ export default class TripTicket extends React.Component {
     } else {
       const time           = (type === 'pick') ? data.Trip.Pick.Time : data.Trip.Drop.Time;
       const description    = (type === 'pick') ? data.Trip.Pick.Description : data.Trip.Drop.Description;
-      const directionGlyph = (type === 'pick') ? 'chevron-circle-up' : 'chevron-circle-down';
+      const directionGlyph = (type === 'pick') ? 'circle' : 'square';
       const directionColor = ColorHelpers.GetMarkColor (this.theme, type);
       const glyphs         = (type === 'pick') ? data.Trip.Pick.Glyphs : data.Trip.Drop.Glyphs;
 
