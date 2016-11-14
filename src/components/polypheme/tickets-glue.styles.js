@@ -32,7 +32,7 @@ export default function styles (theme, props) {
 
   const containerStyle = {
     minWidth:        inputWidth  ? inputWidth  : '220px',
-    minHeight:       inputHeight ? inputHeight : '164px',
+    minHeight:       inputHeight ? inputHeight : '136px',
   };
 
   return {

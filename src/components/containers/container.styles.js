@@ -585,6 +585,22 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.ticketsBackground;
   }
 
+  if (inputKind === 'ticket-row') {
+    display         = 'flex';
+    flexDirection   = 'row';
+    flexGrow        = inputGrow;
+    margin          = '-3px 0px';
+    minHeight       = '30px';
+  }
+
+  if (inputKind === 'ticket-column') {
+    display         = 'flex';
+    flexDirection   = 'column';
+    flexGrow        = inputGrow;
+    overflowX       = 'hidden';
+    overflowY       = 'hidden';
+  }
+
   if (inputKind === 'notifications-panel') {
     // TODO: improve this code !
     // Subtracting the current items supposed to be present at the total height

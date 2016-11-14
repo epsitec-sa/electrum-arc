@@ -53,7 +53,7 @@ export default class TripTicket extends React.Component {
 
   render () {
     const width    = '220px';
-    const height   = '82px';
+    const height   = '68px';
     const selected = this.read ('Selected');
     const kind     = this.read ('kind');
     const data     = this.read ('data');
@@ -72,58 +72,30 @@ export default class TripTicket extends React.Component {
         </Ticket>
       );
     } else {
-      const variante = 'simple';
-      if (variante === 'simple') {
-        const pickWeight     = (type === 'pick') ? 'bold' : 'normal';
-        const dropWeight     = (type === 'drop') ? 'bold' : 'normal';
-        const directionGlyph = (type === 'pick') ? 'chevron-circle-up' : 'chevron-circle-down';
-        const directionColor = ColorHelpers.GetMarkColor (this.theme, type);
-        const glyphs         = (type === 'pick') ? data.Trip.Pick.Glyphs : data.Trip.Drop.Glyphs;
+      const time           = (type === 'pick') ? data.Trip.Pick.Time : data.Trip.Drop.Time;
+      const description    = (type === 'pick') ? data.Trip.Pick.Description : data.Trip.Drop.Description;
+      const directionGlyph = (type === 'pick') ? 'chevron-circle-up' : 'chevron-circle-down';
+      const directionColor = ColorHelpers.GetMarkColor (this.theme, type);
+      const glyphs         = (type === 'pick') ? data.Trip.Pick.Glyphs : data.Trip.Drop.Glyphs;
 
-        return (
-          <Ticket width={width} height={height} selected={selected} kind={kind} color={color}
-            drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} ticket-id={ticketId} trip-id={tripId} {...this.link ()} >
-            <Container kind='column' width='50px' {...this.link ()} >
-              <Label text={this.getTime (data.Trip.Pick.Time)} font-weight={pickWeight} {...this.link ()} />
-              <Label text={this.getTime (data.Trip.Drop.Time)} font-weight={dropWeight} {...this.link ()} />
-              <Label glyph={directionGlyph} glyph-color={directionColor} {...this.link ()} />
+      return (
+        <Ticket width={width} height={height} selected={selected} kind={kind} color={color}
+          drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} ticket-id={ticketId} trip-id={tripId} {...this.link ()} >
+          <Container kind='ticket-column' grow='1' {...this.link ()} >
+            <Container kind='ticket-row' grow='1' {...this.link ()} >
+              <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
+              <Label glyph={directionGlyph} glyph-color={directionColor} width='25px' {...this.link ()} />
+              <Label text={description} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
             </Container>
-            <Container kind='column-full' {...this.link ()} >
-              <Label text={data.Trip.Pick.Description} font-weight={pickWeight} wrap='no' {...this.link ()} />
-              <Label text={data.Trip.Drop.Description} font-weight={dropWeight} wrap='no' {...this.link ()} />
-              <Container kind='row' {...this.link ()} >
-                <Label glyph='cube' spacing='compact' {...this.link ()} />
-                <Label text={data.Trip.Count} grow='1' {...this.link ()} />
-                {this.getGlyphs (glyphs)}
-              </Container>
+            <Container kind='ticket-row' grow='1' {...this.link ()} >
+              <Label text='' width='75px' {...this.link ()} />
+              <Label glyph='cube' spacing='compact' {...this.link ()} />
+              <Label text={data.Trip.Count} grow='1' {...this.link ()} />
+              {this.getGlyphs (glyphs)}
             </Container>
-          </Ticket>
-        );
-      } else if (variante === 'single') {
-        const time           = (type === 'pick') ? data.Trip.Pick.Time : data.Trip.Drop.Time;
-        const description    = (type === 'pick') ? data.Trip.Pick.Description : data.Trip.Drop.Description;
-        const directionGlyph = (type === 'pick') ? 'chevron-circle-up' : 'chevron-circle-down';
-        const directionColor = ColorHelpers.GetMarkColor (this.theme, type);
-        const glyphs         = (type === 'pick') ? data.Trip.Pick.Glyphs : data.Trip.Drop.Glyphs;
-
-        return (
-          <Ticket width={width} height='65px' selected={selected} kind={kind} color={color}
-            drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} ticket-id={ticketId} trip-id={tripId} {...this.link ()} >
-            <Container kind='column' width='50px' {...this.link ()} >
-              <Label text={this.getTime (time)} font-weight='bold' {...this.link ()} />
-              <Label glyph={directionGlyph} glyph-color={directionColor} {...this.link ()} />
-            </Container>
-            <Container kind='column-full' {...this.link ()} >
-              <Label text={description} font-weight='bold' wrap='no' {...this.link ()} />
-              <Container kind='row' {...this.link ()} >
-                <Label glyph='cube' spacing='compact' {...this.link ()} />
-                <Label text={data.Trip.Count} grow='1' {...this.link ()} />
-                {this.getGlyphs (glyphs)}
-              </Container>
-            </Container>
-          </Ticket>
-        );
-      }
+          </Container>
+        </Ticket>
+      );
     }
   }
 }
