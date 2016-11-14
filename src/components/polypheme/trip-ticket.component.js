@@ -11,6 +11,19 @@ export default class TripTicket extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      extended: false,
+    };
+  }
+
+  getExtended () {
+    return this.state.extended;
+  }
+
+  setExtended (value) {
+    this.setState ( {
+      extended: value
+    });
   }
 
   getGlyph (glyph, indexKey) {
@@ -72,11 +85,12 @@ export default class TripTicket extends React.Component {
         </Ticket>
       );
     } else {
-      const time           = (type === 'pick') ? data.Trip.Pick.Time : data.Trip.Drop.Time;
-      const description    = (type === 'pick') ? data.Trip.Pick.Description : data.Trip.Drop.Description;
+      const trip           = (type === 'pick') ? data.Trip.Pick : data.Trip.Drop;
+      const time           = trip.Time;
+      const description    = (this.getExtended ()) ? trip.Details : trip.Description;
       const directionGlyph = (type === 'pick') ? 'circle' : 'square';
       const directionColor = ColorHelpers.GetMarkColor (this.theme, type);
-      const glyphs         = (type === 'pick') ? data.Trip.Pick.Glyphs : data.Trip.Drop.Glyphs;
+      const glyphs         = trip.Glyphs;
 
       return (
         <Ticket width={width} height={height} selected={selected} kind={kind} subkind={type} color={color}
