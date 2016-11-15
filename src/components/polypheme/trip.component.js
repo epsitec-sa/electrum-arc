@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-
 import {TripBox, TripTicket, TripTickets} from '../../all-components.js';
 
 /******************************************************************************/
@@ -28,7 +27,7 @@ export default class Trip extends React.Component {
         <TripTicket data={data} ticket-id={ticketId} trip-id={tripId} {...this.link ()} />
       );
     } else {
-      throw new Error (`Trip, invalid kind: ${kind}`);
+      throw new Error (`Trip component contains invalid kind: ${kind}`);
     }
   }
 }

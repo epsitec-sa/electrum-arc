@@ -219,6 +219,7 @@ export default class Ticket extends React.Component {
           style             = {dragZoneStyle}
           data-drag-handle  = {inputDragHandle}
           data-drag-invalid = {inputNoDrag === 'true'}
+          data-ticket-id    = {inputTicketId}
           />
         <div style = {contentStyle}>
           {this.props.children}

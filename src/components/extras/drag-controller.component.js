@@ -12,6 +12,18 @@ export default class DragController extends React.Component {
     super (props);
   }
 
+  dragBegin (element, target, source, nextSibling) {
+    console.log ('>>>>>>>>>>>>>>');
+    console.dir (element);
+    console.dir (target);
+    console.dir (source);
+    console.dir (nextSibling);
+    const ticketId = element.children[2].dataset.ticketId;
+    console.dir (ticketId);
+    const containersNodes = document.querySelectorAll (`[data-ticket-id="${ticketId}"]`);
+    console.dir (containersNodes);
+  }
+
   initDragula () {
     // Restrict controller with handle constraint or not.
     const controllerName = this.read ('name');
@@ -30,6 +42,7 @@ export default class DragController extends React.Component {
         direction: direction,
       });
     }
+    drake.on ('drag', (element, target, source, nextSibling) => this.dragBegin (element, target, source, nextSibling));
 
     // Configure auto-scroll
     /*autoScroll ([
