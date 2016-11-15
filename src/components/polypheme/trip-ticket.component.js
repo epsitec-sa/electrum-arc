@@ -4,6 +4,7 @@ import React from 'react';
 
 import {Ticket, Container, Label} from '../../all-components.js';
 import {ColorHelpers} from 'electrum-theme';
+import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
@@ -64,9 +65,18 @@ export default class TripTicket extends React.Component {
     return time;
   }
 
+  mouseDown () {
+    this.setExtended (!this.getExtended ());
+  }
+
+  computeHeight (text) {
+    const count = text.split ('\\n').length + 1;
+    return Unit.multiply ('20px', count);
+  }
+
   render () {
+    const extended = this.getExtended ();
     const width    = '250px';
-    const height   = '68px';
     const selected = this.read ('Selected');
     const kind     = this.read ('kind');
     const data     = this.read ('data');
@@ -79,29 +89,29 @@ export default class TripTicket extends React.Component {
     const cursor = (noDrag === 'true') ? null : 'move';
 
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
-      return (
-        <Ticket width={width} height={height} selected={selected} color={color}
-          drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} ticket-id={ticketId} trip-id={tripId} {...this.link ()} >
-        </Ticket>
-      );
+      throw new Error ('TripTicket without data');
     } else {
       const trip           = (type === 'pick') ? data.Trip.Pick : data.Trip.Drop;
       const time           = trip.Time;
-      const description    = (this.getExtended ()) ? trip.Details : trip.Description;
+      const description    = extended ? trip.Details : trip.Description;
       const directionGlyph = (type === 'pick') ? 'circle' : 'square';
       const directionColor = ColorHelpers.GetMarkColor (this.theme, type);
       const glyphs         = trip.Glyphs;
+      const height         = Unit.add (this.computeHeight (description), '22px');
+      const marginBottom   = extended ? null : '-10px';
 
       return (
         <Ticket width={width} height={height} selected={selected} kind={kind} subkind={type} color={color}
-          drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} ticket-id={ticketId} trip-id={tripId} {...this.link ()} >
+          drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} ticket-id={ticketId} trip-id={tripId}
+          onMouseDown = {() => this.mouseDown ()}
+          {...this.link ()} >
           <Container kind='ticket-column' grow='1' {...this.link ()} >
-            <Container kind='ticket-row' grow='1' {...this.link ()} >
+            <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
               <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
               <Label glyph={directionGlyph} glyph-color={directionColor} width='25px' {...this.link ()} />
               <Label text={description} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
             </Container>
-            <Container kind='ticket-row' grow='1' {...this.link ()} >
+            <Container kind='ticket-row' {...this.link ()} >
               <Label text='' width='75px' {...this.link ()} />
               <Label glyph='cube' spacing='compact' {...this.link ()} />
               <Label text={data.Trip.Count} grow='1' {...this.link ()} />

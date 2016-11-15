@@ -589,8 +589,8 @@ export default function styles (theme, props) {
     display         = 'flex';
     flexDirection   = 'row';
     flexGrow        = inputGrow;
-    margin          = '-3px 0px';
-    minHeight       = '30px';
+    alignItems      = 'baseline';
+    // margin          = '-3px 0px';
   }
 
   if (inputKind === 'ticket-column') {
@@ -599,6 +599,7 @@ export default function styles (theme, props) {
     flexGrow        = inputGrow;
     overflowX       = 'hidden';
     overflowY       = 'hidden';
+    margin          = '-5px 0px';
   }
 
   if (inputKind === 'notifications-panel') {
