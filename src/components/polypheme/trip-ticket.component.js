@@ -90,9 +90,9 @@ export default class TripTicket extends React.Component {
   }
 
   render () {
-    const extended = this.getExtended ();
     const width    = '250px';
     // const selected = this.read ('Selected');
+    const extended = this.getExtended ();
     const selected = this.getSelected () ? 'true' : 'false';
     const kind     = this.read ('kind');
     const data     = this.read ('data');
@@ -101,8 +101,6 @@ export default class TripTicket extends React.Component {
     const noDrag   = data.NoDrag;
     const ticketId = this.read ('ticket-id');
     const tripId   = this.read ('trip-id');
-
-    const cursor = (noDrag === 'true') ? null : 'move';
 
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       throw new Error ('TripTicket without data');
@@ -116,6 +114,7 @@ export default class TripTicket extends React.Component {
       const height         = Unit.add (this.computeHeight (description), '20px');
       const marginBottom   = extended ? null : '-10px';
       const hatch          = (trip.Type === 'transit') ? 'true' : 'false';
+      const cursor         = (noDrag === 'true') ? null : 'move';
 
       return (
         <Ticket width={width} height={height} selected={selected} kind={kind} subkind={type} color={color}
