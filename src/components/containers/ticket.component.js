@@ -113,9 +113,16 @@ export default class Ticket extends React.Component {
   mouseUp (event) {
     this.isDown = false;
     if (this.downCount < 5) {  // distinguishes a click without movement from a drag & drop
-      const mouseClick = this.read ('onMouseClick');
-      if (mouseClick) {
-        mouseClick ();
+      if (event.ctrlKey) {
+        const mouseCtrlClick = this.read ('onMouseCtrlClick');
+        if (mouseCtrlClick) {
+          mouseCtrlClick ();
+        }
+      } else {
+        const mouseClick = this.read ('onMouseClick');
+        if (mouseClick) {
+          mouseClick ();
+        }
       }
     }
   }
@@ -187,7 +194,7 @@ export default class Ticket extends React.Component {
     const htmlHatch = (inputHatch === 'true') ? (
       <svg width={w} height={h} style={hatchStyle}>
         <defs>
-          <pattern id='diagonalHatch' x='0px' y='0px' width='5px' height='5px' patternTransform='rotate(45)' patternUnits='userSpaceOnUse'>
+          <pattern id='hatch' x='0px' y='0px' width='5px' height='5px' patternTransform='rotate(45)' patternUnits='userSpaceOnUse'>
             <rect x='0px' y='0px' width='1px' height='5px' fill='#000' fillOpacity='0.2' />
           </pattern>
         </defs>

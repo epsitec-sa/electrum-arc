@@ -108,7 +108,7 @@ export default function styles (theme, props) {
 
   const hatchStyle = {
     position:   'absolute',
-    fill:       'url(#diagonalHatch)',
+    fill:       'url(#hatch)',
     transition: theme.transitions.easeOut (),
   };
 

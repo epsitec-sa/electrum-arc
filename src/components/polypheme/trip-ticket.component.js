@@ -14,6 +14,7 @@ export default class TripTicket extends React.Component {
     super (props);
     this.state = {
       extended: false,
+      selected: false,
     };
   }
 
@@ -24,6 +25,16 @@ export default class TripTicket extends React.Component {
   setExtended (value) {
     this.setState ( {
       extended: value
+    });
+  }
+
+  getSelected () {
+    return this.state.selected;
+  }
+
+  setSelected (value) {
+    this.setState ( {
+      selected: value
     });
   }
 
@@ -69,6 +80,10 @@ export default class TripTicket extends React.Component {
     this.setExtended (!this.getExtended ());
   }
 
+  mouseCtrlClick () {
+    this.setSelected (!this.getSelected ());
+  }
+
   computeHeight (text) {
     const count = text.split ('\\n').length + 1;
     return Unit.multiply ('20px', count);
@@ -77,7 +92,8 @@ export default class TripTicket extends React.Component {
   render () {
     const extended = this.getExtended ();
     const width    = '250px';
-    const selected = this.read ('Selected');
+    // const selected = this.read ('Selected');
+    const selected = this.getSelected () ? 'true' : 'false';
     const kind     = this.read ('kind');
     const data     = this.read ('data');
     const color    = data.Color;
@@ -104,7 +120,9 @@ export default class TripTicket extends React.Component {
       return (
         <Ticket width={width} height={height} selected={selected} kind={kind} subkind={type} color={color}
           drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} ticket-id={ticketId} trip-id={tripId}
-          hatch={hatch} onMouseClick={() => this.mouseClick ()}
+          hatch={hatch}
+          onMouseClick={() => this.mouseClick ()}
+          onMouseCtrlClick={() => this.mouseCtrlClick ()}
           {...this.link ()} >
           <Container kind='ticket-column' grow='1' {...this.link ()} >
             <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
