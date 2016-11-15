@@ -65,7 +65,7 @@ export default class TripTicket extends React.Component {
     return time;
   }
 
-  mouseDown () {
+  mouseClick () {
     this.setExtended (!this.getExtended ());
   }
 
@@ -97,13 +97,13 @@ export default class TripTicket extends React.Component {
       const directionGlyph = (type === 'pick') ? 'circle' : 'square';
       const directionColor = ColorHelpers.GetMarkColor (this.theme, type);
       const glyphs         = trip.Glyphs;
-      const height         = Unit.add (this.computeHeight (description), '22px');
+      const height         = Unit.add (this.computeHeight (description), '20px');
       const marginBottom   = extended ? null : '-10px';
 
       return (
         <Ticket width={width} height={height} selected={selected} kind={kind} subkind={type} color={color}
           drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} ticket-id={ticketId} trip-id={tripId}
-          onMouseDown = {() => this.mouseDown ()}
+          onMouseClick = {() => this.mouseClick ()}
           {...this.link ()} >
           <Container kind='ticket-column' grow='1' {...this.link ()} >
             <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
