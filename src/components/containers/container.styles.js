@@ -590,7 +590,6 @@ export default function styles (theme, props) {
     flexDirection   = 'row';
     flexGrow        = inputGrow;
     alignItems      = 'baseline';
-    // margin          = '-3px 0px';
   }
 
   if (inputKind === 'ticket-column') {

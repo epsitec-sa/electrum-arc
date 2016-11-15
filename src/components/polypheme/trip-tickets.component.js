@@ -15,7 +15,7 @@ export default class TripTickets extends React.Component {
 
   render () {
     const width  = '250px';
-    const height = '136px';  // '68px' * 2
+    const height = '116px';
     const data   = this.read ('data');
     const tripId = this.read ('trip-id');
 
@@ -35,9 +35,6 @@ export default class TripTickets extends React.Component {
       <Container kind='column' min-width={width} min-height={height} position='relative' {...this.link ()} >
         <TripTicket data={dataPick} ticket-id={ticketIdPick} trip-id={tripId} kind='footer' {...this.link ()} />
         <TripTicket data={dataDrop} ticket-id={ticketIdDrop} trip-id={tripId} kind='header' {...this.link ()} />
-        <Button glyph='scissors' flip='horizontal' border='none' position='absolute'
-          width='32px' height='32px' left='188px' top='calc(50% - 16px)' z-index={11}
-          {...this.link ()} />
       </Container>
     );
   }
