@@ -184,12 +184,11 @@ export default class Ticket extends React.Component {
         <path d={svgStyle.path} />
       </svg>
     );
-    const hatchColor = emphasize (shapeStyle.fill, 0.2);
     const htmlHatch = (inputHatch === 'true') ? (
       <svg width={w} height={h} style={hatchStyle}>
         <defs>
           <pattern id='diagonalHatch' x='0px' y='0px' width='5px' height='5px' patternTransform='rotate(45)' patternUnits='userSpaceOnUse'>
-            <rect x='0px' y='0px' width='1px' height='5px' fill={hatchColor} />
+            <rect x='0px' y='0px' width='1px' height='5px' fill='#000' fillOpacity='0.2' />
           </pattern>
         </defs>
         <path d={svgStyle.path} />
