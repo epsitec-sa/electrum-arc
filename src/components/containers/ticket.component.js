@@ -149,6 +149,7 @@ export default class Ticket extends React.Component {
     const inputNoDrag     = this.read ('no-drag');
     const inputTicketId   = this.read ('ticket-id');
     const inputTripId     = this.read ('trip-id');
+    const inputHatch      = this.read ('hatch');
 
     if (!inputTicketId) {
       throw new Error (`Undefined ticket ticket-id`);
@@ -157,6 +158,7 @@ export default class Ticket extends React.Component {
     const boxStyle      = this.mergeStyles ('box');
     const shadowStyle   = this.mergeStyles ('shadow');
     const shapeStyle    = this.mergeStyles ('shape');
+    const hatchStyle    = this.mergeStyles ('hatch');
     const svgStyle      = this.mergeStyles ('svg');
     const contentStyle  = this.mergeStyles ('content');
     const dragZoneStyle = this.mergeStyles ('dragZoneStyle');
@@ -182,6 +184,17 @@ export default class Ticket extends React.Component {
         <path d={svgStyle.path} />
       </svg>
     );
+    const hatchColor = emphasize (shapeStyle.fill, 0.2);
+    const htmlHatch = (inputHatch === 'true') ? (
+      <svg width={w} height={h} style={hatchStyle}>
+        <defs>
+          <pattern id='diagonalHatch' x='0px' y='0px' width='5px' height='5px' patternTransform='rotate(45)' patternUnits='userSpaceOnUse'>
+            <rect x='0px' y='0px' width='1px' height='5px' fill={hatchColor} />
+          </pattern>
+        </defs>
+        <path d={svgStyle.path} />
+      </svg>
+    ) : null;
 
     return (
       <div
@@ -190,6 +203,7 @@ export default class Ticket extends React.Component {
         >
         {htmlShadow}
         {htmlShape}
+        {htmlHatch}
         <div
           onMouseOver       = {() => this.mouseIn (inputTripId)}
           onMouseOut        = {() => this.mouseOut (inputTripId)}

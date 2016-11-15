@@ -106,6 +106,12 @@ export default function styles (theme, props) {
   //   fill: '#f00',
   // };
 
+  const hatchStyle = {
+    position:   'absolute',
+    fill:       'url(#diagonalHatch)',
+    transition: theme.transitions.easeOut (),
+  };
+
   const r = toInt (theme.shapes.ticketCornerRadius);
   const s = toInt (theme.shapes.ticketLineRadius);
   const w = toInt (width);
@@ -169,6 +175,7 @@ export default function styles (theme, props) {
     box:           boxStyle,
     shadow:        shadowStyle,
     shape:         shapeStyle,
+    hatch:         hatchStyle,
     svg:           svgStyle,
     content:       contentStyle,
     dragZoneStyle: dragZoneStyle

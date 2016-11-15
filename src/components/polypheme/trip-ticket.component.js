@@ -99,11 +99,12 @@ export default class TripTicket extends React.Component {
       const glyphs         = trip.Glyphs;
       const height         = Unit.add (this.computeHeight (description), '20px');
       const marginBottom   = extended ? null : '-10px';
+      const hatch          = (trip.Type === 'transit') ? 'true' : 'false';
 
       return (
         <Ticket width={width} height={height} selected={selected} kind={kind} subkind={type} color={color}
           drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} ticket-id={ticketId} trip-id={tripId}
-          onMouseClick = {() => this.mouseClick ()}
+          hatch={hatch} onMouseClick={() => this.mouseClick ()}
           {...this.link ()} >
           <Container kind='ticket-column' grow='1' {...this.link ()} >
             <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
