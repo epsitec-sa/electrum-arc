@@ -12,23 +12,40 @@ export default class DragController extends React.Component {
     super (props);
   }
 
-  dragBegin (element, target, source, nextSibling) {
-    console.log ('>>>>>>>>>>>>>>');
+  dragBegin (element, source) {
+    console.log ('>>>>>>>>>>>>>> DRAG');
+    console.dir (element);
+    console.dir (source);
+    // const ticketId = element.children[2].dataset.ticketId;
+    // const tripId   = element.children[2].dataset.tripId;
+    // console.dir (ticketId);
+    // console.dir (tripId);
+    // window.document.tickets[tripId].forEach ((value, key, map) => {
+    //   if (key === ticketId) {
+    //     console.dir (value);
+    //     const ticket = value;
+    //     ticket.changeKind ('trip-box');
+    //   }
+    // });
+  }
+
+  dragEnd (element, target, source, sibling) {
+    console.log ('>>>>>>>>>>>>>> DROP');
     console.dir (element);
     console.dir (target);
     console.dir (source);
-    console.dir (nextSibling);
-    const ticketId = element.children[2].dataset.ticketId;
-    const tripId   = element.children[2].dataset.tripId;
-    console.dir (ticketId);
-    console.dir (tripId);
-    window.document.tickets[tripId].forEach ((value, key, map) => {
-      if (key === ticketId) {
-        console.dir (value);
-        const ticket = value;
-        ticket.changeKind ('trip-box');
-      }
-    });
+    console.dir (sibling);
+    // const ticketId = element.children[2].dataset.ticketId;
+    // const tripId   = element.children[2].dataset.tripId;
+    // console.dir (ticketId);
+    // console.dir (tripId);
+    // window.document.tickets[tripId].forEach ((value, key, map) => {
+    //   if (key === ticketId) {
+    //     console.dir (value);
+    //     const ticket = value;
+    //     ticket.changeKind ('trip-box');
+    //   }
+    // });
   }
 
   initDragula () {
@@ -49,7 +66,8 @@ export default class DragController extends React.Component {
         direction: direction,
       });
     }
-    drake.on ('drag', (element, target, source, nextSibling) => this.dragBegin (element, target, source, nextSibling));
+    drake.on ('drag', (element, source) => this.dragBegin (element, source));
+    drake.on ('drop', (element, target, source, sibling) => this.dragEnd (element, target, source, sibling));
 
     // Configure auto-scroll
     /*autoScroll ([
