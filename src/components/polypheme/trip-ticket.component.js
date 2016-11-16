@@ -101,6 +101,7 @@ export default class TripTicket extends React.Component {
     const noDrag   = data.NoDrag;
     const ticketId = this.read ('ticket-id');
     const tripId   = this.read ('trip-id');
+    const tripComponent = this.read ('trip-component');
 
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       throw new Error ('TripTicket without data');
@@ -119,7 +120,7 @@ export default class TripTicket extends React.Component {
       return (
         <Ticket width={width} height={height} selected={selected} kind={kind} subkind={type} color={color}
           drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} ticket-id={ticketId} trip-id={tripId}
-          hatch={hatch}
+          hatch={hatch} trip-component={tripComponent}
           onMouseClick={() => this.mouseClick ()}
           onMouseCtrlClick={() => this.mouseCtrlClick ()}
           {...this.link ()} >

@@ -19,9 +19,16 @@ export default class DragController extends React.Component {
     console.dir (source);
     console.dir (nextSibling);
     const ticketId = element.children[2].dataset.ticketId;
+    const tripId   = element.children[2].dataset.tripId;
     console.dir (ticketId);
-    const containersNodes = document.querySelectorAll (`[data-ticket-id="${ticketId}"]`);
-    console.dir (containersNodes);
+    console.dir (tripId);
+    window.document.tickets[tripId].forEach ((value, key, map) => {
+      if (key === ticketId) {
+        console.dir (value);
+        const ticket = value;
+        ticket.changeKind ('trip-box');
+      }
+    });
   }
 
   initDragula () {

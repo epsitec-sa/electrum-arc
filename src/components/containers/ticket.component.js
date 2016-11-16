@@ -61,7 +61,8 @@ export default class Ticket extends React.Component {
       if (!window.document.tickets[inputTripId]) {
         window.document.tickets[inputTripId] = new Map ();
       }
-      window.document.tickets[inputTripId].set (inputTicketId, (hover) => this.change (this, hover));
+      // window.document.tickets[inputTripId].set (inputTicketId, (hover) => this.change (this, hover));
+      window.document.tickets[inputTripId].set (inputTicketId, this);
     }
   }
 
@@ -79,14 +80,20 @@ export default class Ticket extends React.Component {
     }
   }
 
-  change(that, link) {
-    that.setLink (link);
+  change(link) {
+    this.setLink (link);
   }
 
   search(tripId, link) {
     if (tripId) {
-      window.document.tickets[tripId].forEach ((value, key, map) => value (link));
+      // window.document.tickets[tripId].forEach ((value, key, map) => value (link));
+      window.document.tickets[tripId].forEach ((value, key, map) => value.change (link));
     }
+  }
+
+  changeKind (kind) {
+    const tripComponent = this.read ('trip-component');
+    tripComponent.setKind (kind);
   }
 
   mouseIn (tripId) {
@@ -220,6 +227,7 @@ export default class Ticket extends React.Component {
           data-drag-handle  = {inputDragHandle}
           data-drag-invalid = {inputNoDrag === 'true'}
           data-ticket-id    = {inputTicketId}
+          data-trip-id      = {inputTripId}
           />
         <div style = {contentStyle}>
           {this.props.children}
