@@ -59,12 +59,13 @@ export default class Label extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputText   = this.read ('text');
-    const inputGlyph  = this.read ('glyph');
-    const inputRotate = this.read ('rotate');
-    const inputFlip   = this.read ('flip');
-    const inputSpin   = this.read ('spin');
-    const inputGrow   = this.read ('grow');
+    const inputText    = this.read ('text');
+    const inputGlyph   = this.read ('glyph');
+    const inputRotate  = this.read ('rotate');
+    const inputFlip    = this.read ('flip');
+    const inputSpin    = this.read ('spin');
+    const inputGrow    = this.read ('grow');
+    const inputTooltip = this.read ('tooltip');
 
     const boxStyle   = this.mergeStyles ('box');
     const glyphStyle = this.mergeStyles ('glyph');
@@ -118,9 +119,10 @@ export default class Label extends React.Component {
 
     return (
       <div
-        onClick={this.onClick}
-        disabled={disabled}
-        style={boxStyle}
+        onClick  = {this.onClick}
+        disabled = {disabled}
+        style    = {boxStyle}
+        title    = {inputTooltip}
       >
         {layout ().map ((comp) => comp)}
         {this.props.children}

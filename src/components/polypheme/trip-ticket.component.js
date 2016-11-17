@@ -38,15 +38,17 @@ export default class TripTicket extends React.Component {
     });
   }
 
-  getGlyph (glyph, indexKey) {
+  getGlyph (glyph, description, indexKey) {
     if (glyph.startsWith ('bookmark-')) {
       const color = glyph.substring (9);
       return (
-        <Label key={indexKey} glyph='bookmark' glyph-color={color} spacing='compact' {...this.link ()} />
+        <Label key={indexKey} glyph='bookmark' glyph-color={color}
+          tooltip={description} spacing='compact' {...this.link ()} />
       );
     } else {
       return (
-        <Label key={indexKey} glyph={glyph} spacing='compact' {...this.link ()} />
+        <Label key={indexKey} glyph={glyph}
+          tooltip={description} spacing='compact' {...this.link ()} />
       );
     }
   }
@@ -59,7 +61,7 @@ export default class TripTicket extends React.Component {
       let indexKey = 0;
       glyphs.forEach (glyph => {
         if (glyph && glyph.value && glyph.value.Glyph) {
-          line.push (this.getGlyph (glyph.value.Glyph, indexKey++));
+          line.push (this.getGlyph (glyph.value.Glyph, glyph.value.Description, indexKey++));
         }
       });
       return line;
@@ -110,6 +112,7 @@ export default class TripTicket extends React.Component {
       const description    = extended ? trip.Details : trip.Description;
       const directionGlyph = (type === 'pick') ? 'circle' : 'square';
       const directionColor = ColorHelpers.GetMarkColor (this.props.theme, type);
+      const directionDesc  = (type === 'pick') ? 'Pick (prise en charge)' : 'Drop (livraison)';
       const glyphs         = trip.Glyphs;
       const height         = Unit.add (this.computeHeight (description), '20px');
       const marginBottom   = extended ? null : '-10px';
@@ -126,7 +129,7 @@ export default class TripTicket extends React.Component {
           <Container kind='ticket-column' grow='1' {...this.link ()} >
             <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
               <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
-              <Label glyph={directionGlyph} glyph-color={directionColor} width='25px' {...this.link ()} />
+              <Label glyph={directionGlyph} glyph-color={directionColor} tooltip={directionDesc} width='25px' {...this.link ()} />
               <Label text={description} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
             </Container>
             <Container kind='ticket-row' {...this.link ()} >
