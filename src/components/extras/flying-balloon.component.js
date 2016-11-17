@@ -16,6 +16,7 @@ export default class FlyingBalloon extends React.Component {
     return {
       width:            this.read ('width'),
       trianglePosition: this.read ('triangle-position'),
+      zIndex:           this.read ('z-index'),
     };
   }
 

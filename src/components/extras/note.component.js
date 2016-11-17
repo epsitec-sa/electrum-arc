@@ -2,13 +2,17 @@
 
 import React from 'react';
 import {Action} from 'electrum';
+import {FlyingBalloon} from '../../all-components.js';
 
 /******************************************************************************/
 
-export default class Label extends React.Component {
+export default class Note extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      showTooltip: false,
+    };
   }
 
   get styleProps () {
@@ -33,6 +37,16 @@ export default class Label extends React.Component {
     };
   }
 
+  getShowTooltip () {
+    return this.state.showTooltip;
+  }
+
+  setShowTooltip (value) {
+    this.setState ( {
+      showTooltip: value
+    });
+  }
+
   getLines (lines) {
     const array = [];
     const textStyle  = this.mergeStyles ('text');
@@ -55,6 +69,14 @@ export default class Label extends React.Component {
         {this.getLines (lines).map ((comp) => comp)}
       </div>
     );
+  }
+
+  mouseIn () {
+    this.setShowTooltip (true);
+  }
+
+  mouseOut () {
+    this.setShowTooltip (false);
   }
 
   render () {
@@ -105,6 +127,17 @@ export default class Label extends React.Component {
       />
     );
 
+    let htmlFlyingBalloon = null;
+    if (inputTooltip && this.getShowTooltip ()) {
+      htmlFlyingBalloon = (
+        <FlyingBalloon
+          z-index           = {11}
+          secondary-text    = {inputTooltip}
+          triangle-position = 'bottom'
+          {...this.link ()} />
+      );
+    }
+
     const layout = () => {
       if (inputGlyph) {
         if (inputText) {
@@ -119,13 +152,15 @@ export default class Label extends React.Component {
 
     return (
       <div
-        onClick  = {this.onClick}
-        disabled = {disabled}
-        style    = {boxStyle}
-        title    = {inputTooltip}
+        onClick     = {this.onClick}
+        disabled    = {disabled}
+        style       = {boxStyle}
+        onMouseOver = {() => this.mouseIn ()}
+        onMouseOut  = {() => this.mouseOut ()}
       >
         {layout ().map ((comp) => comp)}
         {this.props.children}
+        {htmlFlyingBalloon}
       </div>
     );
   }

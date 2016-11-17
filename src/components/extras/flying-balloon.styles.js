@@ -8,6 +8,7 @@ export default function styles (theme, props) {
   const inputWidth            = props.width;
   const inputMaxWidth         = props.maxWidth;
   const inputTrianglePosition = props.trianglePosition;
+  const inputZIndex           = props.zIndex;
 
   const t = Unit.add (theme.shapes.flyingBalloonTriangleSize, '0px', 0);  // round (suppress decimals)
 
@@ -22,7 +23,7 @@ export default function styles (theme, props) {
     justifyContent:  'flex-start',
     alignItems:      'flex-start',
     position:        'absolute',
-    zIndex:          1,
+    zIndex:          inputZIndex ? inputZIndex : 1,
   };
   if (inputTrianglePosition === 'left') {
     boxStyle.left   = '100%';
