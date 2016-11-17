@@ -71,8 +71,8 @@ export default class TripBox extends React.Component {
 
     const cursor = (noDrag === 'true') ? null : 'move';
 
-    const directionColorPick = ColorHelpers.GetMarkColor (this.theme, 'pick');
-    const directionColorDrop = ColorHelpers.GetMarkColor (this.theme, 'drop');
+    const directionColorPick = ColorHelpers.GetMarkColor (this.props.theme, 'pick');
+    const directionColorDrop = ColorHelpers.GetMarkColor (this.props.theme, 'drop');
 
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       return (

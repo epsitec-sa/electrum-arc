@@ -97,7 +97,7 @@ export default class TripTicket extends React.Component {
     const kind     = this.read ('kind');
     const data     = this.read ('data');
     const color    = data.Color;
-    const type     = data.Type;
+    let type     = data.Type;
     const noDrag   = data.NoDrag;
     const ticketId = this.read ('ticket-id');
     const tripId   = this.read ('trip-id');
@@ -109,7 +109,7 @@ export default class TripTicket extends React.Component {
       const time           = trip.Time;
       const description    = extended ? trip.Details : trip.Description;
       const directionGlyph = (type === 'pick') ? 'circle' : 'square';
-      const directionColor = ColorHelpers.GetMarkColor (this.theme, type);
+      const directionColor = ColorHelpers.GetMarkColor (this.props.theme, type);
       const glyphs         = trip.Glyphs;
       const height         = Unit.add (this.computeHeight (description), '20px');
       const marginBottom   = extended ? null : '-10px';

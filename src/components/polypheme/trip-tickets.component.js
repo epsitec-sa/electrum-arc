@@ -13,32 +13,30 @@ export default class TripTickets extends React.Component {
     super (props);
   }
 
+  getTripTicket (data, tripId, type) {
+    const ticketId = tripId + '.' + type;  // by example: 'd1.drop'
+    const kind = (type === 'pick') ? 'footer' : 'header';
+    const d = {};
+    for (var x in data) {
+      d[x] = data[x];
+    }
+    d.Type = type;
+    return (
+      <TripTicket kind={kind} data={d} ticket-id={ticketId} trip-id={tripId}
+        {...this.link ()} />
+    );
+  }
+
   render () {
     const width  = '250px';
     const height = '116px';
     const data   = this.read ('data');
     const tripId = this.read ('trip-id');
 
-    const ticketIdPick = tripId + '-pick';
-    const ticketIdDrop = tripId + '-drop';
-
-    const dataPick = {
-      Type: 'pick',
-      Trip: data,
-    };
-    const dataDrop = {
-      Type: 'drop',
-      Trip: data,
-    };
-
     return (
       <Container kind='column' min-width={width} min-height={height} position='relative' {...this.link ()} >
-        <TripTicket kind='footer'
-          data={dataPick} ticket-id={ticketIdPick} trip-id={tripId}
-          {...this.link ()} />
-        <TripTicket kind='header'
-          data={dataDrop} ticket-id={ticketIdDrop} trip-id={tripId}
-          {...this.link ()} />
+        {this.getTripTicket (data, tripId, 'pick')}
+        {this.getTripTicket (data, tripId, 'drop')}
       </Container>
     );
   }
