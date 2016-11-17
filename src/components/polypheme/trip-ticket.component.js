@@ -119,7 +119,7 @@ export default class TripTicket extends React.Component {
       return (
         <Ticket width={width} height={height} selected={selected} kind={kind} subkind={type} color={color}
           drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch}
-          ticket-id={ticketId} trip-id={tripId}
+          ticket-type='trip-ticket' ticket-id={ticketId} trip-id={tripId}
           onMouseClick={() => this.mouseClick ()}
           onMouseCtrlClick={() => this.mouseCtrlClick ()}
           {...this.link ()} >

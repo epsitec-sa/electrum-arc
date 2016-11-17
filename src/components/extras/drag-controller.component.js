@@ -12,6 +12,12 @@ export default class DragController extends React.Component {
     super (props);
   }
 
+  changeTrip (trip, srcType) {
+    if (srcType === 'trip-box') {
+      trip.setKind ('trip-tickets');
+    }
+  }
+
   dragBegin (element, source) {
     console.log ('>>>>>>>>>>>>>> DRAG');
     console.dir (element);
@@ -35,16 +41,16 @@ export default class DragController extends React.Component {
     console.dir (target);
     console.dir (source);
     console.dir (sibling);
-    const ticketId = element.dataset.ticketId;
-    const tripId   = element.dataset.tripId;
-    if (ticketId && tripId) {
+    const ticketType = element.dataset.ticketType;
+    const ticketId   = element.dataset.ticketId;
+    const tripId     = element.dataset.tripId;
+    if (ticketType && ticketId && tripId) {
+      console.dir (ticketType);
       console.dir (ticketId);
       console.dir (tripId);
       window.document.trips[tripId].forEach ((value, key, map) => {
         if (key === ticketId) {
-          console.dir (value);
-          const ticket = value;
-          ticket.setKind ('trip-tickets');
+          this.changeTrip (value, ticketType);
         }
       });
     }

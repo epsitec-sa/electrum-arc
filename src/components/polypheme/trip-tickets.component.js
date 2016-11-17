@@ -18,11 +18,11 @@ export default class TripTickets extends React.Component {
     const kind = (type === 'pick') ? 'footer' : 'header';
     const d = {};
     for (var x in data) {
-      d[x] = data[x];
+      d[x] = data[x];  // copy d <- data
     }
     d.Type = type;
     return (
-      <TripTicket kind={kind} data={d} ticket-id={ticketId} trip-id={tripId}
+      <TripTicket kind={kind} data={d} ticket-type='trip-tickets' ticket-id={ticketId} trip-id={tripId}
         {...this.link ()} />
     );
   }

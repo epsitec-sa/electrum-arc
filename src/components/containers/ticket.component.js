@@ -161,6 +161,7 @@ export default class Ticket extends React.Component {
     const disabled   = Action.isDisabled (state);
     const inputDragHandle = this.read ('drag-handle');
     const inputNoDrag     = this.read ('no-drag');
+    const inputTicketType = this.read ('ticket-type');
     const inputTicketId   = this.read ('ticket-id');
     const inputTripId     = this.read ('trip-id');
     const inputHatch      = this.read ('hatch');
@@ -211,10 +212,11 @@ export default class Ticket extends React.Component {
 
     return (
       <div
-        disabled       = {disabled}
-        style          = {boxStyle}
-        data-ticket-id = {inputTicketId}
-        data-trip-id   = {inputTripId}
+        disabled         = {disabled}
+        style            = {boxStyle}
+        data-ticket-type = {inputTicketType}
+        data-ticket-id   = {inputTicketId}
+        data-trip-id     = {inputTripId}
         >
         {htmlShadow}
         {htmlShape}

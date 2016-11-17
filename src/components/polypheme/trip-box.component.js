@@ -87,7 +87,7 @@ export default class TripBox extends React.Component {
         <Container kind='thin-main' drag-handle='TripTicket' no-drag={noDrag}
           min-height={height} max-height={height} margin-bottom='10px'
           selected={selected} color={color} cursor={cursor} grow='1'
-          ticket-id={ticketId} trip-id={tripId}
+          ticket-type='trip-box' ticket-id={ticketId} trip-id={tripId}
           {...this.link ()} >
           <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
             <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >

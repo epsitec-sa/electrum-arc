@@ -127,6 +127,7 @@ export default class Container extends React.Component {
     const inputDragController = this.read ('drag-controller');
     const inputDragHandle     = this.read ('drag-handle');
     const inputNoDrag         = this.read ('no-drag');
+    const inputTicketType     = this.read ('ticket-type');
     const inputTicketId       = this.read ('ticket-id');
     const inputTripId         = this.read ('trip-id');
 
@@ -156,6 +157,7 @@ export default class Container extends React.Component {
       return (
         <div
           data-navigation-name    = {inputNavName}
+          data-ticket-type        = {inputTicketType}
           data-ticket-id          = {inputTicketId}
           data-trip-id            = {inputTripId}
           disabled                = {disabled}
