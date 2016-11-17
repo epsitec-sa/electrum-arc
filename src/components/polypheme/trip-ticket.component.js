@@ -97,7 +97,7 @@ export default class TripTicket extends React.Component {
     const kind     = this.read ('kind');
     const data     = this.read ('data');
     const color    = data.Color;
-    let type     = data.Type;
+    const type     = data.Type ? data.Type : 'xxx';
     const noDrag   = data.NoDrag;
     const ticketId = this.read ('ticket-id');
     const tripId   = this.read ('trip-id');

@@ -58,6 +58,7 @@ export default class TicketsGlue extends React.Component {
 
   render () {
     const inputDragController = this.read ('drag-controller');
+    const inputDragSource     = this.read ('drag-source');
 
     const boxStyle       = this.mergeStyles ('box');
     const titleStyle     = this.mergeStyles ('title');
@@ -91,6 +92,7 @@ export default class TicketsGlue extends React.Component {
         <div
           style                   = {containerStyle}
           data-drag-container-for = {inputDragController ? inputDragController : 'tickets'}
+          data-drag-source        = {inputDragSource}
           >
           {this.props.children}
         </div>

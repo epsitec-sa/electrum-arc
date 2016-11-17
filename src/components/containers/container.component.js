@@ -125,6 +125,7 @@ export default class Container extends React.Component {
     const inputAnchor         = this.read ('anchor');
     const inputNavName        = this.read ('navigation-name');
     const inputDragController = this.read ('drag-controller');
+    const inputDragSource     = this.read ('drag-source');
     const inputDragHandle     = this.read ('drag-handle');
     const inputNoDrag         = this.read ('no-drag');
     const inputTicketType     = this.read ('ticket-type');
@@ -164,6 +165,7 @@ export default class Container extends React.Component {
           style                   = {boxStyle}
           id                      = {inputAnchor}
           data-drag-container-for = {inputDragController}
+          data-drag-source        = {inputDragSource}
           >
           <div
             style             = {dragZoneStyle}
@@ -184,6 +186,7 @@ export default class Container extends React.Component {
           style                   = {boxStyle}
           id                      = {inputAnchor}
           data-drag-container-for = {inputDragController}
+          data-drag-source        = {inputDragSource}
           >
           {useManagedChildren.includes (inputKind) ? this.state.managedChildren : this.props.children}
         </div>

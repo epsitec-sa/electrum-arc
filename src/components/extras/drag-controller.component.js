@@ -12,11 +12,13 @@ export default class DragController extends React.Component {
     super (props);
   }
 
-  changeTrip (trip, srcType) {
-    if (srcType === 'trip-box') {
+  changeTrip (trip, targetType, srcType) {
+    if (targetType === 'trip-tickets' && srcType === 'trip-box') {
       trip.setKind ('trip-tickets');
-    } else if (srcType === 'trip-tickets') {
+    } else if (targetType === 'trip-box' && srcType === 'trip-tickets') {
       trip.setKind ('trip-box');
+    } else if (targetType === 'trip-ticket') {
+      trip.setKind ('trip-ticket');
     }
   }
 
@@ -43,16 +45,18 @@ export default class DragController extends React.Component {
     console.dir (target);
     console.dir (source);
     console.dir (sibling);
+    const targetType = target.dataset.dragSource;
     const ticketType = element.dataset.ticketType;
     const ticketId   = element.dataset.ticketId;
     const tripId     = element.dataset.tripId;
-    if (ticketType && ticketId && tripId) {
+    if (targetType && ticketType && ticketId && tripId) {
+      console.dir (targetType);
       console.dir (ticketType);
       console.dir (ticketId);
       console.dir (tripId);
       window.document.trips[tripId].forEach ((value, key, map) => {
         if (key === ticketId) {
-          this.changeTrip (value, ticketType);
+          this.changeTrip (value, targetType, ticketType);
         }
       });
     }
