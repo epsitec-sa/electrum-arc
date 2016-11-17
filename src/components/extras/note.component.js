@@ -72,11 +72,11 @@ export default class Note extends React.Component {
   }
 
   mouseIn () {
-    this.setShowTooltip (true);
+    // this.setShowTooltip (true);
   }
 
   mouseOut () {
-    this.setShowTooltip (false);
+    // this.setShowTooltip (false);
   }
 
   render () {
@@ -155,6 +155,7 @@ export default class Note extends React.Component {
         onClick     = {this.onClick}
         disabled    = {disabled}
         style       = {boxStyle}
+        title       = {inputTooltip}
         onMouseOver = {() => this.mouseIn ()}
         onMouseOut  = {() => this.mouseOut ()}
       >

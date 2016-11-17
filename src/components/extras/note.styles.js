@@ -214,6 +214,7 @@ export default function styles (theme, props) {
   }
 
   const boxStyle = {
+    position:        'relative',
     width:           boxWidth,
     minWidth:        '0px',
     padding:         padding,
