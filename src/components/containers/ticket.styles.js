@@ -118,7 +118,18 @@ export default function styles (theme, props) {
   const h = toInt (height);
 
   let path = '';
-  if (inputKind === 'header') {
+  if (inputKind === 'rect') {
+    // Simple rounded rectangle.
+    path = moveTo (path, 0, r);
+    path = arcTo (path, r, r, -r);  // top-left corner
+    path = lineTo (path, w - r - r, 0);
+    path = arcTo (path, r, r, r);  // top-right corner
+    path = lineTo (path, 0, h - r - r);
+    path = arcTo (path, r, -r, r);  // bottom-right corner
+    path = lineTo (path, -(w - r - r), 0);
+    path = arcTo (path, r, -r, -r);  // bottom-left corner
+    path = close (path);
+  } else if (inputKind === 'header') {
     // Dash line only on bottom.
     path = moveTo (path, 0, 0);
     path = lineTo (path, w, 0);

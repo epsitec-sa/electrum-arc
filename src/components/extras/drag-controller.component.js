@@ -16,15 +16,15 @@ export default class DragController extends React.Component {
     console.log ('>>>>>>>>>>>>>> DRAG');
     console.dir (element);
     console.dir (source);
-    // const ticketId = element.children[2].dataset.ticketId;
-    // const tripId   = element.children[2].dataset.tripId;
+    // const ticketId = element.dataset.ticketId;
+    // const tripId   = element.dataset.tripId;
     // console.dir (ticketId);
     // console.dir (tripId);
-    // window.document.tickets[tripId].forEach ((value, key, map) => {
+    // window.document.trips[tripId].forEach ((value, key, map) => {
     //   if (key === ticketId) {
     //     console.dir (value);
     //     const ticket = value;
-    //     ticket.changeKind ('trip-box');
+    //     ticket.setKind ('trip-box');
     //   }
     // });
   }
@@ -35,17 +35,19 @@ export default class DragController extends React.Component {
     console.dir (target);
     console.dir (source);
     console.dir (sibling);
-    // const ticketId = element.children[2].dataset.ticketId;
-    // const tripId   = element.children[2].dataset.tripId;
-    // console.dir (ticketId);
-    // console.dir (tripId);
-    // window.document.tickets[tripId].forEach ((value, key, map) => {
-    //   if (key === ticketId) {
-    //     console.dir (value);
-    //     const ticket = value;
-    //     ticket.changeKind ('trip-box');
-    //   }
-    // });
+    const ticketId = element.dataset.ticketId;
+    const tripId   = element.dataset.tripId;
+    if (ticketId && tripId) {
+      console.dir (ticketId);
+      console.dir (tripId);
+      window.document.trips[tripId].forEach ((value, key, map) => {
+        if (key === ticketId) {
+          console.dir (value);
+          const ticket = value;
+          ticket.setKind ('trip-tickets');
+        }
+      });
+    }
   }
 
   initDragula () {

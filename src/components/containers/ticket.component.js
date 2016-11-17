@@ -211,8 +211,10 @@ export default class Ticket extends React.Component {
 
     return (
       <div
-        disabled = {disabled}
-        style    = {boxStyle}
+        disabled       = {disabled}
+        style          = {boxStyle}
+        data-ticket-id = {inputTicketId}
+        data-trip-id   = {inputTripId}
         >
         {htmlShadow}
         {htmlShape}
@@ -226,8 +228,6 @@ export default class Ticket extends React.Component {
           style             = {dragZoneStyle}
           data-drag-handle  = {inputDragHandle}
           data-drag-invalid = {inputNoDrag === 'true'}
-          data-ticket-id    = {inputTicketId}
-          data-trip-id      = {inputTripId}
           />
         <div style = {contentStyle}>
           {this.props.children}

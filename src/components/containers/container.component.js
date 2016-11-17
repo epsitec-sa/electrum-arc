@@ -127,6 +127,8 @@ export default class Container extends React.Component {
     const inputDragController = this.read ('drag-controller');
     const inputDragHandle     = this.read ('drag-handle');
     const inputNoDrag         = this.read ('no-drag');
+    const inputTicketId       = this.read ('ticket-id');
+    const inputTripId         = this.read ('trip-id');
 
     const boxStyle      = this.mergeStyles ('box');
     const triangleStyle = this.mergeStyles ('triangle');
@@ -154,6 +156,8 @@ export default class Container extends React.Component {
       return (
         <div
           data-navigation-name    = {inputNavName}
+          data-ticket-id          = {inputTicketId}
+          data-trip-id            = {inputTripId}
           disabled                = {disabled}
           style                   = {boxStyle}
           id                      = {inputAnchor}
@@ -171,6 +175,8 @@ export default class Container extends React.Component {
       return (
         <div
           data-navigation-name    = {inputNavName}
+          data-ticket-id          = {inputTicketId}
+          data-trip-id            = {inputTripId}
           disabled                = {disabled}
           style                   = {boxStyle}
           id                      = {inputAnchor}
