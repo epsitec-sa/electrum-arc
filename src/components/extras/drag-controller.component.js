@@ -13,9 +13,9 @@ export default class DragController extends React.Component {
   }
 
   changeTrip (trip, targetType, srcType) {
-    if (targetType === 'trip-tickets' && srcType === 'trip-box') {
+    if (targetType === 'trip-tickets') {
       trip.setKind ('trip-tickets');
-    } else if (targetType === 'trip-box' && srcType === 'trip-tickets') {
+    } else if (targetType === 'trip-box') {
       trip.setKind ('trip-box');
     } else if (targetType === 'trip-ticket') {
       trip.setKind ('trip-ticket');
