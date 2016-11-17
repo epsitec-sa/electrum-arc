@@ -135,7 +135,7 @@ export default class Ticket extends React.Component {
   }
 
   computeHover(shadowStyle, shapeStyle, contentStyle) {
-    shapeStyle.fill = emphasize (shapeStyle.fill, 0.1);
+    shapeStyle.fill = this.props.theme.palette.ticketBackgroundHover;
   }
 
   computeHoverLink(shadowStyle, shapeStyle, contentStyle) {
