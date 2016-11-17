@@ -42,12 +42,12 @@ export default class TripTicket extends React.Component {
     if (glyph.startsWith ('bookmark-')) {
       const color = glyph.substring (9);
       return (
-        <Label key={indexKey} glyph='bookmark' glyph-color={color}
+        <Label key={indexKey} glyph='bookmark' glyph-color={color} z-index={11}
           tooltip={description} spacing='compact' {...this.link ()} />
       );
     } else {
       return (
-        <Label key={indexKey} glyph={glyph}
+        <Label key={indexKey} glyph={glyph} z-index={11}
           tooltip={description} spacing='compact' {...this.link ()} />
       );
     }
@@ -129,7 +129,8 @@ export default class TripTicket extends React.Component {
           <Container kind='ticket-column' grow='1' {...this.link ()} >
             <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
               <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
-              <Label glyph={directionGlyph} glyph-color={directionColor} tooltip={directionDesc} width='25px' {...this.link ()} />
+              <Label glyph={directionGlyph} glyph-color={directionColor} tooltip={directionDesc}
+                width='25px' z-index={11} {...this.link ()} />
               <Label text={description} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
             </Container>
             <Container kind='ticket-row' {...this.link ()} >

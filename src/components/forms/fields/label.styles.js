@@ -20,6 +20,7 @@ export default function styles (theme, props) {
   const inputFontWeight    = props.fontWeight;
   const inputFontSize      = props.fontSize;
   const inputBottomSpacing = props.bottomSpacing;
+  const inputZIndex        = props.zIndex;
 
   let boxWidth           = null;
   let textHeight         = null;
@@ -225,6 +226,7 @@ export default function styles (theme, props) {
     flexShrink:      flexShrink,
     flexBasis:       flexBasis,
     backgroundColor: backgroundColor,
+    zIndex:          inputZIndex,
   };
 
   const glyphStyle = {

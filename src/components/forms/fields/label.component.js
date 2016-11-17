@@ -29,6 +29,7 @@ export default class Label extends React.Component {
       fontWeight:    this.read ('font-weight'),
       fontSize:      this.read ('font-size'),
       bottomSpacing: this.read ('bottom-spacing'),
+      zIndex:        this.read ('z-index'),
     };
   }
 
@@ -56,6 +57,14 @@ export default class Label extends React.Component {
     );
   }
 
+  mouseIn () {
+    console.log ('***** IN *****');
+  }
+
+  mouseOut () {
+    console.log ('***** OUT *****');
+  }
+
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
@@ -64,7 +73,6 @@ export default class Label extends React.Component {
     const inputRotate  = this.read ('rotate');
     const inputFlip    = this.read ('flip');
     const inputSpin    = this.read ('spin');
-    const inputGrow    = this.read ('grow');
     const inputTooltip = this.read ('tooltip');
 
     const boxStyle   = this.mergeStyles ('box');
@@ -119,10 +127,12 @@ export default class Label extends React.Component {
 
     return (
       <div
-        onClick  = {this.onClick}
-        disabled = {disabled}
-        style    = {boxStyle}
-        title    = {inputTooltip}
+        onClick     = {this.onClick}
+        disabled    = {disabled}
+        style       = {boxStyle}
+        title       = {inputTooltip}
+        onMouseOver = {() => this.mouseIn ()}
+        onMouseOut  = {() => this.mouseOut ()}
       >
         {layout ().map ((comp) => comp)}
         {this.props.children}

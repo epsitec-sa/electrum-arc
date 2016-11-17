@@ -18,12 +18,12 @@ export default class TripBox extends React.Component {
     if (glyph.startsWith ('bookmark-')) {
       const color = glyph.substring (9);
       return (
-        <Label key={keyIndex} glyph='bookmark' glyph-color={color}
+        <Label key={keyIndex} glyph='bookmark' glyph-color={color} z-index={0}
           tooltip={description} spacing='compact' {...this.link ()} />
       );
     } else {
       return (
-        <Label key={keyIndex} glyph={glyph}
+        <Label key={keyIndex} glyph={glyph} z-index={0}
           tooltip={description} spacing='compact' {...this.link ()} />
       );
     }
@@ -99,7 +99,8 @@ export default class TripBox extends React.Component {
                 <Label text={this.getTime (data.Trip.Pick.Time)} font-weight='bold' wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
-                <Label glyph='circle' glyph-color={directionColorPick} tooltip={directionDescPick} {...this.link ()} />
+                <Label glyph='circle' z-index={0}
+                  glyph-color={directionColorPick} tooltip={directionDescPick} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label text={data.Trip.Pick.Description} wrap='no' {...this.link ()} />
@@ -117,7 +118,8 @@ export default class TripBox extends React.Component {
                 <Label text={this.getTime (data.Trip.Drop.Time)} font-weight='bold' wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
-                <Label glyph='square' glyph-color={directionColorDrop} tooltip={directionDescDrop} {...this.link ()} />
+                <Label glyph='square' z-index={0}
+                  glyph-color={directionColorDrop} tooltip={directionDescDrop} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label text={data.Trip.Drop.Description} wrap='no' {...this.link ()} />
