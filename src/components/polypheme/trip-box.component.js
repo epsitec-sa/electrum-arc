@@ -66,8 +66,8 @@ export default class TripBox extends React.Component {
     const data     = this.read ('data');
     const color    = data.Color;
     const noDrag   = data.NoDrag;
-    const tripId   = this.read ('trip-id');
     const ticketId = this.read ('ticket-id');
+    const tripId   = this.read ('trip-id');
 
     const cursor = (noDrag === 'true') ? null : 'move';
 

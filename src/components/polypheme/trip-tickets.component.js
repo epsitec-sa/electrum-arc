@@ -2,8 +2,7 @@
 
 import React from 'react';
 
-import {TripTicket, Container, Button} from '../../all-components.js';
-import {ColorHelpers} from 'electrum-theme';
+import {TripTicket, Container} from '../../all-components.js';
 
 /******************************************************************************/
 
@@ -28,13 +27,16 @@ export default class TripTickets extends React.Component {
   }
 
   render () {
-    const width  = '250px';
-    const height = '116px';
-    const data   = this.read ('data');
-    const tripId = this.read ('trip-id');
+    const width    = '250px';
+    const height   = '116px';
+    const data     = this.read ('data');
+    const ticketId = this.read ('ticket-id');
+    const tripId   = this.read ('trip-id');
 
     return (
-      <Container kind='column' min-width={width} min-height={height} position='relative' {...this.link ()} >
+      <Container kind='column' min-width={width} min-height={height} position='relative'
+        ticket-type='trip-tickets' ticket-id={ticketId} trip-id={tripId}
+        {...this.link ()} >
         {this.getTripTicket (data, tripId, 'pick')}
         {this.getTripTicket (data, tripId, 'drop')}
       </Container>
