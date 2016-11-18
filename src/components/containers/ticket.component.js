@@ -235,9 +235,10 @@ export default class Ticket extends React.Component {
       throw new Error (`Undefined ticket ticket-id`);
     }
 
-    const rectStyle     = this.mergeStyles ('rect');
-    const contentStyle  = this.mergeStyles ('content');
-    const dragZoneStyle = this.mergeStyles ('dragZoneStyle');
+    const rectStyle      = this.mergeStyles ('rect');
+    const rectHoverStyle = this.mergeStyles ('rectHover');
+    const contentStyle   = this.mergeStyles ('content');
+    const dragZoneStyle  = this.mergeStyles ('dragZoneStyle');
 
     if (this.getHover ()) {
       rectStyle.backgroundColor = this.props.theme.palette.ticketBackgroundHover;
@@ -257,7 +258,7 @@ export default class Ticket extends React.Component {
           onMouseDown       = {event => this.mouseDown (event)}
           onMouseMove       = {event => this.mouseMove (event)}
           onMouseUp         = {event => this.mouseUp (event)}
-          style             = {dragZoneStyle}
+          style             = {this.getHover () || this.getLink () ? rectHoverStyle : dragZoneStyle}
           data-drag-handle  = {inputDragHandle}
           data-drag-invalid = {inputNoDrag === 'true'}
           />

@@ -237,6 +237,17 @@ export default function styles (theme, props) {
     borderRadius:    theme.shapes.ticketCornerRadius,
   };
 
+  const rectHoverStyle = {
+    position:        'absolute',
+    width:           'calc(100% - 10px)',
+    height:          'calc(100% - 10px)',
+    top:             '0px',
+    left:            '0px',
+    borderRadius:    theme.shapes.ticketCornerRadius,
+    border:          theme.shapes.ticketHoverThickness + ' solid ' + theme.palette.ticketShadowHover,
+    zIndex:          '10',
+  };
+
   return {
     box:           boxStyle,
     shadow:        shadowStyle,
@@ -247,6 +258,7 @@ export default function styles (theme, props) {
     content:       contentStyle,
     dragZoneStyle: dragZoneStyle,
     rect:          rectStyle,
+    rectHover:     rectHoverStyle,
   };
 }
 
