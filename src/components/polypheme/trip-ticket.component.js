@@ -86,9 +86,23 @@ export default class TripTicket extends React.Component {
     this.setSelected (!this.getSelected ());
   }
 
-  computeHeight (text) {
-    const count = text.split ('\\n').length + 1;
-    return Unit.multiply ('20px', count);
+  //  Compute the approximative number of lines for a text.
+  computeLineCount (line) {
+    return Math.ceil (line.length / 17);
+  }
+
+  computeHeight (extended, text) {
+    if (extended) {
+      let count = 1;
+      const lines = text.split ('\\n');
+      lines.forEach (line => {
+        count += this.computeLineCount (line);
+      });
+      return Unit.multiply ('20px', count);
+    } else {
+      const count = text.split ('\\n').length + 1;
+      return Unit.multiply ('20px', count);
+    }
   }
 
   render () {
@@ -107,17 +121,19 @@ export default class TripTicket extends React.Component {
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       throw new Error ('TripTicket without data');
     } else {
-      const trip           = (type === 'pick') ? data.Trip.Pick : data.Trip.Drop;
-      const time           = trip.Time;
-      const description    = extended ? trip.Details : trip.Description;
-      const directionGlyph = (type === 'pick') ? 'circle' : 'square';
-      const directionColor = ColorHelpers.GetMarkColor (this.props.theme, type);
-      const directionDesc  = (type === 'pick') ? 'Pick (prise en charge)' : 'Drop (livraison)';
-      const glyphs         = trip.Glyphs;
-      const height         = Unit.add (this.computeHeight (description), '20px');
-      const marginBottom   = extended ? null : '-10px';
-      const hatch          = (trip.Type === 'transit') ? 'true' : 'false';
-      const cursor         = (noDrag === 'true') ? null : 'move';
+      const trip              = (type === 'pick') ? data.Trip.Pick : data.Trip.Drop;
+      const time              = trip.Time;
+      const description       = extended ? trip.Details : trip.Description;
+      const descriptionWeight = extended ? null : 'bold';
+      const descriptionWrap   = extended ? 'yes' : 'no';
+      const directionGlyph    = (type === 'pick') ? 'circle' : 'square';
+      const directionColor    = ColorHelpers.GetMarkColor (this.props.theme, type);
+      const directionDesc     = (type === 'pick') ? 'Pick (prise en charge)' : 'Drop (livraison)';
+      const glyphs            = trip.Glyphs;
+      const height            = Unit.add (this.computeHeight (extended, description), '20px');
+      const marginBottom      = extended ? null : '-10px';
+      const hatch             = (trip.Type === 'transit') ? 'true' : 'false';
+      const cursor            = (noDrag === 'true') ? null : 'move';
 
       return (
         <Ticket width={width} height={height} selected={selected} kind={kind} subkind={type} color={color}
@@ -131,7 +147,8 @@ export default class TripTicket extends React.Component {
               <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
               <Note glyph={directionGlyph} glyph-color={directionColor} tooltip={directionDesc}
                 width='25px' z-index={11} {...this.link ()} />
-              <Label text={description} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
+              <Label text={description} font-weight={descriptionWeight} wrap={descriptionWrap}
+                grow='1' {...this.link ()} />
             </Container>
             <Container kind='ticket-row' {...this.link ()} >
               <Label text='' width='75px' {...this.link ()} />
