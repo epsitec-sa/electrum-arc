@@ -66,6 +66,7 @@ export default class Label extends React.Component {
     const inputFlip    = this.read ('flip');
     const inputSpin    = this.read ('spin');
     const inputTooltip = this.read ('tooltip');
+    const inputMarquee = this.read ('marquee');
 
     const boxStyle   = this.mergeStyles ('box');
     const glyphStyle = this.mergeStyles ('glyph');
@@ -117,17 +118,31 @@ export default class Label extends React.Component {
       }
     };
 
-    return (
-      <div
-        onClick  = {this.onClick}
-        disabled = {disabled}
-        style    = {boxStyle}
-        title    = {inputTooltip}
-      >
-        {layout ().map ((comp) => comp)}
-        {this.props.children}
-      </div>
-    );
+    if (inputMarquee === 'true') {
+      return (
+        <marquee
+          onClick  = {this.onClick}
+          disabled = {disabled}
+          style    = {boxStyle}
+          title    = {inputTooltip}
+        >
+          {layout ().map ((comp) => comp)}
+          {this.props.children}
+        </marquee>
+      );
+    } else {
+      return (
+        <div
+          onClick  = {this.onClick}
+          disabled = {disabled}
+          style    = {boxStyle}
+          title    = {inputTooltip}
+        >
+          {layout ().map ((comp) => comp)}
+          {this.props.children}
+        </div>
+      );
+    }
   }
 }
 
