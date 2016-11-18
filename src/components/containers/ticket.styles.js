@@ -94,43 +94,44 @@ function getOutlinePath (theme, kind, width, height) {
   return path;
 }
 
-function getHoverPath (theme, subkind, width, height) {
+function getHoverPath (theme, kind, subkind, width, height) {
   const r = toInt (theme.shapes.ticketCornerRadius);
   const t = toInt (theme.shapes.ticketHoverThickness);
   const i = toInt (Unit.multiply (Unit.multiply (theme.shapes.ticketCornerRadius, r), 1 / t));
+  const s = (kind === 'header' || kind === 'footer') ? 0 : r;
   const w = toInt (width);
   const h = toInt (height);
 
   let path = '';
   if (subkind === 'drop') {
     // u.
-    path = moveTo (path, 0, 0);
-    path = lineTo (path, 0, h - r);
+    path = moveTo (path, 0, s);
+    path = lineTo (path, 0, h - s - r);
     path = arcTo (path, r, r, r, 1);  // bottom-left external corner
     path = lineTo (path, w - r - r, 0);
     path = arcTo (path, r, r, -r, 1); // bottom-right external corner
-    path = lineTo (path, 0, -(h - r));
+    path = lineTo (path, 0, -(h - s - r));
     path = lineTo (path, -t, 0);
-    path = lineTo (path, 0, h - t - r);
+    path = lineTo (path, 0, h - t - s - r);
     path = arcTo (path, i, -r, r, 0);  // bottom-right internal corner
     path = lineTo (path, -(w - r - r - t - t), 0);
     path = arcTo (path, i, -r, -r, 0);  // bottom-left internal corner
-    path = lineTo (path, 0, -(h - t - r));
+    path = lineTo (path, 0, -(h - t - s - r));
     path = close (path);
   } else if (subkind === 'pick') {
     // n.
-    path = moveTo (path, 0, h);
-    path = lineTo (path, 0, -(h - r));
+    path = moveTo (path, 0, h - s);
+    path = lineTo (path, 0, -(h - s - r));
     path = arcTo (path, r, r, -r, 0);  // bottom-left external corner
     path = lineTo (path, w - r - r, 0);
     path = arcTo (path, r, r, r, 0); // bottom-right external corner
-    path = lineTo (path, 0, h - r);
+    path = lineTo (path, 0, h - s - r);
     path = lineTo (path, -t, 0);
-    path = lineTo (path, 0, -(h - t - r));
+    path = lineTo (path, 0, -(h - t - s - r));
     path = arcTo (path, i, -r, -r, 1);  // bottom-right internal corner
     path = lineTo (path, -(w - r - r - t - t), 0);
     path = arcTo (path, i, -r, r, 1);  // bottom-left internal corner
-    path = lineTo (path, 0, h - t - r);
+    path = lineTo (path, 0, h - t - s - r);
     path = close (path);
   } else {
     // throw new Error (`Fatal error in Ticket component subkind=${subkind}`);
@@ -205,7 +206,7 @@ export default function styles (theme, props) {
     position:   'absolute',
     fill:       theme.palette.ticketShadowHover,
     transition: theme.transitions.easeOut (),
-    path:       getHoverPath (theme, inputSubkind, width, height),
+    path:       getHoverPath (theme, inputKind, inputSubkind, width, height),
   };
 
   const contentStyle = {

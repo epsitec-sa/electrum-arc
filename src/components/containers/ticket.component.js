@@ -133,50 +133,6 @@ export default class Ticket extends React.Component {
     }
   }
 
-  computeHover(shadowStyle, shapeStyle, contentStyle) {
-    // const inputSubkind = this.read ('subkind');
-
-    // shadowStyle.fill         = this.props.theme.palette.ticketShadowHover;
-    // shadowStyle.top          = '0px';
-    // contentStyle.transform   = 'scale(0.93)';
-    // shapeStyle.stroke        = emphasize (shadowStyle.fill, 0.3);
-    // shapeStyle.strokeWidth   = 1;
-    // if (inputSubkind === 'pick') {
-    //   shapeStyle.transform         = 'scaleX(0.97) scaleY(0.93)';
-    //   shapeStyle.transformOrigin   = 'bottom';
-    //   contentStyle.transformOrigin = 'bottom';
-    // } else if (inputSubkind === 'drop') {
-    //   shapeStyle.transform         = 'scaleX(0.97) scaleY(0.93)';
-    //   shapeStyle.transformOrigin   = 'top';
-    //   contentStyle.transformOrigin = 'top';
-    // } else {
-    //   shapeStyle.transform         = 'scaleX(0.97) scaleY(0.90)';
-    // }
-
-    shapeStyle.fill = this.props.theme.palette.ticketBackgroundHover;
-  }
-
-  computeHoverLink(shadowStyle, shapeStyle, contentStyle) {
-    // const inputSubkind = this.read ('subkind');
-
-    // shadowStyle.fill         = this.props.theme.palette.ticketShadowHover;
-    // shadowStyle.top          = '0px';
-    // contentStyle.transform   = 'scale(0.93)';
-    // shapeStyle.stroke        = emphasize (shadowStyle.fill, 0.3);
-    // shapeStyle.strokeWidth   = 1;
-    // if (inputSubkind === 'pick') {
-    //   shapeStyle.transform         = 'scaleX(0.97) scaleY(0.93)';
-    //   shapeStyle.transformOrigin   = 'bottom';
-    //   contentStyle.transformOrigin = 'bottom';
-    // } else if (inputSubkind === 'drop') {
-    //   shapeStyle.transform         = 'scaleX(0.97) scaleY(0.93)';
-    //   shapeStyle.transformOrigin   = 'top';
-    //   contentStyle.transformOrigin = 'top';
-    // } else {
-    //   shapeStyle.transform         = 'scaleX(0.97) scaleY(0.90)';
-    // }
-  }
-
   render () {
     const {state}    = this.props;
     const disabled   = Action.isDisabled (state);
@@ -201,9 +157,7 @@ export default class Ticket extends React.Component {
     const dragZoneStyle = this.mergeStyles ('dragZoneStyle');
 
     if (this.getHover ()) {
-      this.computeHover (shadowStyle, shapeStyle, contentStyle);
-    } else if (this.getLink ()) {
-      this.computeHoverLink (shadowStyle, shapeStyle, contentStyle);
+      shapeStyle.fill = this.props.theme.palette.ticketBackgroundHover;
     }
 
     const w = boxStyle.width;
