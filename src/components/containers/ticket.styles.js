@@ -148,6 +148,7 @@ export default function styles (theme, props) {
   const inputSelected = props.selected;
   const inputColor    = props.color;
   const inputCursor   = props.cursor;
+  const inputExtended = props.extended;
 
   let width           = inputWidth;
   let height          = inputHeight;
@@ -227,6 +228,15 @@ export default function styles (theme, props) {
     zIndex:       '10',
   };
 
+  const rectStyle = {
+    margin:          '2px 0px 4px 0px',
+    position:        'relative',
+    cursor:          inputCursor,
+    transition:      theme.transitions.easeOut (),
+    backgroundColor: backgroundColor,
+    borderRadius:    theme.shapes.ticketCornerRadius,
+  };
+
   return {
     box:           boxStyle,
     shadow:        shadowStyle,
@@ -235,7 +245,8 @@ export default function styles (theme, props) {
     svg:           svgStyle,
     hover:         hoverStyle,
     content:       contentStyle,
-    dragZoneStyle: dragZoneStyle
+    dragZoneStyle: dragZoneStyle,
+    rect:          rectStyle,
   };
 }
 

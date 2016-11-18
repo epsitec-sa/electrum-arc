@@ -27,6 +27,7 @@ export default class Ticket extends React.Component {
       color:    this.read ('color'),
       noDrag:   this.read ('no-drag'),
       cursor:   this.read ('cursor'),
+      extended: this.read ('extended'),
     };
   }
 
@@ -133,9 +134,9 @@ export default class Ticket extends React.Component {
     }
   }
 
-  render () {
-    const {state}    = this.props;
-    const disabled   = Action.isDisabled (state);
+  renderTicket () {
+    const {state}  = this.props;
+    const disabled = Action.isDisabled (state);
     const inputDragHandle = this.read ('drag-handle');
     const inputNoDrag     = this.read ('no-drag');
     const inputTicketType = this.read ('ticket-type');
@@ -218,6 +219,62 @@ export default class Ticket extends React.Component {
         </div>
       </div>
     );
+  }
+
+  renderRect () {
+    const {state}  = this.props;
+    const disabled = Action.isDisabled (state);
+    const inputDragHandle = this.read ('drag-handle');
+    const inputNoDrag     = this.read ('no-drag');
+    const inputTicketType = this.read ('ticket-type');
+    const inputTicketId   = this.read ('ticket-id');
+    const inputTripId     = this.read ('trip-id');
+    const inputHatch      = this.read ('hatch');
+
+    if (!inputTicketId) {
+      throw new Error (`Undefined ticket ticket-id`);
+    }
+
+    const rectStyle     = this.mergeStyles ('rect');
+    const contentStyle  = this.mergeStyles ('content');
+    const dragZoneStyle = this.mergeStyles ('dragZoneStyle');
+
+    if (this.getHover ()) {
+      rectStyle.backgroundColor = this.props.theme.palette.ticketBackgroundHover;
+    }
+
+    return (
+      <div
+        disabled         = {disabled}
+        style            = {rectStyle}
+        data-ticket-type = {inputTicketType}
+        data-ticket-id   = {inputTicketId}
+        data-trip-id     = {inputTripId}
+        >
+        <div
+          onMouseOver       = {() => this.mouseIn (inputTripId)}
+          onMouseOut        = {() => this.mouseOut (inputTripId)}
+          onMouseDown       = {event => this.mouseDown (event)}
+          onMouseMove       = {event => this.mouseMove (event)}
+          onMouseUp         = {event => this.mouseUp (event)}
+          style             = {dragZoneStyle}
+          data-drag-handle  = {inputDragHandle}
+          data-drag-invalid = {inputNoDrag === 'true'}
+          />
+        <div style = {contentStyle}>
+          {this.props.children}
+        </div>
+      </div>
+    );
+  }
+
+  render () {
+    const inputExtended = this.read ('extended');
+    if (inputExtended === 'true') {
+      return this.renderRect ();
+    } else {
+      return this.renderTicket ();
+    }
   }
 }
 
