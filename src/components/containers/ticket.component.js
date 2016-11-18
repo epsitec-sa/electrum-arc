@@ -1,9 +1,7 @@
 'use strict';
 
 import React from 'react';
-import {Action, ColorManipulator} from 'electrum';
-
-const {emphasize} = ColorManipulator;
+import {Action} from 'electrum';
 
 /******************************************************************************/
 
@@ -24,6 +22,7 @@ export default class Ticket extends React.Component {
       width:    this.read ('width'),
       height:   this.read ('height'),
       kind:     this.read ('kind'),
+      subkind:  this.read ('subkind'),
       selected: this.read ('selected'),
       color:    this.read ('color'),
       noDrag:   this.read ('no-drag'),
@@ -135,28 +134,47 @@ export default class Ticket extends React.Component {
   }
 
   computeHover(shadowStyle, shapeStyle, contentStyle) {
+    // const inputSubkind = this.read ('subkind');
+
+    // shadowStyle.fill         = this.props.theme.palette.ticketShadowHover;
+    // shadowStyle.top          = '0px';
+    // contentStyle.transform   = 'scale(0.93)';
+    // shapeStyle.stroke        = emphasize (shadowStyle.fill, 0.3);
+    // shapeStyle.strokeWidth   = 1;
+    // if (inputSubkind === 'pick') {
+    //   shapeStyle.transform         = 'scaleX(0.97) scaleY(0.93)';
+    //   shapeStyle.transformOrigin   = 'bottom';
+    //   contentStyle.transformOrigin = 'bottom';
+    // } else if (inputSubkind === 'drop') {
+    //   shapeStyle.transform         = 'scaleX(0.97) scaleY(0.93)';
+    //   shapeStyle.transformOrigin   = 'top';
+    //   contentStyle.transformOrigin = 'top';
+    // } else {
+    //   shapeStyle.transform         = 'scaleX(0.97) scaleY(0.90)';
+    // }
+
     shapeStyle.fill = this.props.theme.palette.ticketBackgroundHover;
   }
 
   computeHoverLink(shadowStyle, shapeStyle, contentStyle) {
-    const inputSubkind = this.read ('subkind');
+    // const inputSubkind = this.read ('subkind');
 
-    shadowStyle.fill         = this.props.theme.palette.ticketShadowHover;
-    shadowStyle.top          = '0px';
-    contentStyle.transform   = 'scale(0.93)';
-    shapeStyle.stroke        = emphasize (shadowStyle.fill, 0.3);
-    shapeStyle.strokeWidth   = 1;
-    if (inputSubkind === 'pick') {
-      shapeStyle.transform         = 'scaleX(0.97) scaleY(0.93)';
-      shapeStyle.transformOrigin   = 'bottom';
-      contentStyle.transformOrigin = 'bottom';
-    } else if (inputSubkind === 'drop') {
-      shapeStyle.transform         = 'scaleX(0.97) scaleY(0.93)';
-      shapeStyle.transformOrigin   = 'top';
-      contentStyle.transformOrigin = 'top';
-    } else {
-      shapeStyle.transform         = 'scaleX(0.97) scaleY(0.90)';
-    }
+    // shadowStyle.fill         = this.props.theme.palette.ticketShadowHover;
+    // shadowStyle.top          = '0px';
+    // contentStyle.transform   = 'scale(0.93)';
+    // shapeStyle.stroke        = emphasize (shadowStyle.fill, 0.3);
+    // shapeStyle.strokeWidth   = 1;
+    // if (inputSubkind === 'pick') {
+    //   shapeStyle.transform         = 'scaleX(0.97) scaleY(0.93)';
+    //   shapeStyle.transformOrigin   = 'bottom';
+    //   contentStyle.transformOrigin = 'bottom';
+    // } else if (inputSubkind === 'drop') {
+    //   shapeStyle.transform         = 'scaleX(0.97) scaleY(0.93)';
+    //   shapeStyle.transformOrigin   = 'top';
+    //   contentStyle.transformOrigin = 'top';
+    // } else {
+    //   shapeStyle.transform         = 'scaleX(0.97) scaleY(0.90)';
+    // }
   }
 
   render () {
@@ -178,6 +196,7 @@ export default class Ticket extends React.Component {
     const shapeStyle    = this.mergeStyles ('shape');
     const hatchStyle    = this.mergeStyles ('hatch');
     const svgStyle      = this.mergeStyles ('svg');
+    const hoverStyle    = this.mergeStyles ('hover');
     const contentStyle  = this.mergeStyles ('content');
     const dragZoneStyle = this.mergeStyles ('dragZoneStyle');
 
@@ -212,6 +231,11 @@ export default class Ticket extends React.Component {
         <path d={svgStyle.path} />
       </svg>
     ) : null;
+    const htmlHover = (this.getHover () || this.getLink ()) ? (
+      <svg width={w} height={h} style={hoverStyle}>
+        <path d={hoverStyle.path} />
+      </svg>
+    ) : null;
 
     return (
       <div
@@ -224,6 +248,7 @@ export default class Ticket extends React.Component {
         {htmlShadow}
         {htmlShape}
         {htmlHatch}
+        {htmlHover}
         <div
           onMouseOver       = {() => this.mouseIn (inputTripId)}
           onMouseOut        = {() => this.mouseOut (inputTripId)}

@@ -1,6 +1,6 @@
 'use strict';
 
-import {ColorHelpers} from 'electrum-theme';
+import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
@@ -26,10 +26,11 @@ function lineTo (path, dx, dy) {
 }
 
 // Arc to relative position.
-function arcTo (path, r, cx, cy) {
+function arcTo (path, r, cx, cy, sweepFlag) {
   // rx ry x-axis-rotation large-arc-flag sweep-flag x y
   // see http://www.w3.org/TR/SVG/paths.html#PathDataEllipticalArcCommands
-  path += 'a ' + r + ' '  + r + ' 0 0 0 ' + ' ' + cx + ' ' + cy + ' ';
+  path += 'a ' + r + ' '  + r + ' 0 0 ' + sweepFlag + ' ' + cx + ' ' + cy + ' ';
+  // path += 'a ' + r + ' '  + r + ' 0 0 0 ' + cx + ' ' + cy + ' ';
   return path;
 }
 
@@ -47,9 +48,93 @@ function horizontalDash (path, r, len, dx) {
   let i = 0;
   for (i = 0; i < step - 1; i++) {
     path = lineTo (path, len - r - r, 0);
-    path = arcTo (path, r, r + r, 0);
+    path = arcTo (path, r, r + r, 0, 0);
   }
   path = lineTo (path, len - r + over, 0);
+  return path;
+}
+
+function getOutlinePath (theme, kind, width, height) {
+  const r = toInt (theme.shapes.ticketCornerRadius);
+  const s = toInt (theme.shapes.ticketLineRadius);
+  const w = toInt (width);
+  const h = toInt (height);
+
+  let path = '';
+  if (kind === 'header') {
+    // Dash line only on bottom.
+    path = moveTo (path, 0, 0);
+    path = lineTo (path, w, 0);
+    path = lineTo (path, 0, h - r);
+    path = arcTo (path, r, -r, r, 0);  // bottom-right corner
+    path = horizontalDash (path, -s, -s * 3.5, -(w - r - r));
+    path = arcTo (path, r, -r, -r, 0);  // bottom-left corner
+    path = close (path);
+  } else if (kind === 'footer') {
+    // Dash line only on top.
+    path = moveTo (path, 0, r);
+    path = arcTo (path, r, r, -r, 0);  // top-left corner
+    path = horizontalDash (path, s, s * 3.5, w - r - r);
+    path = arcTo (path, r, r, r, 0);  // top-right corner
+    path = lineTo (path, 0, h - r);
+    path = lineTo (path, -w, 0);
+    path = close (path);
+  } else {
+    // Dash line on top and bottom.
+    path = moveTo (path, 0, r);
+    path = arcTo (path, r, r, -r, 0);  // top-left corner
+    path = horizontalDash (path, s, s * 3.5, w - r - r);
+    path = arcTo (path, r, r, r, 0);  // top-right corner
+    path = lineTo (path, 0, h - r - r);
+    path = arcTo (path, r, -r, r, 0);  // bottom-right corner
+    path = horizontalDash (path, -s, -s * 3.5, -(w - r - r));
+    path = arcTo (path, r, -r, -r, 0);  // bottom-left corner
+    path = close (path);
+  }
+  return path;
+}
+
+function getHoverPath (theme, subkind, width, height) {
+  const r = toInt (theme.shapes.ticketCornerRadius);
+  const t = toInt (theme.shapes.ticketHoverThickness);
+  const i = toInt (Unit.multiply (Unit.multiply (theme.shapes.ticketCornerRadius, r), 1 / t));
+  const w = toInt (width);
+  const h = toInt (height);
+
+  let path = '';
+  if (subkind === 'drop') {
+    // u.
+    path = moveTo (path, 0, 0);
+    path = lineTo (path, 0, h - r);
+    path = arcTo (path, r, r, r, 1);  // bottom-left external corner
+    path = lineTo (path, w - r - r, 0);
+    path = arcTo (path, r, r, -r, 1); // bottom-right external corner
+    path = lineTo (path, 0, -(h - r));
+    path = lineTo (path, -t, 0);
+    path = lineTo (path, 0, h - t - r);
+    path = arcTo (path, i, -r, r, 0);  // bottom-right internal corner
+    path = lineTo (path, -(w - r - r - t - t), 0);
+    path = arcTo (path, i, -r, -r, 0);  // bottom-left internal corner
+    path = lineTo (path, 0, -(h - t - r));
+    path = close (path);
+  } else if (subkind === 'pick') {
+    // n.
+    path = moveTo (path, 0, h);
+    path = lineTo (path, 0, -(h - r));
+    path = arcTo (path, r, r, -r, 0);  // bottom-left external corner
+    path = lineTo (path, w - r - r, 0);
+    path = arcTo (path, r, r, r, 0); // bottom-right external corner
+    path = lineTo (path, 0, h - r);
+    path = lineTo (path, -t, 0);
+    path = lineTo (path, 0, -(h - t - r));
+    path = arcTo (path, i, -r, -r, 1);  // bottom-right internal corner
+    path = lineTo (path, -(w - r - r - t - t), 0);
+    path = arcTo (path, i, -r, r, 1);  // bottom-left internal corner
+    path = lineTo (path, 0, h - t - r);
+    path = close (path);
+  } else {
+    // throw new Error (`Fatal error in Ticket component subkind=${subkind}`);
+  }
   return path;
 }
 
@@ -58,9 +143,9 @@ export default function styles (theme, props) {
   const inputWidth    = props.width;
   const inputHeight   = props.height;
   const inputKind     = props.kind;
+  const inputSubkind  = props.subkind;
   const inputSelected = props.selected;
   const inputColor    = props.color;
-  const inputNoDrag   = props.noDrag;
   const inputCursor   = props.cursor;
 
   let width           = inputWidth;
@@ -112,56 +197,15 @@ export default function styles (theme, props) {
     transition: theme.transitions.easeOut (),
   };
 
-  const r = toInt (theme.shapes.ticketCornerRadius);
-  const s = toInt (theme.shapes.ticketLineRadius);
-  const w = toInt (width);
-  const h = toInt (height);
-
-  let path = '';
-  if (inputKind === 'rect') {
-    // Simple rounded rectangle.
-    path = moveTo (path, 0, r);
-    path = arcTo (path, r, r, -r);  // top-left corner
-    path = lineTo (path, w - r - r, 0);
-    path = arcTo (path, r, r, r);  // top-right corner
-    path = lineTo (path, 0, h - r - r);
-    path = arcTo (path, r, -r, r);  // bottom-right corner
-    path = lineTo (path, -(w - r - r), 0);
-    path = arcTo (path, r, -r, -r);  // bottom-left corner
-    path = close (path);
-  } else if (inputKind === 'header') {
-    // Dash line only on bottom.
-    path = moveTo (path, 0, 0);
-    path = lineTo (path, w, 0);
-    path = lineTo (path, 0, h - r);
-    path = arcTo (path, r, -r, r);  // bottom-right corner
-    path = horizontalDash (path, -s, -s * 3.5, -(w - r - r));
-    path = arcTo (path, r, -r, -r);  // bottom-left corner
-    path = close (path);
-  } else if (inputKind === 'footer') {
-    // Dash line only on top.
-    path = moveTo (path, 0, r);
-    path = arcTo (path, r, r, -r);  // top-left corner
-    path = horizontalDash (path, s, s * 3.5, w - r - r);
-    path = arcTo (path, r, r, r);  // top-right corner
-    path = lineTo (path, 0, h - r);
-    path = lineTo (path, -w, 0);
-    path = close (path);
-  } else {
-    // Dash line on top and bottom.
-    path = moveTo (path, 0, r);
-    path = arcTo (path, r, r, -r);  // top-left corner
-    path = horizontalDash (path, s, s * 3.5, w - r - r);
-    path = arcTo (path, r, r, r);  // top-right corner
-    path = lineTo (path, 0, h - r - r);
-    path = arcTo (path, r, -r, r);  // bottom-right corner
-    path = horizontalDash (path, -s, -s * 3.5, -(w - r - r));
-    path = arcTo (path, r, -r, -r);  // bottom-left corner
-    path = close (path);
-  }
-
   const svgStyle = {
-    path: path,
+    path: getOutlinePath (theme, inputKind, width, height),
+  };
+
+  const hoverStyle = {
+    position:   'absolute',
+    fill:       theme.palette.ticketShadowHover,
+    transition: theme.transitions.easeOut (),
+    path:       getHoverPath (theme, inputSubkind, width, height),
   };
 
   const contentStyle = {
@@ -188,6 +232,7 @@ export default function styles (theme, props) {
     shape:         shapeStyle,
     hatch:         hatchStyle,
     svg:           svgStyle,
+    hover:         hoverStyle,
     content:       contentStyle,
     dragZoneStyle: dragZoneStyle
   };
