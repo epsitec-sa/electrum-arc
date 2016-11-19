@@ -237,16 +237,47 @@ export default function styles (theme, props) {
     borderRadius:    theme.shapes.ticketCornerRadius,
   };
 
-  const rectHoverStyle = {
-    position:        'absolute',
-    width:           'calc(100% - 10px)',
-    height:          'calc(100% - 10px)',
-    top:             '0px',
-    left:            '0px',
-    borderRadius:    theme.shapes.ticketCornerRadius,
-    border:          theme.shapes.ticketHoverThickness + ' solid ' + theme.palette.ticketShadowHover,
-    zIndex:          '10',
-  };
+  let rectHoverStyle;
+  if (inputSubkind === 'drop') {
+    // u.
+    rectHoverStyle = {
+      position:        'absolute',
+      width:           'calc(100% - 10px)',
+      height:          'calc(100% - 10px)',
+      top:             '5px',
+      left:            '0px',
+      borderRadius:    '0px 0px ' + theme.shapes.ticketCornerRadius + ' ' + theme.shapes.ticketCornerRadius,
+      borderWidth:     theme.shapes.ticketHoverThickness,
+      borderStyle:     'none solid solid solid',
+      borderColor:     theme.palette.ticketShadowHover,
+      zIndex:          '10',
+    };
+  } else if (inputSubkind === 'pick') {
+    // n.
+    rectHoverStyle = {
+      position:        'absolute',
+      width:           'calc(100% - 10px)',
+      height:          'calc(100% - 10px)',
+      top:             '0px',
+      left:            '0px',
+      borderRadius:    theme.shapes.ticketCornerRadius + ' ' + theme.shapes.ticketCornerRadius + ' 0px 0px',
+      borderWidth:     theme.shapes.ticketHoverThickness,
+      borderStyle:     'solid solid none solid',
+      borderColor:     theme.palette.ticketShadowHover,
+      zIndex:          '10',
+    };
+  } else {
+    rectHoverStyle = {
+      position:        'absolute',
+      width:           'calc(100% - 10px)',
+      height:          'calc(100% - 10px)',
+      top:             '0px',
+      left:            '0px',
+      borderRadius:    theme.shapes.ticketCornerRadius,
+      border:          theme.shapes.ticketHoverThickness + ' solid ' + theme.palette.ticketShadowHover,
+      zIndex:          '10',
+    };
+  }
 
   return {
     box:           boxStyle,
