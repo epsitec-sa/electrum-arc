@@ -238,13 +238,14 @@ export default function styles (theme, props) {
   };
 
   let rectHoverStyle;
+  const t2 = Unit.multiply (theme.shapes.ticketHoverThickness, 2);
   if (inputSubkind === 'drop') {
     // u.
     rectHoverStyle = {
       position:        'absolute',
-      width:           'calc(100% - 10px)',
-      height:          'calc(100% - 10px)',
-      top:             '5px',
+      width:           'calc(100% - ' + t2 + ')',
+      height:          'calc(100% - ' + t2 + ')',
+      top:             theme.shapes.ticketHoverThickness,
       left:            '0px',
       borderRadius:    '0px 0px ' + theme.shapes.ticketCornerRadius + ' ' + theme.shapes.ticketCornerRadius,
       borderWidth:     theme.shapes.ticketHoverThickness,
@@ -256,8 +257,8 @@ export default function styles (theme, props) {
     // n.
     rectHoverStyle = {
       position:        'absolute',
-      width:           'calc(100% - 10px)',
-      height:          'calc(100% - 10px)',
+      width:           'calc(100% - ' + t2 + ')',
+      height:          'calc(100% - ' + t2 + ')',
       top:             '0px',
       left:            '0px',
       borderRadius:    theme.shapes.ticketCornerRadius + ' ' + theme.shapes.ticketCornerRadius + ' 0px 0px',
