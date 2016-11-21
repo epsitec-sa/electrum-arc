@@ -225,7 +225,6 @@ export default function styles (theme, props) {
     height:       '100%',
     top:          '0px',
     left:         '0px',
-    zIndex:       '10',
   };
 
   const rectStyle = {
@@ -264,7 +263,6 @@ export default function styles (theme, props) {
       borderWidth:     theme.shapes.ticketHoverThickness,
       borderStyle:     'none solid solid solid',
       borderColor:     theme.palette.ticketShadowHover,
-      zIndex:          '10',
     };
   } else if (inputSubkind === 'pick') {
     // n.
@@ -278,7 +276,6 @@ export default function styles (theme, props) {
       borderWidth:     theme.shapes.ticketHoverThickness,
       borderStyle:     'solid solid none solid',
       borderColor:     theme.palette.ticketShadowHover,
-      zIndex:          '10',
     };
   } else {
     rectHoverStyle = {
@@ -289,7 +286,6 @@ export default function styles (theme, props) {
       left:            '0px',
       borderRadius:    theme.shapes.ticketCornerRadius,
       border:          theme.shapes.ticketHoverThickness + ' solid ' + theme.palette.ticketShadowHover,
-      zIndex:          '10',
     };
   }
 

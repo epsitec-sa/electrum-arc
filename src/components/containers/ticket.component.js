@@ -202,6 +202,9 @@ export default class Ticket extends React.Component {
         {htmlShape}
         {htmlHatch}
         {htmlHover}
+        <div style = {contentStyle}>
+          {this.props.children}
+        </div>
         <div
           onMouseOver       = {() => this.mouseIn (inputTripId)}
           onMouseOut        = {() => this.mouseOut (inputTripId)}
@@ -212,9 +215,6 @@ export default class Ticket extends React.Component {
           data-drag-handle  = {inputDragHandle}
           data-drag-invalid = {inputNoDrag === 'true'}
           />
-        <div style = {contentStyle}>
-          {this.props.children}
-        </div>
       </div>
     );
   }
@@ -251,6 +251,9 @@ export default class Ticket extends React.Component {
         data-ticket-id   = {inputTicketId}
         data-trip-id     = {inputTripId}
         >
+        <div style = {inputHatch === 'true' ? rectContentHatchStyle : contentStyle}>
+          {this.props.children}
+        </div>
         <div
           onMouseOver       = {() => this.mouseIn (inputTripId)}
           onMouseOut        = {() => this.mouseOut (inputTripId)}
@@ -261,9 +264,6 @@ export default class Ticket extends React.Component {
           data-drag-handle  = {inputDragHandle}
           data-drag-invalid = {inputNoDrag === 'true'}
           />
-        <div style = {inputHatch === 'true' ? rectContentHatchStyle : contentStyle}>
-          {this.props.children}
-        </div>
       </div>
     );
   }
