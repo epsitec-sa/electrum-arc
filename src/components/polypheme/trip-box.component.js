@@ -3,7 +3,7 @@
 import React from 'react';
 
 import {Unit} from 'electrum-theme';
-import {Container, Label, Note, Button} from '../../all-components.js';
+import {Container, Label, Button} from '../../all-components.js';
 import {ColorHelpers} from 'electrum-theme';
 
 /******************************************************************************/
@@ -18,13 +18,13 @@ export default class TripBox extends React.Component {
     if (glyph.startsWith ('bookmark-')) {
       const color = glyph.substring (9);
       return (
-        <Note key={keyIndex} glyph='bookmark' glyph-color={color} z-index={0}
-          tooltip={description} spacing='compact' {...this.link ()} />
+        <Label key={keyIndex} glyph='bookmark' glyph-color={color} z-index={0}
+          spacing='compact' {...this.link ()} />
       );
     } else {
       return (
-        <Note key={keyIndex} glyph={glyph} z-index={0}
-          tooltip={description} spacing='compact' {...this.link ()} />
+        <Label key={keyIndex} glyph={glyph} z-index={0}
+          spacing='compact' {...this.link ()} />
       );
     }
   }
@@ -75,8 +75,6 @@ export default class TripBox extends React.Component {
 
     const directionColorPick = ColorHelpers.GetMarkColor (this.props.theme, 'pick');
     const directionColorDrop = ColorHelpers.GetMarkColor (this.props.theme, 'drop');
-    const directionDescPick = 'Pick (prise en charge)';
-    const directionDescDrop = 'Drop (livraison)';
 
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       return (
@@ -99,8 +97,7 @@ export default class TripBox extends React.Component {
                 <Label text={this.getTime (data.Trip.Pick.Time)} font-weight='bold' wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
-                <Note glyph='circle' z-index={0}
-                  glyph-color={directionColorPick} tooltip={directionDescPick} {...this.link ()} />
+                <Label glyph='circle' z-index={0} glyph-color={directionColorPick} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label text={data.Trip.Pick.Description} wrap='no' {...this.link ()} />
@@ -118,8 +115,7 @@ export default class TripBox extends React.Component {
                 <Label text={this.getTime (data.Trip.Drop.Time)} font-weight='bold' wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
-                <Note glyph='square' z-index={0}
-                  glyph-color={directionColorDrop} tooltip={directionDescDrop} {...this.link ()} />
+                <Label glyph='square' z-index={0} glyph-color={directionColorDrop} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label text={data.Trip.Drop.Description} wrap='no' {...this.link ()} />
