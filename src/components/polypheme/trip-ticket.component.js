@@ -66,7 +66,7 @@ export default class TripTicket extends React.Component {
     if (!glyphs) {
       return null;
     } else {
-      let line = [];
+      const line = [];
       let indexKey = 0;
       glyphs.forEach (glyph => {
         if (glyph && glyph.value && glyph.value.Glyph) {
@@ -117,7 +117,8 @@ export default class TripTicket extends React.Component {
     return (
       <Container kind='ticket-row' {...this.link ()} >
         <Label glyph={glyph} glyph-color={color} width='25px' {...this.link ()} />
-        <Label text={text} wrap='yes' grow='1' {...this.link ()} />
+        <Label text={text} font-size={this.props.theme.shapes.ticketExtendedTextSize}
+          wrap='yes' grow='1' {...this.link ()} />
       </Container>
     );
   }
@@ -127,7 +128,7 @@ export default class TripTicket extends React.Component {
     if (!glyphs) {
       return null;
     } else {
-      let lines = [];
+      const lines = [];
       glyphs.forEach (glyph => {
         if (glyph && glyph.value && glyph.value.Glyph) {
           lines.push (this.renderLine (glyph.value.Glyph, glyph.value.Description,));
