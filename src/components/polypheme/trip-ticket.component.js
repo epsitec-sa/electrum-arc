@@ -125,6 +125,7 @@ export default class TripTicket extends React.Component {
       const time              = trip.Time;
       const description       = extended ? trip.Details : trip.Description;
       const descriptionWeight = extended ? null : 'bold';
+      const descriptionSize   = extended ? this.props.theme.shapes.ticketExtendedTextSize : this.props.theme.shapes.ticketCompactTextSize;
       const descriptionWrap   = extended ? 'yes' : 'no';
       const directionGlyph    = (type === 'pick') ? 'circle' : 'square';
       const directionColor    = ColorHelpers.GetMarkColor (this.props.theme, type);
@@ -148,8 +149,8 @@ export default class TripTicket extends React.Component {
               <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
               <Note glyph={directionGlyph} glyph-color={directionColor} tooltip={directionDesc}
                 width='25px' z-index={11} {...this.link ()} />
-              <Label text={description} font-weight={descriptionWeight} wrap={descriptionWrap}
-                grow='1' {...this.link ()} />
+              <Label text={description} font-weight={descriptionWeight} font-size={descriptionSize}
+                wrap={descriptionWrap} grow='1' {...this.link ()} />
             </Container>
             <Container kind='ticket-row' {...this.link ()} >
               <Label text='' width='75px' {...this.link ()} />
