@@ -89,16 +89,6 @@ export default class TripTicket extends React.Component {
     return time;
   }
 
-  // mouseClick (event) {
-  //   if (event.ctrlKey) {
-  //     this.setSelected (!this.getSelected ());
-  //   } else if (event.altKey) {
-  //     this.setHatch (!this.getHatch ());
-  //   } else {
-  //     this.setExtended (!this.getExtended ());
-  //   }
-  // }
-
   mouseClick (event) {
     if (event.ctrlKey) {
       this.setSelected (!this.getSelected ());
@@ -109,23 +99,9 @@ export default class TripTicket extends React.Component {
     }
   }
 
-  //  Compute the approximative number of lines for a text.
-  computeLineCount (line) {
-    return Math.ceil (line.length / 17);
-  }
-
-  computeHeight (extended, text) {
-    if (extended) {
-      let count = 1;
-      const lines = text.split ('\\n');
-      lines.forEach (line => {
-        count += this.computeLineCount (line);
-      });
-      return Unit.multiply ('20px', count);
-    } else {
-      const count = text.split ('\\n').length + 1;
-      return Unit.multiply ('20px', count);
-    }
+  computeHeight (text) {
+    const count = text.split ('\\n').length + 1;
+    return Unit.multiply ('20px', count);
   }
 
   render () {
@@ -157,7 +133,7 @@ export default class TripTicket extends React.Component {
       const directionColor    = ColorHelpers.GetMarkColor (this.props.theme, type);
       const directionDesc     = (type === 'pick') ? 'Pick (prise en charge)' : 'Drop (livraison)';
       const glyphs            = trip.Glyphs;
-      const height            = Unit.add (this.computeHeight (extended, description), '20px');
+      const height            = Unit.add (this.computeHeight (description), '20px');
       const marginBottom      = extended ? null : '-10px';
       const cursor            = (noDrag === 'true') ? null : 'move';
 
