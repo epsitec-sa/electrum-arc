@@ -233,8 +233,19 @@ export default function styles (theme, props) {
     position:        'relative',
     cursor:          inputCursor,
     transition:      theme.transitions.easeOut (),
-    backgroundColor: backgroundColor,
     borderRadius:    theme.shapes.ticketCornerRadius,
+    backgroundColor: backgroundColor,
+  };
+
+  const hc = 'rgba(0,0,0,' + theme.palette.ticketHatchOpacity + ')';
+  const contentRectHatchStyle = {
+    position:      'relative',
+    padding:       theme.shapes.ticketVerticalPadding + ' ' + theme.shapes.ticketHorizontalPadding,
+    display:       'flex',
+    flexDirection: 'row',
+    transition:    theme.transitions.easeOut (),
+    borderRadius:  theme.shapes.ticketCornerRadius,
+    background:    `repeating-linear-gradient(-45deg, ${hc}, ${hc} 1px, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 5px)`,
   };
 
   const rectHoverStyle = {
@@ -249,16 +260,17 @@ export default function styles (theme, props) {
   };
 
   return {
-    box:           boxStyle,
-    shadow:        shadowStyle,
-    shape:         shapeStyle,
-    hatch:         hatchStyle,
-    svg:           svgStyle,
-    hover:         hoverStyle,
-    content:       contentStyle,
-    dragZoneStyle: dragZoneStyle,
-    rect:          rectStyle,
-    rectHover:     rectHoverStyle,
+    box:              boxStyle,
+    shadow:           shadowStyle,
+    shape:            shapeStyle,
+    hatch:            hatchStyle,
+    svg:              svgStyle,
+    hover:            hoverStyle,
+    content:          contentStyle,
+    dragZoneStyle:    dragZoneStyle,
+    rect:             rectStyle,
+    contentRectHatch: contentRectHatchStyle,
+    rectHover:        rectHoverStyle,
   };
 }
 

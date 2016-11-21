@@ -180,7 +180,7 @@ export default class Ticket extends React.Component {
       <svg width={w} height={h} style={hatchStyle}>
         <defs>
           <pattern id='hatch' x='0px' y='0px' width='5px' height='5px' patternTransform='rotate(45)' patternUnits='userSpaceOnUse'>
-            <rect x='0px' y='0px' width='1px' height='5px' fill='#000' fillOpacity='0.2' />
+            <rect x='0px' y='0px' width='1px' height='5px' fill='#000' fillOpacity={this.props.theme.palette.ticketHatchOpacity} />
           </pattern>
         </defs>
         <path d={svgStyle.path} />
@@ -235,10 +235,11 @@ export default class Ticket extends React.Component {
       throw new Error (`Undefined ticket ticket-id`);
     }
 
-    const rectStyle      = this.mergeStyles ('rect');
-    const rectHoverStyle = this.mergeStyles ('rectHover');
-    const contentStyle   = this.mergeStyles ('content');
-    const dragZoneStyle  = this.mergeStyles ('dragZoneStyle');
+    const rectStyle             = this.mergeStyles ('rect');
+    const rectHoverStyle        = this.mergeStyles ('rectHover');
+    const contentStyle          = this.mergeStyles ('content');
+    const contentRectHatchStyle = this.mergeStyles ('contentRectHatch');
+    const dragZoneStyle         = this.mergeStyles ('dragZoneStyle');
 
     if (this.getHover ()) {
       rectStyle.backgroundColor = this.props.theme.palette.ticketBackgroundHover;
@@ -262,7 +263,7 @@ export default class Ticket extends React.Component {
           data-drag-handle  = {inputDragHandle}
           data-drag-invalid = {inputNoDrag === 'true'}
           />
-        <div style = {contentStyle}>
+        <div style = {inputHatch === 'true' ? contentRectHatchStyle : contentStyle}>
           {this.props.children}
         </div>
       </div>
