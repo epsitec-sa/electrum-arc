@@ -59,7 +59,7 @@ export default class TripTicket extends React.Component {
     }
   }
 
-  getGlyph (glyph, indexKey) {
+  renderGlyph (glyph, indexKey) {
     if (glyph.startsWith ('bookmark-')) {
       const color = glyph.substring (9);
       return (
@@ -72,7 +72,7 @@ export default class TripTicket extends React.Component {
     }
   }
 
-  getGlyphs (glyphs) {
+  renderGlyphs (glyphs) {
     if (!glyphs) {
       return null;
     } else {
@@ -80,7 +80,7 @@ export default class TripTicket extends React.Component {
       let indexKey = 0;
       glyphs.forEach (glyph => {
         if (glyph && glyph.value && glyph.value.Glyph) {
-          line.push (this.getGlyph (glyph.value.Glyph, indexKey++));
+          line.push (this.renderGlyph (glyph.value.Glyph, indexKey++));
         }
       });
       return line;
@@ -180,7 +180,7 @@ export default class TripTicket extends React.Component {
               <Label text='' width='75px' {...this.link ()} />
               <Label glyph='cube' spacing='compact' {...this.link ()} />
               <Label text={data.Trip.Count} grow='1' {...this.link ()} />
-              {this.getGlyphs (glyphs)}
+              {this.renderGlyphs (glyphs)}
             </Container>
           </Container>
         </Ticket>
