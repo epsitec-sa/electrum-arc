@@ -238,7 +238,7 @@ export default class Ticket extends React.Component {
     const rectStyle             = this.mergeStyles ('rect');
     const rectHoverStyle        = this.mergeStyles ('rectHover');
     const contentStyle          = this.mergeStyles ('content');
-    const contentRectHatchStyle = this.mergeStyles ('contentRectHatch');
+    const rectContentHatchStyle = this.mergeStyles ('rectContentHatch');
     const dragZoneStyle         = this.mergeStyles ('dragZoneStyle');
 
     if (this.getHover ()) {
@@ -263,7 +263,7 @@ export default class Ticket extends React.Component {
           data-drag-handle  = {inputDragHandle}
           data-drag-invalid = {inputNoDrag === 'true'}
           />
-        <div style = {inputHatch === 'true' ? contentRectHatchStyle : contentStyle}>
+        <div style = {inputHatch === 'true' ? rectContentHatchStyle : contentStyle}>
           {this.props.children}
         </div>
       </div>

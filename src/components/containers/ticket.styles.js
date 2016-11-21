@@ -238,7 +238,7 @@ export default function styles (theme, props) {
   };
 
   const hc = 'rgba(0,0,0,' + theme.palette.ticketHatchOpacity + ')';
-  const contentRectHatchStyle = {
+  const rectContentHatchStyle = {
     position:      'relative',
     padding:       theme.shapes.ticketVerticalPadding + ' ' + theme.shapes.ticketHorizontalPadding,
     display:       'flex',
@@ -301,7 +301,7 @@ export default function styles (theme, props) {
     content:          contentStyle,
     dragZoneStyle:    dragZoneStyle,
     rect:             rectStyle,
-    contentRectHatch: contentRectHatchStyle,
+    rectContentHatch: rectContentHatchStyle,
     rectHover:        rectHoverStyle,
   };
 }

@@ -15,6 +15,7 @@ export default class TripTicket extends React.Component {
     this.state = {
       extended: false,
       selected: false,
+      hatch:    false,
     };
   }
 
@@ -35,6 +36,16 @@ export default class TripTicket extends React.Component {
   setSelected (value) {
     this.setState ( {
       selected: value
+    });
+  }
+
+  getHatch () {
+    return this.state.hatch;
+  }
+
+  setHatch (value) {
+    this.setState ( {
+      hatch: value
     });
   }
 
@@ -78,12 +89,26 @@ export default class TripTicket extends React.Component {
     return time;
   }
 
+  // mouseClick (event) {
+  //   if (event.ctrlKey) {
+  //     this.setSelected (!this.getSelected ());
+  //   } else if (event.altKey) {
+  //     this.setHatch (!this.getHatch ());
+  //   } else {
+  //     this.setExtended (!this.getExtended ());
+  //   }
+  // }
+
   mouseClick () {
     this.setExtended (!this.getExtended ());
   }
 
   mouseCtrlClick () {
     this.setSelected (!this.getSelected ());
+  }
+
+  mouseAltClick () {
+    this.setHatch (!this.getHatch ());
   }
 
   //  Compute the approximative number of lines for a text.
@@ -109,7 +134,8 @@ export default class TripTicket extends React.Component {
     const width    = '250px';
     // const selected = this.read ('Selected');
     const extended = this.getExtended ();
-    const selected = this.getSelected () ? 'true' : 'false';
+    const selected = this.getSelected ();
+    const hatch    = this.getHatch ();
     const kind     = this.read ('kind');
     const data     = this.read ('data');
     const color    = data.Color;
@@ -127,22 +153,25 @@ export default class TripTicket extends React.Component {
       const descriptionWeight = extended ? null : 'bold';
       const descriptionSize   = extended ? this.props.theme.shapes.ticketExtendedTextSize : this.props.theme.shapes.ticketCompactTextSize;
       const descriptionWrap   = extended ? 'yes' : 'no';
-      const directionGlyph    = (type === 'pick') ? 'circle' : 'square';
+      const directionGlyph    = (type === 'pick') ?
+                                  ((trip.Type === 'transit') ? 'circle-o' : 'circle') :
+                                  ((trip.Type === 'transit') ? 'square-o' : 'square');
       const directionColor    = ColorHelpers.GetMarkColor (this.props.theme, type);
       const directionDesc     = (type === 'pick') ? 'Pick (prise en charge)' : 'Drop (livraison)';
       const glyphs            = trip.Glyphs;
       const height            = Unit.add (this.computeHeight (extended, description), '20px');
       const marginBottom      = extended ? null : '-10px';
-      const hatch             = (trip.Type === 'transit') ? 'true' : 'false';
       const cursor            = (noDrag === 'true') ? null : 'move';
 
       return (
-        <Ticket width={width} height={height} selected={selected} kind={kind} subkind={type} color={color}
-          drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch}
+        <Ticket width={width} height={height} selected={selected ? 'true' : 'false'}
+          kind={kind} subkind={type} color={color}
+          drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch ? 'true' : 'false'}
           ticket-type='trip-ticket' ticket-id={ticketId} trip-id={tripId}
           extended={extended ? 'true' : 'false'}
           onMouseClick={() => this.mouseClick ()}
           onMouseCtrlClick={() => this.mouseCtrlClick ()}
+          onMouseAltClick={() => this.mouseAltClick ()}
           {...this.link ()} >
           <Container kind='ticket-column' grow='1' {...this.link ()} >
             <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
