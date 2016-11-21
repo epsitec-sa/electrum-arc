@@ -49,6 +49,16 @@ export default class TripTicket extends React.Component {
     });
   }
 
+  mouseClick (event) {
+    if (event.ctrlKey) {  // select/deselect ?
+      this.setSelected (!this.getSelected ());
+    } else if (event.altKey) {  // dispatched/undispatched ?
+      this.setHatch (!this.getHatch ());
+    } else {  // compected/extended ?
+      this.setExtended (!this.getExtended ());
+    }
+  }
+
   getGlyph (glyph, indexKey) {
     if (glyph.startsWith ('bookmark-')) {
       const color = glyph.substring (9);
@@ -85,16 +95,6 @@ export default class TripTicket extends React.Component {
       time = h + ':' + m;
     }
     return time;
-  }
-
-  mouseClick (event) {
-    if (event.ctrlKey) {
-      this.setSelected (!this.getSelected ());
-    } else if (event.altKey) {
-      this.setHatch (!this.getHatch ());
-    } else {
-      this.setExtended (!this.getExtended ());
-    }
   }
 
   computeHeight (text) {

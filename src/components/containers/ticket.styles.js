@@ -238,6 +238,8 @@ export default function styles (theme, props) {
   };
 
   const hc = 'rgba(0,0,0,' + theme.palette.ticketHatchOpacity + ')';
+  const hs = theme.shapes.ticketHatchSize;
+  const ht = Unit.multiply (hs, 2);
   const rectContentHatchStyle = {
     position:      'relative',
     padding:       theme.shapes.ticketVerticalPadding + ' ' + theme.shapes.ticketHorizontalPadding,
@@ -245,7 +247,7 @@ export default function styles (theme, props) {
     flexDirection: 'row',
     transition:    theme.transitions.easeOut (),
     borderRadius:  theme.shapes.ticketCornerRadius,
-    background:    `repeating-linear-gradient(-45deg, ${hc}, ${hc} 10px, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 20px)`,
+    background:    `repeating-linear-gradient(-45deg, ${hc}, ${hc} ${hs}, rgba(0,0,0,0) 0px, rgba(0,0,0,0) ${ht})`,
   };
 
   let rectHoverStyle;

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {Action, ColorManipulator} from 'electrum';
+import {Unit} from 'electrum-theme';
 
 const {emphasize} = ColorManipulator;
 
@@ -171,11 +172,13 @@ export default class Ticket extends React.Component {
         <path d={svgStyle.path} />
       </svg>
     );
+    const hs = this.props.theme.shapes.ticketHatchSize;
+    const ht = Unit.multiply (hs, 2);
     const htmlHatch = (inputHatch === 'true') ? (
       <svg width={w} height={h} style={hatchStyle}>
         <defs>
-          <pattern id='hatch' x='0px' y='0px' width='20px' height='20px' patternTransform='rotate(45)' patternUnits='userSpaceOnUse'>
-            <rect x='0px' y='0px' width='10px' height='20px' fill='#000' fillOpacity={this.props.theme.palette.ticketHatchOpacity} />
+          <pattern id='hatch' x='0px' y='0px' width={ht} height={ht} patternTransform='rotate(45)' patternUnits='userSpaceOnUse'>
+            <rect x='0px' y='0px' width={hs} height={ht} fill='#000' fillOpacity={this.props.theme.palette.ticketHatchOpacity} />
           </pattern>
         </defs>
         <path d={svgStyle.path} />
