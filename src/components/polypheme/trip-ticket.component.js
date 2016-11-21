@@ -49,17 +49,15 @@ export default class TripTicket extends React.Component {
     });
   }
 
-  getGlyph (glyph, description, indexKey) {
+  getGlyph (glyph, indexKey) {
     if (glyph.startsWith ('bookmark-')) {
       const color = glyph.substring (9);
       return (
-        <Label key={indexKey} glyph='bookmark' glyph-color={color} z-index={11}
-          tooltip={description} spacing='compact' {...this.link ()} />
+        <Label key={indexKey} glyph='bookmark' glyph-color={color} spacing='compact' {...this.link ()} />
       );
     } else {
       return (
-        <Label key={indexKey} glyph={glyph} z-index={11}
-          tooltip={description} spacing='compact' {...this.link ()} />
+        <Label key={indexKey} glyph={glyph} spacing='compact' {...this.link ()} />
       );
     }
   }
@@ -72,7 +70,7 @@ export default class TripTicket extends React.Component {
       let indexKey = 0;
       glyphs.forEach (glyph => {
         if (glyph && glyph.value && glyph.value.Glyph) {
-          line.push (this.getGlyph (glyph.value.Glyph, glyph.value.Description, indexKey++));
+          line.push (this.getGlyph (glyph.value.Glyph, indexKey++));
         }
       });
       return line;
@@ -110,6 +108,35 @@ export default class TripTicket extends React.Component {
     ((trip.Type === 'transit') ? 'square-o' : 'square');
   }
 
+  renderLine (glyph, text) {
+    let color = null;
+    if (glyph.startsWith ('bookmark-')) {
+      color = glyph.substring (9);
+      glyph = 'bookmark';
+    }
+    return (
+      <Container kind='ticket-row' {...this.link ()} >
+        <Label glyph={glyph} glyph-color={color} width='25px' {...this.link ()} />
+        <Label text={text} wrap='yes' grow='1' {...this.link ()} />
+      </Container>
+    );
+  }
+
+  renderNotes (trip) {
+    const glyphs = trip.Glyphs;
+    if (!glyphs) {
+      return null;
+    } else {
+      let lines = [];
+      glyphs.forEach (glyph => {
+        if (glyph && glyph.value && glyph.value.Glyph) {
+          lines.push (this.renderLine (glyph.value.Glyph, glyph.value.Description,));
+        }
+      });
+      return lines;
+    }
+  }
+
   renderCompacted () {
     const width    = '250px';
     // const selected = this.read ('Selected');
@@ -126,15 +153,14 @@ export default class TripTicket extends React.Component {
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       throw new Error ('TripTicket without data');
     } else {
-      const trip              = (type === 'pick') ? data.Trip.Pick : data.Trip.Drop;
-      const time              = trip.Time;
-      const directionGlyph    = this.getDirectionGlyph (trip, type);
-      const directionColor    = ColorHelpers.GetMarkColor (this.props.theme, type);
-      const directionDesc     = (type === 'pick') ? 'Pick (prise en charge)' : 'Drop (livraison)';
-      const glyphs            = trip.Glyphs;
-      const height            = Unit.add (this.computeHeight (trip.Description), '20px');
-      const marginBottom      = '-10px';
-      const cursor            = (noDrag === 'true') ? null : 'move';
+      const trip           = (type === 'pick') ? data.Trip.Pick : data.Trip.Drop;
+      const time           = trip.Time;
+      const directionGlyph = this.getDirectionGlyph (trip, type);
+      const directionColor = ColorHelpers.GetMarkColor (this.props.theme, type);
+      const glyphs         = trip.Glyphs;
+      const height         = Unit.add (this.computeHeight (trip.Description), '20px');
+      const marginBottom   = '-10px';
+      const cursor         = (noDrag === 'true') ? null : 'move';
 
       return (
         <Ticket width={width} height={height} selected={selected ? 'true' : 'false'}
@@ -146,8 +172,7 @@ export default class TripTicket extends React.Component {
           <Container kind='ticket-column' grow='1' {...this.link ()} >
             <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
               <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
-              <Label glyph={directionGlyph} glyph-color={directionColor} tooltip={directionDesc}
-                width='25px' z-index={11} {...this.link ()} />
+              <Label glyph={directionGlyph} glyph-color={directionColor} width='25px' {...this.link ()} />
               <Label text={trip.Description} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
             </Container>
             <Container kind='ticket-row' {...this.link ()} >
@@ -178,15 +203,14 @@ export default class TripTicket extends React.Component {
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       throw new Error ('TripTicket without data');
     } else {
-      const trip              = (type === 'pick') ? data.Trip.Pick : data.Trip.Drop;
-      const time              = trip.Time;
-      const directionGlyph    = this.getDirectionGlyph (trip, type);
-      const directionColor    = ColorHelpers.GetMarkColor (this.props.theme, type);
-      const directionDesc     = (type === 'pick') ? 'Pick (prise en charge)' : 'Drop (livraison)';
-      const glyphs            = trip.Glyphs;
-      const height            = Unit.add (this.computeHeight (trip.Details), '20px');
-      const marginBottom      = null;
-      const cursor            = (noDrag === 'true') ? null : 'move';
+      const trip           = (type === 'pick') ? data.Trip.Pick : data.Trip.Drop;
+      const time           = trip.Time;
+      const directionGlyph = this.getDirectionGlyph (trip, type);
+      const directionColor = ColorHelpers.GetMarkColor (this.props.theme, type);
+      const glyphs         = trip.Glyphs;
+      const height         = Unit.add (this.computeHeight (trip.Description), '20px');
+      const marginBottom   = null;
+      const cursor         = (noDrag === 'true') ? null : 'move';
 
       return (
         <Ticket width={width} height={height} selected={selected ? 'true' : 'false'}
@@ -198,16 +222,12 @@ export default class TripTicket extends React.Component {
           <Container kind='ticket-column' grow='1' {...this.link ()} >
             <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
               <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
-              <Label glyph={directionGlyph} glyph-color={directionColor} tooltip={directionDesc}
-                width='25px' z-index={11} {...this.link ()} />
-                <Label text={trip.Details} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
+              <Label glyph={directionGlyph} glyph-color={directionColor} width='25px' {...this.link ()} />
+              <Label text={trip.Description} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
             </Container>
-            <Container kind='ticket-row' {...this.link ()} >
-              <Label text='' width='75px' {...this.link ()} />
-              <Label glyph='cube' spacing='compact' {...this.link ()} />
-              <Label text={data.Trip.Count} grow='1' {...this.link ()} />
-              {this.getGlyphs (glyphs)}
-            </Container>
+            {this.renderLine ('building', trip.Details)}
+            {this.renderNotes (trip)}
+            {this.renderLine ('cube', data.Trip.Count)}
           </Container>
         </Ticket>
       );

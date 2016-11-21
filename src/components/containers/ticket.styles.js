@@ -229,7 +229,7 @@ export default function styles (theme, props) {
   };
 
   const rectStyle = {
-    margin:          '2px 0px 4px 0px',
+    margin:          '0px 0px 5px 0px',
     position:        'relative',
     cursor:          inputCursor,
     transition:      theme.transitions.easeOut (),
