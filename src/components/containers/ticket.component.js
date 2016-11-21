@@ -174,8 +174,8 @@ export default class Ticket extends React.Component {
     const htmlHatch = (inputHatch === 'true') ? (
       <svg width={w} height={h} style={hatchStyle}>
         <defs>
-          <pattern id='hatch' x='0px' y='0px' width='5px' height='5px' patternTransform='rotate(45)' patternUnits='userSpaceOnUse'>
-            <rect x='0px' y='0px' width='1px' height='5px' fill='#000' fillOpacity={this.props.theme.palette.ticketHatchOpacity} />
+          <pattern id='hatch' x='0px' y='0px' width='20px' height='20px' patternTransform='rotate(45)' patternUnits='userSpaceOnUse'>
+            <rect x='0px' y='0px' width='10px' height='20px' fill='#000' fillOpacity={this.props.theme.palette.ticketHatchOpacity} />
           </pattern>
         </defs>
         <path d={svgStyle.path} />

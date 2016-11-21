@@ -245,7 +245,7 @@ export default function styles (theme, props) {
     flexDirection: 'row',
     transition:    theme.transitions.easeOut (),
     borderRadius:  theme.shapes.ticketCornerRadius,
-    background:    `repeating-linear-gradient(-45deg, ${hc}, ${hc} 1px, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 5px)`,
+    background:    `repeating-linear-gradient(-45deg, ${hc}, ${hc} 10px, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 20px)`,
   };
 
   let rectHoverStyle;
