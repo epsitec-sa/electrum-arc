@@ -1,7 +1,9 @@
 'use strict';
 
 import React from 'react';
-import {Action} from 'electrum';
+import {Action, ColorManipulator} from 'electrum';
+
+const {emphasize} = ColorManipulator;
 
 /******************************************************************************/
 
@@ -151,7 +153,7 @@ export default class Ticket extends React.Component {
     const dragZoneStyle = this.mergeStyles ('dragZoneStyle');
 
     if (this.getHover ()) {
-      shapeStyle.fill = this.props.theme.palette.ticketBackgroundHover;
+      shapeStyle.fill = emphasize (shapeStyle.fill, 0.1);
     }
 
     const w = boxStyle.width;
@@ -235,7 +237,7 @@ export default class Ticket extends React.Component {
     const dragZoneStyle         = this.mergeStyles ('dragZoneStyle');
 
     if (this.getHover ()) {
-      rectStyle.backgroundColor = this.props.theme.palette.ticketBackgroundHover;
+      rectStyle.backgroundColor = emphasize (rectStyle.backgroundColor, 0.1);
     }
 
     return (

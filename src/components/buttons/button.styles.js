@@ -3,7 +3,7 @@
 import {Action, ColorManipulator} from 'electrum';
 import {Unit} from 'electrum-theme';
 
-const {darken, emphasize} = ColorManipulator;
+const {emphasize} = ColorManipulator;
 
 /******************************************************************************/
 
