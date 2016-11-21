@@ -102,6 +102,17 @@ export default class TripTicket extends React.Component {
     return Unit.multiply ('20px', count);
   }
 
+  packageDescription (trip) {
+    let desc = trip.Count;
+    if (trip.Weight) {
+      desc += ` — ${trip.Weight}`;
+    }
+    if (trip.Product) {
+      desc += ` — ${trip.Product}`;
+    }
+    return desc;
+  }
+
   getDirectionGlyph (trip, type) {
     return (type === 'pick') ?
     ((trip.Type === 'transit') ? 'circle-o' : 'circle') :
@@ -213,11 +224,6 @@ export default class TripTicket extends React.Component {
       const marginBottom   = null;
       const cursor         = (noDrag === 'true') ? null : 'move';
 
-      let packageDescription = data.Trip.Count;
-      if (data.Trip.Product) {
-        packageDescription += ` — ${data.Trip.Product}`;
-      }
-
       return (
         <Ticket width={width} height={height} selected={selected ? 'true' : 'false'}
           kind={kind} subkind={type} color={color}
@@ -233,7 +239,7 @@ export default class TripTicket extends React.Component {
             </Container>
             {this.renderLine ('building', trip.Details)}
             {this.renderNotes (trip)}
-            {this.renderLine ('cube', packageDescription)}
+            {this.renderLine ('cube', this.packageDescription (data.Trip))}
           </Container>
         </Ticket>
       );
