@@ -240,6 +240,8 @@ export default class TripTicket extends React.Component {
             {this.renderLine ('building', trip.Details)}
             {this.renderNotes (trip)}
             {this.renderLine ('cube', this.packageDescription (data.Trip))}
+            {this.renderLine ('money', data.Trip.Price)}
+            {this.renderNotes (data.Trip)}
           </Container>
         </Ticket>
       );

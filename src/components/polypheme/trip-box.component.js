@@ -165,7 +165,7 @@ export default class TripBox extends React.Component {
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
                 <Label grow='1' {...this.link ()} />
-                {this.getGlyphs (data.Trip.PriceGlyphs)}
+                {this.getGlyphs (data.Trip.Glyphs)}
               </Container>
             </Container>
           </Container>
