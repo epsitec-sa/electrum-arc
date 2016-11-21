@@ -148,7 +148,6 @@ export default function styles (theme, props) {
   const inputSelected = props.selected;
   const inputColor    = props.color;
   const inputCursor   = props.cursor;
-  const inputExtended = props.extended;
 
   let width           = inputWidth;
   let height          = inputHeight;
@@ -205,7 +204,7 @@ export default function styles (theme, props) {
 
   const hoverStyle = {
     position:   'absolute',
-    fill:       theme.palette.ticketShadowHover,
+    fill:       theme.palette.ticketHover,
     transition: theme.transitions.easeOut (),
     path:       getHoverPath (theme, inputKind, inputSubkind, width, height),
   };
@@ -227,9 +226,19 @@ export default function styles (theme, props) {
     left:         '0px',
   };
 
-  const rectStyle = {
+  const rectShadowStyle = {
     margin:          '0px 0px 5px 0px',
     position:        'relative',
+    top:             theme.shapes.ticketShadowShift,
+    cursor:          inputCursor,
+    transition:      theme.transitions.easeOut (),
+    borderRadius:    theme.shapes.ticketCornerRadius,
+    backgroundColor: shadowColor,
+  };
+
+  const rectStyle = {
+    position:        'relative',
+    top:             '-' + theme.shapes.ticketShadowShift,
     cursor:          inputCursor,
     transition:      theme.transitions.easeOut (),
     borderRadius:    theme.shapes.ticketCornerRadius,
@@ -262,7 +271,7 @@ export default function styles (theme, props) {
       borderRadius:    '0px 0px ' + theme.shapes.ticketCornerRadius + ' ' + theme.shapes.ticketCornerRadius,
       borderWidth:     theme.shapes.ticketHoverThickness,
       borderStyle:     'none solid solid solid',
-      borderColor:     theme.palette.ticketShadowHover,
+      borderColor:     theme.palette.ticketHover,
     };
   } else if (inputSubkind === 'pick') {
     // n.
@@ -275,7 +284,7 @@ export default function styles (theme, props) {
       borderRadius:    theme.shapes.ticketCornerRadius + ' ' + theme.shapes.ticketCornerRadius + ' 0px 0px',
       borderWidth:     theme.shapes.ticketHoverThickness,
       borderStyle:     'solid solid none solid',
-      borderColor:     theme.palette.ticketShadowHover,
+      borderColor:     theme.palette.ticketHover,
     };
   } else {
     rectHoverStyle = {
@@ -285,7 +294,7 @@ export default function styles (theme, props) {
       top:             '0px',
       left:            '0px',
       borderRadius:    theme.shapes.ticketCornerRadius,
-      border:          theme.shapes.ticketHoverThickness + ' solid ' + theme.palette.ticketShadowHover,
+      border:          theme.shapes.ticketHoverThickness + ' solid ' + theme.palette.ticketHover,
     };
   }
 
@@ -298,6 +307,7 @@ export default function styles (theme, props) {
     hover:            hoverStyle,
     content:          contentStyle,
     dragZoneStyle:    dragZoneStyle,
+    rectShadow:       rectShadowStyle,
     rect:             rectStyle,
     rectContentHatch: rectContentHatchStyle,
     rectHover:        rectHoverStyle,

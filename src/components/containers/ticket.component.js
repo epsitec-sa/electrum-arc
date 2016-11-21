@@ -233,6 +233,7 @@ export default class Ticket extends React.Component {
       throw new Error (`Undefined ticket ticket-id`);
     }
 
+    const rectShadowStyle       = this.mergeStyles ('rectShadow');
     const rectStyle             = this.mergeStyles ('rect');
     const rectHoverStyle        = this.mergeStyles ('rectHover');
     const contentStyle          = this.mergeStyles ('content');
@@ -245,25 +246,29 @@ export default class Ticket extends React.Component {
 
     return (
       <div
-        disabled         = {disabled}
-        style            = {rectStyle}
+        style            = {rectShadowStyle}
         data-ticket-type = {inputTicketType}
         data-ticket-id   = {inputTicketId}
         data-trip-id     = {inputTripId}
         >
-        <div style = {inputHatch === 'true' ? rectContentHatchStyle : contentStyle}>
-          {this.props.children}
-        </div>
         <div
-          onMouseOver       = {() => this.mouseIn (inputTripId)}
-          onMouseOut        = {() => this.mouseOut (inputTripId)}
-          onMouseDown       = {event => this.mouseDown (event)}
-          onMouseMove       = {event => this.mouseMove (event)}
-          onMouseUp         = {event => this.mouseUp (event)}
-          style             = {this.getHover () || this.getLink () ? rectHoverStyle : dragZoneStyle}
-          data-drag-handle  = {inputDragHandle}
-          data-drag-invalid = {inputNoDrag === 'true'}
-          />
+          disabled         = {disabled}
+          style            = {rectStyle}
+          >
+          <div style = {inputHatch === 'true' ? rectContentHatchStyle : contentStyle}>
+            {this.props.children}
+          </div>
+          <div
+            onMouseOver       = {() => this.mouseIn (inputTripId)}
+            onMouseOut        = {() => this.mouseOut (inputTripId)}
+            onMouseDown       = {event => this.mouseDown (event)}
+            onMouseMove       = {event => this.mouseMove (event)}
+            onMouseUp         = {event => this.mouseUp (event)}
+            style             = {this.getHover () || this.getLink () ? rectHoverStyle : dragZoneStyle}
+            data-drag-handle  = {inputDragHandle}
+            data-drag-invalid = {inputNoDrag === 'true'}
+            />
+        </div>
       </div>
     );
   }
