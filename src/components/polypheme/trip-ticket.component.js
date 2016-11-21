@@ -99,16 +99,14 @@ export default class TripTicket extends React.Component {
   //   }
   // }
 
-  mouseClick () {
-    this.setExtended (!this.getExtended ());
-  }
-
-  mouseCtrlClick () {
-    this.setSelected (!this.getSelected ());
-  }
-
-  mouseAltClick () {
-    this.setHatch (!this.getHatch ());
+  mouseClick (event) {
+    if (event.ctrlKey) {
+      this.setSelected (!this.getSelected ());
+    } else if (event.altKey) {
+      this.setHatch (!this.getHatch ());
+    } else {
+      this.setExtended (!this.getExtended ());
+    }
   }
 
   //  Compute the approximative number of lines for a text.
@@ -169,9 +167,7 @@ export default class TripTicket extends React.Component {
           drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch ? 'true' : 'false'}
           ticket-type='trip-ticket' ticket-id={ticketId} trip-id={tripId}
           extended={extended ? 'true' : 'false'}
-          onMouseClick={() => this.mouseClick ()}
-          onMouseCtrlClick={() => this.mouseCtrlClick ()}
-          onMouseAltClick={() => this.mouseAltClick ()}
+          onMouseClick={(e) => this.mouseClick (e)}
           {...this.link ()} >
           <Container kind='ticket-column' grow='1' {...this.link ()} >
             <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >

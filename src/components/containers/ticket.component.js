@@ -120,16 +120,9 @@ export default class Ticket extends React.Component {
   mouseUp (event) {
     this.isDown = false;
     if (this.downCount < 5) {  // distinguishes a click without movement from a drag & drop
-      if (event.ctrlKey) {
-        const mouseCtrlClick = this.read ('onMouseCtrlClick');
-        if (mouseCtrlClick) {
-          mouseCtrlClick ();
-        }
-      } else {
-        const mouseClick = this.read ('onMouseClick');
-        if (mouseClick) {
-          mouseClick ();
-        }
+      const mouseClick = this.read ('onMouseClick');
+      if (mouseClick) {
+        mouseClick (event);
       }
     }
   }
