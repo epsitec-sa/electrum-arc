@@ -225,7 +225,7 @@ export default class TripTicket extends React.Component {
       const cursor         = (noDrag === 'true') ? null : 'move';
 
       return (
-        <Ticket width={width} height={height} selected={selected ? 'true' : 'false'}
+        <Ticket width={width} selected={selected ? 'true' : 'false'}
           kind='rect' shape={shape} type={type} color={color}
           drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch ? 'true' : 'false'}
           ticket-type='trip-ticket' ticket-id={ticketId} trip-id={tripId}
