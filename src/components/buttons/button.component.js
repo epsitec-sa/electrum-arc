@@ -2,7 +2,6 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-import {Unit} from 'electrum-theme';
 
 import {Badge, Menu} from '../../all-components.js';
 
