@@ -224,8 +224,9 @@ export default function styles (theme, props) {
     left:         '0px',
   };
 
+  const bm = (inputKind === 'thin') ? '15px' : '5px';
   const rectShadowStyle = {
-    margin:          '0px 0px 5px 0px',
+    margin:          `0px 0px ${bm} 0px`,
     position:        'relative',
     top:             theme.shapes.ticketShadowShift,
     cursor:          inputCursor,
