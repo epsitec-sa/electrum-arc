@@ -14,14 +14,14 @@ export default class TripTickets extends React.Component {
 
   getTripTicket (data, tripId, type) {
     const ticketId = tripId + '.' + type;  // by example: 'd1.drop'
-    const kind = (type === 'pick') ? 'footer' : 'header';
+    const shape = (type === 'pick') ? 'footer' : 'header';
     const d = {};
     for (var x in data) {
       d[x] = data[x];  // copy d <- data
     }
     d.Type = type;
     return (
-      <TripTicket kind={kind} data={d} ticket-type='trip-tickets' ticket-id={ticketId} trip-id={tripId}
+      <TripTicket shape={shape} data={d} ticket-type='trip-tickets' ticket-id={ticketId} trip-id={tripId}
         {...this.link ()} />
     );
   }

@@ -154,7 +154,7 @@ export default class TripTicket extends React.Component {
     // const selected = this.read ('Selected');
     const selected = this.getSelected ();
     const hatch    = this.getHatch ();
-    const kind     = this.read ('kind');
+    const shape    = this.read ('shape');
     const data     = this.read ('data');
     const color    = data.Color;
     const type     = data.Type ? data.Type : 'xxx';
@@ -176,9 +176,9 @@ export default class TripTicket extends React.Component {
 
       return (
         <Ticket width={width} height={height} selected={selected ? 'true' : 'false'}
-          kind={kind} subkind={type} color={color}
+          kind='ticket' shape={shape} type={type} color={color}
           drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch ? 'true' : 'false'}
-          ticket-type='trip-ticket' ticket-id={ticketId} trip-id={tripId} extended='false'
+          ticket-type='trip-ticket' ticket-id={ticketId} trip-id={tripId}
           onMouseClick={(e) => this.mouseClick (e)}
           {...this.link ()} >
           <Container kind='ticket-column' grow='1' {...this.link ()} >
@@ -204,7 +204,7 @@ export default class TripTicket extends React.Component {
     // const selected = this.read ('Selected');
     const selected = this.getSelected ();
     const hatch    = this.getHatch ();
-    const kind     = this.read ('kind');
+    const shape    = this.read ('shape');
     const data     = this.read ('data');
     const color    = data.Color;
     const type     = data.Type ? data.Type : 'xxx';
@@ -226,9 +226,9 @@ export default class TripTicket extends React.Component {
 
       return (
         <Ticket width={width} height={height} selected={selected ? 'true' : 'false'}
-          kind={kind} subkind={type} color={color}
+          kind='rect' shape={shape} type={type} color={color}
           drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch ? 'true' : 'false'}
-          ticket-type='trip-ticket' ticket-id={ticketId} trip-id={tripId} extended='true'
+          ticket-type='trip-ticket' ticket-id={ticketId} trip-id={tripId}
           onMouseClick={(e) => this.mouseClick (e)}
           {...this.link ()} >
           <Container kind='ticket-column' grow='1' {...this.link ()} >

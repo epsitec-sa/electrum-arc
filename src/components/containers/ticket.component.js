@@ -25,12 +25,12 @@ export default class Ticket extends React.Component {
       width:    this.read ('width'),
       height:   this.read ('height'),
       kind:     this.read ('kind'),
-      subkind:  this.read ('subkind'),
+      shape:    this.read ('shape'),
+      type:     this.read ('type'),
       selected: this.read ('selected'),
       color:    this.read ('color'),
       noDrag:   this.read ('no-drag'),
       cursor:   this.read ('cursor'),
-      extended: this.read ('extended'),
     };
   }
 
@@ -274,11 +274,11 @@ export default class Ticket extends React.Component {
   }
 
   render () {
-    const inputExtended = this.read ('extended');
-    if (inputExtended === 'true') {
-      return this.renderRect ();
-    } else {
+    const inputKind = this.read ('kind');
+    if (inputKind === 'ticket') {
       return this.renderTicket ();
+    } else {
+      return this.renderRect ();
     }
   }
 }

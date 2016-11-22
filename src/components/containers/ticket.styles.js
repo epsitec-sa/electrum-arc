@@ -54,14 +54,14 @@ function horizontalDash (path, r, len, dx) {
   return path;
 }
 
-function getOutlinePath (theme, kind, width, height) {
+function getOutlinePath (theme, shape, width, height) {
   const r = toInt (theme.shapes.ticketCornerRadius);
   const s = toInt (theme.shapes.ticketLineRadius);
   const w = toInt (width);
   const h = toInt (height);
 
   let path = '';
-  if (kind === 'header') {
+  if (shape === 'header') {
     // Dash line only on bottom.
     path = moveTo (path, 0, 0);
     path = lineTo (path, w, 0);
@@ -70,7 +70,7 @@ function getOutlinePath (theme, kind, width, height) {
     path = horizontalDash (path, -s, -s * 3.5, -(w - r - r));
     path = arcTo (path, r, -r, -r, 0);  // bottom-left corner
     path = close (path);
-  } else if (kind === 'footer') {
+  } else if (shape === 'footer') {
     // Dash line only on top.
     path = moveTo (path, 0, r);
     path = arcTo (path, r, r, -r, 0);  // top-left corner
@@ -94,16 +94,16 @@ function getOutlinePath (theme, kind, width, height) {
   return path;
 }
 
-function getHoverPath (theme, kind, subkind, width, height) {
+function getHoverPath (theme, shape, type, width, height) {
   const r = toInt (theme.shapes.ticketCornerRadius);
   const t = toInt (theme.shapes.ticketHoverThickness);
   const i = toInt (Unit.multiply (Unit.multiply (theme.shapes.ticketCornerRadius, r), 1 / t));
-  const s = (kind === 'header' || kind === 'footer') ? 0 : r;
+  const s = (shape === 'header' || shape === 'footer') ? 0 : r;
   const w = toInt (width);
   const h = toInt (height);
 
   let path = '';
-  if (subkind === 'drop') {
+  if (type === 'drop') {
     // u.
     path = moveTo (path, 0, s);
     path = lineTo (path, 0, h - s - r);
@@ -118,7 +118,7 @@ function getHoverPath (theme, kind, subkind, width, height) {
     path = arcTo (path, i, -r, -r, 0);  // bottom-left internal corner
     path = lineTo (path, 0, -(h - t - s - r));
     path = close (path);
-  } else if (subkind === 'pick') {
+  } else if (type === 'pick') {
     // n.
     path = moveTo (path, 0, h - s);
     path = lineTo (path, 0, -(h - s - r));
@@ -133,8 +133,6 @@ function getHoverPath (theme, kind, subkind, width, height) {
     path = arcTo (path, i, -r, r, 1);  // bottom-left internal corner
     path = lineTo (path, 0, h - t - s - r);
     path = close (path);
-  } else {
-    // throw new Error (`Fatal error in Ticket component subkind=${subkind}`);
   }
   return path;
 }
@@ -144,7 +142,8 @@ export default function styles (theme, props) {
   const inputWidth    = props.width;
   const inputHeight   = props.height;
   const inputKind     = props.kind;
-  const inputSubkind  = props.subkind;
+  const inputShape    = props.shape;
+  const inputType     = props.type;
   const inputSelected = props.selected;
   const inputColor    = props.color;
   const inputCursor   = props.cursor;
@@ -166,7 +165,7 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.ticketSelectedBackground;
   }
 
-  const v = (inputKind === 'footer') ? '1px' : theme.shapes.ticketVerticalSpacing;
+  const v = (inputShape === 'footer') ? '1px' : theme.shapes.ticketVerticalSpacing;
   const boxStyle = {
     width:      width,
     height:     height,
@@ -187,10 +186,6 @@ export default function styles (theme, props) {
     fill:       backgroundColor,
     transition: theme.transitions.easeOut (),
   };
-  // TODO: Why does not work ???
-  // shapeStyle[':hover'] = {
-  //   fill: '#f00',
-  // };
 
   const hatchStyle = {
     position:   'absolute',
@@ -199,19 +194,22 @@ export default function styles (theme, props) {
   };
 
   const svgStyle = {
-    path: getOutlinePath (theme, inputKind, width, height),
+    path: getOutlinePath (theme, inputShape, width, height),
   };
 
   const hoverStyle = {
     position:   'absolute',
     fill:       theme.palette.ticketHover,
     transition: theme.transitions.easeOut (),
-    path:       getHoverPath (theme, inputKind, inputSubkind, width, height),
+    path:       getHoverPath (theme, inputShape, inputType, width, height),
   };
 
+  const vp = (inputKind === 'thin') ? '0px' : theme.shapes.ticketVerticalPadding;
+  const hp = (inputKind === 'thin') ? '0px' : theme.shapes.ticketHorizontalPadding;
   const contentStyle = {
+    height:        inputHeight,
     position:      'relative',
-    padding:       theme.shapes.ticketVerticalPadding + ' ' + theme.shapes.ticketHorizontalPadding,
+    padding:       vp + ' ' + hp,
     display:       'flex',
     flexDirection: 'row',
     transition:    theme.transitions.easeOut (),
@@ -260,7 +258,7 @@ export default function styles (theme, props) {
 
   let rectHoverStyle;
   const t2 = Unit.multiply (theme.shapes.ticketHoverThickness, 2);
-  if (inputSubkind === 'drop') {
+  if (inputType === 'drop') {
     // u.
     rectHoverStyle = {
       position:        'absolute',
@@ -273,7 +271,7 @@ export default function styles (theme, props) {
       borderStyle:     'none solid solid solid',
       borderColor:     theme.palette.ticketHover,
     };
-  } else if (inputSubkind === 'pick') {
+  } else if (inputType === 'pick') {
     // n.
     rectHoverStyle = {
       position:        'absolute',

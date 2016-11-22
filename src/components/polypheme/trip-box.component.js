@@ -3,7 +3,7 @@
 import React from 'react';
 
 import {Unit} from 'electrum-theme';
-import {Container, Label, Button} from '../../all-components.js';
+import {Ticket, Container, Label, Button} from '../../all-components.js';
 import {ColorHelpers} from 'electrum-theme';
 
 /******************************************************************************/
@@ -77,17 +77,14 @@ export default class TripBox extends React.Component {
     const directionColorDrop = ColorHelpers.GetMarkColor (this.props.theme, 'drop');
 
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
-      return (
-        <Container kind='thin-main' drag-handle='TripTicket' no-drag={noDrag} height={height} selected={selected} color={color} grow='1' {...this.link ()} >
-        </Container>
-      );
+      throw new Error (`TripBox component without data`);
     } else {
       const dimmedColor = '#bbb';
       const dimmedSize  = '75%';
 
       return (
-        <Container kind='thin-main' drag-handle='TripTicket' no-drag={noDrag}
-          min-height={height} max-height={height} margin-bottom='10px'
+        <Ticket kind='thin' drag-handle='TripTicket' no-drag={noDrag}
+          height={height} margin-bottom='10px'
           selected={selected} color={color} cursor={cursor} grow='1'
           ticket-type='trip-box' ticket-id={ticketId} trip-id={tripId}
           {...this.link ()} >
@@ -166,7 +163,7 @@ export default class TripBox extends React.Component {
             </Container>
           </Container>
           <Button kind='thin-right' glyph='caret-right' width='24px' no-drag='true' cursor='default' {...this.link ()} />
-        </Container>
+        </Ticket>
       );
     }
   }
