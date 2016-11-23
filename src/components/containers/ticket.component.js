@@ -115,15 +115,13 @@ export default class Ticket extends React.Component {
     const ticketId = this.read ('ticket-id');
     const tripId   = this.read ('trip-id');
     const node = ReactDOM.findDOMNode (this);
-    // console.log ('----- isError');
-    // console.dir (node);
     if (ticketId.endsWith ('.pick')) {
-      const brotherId = tripId + '.drop';
+      const brotherId = ticketId.substring (0, ticketId.length - 5) + '.drop';
       this.updateNodeError (tripId, brotherId, brother => {
         return node.offsetTop > brother.offsetTop;  // true if pick is under drop
       });
     } else if (ticketId.endsWith ('.drop')) {
-      const brotherId = tripId + '.pick';
+      const brotherId = ticketId.substring (0, ticketId.length - 5) + '.pick';
       this.updateNodeError (tripId, brotherId, brother => {
         return node.offsetTop < brother.offsetTop;  // true if drop is over pick
       });
