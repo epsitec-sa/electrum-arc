@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {Action, ColorManipulator} from 'electrum';
 import {Unit} from 'electrum-theme';
 
@@ -15,6 +16,7 @@ export default class Ticket extends React.Component {
     this.state = {
       hover: false,
       link:  false,
+      error: false,
     };
   }
 
@@ -49,6 +51,16 @@ export default class Ticket extends React.Component {
   setLink (value) {
     this.setState ( {
       link: value
+    });
+  }
+
+  getError () {
+    return this.state.error;
+  }
+
+  setError (value) {
+    this.setState ( {
+      error: value
     });
   }
 
@@ -92,6 +104,38 @@ export default class Ticket extends React.Component {
     }
   }
 
+  updateNodeError (tripId, ticketId, check) {
+    window.document.tickets[tripId].forEach ((value, key, map) => {
+      const node = ReactDOM.findDOMNode (value);
+      if (node.dataset.ticketId === ticketId) {
+        const error = check (node);
+        this.setError (error);
+        value.setError (error);
+        return;
+      }
+    });
+  }
+
+  //  Set state.error to true if pick is under the drop, or reverse.
+  updateError () {
+    const ticketId = this.read ('ticket-id');
+    const tripId   = this.read ('trip-id');
+    const node = ReactDOM.findDOMNode (this);
+    // console.log ('----- isError');
+    // console.dir (node);
+    if (ticketId.endsWith ('.pick')) {
+      const brotherId = tripId + '.drop';
+      this.updateNodeError (tripId, brotherId, brother => {
+        return node.offsetTop > brother.offsetTop;  // true if pick is under drop
+      });
+    } else if (ticketId.endsWith ('.drop')) {
+      const brotherId = tripId + '.pick';
+      this.updateNodeError (tripId, brotherId, brother => {
+        return node.offsetTop < brother.offsetTop;  // true if drop is over pick
+      });
+    }
+  }
+
   changeKind (kind) {
     const tripComponent = this.read ('trip-component');
     tripComponent.setKind (kind);
@@ -100,6 +144,7 @@ export default class Ticket extends React.Component {
   mouseIn (tripId) {
     this.setHover (true);
     this.search (tripId, true);
+    this.updateError ();
   }
 
   mouseOut (tripId) {
@@ -140,6 +185,9 @@ export default class Ticket extends React.Component {
 
     if (this.getHover ()) {
       shapeStyle.fill = emphasize (shapeStyle.fill, 0.1);
+    }
+    if (this.getError ()) {
+      shapeStyle.fill = this.props.theme.palette.ticketWarningBackground;
     }
 
     const w = boxStyle.width;
@@ -225,6 +273,9 @@ export default class Ticket extends React.Component {
 
     if (this.getHover ()) {
       rectStyle.backgroundColor = emphasize (rectStyle.backgroundColor, 0.1);
+    }
+    if (this.getError ()) {
+      rectStyle.backgroundColor = this.props.theme.palette.ticketWarningBackground;
     }
 
     return (
