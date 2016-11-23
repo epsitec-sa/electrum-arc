@@ -12,8 +12,6 @@ export default class Ticket extends React.Component {
 
   constructor (props) {
     super (props);
-    this.isDown = false;
-    this.downCount = 0;
     this.state = {
       hover: false,
       link:  false,
@@ -109,24 +107,11 @@ export default class Ticket extends React.Component {
     this.search (tripId, false);
   }
 
-  mouseDown (event) {
-    this.isDown = true;
-    this.downCount = 0;
-  }
-
-  mouseMove (event) {
-    if (this.isDown) {
-      this.downCount++;
-    }
-  }
-
   mouseUp (event) {
-    this.isDown = false;
-    if (this.downCount < 5) {  // distinguishes a click without movement from a drag & drop
-      const mouseClick = this.read ('onMouseClick');
-      if (mouseClick) {
-        mouseClick (event);
-      }
+    //  With dragula, onMouseUp is catch only if click without move (without drag & drop).
+    const mouseClick = this.read ('onMouseClick');
+    if (mouseClick) {
+      mouseClick (event);
     }
   }
 
@@ -208,8 +193,6 @@ export default class Ticket extends React.Component {
         <div
           onMouseOver       = {() => this.mouseIn (inputTripId)}
           onMouseOut        = {() => this.mouseOut (inputTripId)}
-          onMouseDown       = {event => this.mouseDown (event)}
-          onMouseMove       = {event => this.mouseMove (event)}
           onMouseUp         = {event => this.mouseUp (event)}
           style             = {dragZoneStyle}
           data-drag-handle  = {inputDragHandle}
@@ -261,8 +244,6 @@ export default class Ticket extends React.Component {
           <div
             onMouseOver       = {() => this.mouseIn (inputTripId)}
             onMouseOut        = {() => this.mouseOut (inputTripId)}
-            onMouseDown       = {event => this.mouseDown (event)}
-            onMouseMove       = {event => this.mouseMove (event)}
             onMouseUp         = {event => this.mouseUp (event)}
             style             = {this.getHover () || this.getLink () ? rectHoverStyle : dragZoneStyle}
             data-drag-handle  = {inputDragHandle}
