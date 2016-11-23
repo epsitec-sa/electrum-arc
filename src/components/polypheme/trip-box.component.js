@@ -63,7 +63,7 @@ export default class TripBox extends React.Component {
   }
 
   render () {
-    const height   = '70px';
+    const height   = this.props.theme.shapes.tripBoxHeight;
     const selected = this.read ('Selected');
     const data     = this.read ('data');
     const color    = data.Color;

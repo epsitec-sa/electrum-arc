@@ -150,8 +150,7 @@ export default class TripTicket extends React.Component {
   }
 
   renderCompacted () {
-    const width    = '250px';
-    // const selected = this.read ('Selected');
+    const width    = this.props.theme.shapes.tripTicketWidth;
     const selected = this.getSelected ();
     const hatch    = this.getHatch ();
     const shape    = this.read ('shape');
@@ -200,8 +199,7 @@ export default class TripTicket extends React.Component {
   }
 
   renderExtended () {
-    const width    = '250px';
-    // const selected = this.read ('Selected');
+    const width    = this.props.theme.shapes.tripTicketWidth;
     const selected = this.getSelected ();
     const hatch    = this.getHatch ();
     const shape    = this.read ('shape');

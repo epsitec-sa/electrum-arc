@@ -31,9 +31,9 @@ export default function styles (theme, props) {
   };
 
   const containerStyle = {
-    minWidth:        inputWidth  ? inputWidth  : '250px',
-    maxWidth:        inputWidth  ? inputWidth  : '250px',
-    minHeight:       inputHeight ? inputHeight : '116px',
+    minWidth:        inputWidth  ? inputWidth  : theme.shapes.tripTicketWidth,
+    maxWidth:        inputWidth  ? inputWidth  : theme.shapes.tripTicketWidth,
+    minHeight:       inputHeight ? inputHeight : theme.shapes.tripTicketsHeight,
   };
 
   return {

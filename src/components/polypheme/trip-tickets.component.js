@@ -27,8 +27,8 @@ export default class TripTickets extends React.Component {
   }
 
   render () {
-    const width    = '250px';
-    const height   = '116px';
+    const width    = this.props.theme.shapes.tripTicketWidth;
+    const height   = this.props.theme.shapes.tripTicketsHeight;
     const data     = this.read ('data');
     const ticketId = this.read ('ticket-id');
     const tripId   = this.read ('trip-id');
