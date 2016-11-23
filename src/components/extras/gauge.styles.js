@@ -11,12 +11,8 @@
 function getColor (value) {
   if (value) {
     value = Math.max ((value * 2) - 100, 0);  // 100/50/0 -> 100/0/0
-    const green = Math.floor (((100 - value) * 2.55), 0).toString (16);  // to hexa
-    if (green.length === 1) {  // one digit ?
-      return `#f${green}0`;
-    } else {  // two digit ?
-      return `#ff${green}00`;
-    }
+    const green = ((100 - value) * 2.55);
+    return `rgb(255,${green},0)`;
   } else {
     return '#fff';
   }
