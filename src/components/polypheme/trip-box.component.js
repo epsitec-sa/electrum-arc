@@ -80,8 +80,8 @@ export default class TripBox extends React.Component {
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       throw new Error (`TripBox component without data`);
     } else {
-      const dimmedColor = '#bbb';
-      const dimmedSize  = '75%';
+      const dimmedColor = this.props.theme.palette.ticketDimmed;
+      const dimmedSize  = this.props.theme.shapes.ticketDimmedSize;
 
       return (
         <Ticket kind='thin' drag-handle='TripTicket' no-drag={noDrag}
