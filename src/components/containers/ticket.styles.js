@@ -288,8 +288,8 @@ export default function styles (theme, props) {
   } else {
     rectHoverStyle = {
       position:        'absolute',
-      width:           'calc(100% - 10px)',
-      height:          'calc(100% - 10px)',
+      width:           'calc(100% - ' + t2 + ' + 1px)',
+      height:          'calc(100% - ' + t2 + ' + 1px)',
       top:             '0px',
       left:            '0px',
       borderRadius:    theme.shapes.ticketCornerRadius,
