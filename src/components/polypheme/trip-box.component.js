@@ -14,7 +14,7 @@ export default class TripBox extends React.Component {
     super (props);
   }
 
-  getGlyph (glyph, description, keyIndex) {
+  renderGlyph (glyph, description, keyIndex) {
     if (glyph.startsWith ('bookmark-')) {
       const color = glyph.substring (9);
       return (
@@ -29,7 +29,7 @@ export default class TripBox extends React.Component {
     }
   }
 
-  getGlyphs (glyphs) {
+  renderGlyphs (glyphs) {
     if (!glyphs) {
       return null;
     } else {
@@ -37,7 +37,7 @@ export default class TripBox extends React.Component {
       let keyIndex = 0;
       glyphs.forEach (glyph => {
         if (glyph && glyph.value && glyph.value.Glyph) {
-          line.push (this.getGlyph (glyph.value.Glyph, glyph.value.Description, keyIndex++));
+          line.push (this.renderGlyph (glyph.value.Glyph, glyph.value.Description, keyIndex++));
         }
       });
       return line;
@@ -108,7 +108,7 @@ export default class TripBox extends React.Component {
               </Container>
               <Container kind='thin-row' width='80px' {...this.link ()} >
                 <Label grow='1' {...this.link ()} />
-                {this.getGlyphs (data.Trip.Pick.Glyphs)}
+                {this.renderGlyphs (data.Trip.Pick.Glyphs)}
               </Container>
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
@@ -126,7 +126,7 @@ export default class TripBox extends React.Component {
               </Container>
               <Container kind='thin-row' width='80px' {...this.link ()} >
                 <Label grow='1' {...this.link ()} />
-                {this.getGlyphs (data.Trip.Drop.Glyphs)}
+                {this.renderGlyphs (data.Trip.Drop.Glyphs)}
               </Container>
             </Container>
           </Container>
@@ -162,7 +162,7 @@ export default class TripBox extends React.Component {
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
                 <Label grow='1' {...this.link ()} />
-                {this.getGlyphs (data.Trip.Glyphs)}
+                {this.renderGlyphs (data.Trip.Glyphs)}
               </Container>
             </Container>
           </Container>
