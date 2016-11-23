@@ -74,7 +74,6 @@ export default class Ticket extends React.Component {
       if (!window.document.tickets[inputTripId]) {
         window.document.tickets[inputTripId] = new Map ();
       }
-      // window.document.tickets[inputTripId].set (inputTicketId, (hover) => this.change (this, hover));
       window.document.tickets[inputTripId].set (inputTicketId, this);
     }
   }
@@ -93,14 +92,9 @@ export default class Ticket extends React.Component {
     }
   }
 
-  change(link) {
-    this.setLink (link);
-  }
-
   search(tripId, link) {
     if (tripId) {
-      // window.document.tickets[tripId].forEach ((value, key, map) => value (link));
-      window.document.tickets[tripId].forEach ((value, key, map) => value.change (link));
+      window.document.tickets[tripId].forEach ((value, key, map) => value.setLink (link));
     }
   }
 
@@ -134,11 +128,6 @@ export default class Ticket extends React.Component {
         return node.offsetTop < brother.offsetTop;  // true if drop is over pick
       });
     }
-  }
-
-  changeKind (kind) {
-    const tripComponent = this.read ('trip-component');
-    tripComponent.setKind (kind);
   }
 
   mouseIn (tripId) {
@@ -183,11 +172,11 @@ export default class Ticket extends React.Component {
     const contentStyle  = this.mergeStyles ('content');
     const dragZoneStyle = this.mergeStyles ('dragZoneStyle');
 
-    if (this.getHover ()) {
-      shapeStyle.fill = emphasize (shapeStyle.fill, 0.1);
-    }
     if (this.getError ()) {
       shapeStyle.fill = this.props.theme.palette.ticketWarningBackground;
+    }
+    if (this.getHover ()) {
+      shapeStyle.fill = emphasize (shapeStyle.fill, 0.1);
     }
 
     const w = boxStyle.width;
@@ -271,11 +260,11 @@ export default class Ticket extends React.Component {
     const rectContentHatchStyle = this.mergeStyles ('rectContentHatch');
     const dragZoneStyle         = this.mergeStyles ('dragZoneStyle');
 
-    if (this.getHover ()) {
-      rectStyle.backgroundColor = emphasize (rectStyle.backgroundColor, 0.1);
-    }
     if (this.getError ()) {
       rectStyle.backgroundColor = this.props.theme.palette.ticketWarningBackground;
+    }
+    if (this.getHover ()) {
+      rectStyle.backgroundColor = emphasize (rectStyle.backgroundColor, 0.1);
     }
 
     return (
