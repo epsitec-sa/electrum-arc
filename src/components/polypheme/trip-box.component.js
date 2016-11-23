@@ -3,7 +3,7 @@
 import React from 'react';
 
 import {Unit} from 'electrum-theme';
-import {Ticket, Container, Label, Button} from '../../all-components.js';
+import {Ticket, Container, Label, Button, Gauge} from '../../all-components.js';
 import {ColorHelpers} from 'electrum-theme';
 
 /******************************************************************************/
@@ -70,6 +70,7 @@ export default class TripBox extends React.Component {
     const noDrag   = data.NoDrag;
     const ticketId = this.read ('ticket-id');
     const tripId   = this.read ('trip-id');
+    const urgency  = this.read ('urgency');
 
     const cursor = (noDrag === 'true') ? null : 'move';
 
@@ -88,6 +89,9 @@ export default class TripBox extends React.Component {
           selected={selected} color={color} cursor={cursor} grow='1'
           ticket-type='trip-box' ticket-id={ticketId} trip-id={tripId}
           {...this.link ()} >
+          <Container kind='thin-column' border='right' width='20px' {...this.link ()} >
+            <Gauge value={urgency} {...this.link ()} />
+          </Container>
           <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
             <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
               <Container kind='thin-row' width='50px' {...this.link ()} >

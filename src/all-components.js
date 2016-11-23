@@ -19,6 +19,8 @@ import _Clock$styles from './components/extras/clock.styles.js';
 import _DragController from './components/extras/drag-controller.component.js';
 import _FlyingBalloon from './components/extras/flying-balloon.component.js';
 import _FlyingBalloon$styles from './components/extras/flying-balloon.styles.js';
+import _Gauge from './components/extras/gauge.component.js';
+import _Gauge$styles from './components/extras/gauge.styles.js';
 import _GoogleFontLoader from './components/extras/google-font-loader.component.js';
 import _Separator from './components/extras/separator.component.js';
 import _Separator$styles from './components/extras/separator.styles.js';
@@ -59,6 +61,7 @@ export const Calendar = Electrum.wrap ('Calendar', _Calendar, {styles: _Calendar
 export const Clock = Electrum.wrap ('Clock', _Clock, {styles: _Clock$styles});
 export const DragController = Electrum.wrap ('DragController', _DragController);
 export const FlyingBalloon = Electrum.wrap ('FlyingBalloon', _FlyingBalloon, {styles: _FlyingBalloon$styles});
+export const Gauge = Electrum.wrap ('Gauge', _Gauge, {styles: _Gauge$styles});
 export const GoogleFontLoader = Electrum.wrap ('GoogleFontLoader', _GoogleFontLoader);
 export const Separator = Electrum.wrap ('Separator', _Separator, {styles: _Separator$styles});
 export const ThemeSwitcher = Electrum.wrap ('ThemeSwitcher', _ThemeSwitcher, {styles: _ThemeSwitcher$styles});

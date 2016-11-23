@@ -57,10 +57,11 @@ export default class Trip extends React.Component {
     const data     = this.read ('data');
     const tripId   = this.read ('trip-id');
     const ticketId = this.read ('ticket-id');
+    const urgency  = this.read ('urgency');
 
     if (kind === 'trip-box') {
       return (
-        <TripBox data={data} ticket-id={ticketId} trip-id={tripId} {...this.link ()} />
+        <TripBox data={data} ticket-id={ticketId} trip-id={tripId} urgency={urgency} {...this.link ()} />
       );
     } else if (kind === 'trip-tickets') {
       return (
