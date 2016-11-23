@@ -131,7 +131,7 @@ export default class Ticket extends React.Component {
   mouseIn (tripId) {
     this.setHover (true);
     this.search (tripId, true);
-    this.updateError ();
+    this.updateError ();  // TODO: with quick moves, update is not updated !
   }
 
   mouseOut (tripId) {
