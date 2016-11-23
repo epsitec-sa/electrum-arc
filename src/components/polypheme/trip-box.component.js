@@ -166,7 +166,6 @@ export default class TripBox extends React.Component {
               </Container>
             </Container>
           </Container>
-          <Button kind='thin-right' glyph='caret-right' width='24px' no-drag='true' cursor='default' {...this.link ()} />
         </Ticket>
       );
     }
