@@ -22,6 +22,16 @@ export default class DragController extends React.Component {
     });
   }
 
+  getDataTripBoxContent () {
+    return window.document.dispatchMessengers.state.dataTripBoxContent;
+  }
+
+  setDataTripBoxContent (value) {
+    window.document.dispatchMessengers.setState ( {
+      dataTripBoxContent: value
+    });
+  }
+
   getDataGlueContent () {
     return window.document.dispatchMessengers.state.dataGlueContent;
   }
@@ -82,6 +92,13 @@ export default class DragController extends React.Component {
       }
     }
     this.setDataGlueContent (dataGlueContent);
+  }
+
+  deleteTripBoxTicket (tripId) {
+    const dataTripBoxContent = this.getDataTripBoxContent ();
+    const i = dataTripBoxContent.indexOf (tripId);
+    dataTripBoxContent.splice (i, 1);
+    this.setDataTripBoxContent (dataTripBoxContent);
   }
 
   createTripTransit1 (source) {
@@ -146,7 +163,8 @@ export default class DragController extends React.Component {
     const tripId   = trip.props['trip-id'];
     if (ticketId.endsWith ('.both') && tripId && targetMessenger) {  // move from glue to messengers ?
       this.addTickets (ticketId, targetMessenger);
-      this.deleteGlueTicket (tripId);
+      this.deleteGlueTicket (tripId);     // remove source if in glue...
+      this.deleteTripBoxTicket (tripId);  // ...or remove source if in box
     } else if (ticketMessenger && ticketMessenger !== targetMessenger) {  // move from messenger to a other messenger ?
       this.createTransit (tripId, ticketMessenger, targetMessenger);
     }
