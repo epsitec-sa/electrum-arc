@@ -42,6 +42,16 @@ export default class DragController extends React.Component {
     });
   }
 
+  getRegen () {
+    return window.document.dispatchMessengers.state.regen;
+  }
+
+  setRegen (value) {
+    window.document.dispatchMessengers.setState ( {
+      regen: value
+    });
+  }
+
   addMessengerTicket (ticketId, messenger) {
     const dataMessengersContent = this.getDataMessengersContent ();
     const x = dataMessengersContent[messenger];
@@ -74,7 +84,7 @@ export default class DragController extends React.Component {
     this.setDataGlueContent (dataGlueContent);
   }
 
-  createTicketTransit1 (source) {
+  createTripTransit1 (source) {
     return {
       Pick: source.Pick,
       Drop:
@@ -92,7 +102,7 @@ export default class DragController extends React.Component {
     };
   }
 
-  createTicketTransit2 (source) {
+  createTripTransit2 (source) {
     return {
       Pick:
       {
@@ -113,13 +123,13 @@ export default class DragController extends React.Component {
   createTransit (tripId, srcMessenger, dstMessenger) {
     const dataTrips = this.getDataTrips ();
     const source = dataTrips[tripId];
-    const ticket1 = this.createTicketTransit1 (source);
-    const ticket2 = this.createTicketTransit2 (source);
+    const trip1 = this.createTripTransit1 (source);
+    const trip2 = this.createTripTransit2 (source);
     const tripId1 = tripId + '1';
     const tripId2 = tripId + '2';
-    // dataTrips[tripId] = null;
-    dataTrips[tripId1] = ticket1;
-    dataTrips[tripId2] = ticket2;
+    delete dataTrips[tripId];
+    dataTrips[tripId1] = trip1;
+    dataTrips[tripId2] = trip2;
     this.setDataTrips (dataTrips);
 
     this.deleteMessengerTicket (tripId + '.pick', srcMessenger);
@@ -132,12 +142,12 @@ export default class DragController extends React.Component {
 
   changeToTripTickets (trip, ticketMessenger, targetMessenger) {
     trip.setKind ('trip-ticket');
-    const ticketId  = trip.props['ticket-id'];
-    const tripId    = trip.props['trip-id'];
-    if (ticketId.endsWith ('.both') && tripId && targetMessenger) {  // move from glue to messengers
+    const ticketId = trip.props['ticket-id'];
+    const tripId   = trip.props['trip-id'];
+    if (ticketId.endsWith ('.both') && tripId && targetMessenger) {  // move from glue to messengers ?
       this.addTickets (ticketId, targetMessenger);
       this.deleteGlueTicket (tripId);
-    } else if (ticketMessenger && ticketMessenger !== targetMessenger) {  // move from messenger to a other messenger
+    } else if (ticketMessenger && ticketMessenger !== targetMessenger) {  // move from messenger to a other messenger ?
       this.createTransit (tripId, ticketMessenger, targetMessenger);
     }
   }
@@ -154,6 +164,7 @@ export default class DragController extends React.Component {
       this.changeToTripTickets (trip, ticketMessenger, targetMessenger);
     }
     trip.updateWarning ();  // update warning if pick is under drop, or reverse
+    // this.setRegen (this.getRegen () + 1);
   }
 
   dragBegin (element, source) {
@@ -190,7 +201,7 @@ export default class DragController extends React.Component {
       // console.dir (ticketId);
       // console.dir (tripId);
       // console.dir (targetType);
-      window.document.trips[tripId].forEach ((value, key, map) => {
+      window.document.trips[tripId].forEach ((value, key) => {
         if (key === ticketId) {
           this.changeTrip (value, ticketType, ticketMessenger, targetType, targetMessenger);
         }
