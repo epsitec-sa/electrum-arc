@@ -131,6 +131,7 @@ export default class Container extends React.Component {
     const inputTicketType     = this.read ('ticket-type');
     const inputTicketId       = this.read ('ticket-id');
     const inputTripId         = this.read ('trip-id');
+    const inputMessenger      = this.read ('messenger');
 
     const boxStyle      = this.mergeStyles ('box');
     const triangleStyle = this.mergeStyles ('triangle');
@@ -166,6 +167,7 @@ export default class Container extends React.Component {
           id                      = {inputAnchor}
           data-drag-container-for = {inputDragController}
           data-drag-source        = {inputDragSource}
+          data-messenger          = {inputMessenger}
           >
           <div
             style             = {dragZoneStyle}
@@ -187,6 +189,7 @@ export default class Container extends React.Component {
           id                      = {inputAnchor}
           data-drag-container-for = {inputDragController}
           data-drag-source        = {inputDragSource}
+          data-messenger          = {inputMessenger}
           >
           {useManagedChildren.includes (inputKind) ? this.state.managedChildren : this.props.children}
         </div>

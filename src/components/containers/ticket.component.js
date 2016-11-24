@@ -112,6 +112,7 @@ export default class Ticket extends React.Component {
     const inputTicketType = this.read ('ticket-type');
     const inputTicketId   = this.read ('ticket-id');
     const inputTripId     = this.read ('trip-id');
+    const inputMessenger  = this.read ('messenger');
     const inputHatch      = this.read ('hatch');
     const inputWarning    = this.read ('warning');
 
@@ -175,6 +176,7 @@ export default class Ticket extends React.Component {
         data-ticket-type = {inputTicketType}
         data-ticket-id   = {inputTicketId}
         data-trip-id     = {inputTripId}
+        data-messenger   = {inputMessenger}
         >
         {htmlShadow}
         {htmlShape}
@@ -203,6 +205,7 @@ export default class Ticket extends React.Component {
     const inputTicketType = this.read ('ticket-type');
     const inputTicketId   = this.read ('ticket-id');
     const inputTripId     = this.read ('trip-id');
+    const inputMessenger  = this.read ('messenger');
     const inputHatch      = this.read ('hatch');
     const inputWarning    = this.read ('warning');
 
@@ -230,6 +233,7 @@ export default class Ticket extends React.Component {
         data-ticket-type = {inputTicketType}
         data-ticket-id   = {inputTicketId}
         data-trip-id     = {inputTripId}
+        data-messenger   = {inputMessenger}
         >
         <div
           disabled         = {disabled}

@@ -96,24 +96,28 @@ export default class Trip extends React.Component {
   }
 
   render () {
-    const kind     = this.getKind ();
-    const warning  = this.getWarning ();
-    const data     = this.read ('data');
-    const tripId   = this.read ('trip-id');
-    const ticketId = this.read ('ticket-id');
-    const urgency  = this.read ('urgency');
+    const kind      = this.getKind ();
+    const warning   = this.getWarning ();
+    const data      = this.read ('data');
+    const tripId    = this.read ('trip-id');
+    const ticketId  = this.read ('ticket-id');
+    const messenger = this.read ('messenger');
+    const urgency   = this.read ('urgency');
 
     if (kind === 'trip-box') {
       return (
-        <TripBox data={data} ticket-id={ticketId} trip-id={tripId} urgency={urgency} {...this.link ()} />
+        <TripBox data={data} ticket-id={ticketId} trip-id={tripId}
+          urgency={urgency} {...this.link ()} />
       );
     } else if (kind === 'trip-tickets') {
       return (
-        <TripTickets data={data} ticket-id={ticketId} trip-id={tripId} {...this.link ()} />
+        <TripTickets data={data} ticket-id={ticketId} trip-id={tripId}
+          {...this.link ()} />
       );
     } else if (kind === 'trip-ticket') {
       return (
-        <TripTicket data={data} ticket-id={ticketId} trip-id={tripId} warning={warning} {...this.link ()} />
+        <TripTicket data={data} ticket-id={ticketId} trip-id={tripId}
+          warning={warning} messenger={messenger} {...this.link ()} />
       );
     } else {
       throw new Error (`Trip component contains invalid kind: ${kind}`);
