@@ -53,7 +53,7 @@ export default class DragController extends React.Component {
     const dataMessengersContent = this.getDataMessengersContent ();
     const x = dataMessengersContent[messenger];
     const i = x.indexOf (ticketId);
-    x.splice (ticketId);
+    x.splice (i, 1);
     this.setDataMessengersContent (dataMessengersContent);
   }
 
@@ -82,6 +82,7 @@ export default class DragController extends React.Component {
         Time: source.Pick.Time,
         Description: 'Transit',
         Details: 'Zone de transit à définir',
+        Type: 'transit',
       },
       Count: source.Count,
       Weight: source.Weight,
@@ -98,6 +99,7 @@ export default class DragController extends React.Component {
         Time: source.Drop.Time,
         Description: 'Transit',
         Details: 'Zone de transit à définir',
+        Type: 'transit',
       },
       Drop: source.Drop,
       Count: source.Count,
@@ -120,8 +122,8 @@ export default class DragController extends React.Component {
     dataTrips[tripId2] = ticket2;
     this.setDataTrips (dataTrips);
 
-    // this.deleteMessengerTicket (tripId + '.pick', srcMessenger);
-    // this.deleteMessengerTicket (tripId + '.drop', dstMessenger);
+    this.deleteMessengerTicket (tripId + '.pick', srcMessenger);
+    this.deleteMessengerTicket (tripId + '.drop', srcMessenger);
     this.addMessengerTicket (tripId1 + '.pick', srcMessenger);
     this.addMessengerTicket (tripId1 + '.drop', srcMessenger);
     this.addMessengerTicket (tripId2 + '.pick', dstMessenger);
