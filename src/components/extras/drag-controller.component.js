@@ -22,13 +22,13 @@ export default class DragController extends React.Component {
     } else if (targetType === 'trip-ticket') {
       trip.setKind ('trip-ticket');
     }
-    trip.updateWarning ();
+    trip.updateWarning ();  // update warning if pick is under drop, or reverse
   }
 
   dragBegin (element, source) {
-    console.log ('>>>>>>>>>>>>>> DRAG');
-    console.dir (element);
-    console.dir (source);
+    // console.log ('>>>>>>>>>>>>>> DRAG');
+    // console.dir (element);
+    // console.dir (source);
     // const ticketId = element.dataset.ticketId;
     // const tripId   = element.dataset.tripId;
     // console.dir (ticketId);
@@ -43,20 +43,20 @@ export default class DragController extends React.Component {
   }
 
   dragEnd (element, target, source, sibling) {
-    console.log ('>>>>>>>>>>>>>> DROP');
-    console.dir (element);
-    console.dir (target);
-    console.dir (source);
-    console.dir (sibling);
+    // console.log ('>>>>>>>>>>>>>> DROP');
+    // console.dir (element);
+    // console.dir (target);
+    // console.dir (source);
+    // console.dir (sibling);
     const ticketType = element.dataset.ticketType;
     const ticketId   = element.dataset.ticketId;
     const tripId     = element.dataset.tripId;
     const targetType = target.dataset.dragSource;
     if (ticketType && ticketId && tripId && targetType) {
-      console.dir (ticketType);
-      console.dir (ticketId);
-      console.dir (tripId);
-      console.dir (targetType);
+      // console.dir (ticketType);
+      // console.dir (ticketId);
+      // console.dir (tripId);
+      // console.dir (targetType);
       window.document.trips[tripId].forEach ((value, key, map) => {
         if (key === ticketId) {
           this.changeTrip (value, ticketType, targetType);

@@ -69,14 +69,15 @@ export default class Trip extends React.Component {
       const node = ReactDOM.findDOMNode (value);
       if (node.dataset.ticketId === ticketId) {
         const warning = check (node);
-        this.setWarning (warning);
-        value.setWarning (warning);
+        this.setWarning (warning);   // set master
+        value.setWarning (warning);  // set brother
         return;
       }
     });
   }
 
   //  Set state.warning to true if pick is under the drop, or reverse.
+  //  Set always a pair of Trips (master and brother).
   updateWarning () {
     const ticketId = this.read ('ticket-id');
     const tripId   = this.read ('trip-id');
