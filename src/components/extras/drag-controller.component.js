@@ -12,7 +12,59 @@ export default class DragController extends React.Component {
     super (props);
   }
 
+  getDataMessengersContent () {
+    return window.document.dispatchMessengers.state.dataMessengersContent;
+  }
+
+  setDataMessengersContent (value) {
+    window.document.dispatchMessengers.setState ( {
+      dataMessengersContent: value
+    });
+  }
+
+  getDataGlueContent () {
+    return window.document.dispatchMessengers.state.dataGlueContent;
+  }
+
+  setDataGlueContent (value) {
+    window.document.dispatchMessengers.setState ( {
+      dataGlueContent: value
+    });
+  }
+
+  addTickets (ticketId) {
+    const messenger = 'san';
+    const t1 = ticketId.substring (0, ticketId.length - 5) + '.pick';
+    const t2 = ticketId.substring (0, ticketId.length - 5) + '.drop';
+    const dataMessengersContent = this.getDataMessengersContent ();
+    const x = dataMessengersContent[messenger];
+    x.push (t1);
+    x.push (t2);
+    this.setDataMessengersContent (dataMessengersContent);
+  }
+
+  deleteTickets (tripId) {
+    const dataGlueContent = this.getDataGlueContent ();
+    for (var glue of dataGlueContent) {
+      if (glue.tripId === tripId) {
+        glue.tripId = null;
+      }
+    }
+    this.setDataGlueContent (dataGlueContent);
+  }
+
+  changeToTripTickets (trip) {
+    trip.setKind ('trip-ticket');
+    const ticketId = trip.props['ticket-id'];
+    const tripId = trip.props['trip-id'];
+    if (ticketId.endsWith ('.both')) {
+      this.addTickets (ticketId);
+      this.deleteTickets (tripId);
+    }
+  }
+
   changeTrip (trip, srcType, targetType) {
+    console.log ('changeTrip ------------');
     if (srcType === 'trip-ticket' && targetType === 'trip-tickets') {
       // Nothing to do.
     } else if (targetType === 'trip-tickets') {
@@ -20,7 +72,7 @@ export default class DragController extends React.Component {
     } else if (targetType === 'trip-box') {
       trip.setKind ('trip-box');
     } else if (targetType === 'trip-ticket') {
-      trip.setKind ('trip-ticket');
+      this.changeToTripTickets (trip);
     }
     trip.updateWarning ();  // update warning if pick is under drop, or reverse
   }
