@@ -78,7 +78,7 @@ export default class DragController extends React.Component {
     const dataGlueContent = this.getDataGlueContent ();
     for (var glue of dataGlueContent) {
       if (glue.tripId === tripId) {
-        glue.tripId = null;
+        delete glue.tripId;
       }
     }
     this.setDataGlueContent (dataGlueContent);
