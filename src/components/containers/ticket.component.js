@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Action, ColorManipulator} from 'electrum';
 import {Unit} from 'electrum-theme';
 
@@ -14,9 +13,8 @@ export default class Ticket extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      hover:   false,
-      link:    false,
-      warning: false,
+      hover: false,
+      link:  false,
     };
   }
 
@@ -54,16 +52,6 @@ export default class Ticket extends React.Component {
     });
   }
 
-  getWarning () {
-    return this.state.warning;
-  }
-
-  setWarning (value) {
-    this.setState ( {
-      warning: value
-    });
-  }
-
   componentDidMount () {
     const inputTicketId = this.read ('ticket-id');
     const inputTripId   = this.read ('trip-id');
@@ -98,40 +86,9 @@ export default class Ticket extends React.Component {
     }
   }
 
-  updateNodeWarning (tripId, ticketId, check) {
-    window.document.tickets[tripId].forEach ((value, key, map) => {
-      const node = ReactDOM.findDOMNode (value);
-      if (node.dataset.ticketId === ticketId) {
-        const warning = check (node);
-        this.setWarning (warning);
-        value.setWarning (warning);
-        return;
-      }
-    });
-  }
-
-  //  Set state.warning to true if pick is under the drop, or reverse.
-  updateWarning () {
-    const ticketId = this.read ('ticket-id');
-    const tripId   = this.read ('trip-id');
-    const node = ReactDOM.findDOMNode (this);
-    if (ticketId.endsWith ('.pick')) {
-      const brotherId = ticketId.substring (0, ticketId.length - 5) + '.drop';
-      this.updateNodeWarning (tripId, brotherId, brother => {
-        return node.offsetTop > brother.offsetTop;  // true if pick is under drop
-      });
-    } else if (ticketId.endsWith ('.drop')) {
-      const brotherId = ticketId.substring (0, ticketId.length - 5) + '.pick';
-      this.updateNodeWarning (tripId, brotherId, brother => {
-        return node.offsetTop < brother.offsetTop;  // true if drop is over pick
-      });
-    }
-  }
-
   mouseIn (tripId) {
     this.setHover (true);
     this.search (tripId, true);
-    this.updateWarning ();  // TODO: with quick moves, update is not updated !
   }
 
   mouseOut (tripId) {
@@ -156,6 +113,7 @@ export default class Ticket extends React.Component {
     const inputTicketId   = this.read ('ticket-id');
     const inputTripId     = this.read ('trip-id');
     const inputHatch      = this.read ('hatch');
+    const inputWarning    = this.read ('warning');
 
     if (!inputTicketId) {
       throw new Error (`Undefined ticket ticket-id`);
@@ -170,7 +128,7 @@ export default class Ticket extends React.Component {
     const contentStyle  = this.mergeStyles ('content');
     const dragZoneStyle = this.mergeStyles ('dragZoneStyle');
 
-    if (this.getWarning ()) {
+    if (inputWarning) {  // pick under drop ?
       shapeStyle.fill = this.props.theme.palette.ticketWarningBackground;
     }
     if (this.getHover ()) {
@@ -246,6 +204,7 @@ export default class Ticket extends React.Component {
     const inputTicketId   = this.read ('ticket-id');
     const inputTripId     = this.read ('trip-id');
     const inputHatch      = this.read ('hatch');
+    const inputWarning    = this.read ('warning');
 
     if (!inputTicketId) {
       throw new Error (`Undefined ticket ticket-id`);
@@ -258,7 +217,7 @@ export default class Ticket extends React.Component {
     const rectContentHatchStyle = this.mergeStyles ('rectContentHatch');
     const dragZoneStyle         = this.mergeStyles ('dragZoneStyle');
 
-    if (this.getWarning ()) {
+    if (inputWarning) {  // pick under drop ?
       rectStyle.backgroundColor = this.props.theme.palette.ticketWarningBackground;
     }
     if (this.getHover ()) {

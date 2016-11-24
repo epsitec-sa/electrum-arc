@@ -22,6 +22,7 @@ export default class DragController extends React.Component {
     } else if (targetType === 'trip-ticket') {
       trip.setKind ('trip-ticket');
     }
+    trip.updateWarning ();
   }
 
   dragBegin (element, source) {

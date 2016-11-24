@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {TripBox, TripTicket, TripTickets} from '../../all-components.js';
 
 /******************************************************************************/
@@ -10,7 +11,8 @@ export default class Trip extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      kind: this.read ('kind'),
+      kind:    this.read ('kind'),
+      warning: false,
     };
   }
 
@@ -21,6 +23,16 @@ export default class Trip extends React.Component {
   setKind (value) {
     this.setState ( {
       kind: value
+    });
+  }
+
+  getWarning () {
+    return this.state.warning;
+  }
+
+  setWarning (value) {
+    this.setState ( {
+      warning: value
     });
   }
 
@@ -52,8 +64,39 @@ export default class Trip extends React.Component {
     }
   }
 
+  updateNodeWarning (tripId, ticketId, check) {
+    window.document.trips[tripId].forEach ((value, key, map) => {
+      const node = ReactDOM.findDOMNode (value);
+      if (node.dataset.ticketId === ticketId) {
+        const warning = check (node);
+        this.setWarning (warning);
+        value.setWarning (warning);
+        return;
+      }
+    });
+  }
+
+  //  Set state.warning to true if pick is under the drop, or reverse.
+  updateWarning () {
+    const ticketId = this.read ('ticket-id');
+    const tripId   = this.read ('trip-id');
+    const node = ReactDOM.findDOMNode (this);
+    if (ticketId.endsWith ('.pick')) {
+      const brotherId = ticketId.substring (0, ticketId.length - 5) + '.drop';
+      this.updateNodeWarning (tripId, brotherId, brother => {
+        return node.offsetTop > brother.offsetTop;  // true if pick is under drop
+      });
+    } else if (ticketId.endsWith ('.drop')) {
+      const brotherId = ticketId.substring (0, ticketId.length - 5) + '.pick';
+      this.updateNodeWarning (tripId, brotherId, brother => {
+        return node.offsetTop < brother.offsetTop;  // true if drop is over pick
+      });
+    }
+  }
+
   render () {
     const kind     = this.getKind ();
+    const warning  = this.getWarning ();
     const data     = this.read ('data');
     const tripId   = this.read ('trip-id');
     const ticketId = this.read ('ticket-id');
@@ -69,7 +112,7 @@ export default class Trip extends React.Component {
       );
     } else if (kind === 'trip-ticket') {
       return (
-        <TripTicket data={data} ticket-id={ticketId} trip-id={tripId} {...this.link ()} />
+        <TripTicket data={data} ticket-id={ticketId} trip-id={tripId} warning={warning} {...this.link ()} />
       );
     } else {
       throw new Error (`Trip component contains invalid kind: ${kind}`);
