@@ -64,11 +64,11 @@ export default class Trip extends React.Component {
     }
   }
 
-  updateNodeWarning (tripId, ticketId, check) {
+  updateWarningPair (tripId, brotherId, check) {
     window.document.trips[tripId].forEach ((value, key, map) => {
       const node = ReactDOM.findDOMNode (value);
-      if (node.dataset.ticketId === ticketId) {
-        const warning = check (node);
+      if (node.dataset.ticketId === brotherId) {  // brother founded ?
+        const warning = check (node);  // check if true or false
         this.setWarning (warning);   // set master
         value.setWarning (warning);  // set brother
         return;
@@ -79,17 +79,17 @@ export default class Trip extends React.Component {
   //  Set state.warning to true if pick is under the drop, or reverse.
   //  Set always a pair of Trips (master and brother).
   updateWarning () {
-    const ticketId = this.read ('ticket-id');
-    const tripId   = this.read ('trip-id');
+    const ticketId = this.read ('ticket-id');  // by example 'd1.pick'
+    const tripId   = this.read ('trip-id');    // by example 'd'
     const node = ReactDOM.findDOMNode (this);
     if (ticketId.endsWith ('.pick')) {
-      const brotherId = ticketId.substring (0, ticketId.length - 5) + '.drop';
-      this.updateNodeWarning (tripId, brotherId, brother => {
+      const brotherId = ticketId.substring (0, ticketId.length - 5) + '.drop';  // by example 'd1.drop'
+      this.updateWarningPair (tripId, brotherId, brother => {
         return node.offsetTop > brother.offsetTop;  // true if pick is under drop
       });
     } else if (ticketId.endsWith ('.drop')) {
-      const brotherId = ticketId.substring (0, ticketId.length - 5) + '.pick';
-      this.updateNodeWarning (tripId, brotherId, brother => {
+      const brotherId = ticketId.substring (0, ticketId.length - 5) + '.pick';  // by example 'd1.pick'
+      this.updateWarningPair (tripId, brotherId, brother => {
         return node.offsetTop < brother.offsetTop;  // true if drop is over pick
       });
     }
