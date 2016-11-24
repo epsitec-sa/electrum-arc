@@ -32,17 +32,39 @@ export default class DragController extends React.Component {
     });
   }
 
-  addTickets (ticketId, messenger) {
-    const t1 = ticketId.substring (0, ticketId.length - 5) + '.pick';
-    const t2 = ticketId.substring (0, ticketId.length - 5) + '.drop';
+  getDataTrips () {
+    return window.document.dispatchMessengers.state.dataTrips;
+  }
+
+  setDataTrips (value) {
+    window.document.dispatchMessengers.setState ( {
+      dataTrips: value
+    });
+  }
+
+  addMessengerTicket (ticketId, messenger) {
     const dataMessengersContent = this.getDataMessengersContent ();
     const x = dataMessengersContent[messenger];
-    x.push (t1);
-    x.push (t2);
+    x.push (ticketId);
     this.setDataMessengersContent (dataMessengersContent);
   }
 
-  deleteTickets (tripId) {
+  deleteMessengerTicket (ticketId, messenger) {
+    const dataMessengersContent = this.getDataMessengersContent ();
+    const x = dataMessengersContent[messenger];
+    const i = x.indexOf (ticketId);
+    x.splice (ticketId);
+    this.setDataMessengersContent (dataMessengersContent);
+  }
+
+  addTickets (ticketId, messenger) {
+    const t1 = ticketId.substring (0, ticketId.length - 5) + '.pick';
+    const t2 = ticketId.substring (0, ticketId.length - 5) + '.drop';
+    this.addMessengerTicket (t1, messenger);
+    this.addMessengerTicket (t2, messenger);
+  }
+
+  deleteGlueTicket (tripId) {
     const dataGlueContent = this.getDataGlueContent ();
     for (var glue of dataGlueContent) {
       if (glue.tripId === tripId) {
@@ -52,11 +74,58 @@ export default class DragController extends React.Component {
     this.setDataGlueContent (dataGlueContent);
   }
 
-  createTicket (messenger, type) {
-    const dataMessengersContent = this.getDataMessengersContent ();
-    const x = dataMessengersContent[messenger];
-    x.push ('xx' + type);
-    this.setDataMessengersContent (dataMessengersContent);
+  createTicketTransit1 (source) {
+    return {
+      Pick: source.Pick,
+      Drop:
+      {
+        Time: source.Pick.Time,
+        Description: 'Transit',
+        Details: 'Zone de transit à définir',
+      },
+      Count: source.Count,
+      Weight: source.Weight,
+      Price: source.Price,
+      Glyphs: source.Glyphs,
+      Product: source.Product,
+    };
+  }
+
+  createTicketTransit2 (source) {
+    return {
+      Pick:
+      {
+        Time: source.Drop.Time,
+        Description: 'Transit',
+        Details: 'Zone de transit à définir',
+      },
+      Drop: source.Drop,
+      Count: source.Count,
+      Weight: source.Weight,
+      Price: source.Price,
+      Glyphs: source.Glyphs,
+      Product: source.Product,
+    };
+  }
+
+  createTransit (tripId, srcMessenger, dstMessenger) {
+    const dataTrips = this.getDataTrips ();
+    const source = dataTrips[tripId];
+    const ticket1 = this.createTicketTransit1 (source);
+    const ticket2 = this.createTicketTransit2 (source);
+    const tripId1 = tripId + '1';
+    const tripId2 = tripId + '2';
+    // dataTrips[tripId] = null;
+    dataTrips[tripId1] = ticket1;
+    dataTrips[tripId2] = ticket2;
+    this.setDataTrips (dataTrips);
+
+    // this.deleteMessengerTicket (tripId + '.pick', srcMessenger);
+    // this.deleteMessengerTicket (tripId + '.drop', dstMessenger);
+    this.addMessengerTicket (tripId1 + '.pick', srcMessenger);
+    this.addMessengerTicket (tripId1 + '.drop', srcMessenger);
+    this.addMessengerTicket (tripId2 + '.pick', dstMessenger);
+    this.addMessengerTicket (tripId2 + '.drop', dstMessenger);
   }
 
   changeToTripTickets (trip, ticketMessenger, targetMessenger) {
@@ -65,10 +134,9 @@ export default class DragController extends React.Component {
     const tripId    = trip.props['trip-id'];
     if (ticketId.endsWith ('.both') && tripId && targetMessenger) {  // move from glue to messengers
       this.addTickets (ticketId, targetMessenger);
-      this.deleteTickets (tripId);
+      this.deleteGlueTicket (tripId);
     } else if (ticketMessenger && ticketMessenger !== targetMessenger) {  // move from messenger to a other messenger
-      this.createTicket (ticketMessenger, '.pick');
-      this.createTicket (targetMessenger, '.drop');
+      this.createTransit (tripId, ticketMessenger, targetMessenger);
     }
   }
 
