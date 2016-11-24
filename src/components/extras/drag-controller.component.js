@@ -52,26 +52,36 @@ export default class DragController extends React.Component {
     this.setDataGlueContent (dataGlueContent);
   }
 
-  changeToTripTickets (trip, targetMessenger) {
+  createTicket (messenger, type) {
+    const dataMessengersContent = this.getDataMessengersContent ();
+    const x = dataMessengersContent[messenger];
+    x.push ('xx' + type);
+    this.setDataMessengersContent (dataMessengersContent);
+  }
+
+  changeToTripTickets (trip, ticketMessenger, targetMessenger) {
     trip.setKind ('trip-ticket');
     const ticketId  = trip.props['ticket-id'];
     const tripId    = trip.props['trip-id'];
-    if (ticketId.endsWith ('.both') && tripId && targetMessenger) {
+    if (ticketId.endsWith ('.both') && tripId && targetMessenger) {  // move from glue to messengers
       this.addTickets (ticketId, targetMessenger);
       this.deleteTickets (tripId);
+    } else if (ticketMessenger && ticketMessenger !== targetMessenger) {  // move from messenger to a other messenger
+      this.createTicket (ticketMessenger, '.pick');
+      this.createTicket (targetMessenger, '.drop');
     }
   }
 
-  changeTrip (trip, srcType, targetType, targetMessenger) {
+  changeTrip (trip, ticketType, ticketMessenger, targetType, targetMessenger) {
     console.log ('changeTrip ------------');
-    if (srcType === 'trip-ticket' && targetType === 'trip-tickets') {
+    if (ticketType === 'trip-ticket' && targetType === 'trip-tickets') {
       // Nothing to do.
     } else if (targetType === 'trip-tickets') {
       trip.setKind ('trip-tickets');
     } else if (targetType === 'trip-box') {
       trip.setKind ('trip-box');
     } else if (targetType === 'trip-ticket') {
-      this.changeToTripTickets (trip, targetMessenger);
+      this.changeToTripTickets (trip, ticketMessenger, targetMessenger);
     }
     trip.updateWarning ();  // update warning if pick is under drop, or reverse
   }
@@ -100,6 +110,7 @@ export default class DragController extends React.Component {
     // console.dir (source);
     // console.dir (sibling);
     const ticketType      = element.dataset.ticketType;
+    const ticketMessenger = element.dataset.messenger;
     const ticketId        = element.dataset.ticketId;
     const tripId          = element.dataset.tripId;
     const targetType      = target.dataset.dragSource;
@@ -111,7 +122,7 @@ export default class DragController extends React.Component {
       // console.dir (targetType);
       window.document.trips[tripId].forEach ((value, key, map) => {
         if (key === ticketId) {
-          this.changeTrip (value, ticketType, targetType, targetMessenger);
+          this.changeTrip (value, ticketType, ticketMessenger, targetType, targetMessenger);
         }
       });
     }
