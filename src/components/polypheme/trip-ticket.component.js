@@ -115,8 +115,8 @@ export default class TripTicket extends React.Component {
 
   getDirectionGlyph (trip, type) {
     return (type === 'pick') ?
-    ((trip.Type === 'transit') ? 'circle-o' : 'circle') :
-    ((trip.Type === 'transit') ? 'square-o' : 'square');
+    ((trip.Type === 'transit') ? 'plus-square-o'  : 'plus-square') :
+    ((trip.Type === 'transit') ? 'minus-square-o' : 'minus-square');
   }
 
   renderLine (glyph, text) {

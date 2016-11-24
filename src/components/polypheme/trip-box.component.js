@@ -98,7 +98,7 @@ export default class TripBox extends React.Component {
                 <Label text={this.getTime (data.Trip.Pick.Time)} font-weight='bold' wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
-                <Label glyph='circle' z-index={0} glyph-color={directionColorPick} {...this.link ()} />
+                <Label glyph='plus-square' z-index={0} glyph-color={directionColorPick} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label text={data.Trip.Pick.Description} wrap='no' {...this.link ()} />
@@ -116,7 +116,7 @@ export default class TripBox extends React.Component {
                 <Label text={this.getTime (data.Trip.Drop.Time)} font-weight='bold' wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
-                <Label glyph='square' z-index={0} glyph-color={directionColorDrop} {...this.link ()} />
+                <Label glyph='minus-square' z-index={0} glyph-color={directionColorDrop} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label text={data.Trip.Drop.Description} wrap='no' {...this.link ()} />
