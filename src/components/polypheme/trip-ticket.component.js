@@ -50,7 +50,7 @@ export default class TripTicket extends React.Component {
   }
 
   mouseClick (event) {
-    if (event.ctrlKey && event.metaKey) {  // select/deselect ?
+    if (event.ctrlKey || event.metaKey) {  // select/deselect ?
       this.setSelected (!this.getSelected ());
     } else if (event.altKey) {  // dispatched/undispatched ?
       this.setHatch (!this.getHatch ());
