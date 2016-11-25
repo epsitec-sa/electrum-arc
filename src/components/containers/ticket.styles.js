@@ -231,7 +231,7 @@ export default function styles (theme, props) {
     top:             theme.shapes.ticketShadowShift,
     cursor:          inputCursor,
     transition:      theme.transitions.easeOut (),
-    borderRadius:    theme.shapes.ticketCornerRadius,
+    borderRadius:    theme.shapes.ticketRectRadius,
     backgroundColor: shadowColor,
   };
 
@@ -240,7 +240,7 @@ export default function styles (theme, props) {
     top:             '-' + theme.shapes.ticketShadowShift,
     cursor:          inputCursor,
     transition:      theme.transitions.easeOut (),
-    borderRadius:    theme.shapes.ticketCornerRadius,
+    borderRadius:    theme.shapes.ticketRectRadius,
     backgroundColor: backgroundColor,
   };
 
@@ -253,7 +253,7 @@ export default function styles (theme, props) {
     display:       'flex',
     flexDirection: 'row',
     transition:    theme.transitions.easeOut (),
-    borderRadius:  theme.shapes.ticketCornerRadius,
+    borderRadius:  theme.shapes.ticketRectRadius,
     background:    `repeating-linear-gradient(-45deg, ${hc}, ${hc} ${hs}, rgba(0,0,0,0) 0px, rgba(0,0,0,0) ${ht})`,
   };
 
@@ -267,7 +267,7 @@ export default function styles (theme, props) {
       height:          'calc(100% - ' + t2 + ')',
       top:             theme.shapes.ticketHoverThickness,
       left:            '0px',
-      borderRadius:    '0px 0px ' + theme.shapes.ticketCornerRadius + ' ' + theme.shapes.ticketCornerRadius,
+      borderRadius:    '0px 0px ' + theme.shapes.ticketRectRadius + ' ' + theme.shapes.ticketRectRadius,
       borderWidth:     theme.shapes.ticketHoverThickness,
       borderStyle:     'none solid solid solid',
       borderColor:     theme.palette.ticketHover,
@@ -280,7 +280,7 @@ export default function styles (theme, props) {
       height:          'calc(100% - ' + t2 + ')',
       top:             '0px',
       left:            '0px',
-      borderRadius:    theme.shapes.ticketCornerRadius + ' ' + theme.shapes.ticketCornerRadius + ' 0px 0px',
+      borderRadius:    theme.shapes.ticketRectRadius + ' ' + theme.shapes.ticketRectRadius + ' 0px 0px',
       borderWidth:     theme.shapes.ticketHoverThickness,
       borderStyle:     'solid solid none solid',
       borderColor:     theme.palette.ticketHover,
@@ -292,7 +292,7 @@ export default function styles (theme, props) {
       height:          'calc(100% - ' + t2 + ' + 1px)',
       top:             '0px',
       left:            '0px',
-      borderRadius:    theme.shapes.ticketCornerRadius,
+      borderRadius:    theme.shapes.ticketRectRadius,
       border:          theme.shapes.ticketHoverThickness + ' solid ' + theme.palette.ticketHover,
     };
   }

@@ -28,8 +28,8 @@ export default function styles (theme, props) {
   };
 
   //  Compute radius at left border, for including into left of Ticket kind='thin'.
-  const topLeftRadius    = (inputValue >= 90) ? '10px' : '0px';
-  const bottomLeftRadius = '10px';
+  const topLeftRadius    = (inputValue >= 90) ? theme.shapes.ticketRectRadius : '0px';
+  const bottomLeftRadius = theme.shapes.ticketRectRadius;
 
   const contentStyle = {
     height:          inputValue + '%',
