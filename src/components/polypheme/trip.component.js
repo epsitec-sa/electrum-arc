@@ -79,18 +79,20 @@ export default class Trip extends React.Component {
   //  Set state.warning to true if pick is under the drop, or reverse.
   //  Set always a pair of Trips (master and brother).
   updateWarning () {
-    const ticketId = this.read ('ticket-id');  // by example 'd1.pick'
-    const tripId   = this.read ('trip-id');    // by example 'd'
+    const ticketId  = this.read ('ticket-id');  // by example 'd1.pick'
+    const tripId    = this.read ('trip-id');    // by example 'd'
     const node = ReactDOM.findDOMNode (this);
     if (ticketId.endsWith ('.pick')) {
       const brotherId = ticketId.substring (0, ticketId.length - 5) + '.drop';  // by example 'd1.drop'
       this.updateWarningPair (tripId, brotherId, brother => {
-        return node.offsetTop > brother.offsetTop;  // true if pick is under drop
+        return node.dataset.messenger === brother.dataset.messenger &&
+          node.offsetTop > brother.offsetTop;  // true if pick is under drop
       });
     } else if (ticketId.endsWith ('.drop')) {
       const brotherId = ticketId.substring (0, ticketId.length - 5) + '.pick';  // by example 'd1.pick'
       this.updateWarningPair (tripId, brotherId, brother => {
-        return node.offsetTop < brother.offsetTop;  // true if drop is over pick
+        return node.dataset.messenger === brother.dataset.messenger &&
+          node.offsetTop < brother.offsetTop;  // true if drop is over pick
       });
     }
   }

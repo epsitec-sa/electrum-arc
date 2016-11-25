@@ -157,7 +157,7 @@ export default class DragController extends React.Component {
     this.addMessengerTicket (tripId2 + '.drop', dstMessenger);
   }
 
-  changeToTripTickets (trip, ticketMessenger, targetMessenger) {
+  changeToMessengers (trip, ticketMessenger, targetMessenger) {
     trip.setKind ('trip-ticket');
     const ticketId = trip.props['ticket-id'];
     const tripId   = trip.props['trip-id'];
@@ -170,16 +170,21 @@ export default class DragController extends React.Component {
     }
   }
 
+  changeToTripTickets (trip) {
+    const ticketId = trip.props['ticket-id'];
+    const tripId   = trip.props['trip-id'];
+  }
+
   changeTrip (trip, ticketType, ticketMessenger, targetType, targetMessenger) {
     console.log ('changeTrip ------------');
     if (ticketType === 'trip-ticket' && targetType === 'trip-tickets') {
-      // Nothing to do.
+      this.changeToTripTickets ();
     } else if (targetType === 'trip-tickets') {
       trip.setKind ('trip-tickets');
     } else if (targetType === 'trip-box') {
       trip.setKind ('trip-box');
     } else if (targetType === 'trip-ticket') {
-      this.changeToTripTickets (trip, ticketMessenger, targetMessenger);
+      this.changeToMessengers (trip, ticketMessenger, targetMessenger);
     }
     trip.updateWarning ();  // update warning if pick is under drop, or reverse
     // this.setRegen (this.getRegen () + 1);
