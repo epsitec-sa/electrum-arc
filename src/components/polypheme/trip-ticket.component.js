@@ -127,7 +127,8 @@ export default class TripTicket extends React.Component {
     }
     return (
       <Container kind='ticket-row' {...this.link ()} >
-        <Label glyph={glyph} glyph-color={color} width='25px' {...this.link ()} />
+        <Label width='15px' {...this.link ()} />
+        <Label glyph={glyph} glyph-color={color} width='35px' {...this.link ()} />
         <Label text={text} font-size={this.props.theme.shapes.ticketExtendedTextSize}
           wrap='yes' grow='1' {...this.link ()} />
       </Container>
