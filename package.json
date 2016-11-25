@@ -31,7 +31,9 @@
     "electrum-theme": "^4.4.1",
     "leaflet": "^0.7.7",
     "react-dragula": "^1.1.17",
+    "react-redux": "^4.4.6",
     "react-split-pane": "^0.1.51",
+    "redux": "^3.6.0",
     "velocity-animate": "^1.2.3"
   },
   "devDependencies": {
