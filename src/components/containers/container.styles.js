@@ -583,6 +583,7 @@ export default function styles (theme, props) {
     flexDirection   = 'row';
     flexGrow        = 1;
     backgroundColor = theme.palette.ticketsBackground;
+    overflowY       = 'auto';
   }
 
   if (inputKind === 'ticket-row') {
