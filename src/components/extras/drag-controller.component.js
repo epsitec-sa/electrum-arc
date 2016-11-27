@@ -12,93 +12,41 @@ export default class DragController extends React.Component {
     super (props);
   }
 
-  getDataMessengersContent () {
-    return window.document.dispatchMessengers.state.dataMessengersContent;
-  }
-
-  setDataMessengersContent (value) {
-    window.document.dispatchMessengers.setState ( {
-      dataMessengersContent: value
+  addDispatch (ticketId, messenger) {
+    window.document.reducer (window.document.data, {
+      type:      'ADD_DISPATCH',
+      ticketId:  ticketId,
+      messenger: messenger,
     });
   }
 
-  getDataTripBoxContent () {
-    return window.document.dispatchMessengers.state.dataTripBoxContent;
-  }
-
-  setDataTripBoxContent (value) {
-    window.document.dispatchMessengers.setState ( {
-      dataTripBoxContent: value
+  deleteDispatch (ticketId, messenger) {
+    window.document.reducer (window.document.data, {
+      type:      'DELETE_DISPATCH',
+      ticketId:  ticketId,
+      messenger: messenger,
     });
-  }
-
-  getDataGlueContent () {
-    return window.document.dispatchMessengers.state.dataGlueContent;
-  }
-
-  setDataGlueContent (value) {
-    window.document.dispatchMessengers.setState ( {
-      dataGlueContent: value
-    });
-  }
-
-  getDataTrips () {
-    return window.document.dispatchMessengers.state.dataTrips;
-  }
-
-  setDataTrips (value) {
-    window.document.dispatchMessengers.setState ( {
-      dataTrips: value
-    });
-  }
-
-  getRegen () {
-    return window.document.dispatchMessengers.state.regen;
-  }
-
-  setRegen (value) {
-    window.document.dispatchMessengers.setState ( {
-      regen: value
-    });
-  }
-
-  addMessengerTicket (ticketId, messenger) {
-    const dataMessengersContent = this.getDataMessengersContent ();
-    const x = dataMessengersContent[messenger];
-    x.push (ticketId);
-    this.setDataMessengersContent (dataMessengersContent);
-  }
-
-  deleteMessengerTicket (ticketId, messenger) {
-    const dataMessengersContent = this.getDataMessengersContent ();
-    const x = dataMessengersContent[messenger];
-    const i = x.indexOf (ticketId);
-    x.splice (i, 1);
-    this.setDataMessengersContent (dataMessengersContent);
   }
 
   addTickets (ticketId, messenger) {
     const t1 = ticketId.substring (0, ticketId.length - 5) + '.pick';
     const t2 = ticketId.substring (0, ticketId.length - 5) + '.drop';
-    this.addMessengerTicket (t1, messenger);
-    this.addMessengerTicket (t2, messenger);
+    this.addDispatch (t1, messenger);
+    this.addDispatch (t2, messenger);
   }
 
-  deleteGlueTicket (tripId) {
-    const dataGlueContent = this.getDataGlueContent ();
-    for (var glue of dataGlueContent) {
-      if (glue.tripId === tripId) {
-        delete glue.tripId;
-      }
-    }
-    this.setDataGlueContent (dataGlueContent);
+  deleteDeskTicket (tripId) {
+    window.document.reducer (window.document.data, {
+      type:   'DELETE_DESK',
+      tripId: tripId,
+    });
   }
 
-  deleteTripBoxTicket (tripId) {
-    const dataTripBoxContent = this.getDataTripBoxContent ();
-    const i = dataTripBoxContent.indexOf (tripId);
-    dataTripBoxContent.splice (i, 1);
-    this.setDataTripBoxContent (dataTripBoxContent);
+  deleteMissionTicket (tripId) {
+    window.document.reducer (window.document.data, {
+      type:   'DELETE_MISSION',
+      tripId: tripId,
+    });
   }
 
   createTripTransit1 (source) {
@@ -157,14 +105,14 @@ export default class DragController extends React.Component {
     this.addMessengerTicket (tripId2 + '.drop', dstMessenger);
   }
 
-  changeToMessengers (trip, ticketMessenger, targetMessenger) {
+  changeToDispatch (trip, ticketMessenger, targetMessenger) {
     trip.setKind ('trip-ticket');
     const ticketId = trip.props['ticket-id'];
     const tripId   = trip.props['trip-id'];
-    if (ticketId.endsWith ('.both') && tripId && targetMessenger) {  // move from glue to messengers ?
+    if (ticketId.endsWith ('.both') && tripId && targetMessenger) {  // move from desk to messengers ?
       this.addTickets (ticketId, targetMessenger);
-      this.deleteGlueTicket (tripId);     // remove source if in glue...
-      this.deleteTripBoxTicket (tripId);  // ...or remove source if in box
+      this.deleteDeskTicket (tripId);     // remove source if in desk...
+      this.deleteMissionTicket (tripId);  // ...or remove source if in box
     } else if (ticketMessenger && ticketMessenger !== targetMessenger) {  // move from messenger to a other messenger ?
       this.createTransit (tripId, ticketMessenger, targetMessenger);
     }
@@ -184,7 +132,7 @@ export default class DragController extends React.Component {
     } else if (targetType === 'missions') {
       trip.setKind ('trip-box');
     } else if (targetType === 'dispatch') {
-      this.changeToMessengers (trip, ticketMessenger, targetMessenger);
+      this.changeToDispatch (trip, ticketMessenger, targetMessenger);
     }
     trip.updateWarning ();  // update warning if pick is under drop, or reverse
     // this.setRegen (this.getRegen () + 1);
