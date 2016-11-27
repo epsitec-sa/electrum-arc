@@ -177,13 +177,13 @@ export default class DragController extends React.Component {
 
   changeTrip (trip, ticketType, ticketMessenger, targetType, targetMessenger) {
     console.log ('changeTrip ------------');
-    if (ticketType === 'trip-ticket' && targetType === 'trip-tickets') {
+    if (ticketType === 'dispatch' && targetType === 'desk') {
       this.changeToTripTickets ();
-    } else if (targetType === 'trip-tickets') {
+    } else if (targetType === 'desk') {
       trip.setKind ('trip-tickets');
-    } else if (targetType === 'trip-box') {
+    } else if (targetType === 'missions') {
       trip.setKind ('trip-box');
-    } else if (targetType === 'trip-ticket') {
+    } else if (targetType === 'dispatch') {
       this.changeToMessengers (trip, ticketMessenger, targetMessenger);
     }
     trip.updateWarning ();  // update warning if pick is under drop, or reverse

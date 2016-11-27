@@ -577,7 +577,7 @@ export default function styles (theme, props) {
     overflowY       = 'auto';
   }
 
-  if (inputKind === 'tickets-basket') {
+  if (inputKind === 'tickets-desk') {
     position        = 'relative';
     display         = 'flex';
     flexDirection   = 'row';
