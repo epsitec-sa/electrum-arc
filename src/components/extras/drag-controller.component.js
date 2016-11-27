@@ -28,27 +28,28 @@ export default class DragController extends React.Component {
     });
   }
 
-  addDispatch (ticketId, messenger) {
+  addDispatch (messenger, index, ticketId) {
     window.document.reducer (window.document.data, {
       type:      'ADD_DISPATCH',
-      ticketId:  ticketId,
       messenger: messenger,
+      index:     index,
+      ticketId:  ticketId,
     });
   }
 
-  deleteDispatch (ticketId, messenger) {
+  deleteDispatch (messenger, ticketId) {
     window.document.reducer (window.document.data, {
       type:      'DELETE_DISPATCH',
-      ticketId:  ticketId,
       messenger: messenger,
+      ticketId:  ticketId,
     });
   }
 
-  addTickets (ticketId, messenger) {
+  addTickets (ticketId, messenger, targetIndex) {
     const t1 = ticketId.substring (0, ticketId.length - 5) + '.pick';
     const t2 = ticketId.substring (0, ticketId.length - 5) + '.drop';
-    this.addDispatch (t1, messenger);
-    this.addDispatch (t2, messenger);
+    this.addDispatch (messenger, targetIndex + 0, t1);
+    this.addDispatch (messenger, targetIndex + 1, t2);
   }
 
   deleteDeskTicket (tripId) {
@@ -101,39 +102,46 @@ export default class DragController extends React.Component {
     };
   }
 
-  createTransit (tripId, srcMessenger, dstMessenger) {
-    const dataTrips = window.document.data.trips;
-    const source = dataTrips[tripId];
-    const trip1 = this.createTripTransit1 (source);
-    const trip2 = this.createTripTransit2 (source);
-    const tripId1 = tripId + '1';
-    const tripId2 = tripId + '2';
-    this.deleteTrip (tripId);
-    this.addTrip (tripId1, trip1);
-    this.addTrip (tripId2, trip2);
+  createTransit (ticketId, tripId, srcMessenger, index, dstMessenger, targetIndex) {
+    if (ticketId.endsWith ('.drop')) {
+      const source = window.document.data.trips[tripId];
+      const trip1 = this.createTripTransit1 (source);
+      const trip2 = this.createTripTransit2 (source);
+      const tripId1 = tripId + '1';
+      const tripId2 = tripId + '2';
+      this.deleteTrip (tripId);
+      this.addTrip (tripId1, trip1);
+      this.addTrip (tripId2, trip2);
 
-    this.deleteDispatch (tripId + '.pick', srcMessenger);
-    this.deleteDispatch (tripId + '.drop', srcMessenger);
-    this.addDispatch (tripId1 + '.pick', srcMessenger);
-    this.addDispatch (tripId1 + '.drop', srcMessenger);
-    this.addDispatch (tripId2 + '.pick', dstMessenger);
-    this.addDispatch (tripId2 + '.drop', dstMessenger);
+      const i = window.document.data.dispatch[srcMessenger].indexOf (tripId + '.pick');
+      this.deleteDispatch (srcMessenger, tripId + '.pick');
+      this.deleteDispatch (srcMessenger, tripId + '.drop');
+      this.addDispatch (srcMessenger, i, tripId1 + '.pick');  // re-insert at same place
+      this.addDispatch (srcMessenger, index, tripId1 + '.drop');  // re-insert at same place
+      this.addDispatch (dstMessenger, targetIndex + 0, tripId2 + '.pick');
+      this.addDispatch (dstMessenger, targetIndex + 1, tripId2 + '.drop');
+    }
   }
 
-  changeToDispatch (ticketMessenger, ticketId, tripId, index, targetMessenger) {
+  changeToDispatch (ticketMessenger, ticketId, tripId, index, targetMessenger, targetIndex) {
     if (ticketId.endsWith ('.both') && tripId && targetMessenger) {  // move from desk to messengers ?
-      this.addTickets (ticketId, targetMessenger);
+      this.addTickets (ticketId, targetMessenger, targetIndex);
       this.deleteDeskTicket (tripId);     // remove source if in desk...
       this.deleteMissionTicket (tripId);  // ...or remove source if in missions
     } else if (ticketMessenger && ticketMessenger !== targetMessenger) {  // move from messenger to a other messenger ?
-      this.createTransit (tripId, ticketMessenger, targetMessenger);
+      this.createTransit (ticketId, tripId, ticketMessenger, index, targetMessenger, targetIndex);
+    } else {  // move into a messenger ?
+      if (ticketMessenger === targetMessenger && targetIndex !== -1) {
+        this.deleteDispatch (ticketMessenger, ticketId);
+        this.addDispatch (ticketMessenger, targetIndex, ticketId);
+      }
     }
   }
 
   changeToTripTickets () {
   }
 
-  changeTrip (ticketType, ticketMessenger, ticketId, tripId, index, targetType, targetMessenger) {
+  changeTrip (ticketType, ticketMessenger, ticketId, tripId, index, targetType, targetMessenger, targetIndex) {
     console.log ('changeTrip ------------');
     if (ticketType === 'dispatch' && targetType === 'desk') {
       this.changeToTripTickets ();
@@ -142,9 +150,8 @@ export default class DragController extends React.Component {
     } else if (targetType === 'missions') {
       this.changeToMissions ();
     } else if (targetType === 'dispatch') {
-      this.changeToDispatch (ticketMessenger, ticketId, tripId, index, targetMessenger);
+      this.changeToDispatch (ticketMessenger, ticketId, tripId, index, targetMessenger, targetIndex);
     }
-    // trip.updateWarning ();  // update warning if pick is under drop, or reverse
   }
 
   drop (element, target, source, sibling) {
@@ -155,8 +162,21 @@ export default class DragController extends React.Component {
     const index           = element.dataset.index;
     const targetType      = target.dataset.dragSource;
     const targetMessenger = target.dataset.messenger;
+    let targetIndex = -1;
+    if (sibling === null) {
+      // If no sibling, use last element.
+      targetIndex = target.children.length - 1;
+    } else {
+      targetIndex = sibling.dataset.index;
+      if (targetIndex > index) {
+        targetIndex--;
+      }
+    }
     if (ticketType && ticketId && tripId && targetType) {
-      this.changeTrip (ticketType, ticketMessenger, ticketId, tripId, index, targetType, targetMessenger);
+      console.log (index);
+      console.log (targetIndex);
+      this.changeTrip (ticketType, ticketMessenger, ticketId, tripId, parseInt (index),
+        targetType, targetMessenger, parseInt (targetIndex));
     }
     // window.document.dispatch.forceUpdate ();
   }
