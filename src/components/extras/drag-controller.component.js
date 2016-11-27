@@ -120,9 +120,7 @@ export default class DragController extends React.Component {
     this.addDispatch (tripId2 + '.drop', dstMessenger);
   }
 
-  changeToDispatch (trip, ticketMessenger, targetMessenger) {
-    const ticketId = trip.props['ticket-id'];
-    const tripId   = trip.props['trip-id'];
+  changeToDispatch (ticketMessenger, ticketId, tripId, index, targetMessenger) {
     if (ticketId.endsWith ('.both') && tripId && targetMessenger) {  // move from desk to messengers ?
       this.addTickets (ticketId, targetMessenger);
       this.deleteDeskTicket (tripId);     // remove source if in desk...
@@ -132,21 +130,21 @@ export default class DragController extends React.Component {
     }
   }
 
-  changeToTripTickets (trip) {
-    const ticketId = trip.props['ticket-id'];
-    const tripId   = trip.props['trip-id'];
+  changeToTripTickets () {
   }
 
-  changeTrip (trip, ticketType, ticketMessenger, targetType, targetMessenger) {
+  changeTrip (ticketType, ticketMessenger, ticketId, tripId, index, targetType, targetMessenger) {
     console.log ('changeTrip ------------');
     if (ticketType === 'dispatch' && targetType === 'desk') {
       this.changeToTripTickets ();
     } else if (targetType === 'desk') {
+      this.changeToDesk ();
     } else if (targetType === 'missions') {
+      this.changeToMissions ();
     } else if (targetType === 'dispatch') {
-      this.changeToDispatch (trip, ticketMessenger, targetMessenger);
+      this.changeToDispatch (ticketMessenger, ticketId, tripId, index, targetMessenger);
     }
-    trip.updateWarning ();  // update warning if pick is under drop, or reverse
+    // trip.updateWarning ();  // update warning if pick is under drop, or reverse
   }
 
   drop (element, target, source, sibling) {
@@ -154,14 +152,11 @@ export default class DragController extends React.Component {
     const ticketMessenger = element.dataset.messenger;
     const ticketId        = element.dataset.ticketId;
     const tripId          = element.dataset.tripId;
+    const index           = element.dataset.index;
     const targetType      = target.dataset.dragSource;
     const targetMessenger = target.dataset.messenger;
     if (ticketType && ticketId && tripId && targetType) {
-      window.document.trips[tripId].forEach ((value, key) => {
-        if (key === ticketId) {
-          this.changeTrip (value, ticketType, ticketMessenger, targetType, targetMessenger);
-        }
-      });
+      this.changeTrip (ticketType, ticketMessenger, ticketId, tripId, index, targetType, targetMessenger);
     }
     // window.document.dispatch.forceUpdate ();
   }

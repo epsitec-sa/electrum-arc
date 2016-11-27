@@ -86,7 +86,7 @@ export default class TripBox extends React.Component {
         <Ticket kind='thin' drag-handle='TripTicket' no-drag={noDrag}
           height={height} margin-bottom='10px'
           selected={selected} color={color} cursor={cursor} grow='1'
-          ticket-type='trip-box' ticket-id={ticketId} trip-id={tripId}
+          data={data} ticket-type='trip-box' ticket-id={ticketId} trip-id={tripId}
           {...this.link ()} >
           <Container kind='thin-column' border='right' width='10px' {...this.link ()} >
             <Gauge value={data.Trip.Urgency} {...this.link ()} />

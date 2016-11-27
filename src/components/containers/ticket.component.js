@@ -109,12 +109,12 @@ export default class Ticket extends React.Component {
     const disabled = Action.isDisabled (state);
     const inputDragHandle = this.read ('drag-handle');
     const inputNoDrag     = this.read ('no-drag');
+    const inputData       = this.read ('data');
     const inputTicketType = this.read ('ticket-type');
     const inputTicketId   = this.read ('ticket-id');
     const inputTripId     = this.read ('trip-id');
     const inputMessenger  = this.read ('messenger');
     const inputHatch      = this.read ('hatch');
-    const inputWarning    = this.read ('warning');
 
     if (!inputTicketId) {
       throw new Error (`Undefined ticket ticket-id`);
@@ -129,7 +129,7 @@ export default class Ticket extends React.Component {
     const contentStyle  = this.mergeStyles ('content');
     const dragZoneStyle = this.mergeStyles ('dragZoneStyle');
 
-    if (inputWarning) {  // pick under drop ?
+    if (inputData.warning) {  // pick under drop ?
       shapeStyle.fill = this.props.theme.palette.ticketWarningBackground;
     }
     if (this.getHover ()) {
@@ -177,6 +177,7 @@ export default class Ticket extends React.Component {
         data-ticket-id   = {inputTicketId}
         data-trip-id     = {inputTripId}
         data-messenger   = {inputMessenger}
+        data-index       = {inputData.index}
         >
         {htmlShadow}
         {htmlShape}
@@ -202,12 +203,12 @@ export default class Ticket extends React.Component {
     const disabled = Action.isDisabled (state);
     const inputDragHandle = this.read ('drag-handle');
     const inputNoDrag     = this.read ('no-drag');
+    const inputData       = this.read ('data');
     const inputTicketType = this.read ('ticket-type');
     const inputTicketId   = this.read ('ticket-id');
     const inputTripId     = this.read ('trip-id');
     const inputMessenger  = this.read ('messenger');
     const inputHatch      = this.read ('hatch');
-    const inputWarning    = this.read ('warning');
 
     if (!inputTicketId) {
       throw new Error (`Undefined ticket ticket-id`);
@@ -220,7 +221,7 @@ export default class Ticket extends React.Component {
     const rectContentHatchStyle = this.mergeStyles ('rectContentHatch');
     const dragZoneStyle         = this.mergeStyles ('dragZoneStyle');
 
-    if (inputWarning) {  // pick under drop ?
+    if (inputData.warning) {  // pick under drop ?
       rectStyle.backgroundColor = this.props.theme.palette.ticketWarningBackground;
     }
     if (this.getHover ()) {
@@ -234,6 +235,7 @@ export default class Ticket extends React.Component {
         data-ticket-id   = {inputTicketId}
         data-trip-id     = {inputTripId}
         data-messenger   = {inputMessenger}
+        data-index       = {inputData.index}
         >
         <div
           disabled         = {disabled}

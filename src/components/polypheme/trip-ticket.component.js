@@ -162,7 +162,6 @@ export default class TripTicket extends React.Component {
     const ticketId  = this.read ('ticket-id');
     const tripId    = this.read ('trip-id');
     const messenger = this.read ('messenger');
-    const warning   = this.read ('warning');
 
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       throw new Error ('TripTicket without data');
@@ -178,9 +177,9 @@ export default class TripTicket extends React.Component {
 
       return (
         <Ticket width={width} height={height} selected={selected ? 'true' : 'false'}
-          kind='ticket' shape={shape} type={type} color={color} warning={warning}
+          kind='ticket' shape={shape} type={type} color={color}
           drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch ? 'true' : 'false'}
-          ticket-type='trip-ticket' ticket-id={ticketId} trip-id={tripId} messenger={messenger}
+          data={data} ticket-type='trip-ticket' ticket-id={ticketId} trip-id={tripId} messenger={messenger}
           onMouseClick={(e) => this.mouseClick (e)}
           {...this.link ()} >
           <Container kind='ticket-column' grow='1' {...this.link ()} >
@@ -213,7 +212,6 @@ export default class TripTicket extends React.Component {
     const ticketId  = this.read ('ticket-id');
     const tripId    = this.read ('trip-id');
     const messenger = this.read ('messenger');
-    const warning   = this.read ('warning');
 
     if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
       throw new Error ('TripTicket without data');
@@ -229,9 +227,9 @@ export default class TripTicket extends React.Component {
 
       return (
         <Ticket width={width} selected={selected ? 'true' : 'false'}
-          kind='rect' shape={shape} type={type} color={color} warning={warning}
+          kind='rect' shape={shape} type={type} color={color}
           drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch ? 'true' : 'false'}
-          ticket-type='trip-ticket' ticket-id={ticketId} trip-id={tripId} messenger={messenger}
+          data={data} ticket-type='trip-ticket' ticket-id={ticketId} trip-id={tripId} messenger={messenger}
           onMouseClick={(e) => this.mouseClick (e)}
           {...this.link ()} >
           <Container kind='ticket-column' grow='1' {...this.link ()} >
