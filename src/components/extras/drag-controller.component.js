@@ -10,6 +10,7 @@ export default class DragController extends React.Component {
 
   constructor (props) {
     super (props);
+    this.drake = null;
   }
 
   addDispatch (ticketId, messenger) {
@@ -135,32 +136,10 @@ export default class DragController extends React.Component {
       this.changeToDispatch (trip, ticketMessenger, targetMessenger);
     }
     trip.updateWarning ();  // update warning if pick is under drop, or reverse
-    // this.setRegen (this.getRegen () + 1);
+    window.document.dispatch.regen++;
   }
 
-  dragBegin (element, source) {
-    // console.log ('>>>>>>>>>>>>>> DRAG');
-    // console.dir (element);
-    // console.dir (source);
-    // const ticketId = element.dataset.ticketId;
-    // const tripId   = element.dataset.tripId;
-    // console.dir (ticketId);
-    // console.dir (tripId);
-    // window.document.trips[tripId].forEach ((value, key, map) => {
-    //   if (key === ticketId) {
-    //     console.dir (value);
-    //     const ticket = value;
-    //     ticket.setKind ('trip-box');
-    //   }
-    // });
-  }
-
-  dragEnd (element, target, source, sibling) {
-    // console.log ('>>>>>>>>>>>>>> DROP');
-    // console.dir (element);
-    // console.dir (target);
-    // console.dir (source);
-    // console.dir (sibling);
+  drop (element, target, source, sibling) {
     const ticketType      = element.dataset.ticketType;
     const ticketMessenger = element.dataset.messenger;
     const ticketId        = element.dataset.ticketId;
@@ -168,10 +147,6 @@ export default class DragController extends React.Component {
     const targetType      = target.dataset.dragSource;
     const targetMessenger = target.dataset.messenger;
     if (ticketType && ticketId && tripId && targetType) {
-      // console.dir (ticketType);
-      // console.dir (ticketId);
-      // console.dir (tripId);
-      // console.dir (targetType);
       window.document.trips[tripId].forEach ((value, key) => {
         if (key === ticketId) {
           this.changeTrip (value, ticketType, ticketMessenger, targetType, targetMessenger);
@@ -185,21 +160,25 @@ export default class DragController extends React.Component {
     const controllerName = this.read ('name');
     const direction      = this.read ('direction');
     const dragHandle     = this.read ('drag-handle');
-    let drake;
     if (dragHandle) {
-      drake = dragula ([], {
+      this.drake = dragula ([], {
         moves:     (el, container, handle) => this.movesWithHandle (handle),
         invalid:   (el, handle) => this.isInvalid (handle),
         direction: direction,
       });
     } else {
-      drake = dragula ([], {
+      this.drake = dragula ([], {
         invalid:   (el) => this.isInvalid (el),
         direction: direction,
       });
     }
-    drake.on ('drag', (element, source) => this.dragBegin (element, source));
-    drake.on ('drop', (element, target, source, sibling) => this.dragEnd (element, target, source, sibling));
+    this.drake.on ('drop', (element, target, source, sibling) => this.drop (element, target, source, sibling));
+    // this.drake.on ('dragEnd', () => console.log ('dragEnd'));
+    // this.drake.on ('remove', () => console.log ('remove'));
+    // this.drake.on ('shadow', () => console.log ('shadow'));
+    // this.drake.on ('over', () => console.log ('over'));
+    // this.drake.on ('out', () => console.log ('out'));
+    // this.drake.on ('cloned', () => console.log ('cloned'));
 
     // Configure auto-scroll
     /*autoScroll ([
@@ -216,7 +195,7 @@ export default class DragController extends React.Component {
 
     // find and add existing containers in dom
     const containersNodes = document.querySelectorAll (`[data-drag-container-for="${controllerName}"]`);
-    containersNodes.forEach (c => drake.containers.push (c));
+    containersNodes.forEach (c => this.drake.containers.push (c));
   }
 
   componentDidMount () {
