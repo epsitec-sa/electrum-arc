@@ -13,6 +13,21 @@ export default class DragController extends React.Component {
     this.drake = null;
   }
 
+  addTrip (tripId, trip) {
+    window.document.reducer (window.document.data, {
+      type:   'ADD_TRIP',
+      tripId: tripId,
+      trip:   trip,
+    });
+  }
+
+  deleteTrip (tripId) {
+    window.document.reducer (window.document.data, {
+      type:   'DELETE_TRIP',
+      tripId: tripId,
+    });
+  }
+
   addDispatch (ticketId, messenger) {
     window.document.reducer (window.document.data, {
       type:      'ADD_DISPATCH',
@@ -87,23 +102,22 @@ export default class DragController extends React.Component {
   }
 
   createTransit (tripId, srcMessenger, dstMessenger) {
-    const dataTrips = this.getDataTrips ();
+    const dataTrips = window.document.data.trips;
     const source = dataTrips[tripId];
     const trip1 = this.createTripTransit1 (source);
     const trip2 = this.createTripTransit2 (source);
     const tripId1 = tripId + '1';
     const tripId2 = tripId + '2';
-    delete dataTrips[tripId];
-    dataTrips[tripId1] = trip1;
-    dataTrips[tripId2] = trip2;
-    this.setDataTrips (dataTrips);
+    this.deleteTrip (tripId);
+    this.addTrip (tripId1, trip1);
+    this.addTrip (tripId2, trip2);
 
-    this.deleteMessengerTicket (tripId + '.pick', srcMessenger);
-    this.deleteMessengerTicket (tripId + '.drop', srcMessenger);
-    this.addMessengerTicket (tripId1 + '.pick', srcMessenger);
-    this.addMessengerTicket (tripId1 + '.drop', srcMessenger);
-    this.addMessengerTicket (tripId2 + '.pick', dstMessenger);
-    this.addMessengerTicket (tripId2 + '.drop', dstMessenger);
+    this.deleteDispatch (tripId + '.pick', srcMessenger);
+    this.deleteDispatch (tripId + '.drop', srcMessenger);
+    this.addDispatch (tripId1 + '.pick', srcMessenger);
+    this.addDispatch (tripId1 + '.drop', srcMessenger);
+    this.addDispatch (tripId2 + '.pick', dstMessenger);
+    this.addDispatch (tripId2 + '.drop', dstMessenger);
   }
 
   changeToDispatch (trip, ticketMessenger, targetMessenger) {
@@ -136,7 +150,7 @@ export default class DragController extends React.Component {
       this.changeToDispatch (trip, ticketMessenger, targetMessenger);
     }
     trip.updateWarning ();  // update warning if pick is under drop, or reverse
-    window.document.dispatch.regen++;
+    // window.document.dispatch.regen++;
   }
 
   drop (element, target, source, sibling) {
