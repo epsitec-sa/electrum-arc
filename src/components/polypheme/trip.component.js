@@ -11,19 +11,8 @@ export default class Trip extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      kind:    this.read ('kind'),
       warning: false,
     };
-  }
-
-  getKind () {
-    return this.state.kind;
-  }
-
-  setKind (value) {
-    this.setState ( {
-      kind: value
-    });
   }
 
   getWarning () {
@@ -98,8 +87,8 @@ export default class Trip extends React.Component {
   }
 
   render () {
-    const kind      = this.getKind ();
     const warning   = this.getWarning ();
+    const kind      = this.read ('kind');
     const data      = this.read ('data');
     const tripId    = this.read ('trip-id');
     const ticketId  = this.read ('ticket-id');

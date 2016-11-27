@@ -121,13 +121,12 @@ export default class DragController extends React.Component {
   }
 
   changeToDispatch (trip, ticketMessenger, targetMessenger) {
-    trip.setKind ('trip-ticket');
     const ticketId = trip.props['ticket-id'];
     const tripId   = trip.props['trip-id'];
     if (ticketId.endsWith ('.both') && tripId && targetMessenger) {  // move from desk to messengers ?
       this.addTickets (ticketId, targetMessenger);
       this.deleteDeskTicket (tripId);     // remove source if in desk...
-      this.deleteMissionTicket (tripId);  // ...or remove source if in box
+      this.deleteMissionTicket (tripId);  // ...or remove source if in missions
     } else if (ticketMessenger && ticketMessenger !== targetMessenger) {  // move from messenger to a other messenger ?
       this.createTransit (tripId, ticketMessenger, targetMessenger);
     }
@@ -143,14 +142,11 @@ export default class DragController extends React.Component {
     if (ticketType === 'dispatch' && targetType === 'desk') {
       this.changeToTripTickets ();
     } else if (targetType === 'desk') {
-      trip.setKind ('trip-tickets');
     } else if (targetType === 'missions') {
-      trip.setKind ('trip-box');
     } else if (targetType === 'dispatch') {
       this.changeToDispatch (trip, ticketMessenger, targetMessenger);
     }
     trip.updateWarning ();  // update warning if pick is under drop, or reverse
-    // window.document.dispatch.regen++;
   }
 
   drop (element, target, source, sibling) {
@@ -167,6 +163,7 @@ export default class DragController extends React.Component {
         }
       });
     }
+    // window.document.dispatch.forceUpdate ();
   }
 
   initDragula () {

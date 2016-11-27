@@ -132,7 +132,6 @@ export default class Container extends React.Component {
     const inputTicketId       = this.read ('ticket-id');
     const inputTripId         = this.read ('trip-id');
     const inputMessenger      = this.read ('messenger');
-    const inputMouseMove      = this.read ('onMouseMove');
 
     const boxStyle      = this.mergeStyles ('box');
     const triangleStyle = this.mergeStyles ('triangle');
@@ -159,7 +158,6 @@ export default class Container extends React.Component {
     } if (inputNoDrag === 'false') {
       return (
         <div
-          onMouseMove             = {inputMouseMove}
           data-navigation-name    = {inputNavName}
           data-ticket-type        = {inputTicketType}
           data-ticket-id          = {inputTicketId}
@@ -182,7 +180,6 @@ export default class Container extends React.Component {
     } else {
       return (
         <div
-          onMouseMove             = {inputMouseMove}
           data-navigation-name    = {inputNavName}
           data-ticket-type        = {inputTicketType}
           data-ticket-id          = {inputTicketId}
