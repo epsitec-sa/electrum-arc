@@ -70,7 +70,6 @@ export default class TripBox extends React.Component {
     const noDrag   = data.NoDrag;
     const ticketId = this.read ('ticket-id');
     const tripId   = this.read ('trip-id');
-    const urgency  = this.read ('urgency');
 
     const cursor = (noDrag === 'true') ? null : 'move';
 
@@ -90,7 +89,7 @@ export default class TripBox extends React.Component {
           ticket-type='trip-box' ticket-id={ticketId} trip-id={tripId}
           {...this.link ()} >
           <Container kind='thin-column' border='right' width='10px' {...this.link ()} >
-            <Gauge value={urgency} {...this.link ()} />
+            <Gauge value={data.Trip.Urgency} {...this.link ()} />
           </Container>
           <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
             <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
