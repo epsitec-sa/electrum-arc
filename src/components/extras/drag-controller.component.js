@@ -190,8 +190,14 @@ export default class DragController extends React.Component {
     } else {
       targetIndex = sibling.dataset.index;
     }
-    this.addTickets (ticketId, targetMessenger, targetIndex);
-    this.deleteDeskTicket (tripId);
+    const type = ticketId.substring (ticketId.length - 5, ticketId.length);
+    if (type === '.pick' || type === '.drop') {
+      this.addDispatch (targetMessenger, targetIndex, ticketId);
+      this.deleteDeskTicket (ticketId);
+    } else {
+      this.addTickets (ticketId, targetMessenger, targetIndex);
+      this.deleteDeskTicket (tripId);
+    }
   }
 
   changeDispatchToMissions (element, target, source, sibling) {
@@ -240,6 +246,7 @@ export default class DragController extends React.Component {
 
   changeDeskToDesk (element, target, source, sibling) {
     const targetDeskIndex = target.dataset.index;
+    const ticketId        = element.dataset.ticketId;
     const tripId          = element.dataset.tripId;
     const index           = element.dataset.index;
     let targetIndex = -1;
@@ -251,39 +258,45 @@ export default class DragController extends React.Component {
         targetIndex--;  // if target under source, count as if the source was not there
       }
     }
-    this.deleteDeskTicket (tripId);
-    this.addDeskTicket (targetDeskIndex, targetIndex, tripId);
+    const type = ticketId.substring (ticketId.length - 5, ticketId.length);
+    if (type === '.pick' || type === '.drop') {
+      this.deleteDeskTicket (ticketId);
+      this.addDeskTicket (targetDeskIndex, targetIndex, ticketId);
+    } else {
+      this.deleteDeskTicket (tripId);
+      this.addDeskTicket (targetDeskIndex, targetIndex, tripId);
+    }
   }
 
   changeToDispatch (element, target, source, sibling) {
-    const ticketType = element.dataset.ticketType;
-    if (ticketType === 'trip-ticket') {
+    const sourceType = source.dataset.dragSource;
+    if (sourceType === 'dispatch') {
       this.changeDispatchToDispatch (element, target, source, sibling);
-    } else if (ticketType === 'trip-box') {
+    } else if (sourceType === 'missions') {
       this.changeMissionsToDispatch (element, target, source, sibling);
-    } else if (ticketType === 'trip-tickets') {
+    } else if (sourceType === 'desk') {
       this.changeDeskToDispatch (element, target, source, sibling);
     }
   }
 
   changeToMissions (element, target, source, sibling) {
-    const ticketType = element.dataset.ticketType;
-    if (ticketType === 'trip-ticket') {
+    const sourceType = source.dataset.dragSource;
+    if (sourceType === 'dispatch') {
       this.changeDispatchToMissions (element, target, source, sibling);
-    } else if (ticketType === 'trip-box') {
+    } else if (sourceType === 'missions') {
       this.changeMissionsToMissions (element, target, source, sibling);
-    } else if (ticketType === 'trip-tickets') {
+    } else if (sourceType === 'desk') {
       this.changeDeskToMissions (element, target, source, sibling);
     }
   }
 
   changeToDesk (element, target, source, sibling) {
-    const ticketType = element.dataset.ticketType;
-    if (ticketType === 'trip-ticket') {
+    const sourceType = source.dataset.dragSource;
+    if (sourceType === 'dispatch') {
       this.changeDispatchToDesk (element, target, source, sibling);
-    } else if (ticketType === 'trip-box') {
+    } else if (sourceType === 'missions') {
       this.changeMissionsToDesk (element, target, source, sibling);
-    } else if (ticketType === 'trip-tickets') {
+    } else if (sourceType === 'desk') {
       this.changeDeskToDesk (element, target, source, sibling);
     }
   }
