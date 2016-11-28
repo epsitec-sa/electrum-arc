@@ -131,6 +131,7 @@ export default class Container extends React.Component {
     const inputTicketType     = this.read ('ticket-type');
     const inputTicketId       = this.read ('ticket-id');
     const inputTripId         = this.read ('trip-id');
+    const inputIndex          = this.read ('index');
     const inputMessenger      = this.read ('messenger');
 
     const boxStyle      = this.mergeStyles ('box');
@@ -165,6 +166,7 @@ export default class Container extends React.Component {
           data-ticket-type        = {inputTicketType}
           data-ticket-id          = {inputTicketId}
           data-trip-id            = {inputTripId}
+          data-index              = {inputIndex}
           data-messenger          = {inputMessenger}
           data-drag-container-for = {inputDragController}
           data-drag-source        = {inputDragSource}
@@ -187,6 +189,7 @@ export default class Container extends React.Component {
           data-ticket-type        = {inputTicketType}
           data-ticket-id          = {inputTicketId}
           data-trip-id            = {inputTripId}
+          data-index              = {inputIndex}
           data-messenger          = {inputMessenger}
           data-drag-container-for = {inputDragController}
           data-drag-source        = {inputDragSource}

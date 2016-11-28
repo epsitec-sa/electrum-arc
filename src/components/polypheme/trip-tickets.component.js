@@ -12,7 +12,7 @@ export default class TripTickets extends React.Component {
     super (props);
   }
 
-  renderTripTicket (data, tripId, type) {
+  renderTripTicket (data, tripId, type, index) {
     const ticketId = tripId + '.' + type;  // by example: 'd1.drop'
     const shape = (type === 'pick') ? 'footer' : 'header';
     const d = {};
@@ -21,6 +21,7 @@ export default class TripTickets extends React.Component {
     }
     d.ticketId = ticketId;
     d.tripId   = tripId;
+    d.index    = index;
     d.Type     = type;
     return (
       <TripTicket shape={shape} data={d} ticket-type='trip-tickets' {...this.link ()} />
@@ -33,13 +34,14 @@ export default class TripTickets extends React.Component {
     const data     = this.read ('data');
     const ticketId = data.ticketId;
     const tripId   = data.tripId;
+    const index    = data.index;
 
     return (
       <Container kind='column' min-width={width} min-height={height} position='relative'
-        ticket-type='trip-tickets' ticket-id={ticketId} trip-id={tripId}
+        ticket-type='trip-tickets' ticket-id={ticketId} trip-id={tripId} index={index}
         {...this.link ()} >
-        {this.renderTripTicket (data, tripId, 'pick')}
-        {this.renderTripTicket (data, tripId, 'drop')}
+        {this.renderTripTicket (data, tripId, 'pick', index)}
+        {this.renderTripTicket (data, tripId, 'drop', index)}
       </Container>
     );
   }
