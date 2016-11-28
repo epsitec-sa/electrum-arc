@@ -239,6 +239,20 @@ export default class DragController extends React.Component {
   }
 
   changeDeskToDesk (element, target, source, sibling) {
+    const targetDeskIndex = target.dataset.index;
+    const tripId          = element.dataset.tripId;
+    const index           = element.dataset.index;
+    let targetIndex = -1;
+    if (sibling === null) {
+      targetIndex = target.children.length - 1;  // if no sibling, use last element
+    } else {
+      targetIndex = sibling.dataset.index;
+      if (targetIndex > index) {
+        targetIndex--;  // if target under source, count as if the source was not there
+      }
+    }
+    this.deleteDeskTicket (tripId);
+    this.addDeskTicket (targetDeskIndex, targetIndex, tripId);
   }
 
   changeToDispatch (element, target, source, sibling) {
