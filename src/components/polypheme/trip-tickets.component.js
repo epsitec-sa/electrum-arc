@@ -30,8 +30,8 @@ export default class TripTickets extends React.Component {
     const width    = this.props.theme.shapes.tripTicketWidth;
     const height   = this.props.theme.shapes.tripTicketsHeight;
     const data     = this.read ('data');
-    const ticketId = this.read ('ticket-id');
-    const tripId   = this.read ('trip-id');
+    const ticketId = data.ticketId;
+    const tripId   = data.tripId;
 
     return (
       <Container kind='column' min-width={width} min-height={height} position='relative'

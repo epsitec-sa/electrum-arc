@@ -53,30 +53,32 @@ export default class Ticket extends React.Component {
   }
 
   componentDidMount () {
-    const inputTicketId = this.read ('ticket-id');
-    const inputTripId   = this.read ('trip-id');
-    if (inputTicketId && inputTripId) {
+    const data = this.read ('data');
+    const ticketId = data.ticketId;
+    const tripId   = data.tripId;
+    if (ticketId && tripId) {
       if (!window.document.tickets) {
         window.document.tickets = {};
       }
-      if (!window.document.tickets[inputTripId]) {
-        window.document.tickets[inputTripId] = new Map ();
+      if (!window.document.tickets[tripId]) {
+        window.document.tickets[tripId] = new Map ();
       }
-      window.document.tickets[inputTripId].set (inputTicketId, this);
+      window.document.tickets[tripId].set (ticketId, this);
     }
   }
 
   componentWillUnmount () {
-    const inputTicketId = this.read ('ticket-id');
-    const inputTripId   = this.read ('trip-id');
-    if (inputTicketId && inputTripId) {
+    const data = this.read ('data');
+    const ticketId = data.ticketId;
+    const tripId   = data.tripId;
+    if (ticketId && tripId) {
       if (!window.document.tickets) {
-        throw new Error (`Fatal error during Ticket.componentWillUnmount with tripId=${inputTripId} (#1)`);
+        throw new Error (`Fatal error during Ticket.componentWillUnmount with tripId=${tripId} (#1)`);
       }
-      if (!window.document.tickets[inputTripId]) {
-        throw new Error (`Fatal error during Ticket.componentWillUnmount tripId=${inputTripId} (#2)`);
+      if (!window.document.tickets[tripId]) {
+        throw new Error (`Fatal error during Ticket.componentWillUnmount tripId=${tripId} (#2)`);
       }
-      window.document.tickets[inputTripId].delete (inputTicketId);
+      window.document.tickets[tripId].delete (ticketId);
     }
   }
 
@@ -111,13 +113,13 @@ export default class Ticket extends React.Component {
     const inputNoDrag     = this.read ('no-drag');
     const inputData       = this.read ('data');
     const inputTicketType = this.read ('ticket-type');
-    const inputTicketId   = this.read ('ticket-id');
-    const inputTripId     = this.read ('trip-id');
-    const inputMessenger  = this.read ('messenger');
+    const inputTicketId   = inputData.ticketId;
+    const inputTripId     = inputData.tripId;
+    const inputMessenger  = inputData.messenger;
     const inputHatch      = this.read ('hatch');
 
     if (!inputTicketId) {
-      throw new Error (`Undefined ticket ticket-id`);
+      //??? throw new Error (`Undefined ticket ticket-id`);
     }
 
     const boxStyle      = this.mergeStyles ('box');
@@ -205,13 +207,13 @@ export default class Ticket extends React.Component {
     const inputNoDrag     = this.read ('no-drag');
     const inputData       = this.read ('data');
     const inputTicketType = this.read ('ticket-type');
-    const inputTicketId   = this.read ('ticket-id');
-    const inputTripId     = this.read ('trip-id');
-    const inputMessenger  = this.read ('messenger');
+    const inputTicketId   = inputData.ticketId;
+    const inputTripId     = inputData.tripId;
+    const inputMessenger  = inputData.messenger;
     const inputHatch      = this.read ('hatch');
 
     if (!inputTicketId) {
-      throw new Error (`Undefined ticket ticket-id`);
+      //??? throw new Error (`Undefined ticket ticket-id`);
     }
 
     const rectShadowStyle       = this.mergeStyles ('rectShadow');
