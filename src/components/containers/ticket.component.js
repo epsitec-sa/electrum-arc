@@ -82,9 +82,9 @@ export default class Ticket extends React.Component {
     }
   }
 
-  search(tripId, link) {
+  search (tripId, link) {
     if (tripId) {
-      window.document.tickets[tripId].forEach ((value, key, map) => value.setLink (link));
+      window.document.tickets[tripId].forEach ((value) => value.setLink (link));
     }
   }
 

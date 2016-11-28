@@ -158,16 +158,16 @@ export default class Container extends React.Component {
     } if (inputNoDrag === 'false') {
       return (
         <div
+          disabled                = {disabled}
+          style                   = {boxStyle}
+          id                      = {inputAnchor}
           data-navigation-name    = {inputNavName}
           data-ticket-type        = {inputTicketType}
           data-ticket-id          = {inputTicketId}
           data-trip-id            = {inputTripId}
-          disabled                = {disabled}
-          style                   = {boxStyle}
-          id                      = {inputAnchor}
+          data-messenger          = {inputMessenger}
           data-drag-container-for = {inputDragController}
           data-drag-source        = {inputDragSource}
-          data-messenger          = {inputMessenger}
           >
           <div
             style             = {dragZoneStyle}
@@ -180,16 +180,16 @@ export default class Container extends React.Component {
     } else {
       return (
         <div
+          disabled                = {disabled}
+          style                   = {boxStyle}
+          id                      = {inputAnchor}
           data-navigation-name    = {inputNavName}
           data-ticket-type        = {inputTicketType}
           data-ticket-id          = {inputTicketId}
           data-trip-id            = {inputTripId}
-          disabled                = {disabled}
-          style                   = {boxStyle}
-          id                      = {inputAnchor}
+          data-messenger          = {inputMessenger}
           data-drag-container-for = {inputDragController}
           data-drag-source        = {inputDragSource}
-          data-messenger          = {inputMessenger}
           >
           {useManagedChildren.includes (inputKind) ? this.state.managedChildren : this.props.children}
         </div>

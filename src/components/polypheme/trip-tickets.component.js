@@ -19,10 +19,11 @@ export default class TripTickets extends React.Component {
     for (var x in data) {
       d[x] = data[x];  // copy d <- data
     }
-    d.Type = type;
+    d.ticketId = ticketId;
+    d.tripId   = tripId;
+    d.Type     = type;
     return (
-      <TripTicket shape={shape} data={d} ticket-type='trip-tickets' ticket-id={ticketId} trip-id={tripId}
-        {...this.link ()} />
+      <TripTicket shape={shape} data={d} ticket-type='trip-tickets' {...this.link ()} />
     );
   }
 
