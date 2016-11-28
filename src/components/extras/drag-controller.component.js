@@ -28,6 +28,15 @@ export default class DragController extends React.Component {
     });
   }
 
+  replaceDispatch (messenger, index, ticketId) {
+    window.document.reducer (window.document.data, {
+      type:      'REPLACE_DISPATCH',
+      messenger: messenger,
+      index:     index,
+      ticketId:  ticketId,
+    });
+  }
+
   addDispatch (messenger, index, ticketId) {
     window.document.reducer (window.document.data, {
       type:      'ADD_DISPATCH',
@@ -125,10 +134,8 @@ export default class DragController extends React.Component {
       this.addTrip (tripId2, trip2);
 
       const i = window.document.data.dispatch[srcMessenger].indexOf (tripId + '.pick');
-      this.deleteDispatch (srcMessenger, tripId + '.pick');
-      this.deleteDispatch (srcMessenger, tripId + '.drop');
-      this.addDispatch (srcMessenger, i, tripId1 + '.pick');  // re-insert at same place
-      this.addDispatch (srcMessenger, index, tripId1 + '.drop');  // re-insert at same place
+      this.replaceDispatch (srcMessenger, i, tripId1 + '.pick');
+      this.replaceDispatch (srcMessenger, index, tripId1 + '.drop');
       this.addDispatch (dstMessenger, targetIndex + 0, tripId2 + '.pick');
       this.addDispatch (dstMessenger, targetIndex + 1, tripId2 + '.drop');
     }
