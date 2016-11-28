@@ -19,7 +19,6 @@ export default class MessengerTicket extends React.Component {
     let   color    = this.read ('Color');
     const data     = this.read ('data');
     const noDrag   = data.NoDrag;
-    const ticketId = this.read ('ticket-id');
 
     const cursor = (noDrag === 'true') ? null : 'ew-resize';
 
@@ -28,15 +27,12 @@ export default class MessengerTicket extends React.Component {
     }
 
     if (!data || typeof data.Name === 'undefined') {
-      return (
-        <Ticket kind='header' width={width} height={height} selected={selected} color={color} ticket-id={ticketId} {...this.link ()} >
-        </Ticket>
-      );
+      throw new Error ('MessengerTicket without data');
     } else {
       return (
         <Ticket kind='ticket' shape='header' width={width} height={height} selected={selected} color={color}
           drag-handle='MessengerTicket' no-drag={noDrag} cursor={cursor}
-          data={data} ticket-id={ticketId} {...this.link ()} >
+          data={data} {...this.link ()} >
           <Container kind='column' grow='2' {...this.link ()} >
             <Button glyph={data.Photo.Glyph} kind='identity' {...this.link ()} />
           </Container>

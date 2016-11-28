@@ -119,7 +119,7 @@ export default class Ticket extends React.Component {
     const inputHatch      = this.read ('hatch');
 
     if (!inputTicketId) {
-      //??? throw new Error (`Undefined ticket ticket-id`);
+      throw new Error (`Undefined ticket ticket-id`);
     }
 
     const boxStyle      = this.mergeStyles ('box');
@@ -213,7 +213,7 @@ export default class Ticket extends React.Component {
     const inputHatch      = this.read ('hatch');
 
     if (!inputTicketId) {
-      //??? throw new Error (`Undefined ticket ticket-id`);
+      throw new Error (`Undefined ticket ticket-id`);
     }
 
     const rectShadowStyle       = this.mergeStyles ('rectShadow');
