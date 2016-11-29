@@ -141,21 +141,26 @@ export default class DragController extends React.Component {
     }
   }
 
+  getIndex (target, sibling, sourceIndex) {
+    let targetIndex = -1;
+    if (sibling === null) {
+      targetIndex = target.children.length - 1;  // if no sibling, use last element
+    } else {
+      targetIndex = sibling.dataset.index;
+      if (sourceIndex && targetIndex > sourceIndex) {
+        targetIndex--;  // if target under source, count as if the source was not there
+      }
+    }
+    return targetIndex;
+  }
+
   changeDispatchToDispatch (element, target, source, sibling) {
     const ticketMessenger = element.dataset.messenger;
     const ticketId        = element.dataset.ticketId;
     const tripId          = element.dataset.tripId;
     const index           = element.dataset.index;
     const targetMessenger = target.dataset.messenger;
-    let targetIndex = -1;
-    if (sibling === null) {
-      targetIndex = target.children.length - 1;  // if no sibling, use last element
-    } else {
-      targetIndex = sibling.dataset.index;
-      if (targetIndex > index) {
-        targetIndex--;  // if target under source, count as if the source was not there
-      }
-    }
+    const targetIndex     = this.getIndex (target, sibling, index);
     if (ticketMessenger && ticketMessenger !== targetMessenger) {  // move from messenger to a other messenger ?
       this.createTransit (ticketId, tripId, ticketMessenger, index, targetMessenger, targetIndex);
     } else {  // move into a messenger ?
@@ -170,12 +175,7 @@ export default class DragController extends React.Component {
     const ticketId        = element.dataset.ticketId;
     const tripId          = element.dataset.tripId;
     const targetMessenger = target.dataset.messenger;
-    let targetIndex = -1;
-    if (sibling === null) {
-      targetIndex = target.children.length - 1;  // if no sibling, use last element
-    } else {
-      targetIndex = sibling.dataset.index;
-    }
+    const targetIndex     = this.getIndex (target, sibling);
     this.addTickets (ticketId, targetMessenger, targetIndex);
     this.deleteMissionTicket (tripId);
   }
@@ -184,12 +184,7 @@ export default class DragController extends React.Component {
     const ticketId        = element.dataset.ticketId;
     const tripId          = element.dataset.tripId;
     const targetMessenger = target.dataset.messenger;
-    let targetIndex = -1;
-    if (sibling === null) {
-      targetIndex = target.children.length - 1;  // if no sibling, use last element
-    } else {
-      targetIndex = sibling.dataset.index;
-    }
+    const targetIndex     = this.getIndex (target, sibling);
     const type = ticketId.substring (ticketId.length - 5, ticketId.length);
     if (type === '.pick' || type === '.drop') {
       this.addDispatch (targetMessenger, targetIndex, ticketId);
@@ -214,32 +209,16 @@ export default class DragController extends React.Component {
     const ticketId        = element.dataset.ticketId;
     const index           = element.dataset.index;
     const deskIndex       = target.dataset.index;
-    let targetIndex = -1;
-    if (sibling === null) {
-      targetIndex = target.children.length - 1;  // if no sibling, use last element
-    } else {
-      targetIndex = sibling.dataset.index;
-      if (targetIndex > index) {
-        targetIndex--;  // if target under source, count as if the source was not there
-      }
-    }
+    const targetIndex     = this.getIndex (target, sibling, index);
     this.deleteDispatch (ticketMessenger, ticketId);
     this.addDeskTicket (deskIndex, targetIndex, ticketId);
   }
 
   changeMissionsToDesk (element, target, source, sibling) {
-    const tripId    = element.dataset.tripId;
-    const index     = element.dataset.index;
-    const deskIndex = target.dataset.index;
-    let targetIndex = -1;
-    if (sibling === null) {
-      targetIndex = target.children.length - 1;  // if no sibling, use last element
-    } else {
-      targetIndex = sibling.dataset.index;
-      if (targetIndex > index) {
-        targetIndex--;  // if target under source, count as if the source was not there
-      }
-    }
+    const tripId      = element.dataset.tripId;
+    const index       = element.dataset.index;
+    const deskIndex   = target.dataset.index;
+    const targetIndex = this.getIndex (target, sibling, index);
     this.deleteMissionTicket (tripId);
     this.addDeskTicket (deskIndex, targetIndex, tripId);
   }
@@ -249,15 +228,7 @@ export default class DragController extends React.Component {
     const ticketId        = element.dataset.ticketId;
     const tripId          = element.dataset.tripId;
     const index           = element.dataset.index;
-    let targetIndex = -1;
-    if (sibling === null) {
-      targetIndex = target.children.length - 1;  // if no sibling, use last element
-    } else {
-      targetIndex = sibling.dataset.index;
-      if (targetIndex > index) {
-        targetIndex--;  // if target under source, count as if the source was not there
-      }
-    }
+    const targetIndex     = this.getIndex (target, sibling, index);
     const type = ticketId.substring (ticketId.length - 5, ticketId.length);
     if (type === '.pick' || type === '.drop') {
       this.deleteDeskTicket (ticketId);
