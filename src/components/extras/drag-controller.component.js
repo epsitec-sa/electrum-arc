@@ -94,7 +94,7 @@ export default class DragController extends React.Component {
     });
   }
 
-  addTickets (ticketId, messenger, targetIndex) {
+  addDispatchTickets (ticketId, messenger, targetIndex) {
     targetIndex = parseInt (targetIndex);
     const t1 = ticketId.substring (0, ticketId.length - 5) + '.pick';
     const t2 = ticketId.substring (0, ticketId.length - 5) + '.drop';
@@ -102,8 +102,9 @@ export default class DragController extends React.Component {
     this.addDispatch (messenger, targetIndex + 1, t2);
   }
 
-  createTripTransit1 (source) {
+  createTripTransit1 (source, link) {
     return {
+      Link: link,
       Pick: source.Pick,
       Drop:
       {
@@ -120,8 +121,9 @@ export default class DragController extends React.Component {
     };
   }
 
-  createTripTransit2 (source) {
+  createTripTransit2 (source, link) {
     return {
+      Link: link,
       Pick:
       {
         Time: source.Drop.Time,
@@ -142,8 +144,9 @@ export default class DragController extends React.Component {
     if (ticketId.endsWith ('.drop')) {
       targetIndex = parseInt (targetIndex);
       const source = window.document.data.trips[tripId];
-      const trip1 = this.createTripTransit1 (source);
-      const trip2 = this.createTripTransit2 (source);
+      const link = tripId + '.link';
+      const trip1 = this.createTripTransit1 (source, link);
+      const trip2 = this.createTripTransit2 (source, link);
       const tripId1 = tripId + '1';
       const tripId2 = tripId + '2';
       this.deleteTrip (tripId);
@@ -219,7 +222,7 @@ export default class DragController extends React.Component {
     const tripId          = element.dataset.tripId;
     const targetMessenger = target.dataset.messenger;
     const targetIndex     = this.getIndex (target, sibling);
-    this.addTickets (ticketId, targetMessenger, targetIndex);
+    this.addDispatchTickets (ticketId, targetMessenger, targetIndex);
     this.deleteMission (tripId);
   }
 
@@ -233,7 +236,7 @@ export default class DragController extends React.Component {
       this.addDispatch (targetMessenger, targetIndex, ticketId);
       this.deleteDesk (ticketId);
     } else {
-      this.addTickets (ticketId, targetMessenger, targetIndex);
+      this.addDispatchTickets (ticketId, targetMessenger, targetIndex);
       this.deleteDesk (tripId);
     }
   }
