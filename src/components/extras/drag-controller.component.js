@@ -140,10 +140,14 @@ export default class DragController extends React.Component {
     };
   }
 
+  getTrip (tripId) {
+    return window.document.data.trips[tripId];
+  }
+
   createTransit (ticketId, tripId, srcMessenger, index, dstMessenger, targetIndex) {
     if (ticketId.endsWith ('.drop')) {
       targetIndex = parseInt (targetIndex);
-      const source = window.document.data.trips[tripId];
+      const source = this.getTrip (tripId);
       const link = tripId + '.link';
       const trip1 = this.createTripTransit1 (source, link);
       const trip2 = this.createTripTransit2 (source, link);
@@ -158,6 +162,7 @@ export default class DragController extends React.Component {
       this.replaceDispatch (srcMessenger, index, tripId1 + '.drop');
       this.addDispatch (dstMessenger, targetIndex + 0, tripId2 + '.pick');
       this.addDispatch (dstMessenger, targetIndex + 1, tripId2 + '.drop');
+      return tripId2;
     }
   }
 
@@ -179,8 +184,33 @@ export default class DragController extends React.Component {
     }
   }
 
+  getTripLink (messenger, link) {
+    const array = [];
+    const ticketIds = window.document.data.dispatch[messenger];
+    for (var i = 0, len = ticketIds.length; i < len; i++) {
+      const ticketId = ticketIds[i];
+      const tripId = ticketId.substring (0, ticketId.length - 5);
+      const t = this.getTrip (tripId);
+      if (t.Link === link) {
+        array.push ({
+          ticketId: ticketId,
+          tripId:   tripId,
+          trip:     t,
+        });
+      }
+    }
+    if (array.length === 4) {
+      this.deleteDispatch (messenger, array[1].ticketId);
+      this.deleteDispatch (messenger, array[2].ticketId);
+    }
+  }
+
   //  Delete transit if 4 tickets are linked under the same messenger.
-  deleteTransit (messenger) {
+  deleteTransit (messenger, tripId) {
+    const trip = this.getTrip (tripId);
+    if (trip && trip.Link) {
+      this.getTripLink (messenger, trip.Link);
+    }
   }
 
   //  Delete all instances of a trip, into Dispatch and Desk.
@@ -213,8 +243,8 @@ export default class DragController extends React.Component {
     const targetMessenger = target.dataset.messenger;
     const targetIndex     = this.getIndex (target, sibling, index);
     if (ticketMessenger && ticketMessenger !== targetMessenger) {  // move from messenger to a other messenger ?
-      this.createTransit (ticketId, tripId, ticketMessenger, index, targetMessenger, targetIndex);
-      this.deleteTransit (ticketMessenger);
+      const newTripId = this.createTransit (ticketId, tripId, ticketMessenger, index, targetMessenger, targetIndex);
+      this.deleteTransit (ticketMessenger, newTripId);
     } else {  // move into a messenger ?
       if (ticketMessenger === targetMessenger && targetIndex !== -1) {
         this.deleteDispatch (ticketMessenger, ticketId);
