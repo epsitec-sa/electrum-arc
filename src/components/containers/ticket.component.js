@@ -70,12 +70,14 @@ export default class Ticket extends React.Component {
   //  By example, pick and drop to a trip, or 4 tickets is has transit.
   setLinkToAll (link) {
     const data = this.read ('data');
-    for (var i = 0, len = window.document.tickets.length; i < len; i++) {
-      const t = window.document.tickets[i];
-      const d = t.read ('data');
-      if (d && d.Trip) {
-        if (data.tripId === d.tripId || (data.Trip.Link && d.Trip.Link && data.Trip.Link === d.Trip.Link)) {
-          t.setLink (link);
+    if (data.Trip) {
+      for (var i = 0, len = window.document.tickets.length; i < len; i++) {
+        const t = window.document.tickets[i];
+        const d = t.read ('data');
+        if (d && d.Trip) {
+          if (data.tripId === d.tripId || (data.Trip.Link && d.Trip.Link && data.Trip.Link === d.Trip.Link)) {
+            t.setLink (link);
+          }
         }
       }
     }
