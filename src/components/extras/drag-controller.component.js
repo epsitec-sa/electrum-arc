@@ -179,6 +179,11 @@ export default class DragController extends React.Component {
     }
   }
 
+  //  Delete transit if 4 tickets are linked under the same messenger.
+  deleteTransit (messenger) {
+  }
+
+  //  Delete all instances of a trip, into Dispatch and Desk.
   deleteAll (tripId) {
     for (var [shortName, messenger] of Object.entries (window.document.data.dispatch)) {
       this.deleteDispatch (shortName, tripId + '.pick');
@@ -209,6 +214,7 @@ export default class DragController extends React.Component {
     const targetIndex     = this.getIndex (target, sibling, index);
     if (ticketMessenger && ticketMessenger !== targetMessenger) {  // move from messenger to a other messenger ?
       this.createTransit (ticketId, tripId, ticketMessenger, index, targetMessenger, targetIndex);
+      this.deleteTransit (ticketMessenger);
     } else {  // move into a messenger ?
       if (ticketMessenger === targetMessenger && targetIndex !== -1) {
         this.deleteDispatch (ticketMessenger, ticketId);
