@@ -53,49 +53,42 @@ export default class Ticket extends React.Component {
   }
 
   componentDidMount () {
-    const data = this.read ('data');
-    const ticketId = data.ticketId;
-    const tripId   = data.tripId;
-    if (ticketId && tripId) {
-      if (!window.document.tickets) {
-        window.document.tickets = {};
-      }
-      if (!window.document.tickets[tripId]) {
-        window.document.tickets[tripId] = new Map ();
-      }
-      window.document.tickets[tripId].set (ticketId, this);
+    if (!window.document.tickets) {
+      window.document.tickets = [];
     }
+    window.document.tickets.push (this);
   }
 
   componentWillUnmount () {
+    const index = window.document.tickets.indexOf (this);
+    if (index !== -1) {
+      window.document.tickets.splice (index, 1);
+    }
+  }
+
+  //  Update state.link to all tickets linked.
+  //  By example, pick and drop to a trip, or 4 tickets is has transit.
+  setLinkToAll (link) {
     const data = this.read ('data');
-    const ticketId = data.ticketId;
-    const tripId   = data.tripId;
-    if (ticketId && tripId) {
-      if (!window.document.tickets) {
-        throw new Error (`Fatal error during Ticket.componentWillUnmount with tripId=${tripId} (#1)`);
+    for (var i = 0, len = window.document.tickets.length; i < len; i++) {
+      const t = window.document.tickets[i];
+      const d = t.read ('data');
+      if (d && d.Trip) {
+        if (data.tripId === d.tripId || (data.Trip.Link && d.Trip.Link && data.Trip.Link === d.Trip.Link)) {
+          t.setLink (link);
+        }
       }
-      if (!window.document.tickets[tripId]) {
-        throw new Error (`Fatal error during Ticket.componentWillUnmount tripId=${tripId} (#2)`);
-      }
-      window.document.tickets[tripId].delete (ticketId);
     }
   }
 
-  search (tripId, link) {
-    if (tripId) {
-      window.document.tickets[tripId].forEach ((value) => value.setLink (link));
-    }
-  }
-
-  mouseIn (tripId) {
+  mouseIn () {
     this.setHover (true);
-    this.search (tripId, true);
+    this.setLinkToAll (true);
   }
 
-  mouseOut (tripId) {
+  mouseOut () {
     this.setHover (false);
-    this.search (tripId, false);
+    this.setLinkToAll (false);
   }
 
   mouseUp (event) {
@@ -189,8 +182,8 @@ export default class Ticket extends React.Component {
           {this.props.children}
         </div>
         <div
-          onMouseOver       = {() => this.mouseIn (inputTripId)}
-          onMouseOut        = {() => this.mouseOut (inputTripId)}
+          onMouseOver       = {() => this.mouseIn ()}
+          onMouseOut        = {() => this.mouseOut ()}
           onMouseUp         = {event => this.mouseUp (event)}
           style             = {dragZoneStyle}
           data-drag-handle  = {inputDragHandle}
@@ -247,8 +240,8 @@ export default class Ticket extends React.Component {
             {this.props.children}
           </div>
           <div
-            onMouseOver       = {() => this.mouseIn (inputTripId)}
-            onMouseOut        = {() => this.mouseOut (inputTripId)}
+            onMouseOver       = {() => this.mouseIn ()}
+            onMouseOut        = {() => this.mouseOut ()}
             onMouseUp         = {event => this.mouseUp (event)}
             style             = {this.getHover () || this.getLink () ? rectHoverStyle : dragZoneStyle}
             data-drag-handle  = {inputDragHandle}

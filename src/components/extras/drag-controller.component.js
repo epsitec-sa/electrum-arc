@@ -176,6 +176,14 @@ export default class DragController extends React.Component {
     }
   }
 
+  deleteAll (tripId) {
+    for (var [shortName, messenger] of Object.entries (window.document.data.dispatch)) {
+      this.deleteDispatch (shortName, tripId + '.pick');
+      this.deleteDispatch (shortName, tripId + '.drop');
+    }
+    this.deleteDesk (tripId);
+  }
+
   getIndex (target, sibling, sourceIndex) {
     let targetIndex = -1;
     if (sibling === null) {
@@ -231,12 +239,32 @@ export default class DragController extends React.Component {
   }
 
   changeDispatchToMissions (element, target, source, sibling) {
+    const tripId      = element.dataset.tripId;
+    const targetIndex = this.getIndex (target, sibling);
+    this.deleteAll (tripId);
+    this.addMission (targetIndex, tripId);
   }
 
   changeMissionsToMissions (element, target, source, sibling) {
+    const tripId      = element.dataset.tripId;
+    const index       = element.dataset.index;
+    const targetIndex = this.getIndex (target, sibling, index);
+    this.deleteMission (tripId);
+    this.addMission (targetIndex, tripId);
   }
 
   changeDeskToMissions (element, target, source, sibling) {
+    const ticketId    = element.dataset.ticketId;
+    const tripId      = element.dataset.tripId;
+    const targetIndex = this.getIndex (target, sibling);
+    const type = ticketId.substring (ticketId.length - 5, ticketId.length);
+    if (type === '.pick' || type === '.drop') {
+      this.deleteAll (tripId);
+      this.addMission (targetIndex, tripId);
+    } else {
+      this.deleteDesk (tripId);
+      this.addMission (targetIndex, tripId);
+    }
   }
 
   changeDispatchToDesk (element, target, source, sibling) {
