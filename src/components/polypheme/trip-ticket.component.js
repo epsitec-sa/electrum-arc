@@ -88,8 +88,8 @@ export default class TripTicket extends React.Component {
   }
 
   getTime (time) {
-    if (time && time.length === 19) {
-      // If format '2016-03-31T14:30:00', extract 'hh:mm'.
+    if (time && time.length === 33) {
+      // If format '2016-11-30T17:45:03.9052723+01:00', extract 'hh:mm'.
       let h = time.substring (11, 13);
       let m = time.substring (14, 16);
       time = h + ':' + m;
@@ -164,7 +164,7 @@ export default class TripTicket extends React.Component {
       throw new Error ('TripTicket without data');
     } else {
       const trip           = (type === 'pick') ? data.Trip.Pick : data.Trip.Drop;
-      const time           = trip.Time;
+      const time           = trip.PlanedTime;
       const directionGlyph = this.getDirectionGlyph (trip, type);
       const directionColor = ColorHelpers.GetMarkColor (this.props.theme, type);
       const glyphs         = trip.Glyphs;
@@ -214,7 +214,7 @@ export default class TripTicket extends React.Component {
       throw new Error ('TripTicket without data');
     } else {
       const trip           = (type === 'pick') ? data.Trip.Pick : data.Trip.Drop;
-      const time           = trip.Time;
+      const time           = trip.PlanedTime;
       const directionGlyph = this.getDirectionGlyph (trip, type);
       const directionColor = ColorHelpers.GetMarkColor (this.props.theme, type);
       const glyphs         = trip.Glyphs;

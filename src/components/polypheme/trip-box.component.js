@@ -45,8 +45,8 @@ export default class TripBox extends React.Component {
   }
 
   getTime (time) {
-    if (time && time.length === 19) {
-      // If format '2016-03-31T14:30:00', extract 'hh:mm'.
+    if (time && time.length === 33) {
+      // If format '2016-11-30T17:45:03.9052723+01:00', extract 'hh:mm'.
       let h = time.substring (11, 13);
       let m = time.substring (14, 16);
       time = h + ':' + m;
@@ -91,7 +91,7 @@ export default class TripBox extends React.Component {
           <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
             <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
               <Container kind='thin-row' width='50px' {...this.link ()} >
-                <Label text={this.getTime (data.Trip.Pick.Time)} font-weight='bold' wrap='no' {...this.link ()} />
+                <Label text={this.getTime (data.Trip.Pick.PlanedTime)} font-weight='bold' wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
                 <Label glyph='plus-square' z-index={0} glyph-color={directionColorPick} {...this.link ()} />
@@ -109,7 +109,7 @@ export default class TripBox extends React.Component {
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
               <Container kind='thin-row' width='50px' {...this.link ()} >
-                <Label text={this.getTime (data.Trip.Drop.Time)} font-weight='bold' wrap='no' {...this.link ()} />
+                <Label text={this.getTime (data.Trip.Drop.PlanedTime)} font-weight='bold' wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
                 <Label glyph='minus-square' z-index={0} glyph-color={directionColorDrop} {...this.link ()} />
