@@ -97,7 +97,7 @@ export default class TripBox extends React.Component {
                 <Label glyph='plus-square' z-index={0} glyph-color={directionColorPick} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
-                <Label text={data.Trip.Pick.Description} wrap='no' {...this.link ()} />
+                <Label text={data.Trip.Pick.ShortDescription} wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='50px' {...this.link ()} >
                 <Label text={this.getZone (data.Trip.Pick.Zone)} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
@@ -115,7 +115,7 @@ export default class TripBox extends React.Component {
                 <Label glyph='minus-square' z-index={0} glyph-color={directionColorDrop} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
-                <Label text={data.Trip.Drop.Description} wrap='no' {...this.link ()} />
+                <Label text={data.Trip.Drop.ShortDescription} wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='50px' {...this.link ()} >
                 <Label text={this.getZone (data.Trip.Drop.Zone)} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />

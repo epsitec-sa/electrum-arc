@@ -109,8 +109,8 @@ export default class DragController extends React.Component {
       Drop:
       {
         Time: source.Pick.Time,
-        Description: 'Transit',
-        Details: 'Zone de transit à définir',
+        ShortDescription: 'Transit',
+        LongDescription: 'Zone de transit à définir',
         Type: 'transit',
       },
       Count: source.Count,
@@ -127,8 +127,8 @@ export default class DragController extends React.Component {
       Pick:
       {
         Time: source.Drop.Time,
-        Description: 'Transit',
-        Details: 'Zone de transit à définir',
+        ShortDescription: 'Transit',
+        LongDescription: 'Zone de transit à définir',
         Type: 'transit',
       },
       Drop: source.Drop,

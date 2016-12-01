@@ -168,7 +168,7 @@ export default class TripTicket extends React.Component {
       const directionGlyph = this.getDirectionGlyph (trip, type);
       const directionColor = ColorHelpers.GetMarkColor (this.props.theme, type);
       const glyphs         = trip.Glyphs;
-      const height         = Unit.add (this.computeHeight (trip.Description), '20px');
+      const height         = Unit.add (this.computeHeight (trip.ShortDescription), '20px');
       const marginBottom   = '-10px';
       const cursor         = (noDrag === 'true') ? null : 'move';
 
@@ -183,7 +183,7 @@ export default class TripTicket extends React.Component {
             <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
               <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
               <Label glyph={directionGlyph} glyph-color={directionColor} width='25px' {...this.link ()} />
-              <Label text={trip.Description} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
+              <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
             </Container>
             <Container kind='ticket-row' {...this.link ()} >
               <Label text='' width='75px' {...this.link ()} />
@@ -218,7 +218,7 @@ export default class TripTicket extends React.Component {
       const directionGlyph = this.getDirectionGlyph (trip, type);
       const directionColor = ColorHelpers.GetMarkColor (this.props.theme, type);
       const glyphs         = trip.Glyphs;
-      const height         = Unit.add (this.computeHeight (trip.Description), '20px');
+      const height         = Unit.add (this.computeHeight (trip.ShortDescription), '20px');
       const marginBottom   = null;
       const cursor         = (noDrag === 'true') ? null : 'move';
 
@@ -233,9 +233,9 @@ export default class TripTicket extends React.Component {
             <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
               <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
               <Label glyph={directionGlyph} glyph-color={directionColor} width='25px' {...this.link ()} />
-              <Label text={trip.Description} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
+              <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
             </Container>
-            {this.renderLine ('building', trip.Details)}
+            {this.renderLine ('building', trip.LongDescription)}
             {this.renderNotes (trip)}
             {this.renderLine ('cube', this.packageDescription (data.Trip))}
             {this.renderLine ('money', data.Trip.Price)}
