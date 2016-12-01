@@ -228,6 +228,7 @@ export default function styles (theme, props) {
 
   const bm = (inputKind === 'thin') ? '15px' : '5px';
   const rectShadowStyle = {
+    width:           inputWidth,
     margin:          `0px 0px ${bm} 0px`,
     position:        'relative',
     top:             theme.shapes.ticketShadowShift,

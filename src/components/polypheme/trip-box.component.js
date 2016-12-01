@@ -14,32 +14,43 @@ export default class TripBox extends React.Component {
     super (props);
   }
 
-  renderGlyph (glyph, description, keyIndex) {
+  renderGlyph (glyph) {
     if (glyph.startsWith ('bookmark-')) {
       const color = glyph.substring (9);
       return (
-        <Label key={keyIndex} glyph='bookmark' glyph-color={color} z-index={0}
+        <Label glyph='bookmark' glyph-color={color} z-index={0}
           spacing='compact' {...this.link ()} />
       );
     } else {
       return (
-        <Label key={keyIndex} glyph={glyph} z-index={0}
+        <Label glyph={glyph} z-index={0}
           spacing='compact' {...this.link ()} />
       );
     }
   }
 
-  renderGlyphs (glyphs) {
-    if (!glyphs) {
+  renderNote (note) {
+    if (!note || !note.Glyphs) {
       return null;
     } else {
       let line = [];
-      let keyIndex = 0;
-      glyphs.forEach (glyph => {
-        if (glyph && glyph.value && glyph.value.Glyph) {
-          line.push (this.renderGlyph (glyph.value.Glyph, glyph.value.Description, keyIndex++));
+      for (var glyph of note.Glyphs) {
+        if (glyph.Glyph) {
+          line.push (this.renderGlyph (glyph.Glyph));
         }
-      });
+      }
+      return line;
+    }
+  }
+
+  renderNotes (notes) {
+    if (!notes) {
+      return null;
+    } else {
+      let line = [];
+      for (var note of notes) {
+        line.push (this.renderNote (note));
+      }
       return line;
     }
   }
@@ -60,6 +71,10 @@ export default class TripBox extends React.Component {
     } else {
       return null;
     }
+  }
+
+  getPackageCount (data) {
+    return data.Trip.Packages.length + 'x';
   }
 
   render () {
@@ -104,7 +119,7 @@ export default class TripBox extends React.Component {
               </Container>
               <Container kind='thin-row' width='80px' {...this.link ()} >
                 <Label grow='1' {...this.link ()} />
-                {this.renderGlyphs (data.Trip.Pick.Glyphs)}
+                {this.renderNotes (data.Trip.Pick.Notes)}
               </Container>
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
@@ -122,7 +137,7 @@ export default class TripBox extends React.Component {
               </Container>
               <Container kind='thin-row' width='80px' {...this.link ()} >
                 <Label grow='1' {...this.link ()} />
-                {this.renderGlyphs (data.Trip.Drop.Glyphs)}
+                {this.renderNotes (data.Trip.Drop.Notes)}
               </Container>
             </Container>
           </Container>
@@ -132,7 +147,7 @@ export default class TripBox extends React.Component {
                 <Label glyph='cube' glyph-color={dimmedColor} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
-                <Label text={data.Trip.Count} justify='right' grow='1' wrap='no' {...this.link ()} />
+                <Label text={this.getPackageCount (data)} justify='right' grow='1' wrap='no' {...this.link ()} />
               </Container>
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
@@ -144,21 +159,16 @@ export default class TripBox extends React.Component {
               </Container>
             </Container>
           </Container>
-          <Container kind='thin-column' width='110px' {...this.link ()} >
+          <Container kind='thin-column' width='90px' {...this.link ()} >
             <Container kind='thin-row' grow='1' {...this.link ()} >
-              <Container kind='thin-row' grow='2' {...this.link ()} >
-                <Label text='CHF' font-size={dimmedSize} text-color={dimmedColor} {...this.link ()} />
-              </Container>
-              <Container kind='thin-row' grow='3' {...this.link ()} >
-                <Label text={data.Trip.Price} justify='right' grow='1' wrap='no' {...this.link ()} />
-              </Container>
+              <Label text={data.Trip.Price} justify='right' grow='1' wrap='no' {...this.link ()} />
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
               <Container kind='thin-row' grow='2' {...this.link ()} >
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
                 <Label grow='1' {...this.link ()} />
-                {this.renderGlyphs (data.Trip.Glyphs)}
+                {this.renderNotes (data.Trip.Notes)}
               </Container>
             </Container>
           </Container>

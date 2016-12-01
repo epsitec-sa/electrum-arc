@@ -75,7 +75,7 @@ export default class Ticket extends React.Component {
         const t = window.document.tickets[i];
         const d = t.read ('data');
         if (d && d.Trip) {
-          if (data.tripId === d.tripId || (data.Trip.Link && d.Trip.Link && data.Trip.Link === d.Trip.Link)) {
+          if (data.Trip.MissionId && d.Trip.MissionId && data.Trip.MissionId === d.Trip.MissionId) {
             t.setLink (link);
           }
         }
@@ -113,9 +113,9 @@ export default class Ticket extends React.Component {
     const inputMessenger  = inputData.messenger;
     const inputHatch      = this.read ('hatch');
 
-    if (!inputTicketId) {
-      throw new Error (`Undefined ticket ticket-id`);
-    }
+    // if (!inputTicketId) {
+    //   throw new Error (`Undefined ticket ticket-id`);
+    // }
 
     const boxStyle      = this.mergeStyles ('box');
     const shadowStyle   = this.mergeStyles ('shadow');
@@ -207,9 +207,9 @@ export default class Ticket extends React.Component {
     const inputMessenger  = inputData.messenger;
     const inputHatch      = this.read ('hatch');
 
-    if (!inputTicketId) {
-      throw new Error (`Undefined ticket ticket-id`);
-    }
+    // if (!inputTicketId) {
+    //   throw new Error (`Undefined ticket ticket-id`);
+    // }
 
     const rectShadowStyle       = this.mergeStyles ('rectShadow');
     const rectStyle             = this.mergeStyles ('rect');
