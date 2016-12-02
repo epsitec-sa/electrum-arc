@@ -47,6 +47,11 @@ export default class TripTicket extends React.Component {
     this.forceUpdate ();
   }
 
+  getWarning () {
+    const data = this.read ('data');
+    return data.Warning;
+  }
+
   mouseClick (event) {
     if (event.ctrlKey || event.metaKey) {  // select/deselect ?
       this.setSelected (!this.getSelected ());
@@ -178,6 +183,7 @@ export default class TripTicket extends React.Component {
     const width     = this.props.theme.shapes.tripTicketWidth;
     const selected  = this.getSelected () ? 'true' : 'false';
     const hatch     = this.getHatch () ? 'true' : 'false';
+    const warning   = this.getWarning ();
     const shape     = this.read ('shape');
     const data      = this.read ('data');
     const type      = this.read ('type');
@@ -195,7 +201,7 @@ export default class TripTicket extends React.Component {
     return (
       <Ticket width={width} height={height} selected={selected}
         kind='ticket' shape={shape} type={type}
-        drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch}
+        drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch} warning={warning}
         data={data} onMouseClick={(e) => this.mouseClick (e)}
         {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
@@ -219,6 +225,7 @@ export default class TripTicket extends React.Component {
     const width     = this.props.theme.shapes.tripTicketWidth;
     const selected  = this.getSelected () ? 'true' : 'false';
     const hatch     = this.getHatch () ? 'true' : 'false';
+    const warning   = this.getWarning ();
     const shape     = this.read ('shape');
     const data      = this.read ('data');
     const type      = this.read ('type');
@@ -236,7 +243,7 @@ export default class TripTicket extends React.Component {
     return (
       <Ticket width={width} selected={selected}
         kind='rect' shape={shape} type={type}
-        drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch}
+        drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch} warning={warning}
         data={data} onMouseClick={(e) => this.mouseClick (e)}
         {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >

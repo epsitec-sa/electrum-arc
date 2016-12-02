@@ -108,6 +108,7 @@ export default class Ticket extends React.Component {
     const noDrag     = this.read ('no-drag');
     const data       = this.read ('data');
     const hatch      = this.read ('hatch');
+    const warning    = this.read ('warning');
 
     const boxStyle      = this.mergeStyles ('box');
     const shadowStyle   = this.mergeStyles ('shadow');
@@ -118,7 +119,7 @@ export default class Ticket extends React.Component {
     const contentStyle  = this.mergeStyles ('content');
     const dragZoneStyle = this.mergeStyles ('dragZoneStyle');
 
-    if (data.warning) {  // pick under drop ?
+    if (warning && warning !== '') {  // pick under drop ?
       shapeStyle.fill = this.props.theme.palette.ticketWarningBackground;
     }
     if (this.getHover ()) {
@@ -191,6 +192,7 @@ export default class Ticket extends React.Component {
     const noDrag     = this.read ('no-drag');
     const data       = this.read ('data');
     const hatch      = this.read ('hatch');
+    const warning    = this.read ('warning');
 
     const rectShadowStyle       = this.mergeStyles ('rectShadow');
     const rectStyle             = this.mergeStyles ('rect');
@@ -199,7 +201,7 @@ export default class Ticket extends React.Component {
     const rectContentHatchStyle = this.mergeStyles ('rectContentHatch');
     const dragZoneStyle         = this.mergeStyles ('dragZoneStyle');
 
-    if (data.warning) {  // pick under drop ?
+    if (warning && warning !== '') {  // pick under drop ?
       rectStyle.backgroundColor = this.props.theme.palette.ticketWarningBackground;
     }
     if (this.getHover ()) {
