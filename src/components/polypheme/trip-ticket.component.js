@@ -135,19 +135,23 @@ export default class TripTicket extends React.Component {
   }
 
   renderLine (glyph, text) {
-    let color = null;
-    if (glyph.startsWith ('bookmark-')) {
-      color = glyph.substring (9);
-      glyph = 'bookmark';
+    if (!text) {
+      return null;
+    } else {
+      let color = null;
+      if (glyph.startsWith ('bookmark-')) {
+        color = glyph.substring (9);
+        glyph = 'bookmark';
+      }
+      return (
+        <Container kind='ticket-row' {...this.link ()} >
+          <Label width='15px' {...this.link ()} />
+          <Label glyph={glyph} glyph-color={color} width='35px' {...this.link ()} />
+          <Label text={text} font-size={this.props.theme.shapes.ticketExtendedTextSize}
+            wrap='yes' grow='1' {...this.link ()} />
+        </Container>
+      );
     }
-    return (
-      <Container kind='ticket-row' {...this.link ()} >
-        <Label width='15px' {...this.link ()} />
-        <Label glyph={glyph} glyph-color={color} width='35px' {...this.link ()} />
-        <Label text={text} font-size={this.props.theme.shapes.ticketExtendedTextSize}
-          wrap='yes' grow='1' {...this.link ()} />
-      </Container>
-    );
   }
 
   renderNote (note) {
