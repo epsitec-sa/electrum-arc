@@ -242,6 +242,7 @@ export default class TripTicket extends React.Component {
             <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
           </Container>
           {this.renderLine ('building', trip.LongDescription)}
+          {this.renderLine ('map-marker', trip.Zone)}
           {this.renderNotes (trip.Notes)}
           {this.renderLine ('cube', this.packageDescription (data))}
           {this.renderLine ('money', data.Trip.Price)}
