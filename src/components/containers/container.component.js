@@ -128,6 +128,7 @@ export default class Container extends React.Component {
     const dragSource     = this.read ('drag-source');
     const dragHandle     = this.read ('drag-handle');
     const noDrag         = this.read ('no-drag');
+    const id             = this.read ('id');
 
     const boxStyle      = this.mergeStyles ('box');
     const triangleStyle = this.mergeStyles ('triangle');
@@ -160,6 +161,7 @@ export default class Container extends React.Component {
           data-navigation-name    = {navName}
           data-drag-container-for = {dragController}
           data-drag-source        = {dragSource}
+          data-id                 = {id}
           >
           <div
             style             = {dragZoneStyle}
@@ -178,6 +180,7 @@ export default class Container extends React.Component {
           data-navigation-name    = {navName}
           data-drag-container-for = {dragController}
           data-drag-source        = {dragSource}
+          data-id                 = {id}
           >
           {useManagedChildren.includes (kind) ? this.state.managedChildren : this.props.children}
         </div>
