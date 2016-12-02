@@ -217,9 +217,9 @@ export default class TripTicket extends React.Component {
     const hatch     = this.getHatch () ? 'true' : 'false';
     const shape     = this.read ('shape');
     const data      = this.read ('data');
+    const type      = this.read ('type');
     const noDrag    = 'false';
 
-    const type           = data.Type;
     const trip           = (type === 'pick') ? data.Trip.Pick : data.Trip.Drop;
     const time           = trip.PlanedTime;
     const directionGlyph = this.getDirectionGlyph (trip, type);
