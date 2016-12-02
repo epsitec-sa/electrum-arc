@@ -79,10 +79,8 @@ export default class TripBox extends React.Component {
 
   render () {
     const height   = this.props.theme.shapes.tripBoxHeight;
-    const selected = this.read ('Selected');
     const data     = this.read ('data');
-    const color    = data.Color;
-    const noDrag   = data.NoDrag;
+    const noDrag   = 'false';
 
     const cursor = (noDrag === 'true') ? null : 'move';
 
@@ -97,9 +95,8 @@ export default class TripBox extends React.Component {
 
       return (
         <Ticket kind='thin' drag-handle='TripTicket' no-drag={noDrag}
-          height={height} margin-bottom='10px'
-          selected={selected} color={color} cursor={cursor} grow='1'
-          data={data} ticket-type='trip-box' {...this.link ()} >
+          height={height} margin-bottom='10px' cursor={cursor} grow='1'
+          data={data} {...this.link ()} >
           <Container kind='thin-column' border='right' width='10px' {...this.link ()} >
             <Gauge value={data.Trip.Urgency} {...this.link ()} />
           </Container>

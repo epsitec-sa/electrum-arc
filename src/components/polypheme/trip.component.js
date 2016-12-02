@@ -25,7 +25,7 @@ export default class Trip extends React.Component {
       );
     } else if (kind === 'trip-ticket') {
       return (
-        <TripTicket data={data} {...this.link ()} />
+        <TripTicket data={data} type={data.Type} {...this.link ()} />
       );
     } else {
       throw new Error (`Trip component contains invalid kind: ${kind}`);

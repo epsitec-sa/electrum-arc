@@ -178,9 +178,9 @@ export default class TripTicket extends React.Component {
     const hatch     = this.getHatch ();
     const shape     = this.read ('shape');
     const data      = this.read ('data');
+    const type      = this.read ('type');
     const noDrag    = 'false';
 
-    const type           = data.Type;
     const trip           = (type === 'pick') ? data.Trip.Pick : data.Trip.Drop;
     const time           = trip.PlanedTime;
     const directionGlyph = this.getDirectionGlyph (trip, type);
@@ -194,8 +194,7 @@ export default class TripTicket extends React.Component {
       <Ticket width={width} height={height} selected={selected ? 'true' : 'false'}
         kind='ticket' shape={shape} type={type}
         drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch ? 'true' : 'false'}
-        data={data} ticket-type='trip-ticket'
-        onMouseClick={(e) => this.mouseClick (e)}
+        data={data} onMouseClick={(e) => this.mouseClick (e)}
         {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
@@ -236,8 +235,7 @@ export default class TripTicket extends React.Component {
       <Ticket width={width} selected={selected ? 'true' : 'false'}
         kind='rect' shape={shape} type={type}
         drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch ? 'true' : 'false'}
-        data={data} ticket-type='trip-ticket'
-        onMouseClick={(e) => this.mouseClick (e)}
+        data={data} onMouseClick={(e) => this.mouseClick (e)}
         {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
