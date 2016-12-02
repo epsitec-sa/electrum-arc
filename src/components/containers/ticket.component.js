@@ -104,14 +104,10 @@ export default class Ticket extends React.Component {
   renderTicket () {
     const {state}  = this.props;
     const disabled = Action.isDisabled (state);
-    const inputDragHandle = this.read ('drag-handle');
-    const inputNoDrag     = this.read ('no-drag');
-    const inputData       = this.read ('data');
-    const inputTicketType = this.read ('ticket-type');
-    const inputTicketId   = inputData.ticketId;
-    const inputTripId     = inputData.tripId;
-    const inputMessenger  = inputData.messenger;
-    const inputHatch      = this.read ('hatch');
+    const dragHandle = this.read ('drag-handle');
+    const noDrag     = this.read ('no-drag');
+    const data       = this.read ('data');
+    const hatch      = this.read ('hatch');
 
     const boxStyle      = this.mergeStyles ('box');
     const shadowStyle   = this.mergeStyles ('shadow');
@@ -122,7 +118,7 @@ export default class Ticket extends React.Component {
     const contentStyle  = this.mergeStyles ('content');
     const dragZoneStyle = this.mergeStyles ('dragZoneStyle');
 
-    if (inputData.warning) {  // pick under drop ?
+    if (data.warning) {  // pick under drop ?
       shapeStyle.fill = this.props.theme.palette.ticketWarningBackground;
     }
     if (this.getHover ()) {
@@ -146,7 +142,7 @@ export default class Ticket extends React.Component {
     );
     const hs = this.props.theme.shapes.ticketHatchSize;
     const ht = Unit.multiply (hs, 2);
-    const htmlHatch = (inputHatch === 'true') ? (
+    const htmlHatch = (hatch === 'true') ? (
       <svg width={w} height={h} style={hatchStyle}>
         <defs>
           <pattern id='hatch' x='0px' y='0px' width={ht} height={ht} patternTransform='rotate(45)' patternUnits='userSpaceOnUse'>
@@ -164,13 +160,10 @@ export default class Ticket extends React.Component {
 
     return (
       <div
-        disabled         = {disabled}
-        style            = {boxStyle}
-        data-ticket-type = {inputTicketType}
-        data-ticket-id   = {inputTicketId}
-        data-trip-id     = {inputTripId}
-        data-messenger   = {inputMessenger}
-        data-index       = {inputData.index}
+        disabled      = {disabled}
+        style         = {boxStyle}
+        data-id       = {data.id}
+        data-owner-id = {data.OwnerId}
         >
         {htmlShadow}
         {htmlShape}
@@ -184,8 +177,8 @@ export default class Ticket extends React.Component {
           onMouseOut        = {() => this.mouseOut ()}
           onMouseUp         = {event => this.mouseUp (event)}
           style             = {dragZoneStyle}
-          data-drag-handle  = {inputDragHandle}
-          data-drag-invalid = {inputNoDrag === 'true'}
+          data-drag-handle  = {dragHandle}
+          data-drag-invalid = {noDrag === 'true'}
           />
       </div>
     );
@@ -194,14 +187,10 @@ export default class Ticket extends React.Component {
   renderRect () {
     const {state}  = this.props;
     const disabled = Action.isDisabled (state);
-    const inputDragHandle = this.read ('drag-handle');
-    const inputNoDrag     = this.read ('no-drag');
-    const inputData       = this.read ('data');
-    const inputTicketType = this.read ('ticket-type');
-    const inputTicketId   = inputData.ticketId;
-    const inputTripId     = inputData.tripId;
-    const inputMessenger  = inputData.messenger;
-    const inputHatch      = this.read ('hatch');
+    const dragHandle = this.read ('drag-handle');
+    const noDrag     = this.read ('no-drag');
+    const data       = this.read ('data');
+    const hatch      = this.read ('hatch');
 
     const rectShadowStyle       = this.mergeStyles ('rectShadow');
     const rectStyle             = this.mergeStyles ('rect');
@@ -210,7 +199,7 @@ export default class Ticket extends React.Component {
     const rectContentHatchStyle = this.mergeStyles ('rectContentHatch');
     const dragZoneStyle         = this.mergeStyles ('dragZoneStyle');
 
-    if (inputData.warning) {  // pick under drop ?
+    if (data.warning) {  // pick under drop ?
       rectStyle.backgroundColor = this.props.theme.palette.ticketWarningBackground;
     }
     if (this.getHover ()) {
@@ -219,18 +208,15 @@ export default class Ticket extends React.Component {
 
     return (
       <div
-        style            = {rectShadowStyle}
-        data-ticket-type = {inputTicketType}
-        data-ticket-id   = {inputTicketId}
-        data-trip-id     = {inputTripId}
-        data-messenger   = {inputMessenger}
-        data-index       = {inputData.index}
+        style         = {rectShadowStyle}
+        data-id       = {data.id}
+        data-owner-id = {data.OwnerId}
         >
         <div
-          disabled         = {disabled}
-          style            = {rectStyle}
+          disabled = {disabled}
+          style    = {rectStyle}
           >
-          <div style = {inputHatch === 'true' ? rectContentHatchStyle : contentStyle}>
+          <div style = {hatch === 'true' ? rectContentHatchStyle : contentStyle}>
             {this.props.children}
           </div>
           <div
@@ -238,8 +224,8 @@ export default class Ticket extends React.Component {
             onMouseOut        = {() => this.mouseOut ()}
             onMouseUp         = {event => this.mouseUp (event)}
             style             = {this.getHover () || this.getLink () ? rectHoverStyle : dragZoneStyle}
-            data-drag-handle  = {inputDragHandle}
-            data-drag-invalid = {inputNoDrag === 'true'}
+            data-drag-handle  = {dragHandle}
+            data-drag-invalid = {noDrag === 'true'}
             />
         </div>
       </div>

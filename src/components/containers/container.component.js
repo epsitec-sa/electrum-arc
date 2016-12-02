@@ -121,18 +121,13 @@ export default class Container extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputKind           = this.read ('kind');
-    const inputAnchor         = this.read ('anchor');
-    const inputNavName        = this.read ('navigation-name');
-    const inputDragController = this.read ('drag-controller');
-    const inputDragSource     = this.read ('drag-source');
-    const inputDragHandle     = this.read ('drag-handle');
-    const inputNoDrag         = this.read ('no-drag');
-    const inputTicketType     = this.read ('ticket-type');
-    const inputTicketId       = this.read ('ticket-id');
-    const inputTripId         = this.read ('trip-id');
-    const inputIndex          = this.read ('index');
-    const inputMessenger      = this.read ('messenger');
+    const kind           = this.read ('kind');
+    const anchor         = this.read ('anchor');
+    const navName        = this.read ('navigation-name');
+    const dragController = this.read ('drag-controller');
+    const dragSource     = this.read ('drag-source');
+    const dragHandle     = this.read ('drag-handle');
+    const noDrag         = this.read ('no-drag');
 
     const boxStyle      = this.mergeStyles ('box');
     const triangleStyle = this.mergeStyles ('triangle');
@@ -144,7 +139,7 @@ export default class Container extends React.Component {
       'pane-hnavigator'
     ];
 
-    if (inputKind === 'flying-balloon') {
+    if (kind === 'flying-balloon') {
       return (
         <div
           disabled = {disabled}
@@ -156,27 +151,22 @@ export default class Container extends React.Component {
           </div>
         </div>
       );
-    } if (inputNoDrag === 'false') {
+    } if (noDrag === 'false') {
       return (
         <div
           disabled                = {disabled}
           style                   = {boxStyle}
-          id                      = {inputAnchor}
-          data-navigation-name    = {inputNavName}
-          data-ticket-type        = {inputTicketType}
-          data-ticket-id          = {inputTicketId}
-          data-trip-id            = {inputTripId}
-          data-index              = {inputIndex}
-          data-messenger          = {inputMessenger}
-          data-drag-container-for = {inputDragController}
-          data-drag-source        = {inputDragSource}
+          id                      = {anchor}
+          data-navigation-name    = {navName}
+          data-drag-container-for = {dragController}
+          data-drag-source        = {dragSource}
           >
           <div
             style             = {dragZoneStyle}
-            data-drag-handle  = {inputDragHandle}
-            data-drag-invalid = {inputNoDrag === 'true'}
+            data-drag-handle  = {dragHandle}
+            data-drag-invalid = {noDrag === 'true'}
             />
-          {useManagedChildren.includes (inputKind) ? this.state.managedChildren : this.props.children}
+          {useManagedChildren.includes (kind) ? this.state.managedChildren : this.props.children}
         </div>
       );
     } else {
@@ -184,17 +174,12 @@ export default class Container extends React.Component {
         <div
           disabled                = {disabled}
           style                   = {boxStyle}
-          id                      = {inputAnchor}
-          data-navigation-name    = {inputNavName}
-          data-ticket-type        = {inputTicketType}
-          data-ticket-id          = {inputTicketId}
-          data-trip-id            = {inputTripId}
-          data-index              = {inputIndex}
-          data-messenger          = {inputMessenger}
-          data-drag-container-for = {inputDragController}
-          data-drag-source        = {inputDragSource}
+          id                      = {anchor}
+          data-navigation-name    = {navName}
+          data-drag-container-for = {dragController}
+          data-drag-source        = {dragSource}
           >
-          {useManagedChildren.includes (inputKind) ? this.state.managedChildren : this.props.children}
+          {useManagedChildren.includes (kind) ? this.state.managedChildren : this.props.children}
         </div>
       );
     }
