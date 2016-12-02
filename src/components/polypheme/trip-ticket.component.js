@@ -12,41 +12,39 @@ export default class TripTicket extends React.Component {
 
   constructor (props) {
     super (props);
-    this.state = {
-      extended: false,
-      selected: false,
-      hatch:    false,
-    };
   }
 
   getExtended () {
-    return this.state.extended;
+    const data = this.read ('data');
+    return data.Extended === 'true';
   }
 
   setExtended (value) {
-    this.setState ( {
-      extended: value
-    });
+    const data = this.read ('data');
+    data.Extended = value ? 'true' : 'false';
+    this.forceUpdate ();
   }
 
   getSelected () {
-    return this.state.selected;
+    const data = this.read ('data');
+    return data.Selected === 'true';
   }
 
   setSelected (value) {
-    this.setState ( {
-      selected: value
-    });
+    const data = this.read ('data');
+    data.Selected = value ? 'true' : 'false';
+    this.forceUpdate ();
   }
 
   getHatch () {
-    return this.state.hatch;
+    const data = this.read ('data');
+    return data.Status === 'dispatched';
   }
 
   setHatch (value) {
-    this.setState ( {
-      hatch: value
-    });
+    const data = this.read ('data');
+    data.Status = value ? 'dispatched' : 'pre-dispatched';
+    this.forceUpdate ();
   }
 
   mouseClick (event) {
@@ -174,8 +172,8 @@ export default class TripTicket extends React.Component {
 
   renderCompacted () {
     const width     = this.props.theme.shapes.tripTicketWidth;
-    const selected  = this.getSelected ();
-    const hatch     = this.getHatch ();
+    const selected  = this.getSelected () ? 'true' : 'false';
+    const hatch     = this.getHatch () ? 'true' : 'false';
     const shape     = this.read ('shape');
     const data      = this.read ('data');
     const type      = this.read ('type');
@@ -191,9 +189,9 @@ export default class TripTicket extends React.Component {
     const cursor         = (noDrag === 'true') ? null : 'move';
 
     return (
-      <Ticket width={width} height={height} selected={selected ? 'true' : 'false'}
+      <Ticket width={width} height={height} selected={selected}
         kind='ticket' shape={shape} type={type}
-        drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch ? 'true' : 'false'}
+        drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch}
         data={data} onMouseClick={(e) => this.mouseClick (e)}
         {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
@@ -215,8 +213,8 @@ export default class TripTicket extends React.Component {
 
   renderExtended () {
     const width     = this.props.theme.shapes.tripTicketWidth;
-    const selected  = this.getSelected ();
-    const hatch     = this.getHatch ();
+    const selected  = this.getSelected () ? 'true' : 'false';
+    const hatch     = this.getHatch () ? 'true' : 'false';
     const shape     = this.read ('shape');
     const data      = this.read ('data');
     const noDrag    = 'false';
@@ -232,9 +230,9 @@ export default class TripTicket extends React.Component {
     const cursor         = (noDrag === 'true') ? null : 'move';
 
     return (
-      <Ticket width={width} selected={selected ? 'true' : 'false'}
+      <Ticket width={width} selected={selected}
         kind='rect' shape={shape} type={type}
-        drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch ? 'true' : 'false'}
+        drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch}
         data={data} onMouseClick={(e) => this.mouseClick (e)}
         {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >

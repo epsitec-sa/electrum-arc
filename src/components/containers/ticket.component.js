@@ -113,10 +113,6 @@ export default class Ticket extends React.Component {
     const inputMessenger  = inputData.messenger;
     const inputHatch      = this.read ('hatch');
 
-    // if (!inputTicketId) {
-    //   throw new Error (`Undefined ticket ticket-id`);
-    // }
-
     const boxStyle      = this.mergeStyles ('box');
     const shadowStyle   = this.mergeStyles ('shadow');
     const shapeStyle    = this.mergeStyles ('shape');
@@ -206,10 +202,6 @@ export default class Ticket extends React.Component {
     const inputTripId     = inputData.tripId;
     const inputMessenger  = inputData.messenger;
     const inputHatch      = this.read ('hatch');
-
-    // if (!inputTicketId) {
-    //   throw new Error (`Undefined ticket ticket-id`);
-    // }
 
     const rectShadowStyle       = this.mergeStyles ('rectShadow');
     const rectStyle             = this.mergeStyles ('rect');
