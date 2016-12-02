@@ -13,38 +13,6 @@ export default class DragController extends React.Component {
     this.drake = null;
   }
 
-  addTicket (index, ticket) {
-    window.document.reducerTickets (window.document.data.new.MessengersBooks[0].Tickets, {
-      type:   'ADD_TICKET',
-      index:  index,
-      ticket: ticket,
-    });
-  }
-
-  deleteTicket (ticket) {
-    window.document.reducerTickets (window.document.data.new.MessengersBooks[0].Tickets, {
-      type:   'DELETE_TICKET',
-      ticket: ticket,
-    });
-  }
-
-  getTicket (order) {
-    const tickets = window.document.data.new.MessengersBooks[0].Tickets;
-    return tickets[order];
-  }
-
-  getTicketOrder (id) {
-    const tickets = window.document.data.new.MessengersBooks[0].Tickets;
-    var order = 0;
-    for (var ticket of tickets) {
-      if (ticket.id === id) {
-        return order;
-      }
-      order++;
-    }
-    return -1;
-  }
-
   addTrip (tripId, trip) {
     window.document.reducer (window.document.data, {
       type:   'ADD_TRIP',
@@ -267,41 +235,22 @@ export default class DragController extends React.Component {
     return targetIndex;
   }
 
-  getToOrder (target, sibling, fromOrder) {
-    let toOrder = -1;
-    if (sibling === null) {
-      toOrder = target.children.length - 1;  // if no sibling, use last element
-    } else {
-      toOrder = this.getTicketOrder (sibling.dataset.id);
-      if (fromOrder && toOrder > fromOrder) {
-        toOrder--;  // if target under source, count as if the source was not there
+  changeDispatchToDispatch (element, target, source, sibling) {
+    const ticketMessenger = element.dataset.messenger;
+    const ticketId        = element.dataset.ticketId;
+    const tripId          = element.dataset.tripId;
+    const index           = element.dataset.index;
+    const targetMessenger = target.dataset.messenger;
+    const targetIndex     = this.getIndex (target, sibling, index);
+    if (ticketMessenger && ticketMessenger !== targetMessenger) {  // move from messenger to a other messenger ?
+      const newTripId = this.createTransit (ticketId, tripId, ticketMessenger, index, targetMessenger, targetIndex);
+      this.deleteTransit (ticketMessenger, newTripId);
+    } else {  // move into a messenger ?
+      if (ticketMessenger === targetMessenger && targetIndex !== -1) {
+        this.deleteDispatch (ticketMessenger, ticketId);
+        this.addDispatch (ticketMessenger, targetIndex, ticketId);
       }
     }
-    return toOrder;
-  }
-
-  changeDispatchToDispatch (element, target, source, sibling) {
-    const fromId = element.dataset.id;
-    const fromOrder = this.getTicketOrder (fromId);
-    const toOrder = this.getToOrder (target, sibling, fromOrder);
-    const ticket = this.getTicket (fromOrder);
-    this.deleteTicket (ticket);
-    this.addTicket (toOrder, ticket);
-    // const ticketMessenger = element.dataset.messenger;
-    // const ticketId        = element.dataset.ticketId;
-    // const tripId          = element.dataset.tripId;
-    // const index           = element.dataset.index;
-    // const targetMessenger = target.dataset.messenger;
-    // const targetIndex     = this.getIndex (target, sibling, index);
-    // if (ticketMessenger && ticketMessenger !== targetMessenger) {  // move from messenger to a other messenger ?
-    //   const newTripId = this.createTransit (ticketId, tripId, ticketMessenger, index, targetMessenger, targetIndex);
-    //   this.deleteTransit (ticketMessenger, newTripId);
-    // } else {  // move into a messenger ?
-    //   if (ticketMessenger === targetMessenger && targetIndex !== -1) {
-    //     this.deleteDispatch (ticketMessenger, ticketId);
-    //     this.addDispatch (ticketMessenger, targetIndex, ticketId);
-    //   }
-    // }
   }
 
   changeMissionsToDispatch (element, target, source, sibling) {
@@ -444,6 +393,7 @@ export default class DragController extends React.Component {
       source:  source,
       sibling: sibling,
     });
+    // window.document.dispatch.forceUpdate ();
   }
 
   initDragula () {
