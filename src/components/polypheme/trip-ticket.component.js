@@ -133,10 +133,15 @@ export default class TripTicket extends React.Component {
     return desc;
   }
 
-  getDirectionGlyph (trip, type) {
-    return (type === 'pick') ?
-    ((trip.Type === 'transit') ? 'plus-square-o'  : 'plus-square') :
-    ((trip.Type === 'transit') ? 'minus-square-o' : 'minus-square');
+  getDirectionGlyph (type) {
+    const transit = type.endsWith ('-transit');
+    if (type.startsWith ('pick')) {
+      return transit ? 'plus-square-o' : 'plus-square';
+    } else if (type.startsWith ('drop')) {
+      return transit ? 'minus-square-o' : 'minus-square';
+    } else {
+      throw new Error (`Unknown type ${type}`);
+    }
   }
 
   renderLine (glyph, text) {
@@ -187,12 +192,13 @@ export default class TripTicket extends React.Component {
     const shape     = this.read ('shape');
     const data      = this.read ('data');
     const type      = this.read ('type');
+    const pd        = type.startsWith ('pick') ? 'pick' : 'drop';
     const noDrag    = 'false';
 
-    const trip           = (type === 'pick') ? data.Trip.Pick : data.Trip.Drop;
+    const trip           = type.startsWith ('pick') ? data.Trip.Pick : data.Trip.Drop;
     const time           = trip.PlanedTime;
-    const directionGlyph = this.getDirectionGlyph (trip, type);
-    const directionColor = ColorHelpers.GetMarkColor (this.props.theme, type);
+    const directionGlyph = this.getDirectionGlyph (type);
+    const directionColor = ColorHelpers.GetMarkColor (this.props.theme, pd);
     const notes          = trip.Notes;
     const height         = Unit.add (this.computeHeight (trip.ShortDescription), '20px');
     const marginBottom   = '-10px';
@@ -200,7 +206,7 @@ export default class TripTicket extends React.Component {
 
     return (
       <Ticket width={width} height={height} selected={selected}
-        kind='ticket' shape={shape} type={type}
+        kind='ticket' shape={shape} type={pd}
         drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch} warning={warning}
         data={data} onMouseClick={(e) => this.mouseClick (e)}
         {...this.link ()} >
@@ -229,12 +235,13 @@ export default class TripTicket extends React.Component {
     const shape     = this.read ('shape');
     const data      = this.read ('data');
     const type      = this.read ('type');
+    const pd        = type.startsWith ('pick') ? 'pick' : 'drop';
     const noDrag    = 'false';
 
-    const trip           = (type === 'pick') ? data.Trip.Pick : data.Trip.Drop;
+    const trip           = type.startsWith ('pick') ? data.Trip.Pick : data.Trip.Drop;
     const time           = trip.PlanedTime;
-    const directionGlyph = this.getDirectionGlyph (trip, type);
-    const directionColor = ColorHelpers.GetMarkColor (this.props.theme, type);
+    const directionGlyph = this.getDirectionGlyph (type);
+    const directionColor = ColorHelpers.GetMarkColor (this.props.theme, pd);
     const notes          = trip.Notes;
     const height         = Unit.add (this.computeHeight (trip.ShortDescription), '20px');
     const marginBottom   = null;
@@ -242,7 +249,7 @@ export default class TripTicket extends React.Component {
 
     return (
       <Ticket width={width} selected={selected}
-        kind='rect' shape={shape} type={type}
+        kind='rect' shape={shape} type={pd}
         drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch} warning={warning}
         data={data} onMouseClick={(e) => this.mouseClick (e)}
         {...this.link ()} >
