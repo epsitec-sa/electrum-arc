@@ -1,7 +1,8 @@
 'use strict';
 
 import React from 'react';
-import {default as dragula} from 'react-dragula';
+// import {default as dragula} from 'react-dragula';
+import {default as dragula} from 'dragula';
 // import autoScroll from 'dom-autoscroller';
 
 /******************************************************************************/
@@ -13,16 +14,28 @@ export default class DragController extends React.Component {
     this.drake = null;
   }
 
+  drag (element, source) {
+    console.log ('>>>>> drag >>>>>');
+    window.document.reducerDrag (window.document.data.new, {
+      type:    'DRAG',
+      element: element,
+      source:  source,
+    });
+    window.document.dispatch.forceUpdate ();
+  }
+
   drop (element, target, source, sibling) {
     console.log ('>>>>> drop >>>>>');
     window.document.reducerDrag (window.document.data.new, {
-      type:    'DRAG',
+      type:    'DROP',
       element: element,
       target:  target,
       source:  source,
       sibling: sibling,
     });
-    this.drake.remove ();  // remove the drop copy from DOM
+    if (target.dataset.id !== source.dataset.id) {
+      this.drake.remove ();  // remove the drop copy from DOM
+    }
     window.document.dispatch.forceUpdate ();
   }
 
@@ -36,15 +49,22 @@ export default class DragController extends React.Component {
         moves:     (el, container, handle) => this.movesWithHandle (handle),
         invalid:   (el, handle) => this.isInvalid (handle),
         copy:      true,
+        copySortSource: true,
+        revertOnSpill: true,
+        removeOnSpill: true,
         direction: direction,
       });
     } else {
       this.drake = dragula ([], {
         invalid:   (el) => this.isInvalid (el),
         copy:      true,
+        copySortSource: true,
+        revertOnSpill: true,
+        removeOnSpill: true,
         direction: direction,
       });
     }
+    this.drake.on ('drag', (element, source) => this.drag (element, source));
     this.drake.on ('drop', (element, target, source, sibling) => this.drop (element, target, source, sibling));
     // this.drake.on ('dragEnd', () => console.log ('dragEnd'));
     // this.drake.on ('remove', () => console.log ('remove'));

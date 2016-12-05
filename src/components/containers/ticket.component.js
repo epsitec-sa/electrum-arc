@@ -131,6 +131,10 @@ export default class Ticket extends React.Component {
     const contentStyle  = this.mergeStyles ('content');
     const dragZoneStyle = this.mergeStyles ('dragZoneStyle');
 
+    if (data.Hidden) {
+      boxStyle.display = 'none';
+    }
+
     if (warning && warning !== '') {  // pick under drop ?
       shapeStyle.fill = this.props.theme.palette.ticketWarningBackground;
     }
@@ -216,6 +220,10 @@ export default class Ticket extends React.Component {
     const contentStyle          = this.mergeStyles ('content');
     const rectContentHatchStyle = this.mergeStyles ('rectContentHatch');
     const dragZoneStyle         = this.mergeStyles ('dragZoneStyle');
+
+    if (data.Hidden) {
+      rectShadowStyle.display = 'none';
+    }
 
     if (warning && warning !== '') {  // pick under drop ?
       rectStyle.backgroundColor = this.props.theme.palette.ticketWarningBackground;
