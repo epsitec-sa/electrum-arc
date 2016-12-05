@@ -26,7 +26,7 @@ export default class TripTickets extends React.Component {
 
     return (
       <Container kind='column' min-width={width} min-height={height} position='relative'
-        {...this.link ()} >
+        id={data.id} {...this.link ()} >
         {this.renderTripTicket (data, 'pick')}
         {this.renderTripTicket (data, 'drop')}
       </Container>
