@@ -22,9 +22,8 @@ export default class DragController extends React.Component {
       source:  source,
       sibling: sibling,
     });
-    // setTimeout (function () {
-    //   window.document.dispatch.forceUpdate ();
-    // }, 1000);
+    this.drake.remove ();  // remove the drop copy from DOM
+    window.document.dispatch.forceUpdate ();
   }
 
   initDragula () {
@@ -36,11 +35,13 @@ export default class DragController extends React.Component {
       this.drake = dragula ([], {
         moves:     (el, container, handle) => this.movesWithHandle (handle),
         invalid:   (el, handle) => this.isInvalid (handle),
+        copy:      true,
         direction: direction,
       });
     } else {
       this.drake = dragula ([], {
         invalid:   (el) => this.isInvalid (el),
+        copy:      true,
         direction: direction,
       });
     }
