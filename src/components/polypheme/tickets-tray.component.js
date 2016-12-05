@@ -1,11 +1,11 @@
 'use strict';
 
 import React from 'react';
-import {Label, TextField, Button} from 'electrum-arc';
+import {Label, TextField} from 'electrum-arc';
 
 /******************************************************************************/
 
-export default class TicketsGlue extends React.Component {
+export default class TicketsTray extends React.Component {
 
   constructor (props) {
     super (props);
@@ -57,9 +57,9 @@ export default class TicketsGlue extends React.Component {
   }
 
   render () {
-    const inputDragController = this.read ('drag-controller');
-    const inputDragSource     = this.read ('drag-source');
-    const inputIndex          = this.read ('index');
+    const dragController = this.read ('drag-controller');
+    const dragSource     = this.read ('drag-source');
+    const data           = this.read ('data');
 
     const boxStyle       = this.mergeStyles ('box');
     const titleStyle     = this.mergeStyles ('title');
@@ -92,9 +92,9 @@ export default class TicketsGlue extends React.Component {
         </div>
         <div
           style                   = {containerStyle}
-          data-drag-container-for = {inputDragController ? inputDragController : 'tickets'}
-          data-drag-source        = {inputDragSource}
-          data-index              = {inputIndex}
+          data-drag-container-for = {dragController ? dragController : 'tickets'}
+          data-drag-source        = {dragSource}
+          data-id                 = {data.id}
           >
           {this.props.children}
         </div>
