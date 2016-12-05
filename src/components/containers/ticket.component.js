@@ -13,8 +13,9 @@ export default class Ticket extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      hover: false,
-      link:  false,
+      hover:   false,
+      link:    false,
+      transit: false,
     };
   }
 
@@ -52,6 +53,16 @@ export default class Ticket extends React.Component {
     });
   }
 
+  getTransit () {
+    return this.state.transit;
+  }
+
+  setTransit (value) {
+    this.setState ( {
+      transit: value
+    });
+  }
+
   componentDidMount () {
     if (!window.document.tickets) {
       window.document.tickets = [];
@@ -77,6 +88,7 @@ export default class Ticket extends React.Component {
         if (d && d.Trip) {
           if (data.Trip.MissionId && d.Trip.MissionId && data.Trip.MissionId === d.Trip.MissionId) {
             t.setLink (link);
+            t.setTransit (d.Type.endsWith ('-transit'));
           }
         }
       }
@@ -124,6 +136,10 @@ export default class Ticket extends React.Component {
     }
     if (this.getHover ()) {
       shapeStyle.fill = emphasize (shapeStyle.fill, 0.1);
+    }
+
+    if (this.getTransit ()) {
+      hoverStyle.fill = this.props.theme.palette.ticketTransitHover;
     }
 
     const w = boxStyle.width;
@@ -206,6 +222,10 @@ export default class Ticket extends React.Component {
     }
     if (this.getHover ()) {
       rectStyle.backgroundColor = emphasize (rectStyle.backgroundColor, 0.1);
+    }
+
+    if (this.getTransit ()) {
+      rectHoverStyle.borderColor = this.props.theme.palette.ticketTransitHover;
     }
 
     return (
