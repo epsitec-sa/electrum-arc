@@ -46,22 +46,18 @@ export default class DragController extends React.Component {
     const dragHandle     = this.read ('drag-handle');
     if (dragHandle) {
       this.drake = dragula ([], {
-        moves:     (el, container, handle) => this.movesWithHandle (handle),
-        invalid:   (el, handle) => this.isInvalid (handle),
-        copy:      true,
+        moves:          (el, container, handle) => this.movesWithHandle (handle),
+        invalid:        (el, handle) => this.isInvalid (handle),
+        copy:           true,
         copySortSource: true,
-        revertOnSpill: true,
-        removeOnSpill: true,
-        direction: direction,
+        direction:      direction,
       });
     } else {
       this.drake = dragula ([], {
-        invalid:   (el) => this.isInvalid (el),
-        copy:      true,
+        invalid:        (el) => this.isInvalid (el),
+        copy:           true,
         copySortSource: true,
-        revertOnSpill: true,
-        removeOnSpill: true,
-        direction: direction,
+        direction:      direction,
       });
     }
     this.drake.on ('drag', (element, source) => this.drag (element, source));
