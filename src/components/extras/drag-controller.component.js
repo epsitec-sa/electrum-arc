@@ -16,7 +16,7 @@ export default class DragController extends React.Component {
 
   drag (element, source) {
     console.log ('>>>>> drag >>>>>');
-    window.document.reducerDrag (window.document.data.new, {
+    window.document.reducerDrag (window.document.data, {
       type:    'DRAG',
       element: element,
       source:  source,
@@ -26,7 +26,7 @@ export default class DragController extends React.Component {
 
   drop (element, target, source, sibling) {
     console.log ('>>>>> drop >>>>>');
-    window.document.reducerDrag (window.document.data.new, {
+    window.document.reducerDrag (window.document.data, {
       type:    'DROP',
       element: element,
       target:  target,
