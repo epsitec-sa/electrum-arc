@@ -144,7 +144,7 @@ export default class TripTicket extends React.Component {
     }
   }
 
-  renderLine (glyph, text) {
+  renderLine (glyph, text, index) {
     if (!text) {
       return null;
     } else {
@@ -154,7 +154,7 @@ export default class TripTicket extends React.Component {
         glyph = 'bookmark';
       }
       return (
-        <Container kind='ticket-row' {...this.link ()} >
+        <Container key={index} kind='ticket-row' {...this.link ()} >
           <Label width='15px' {...this.link ()} />
           <Label glyph={glyph} glyph-color={color} width='35px' {...this.link ()} />
           <Label text={text} font-size={this.props.theme.shapes.ticketExtendedTextSize}
@@ -164,12 +164,12 @@ export default class TripTicket extends React.Component {
     }
   }
 
-  renderNote (note) {
+  renderNote (note, index) {
     let glyph = null;
     if (note.Glyphs.length >= 1) {
       glyph = note.Glyphs[0].Glyph;  // only first glyph !
     }
-    return this.renderLine (glyph, note.Content);
+    return this.renderLine (glyph, note.Content, index);
   }
 
   renderNotes (notes) {
@@ -177,8 +177,9 @@ export default class TripTicket extends React.Component {
       return null;
     } else {
       let line = [];
+      let index = 0;
       for (var note of notes) {
-        line.push (this.renderNote (note));
+        line.push (this.renderNote (note, index++));
       }
       return line;
     }
