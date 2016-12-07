@@ -21,22 +21,20 @@ export default class Splitter extends React.Component {
   }
 
   render () {
-    const {state} = this.props;
-    const disabled = Action.isDisabled (state);
-    const inputKind        = this.read ('kind');
-    const inputDefaultSize = this.read ('default-size');
-    const inputMinSize     = this.read ('min-size');
-    const inputMaxSize     = this.read ('max-size');
+    const kind        = this.read ('kind');
+    const defaultSize = this.read ('default-size');
+    const minSize     = this.read ('min-size');
+    const maxSize     = this.read ('max-size');
 
-    if (!inputKind) {
+    if (!kind) {
       throw new Error (`Undefined splitter kind`);
     }
 
     const resizerStyle = this.mergeStyles ('resizerStyle');
 
     return (
-      <SplitPane split={inputKind} resizerStyle={resizerStyle}
-        defaultSize={inputDefaultSize} minSize={inputMinSize} maxSize={inputMaxSize} >
+      <SplitPane split={kind} resizerStyle={resizerStyle}
+        defaultSize={defaultSize} minSize={minSize} maxSize={maxSize} >
         {this.props.children}
       </SplitPane>
     );
