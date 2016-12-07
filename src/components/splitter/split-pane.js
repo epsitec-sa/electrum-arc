@@ -131,6 +131,10 @@ class SplitPane extends Component {
                 resized: true,
               });
             }
+            const onSizeChanged = this.props.onSizeChanged;
+            if (onSizeChanged) {
+              onSizeChanged (newSize);
+            }
 
             if (this.props.onChange) {
               this.props.onChange (newSize);

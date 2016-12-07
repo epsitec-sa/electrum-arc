@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import {Action} from 'electrum';
 import SplitPane from './split-pane.js';
 
 /******************************************************************************/
@@ -21,10 +20,11 @@ export default class Splitter extends React.Component {
   }
 
   render () {
-    const kind        = this.read ('kind');
-    const defaultSize = this.read ('default-size');
-    const minSize     = this.read ('min-size');
-    const maxSize     = this.read ('max-size');
+    const kind          = this.read ('kind');
+    const defaultSize   = this.read ('default-size');
+    const minSize       = this.read ('min-size');
+    const maxSize       = this.read ('max-size');
+    const onSizeChanged = this.read ('onSizeChanged');
 
     if (!kind) {
       throw new Error (`Undefined splitter kind`);
@@ -34,7 +34,8 @@ export default class Splitter extends React.Component {
 
     return (
       <SplitPane split={kind} resizerStyle={resizerStyle}
-        defaultSize={defaultSize} minSize={minSize} maxSize={maxSize} >
+        defaultSize={defaultSize} minSize={minSize} maxSize={maxSize}
+        onSizeChanged={onSizeChanged} >
         {this.props.children}
       </SplitPane>
     );
