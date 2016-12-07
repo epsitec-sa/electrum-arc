@@ -129,10 +129,15 @@ export default class Container extends React.Component {
     const dragHandle     = this.read ('drag-handle');
     const noDrag         = this.read ('no-drag');
     const id             = this.read ('id');
+    const hidden         = this.read ('hidden');
 
     const boxStyle      = this.mergeStyles ('box');
     const triangleStyle = this.mergeStyles ('triangle');
     const dragZoneStyle = this.mergeStyles ('dragZone');
+
+    if (hidden) {
+      boxStyle.display = 'none';
+    }
 
     const useManagedChildren = [
       'pane-navigator',

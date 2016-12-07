@@ -1,8 +1,8 @@
 'use strict';
 
 import React from 'react';
-// import {default as dragula} from 'react-dragula';
-import {default as dragula} from 'dragula';
+import {default as dragula} from 'react-dragula';
+// import {default as dragula} from 'dragula';
 // import autoScroll from 'dom-autoscroller';
 
 /******************************************************************************/
