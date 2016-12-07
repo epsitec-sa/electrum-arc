@@ -16,11 +16,12 @@ export default class MessengerTicket extends React.Component {
     const width  = this.props.theme.shapes.tripTicketWidth;
     const height = this.props.theme.shapes.messengerHeight;
     const data   = this.read ('data');
+    const onMouseOut = this.read ('onMouseOut');
 
     return (
       <Ticket kind='ticket' shape='header' width={width} height={height} color='selected'
         drag-handle='MessengerTicket' no-drag='false' cursor='ew-resize'
-        data={data} {...this.link ()} >
+        data={data} onMouseOut={onMouseOut} {...this.link ()} >
         <Container kind='column' grow='2' {...this.link ()} >
           <Button glyph={data.Messenger.Photo.Glyph} kind='identity' {...this.link ()} />
         </Container>

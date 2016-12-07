@@ -103,6 +103,10 @@ export default class Ticket extends React.Component {
   mouseOut () {
     this.setHover (false);
     this.setLinkToAll (false);
+    const onMouseOut = this.read ('onMouseOut');
+    if (onMouseOut) {
+      onMouseOut ();
+    }
   }
 
   mouseUp (event) {
