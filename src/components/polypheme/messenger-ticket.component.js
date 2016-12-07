@@ -13,9 +13,9 @@ export default class MessengerTicket extends React.Component {
   }
 
   render () {
-    const width  = this.props.theme.shapes.tripTicketWidth;
-    const height = this.props.theme.shapes.messengerHeight;
-    const data   = this.read ('data');
+    const width      = this.props.theme.shapes.tripTicketWidth;
+    const height     = this.props.theme.shapes.messengerHeight;
+    const data       = this.read ('data');
     const onMouseOut = this.read ('onMouseOut');
 
     return (
