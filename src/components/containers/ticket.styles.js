@@ -215,6 +215,7 @@ export default function styles (theme, props) {
     display:       'flex',
     flexDirection: 'row',
     transition:    theme.transitions.easeOut (),
+    userSelect:    'none',
   };
 
   // Invisible zone for drag & drop detection.

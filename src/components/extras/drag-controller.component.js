@@ -88,7 +88,7 @@ export default class DragController extends React.Component {
   }
 
   componentDidMount () {
-    this.initDragula ();
+    // this.initDragula ();
   }
 
   movesWithHandle (handle) {
