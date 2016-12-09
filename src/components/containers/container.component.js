@@ -55,15 +55,28 @@ export default class Container extends React.Component {
         panelElem.addEventListener ('scroll', this.handleScroll, true);
       }
     }
+    const dragController = this.read ('drag-controller');
+    if (dragController) {
+      if (!window.document.dragControllers) {
+        window.document.dragControllers = [];
+      }
+      window.document.dragControllers.push (this);
+    }
   }
 
   componentWillUnmount () {
     const navFor = this.read ('navigation-for');
-
     if (navFor) {
       const panelElem = document.querySelectorAll (`[data-navigation-name="${navFor}"]`)[0];
       if (panelElem) {
         panelElem.removeEventListener ('scroll', this.handleScroll, true);
+      }
+    }
+    const dragController = this.read ('drag-controller');
+    if (dragController) {
+      const index = window.document.dragControllers.indexOf (this);
+      if (index !== -1) {
+        window.document.dragControllers.splice (index, 1);
       }
     }
   }

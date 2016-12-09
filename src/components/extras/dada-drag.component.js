@@ -114,28 +114,59 @@ export default class DadaDrag extends React.Component {
     return this.moveCount > 3;
   }
 
+  findV (component, node, y) {
+    const thickness = this.props.theme.shapes.dragAndDropThickness / 2;
+    if (node.children.length === 0) {  // is in top of empty container ?
+      const rect = node.getBoundingClientRect ();
+      return {
+        id:       null,
+        ownerId:  component.props.id,
+        position: 'null',
+        rect:     getVRect (rect, rect.top - thickness, rect.top + thickness),
+      };
+    }
+    for (var i = 0, len = node.children.length; i < len; i++) {
+      const t = node.children[i];
+      const rect = t.getBoundingClientRect ();
+      const oy = rect.top + rect.height / 2;
+      if (y < oy) {  // is upper middle ?
+        let py = rect.top;
+        if (i > 0) {  // not top first element ?
+          const lt = node.children[i - 1];
+          const lr = lt.getBoundingClientRect ();
+          py = (lr.bottom + rect.top) / 2;
+        }
+        return {
+          id:       t.dataset.id,
+          ownerId:  t.dataset.ownerId,
+          position: 'before',
+          rect:     getVRect (rect, py - thickness, py + thickness),
+        };
+      }
+    }
+    // At the end of container (after the last element).
+    const last = node.children[node.children.length - 1];
+    const rect = last.getBoundingClientRect ();
+    return {
+      id:       last.dataset.id,
+      ownerId:  last.dataset.ownerId,
+      position: 'after',
+      rect:     getVRect (rect, rect.bottom - thickness, rect.bottom + thickness),
+    };
+  }
+
   find (x, y) {
-    const thickness = this.props.theme.shapes.dragAndDropThickness;
-    for (var i = 0, len = window.document.tickets.length; i < len; i++) {
-      const t = window.document.tickets[i];
-      const d = t.read ('data');
-      if (d && d.Trip) {
-        const node = ReactDOM.findDOMNode (t);
-        const rect = node.getBoundingClientRect ();
-        if (isInside (getVRect (rect, rect.top, rect.top + rect.height / 2), x, y, 5)) {
-          return {
-            id:       t.props.data.id,
-            ownerId:  t.props.data.OwnerId,
-            position: 'before',
-            rect:     getVRect (rect, rect.top - thickness / 2, rect.top + thickness / 2),
-          };
-        } else if (isInside (getVRect (rect, rect.bottom - rect.height / 2, rect.bottom), x, y, 5)) {
-          return {
-            id:       t.props.data.id,
-            ownerId:  t.props.data.OwnerId,
-            position: 'after',
-            rect:     getVRect (rect, rect.bottom - thickness / 2, rect.bottom + thickness / 2),
-          };
+    console.log ('find...');
+    const toDrag = this.read ('component-to-drag');
+    const dragHandle = toDrag.read ('drag-handle');
+    for (var i = 0, len = window.document.dragControllers.length; i < len; i++) {
+      const c = window.document.dragControllers[i];
+      const dragController = c.props['drag-controller'];
+      if (dragController === dragHandle) {
+        const n = ReactDOM.findDOMNode (c);
+        const rect = n.getBoundingClientRect ();
+        if (isInside (rect, x, y, 5)) {
+          return this.findV (c, n, y);
         }
       }
     }

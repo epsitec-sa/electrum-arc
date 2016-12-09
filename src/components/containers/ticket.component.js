@@ -249,7 +249,6 @@ export default class Ticket extends React.Component {
 
     return (
       <div
-        disabled      = {disabled}
         style         = {boxStyle}
         data-id       = {data.id}
         data-owner-id = {data.OwnerId}

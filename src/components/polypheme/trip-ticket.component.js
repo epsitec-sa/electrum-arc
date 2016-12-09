@@ -208,7 +208,7 @@ export default class TripTicket extends React.Component {
     return (
       <Ticket width={width} height={height} selected={selected}
         kind='ticket' shape={shape} type={pd}
-        drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch} warning={warning}
+        drag-handle='tickets' no-drag={noDrag} cursor={cursor} hatch={hatch} warning={warning}
         data={data} onMouseClick={(e) => this.mouseClick (e)}
         {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
@@ -251,7 +251,7 @@ export default class TripTicket extends React.Component {
     return (
       <Ticket width={width} selected={selected}
         kind='rect' shape={shape} type={pd}
-        drag-handle='TripTicket' no-drag={noDrag} cursor={cursor} hatch={hatch} warning={warning}
+        drag-handle='tickets' no-drag={noDrag} cursor={cursor} hatch={hatch} warning={warning}
         data={data} onMouseClick={(e) => this.mouseClick (e)}
         {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >

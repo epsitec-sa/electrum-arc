@@ -20,7 +20,7 @@ export default class MessengerTicket extends React.Component {
 
     return (
       <Ticket kind='ticket' shape='header' width={width} height={height} color='selected'
-        drag-handle='MessengerTicket' no-drag='false' cursor='ew-resize'
+        drag-handle='messengers' no-drag='false' cursor='ew-resize'
         data={data} onMouseOut={onMouseOut} {...this.link ()} >
         <Container kind='column' grow='2' {...this.link ()} >
           <Button glyph={data.Messenger.Photo.Glyph} kind='identity' {...this.link ()} />
