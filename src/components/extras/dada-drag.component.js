@@ -5,6 +5,12 @@ import ReactDOM from 'react-dom';
 
 /******************************************************************************/
 
+function length (x1, y1, x2, y2) {
+  const dx = x1 - x2;
+  const dy = y1 - y2;
+  return Math.sqrt ((dx * dx) + (dy * dy));
+}
+
 function getVRect (rect, top, bottom) {
   return {
     left:   rect.left,
@@ -44,13 +50,16 @@ export default class DadaDrag extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      x: 0,
-      y: 0,
-      dest: null,
+      x:       0,
+      y:       0,
+      dest:    null,
+      opacity: 1.0,
     };
     this.moveCount = 0;
-    this.offsetX = 0;
-    this.offsetY = 0;
+    this.startX    = 0;
+    this.startY    = 0;
+    this.offsetX   = 0;
+    this.offsetY   = 0;
   }
 
   getX () {
@@ -80,6 +89,16 @@ export default class DadaDrag extends React.Component {
   setDest (value) {
     this.setState ( {
       dest: value
+    });
+  }
+
+  getOpacity () {
+    return this.state.opacity;
+  }
+
+  setOpacity (value) {
+    this.setState ( {
+      opacity: value
     });
   }
 
@@ -126,6 +145,8 @@ export default class DadaDrag extends React.Component {
   mouseMove (event) {
     console.log ('DadaDrag.mouseMove');
     if (this.moveCount === 0) {  // first move ?
+      this.startX = event.clientX;
+      this.startY = event.clientY;
       const toDrag = this.read ('component-to-drag');
       const node = ReactDOM.findDOMNode (toDrag);
       const rect = node.getBoundingClientRect ();
@@ -133,8 +154,14 @@ export default class DadaDrag extends React.Component {
       this.offsetY = event.clientY - rect.top;
     }
     this.moveCount++;
-    this.setX (event.clientX - this.offsetX);
-    this.setY (event.clientY - this.offsetY);
+    // this.setX (event.clientX - this.offsetX);
+    // this.setY (event.clientY - this.offsetY);
+    this.setX (event.clientX);
+    this.setY (event.clientY);
+
+    // const l = length (this.startX, this.startY, event.clientX, event.clientY);
+    // const o = Math.max (Math.min (1 - (l / 100), 1.0), 0.5);
+    // this.setOpacity (o);
 
     const dest = this.find (event.clientX, event.clientY);
     if (this.isUsefull (dest)) {
@@ -219,23 +246,35 @@ export default class DadaDrag extends React.Component {
     };
 
     const draggedStyle = {
+      visibility:      'visible',
       position:        'absolute',
       left:            this.getX (),
       top:             this.getY (),
       opacity:         0.9,
-      // backgroundColor: '#f00',
     };
 
     const dest = this.getDest ();
-    const rect = (dest && this.isDragStarted ()) ? dest.rect : {left: 0, right: 0, top: 0, bottom: 0};
-    const hilitedStyle = {
-      position:        'absolute',
-      left:            rect.left,
-      width:           rect.right - rect.left,
-      top:             rect.top,
-      height:          rect.bottom - rect.top,
-      backgroundColor: this.props.theme.palette.dragAndDropDestination,
-    };
+    let hilitedStyle;
+    if (dest && this.isDragStarted ()) {
+      const rect = dest.rect;
+      hilitedStyle = {
+        visibility:      'visible',
+        position:        'absolute',
+        left:            rect.left,
+        width:           rect.right - rect.left,
+        top:             rect.top,
+        height:          rect.bottom - rect.top,
+        transition:      'all 0.2s ease-out',
+        backgroundColor: this.props.theme.palette.dragAndDropDestination,
+      };
+    } else {
+      hilitedStyle = {
+        visibility:      'hidden',
+        position:        'absolute',
+        transition:      'all 0.2s ease-out',
+        backgroundColor: this.props.theme.palette.dragAndDropDestination,
+      };
+    }
 
     return (
       <div style = {fullScreenStyle}
