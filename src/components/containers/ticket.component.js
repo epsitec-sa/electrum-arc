@@ -3,7 +3,7 @@
 import React from 'react';
 import {Action, ColorManipulator} from 'electrum';
 import {Unit} from 'electrum-theme';
-import {DadaDrag} from '../../all-components.js';
+import {DragCarrier} from '../../all-components.js';
 
 const {emphasize} = ColorManipulator;
 
@@ -165,7 +165,7 @@ export default class Ticket extends React.Component {
 
   renderDrag () {
     return (
-      <DadaDrag
+      <DragCarrier
         drag-starting     = {() => this.setDragStarting (true)}
         drag-ending       = {(e, x) => this.dragEnding (e, x)}
         component-to-drag = {this}

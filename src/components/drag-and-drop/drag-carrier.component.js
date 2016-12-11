@@ -45,7 +45,7 @@ function isInside (rect, x, y, size) {
   return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
 }
 
-export default class DadaDrag extends React.Component {
+export default class DragCarrier extends React.Component {
 
   constructor (props) {
     super (props);
