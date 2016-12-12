@@ -74,30 +74,24 @@ export default class DragCab extends React.Component {
     return React.Children.map (this.props.children, c => {
       return React.cloneElement (c, {
         isDragged: isDragged,
-        hasHeLeft: dragStarting
+        hasHeLeft: dragStarting,
       });
     });
   }
 
   renderForDrag (isDragged) {
-    const dragHandle    = this.read ('drag-handle');
     const id            = this.read ('id');
     const ownerId       = this.read ('owner-id');
     const dragInProcess = this.getDragInProcess ();
     const dragStarting  = this.getDragStarting ();
 
-    const boxStyle = {
-      // visibility: dragInProcess ? 'hidden' : 'visible',
-    };
-
     const htmlDrag = (dragInProcess && !isDragged) ? this.renderDrag () : null;
 
     return (
-      <div style = {boxStyle}
-        data-drag-handle = {dragHandle}
-        data-id          = {id}
-        data-owner-id    = {ownerId}
-        onMouseDown = {event => this.mouseDown (event)}
+      <div
+        data-id       = {id}
+        data-owner-id = {ownerId}
+        onMouseDown   = {event => this.mouseDown (event)}
         >
         {this.renderChildren (isDragged, dragStarting)}
         {htmlDrag}

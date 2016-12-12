@@ -206,8 +206,8 @@ export default class TripTicket extends React.Component {
 
     return (
       <Ticket width={width} height={height} selected={selected}
-        kind='ticket' shape={shape} type={pd} cursor={cursor} hatch={hatch} warning={warning}
-        data={data} isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft}
+        kind='ticket' shape={shape} type={pd} cursor={cursor} hatch={hatch} warning={warning} data={data}
+        isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} mouseClick={this.props.mouseClick}
         onMouseClick={(e) => this.mouseClick (e)} {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
@@ -245,8 +245,8 @@ export default class TripTicket extends React.Component {
 
     return (
       <Ticket width={width} selected={selected}
-        kind='rect' shape={shape} type={pd} cursor={cursor} hatch={hatch} warning={warning}
-        data={data} is-dragged={this.props.isDragged} has-he-left={this.props.hasHeLeft}
+        kind='rect' shape={shape} type={pd} cursor={cursor} hatch={hatch} warning={warning} data={data}
+        is-dragged={this.props.isDragged} has-he-left={this.props.hasHeLeft} mouseClick={this.props.mouseClick}
         onMouseClick={(e) => this.mouseClick (e)} {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
