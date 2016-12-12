@@ -102,14 +102,6 @@ export default class DragCarrier extends React.Component {
     });
   }
 
-  // componentDidMount () {
-  //   console.log ('DadaDrag.componentDidMount');
-  // }
-
-  // componentWillUnmount () {
-  //   console.log ('DadaDrag.componentWillUnmount');
-  // }
-
   isDragStarted () {
     return this.moveCount > 2;
   }
@@ -174,7 +166,6 @@ export default class DragCarrier extends React.Component {
   }
 
   mouseMove (event) {
-    console.log ('DadaDrag.mouseMove');
     if (this.moveCount === 0) {  // first move ?
       this.startX = event.clientX;
       this.startY = event.clientY;
@@ -210,11 +201,9 @@ export default class DragCarrier extends React.Component {
   }
 
   mouseDown (event) {
-    console.log ('DadaDrag.mouseDown');
   }
 
   mouseUp (event) {
-    console.log ('DadaDrag.mouseUp');
     const dragEnding = this.read ('drag-ending');
     if (dragEnding) {
       dragEnding (event, this.isDragStarted ());
@@ -230,7 +219,7 @@ export default class DragCarrier extends React.Component {
       const toDrag      = this.read ('component-to-drag');
       const fromId      = toDrag.read ('id');
       const fromOwnerId = toDrag.read ('owner-id');
-      window.document.reducerDadaDragAndDrop (window.document.data, {
+      window.document.reducerDragAndDrop (window.document.data, {
         type:        'USEFULL',
         fromId:      fromId,
         fromOwnerId: fromOwnerId,
@@ -247,7 +236,7 @@ export default class DragCarrier extends React.Component {
     const toDrag      = this.read ('component-to-drag');
     const fromId      = toDrag.read ('id');
     const fromOwnerId = toDrag.read ('owner-id');
-    window.document.reducerDadaDragAndDrop (window.document.data, {
+    window.document.reducerDragAndDrop (window.document.data, {
       type:        'DROP',
       fromId:      fromId,
       fromOwnerId: fromOwnerId,

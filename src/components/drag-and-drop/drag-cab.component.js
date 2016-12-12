@@ -74,7 +74,7 @@ export default class DragCab extends React.Component {
   reduce (action, props) {
     const id      = props.data.id;
     const ownerId = props.data.OwnerId;
-    window.document.reducerDadaDragAndDrop (window.document.data, {
+    window.document.reducerDragAndDrop (window.document.data, {
       type:    action,
       id:      id,
       ownerId: ownerId,
