@@ -114,13 +114,11 @@ export default class Ticket extends React.Component {
   }
 
   renderTicket () {
-    const {state}  = this.props;
-    const disabled = Action.isDisabled (state);
-    const data       = this.read ('data');
-    const hatch      = this.read ('hatch');
-    const warning    = this.read ('warning');
-    const hasHeLeft  = this.read ('hasHeLeft');
-    const isDragged  = this.read ('isDragged');
+    const data      = this.read ('data');
+    const hatch     = data.Hatch === 'true';
+    const warning   = data.Warning;
+    const hasHeLeft = this.read ('hasHeLeft');
+    const isDragged = this.read ('isDragged');
 
     const boxStyle      = this.mergeStyles ('box');
     const shadowStyle   = this.mergeStyles ('shadow');
@@ -166,7 +164,7 @@ export default class Ticket extends React.Component {
     );
     const hs = this.props.theme.shapes.ticketHatchSize;
     const ht = Unit.multiply (hs, 2);
-    const htmlHatch = (hatch === 'true') ? (
+    const htmlHatch = hatch ? (
       <svg width={w} height={h} style={hatchStyle}>
         <defs>
           <pattern id='hatch' x='0px' y='0px' width={ht} height={ht} patternTransform='rotate(45)' patternUnits='userSpaceOnUse'>
@@ -184,11 +182,9 @@ export default class Ticket extends React.Component {
 
     return (
       <div
-        style         = {boxStyle}
-        data-id       = {data.id}
-        data-owner-id = {data.OwnerId}
-        onMouseOver   = {() => this.mouseOver ()}
-        onMouseOut    = {() => this.mouseOut ()}
+        style       = {boxStyle}
+        onMouseOver = {() => this.mouseOver ()}
+        onMouseOut  = {() => this.mouseOut ()}
         >
         {htmlShadow}
         {htmlShape}
@@ -202,16 +198,15 @@ export default class Ticket extends React.Component {
   }
 
   renderRect () {
-    const {state}  = this.props;
-    const disabled = Action.isDisabled (state);
-    const data       = this.read ('data');
-    const hatch      = this.read ('hatch');
-    const warning    = this.read ('warning');
-    const hasHeLeft  = this.read ('has-he-left');
-    const isDragged  = this.read ('is-dragged');
+    const data      = this.read ('data');
+    const hatch     = data.Hatch === 'true';
+    const warning   = data.Warning;
+    const hasHeLeft = this.read ('has-he-left');
+    const isDragged = this.read ('is-dragged');
 
     const rectShadowStyle       = this.mergeStyles ('rectShadow');
     const rectStyle             = this.mergeStyles ('rect');
+    const rectEmptyStyle        = this.mergeStyles ('rectEmpty');
     const rectHoverStyle        = this.mergeStyles ('rectHover');
     const contentStyle          = this.mergeStyles ('content');
     const rectContentHatchStyle = this.mergeStyles ('rectContentHatch');
@@ -235,34 +230,25 @@ export default class Ticket extends React.Component {
       rectHoverStyle.borderColor = this.props.theme.palette.ticketTransitHover;
     }
 
-    const htmlHover = hoverOrLink ? (
-      <div style = {rectHoverStyle} />
-    ) : null;
-
     return (
       <div
-        style         = {rectShadowStyle}
-        data-id       = {data.id}
-        data-owner-id = {data.OwnerId}
-        onMouseOver   = {() => this.mouseOver ()}
-        onMouseOut    = {() => this.mouseOut ()}
+        style       = {rectShadowStyle}
+        onMouseOver = {() => this.mouseOver ()}
+        onMouseOut  = {() => this.mouseOut ()}
         >
-        <div
-          disabled = {disabled}
-          style    = {rectStyle}
-          >
-          <div style = {hatch === 'true' ? rectContentHatchStyle : contentStyle}>
+        <div style = {rectStyle}>
+          <div style = {hatch ? rectContentHatchStyle : contentStyle}>
             {this.props.children}
           </div>
-          {htmlHover}
+          <div style = {hoverOrLink ? rectHoverStyle : rectEmptyStyle} />
         </div>
       </div>
     );
   }
 
   render () {
-    const inputKind = this.read ('kind');
-    if (inputKind === 'ticket') {
+    const kind = this.read ('kind');
+    if (kind === 'ticket') {
       return this.renderTicket ();
     } else {
       return this.renderRect ();

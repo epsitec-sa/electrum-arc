@@ -49,15 +49,37 @@ export default class DragCab extends React.Component {
   }
 
   dragEnding (event, isDragDoing) {
-    console.log ('dragEnding ' + isDragDoing);
     this.setDragInProcess (false);
     this.setDragStarting (false);
     if (!isDragDoing) {  // simple click done ?
-      const mouseClick = this.read ('onMouseClick');
-      if (mouseClick) {
-        mouseClick (event);
-      }
+      this.childrenChangeState (event);
     }
+  }
+
+  childrenChangeState (event) {
+    React.Children.forEach (this.props.children, ticket => this.changeState (ticket, event));
+    window.document.dispatch.forceUpdate ();
+  }
+
+  changeState (ticket, event) {
+    if (event.ctrlKey || event.metaKey) {  // select/deselect ?
+      this.reduce ('SWAP_SELECTED', ticket.props);
+    } else if (event.altKey) {  // dispatched/undispatched ?
+      this.reduce ('SWAP_HATCH', ticket.props);
+    } else {  // compected/extended ?
+      this.reduce ('SWAP_EXTENDED', ticket.props);
+    }
+  }
+
+  reduce (action, props) {
+    const id      = props.data.id;
+    const ownerId = props.data.OwnerId;
+    window.document.reducerDadaDragAndDrop (window.document.data, {
+      type:    action,
+      id:      id,
+      ownerId: ownerId,
+    });
+    window.document.dispatch.forceUpdate ();
   }
 
   renderDrag () {

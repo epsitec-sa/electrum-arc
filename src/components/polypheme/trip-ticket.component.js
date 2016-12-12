@@ -14,54 +14,6 @@ export default class TripTicket extends React.Component {
     super (props);
   }
 
-  getExtended () {
-    const data = this.read ('data');
-    return data.Extended === 'true';
-  }
-
-  setExtended (value) {
-    const data = this.read ('data');
-    data.Extended = value ? 'true' : 'false';
-    this.forceUpdate ();
-  }
-
-  getSelected () {
-    const data = this.read ('data');
-    return data.Selected === 'true';
-  }
-
-  setSelected (value) {
-    const data = this.read ('data');
-    data.Selected = value ? 'true' : 'false';
-    this.forceUpdate ();
-  }
-
-  getHatch () {
-    const data = this.read ('data');
-    return data.Status === 'dispatched';
-  }
-
-  setHatch (value) {
-    const data = this.read ('data');
-    data.Status = value ? 'dispatched' : 'pre-dispatched';
-    this.forceUpdate ();
-  }
-
-  getWarning () {
-    const data = this.read ('data');
-    return data.Warning;
-  }
-
-  mouseClick (event) {
-    if (event.ctrlKey || event.metaKey) {  // select/deselect ?
-      this.setSelected (!this.getSelected ());
-    } else if (event.altKey) {  // dispatched/undispatched ?
-      this.setHatch (!this.getHatch ());
-    } else {  // compected/extended ?
-      this.setExtended (!this.getExtended ());
-    }
-  }
-
   renderGlyph (glyph) {
     if (glyph.startsWith ('bookmark-')) {
       const color = glyph.substring (9);
@@ -186,14 +138,11 @@ export default class TripTicket extends React.Component {
   }
 
   renderCompacted () {
-    const width     = this.props.theme.shapes.tripTicketWidth;
-    const selected  = this.getSelected () ? 'true' : 'false';
-    const hatch     = this.getHatch () ? 'true' : 'false';
-    const warning   = this.getWarning ();
-    const shape     = this.read ('shape');
-    const data      = this.read ('data');
-    const type      = this.read ('type');
-    const pd        = type.startsWith ('pick') ? 'pick' : 'drop';
+    const width = this.props.theme.shapes.tripTicketWidth;
+    const shape = this.read ('shape');
+    const data  = this.read ('data');
+    const type  = this.read ('type');
+    const pd    = type.startsWith ('pick') ? 'pick' : 'drop';
 
     const trip           = type.startsWith ('pick') ? data.Trip.Pick : data.Trip.Drop;
     const time           = trip.PlanedTime;
@@ -205,10 +154,9 @@ export default class TripTicket extends React.Component {
     const cursor         = 'move';
 
     return (
-      <Ticket width={width} height={height} selected={selected}
-        kind='ticket' shape={shape} type={pd} cursor={cursor} hatch={hatch} warning={warning} data={data}
-        isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} mouseClick={this.props.mouseClick}
-        onMouseClick={(e) => this.mouseClick (e)} {...this.link ()} >
+      <Ticket width={width} height={height}
+        kind='ticket' shape={shape} type={pd} cursor={cursor} data={data} selected={data.Selected}
+        isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
             <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
@@ -227,14 +175,11 @@ export default class TripTicket extends React.Component {
   }
 
   renderExtended () {
-    const width     = this.props.theme.shapes.tripTicketWidth;
-    const selected  = this.getSelected () ? 'true' : 'false';
-    const hatch     = this.getHatch () ? 'true' : 'false';
-    const warning   = this.getWarning ();
-    const shape     = this.read ('shape');
-    const data      = this.read ('data');
-    const type      = this.read ('type');
-    const pd        = type.startsWith ('pick') ? 'pick' : 'drop';
+    const width = this.props.theme.shapes.tripTicketWidth;
+    const shape = this.read ('shape');
+    const data  = this.read ('data');
+    const type  = this.read ('type');
+    const pd    = type.startsWith ('pick') ? 'pick' : 'drop';
 
     const trip           = type.startsWith ('pick') ? data.Trip.Pick : data.Trip.Drop;
     const time           = trip.PlanedTime;
@@ -244,10 +189,9 @@ export default class TripTicket extends React.Component {
     const cursor         = 'move';
 
     return (
-      <Ticket width={width} selected={selected}
-        kind='rect' shape={shape} type={pd} cursor={cursor} hatch={hatch} warning={warning} data={data}
-        is-dragged={this.props.isDragged} has-he-left={this.props.hasHeLeft} mouseClick={this.props.mouseClick}
-        onMouseClick={(e) => this.mouseClick (e)} {...this.link ()} >
+      <Ticket width={width}
+        kind='rect' shape={shape} type={pd} cursor={cursor} data={data} selected={data.Selected}
+        isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
             <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
@@ -266,7 +210,8 @@ export default class TripTicket extends React.Component {
   }
 
   render () {
-    if (this.getExtended ()) {
+    const data = this.read ('data');
+    if (data.Extended === 'true') {
       return this.renderExtended ();
     } else {
       return this.renderCompacted ();
