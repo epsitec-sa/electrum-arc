@@ -116,17 +116,20 @@ export default class Ticket extends React.Component {
   renderTicket () {
     const data      = this.read ('data');
     const hatch     = data.Hatch === 'true';
+    const flash     = data.Flash === 'true';
     const warning   = data.Warning;
     const hasHeLeft = this.read ('hasHeLeft');
     const isDragged = this.read ('isDragged');
 
-    const boxStyle      = this.mergeStyles ('box');
-    const shadowStyle   = this.mergeStyles ('shadow');
-    const shapeStyle    = this.mergeStyles ('shape');
-    const hatchStyle    = this.mergeStyles ('hatch');
-    const svgStyle      = this.mergeStyles ('svg');
-    const hoverStyle    = this.mergeStyles ('hover');
-    const contentStyle  = this.mergeStyles ('content');
+    const boxStyle         = this.mergeStyles ('box');
+    const shadowStyle      = this.mergeStyles ('shadow');
+    const shapeStyle       = this.mergeStyles ('shape');
+    const shapeFlashStyle0 = this.mergeStyles ('shapeFlash0');
+    const shapeFlashStyle1 = this.mergeStyles ('shapeFlash1');
+    const hatchStyle       = this.mergeStyles ('hatch');
+    const svgStyle         = this.mergeStyles ('svg');
+    const hoverStyle       = this.mergeStyles ('hover');
+    const contentStyle     = this.mergeStyles ('content');
 
     const hoverOrLink = (this.getHover () || this.getLink ()) && !hasHeLeft && !isDragged;
 
@@ -162,6 +165,12 @@ export default class Ticket extends React.Component {
         <path d={svgStyle.path} />
       </svg>
     );
+    // const htmlFlash = (
+    //  <svg width={w} height={h} style={flash ? shapeFlashStyle1 : shapeFlashStyle0}>
+    //    <path d={svgStyle.path} />
+    //  </svg>
+    // );
+    const htmlFlash = null;
     const hs = this.props.theme.shapes.ticketHatchSize;
     const ht = Unit.multiply (hs, 2);
     const htmlHatch = hatch ? (
@@ -188,6 +197,7 @@ export default class Ticket extends React.Component {
         >
         {htmlShadow}
         {htmlShape}
+        {htmlFlash}
         {htmlHatch}
         {htmlHover}
         <div style = {contentStyle}>
