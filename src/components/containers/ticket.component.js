@@ -128,7 +128,6 @@ export default class Ticket extends React.Component {
     const svgStyle      = this.mergeStyles ('svg');
     const hoverStyle    = this.mergeStyles ('hover');
     const contentStyle  = this.mergeStyles ('content');
-    const dragZoneStyle = this.mergeStyles ('dragZoneStyle');
 
     const hoverOrLink = (this.getHover () || this.getLink ()) && !hasHeLeft && !isDragged;
 
@@ -187,6 +186,8 @@ export default class Ticket extends React.Component {
         style         = {boxStyle}
         data-id       = {data.id}
         data-owner-id = {data.OwnerId}
+        onMouseOver   = {() => this.mouseOver ()}
+        onMouseOut    = {() => this.mouseOut ()}
         >
         {htmlShadow}
         {htmlShape}
@@ -195,11 +196,6 @@ export default class Ticket extends React.Component {
         <div style = {contentStyle}>
           {this.props.children}
         </div>
-        <div
-          onMouseOver = {() => this.mouseOver ()}
-          onMouseOut  = {() => this.mouseOut ()}
-          style       = {dragZoneStyle}
-        />
       </div>
     );
   }
@@ -218,7 +214,6 @@ export default class Ticket extends React.Component {
     const rectHoverStyle        = this.mergeStyles ('rectHover');
     const contentStyle          = this.mergeStyles ('content');
     const rectContentHatchStyle = this.mergeStyles ('rectContentHatch');
-    const dragZoneStyle         = this.mergeStyles ('dragZoneStyle');
 
     const hoverOrLink = (this.getHover () || this.getLink ()) && !hasHeLeft && !isDragged;
 
@@ -239,11 +234,17 @@ export default class Ticket extends React.Component {
       rectHoverStyle.borderColor = this.props.theme.palette.ticketTransitHover;
     }
 
+    const htmlHover = hoverOrLink ? (
+      <div style = {rectHoverStyle} />
+    ) : null;
+
     return (
       <div
         style         = {rectShadowStyle}
         data-id       = {data.id}
         data-owner-id = {data.OwnerId}
+        onMouseOver   = {() => this.mouseOver ()}
+        onMouseOut    = {() => this.mouseOut ()}
         >
         <div
           disabled = {disabled}
@@ -252,11 +253,7 @@ export default class Ticket extends React.Component {
           <div style = {hatch === 'true' ? rectContentHatchStyle : contentStyle}>
             {this.props.children}
           </div>
-          <div
-            onMouseOver = {() => this.mouseOver ()}
-            onMouseOut  = {() => this.mouseOut ()}
-            style       = {hoverOrLink ? rectHoverStyle : dragZoneStyle}
-          />
+          {htmlHover}
         </div>
       </div>
     );

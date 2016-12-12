@@ -218,15 +218,6 @@ export default function styles (theme, props) {
     userSelect:    'none',
   };
 
-  // Invisible zone for drag & drop detection.
-  const dragZoneStyle = {
-    position:     'absolute',
-    width:        '100%',
-    height:       '100%',
-    top:          '0px',
-    left:         '0px',
-  };
-
   const bm = (inputKind === 'thin') ? '15px' : '5px';
   const rectShadowStyle = {
     width:           inputWidth,
@@ -309,7 +300,6 @@ export default function styles (theme, props) {
     svg:              svgStyle,
     hover:            hoverStyle,
     content:          contentStyle,
-    dragZoneStyle:    dragZoneStyle,
     rectShadow:       rectShadowStyle,
     rect:             rectStyle,
     rectContentHatch: rectContentHatchStyle,
