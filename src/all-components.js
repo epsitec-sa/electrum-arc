@@ -10,6 +10,7 @@ import _Dialog from './components/containers/dialog.component.js';
 import _Dialog$styles from './components/containers/dialog.styles.js';
 import _Ticket from './components/containers/ticket.component.js';
 import _Ticket$styles from './components/containers/ticket.styles.js';
+import _DragCab from './components/drag-and-drop/drag-cab.component.js';
 import _DragCarrier from './components/drag-and-drop/drag-carrier.component.js';
 import _DragController from './components/drag-and-drop/drag-controller.component.js';
 import _Badge from './components/extras/badge.component.js';
@@ -57,6 +58,7 @@ export const AppCanvas = Electrum.wrap ('AppCanvas', _AppCanvas, {styles: _AppCa
 export const Container = Electrum.wrap ('Container', _Container, {styles: _Container$styles});
 export const Dialog = Electrum.wrap ('Dialog', _Dialog, {styles: _Dialog$styles});
 export const Ticket = Electrum.wrap ('Ticket', _Ticket, {styles: _Ticket$styles});
+export const DragCab = Electrum.wrap ('DragCab', _DragCab);
 export const DragCarrier = Electrum.wrap ('DragCarrier', _DragCarrier);
 export const DragController = Electrum.wrap ('DragController', _DragController);
 export const Badge = Electrum.wrap ('Badge', _Badge, {styles: _Badge$styles});

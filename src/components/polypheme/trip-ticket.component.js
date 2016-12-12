@@ -194,7 +194,6 @@ export default class TripTicket extends React.Component {
     const data      = this.read ('data');
     const type      = this.read ('type');
     const pd        = type.startsWith ('pick') ? 'pick' : 'drop';
-    const noDrag    = 'false';
 
     const trip           = type.startsWith ('pick') ? data.Trip.Pick : data.Trip.Drop;
     const time           = trip.PlanedTime;
@@ -203,12 +202,11 @@ export default class TripTicket extends React.Component {
     const notes          = trip.Notes;
     const height         = Unit.add (this.computeHeight (trip.ShortDescription), '20px');
     const marginBottom   = '-10px';
-    const cursor         = (noDrag === 'true') ? null : 'move';
+    const cursor         = 'move';
 
     return (
       <Ticket width={width} height={height} selected={selected}
-        kind='ticket' shape={shape} type={pd}
-        drag-handle='tickets' no-drag={noDrag} cursor={cursor} hatch={hatch} warning={warning}
+        kind='ticket' shape={shape} type={pd} cursor={cursor} hatch={hatch} warning={warning}
         data={data} onMouseClick={(e) => this.mouseClick (e)}
         {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
@@ -237,21 +235,17 @@ export default class TripTicket extends React.Component {
     const data      = this.read ('data');
     const type      = this.read ('type');
     const pd        = type.startsWith ('pick') ? 'pick' : 'drop';
-    const noDrag    = 'false';
 
     const trip           = type.startsWith ('pick') ? data.Trip.Pick : data.Trip.Drop;
     const time           = trip.PlanedTime;
     const directionGlyph = this.getDirectionGlyph (type);
     const directionColor = ColorHelpers.GetMarkColor (this.props.theme, pd);
-    const notes          = trip.Notes;
-    const height         = Unit.add (this.computeHeight (trip.ShortDescription), '20px');
     const marginBottom   = null;
-    const cursor         = (noDrag === 'true') ? null : 'move';
+    const cursor         = 'move';
 
     return (
       <Ticket width={width} selected={selected}
-        kind='rect' shape={shape} type={pd}
-        drag-handle='tickets' no-drag={noDrag} cursor={cursor} hatch={hatch} warning={warning}
+        kind='rect' shape={shape} type={pd} cursor={cursor} hatch={hatch} warning={warning}
         data={data} onMouseClick={(e) => this.mouseClick (e)}
         {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >

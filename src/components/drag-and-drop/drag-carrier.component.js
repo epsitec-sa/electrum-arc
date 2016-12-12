@@ -227,12 +227,13 @@ export default class DragCarrier extends React.Component {
 
   isUsefull (dest) {
     if (dest) {
-      const toDrag = this.read ('component-to-drag');
-      const data = toDrag.read ('data');
+      const toDrag      = this.read ('component-to-drag');
+      const fromId      = toDrag.read ('id');
+      const fromOwnerId = toDrag.read ('owner-id');
       window.document.reducerDadaDragAndDrop (window.document.data, {
         type:        'USEFULL',
-        fromId:      data.id,
-        fromOwnerId: data.OwnerId,
+        fromId:      fromId,
+        fromOwnerId: fromOwnerId,
         toId:        dest.id,
         toOwnerId:   dest.ownerId,
         toPosition:  dest.position,
@@ -243,12 +244,13 @@ export default class DragCarrier extends React.Component {
   }
 
   reduce (id, ownerId, position) {
-    const toDrag = this.read ('component-to-drag');
-    const data = toDrag.read ('data');
+    const toDrag      = this.read ('component-to-drag');
+    const fromId      = toDrag.read ('id');
+    const fromOwnerId = toDrag.read ('owner-id');
     window.document.reducerDadaDragAndDrop (window.document.data, {
       type:        'DROP',
-      fromId:      data.id,
-      fromOwnerId: data.OwnerId,
+      fromId:      fromId,
+      fromOwnerId: fromOwnerId,
       toId:        id,
       toOwnerId:   ownerId,
       toPosition:  position,

@@ -881,20 +881,9 @@ export default function styles (theme, props) {
     }
   }
 
-  // Invisible zone for drag & drop detection.
-  const dragZoneStyle = {
-    position: 'absolute',
-    width:    '100%',
-    height:   '100%',
-    top:      '0px',
-    left:     '0px',
-    // zIndex:   '10',  // prohibited, it extends the detection area beyond the hidden parts by the splitter!
-  };
-
   return {
     box:      boxStyle,
     triangle: triangleStyle,
-    dragZone: dragZoneStyle,
   };
 }
 

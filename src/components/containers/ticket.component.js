@@ -3,7 +3,6 @@
 import React from 'react';
 import {Action, ColorManipulator} from 'electrum';
 import {Unit} from 'electrum-theme';
-import {DragCarrier} from '../../all-components.js';
 
 const {emphasize} = ColorManipulator;
 
@@ -17,8 +16,6 @@ export default class Ticket extends React.Component {
       hover:   false,
       link:    false,
       transit: false,
-      dragInProcess: false,
-      dragStarting: false,
     };
   }
 
@@ -31,7 +28,6 @@ export default class Ticket extends React.Component {
       type:     this.read ('type'),
       selected: this.read ('selected'),
       color:    this.read ('color'),
-      noDrag:   this.read ('no-drag'),
       cursor:   this.read ('cursor'),
     };
   }
@@ -63,26 +59,6 @@ export default class Ticket extends React.Component {
   setTransit (value) {
     this.setState ( {
       transit: value
-    });
-  }
-
-  getDragInProcess () {
-    return this.state.dragInProcess;
-  }
-
-  setDragInProcess (value) {
-    this.setState ( {
-      dragInProcess: value
-    });
-  }
-
-  getDragStarting () {
-    return this.state.dragStarting;
-  }
-
-  setDragStarting (value) {
-    this.setState ( {
-      dragStarting: value
     });
   }
 
@@ -136,51 +112,14 @@ export default class Ticket extends React.Component {
     }
   }
 
-  mouseMove (event) {
-    // console.log ('Ticket.mouseMove');
-  }
-
-  mouseDown (event) {
-    // console.log ('Ticket.mouseDown');
-    window.document.dragInProcess = true;
-    this.setDragInProcess (true);
-  }
-
-  mouseUp (event) {
-    // console.log ('Ticket.mouseUp');
-  }
-
-  dragEnding (event, isDragDoing) {
-    console.log ('dragEnding ' + isDragDoing);
-    window.document.dragInProcess = false;
-    this.setDragInProcess (false);
-    this.setDragStarting (false);
-    if (!isDragDoing) {  // simple click done ?
-      const mouseClick = this.read ('onMouseClick');
-      if (mouseClick) {
-        mouseClick (event);
-      }
-    }
-  }
-
-  renderDrag () {
-    return (
-      <DragCarrier
-        drag-starting     = {() => this.setDragStarting (true)}
-        drag-ending       = {(e, x) => this.dragEnding (e, x)}
-        component-to-drag = {this}
-        {...this.link ()} />
-    );
-  }
-
-  renderTicket (isDragged) {
+  renderTicket () {
     const {state}  = this.props;
     const disabled = Action.isDisabled (state);
-    const dragHandle = this.read ('drag-handle');
-    const noDrag     = this.read ('no-drag');
     const data       = this.read ('data');
     const hatch      = this.read ('hatch');
     const warning    = this.read ('warning');
+    const hasHeLeft  = this.read ('has-he-left');
+    const isDragged  = this.read ('is-dragged');
 
     const boxStyle      = this.mergeStyles ('box');
     const shadowStyle   = this.mergeStyles ('shadow');
@@ -191,24 +130,22 @@ export default class Ticket extends React.Component {
     const contentStyle  = this.mergeStyles ('content');
     const dragZoneStyle = this.mergeStyles ('dragZoneStyle');
 
-    const dragInProcess = this.getDragInProcess ();
-    const globalDragInProcess = dragInProcess || window.document.dragInProcess;
-    const hoverOrLink = (this.getHover () || this.getLink ()) && !globalDragInProcess && !isDragged;
+    const hoverOrLink = (this.getHover () || this.getLink ()) && !hasHeLeft && !isDragged;
 
-    if (this.getDragStarting () && !isDragged) {
+    if (hasHeLeft && !isDragged) {
       shadowStyle.fill = this.props.theme.palette.ticketDargAndDropShadow;
       shapeStyle.opacity = 0;
       contentStyle.visibility = 'hidden';
     }
 
-    if (warning && warning !== '' && !globalDragInProcess && !isDragged) {  // pick under drop ?
+    if (warning && warning !== '' && !isDragged) {  // pick under drop ?
       shapeStyle.fill = this.props.theme.palette.ticketWarningBackground;
     }
-    if (this.getHover () && !globalDragInProcess && !isDragged) {
+    if (this.getHover () && !isDragged) {
       shapeStyle.fill = emphasize (shapeStyle.fill, 0.1);
     }
 
-    if (this.getTransit () && !globalDragInProcess && !isDragged) {
+    if (this.getTransit () && !isDragged) {
       hoverStyle.fill = this.props.theme.palette.ticketTransitHover;
     }
 
@@ -245,8 +182,6 @@ export default class Ticket extends React.Component {
       </svg>
     ) : null;
 
-    const htmlDrag = (dragInProcess && !isDragged) ? this.renderDrag () : null;
-
     return (
       <div
         style         = {boxStyle}
@@ -261,28 +196,22 @@ export default class Ticket extends React.Component {
           {this.props.children}
         </div>
         <div
-          onMouseOver       = {() => this.mouseOver ()}
-          onMouseOut        = {() => this.mouseOut ()}
-          onMouseMove       = {event => this.mouseMove (event)}
-          onMouseDown       = {event => this.mouseDown (event)}
-          onMouseUp         = {event => this.mouseUp (event)}
-          style             = {dragZoneStyle}
-          data-drag-handle  = {dragHandle}
-          data-drag-invalid = {noDrag === 'true'}
+          onMouseOver = {() => this.mouseOver ()}
+          onMouseOut  = {() => this.mouseOut ()}
+          style       = {dragZoneStyle}
         />
-        {htmlDrag}
       </div>
     );
   }
 
-  renderRect (isDragged) {
+  renderRect () {
     const {state}  = this.props;
     const disabled = Action.isDisabled (state);
-    const dragHandle = this.read ('drag-handle');
-    const noDrag     = this.read ('no-drag');
     const data       = this.read ('data');
     const hatch      = this.read ('hatch');
     const warning    = this.read ('warning');
+    const hasHeLeft  = this.read ('has-he-left');
+    const isDragged  = this.read ('is-dragged');
 
     const rectShadowStyle       = this.mergeStyles ('rectShadow');
     const rectStyle             = this.mergeStyles ('rect');
@@ -291,28 +220,24 @@ export default class Ticket extends React.Component {
     const rectContentHatchStyle = this.mergeStyles ('rectContentHatch');
     const dragZoneStyle         = this.mergeStyles ('dragZoneStyle');
 
-    const dragInProcess = this.getDragInProcess ();
-    const globalDragInProcess = dragInProcess || window.document.dragInProcess;
-    const hoverOrLink = (this.getHover () || this.getLink ()) && !globalDragInProcess && !isDragged;
+    const hoverOrLink = (this.getHover () || this.getLink ()) && !hasHeLeft && !isDragged;
 
-    if (this.getDragStarting () && !isDragged) {
+    if (hasHeLeft && !isDragged) {
       rectShadowStyle.backgroundColor = this.props.theme.palette.ticketDargAndDropShadow;
       rectStyle.opacity = 0;
       contentStyle.visibility = 'hidden';
     }
 
-    if (warning && warning !== '' && !globalDragInProcess && !isDragged) {  // pick under drop ?
+    if (warning && warning !== '' && !isDragged) {  // pick under drop ?
       rectStyle.backgroundColor = this.props.theme.palette.ticketWarningBackground;
     }
-    if (this.getHover () && !globalDragInProcess && !isDragged) {
+    if (this.getHover () && !isDragged) {
       rectStyle.backgroundColor = emphasize (rectStyle.backgroundColor, 0.1);
     }
 
-    if (this.getTransit () && !globalDragInProcess && !isDragged) {
+    if (this.getTransit () && !isDragged) {
       rectHoverStyle.borderColor = this.props.theme.palette.ticketTransitHover;
     }
-
-    const htmlDrag = (dragInProcess && !isDragged) ? this.renderDrag () : null;
 
     return (
       <div
@@ -328,32 +253,22 @@ export default class Ticket extends React.Component {
             {this.props.children}
           </div>
           <div
-            onMouseOver       = {() => this.mouseOver ()}
-            onMouseOut        = {() => this.mouseOut ()}
-            onMouseMove       = {event => this.mouseMove (event)}
-            onMouseDown       = {event => this.mouseDown (event)}
-            onMouseUp         = {event => this.mouseUp (event)}
-            style             = {hoverOrLink ? rectHoverStyle : dragZoneStyle}
-            data-drag-handle  = {dragHandle}
-            data-drag-invalid = {noDrag === 'true'}
+            onMouseOver = {() => this.mouseOver ()}
+            onMouseOut  = {() => this.mouseOut ()}
+            style       = {hoverOrLink ? rectHoverStyle : dragZoneStyle}
           />
         </div>
-        {htmlDrag}
       </div>
     );
   }
 
-  renderForDrag (isDragged) {
+  render () {
     const inputKind = this.read ('kind');
     if (inputKind === 'ticket') {
-      return this.renderTicket (isDragged);
+      return this.renderTicket ();
     } else {
-      return this.renderRect (isDragged);
+      return this.renderRect ();
     }
-  }
-
-  render () {
-    return this.renderForDrag (false);
   }
 }
 

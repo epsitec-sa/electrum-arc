@@ -33,7 +33,6 @@ export default class Container extends React.Component {
       grow:             this.read ('grow'),
       selected:         this.read ('selected'),
       border:           this.read ('border'),
-      noDrag:           this.read ('no-drag'),
       cursor:           this.read ('cursor'),
       position:         this.read ('position'),
     };
@@ -134,19 +133,14 @@ export default class Container extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const kind           = this.read ('kind');
-    const anchor         = this.read ('anchor');
-    const navName        = this.read ('navigation-name');
-    const dragController = this.read ('drag-controller');
-    const dragSource     = this.read ('drag-source');
-    const dragHandle     = this.read ('drag-handle');
-    const noDrag         = this.read ('no-drag');
-    const id             = this.read ('id');
-    const hidden         = this.read ('hidden');
+    const kind    = this.read ('kind');
+    const anchor  = this.read ('anchor');
+    const navName = this.read ('navigation-name');
+    const id      = this.read ('id');
+    const hidden  = this.read ('hidden');
 
     const boxStyle      = this.mergeStyles ('box');
     const triangleStyle = this.mergeStyles ('triangle');
-    const dragZoneStyle = this.mergeStyles ('dragZone');
 
     if (hidden) {
       boxStyle.display = 'none';
@@ -170,35 +164,14 @@ export default class Container extends React.Component {
           </div>
         </div>
       );
-    } if (noDrag === 'false') {
-      return (
-        <div
-          disabled                = {disabled}
-          style                   = {boxStyle}
-          id                      = {anchor}
-          data-navigation-name    = {navName}
-          data-drag-container-for = {dragController}
-          data-drag-source        = {dragSource}
-          data-id                 = {id}
-          >
-          <div
-            style             = {dragZoneStyle}
-            data-drag-handle  = {dragHandle}
-            data-drag-invalid = {noDrag === 'true'}
-            />
-          {useManagedChildren.includes (kind) ? this.state.managedChildren : this.props.children}
-        </div>
-      );
     } else {
       return (
         <div
-          disabled                = {disabled}
-          style                   = {boxStyle}
-          id                      = {anchor}
-          data-navigation-name    = {navName}
-          data-drag-container-for = {dragController}
-          data-drag-source        = {dragSource}
-          data-id                 = {id}
+          disabled             = {disabled}
+          style                = {boxStyle}
+          id                   = {anchor}
+          data-navigation-name = {navName}
+          data-id              = {id}
           >
           {useManagedChildren.includes (kind) ? this.state.managedChildren : this.props.children}
         </div>
