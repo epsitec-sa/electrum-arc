@@ -45,13 +45,11 @@ export default class DragCab extends React.Component {
 
   mouseDown (event) {
     // console.log ('Ticket.mouseDown');
-    window.document.dragInProcess = true;
     this.setDragInProcess (true);
   }
 
   dragEnding (event, isDragDoing) {
     console.log ('dragEnding ' + isDragDoing);
-    window.document.dragInProcess = false;
     this.setDragInProcess (false);
     this.setDragStarting (false);
     if (!isDragDoing) {  // simple click done ?
@@ -72,13 +70,24 @@ export default class DragCab extends React.Component {
     );
   }
 
+  renderChildren (isDragged, dragStarting) {
+    return React.Children.map (this.props.children, c => {
+      return React.cloneElement (c, {
+        isDragged: isDragged,
+        hasHeLeft: dragStarting
+      });
+    });
+  }
+
   renderForDrag (isDragged) {
-    const dragHandle = this.read ('drag-handle');
-    const id         = this.read ('id');
-    const ownerId    = this.read ('owner-id');
+    const dragHandle    = this.read ('drag-handle');
+    const id            = this.read ('id');
+    const ownerId       = this.read ('owner-id');
     const dragInProcess = this.getDragInProcess ();
+    const dragStarting  = this.getDragStarting ();
 
     const boxStyle = {
+      // visibility: dragInProcess ? 'hidden' : 'visible',
     };
 
     const htmlDrag = (dragInProcess && !isDragged) ? this.renderDrag () : null;
@@ -90,7 +99,7 @@ export default class DragCab extends React.Component {
         data-owner-id    = {ownerId}
         onMouseDown = {event => this.mouseDown (event)}
         >
-        {this.props.children}
+        {this.renderChildren (isDragged, dragStarting)}
         {htmlDrag}
       </div>
     );

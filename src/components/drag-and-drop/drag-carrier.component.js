@@ -111,7 +111,7 @@ export default class DragCarrier extends React.Component {
   // }
 
   isDragStarted () {
-    return this.moveCount > 3;
+    return this.moveCount > 2;
   }
 
   findV (component, node, y) {
@@ -269,8 +269,9 @@ export default class DragCarrier extends React.Component {
 
   render () {
     const fullScreenStyle = {
+      visibility:      'visible',
       position:        'fixed',
-      zIndex:          999,
+      zIndex:          10,
       top:             '0px',
       left:            '0px',
       width:           '100%',

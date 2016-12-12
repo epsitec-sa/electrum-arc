@@ -96,7 +96,8 @@ export default class Ticket extends React.Component {
 
   mouseOver () {
     // console.log ('Ticket.mouseOver');
-    if (!window.document.dragInProcess) {
+    const isDragged = this.read ('isDragged');
+    if (!isDragged) {
       this.setHover (true);
       this.setLinkToAll (true);
     }
@@ -118,8 +119,8 @@ export default class Ticket extends React.Component {
     const data       = this.read ('data');
     const hatch      = this.read ('hatch');
     const warning    = this.read ('warning');
-    const hasHeLeft  = this.read ('has-he-left');
-    const isDragged  = this.read ('is-dragged');
+    const hasHeLeft  = this.read ('hasHeLeft');
+    const isDragged  = this.read ('isDragged');
 
     const boxStyle      = this.mergeStyles ('box');
     const shadowStyle   = this.mergeStyles ('shadow');

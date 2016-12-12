@@ -207,8 +207,8 @@ export default class TripTicket extends React.Component {
     return (
       <Ticket width={width} height={height} selected={selected}
         kind='ticket' shape={shape} type={pd} cursor={cursor} hatch={hatch} warning={warning}
-        data={data} onMouseClick={(e) => this.mouseClick (e)}
-        {...this.link ()} >
+        data={data} isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft}
+        onMouseClick={(e) => this.mouseClick (e)} {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
             <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
@@ -246,8 +246,8 @@ export default class TripTicket extends React.Component {
     return (
       <Ticket width={width} selected={selected}
         kind='rect' shape={shape} type={pd} cursor={cursor} hatch={hatch} warning={warning}
-        data={data} onMouseClick={(e) => this.mouseClick (e)}
-        {...this.link ()} >
+        data={data} is-dragged={this.props.isDragged} has-he-left={this.props.hasHeLeft}
+        onMouseClick={(e) => this.mouseClick (e)} {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
             <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
