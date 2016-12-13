@@ -50,10 +50,9 @@ export default class DragCarrier extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      x:       0,
-      y:       0,
-      dest:    null,
-      opacity: 1.0,
+      x:    0,
+      y:    0,
+      dest: null,
     };
     this.moveCount = 0;
     this.startX    = 0;
@@ -89,16 +88,6 @@ export default class DragCarrier extends React.Component {
   setDest (value) {
     this.setState ( {
       dest: value
-    });
-  }
-
-  getOpacity () {
-    return this.state.opacity;
-  }
-
-  setOpacity (value) {
-    this.setState ( {
-      opacity: value
     });
   }
 
@@ -180,10 +169,6 @@ export default class DragCarrier extends React.Component {
     // this.setY (event.clientY - this.offsetY);
     this.setX (event.clientX);
     this.setY (event.clientY);
-
-    // const l = length (this.startX, this.startY, event.clientX, event.clientY);
-    // const o = Math.max (Math.min (1 - (l / 100), 1.0), 0.5);
-    // this.setOpacity (o);
 
     const dest = this.find (event.clientX, event.clientY);
     if (this.isUsefull (dest)) {
