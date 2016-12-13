@@ -227,6 +227,7 @@ export default function styles (theme, props) {
     flexBasis:       flexBasis,
     backgroundColor: backgroundColor,
     zIndex:          inputZIndex,
+    userSelect:      'none',
   };
 
   const glyphStyle = {
@@ -238,11 +239,13 @@ export default function styles (theme, props) {
     padding:         '0px',
     color:           glyphColor,
     transform:       glyphTransform,
+    userSelect:      'none',
   };
 
   const linesStyle = {
     width:           '100%',
     overflow:        linesOverflow,
+    userSelect:      'none',
   };
 
   const textStyle = {
@@ -258,6 +261,7 @@ export default function styles (theme, props) {
     textOverflow:    textTextOverflow,
     whiteSpace:      textWhiteSpace,
     wordWrap:        'break-word',
+    userSelect:      'none',
   };
 
   return {

@@ -264,7 +264,7 @@ export default class DragCarrier extends React.Component {
       left:            '0px',
       width:           '100%',
       height:          '100%',
-      // backgroundColor: 'rgba(255,255,0,0.1)',
+      userSelect:      'none',
     };
 
     const draggedStyle = {
@@ -273,6 +273,7 @@ export default class DragCarrier extends React.Component {
       left:            this.getX (),
       top:             this.getY (),
       opacity:         0.9,
+      userSelect:      'none',
     };
 
     const dest = this.getDest ();
@@ -289,6 +290,7 @@ export default class DragCarrier extends React.Component {
         borderRadius:    '5px',
         transition:      'all 0.2s ease-out',
         backgroundColor: this.props.theme.palette.dragAndDropDestination,
+        userSelect:      'none',
       };
     } else {
       hilitedStyle = {
@@ -297,6 +299,7 @@ export default class DragCarrier extends React.Component {
         borderRadius:    '5px',
         transition:      'all 0.2s ease-out',
         backgroundColor: this.props.theme.palette.dragAndDropDestination,
+        userSelect:      'none',
       };
     }
 

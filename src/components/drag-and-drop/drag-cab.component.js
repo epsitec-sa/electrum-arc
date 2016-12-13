@@ -116,8 +116,13 @@ export default class DragCab extends React.Component {
 
     const htmlDrag = (dragInProcess && !isDragged) ? this.renderDrag () : null;
 
+    const boxStyle = {
+      userSelect: 'none',
+    };
+
     return (
       <div
+        style              = {boxStyle}
         data-id            = {id}
         data-owner-id      = {ownerId}
         data-margin-bottom = {marginBottom}

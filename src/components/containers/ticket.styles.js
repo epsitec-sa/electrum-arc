@@ -175,6 +175,8 @@ export default function styles (theme, props) {
     position:   'relative',
     cursor:     inputCursor,
     transition: theme.transitions.easeOut (),
+    userSelect: 'none',
+
   };
 
   const shadowStyle = {
