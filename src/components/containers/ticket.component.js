@@ -210,9 +210,10 @@ export default class Ticket extends React.Component {
   renderRect () {
     const data      = this.read ('data');
     const hatch     = data.Hatch === 'true';
+    const flash     = data.Flash === 'true';
     const warning   = data.Warning;
-    const hasHeLeft = this.read ('has-he-left');
-    const isDragged = this.read ('is-dragged');
+    const hasHeLeft = this.read ('hasHeLeft');
+    const isDragged = this.read ('isDragged');
 
     const rectShadowStyle       = this.mergeStyles ('rectShadow');
     const rectStyle             = this.mergeStyles ('rect');
