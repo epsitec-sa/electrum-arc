@@ -25,9 +25,7 @@ export default class Roadbook extends React.Component {
     const children = (hasHeLeft && !isDragged) ? null : this.props.children;
 
     return (
-      <div
-        style = {boxStyle}
-        >
+      <div style = {boxStyle}>
         {children}
       </div>
     );

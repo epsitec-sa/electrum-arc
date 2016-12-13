@@ -19,7 +19,6 @@ export default function styles (theme, props) {
     padding:         '0px ' + mm + ' 0px ' + mm,
     display:         'flex',
     flexDirection:   'column',
-    flexGrow:        0,
     margin:          '0px ' + theme.shapes.viewSpacing + ' 0px 0px',
     backgroundColor: bc,
     minWidth:        mw,

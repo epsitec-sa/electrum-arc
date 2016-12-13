@@ -127,7 +127,6 @@ export default class DragCab extends React.Component {
     const boxStyle = direction === 'horizontal' ? {
       display:       'flex',
       flexDirection: 'row',
-      flexGrow:      1,
       userSelect:    'none',
     } : {
       userSelect:    'none',
