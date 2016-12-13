@@ -189,22 +189,6 @@ export default function styles (theme, props) {
     transition: theme.transitions.easeOut (),
   };
 
-  const shapeFlashStyle0 = {
-    position:   'absolute',
-    fill:       '#f00',
-    visibility: 'hidden',
-    // opacity:    0,
-    transition: 'all 3s',
-  };
-
-  const shapeFlashStyle1 = {
-    position:   'absolute',
-    fill:       '#fff',
-    visibility: 'visible',
-    // opacity:    1,
-    transition: 'all 3s',
-  };
-
   const hatchStyle = {
     position:   'absolute',
     fill:       'url(#hatch)',
@@ -320,8 +304,6 @@ export default function styles (theme, props) {
     box:              boxStyle,
     shadow:           shadowStyle,
     shape:            shapeStyle,
-    shapeFlash0:      shapeFlashStyle0,
-    shapeFlash1:      shapeFlashStyle1,
     hatch:            hatchStyle,
     svg:              svgStyle,
     hover:            hoverStyle,
