@@ -147,9 +147,59 @@ export default class DragCarrier extends React.Component {
     };
   }
 
+  findH (component, node, x, id) {
+    const thickness = this.props.theme.shapes.dragAndDropThickness / 2;
+    if (node.children.length === 0) {  // is in top of empty container ?
+      const rect = getBoundingRect (node);
+      return {
+        id:       null,
+        ownerId:  component.props.id,
+        position: 'null',
+        rect:     getHRect (rect, rect.left - thickness, rect.left + thickness),
+      };
+    }
+    for (var i = 0, len = node.children.length; i < len; i++) {
+      const t = node.children[i];
+      const rect = getBoundingRect (t);
+      if (t.dataset.id === id) {
+        this.rectOrigin = {
+          id:       t.dataset.id,
+          ownerId:  t.dataset.ownerId,
+          position: 'full',
+          rect:     rect,
+        };
+      }
+      const ox = rect.left + rect.width / 2;
+      if (x < ox) {  // is upper middle ?
+        let px = rect.left;
+        if (i > 0) {  // not top first element ?
+          const lt = node.children[i - 1];
+          const lr = getBoundingRect (lt);
+          px = (lr.right + rect.left) / 2;
+        }
+        return {
+          id:       t.dataset.id,
+          ownerId:  t.dataset.ownerId,
+          position: 'before',
+          rect:     getHRect (rect, px - thickness, px + thickness),
+        };
+      }
+    }
+    // At the end of container (after the last element).
+    const last = node.children[node.children.length - 1];
+    const rect = last.getBoundingClientRect ();
+    return {
+      id:       last.dataset.id,
+      ownerId:  last.dataset.ownerId,
+      position: 'after',
+      rect:     getHRect (rect, rect.right - thickness, rect.right + thickness),
+    };
+  }
+
   find (x, y) {
     this.rectOrigin = null;
-    const toDrag = this.read ('component-to-drag');
+    const direction = this.read ('direction');
+    const toDrag    = this.read ('component-to-drag');
     const dragHandle = toDrag.read ('drag-handle');
     const id         = toDrag.read ('id');
     for (var i = 0, len = window.document.dragControllers.length; i < len; i++) {
@@ -159,7 +209,11 @@ export default class DragCarrier extends React.Component {
         const n = ReactDOM.findDOMNode (c);
         const rect = n.getBoundingClientRect ();
         if (isInside (rect, x, y)) {
-          return this.findV (c, n, y, id);
+          if (direction === 'horizontal') {
+            return this.findH (c, n, x, id);
+          } else {
+            return this.findV (c, n, y, id);
+          }
         }
       }
     }

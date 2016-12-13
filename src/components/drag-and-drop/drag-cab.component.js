@@ -44,8 +44,13 @@ export default class DragCab extends React.Component {
   }
 
   mouseDown (event) {
-    // console.log ('Ticket.mouseDown');
-    this.setDragInProcess (true);
+    console.log ('DragCab.mouseDown');
+    const direction = this.read ('direction');
+    if (direction === 'vertical') {
+      this.setDragInProcess (true);
+    } else if (direction === 'horizontal' && event.clientY < 166) {  // TODO: PROVISOIRE !!!
+      this.setDragInProcess (true);
+    }
   }
 
   dragEnding (event, isDragDoing) {
@@ -88,9 +93,11 @@ export default class DragCab extends React.Component {
     }
   }
 
-  renderDrag () {
+  renderDragCarrier () {
+    const direction = this.read ('direction');
     return (
       <DragCarrier
+        direction         = {direction}
         drag-starting     = {() => this.setDragStarting (true)}
         drag-ending       = {(e, x) => this.dragEnding (e, x)}
         component-to-drag = {this}
@@ -110,14 +117,20 @@ export default class DragCab extends React.Component {
   renderForDrag (isDragged) {
     const id            = this.read ('id');
     const ownerId       = this.read ('owner-id');
+    const direction     = this.read ('direction');
     const marginBottom  = this.read ('margin-bottom');
     const dragInProcess = this.getDragInProcess ();
     const dragStarting  = this.getDragStarting ();
 
-    const htmlDrag = (dragInProcess && !isDragged) ? this.renderDrag () : null;
+    const htmlDragCarrier = (dragInProcess && !isDragged) ? this.renderDragCarrier () : null;
 
-    const boxStyle = {
-      userSelect: 'none',
+    const boxStyle = direction === 'horizontal' ? {
+      display:       'flex',
+      flexDirection: 'row',
+      flexGrow:      1,
+      userSelect:    'none',
+    } : {
+      userSelect:    'none',
     };
 
     return (
@@ -129,7 +142,7 @@ export default class DragCab extends React.Component {
         onMouseDown        = {event => this.mouseDown (event)}
         >
         {this.renderChildren (isDragged, dragStarting)}
-        {htmlDrag}
+        {htmlDragCarrier}
       </div>
     );
   }

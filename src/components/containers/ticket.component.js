@@ -132,7 +132,7 @@ export default class Ticket extends React.Component {
     const hoverOrLink = (this.getHover () || this.getLink ()) && !hasHeLeft && !isDragged;
 
     if (hasHeLeft && !isDragged) {
-      shadowStyle.fill = this.props.theme.palette.ticketDargAndDropShadow;
+      shadowStyle.fill = this.props.theme.palette.ticketDragAndDropShadow;
       shapeStyle.opacity = 0;
       contentStyle.visibility = 'hidden';
     }
@@ -219,7 +219,7 @@ export default class Ticket extends React.Component {
     const hoverOrLink = (this.getHover () || this.getLink ()) && !hasHeLeft && !isDragged;
 
     if (hasHeLeft && !isDragged) {
-      rectShadowStyle.backgroundColor = this.props.theme.palette.ticketDargAndDropShadow;
+      rectShadowStyle.backgroundColor = this.props.theme.palette.ticketDragAndDropShadow;
       rectStyle.opacity = 0;
       contentStyle.visibility = 'hidden';
     }
