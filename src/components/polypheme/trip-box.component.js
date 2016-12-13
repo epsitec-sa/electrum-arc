@@ -85,7 +85,7 @@ export default class TripBox extends React.Component {
       const dimmedSize  = this.props.theme.shapes.ticketDimmedSize;
 
       return (
-        <Ticket kind='thin' height={height} margin-bottom='10px' cursor={cursor} grow='1'
+        <Ticket kind='thin' height={height} cursor={cursor} grow='1'
           data={data} {...this.link ()} >
           <Container kind='thin-column' border='right' width='10px' {...this.link ()} >
             <Gauge value={data.Trip.Urgency} {...this.link ()} />

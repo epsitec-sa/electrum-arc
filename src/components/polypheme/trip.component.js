@@ -17,19 +17,19 @@ export default class Trip extends React.Component {
 
     if (kind === 'trip-box') {
       return (
-        <DragCab drag-handle='tickets' id={data.id} owner-id={data.OwnerId} {...this.link ()}>
+        <DragCab drag-handle='tickets' id={data.id} owner-id={data.OwnerId} margin-bottom={15} {...this.link ()}>
           <TripBox data={data} {...this.link ()} />
         </DragCab>
       );
     } else if (kind === 'trip-tickets') {
       return (
-        <DragCab drag-handle='tickets' id={data.id} owner-id={data.OwnerId} {...this.link ()}>
+        <DragCab drag-handle='tickets' id={data.id} owner-id={data.OwnerId} margin-bottom={2} {...this.link ()}>
           <TripTickets data={data} {...this.link ()} />
         </DragCab>
       );
     } else if (kind === 'trip-ticket') {
       return (
-        <DragCab drag-handle='tickets' id={data.id} owner-id={data.OwnerId} {...this.link ()}>
+        <DragCab drag-handle='tickets' id={data.id} owner-id={data.OwnerId} margin-bottom={2} {...this.link ()}>
           <TripTicket data={data} type={data.Type} {...this.link ()} />
         </DragCab>
       );

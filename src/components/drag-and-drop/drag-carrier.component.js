@@ -5,12 +5,6 @@ import ReactDOM from 'react-dom';
 
 /******************************************************************************/
 
-function length (x1, y1, x2, y2) {
-  const dx = x1 - x2;
-  const dy = y1 - y2;
-  return Math.sqrt ((dx * dx) + (dy * dy));
-}
-
 function getVRect (rect, top, bottom) {
   return {
     left:   rect.left,
@@ -29,20 +23,28 @@ function getHRect (rect, left, right) {
   };
 }
 
-function inflate (rect, size) {
+function isInside (rect, x, y) {
+  return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+}
+
+function subBottomMargin (rect, bm) {
   return {
-    left:   rect.left   - size,
-    right:  rect.right  + size,
-    top:    rect.top    - size,
-    bottom: rect.bottom + size,
-    width:  rect.width  + size * 2,
-    height: rect.height + size * 2,
+    left:   rect.left,
+    right:  rect.right,
+    top:    rect.top,
+    bottom: rect.bottom - bm,
+    width:  rect.width,
+    height: rect.height - bm,
   };
 }
 
-function isInside (rect, x, y, size) {
-  rect = inflate (rect, size);
-  return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+function getBoundingRect (node) {
+  const rect = node.getBoundingClientRect ();
+  if (node.dataset.marginBottom) {
+    return subBottomMargin (rect, node.dataset.marginBottom);
+  } else {
+    return rect;
+  }
 }
 
 export default class DragCarrier extends React.Component {
@@ -54,11 +56,12 @@ export default class DragCarrier extends React.Component {
       y:    0,
       dest: null,
     };
-    this.moveCount = 0;
-    this.startX    = 0;
-    this.startY    = 0;
-    this.offsetX   = 0;
-    this.offsetY   = 0;
+    this.moveCount  = 0;
+    this.startX     = 0;
+    this.startY     = 0;
+    this.offsetX    = 0;
+    this.offsetY    = 0;
+    this.rectOrigin = null;
   }
 
   getX () {
@@ -95,10 +98,10 @@ export default class DragCarrier extends React.Component {
     return this.moveCount > 2;
   }
 
-  findV (component, node, y) {
+  findV (component, node, y, id) {
     const thickness = this.props.theme.shapes.dragAndDropThickness / 2;
     if (node.children.length === 0) {  // is in top of empty container ?
-      const rect = node.getBoundingClientRect ();
+      const rect = getBoundingRect (node);
       return {
         id:       null,
         ownerId:  component.props.id,
@@ -108,13 +111,21 @@ export default class DragCarrier extends React.Component {
     }
     for (var i = 0, len = node.children.length; i < len; i++) {
       const t = node.children[i];
-      const rect = t.getBoundingClientRect ();
+      const rect = getBoundingRect (t);
+      if (t.dataset.id === id) {
+        this.rectOrigin = {
+          id:       t.dataset.id,
+          ownerId:  t.dataset.ownerId,
+          position: 'full',
+          rect:     rect,
+        };
+      }
       const oy = rect.top + rect.height / 2;
       if (y < oy) {  // is upper middle ?
         let py = rect.top;
         if (i > 0) {  // not top first element ?
           const lt = node.children[i - 1];
-          const lr = lt.getBoundingClientRect ();
+          const lr = getBoundingRect (lt);
           py = (lr.bottom + rect.top) / 2;
         }
         return {
@@ -137,17 +148,18 @@ export default class DragCarrier extends React.Component {
   }
 
   find (x, y) {
-    console.log ('find...');
+    this.rectOrigin = null;
     const toDrag = this.read ('component-to-drag');
     const dragHandle = toDrag.read ('drag-handle');
+    const id         = toDrag.read ('id');
     for (var i = 0, len = window.document.dragControllers.length; i < len; i++) {
       const c = window.document.dragControllers[i];
       const dragController = c.props['drag-controller'];
       if (dragController === dragHandle) {
         const n = ReactDOM.findDOMNode (c);
         const rect = n.getBoundingClientRect ();
-        if (isInside (rect, x, y, 5)) {
-          return this.findV (c, n, y);
+        if (isInside (rect, x, y)) {
+          return this.findV (c, n, y, id);
         }
       }
     }
@@ -174,7 +186,7 @@ export default class DragCarrier extends React.Component {
     if (this.isUsefull (dest)) {
       this.setDest (dest);
     } else {
-      this.setDest (null);
+      this.setDest (this.rectOrigin);
     }
 
     if (this.isDragStarted ()) {
@@ -193,7 +205,7 @@ export default class DragCarrier extends React.Component {
     if (dragEnding) {
       dragEnding (event, this.isDragStarted ());
       const dest = this.getDest ();
-      if (dest) {
+      if (dest && dest.position !== 'full') {
         this.reduce (dest.id, dest.ownerId, dest.position);
       }
     }
@@ -272,6 +284,7 @@ export default class DragCarrier extends React.Component {
         width:           rect.right - rect.left,
         top:             rect.top,
         height:          rect.bottom - rect.top,
+        borderRadius:    '5px',
         transition:      'all 0.2s ease-out',
         backgroundColor: this.props.theme.palette.dragAndDropDestination,
       };
@@ -279,6 +292,7 @@ export default class DragCarrier extends React.Component {
       hilitedStyle = {
         visibility:      'hidden',
         position:        'absolute',
+        borderRadius:    '5px',
         transition:      'all 0.2s ease-out',
         backgroundColor: this.props.theme.palette.dragAndDropDestination,
       };

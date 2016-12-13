@@ -104,6 +104,7 @@ export default class DragCab extends React.Component {
   renderForDrag (isDragged) {
     const id            = this.read ('id');
     const ownerId       = this.read ('owner-id');
+    const marginBottom  = this.read ('margin-bottom');
     const dragInProcess = this.getDragInProcess ();
     const dragStarting  = this.getDragStarting ();
 
@@ -111,9 +112,10 @@ export default class DragCab extends React.Component {
 
     return (
       <div
-        data-id       = {id}
-        data-owner-id = {ownerId}
-        onMouseDown   = {event => this.mouseDown (event)}
+        data-id            = {id}
+        data-owner-id      = {ownerId}
+        data-margin-bottom = {marginBottom}
+        onMouseDown        = {event => this.mouseDown (event)}
         >
         {this.renderChildren (isDragged, dragStarting)}
         {htmlDrag}
