@@ -58,7 +58,9 @@ export default class DragCab extends React.Component {
 
   childrenChangeState (event) {
     React.Children.forEach (this.props.children, ticket => this.changeState (ticket, event));
-    window.document.dispatch.forceUpdate ();
+    if (window.document.mock) {
+      window.document.dispatch.forceUpdate ();
+    }
   }
 
   changeState (ticket, event) {
@@ -74,12 +76,15 @@ export default class DragCab extends React.Component {
   reduce (action, props) {
     const id      = props.data.id;
     const ownerId = props.data.OwnerId;
-    window.document.reducerDragAndDrop (window.document.data, {
+    window.document.data = window.document.reducerDragAndDrop (window.document.data, {
       type:    action,
       id:      id,
       ownerId: ownerId,
     });
-    window.document.dispatch.forceUpdate ();
+    if (window.document.mock) {
+      window.document.data = window.document.reducerDragAndDrop (window.document.data, {type: 'CLONE'});
+      window.document.dispatch.forceUpdate ();
+    }
   }
 
   renderDrag () {
