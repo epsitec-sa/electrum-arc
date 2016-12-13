@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {TripBox, TripTicket, TripTickets, DragCab} from '../../all-components.js';
+import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
@@ -16,8 +17,9 @@ export default class Trip extends React.Component {
     const data = this.read ('data');
 
     if (kind === 'trip-box') {
+      const m = Unit.parse (this.props.theme.shapes.tripBoxBottomMargin).value;
       return (
-        <DragCab drag-handle='tickets' id={data.id} owner-id={data.OwnerId} margin-bottom={15} {...this.link ()}>
+        <DragCab drag-handle='tickets' id={data.id} owner-id={data.OwnerId} margin-bottom={m} {...this.link ()}>
           <TripBox data={data} {...this.link ()} />
         </DragCab>
       );
