@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {DragCarrier} from '../../all-components.js';
 
 /******************************************************************************/
@@ -13,6 +14,7 @@ export default class DragCab extends React.Component {
       dragInProcess: false,
       dragStarting:  false,
     };
+    this.dragHeight = 0;
   }
 
   getDragInProcess () {
@@ -45,6 +47,8 @@ export default class DragCab extends React.Component {
 
   mouseDown (event) {
     console.log ('DragCab.mouseDown');
+    const node = ReactDOM.findDOMNode (this);
+    this.dragHeight = node.clientHeight;
     const direction = this.read ('direction');
     if (direction === 'vertical') {
       this.setDragInProcess (true);
@@ -95,11 +99,18 @@ export default class DragCab extends React.Component {
 
   renderDragCarrier () {
     const direction = this.read ('direction');
+    const color     = this.read ('color');
+    const thickness = this.read ('thickness');
+    const radius    = this.read ('radius');
     return (
       <DragCarrier
         direction         = {direction}
+        color             = {color}
+        thickness         = {thickness}
+        radius            = {radius}
         drag-starting     = {() => this.setDragStarting (true)}
         drag-ending       = {(e, x) => this.dragEnding (e, x)}
+        drag-height       = {this.dragHeight}
         component-to-drag = {this}
         {...this.link ()} />
     );
@@ -126,7 +137,9 @@ export default class DragCab extends React.Component {
 
     const boxStyle = direction === 'horizontal' ? {
       display:       'flex',
-      flexDirection: 'row',
+      flexDirection: 'column',
+      flexGrow:      1,
+      alignItems:    'stretch',
       userSelect:    'none',
     } : {
       userSelect:    'none',

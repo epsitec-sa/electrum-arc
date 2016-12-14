@@ -20,6 +20,9 @@ export default class Trip extends React.Component {
       const m = Unit.parse (this.props.theme.shapes.tripBoxBottomMargin).value;
       return (
         <DragCab drag-handle='tickets' direction='vertical'
+          color={this.props.theme.palette.dragAndDropHover}
+          thickness={this.props.theme.shapes.dragAndDropThickness}
+          radius={this.props.theme.shapes.dragAndDropThickness}
           id={data.id} owner-id={data.OwnerId} margin-bottom={m} {...this.link ()}>
           <TripBox data={data} {...this.link ()} />
         </DragCab>
@@ -27,6 +30,9 @@ export default class Trip extends React.Component {
     } else if (kind === 'trip-tickets') {
       return (
         <DragCab drag-handle='tickets' direction='vertical'
+          color={this.props.theme.palette.dragAndDropHover}
+          thickness={this.props.theme.shapes.dragAndDropThickness}
+          radius={this.props.theme.shapes.dragAndDropThickness}
           id={data.id} owner-id={data.OwnerId} margin-bottom={2} {...this.link ()}>
           <TripTickets data={data} {...this.link ()} />
         </DragCab>
@@ -34,6 +40,9 @@ export default class Trip extends React.Component {
     } else if (kind === 'trip-ticket') {
       return (
         <DragCab drag-handle='tickets' direction='vertical'
+          color={this.props.theme.palette.dragAndDropHover}
+          thickness={this.props.theme.shapes.dragAndDropThickness}
+          radius={this.props.theme.shapes.dragAndDropThickness}
           id={data.id} owner-id={data.OwnerId} margin-bottom={2} {...this.link ()}>
           <TripTicket data={data} type={data.Type} {...this.link ()} />
         </DragCab>

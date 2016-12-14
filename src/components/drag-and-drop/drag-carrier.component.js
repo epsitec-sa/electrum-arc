@@ -2,6 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
@@ -98,8 +99,13 @@ export default class DragCarrier extends React.Component {
     return this.moveCount > 2;
   }
 
+  thickness () {
+    const thickness = this.read ('thickness');
+    return Unit.parse (Unit.multiply (thickness, 0.5)).value;
+  }
+
   findV (component, node, y, id) {
-    const thickness = this.props.theme.shapes.dragAndDropThickness / 2;
+    const thickness = this.thickness ();
     if (node.children.length === 0) {  // is in top of empty container ?
       const rect = getBoundingRect (node);
       return {
@@ -148,7 +154,7 @@ export default class DragCarrier extends React.Component {
   }
 
   findH (component, node, x, id) {
-    const thickness = this.props.theme.shapes.dragAndDropThickness / 2;
+    const thickness = this.thickness ();
     if (node.children.length === 0) {  // is in top of empty container ?
       const rect = getBoundingRect (node);
       return {
@@ -310,6 +316,10 @@ export default class DragCarrier extends React.Component {
   }
 
   render () {
+    const color      = this.read ('color');
+    const radius     = this.read ('radius');
+    const dragHeight = this.read ('drag-height');
+
     const fullScreenStyle = {
       visibility:      'visible',
       position:        'fixed',
@@ -324,6 +334,8 @@ export default class DragCarrier extends React.Component {
     const draggedStyle = {
       visibility:      'visible',
       position:        'absolute',
+      minHeight:       dragHeight,
+      maxHeight:       dragHeight,
       left:            this.getX (),
       top:             this.getY (),
       opacity:         0.9,
@@ -341,18 +353,18 @@ export default class DragCarrier extends React.Component {
         width:           rect.right - rect.left,
         top:             rect.top,
         height:          rect.bottom - rect.top,
-        borderRadius:    '5px',
+        borderRadius:    radius,
         transition:      'all 0.2s ease-out',
-        backgroundColor: this.props.theme.palette.dragAndDropDestination,
+        backgroundColor: color,
         userSelect:      'none',
       };
     } else {
       hilitedStyle = {
         visibility:      'hidden',
         position:        'absolute',
-        borderRadius:    '5px',
+        borderRadius:    radius,
         transition:      'all 0.2s ease-out',
-        backgroundColor: this.props.theme.palette.dragAndDropDestination,
+        backgroundColor: color,
         userSelect:      'none',
       };
     }
