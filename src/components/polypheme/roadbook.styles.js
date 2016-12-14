@@ -26,7 +26,6 @@ export default function styles (theme, props) {
     backgroundColor: bc,
     border:          border,
     minWidth:        mw,
-    alignItems:      'stretch',
   };
 
   return {

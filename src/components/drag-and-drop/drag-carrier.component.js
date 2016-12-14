@@ -99,13 +99,13 @@ export default class DragCarrier extends React.Component {
     return this.moveCount > 2;
   }
 
-  thickness () {
+  getHalfThickness () {
     const thickness = this.read ('thickness');
     return Unit.parse (Unit.multiply (thickness, 0.5)).value;
   }
 
   findV (component, node, y, id) {
-    const thickness = this.thickness ();
+    const thickness = this.getHalfThickness ();
     if (node.children.length === 0) {  // is in top of empty container ?
       const rect = getBoundingRect (node);
       return {
@@ -154,7 +154,7 @@ export default class DragCarrier extends React.Component {
   }
 
   findH (component, node, x, id) {
-    const thickness = this.thickness ();
+    const thickness = this.getHalfThickness ();
     if (node.children.length === 0) {  // is in top of empty container ?
       const rect = getBoundingRect (node);
       return {
@@ -334,8 +334,8 @@ export default class DragCarrier extends React.Component {
     const draggedStyle = {
       visibility:      'visible',
       position:        'absolute',
-      minHeight:       dragHeight,
-      maxHeight:       dragHeight,
+      display:         'flex',
+      height:          dragHeight,
       left:            this.getX (),
       top:             this.getY (),
       opacity:         0.9,
