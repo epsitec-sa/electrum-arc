@@ -3,29 +3,27 @@
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  const inputLeft   = props.left;
-  const inputRight  = props.right;
-  const inputTop    = props.top;
-  const inputBottom = props.bottom;
-  const inputRotate = props.rotate;
+  const left   = props.left;
+  const right  = props.right;
+  const top    = props.top;
+  const bottom = props.bottom;
 
   const boxStyle = {
     position:        'absolute',
-    left:            inputLeft,
-    right:           inputRight,
-    top:             inputTop,
-    bottom:          inputBottom,
-    transform:       inputRotate ? 'rotate(' + inputRotate + ')' : null,
+    left:            left,
+    right:           right,
+    top:             top,
+    bottom:          bottom,
     backgroundColor: theme.palette.ticketGlueBackground,
     boxShadow:       theme.shapes.ticketGlueShadow,
   };
 
   const titleStyle = {
-    display:         'flex',
-    minHeight:       '30px',
-    maxHeight:       '30px',
-    margin:          '0px 10px',
-    cursor:          'pointer',
+    display:   'flex',
+    minHeight: '30px',
+    maxHeight: '30px',
+    margin:    '0px 10px',
+    cursor:    'pointer',
   };
 
   return {
