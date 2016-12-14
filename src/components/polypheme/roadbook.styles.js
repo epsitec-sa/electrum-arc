@@ -14,17 +14,21 @@ export default function styles (theme, props) {
 
   const bc = x ? theme.palette.roadbookDragAndDropBackground : theme.palette.roadbookBackground;
   const mw = x ? theme.shapes.tripTicketWidth : null;
-  const margin = isDragged ? '0px' : '0px ' + theme.shapes.viewSpacing + ' 0px 0px';
-  const border = isDragged ? theme.shapes.viewSpacing + ' solid ' + theme.palette.rootBackground : 'none';
+
+  const border      = theme.shapes.viewSpacing + ' solid ' + theme.palette.rootBackground;
+  const borderRight = border;
+  const borderOther = isDragged ? border : 'none';
 
   const boxStyle = {
     padding:         '0px ' + mm + ' 0px ' + mm,
     display:         'flex',
     flexDirection:   'column',
     flexGrow:        1,
-    margin:          margin,
     backgroundColor: bc,
-    border:          border,
+    borderRight:     borderRight,
+    borderLeft:      borderOther,
+    borderTop:       borderOther,
+    borderBottom:    borderOther,
     minWidth:        mw,
   };
 
