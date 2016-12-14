@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-
 import {TripTicket, Container} from '../../all-components.js';
 
 /******************************************************************************/
@@ -15,7 +14,8 @@ export default class TripTickets extends React.Component {
   renderTripTicket (data, type) {
     const shape = (type === 'pick') ? 'footer' : 'header';
     return (
-      <TripTicket shape={shape} data={data} type={type} {...this.link ()} />
+      <TripTicket shape={shape} data={data} type={type}
+        isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} />
     );
   }
 

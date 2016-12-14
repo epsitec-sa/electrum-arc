@@ -78,7 +78,7 @@ export default class TicketsTray extends React.Component {
     }
 
     return (
-      <div style={boxStyle}>
+      <div style = {boxStyle}>
         <div
           style       = {titleStyle}
           onMouseDown = {() => this.mouseDown ()}

@@ -14,11 +14,16 @@ export default class Trip extends React.Component {
 
   renderTrip (data, margin, content) {
     return (
-      <DragCab drag-handle='tickets' direction='vertical'
-        color={this.props.theme.palette.dragAndDropHover}
-        thickness={this.props.theme.shapes.dragAndDropThickness}
-        radius={this.props.theme.shapes.dragAndDropThickness}
-        id={data.id} owner-id={data.OwnerId} margin-bottom={margin} {...this.link ()}>
+      <DragCab
+        drag-handle   = 'tickets'
+        direction     = 'vertical'
+        color         = {this.props.theme.palette.dragAndDropHover}
+        thickness     = {this.props.theme.shapes.dragAndDropThickness}
+        radius        = {this.props.theme.shapes.dragAndDropThickness}
+        id            = {data.id}
+        owner-id      = {data.OwnerId}
+        margin-bottom = {margin}
+        {...this.link ()}>
         {content ()}
       </DragCab>
     );

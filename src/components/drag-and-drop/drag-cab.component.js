@@ -102,12 +102,14 @@ export default class DragCab extends React.Component {
     const color     = this.read ('color');
     const thickness = this.read ('thickness');
     const radius    = this.read ('radius');
+    const mode      = this.read ('mode');
     return (
       <DragCarrier
         direction         = {direction}
         color             = {color}
         thickness         = {thickness}
         radius            = {radius}
+        mode              = {mode}
         drag-starting     = {() => this.setDragStarting (true)}
         drag-ending       = {(e, x) => this.dragEnding (e, x)}
         drag-height       = {this.dragHeight}
