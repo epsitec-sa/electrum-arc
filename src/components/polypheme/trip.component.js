@@ -12,41 +12,29 @@ export default class Trip extends React.Component {
     super (props);
   }
 
+  renderTrip (data, margin, content) {
+    return (
+      <DragCab drag-handle='tickets' direction='vertical'
+        color={this.props.theme.palette.dragAndDropHover}
+        thickness={this.props.theme.shapes.dragAndDropThickness}
+        radius={this.props.theme.shapes.dragAndDropThickness}
+        id={data.id} owner-id={data.OwnerId} margin-bottom={margin} {...this.link ()}>
+        {content ()}
+      </DragCab>
+    );
+  }
+
   render () {
     const kind = this.read ('kind');
     const data = this.read ('data');
 
     if (kind === 'trip-box') {
       const m = Unit.parse (this.props.theme.shapes.tripBoxBottomMargin).value;
-      return (
-        <DragCab drag-handle='tickets' direction='vertical'
-          color={this.props.theme.palette.dragAndDropHover}
-          thickness={this.props.theme.shapes.dragAndDropThickness}
-          radius={this.props.theme.shapes.dragAndDropThickness}
-          id={data.id} owner-id={data.OwnerId} margin-bottom={m} {...this.link ()}>
-          <TripBox data={data} {...this.link ()} />
-        </DragCab>
-      );
+      return this.renderTrip (data, m, () => (<TripBox data={data} {...this.link ()} />));
     } else if (kind === 'trip-tickets') {
-      return (
-        <DragCab drag-handle='tickets' direction='vertical'
-          color={this.props.theme.palette.dragAndDropHover}
-          thickness={this.props.theme.shapes.dragAndDropThickness}
-          radius={this.props.theme.shapes.dragAndDropThickness}
-          id={data.id} owner-id={data.OwnerId} margin-bottom={2} {...this.link ()}>
-          <TripTickets data={data} {...this.link ()} />
-        </DragCab>
-      );
+      return this.renderTrip (data, 2, () => (<TripTickets data={data} {...this.link ()} />));
     } else if (kind === 'trip-ticket') {
-      return (
-        <DragCab drag-handle='tickets' direction='vertical'
-          color={this.props.theme.palette.dragAndDropHover}
-          thickness={this.props.theme.shapes.dragAndDropThickness}
-          radius={this.props.theme.shapes.dragAndDropThickness}
-          id={data.id} owner-id={data.OwnerId} margin-bottom={2} {...this.link ()}>
-          <TripTicket data={data} type={data.Type} {...this.link ()} />
-        </DragCab>
-      );
+      return this.renderTrip (data, 2, () => (<TripTicket data={data} type={data.Type} {...this.link ()} />));
     } else {
       throw new Error (`Trip component contains invalid kind: ${kind}`);
     }
