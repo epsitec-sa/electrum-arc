@@ -22,6 +22,8 @@ export default class Roadbook extends React.Component {
     const isDragged = this.read ('isDragged');
 
     const boxStyle = this.mergeStyles ('box');
+
+    // When dragging, show a source component empty.
     const children = (hasHeLeft && !isDragged) ? null : this.props.children;
 
     return (

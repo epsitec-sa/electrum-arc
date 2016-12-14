@@ -586,6 +586,12 @@ export default function styles (theme, props) {
     overflowY       = 'auto';
   }
 
+  if (inputKind === 'desk-container') {
+    minWidth        = inputWidth  ? inputWidth  : theme.shapes.tripTicketWidth;
+    maxWidth        = inputWidth  ? inputWidth  : theme.shapes.tripTicketWidth;
+    minHeight       = inputHeight ? inputHeight : theme.shapes.tripTicketsHeight;
+  }
+
   if (inputKind === 'ticket-row') {
     display         = 'flex';
     flexDirection   = 'row';

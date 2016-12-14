@@ -3,13 +3,11 @@
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  const inputWidth   = props.width;
-  const inputHeight  = props.height;
-  const inputLeft    = props.left;
-  const inputRight   = props.right;
-  const inputTop     = props.top;
-  const inputBottom  = props.bottom;
-  const inputRotate  = props.rotate;
+  const inputLeft   = props.left;
+  const inputRight  = props.right;
+  const inputTop    = props.top;
+  const inputBottom = props.bottom;
+  const inputRotate = props.rotate;
 
   const boxStyle = {
     position:        'absolute',
@@ -30,16 +28,9 @@ export default function styles (theme, props) {
     cursor:          'pointer',
   };
 
-  const containerStyle = {
-    minWidth:        inputWidth  ? inputWidth  : theme.shapes.tripTicketWidth,
-    maxWidth:        inputWidth  ? inputWidth  : theme.shapes.tripTicketWidth,
-    minHeight:       inputHeight ? inputHeight : theme.shapes.tripTicketsHeight,
-  };
-
   return {
-    box:       boxStyle,
-    title:     titleStyle,
-    container: containerStyle,
+    box:   boxStyle,
+    title: titleStyle,
   };
 }
 

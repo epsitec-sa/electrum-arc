@@ -227,6 +227,7 @@ export default class DragCarrier extends React.Component {
   }
 
   mouseMove (event) {
+    console.log ('>>>>>>>>>>>>>>>>>>>>');
     if (this.moveCount === 0) {  // first move ?
       this.startX = event.clientX;
       this.startY = event.clientY;

@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import {Label, TextField} from 'electrum-arc';
+import {Container, Label, TextField} from 'electrum-arc';
 
 /******************************************************************************/
 
@@ -17,8 +17,6 @@ export default class TicketsTray extends React.Component {
 
   get styleProps () {
     return {
-      width:  this.read ('width'),
-      height: this.read ('height'),
       left:   this.read ('left'),
       right:  this.read ('right'),
       top:    this.read ('top'),
@@ -57,13 +55,10 @@ export default class TicketsTray extends React.Component {
   }
 
   render () {
-    const dragController = this.read ('drag-controller');
-    const dragSource     = this.read ('drag-source');
-    const data           = this.read ('data');
+    const data = this.read ('data');
 
-    const boxStyle       = this.mergeStyles ('box');
-    const titleStyle     = this.mergeStyles ('title');
-    const containerStyle = this.mergeStyles ('container');
+    const boxStyle   = this.mergeStyles ('box');
+    const titleStyle = this.mergeStyles ('title');
 
     if (this.getEdit ()) {
       titleStyle.margin   = '0px';
@@ -90,14 +85,10 @@ export default class TicketsTray extends React.Component {
           >
           {htmlEdit}
         </div>
-        <div
-          style                   = {containerStyle}
-          data-drag-container-for = {dragController ? dragController : 'tickets'}
-          data-drag-source        = {dragSource}
-          data-id                 = {data.id}
-          >
+        <Container kind='desk-container' drag-controller='tickets' drag-source='desk'
+          id={data.id} {...this.link ()} >
           {this.props.children}
-        </div>
+        </Container>
       </div>
     );
   }
