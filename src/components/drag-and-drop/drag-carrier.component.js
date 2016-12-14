@@ -227,7 +227,7 @@ export default class DragCarrier extends React.Component {
   }
 
   mouseMove (event) {
-    console.log ('>>>>>>>>>>>>>>>>>>>>');
+    console.log ('mouseMove >>>>>>>>>>>>>>>>>>>>');
     if (this.moveCount === 0) {  // first move ?
       this.startX = event.clientX;
       this.startY = event.clientY;
@@ -262,10 +262,8 @@ export default class DragCarrier extends React.Component {
     }
   }
 
-  mouseDown (event) {
-  }
-
   mouseUp (event) {
+    console.log ('mouseUp >>>>>>>>>>>>>>>>>>>>');
     const dragEnding = this.read ('drag-ending');
     if (dragEnding) {
       dragEnding (event, this.isDragStarted ());
@@ -334,6 +332,8 @@ export default class DragCarrier extends React.Component {
       width:           '100%',
       height:          '100%',
       userSelect:      'none',
+      // backgroundColor: '#f00',
+      // opacity:         0.1,
     };
 
     const draggedStyle = {
@@ -377,7 +377,6 @@ export default class DragCarrier extends React.Component {
     return (
       <div style = {fullScreenStyle}
         onMouseMove = {event => this.mouseMove (event)}
-        onMouseDown = {event => this.mouseDown (event)}
         onMouseUp   = {event => this.mouseUp (event)}
         >
         <div style = {hilitedStyle} />
