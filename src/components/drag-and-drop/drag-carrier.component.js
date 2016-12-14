@@ -240,11 +240,11 @@ export default class DragCarrier extends React.Component {
     this.moveCount++;
     const mode = this.read ('mode');
     if (mode === 'corner-top-left') {
-      this.setX (event.clientX - this.offsetX);
-      this.setY (event.clientY - this.offsetY);
-    } else {
       this.setX (event.clientX);
       this.setY (event.clientY);
+    } else {  // keep mouse at click point
+      this.setX (event.clientX - this.offsetX);
+      this.setY (event.clientY - this.offsetY);
     }
 
     const dest = this.find (event.clientX, event.clientY);

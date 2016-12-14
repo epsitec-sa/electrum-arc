@@ -20,6 +20,7 @@ export default class Trip extends React.Component {
         color         = {this.props.theme.palette.dragAndDropHover}
         thickness     = {this.props.theme.shapes.dragAndDropThickness}
         radius        = {this.props.theme.shapes.dragAndDropThickness}
+        mode          = 'corner-top-left'
         id            = {data.id}
         owner-id      = {data.OwnerId}
         margin-bottom = {margin}
