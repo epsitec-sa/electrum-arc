@@ -85,7 +85,7 @@ export default class TicketsTray extends React.Component {
           >
           {htmlEdit}
         </div>
-        <Container kind='desk-container' drag-controller='tickets' drag-source='desk'
+        <Container kind='tickets-tray' drag-controller='tickets' drag-source='desk'
           id={data.id} {...this.link ()} >
           {this.props.children}
         </Container>
