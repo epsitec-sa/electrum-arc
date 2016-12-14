@@ -76,7 +76,7 @@ export default class DragCab extends React.Component {
     if (event.ctrlKey || event.metaKey) {  // select/deselect ?
       this.reduce ('SWAP_SELECTED', ticket.props);
     } else if (event.altKey) {  // dispatched/undispatched ?
-      this.reduce ('SWAP_HATCH', ticket.props);
+      this.reduce ('SWAP_STATUS', ticket.props);
     } else {  // compected/extended ?
       this.reduce ('SWAP_EXTENDED', ticket.props);
     }

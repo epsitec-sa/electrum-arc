@@ -115,7 +115,7 @@ export default class Ticket extends React.Component {
 
   renderTicket () {
     const data      = this.read ('data');
-    const hatch     = data.Hatch === 'true';
+    const hatch     = data.Status === 'dispatched';
     const flash     = data.Flash === 'true';
     const warning   = data.Warning;
     const hasHeLeft = this.read ('hasHeLeft');
@@ -203,7 +203,7 @@ export default class Ticket extends React.Component {
 
   renderRect () {
     const data      = this.read ('data');
-    const hatch     = data.Hatch === 'true';
+    const hatch     = data.Status === 'dispatched';
     const flash     = data.Flash === 'true';
     const warning   = data.Warning;
     const hasHeLeft = this.read ('hasHeLeft');
