@@ -287,7 +287,7 @@ export default class DragCarrier extends React.Component {
         toOwnerId:   dest.ownerId,
         toPosition:  dest.position,
       });
-      return window.document.data.useful;
+      return window.document.data.isUseful;
     }
     return false;
   }
