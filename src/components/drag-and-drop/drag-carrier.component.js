@@ -52,6 +52,30 @@ function getBoundingRect (node) {
   }
 }
 
+function clipDot (p, box) {
+  p.x = Math.max (p.x, box.left);
+  p.x = Math.min (p.x, box.right);
+  p.y = Math.max (p.y, box.top);
+  p.y = Math.min (p.y, box.bottom);
+  return p;
+}
+
+function clip (rect, box) {
+  if (box) {
+    const tl = clipDot ({x: rect.left, y: rect.top}, box);
+    const br = clipDot ({x: rect.right, y: rect.bottom}, box);
+    return {
+      left:   tl.x,
+      right:  br.x,
+      top:    tl.y,
+      bottom: br.y,
+      width:  br.x - tl.x,
+      height: br.y - tl.y,
+    };
+  }
+  return rect;
+}
+
 export default class DragCarrier extends React.Component {
 
   constructor (props) {
@@ -382,7 +406,7 @@ export default class DragCarrier extends React.Component {
     const dest = this.getDest ();
     let hilitedStyle;
     if (dest && this.isDragStarted ()) {
-      const rect = dest.rect;
+      const rect = clip (dest.rect, dest.parentRect);
       hilitedStyle = {
         visibility:      'visible',
         position:        'absolute',
