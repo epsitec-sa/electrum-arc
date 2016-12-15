@@ -13,6 +13,26 @@ class Pane extends Component {
     this.state = {size: this.props.size};
   }
 
+  componentDidMount () {
+    const {viewId} = this.props;
+    if (viewId) {
+      if (!window.document.viewIds) {
+        window.document.viewIds = [];
+      }
+      window.document.viewIds.push (this);
+    }
+  }
+
+  componentWillUnmount () {
+    const {viewId} = this.props;
+    if (viewId) {
+      const index = window.document.viewIds.indexOf (this);
+      if (index !== -1) {
+        window.document.viewIds.splice (index, 1);
+      }
+    }
+  }
+
   render() {
     const split = this.props.split;
     const classes = ['Pane', split, this.props.className];

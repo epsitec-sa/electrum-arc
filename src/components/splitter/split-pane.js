@@ -181,7 +181,7 @@ class SplitPane extends Component {
   }
 
   render() {
-    const {split, allowResize} = this.props;
+    const {split, allowResize, firstViewId, lastViewId} = this.props;
     const disabledClass = allowResize ? '' : 'disabled';
 
     const style = Object.assign ({},
@@ -252,6 +252,7 @@ class SplitPane extends Component {
             this.props.size || this.props.defaultSize || this.props.minSize :
             undefined
           }
+          viewId = {firstViewId}
           >
           {children[0]}
         </Pane>
@@ -280,6 +281,7 @@ class SplitPane extends Component {
             this.props.size || this.props.defaultSize || this.props.minSize :
             undefined
           }
+          viewId = {lastViewId}
           >
           {children[1]}
         </Pane>

@@ -24,6 +24,8 @@ export default class Splitter extends React.Component {
     const defaultSize   = this.read ('default-size');
     const minSize       = this.read ('min-size');
     const maxSize       = this.read ('max-size');
+    const firstViewId   = this.read ('first-view-id');
+    const lastViewId    = this.read ('last-view-id');
     const onSizeChanged = this.read ('onSizeChanged');
 
     if (!kind) {
@@ -33,9 +35,15 @@ export default class Splitter extends React.Component {
     const resizerStyle = this.mergeStyles ('resizerStyle');
 
     return (
-      <SplitPane split={kind} resizerStyle={resizerStyle}
-        defaultSize={defaultSize} minSize={minSize} maxSize={maxSize}
-        onSizeChanged={onSizeChanged} >
+      <SplitPane
+        split         = {kind}
+        resizerStyle  = {resizerStyle}
+        defaultSize   = {defaultSize}
+        minSize       = {minSize}
+        maxSize       = {maxSize}
+        firstViewId   = {firstViewId}
+        lastViewId    = {lastViewId}
+        onSizeChanged = {onSizeChanged} >
         {this.props.children}
       </SplitPane>
     );
