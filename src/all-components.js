@@ -41,6 +41,8 @@ import _Link from './components/links/link.component.js';
 import _Link$styles from './components/links/link.styles.js';
 import _Menu from './components/menus/menu.component.js';
 import _Menu$styles from './components/menus/menu.styles.js';
+import _DispatchBacklog from './components/polypheme/dispatch-backlog.component.js';
+import _DispatchDesk from './components/polypheme/dispatch-desk.component.js';
 import _MessengerTicket from './components/polypheme/messenger-ticket.component.js';
 import _Notification from './components/polypheme/notification.component.js';
 import _Notifications from './components/polypheme/notifications.component.js';
@@ -78,6 +80,8 @@ export const TextField = Electrum.wrap ('TextField', _TextField, {styles: _TextF
 export const Layout = Electrum.wrap ('Layout', _Layout);
 export const Link = Electrum.wrap ('Link', _Link, {styles: _Link$styles});
 export const Menu = Electrum.wrap ('Menu', _Menu, {styles: _Menu$styles});
+export const DispatchBacklog = Electrum.wrap ('DispatchBacklog', _DispatchBacklog);
+export const DispatchDesk = Electrum.wrap ('DispatchDesk', _DispatchDesk);
 export const MessengerTicket = Electrum.wrap ('MessengerTicket', _MessengerTicket);
 export const Notification = Electrum.wrap ('Notification', _Notification);
 export const Notifications = Electrum.wrap ('Notifications', _Notifications);

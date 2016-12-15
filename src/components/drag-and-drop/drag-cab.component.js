@@ -68,7 +68,9 @@ export default class DragCab extends React.Component {
   childrenChangeState (event) {
     React.Children.forEach (this.props.children, ticket => this.changeState (ticket, event));
     if (window.document.mock) {
-      window.document.dispatch.forceUpdate ();
+      window.document.dispatchMessenger.forceUpdate ();
+      window.document.dispatchBacklog.forceUpdate ();
+      window.document.dispatchDesk.forceUpdate ();
     }
   }
 
@@ -93,7 +95,9 @@ export default class DragCab extends React.Component {
     if (window.document.mock) {
       // This trick is necessary for update the UI !!!
       window.document.data = window.document.reducerDragAndDrop (window.document.data, {type: 'CLONE'});
-      window.document.dispatch.forceUpdate ();
+      window.document.dispatchMessenger.forceUpdate ();
+      window.document.dispatchBacklog.forceUpdate ();
+      window.document.dispatchDesk.forceUpdate ();
     }
   }
 

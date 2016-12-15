@@ -21,7 +21,9 @@ export default class DragController extends React.Component {
       element: element,
       source:  source,
     });
-    window.document.dispatch.forceUpdate ();
+    window.document.dispatchMessenger.forceUpdate ();
+    window.document.dispatchBacklog.forceUpdate ();
+    window.document.dispatchDesk.forceUpdate ();
   }
 
   drop (element, target, source, sibling) {
@@ -36,7 +38,9 @@ export default class DragController extends React.Component {
     if (target.dataset.id !== source.dataset.id) {
       this.drake.remove ();  // remove the drop copy from DOM
     }
-    window.document.dispatch.forceUpdate ();
+    window.document.dispatchMessenger.forceUpdate ();
+    window.document.dispatchBacklog.forceUpdate ();
+    window.document.dispatchDesk.forceUpdate ();
   }
 
   initDragula () {
