@@ -248,7 +248,7 @@ export default class DragCarrier extends React.Component {
     }
 
     const dest = this.find (event.clientX, event.clientY);
-    if (this.isUsefull (dest)) {
+    if (this.isUseful (dest)) {
       this.setDest (dest);
     } else {
       this.setDest (this.rectOrigin);
@@ -274,20 +274,20 @@ export default class DragCarrier extends React.Component {
     }
   }
 
-  isUsefull (dest) {
+  isUseful (dest) {
     if (dest) {
       const toDrag      = this.read ('component-to-drag');
       const fromId      = toDrag.read ('id');
       const fromOwnerId = toDrag.read ('owner-id');
       window.document.data = window.document.reducerDragAndDrop (window.document.data, {
-        type:        'USEFULL',
+        type:        'IS_USEFUL',
         fromId:      fromId,
         fromOwnerId: fromOwnerId,
         toId:        dest.id,
         toOwnerId:   dest.ownerId,
         toPosition:  dest.position,
       });
-      return window.document.data.usefull;
+      return window.document.data.useful;
     }
     return false;
   }
