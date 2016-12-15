@@ -12,8 +12,22 @@ export default class DispatchDesk extends React.Component {
 
   constructor (props) {
     super (props);
-    window.document.dispatchDesk = this;
     this.data = window.document.data.TicketsTrays;
+  }
+
+  componentDidMount () {
+    if (window.document.mock) {
+      window.document.toUpdate.push (this);
+    }
+  }
+
+  componentWillUnmount () {
+    if (window.document.mock) {
+      const index = window.document.toUpdate.indexOf (this);
+      if (index !== -1) {
+        window.document.toUpdate.splice (index, 1);
+      }
+    }
   }
 
   renderTicket (ticket, kind, index) {

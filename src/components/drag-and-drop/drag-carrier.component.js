@@ -367,9 +367,9 @@ export default class DragCarrier extends React.Component {
       toPosition:  position,
     });
     if (window.document.mock) {
-      window.document.dispatchMessenger.forceUpdate ();
-      window.document.dispatchBacklog.forceUpdate ();
-      window.document.dispatchDesk.forceUpdate ();
+      for (var c of window.document.toUpdate) {
+        c.forceUpdate ();
+      }
     }
   }
 
