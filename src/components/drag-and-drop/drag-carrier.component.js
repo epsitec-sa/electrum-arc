@@ -25,7 +25,11 @@ function getHRect (rect, left, right) {
 }
 
 function isInside (rect, x, y) {
-  return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+  if (rect) {
+    return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+  } else {
+    return true;
+  }
 }
 
 function subBottomMargin (rect, bm) {
@@ -215,15 +219,14 @@ export default class DragCarrier extends React.Component {
     return null;
   }
 
-  isInsideParent (component, x, y) {
+  getParentRect (component) {
     const dragParentId = component.props['view-parent-id'];
     const parent = this.findViewId (dragParentId);
     if (parent) {
       const parentNode = ReactDOM.findDOMNode (parent);
-      const parentRect = parentNode.getBoundingClientRect ();
-      return isInside (parentRect, x, y);
+      return parentNode.getBoundingClientRect ();
     }
-    return true;
+    return null;
   }
 
   find (x, y) {
@@ -238,11 +241,16 @@ export default class DragCarrier extends React.Component {
       if (dragController === dragHandle) {
         const n = ReactDOM.findDOMNode (c);
         const rect = n.getBoundingClientRect ();
-        if (this.isInsideParent  (c, x, y) && isInside (rect, x, y)) {
+        const parentRect = this.getParentRect (c);
+        if (isInside (parentRect, x, y) && isInside (rect, x, y)) {
           if (direction === 'horizontal') {
-            return this.findH (c, n, x, id);
+            const dest = this.findH (c, n, x, id);
+            dest.parentRect = parentRect;
+            return dest;
           } else {
-            return this.findV (c, n, y, id);
+            const dest = this.findV (c, n, y, id);
+            dest.parentRect = parentRect;
+            return dest;
           }
         }
       }
