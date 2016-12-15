@@ -244,8 +244,7 @@ export default class DragCarrier extends React.Component {
 
   findViewId (id) {
     if (id) {
-      for (var i = 0, len = window.document.viewIds.length; i < len; i++) {
-        const c = window.document.viewIds[i];
+      for (var c of window.document.viewIds) {
         const viewId = c.props.viewId;
         if (viewId === id) {
           return c;
@@ -271,8 +270,7 @@ export default class DragCarrier extends React.Component {
     const toDrag    = this.read ('component-to-drag');
     const dragHandle = toDrag.read ('drag-handle');
     const id         = toDrag.read ('id');
-    for (var i = 0, len = window.document.dragControllers.length; i < len; i++) {
-      const c = window.document.dragControllers[i];
+    for (var c of window.document.dragControllers) {
       const dragController = c.props['drag-controller'];
       if (dragController === dragHandle) {
         const n = ReactDOM.findDOMNode (c);
