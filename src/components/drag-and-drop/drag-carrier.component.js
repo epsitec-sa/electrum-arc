@@ -202,6 +202,30 @@ export default class DragCarrier extends React.Component {
     };
   }
 
+  findViewId (id) {
+    if (id) {
+      for (var i = 0, len = window.document.viewIds.length; i < len; i++) {
+        const c = window.document.viewIds[i];
+        const viewId = c.props.viewId;
+        if (viewId === id) {
+          return c;
+        }
+      }
+    }
+    return null;
+  }
+
+  isInsideParent (component, x, y) {
+    const dragParentId = component.props['view-parent-id'];
+    const parent = this.findViewId (dragParentId);
+    if (parent) {
+      const parentNode = ReactDOM.findDOMNode (parent);
+      const parentRect = parentNode.getBoundingClientRect ();
+      return isInside (parentRect, x, y);
+    }
+    return true;
+  }
+
   find (x, y) {
     this.rectOrigin = null;
     const direction = this.read ('direction');
@@ -214,7 +238,7 @@ export default class DragCarrier extends React.Component {
       if (dragController === dragHandle) {
         const n = ReactDOM.findDOMNode (c);
         const rect = n.getBoundingClientRect ();
-        if (isInside (rect, x, y)) {
+        if (this.isInsideParent  (c, x, y) && isInside (rect, x, y)) {
           if (direction === 'horizontal') {
             return this.findH (c, n, x, id);
           } else {
