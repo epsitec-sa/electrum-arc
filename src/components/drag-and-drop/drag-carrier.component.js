@@ -12,6 +12,8 @@ function getVRect (rect, top, bottom) {
     right:  rect.right,
     top:    top,
     bottom: bottom,
+    width:  rect.width,
+    height: bottom - top,
   };
 }
 
@@ -21,6 +23,8 @@ function getHRect (rect, left, right) {
     right:  right,
     top:    rect.top,
     bottom: rect.bottom,
+    width:  right - left,
+    height: rect.height,
   };
 }
 
@@ -132,15 +136,16 @@ export default class DragCarrier extends React.Component {
     return Unit.parse (Unit.multiply (thickness, 0.5)).value;
   }
 
-  findV (component, node, y, id) {
+  findV (component, node, y, parentRect, id) {
     const thickness = this.getHalfThickness ();
     if (node.children.length === 0) {  // is in top of empty container ?
       const rect = getBoundingRect (node);
       return {
-        id:       null,
-        ownerId:  component.props.id,
-        position: 'null',
-        rect:     getVRect (rect, rect.top - thickness, rect.top + thickness),
+        id:         null,
+        ownerId:    component.props.id,
+        position:   'null',
+        rect:       getVRect (rect, rect.top - thickness, rect.top + thickness),
+        parentRect: parentRect,
       };
     }
     for (var i = 0, len = node.children.length; i < len; i++) {
@@ -148,10 +153,11 @@ export default class DragCarrier extends React.Component {
       const rect = getBoundingRect (t);
       if (t.dataset.id === id) {
         this.rectOrigin = {
-          id:       t.dataset.id,
-          ownerId:  t.dataset.ownerId,
-          position: 'full',
-          rect:     rect,
+          id:         t.dataset.id,
+          ownerId:    t.dataset.ownerId,
+          position:   'full',
+          rect:       rect,
+          parentRect: parentRect,
         };
       }
       const oy = rect.top + rect.height / 2;
@@ -163,10 +169,11 @@ export default class DragCarrier extends React.Component {
           py = (lr.bottom + rect.top) / 2;
         }
         return {
-          id:       t.dataset.id,
-          ownerId:  t.dataset.ownerId,
-          position: 'before',
-          rect:     getVRect (rect, py - thickness, py + thickness),
+          id:         t.dataset.id,
+          ownerId:    t.dataset.ownerId,
+          position:   'before',
+          rect:       getVRect (rect, py - thickness, py + thickness),
+          parentRect: parentRect,
         };
       }
     }
@@ -174,22 +181,24 @@ export default class DragCarrier extends React.Component {
     const last = node.children[node.children.length - 1];
     const rect = last.getBoundingClientRect ();
     return {
-      id:       last.dataset.id,
-      ownerId:  last.dataset.ownerId,
-      position: 'after',
-      rect:     getVRect (rect, rect.bottom - thickness, rect.bottom + thickness),
+      id:         last.dataset.id,
+      ownerId:    last.dataset.ownerId,
+      position:   'after',
+      rect:       getVRect (rect, rect.bottom - thickness, rect.bottom + thickness),
+      parentRect: parentRect,
     };
   }
 
-  findH (component, node, x, id) {
+  findH (component, node, x, parentRect, id) {
     const thickness = this.getHalfThickness ();
     if (node.children.length === 0) {  // is in top of empty container ?
       const rect = getBoundingRect (node);
       return {
-        id:       null,
-        ownerId:  component.props.id,
-        position: 'null',
-        rect:     getHRect (rect, rect.left - thickness, rect.left + thickness),
+        id:         null,
+        ownerId:    component.props.id,
+        position:   'null',
+        rect:       getHRect (rect, rect.left - thickness, rect.left + thickness),
+        parentRect: parentRect,
       };
     }
     for (var i = 0, len = node.children.length; i < len; i++) {
@@ -197,10 +206,11 @@ export default class DragCarrier extends React.Component {
       const rect = getBoundingRect (t);
       if (t.dataset.id === id) {
         this.rectOrigin = {
-          id:       t.dataset.id,
-          ownerId:  t.dataset.ownerId,
-          position: 'full',
-          rect:     rect,
+          id:         t.dataset.id,
+          ownerId:    t.dataset.ownerId,
+          position:   'full',
+          rect:       rect,
+          parentRect: parentRect,
         };
       }
       const ox = rect.left + rect.width / 2;
@@ -212,10 +222,11 @@ export default class DragCarrier extends React.Component {
           px = (lr.right + rect.left) / 2;
         }
         return {
-          id:       t.dataset.id,
-          ownerId:  t.dataset.ownerId,
-          position: 'before',
-          rect:     getHRect (rect, px - thickness, px + thickness),
+          id:         t.dataset.id,
+          ownerId:    t.dataset.ownerId,
+          position:   'before',
+          rect:       getHRect (rect, px - thickness, px + thickness),
+          parentRect: parentRect,
         };
       }
     }
@@ -223,10 +234,11 @@ export default class DragCarrier extends React.Component {
     const last = node.children[node.children.length - 1];
     const rect = last.getBoundingClientRect ();
     return {
-      id:       last.dataset.id,
-      ownerId:  last.dataset.ownerId,
-      position: 'after',
-      rect:     getHRect (rect, rect.right - thickness, rect.right + thickness),
+      id:         last.dataset.id,
+      ownerId:    last.dataset.ownerId,
+      position:   'after',
+      rect:       getHRect (rect, rect.right - thickness, rect.right + thickness),
+      parentRect: parentRect,
     };
   }
 
@@ -268,13 +280,9 @@ export default class DragCarrier extends React.Component {
         const parentRect = this.getParentRect (c);
         if (isInside (parentRect, x, y) && isInside (rect, x, y)) {
           if (direction === 'horizontal') {
-            const dest = this.findH (c, n, x, id);
-            dest.parentRect = parentRect;
-            return dest;
+            return this.findH (c, n, x, parentRect, id);
           } else {
-            const dest = this.findV (c, n, y, id);
-            dest.parentRect = parentRect;
-            return dest;
+            return this.findV (c, n, y, parentRect, id);
           }
         }
       }
@@ -411,9 +419,9 @@ export default class DragCarrier extends React.Component {
         visibility:      'visible',
         position:        'absolute',
         left:            rect.left,
-        width:           rect.right - rect.left,
+        width:           rect.width,
         top:             rect.top,
-        height:          rect.bottom - rect.top,
+        height:          rect.height,
         borderRadius:    radius,
         transition:      'all 0.2s ease-out',
         backgroundColor: color,
