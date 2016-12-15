@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {Ticket, Container, Label} from '../../all-components.js';
+import {Ticket, Container, Label, Separator} from '../../all-components.js';
 import {ColorHelpers} from 'electrum-theme';
 import {Unit} from 'electrum-theme';
 
@@ -65,11 +65,6 @@ export default class TripTicket extends React.Component {
     return time;
   }
 
-  computeHeight (text) {
-    const count = text.split ('\\n').length + 1;
-    return Unit.multiply ('20px', count);
-  }
-
   getPackageCount (ticket) {
     return ticket.Trip.Packages.length + 'x';
   }
@@ -116,6 +111,21 @@ export default class TripTicket extends React.Component {
     }
   }
 
+  renderWarning (text) {
+    if (!text) {
+      return null;
+    } else {
+      return (
+        <Container kind='column' {...this.link ()} >
+          <Container kind='row' {...this.link ()} >
+            <Label kind='ticket-warning' text={text} font-style='italic' wrap='no' grow='1' {...this.link ()} />
+          </Container>
+          <Separator kind='ticket-warning' {...this.link ()} />
+        </Container>
+      );
+    }
+  }
+
   renderNote (note, index) {
     let glyph = null;
     if (note.Glyphs.length >= 1) {
@@ -149,7 +159,7 @@ export default class TripTicket extends React.Component {
     const directionGlyph = this.getDirectionGlyph (type);
     const directionColor = ColorHelpers.GetMarkColor (this.props.theme, pd);
     const notes          = trip.Notes;
-    const height         = Unit.add (this.computeHeight (trip.ShortDescription), '20px');
+    const height         = data.Warning ? '90px' : '60px';
     const marginBottom   = '-10px';
     const cursor         = 'move';
 
@@ -158,6 +168,7 @@ export default class TripTicket extends React.Component {
         kind='ticket' shape={shape} type={pd} cursor={cursor} data={data} selected={data.Selected}
         isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
+          {this.renderWarning (data.Warning)}
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
             <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
             <Label glyph={directionGlyph} glyph-color={directionColor} width='25px' {...this.link ()} />
@@ -193,6 +204,7 @@ export default class TripTicket extends React.Component {
         kind='rect' shape={shape} type={pd} cursor={cursor} data={data} selected={data.Selected}
         isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
+          {this.renderWarning (data.Warning)}
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
             <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
             <Label glyph={directionGlyph} glyph-color={directionColor} width='25px' {...this.link ()} />

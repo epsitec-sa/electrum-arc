@@ -51,6 +51,11 @@ export default function styles (theme, props) {
     borderColor = theme.palette.floatingSecondary;
   }
 
+  if (inputKind === 'ticket-warning') {
+    borderColor = theme.palette.text;
+    margin      = '0px 0px 5px 0px';
+  }
+
   const boxStyle = {
     width:             width,
     height:            height,

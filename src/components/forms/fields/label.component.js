@@ -27,6 +27,7 @@ export default class Label extends React.Component {
       textColor:     this.read ('text-color'),
       textTransform: this.read ('text-transform'),
       fontWeight:    this.read ('font-weight'),
+      fontStyle:     this.read ('font-style'),
       fontSize:      this.read ('font-size'),
       bottomSpacing: this.read ('bottom-spacing'),
       zIndex:        this.read ('z-index'),

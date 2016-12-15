@@ -18,6 +18,7 @@ export default function styles (theme, props) {
   const inputTextColor     = props.textColor;
   const inputTextTransform = props.textTransform;
   const inputFontWeight    = props.fontWeight;
+  const inputFontStyle     = props.fontStyle;
   const inputFontSize      = props.fontSize;
   const inputBottomSpacing = props.bottomSpacing;
   const inputZIndex        = props.zIndex;
@@ -174,6 +175,10 @@ export default function styles (theme, props) {
     fontSize        = theme.shapes.ticketGlueTitleSize;
   }
 
+  if (inputKind === 'ticket-warning') {
+    margin = '5px 0px 0px 0px';
+  }
+
   if (inputVpos === 'top') {
     boxAlignSelf = 'flex-start';
   }
@@ -255,6 +260,7 @@ export default function styles (theme, props) {
     alignSelf:       textAlign,
     fontSize:        Unit.multiply (fontSize, theme.typo.fontScale),
     fontWeight:      fontWeight,
+    fontStyle:       inputFontStyle,
     textTransform:   textTransform,
     color:           textColor,
     overflow:        textOverflow,
