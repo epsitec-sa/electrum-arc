@@ -29,26 +29,24 @@ export default class DispatchBacklog extends React.Component {
     }
   }
 
-  renderTicket (ticket, index) {
+  renderTicket (ticket, dataDispatch, index) {
     return (
-      <Trip key={index} kind='trip-box' data={ticket} {...this.link ()} />
+      <Trip key={index} kind='trip-box' data={ticket} data-dispatch={dataDispatch} {...this.link ()} />
     );
   }
 
-  renderTickets (tickets) {
+  renderTickets (tickets, dataDispatch) {
     const result = [];
     let index = 0;
     for (var ticket of tickets) {
-      result.push (this.renderTicket (ticket, index++));
+      result.push (this.renderTicket (ticket, dataDispatch, index++));
     }
     return result;
   }
 
   render () {
-    let data = this.read ('data');
-    if (!data) {
-      data = window.document.data.Backlog.Tickets;
-    }
+    let data         = this.read ('data');
+    let dataDispatch = this.read ('data-dispatch');
 
     return (
       <Container kind='view-stretch' {...this.link ()} >
@@ -66,7 +64,7 @@ export default class DispatchBacklog extends React.Component {
         <Container kind='panes' {...this.link ()} >
           <Container kind='column' drag-controller='tickets' drag-source='backlog'
             view-parent-id='view-backlog' {...this.link ()} >
-            {this.renderTickets (data)}
+            {this.renderTickets (data, dataDispatch)}
           </Container>
         </Container>
       </Container>

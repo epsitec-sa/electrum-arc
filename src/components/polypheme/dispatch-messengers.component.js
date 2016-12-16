@@ -69,13 +69,13 @@ export default class DispatchMessengers extends React.Component {
           default-size={this.getSplitterRoadbooksHeight (data)}
           onSizeChanged={size => this.onSplitterRoadbooksChanged (data, size)}
           {...this.link ()} >
-          <DispatchRoadbooks data={data.Roadbooks} {...this.link ()} />
+          <DispatchRoadbooks data={data.Roadbooks} data-dispatch={data} {...this.link ()} />
           <Splitter kind='vertical' first-view-id='view-backlog' last-view-id='view-desk'
             default-size={this.getSplitterBacklogWidth (data)} min-size='0px'
             onSizeChanged={size => this.onSplitterBacklogChanged (data, size)}
             {...this.link ()} >
-            <DispatchBacklog data={data.Backlog.Tickets} {...this.link ()} />
-            <DispatchDesk data={data.Desk} {...this.link ()} />
+            <DispatchBacklog data={data.Backlog.Tickets} data-dispatch={data} {...this.link ()} />
+            <DispatchDesk data={data.Desk} data-dispatch={data} {...this.link ()} />
           </Splitter>
         </Splitter>
       </Container>

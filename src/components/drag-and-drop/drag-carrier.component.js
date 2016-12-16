@@ -339,10 +339,11 @@ export default class DragCarrier extends React.Component {
 
   isUseful (dest) {
     if (dest) {
-      const toDrag      = this.read ('component-to-drag');
-      const fromId      = toDrag.read ('id');
-      const fromOwnerId = toDrag.read ('owner-id');
-      window.document.data = reducerDragAndDrop (window.document.data, {
+      const toDrag       = this.read ('component-to-drag');
+      const dataDispatch = toDrag.read ('data-dispatch');
+      const fromId       = toDrag.read ('id');
+      const fromOwnerId  = toDrag.read ('owner-id');
+      window.document.data = reducerDragAndDrop (dataDispatch, {
         type:        'IS_USEFUL',
         fromId:      fromId,
         fromOwnerId: fromOwnerId,
@@ -350,16 +351,17 @@ export default class DragCarrier extends React.Component {
         toOwnerId:   dest.ownerId,
         toPosition:  dest.position,
       });
-      return window.document.data.isUseful;
+      return dataDispatch.isUseful;
     }
     return false;
   }
 
   reduce (id, ownerId, position) {
-    const toDrag      = this.read ('component-to-drag');
-    const fromId      = toDrag.read ('id');
-    const fromOwnerId = toDrag.read ('owner-id');
-    window.document.data = reducerDragAndDrop (window.document.data, {
+    const toDrag       = this.read ('component-to-drag');
+    const dataDispatch = this.read ('data-dispatch');
+    const fromId       = toDrag.read ('id');
+    const fromOwnerId  = toDrag.read ('owner-id');
+    window.document.data = reducerDragAndDrop (dataDispatch, {
       type:        'DROP',
       fromId:      fromId,
       fromOwnerId: fromOwnerId,

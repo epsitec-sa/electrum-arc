@@ -97,16 +97,17 @@ export default class DragCab extends React.Component {
   }
 
   reduce (action, props) {
-    const id      = props.data.id;
-    const ownerId = props.data.OwnerId;
-    window.document.data = reducerDragAndDrop (window.document.data, {
+    const id           = props.data.id;
+    const ownerId      = props.data.OwnerId;
+    const dataDispatch = this.read ('data-dispatch');
+    window.document.data = reducerDragAndDrop (dataDispatch, {
       type:    action,
       id:      id,
       ownerId: ownerId,
     });
     if (window.document.mock) {
       // This trick is necessary for update the UI !!!
-      window.document.data = reducerDragAndDrop (window.document.data, {type: 'CLONE'});
+      window.document.data = reducerDragAndDrop (dataDispatch, {type: 'CLONE'});
       for (var c of window.document.toUpdate) {
         c.forceUpdate ();
       }
@@ -114,11 +115,12 @@ export default class DragCab extends React.Component {
   }
 
   renderDragCarrier () {
-    const direction = this.read ('direction');
-    const color     = this.read ('color');
-    const thickness = this.read ('thickness');
-    const radius    = this.read ('radius');
-    const mode      = this.read ('mode');
+    const direction    = this.read ('direction');
+    const color        = this.read ('color');
+    const thickness    = this.read ('thickness');
+    const radius       = this.read ('radius');
+    const mode         = this.read ('mode');
+    const dataDispatch = this.read ('data-dispatch');
     return (
       <DragCarrier
         direction         = {direction}
@@ -126,6 +128,7 @@ export default class DragCab extends React.Component {
         thickness         = {thickness}
         radius            = {radius}
         mode              = {mode}
+        data-dispatch     = {dataDispatch}
         drag-starting     = {() => this.setDragStarting (true)}
         drag-ending       = {(e, x) => this.dragEnding (e, x)}
         drag-height       = {this.dragHeight}
