@@ -74,6 +74,7 @@ export default class TextFieldCombo extends React.Component {
     const inputComboType           = this.read ('combo-type');
     const inputFlyingBalloonAnchor = this.read ('flying-balloon-anchor');
     const inputFilterKeys          = this.props['filter-keys'];
+    const inputTabIndex            = this.props['tab-index'];
 
     // Get or create the internalState.
     var internalState = this.getInternalState ();
@@ -141,6 +142,7 @@ export default class TextFieldCombo extends React.Component {
           spacing               = 'overlap'
           shape                 = {textFieldShape}
           flying-balloon-anchor = {inputFlyingBalloonAnchor}
+          tab-index             = {inputTabIndex}
           {...this.link ()}
         />
         <Button

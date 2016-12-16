@@ -37,6 +37,7 @@ export default class LabelTextField extends React.Component {
     const inputValue      = this.read ('value');
     const inputHintText   = this.read ('hint-text');
     const inputFilterKeys = this.props['filter-keys'];
+    const inputTabIndex   = this.props['tab-index'];
 
     const boxStyle = this.mergeStyles ('box');
 
@@ -75,6 +76,7 @@ export default class LabelTextField extends React.Component {
           hint-text   = {inputHintText}
           filter-keys = {inputFilterKeys}
           shape       = {textFieldShape}
+          tab-index   = {inputTabIndex}
           {...this.link ()}
         />
       </span>

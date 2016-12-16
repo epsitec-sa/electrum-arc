@@ -32,27 +32,29 @@ export default class TextField extends React.Component {
     const inputMessageInfo         = this.read ('message-info');
     const inputHintText            = this.read ('hint-text');
     const inputFlyingBalloonAnchor = this.read ('flying-balloon-anchor');
+    const inputTabIndex            = this.props['tab-index'];
 
     const boxStyle   = this.mergeStyles ('box');
     const fieldStyle = this.mergeStyles ('field');
 
     const htmlInput = (
       <input
-        onChange={this.onChange}
-        onFocus={this.onFocus}
-        onBlur={this.onBlur}
-        onKeyDown={this.onKeyDown}
-        onKeyUp={this.onKeyUp}
-        onSelect={this.onSelect}
-        disabled={disabled}
-        maxLength={this.props.maxLength}
-        placeholder={inputHintText}
-        size={this.props.size || 'size'}
-        style={fieldStyle}
-        type={this.props.type || 'text'}
-        key='input'
-        value={inputValue}
-        id={id}
+        onChange    = {this.onChange}
+        onFocus     = {this.onFocus}
+        onBlur      = {this.onBlur}
+        onKeyDown   = {this.onKeyDown}
+        onKeyUp     = {this.onKeyUp}
+        onSelect    = {this.onSelect}
+        disabled    = {disabled}
+        maxLength   = {this.props.maxLength}
+        placeholder = {inputHintText}
+        size        = {this.props.size || 'size'}
+        style       = {fieldStyle}
+        type        = {this.props.type || 'text'}
+        key         = 'input'
+        tabIndex    = {inputTabIndex}
+        value       = {inputValue}
+        id          = {id}
         />
     );
 
@@ -68,9 +70,9 @@ export default class TextField extends React.Component {
     if (inputMessageWarning || inputMessageInfo) {
       htmlFlyingBalloon = (
         <FlyingBalloon
-          primary-text={inputMessageWarning}
-          secondary-text={inputMessageInfo}
-          triangle-position={trianglePosition}
+          primary-text      = {inputMessageWarning}
+          secondary-text    = {inputMessageInfo}
+          triangle-position = {trianglePosition}
           {...this.link ()} />
       );
     }
