@@ -47,6 +47,10 @@ export default class DragCab extends React.Component {
 
   mouseDown (event) {
     console.log ('DragCab.mouseDown');
+    const noDrag = this.read ('no-drag');
+    if (noDrag === 'true') {
+      return;
+    }
     const node = ReactDOM.findDOMNode (this);
     this.dragHeight = node.clientHeight;
     const direction = this.read ('direction');
@@ -54,6 +58,13 @@ export default class DragCab extends React.Component {
       this.setDragInProcess (true);
     } else if (direction === 'horizontal' && event.clientY < 166) {  // TODO: PROVISOIRE !!!
       this.setDragInProcess (true);
+    }
+  }
+
+  mouseUp (event) {
+    const noDrag = this.read ('no-drag');
+    if (noDrag === 'true') {
+      this.childrenChangeState (event);
     }
   }
 
@@ -158,6 +169,7 @@ export default class DragCab extends React.Component {
         data-owner-id      = {ownerId}
         data-margin-bottom = {marginBottom}
         onMouseDown        = {event => this.mouseDown (event)}
+        onMouseUp          = {event => this.mouseUp (event)}
         >
         {this.renderChildren (isDragged, dragStarting)}
         {htmlDragCarrier}

@@ -12,7 +12,7 @@ export default class Trip extends React.Component {
     super (props);
   }
 
-  renderTrip (data, margin, content) {
+  renderTrip (data, noDrag, margin, content) {
     return (
       <DragCab
         drag-handle   = 'tickets'
@@ -23,6 +23,7 @@ export default class Trip extends React.Component {
         mode          = 'corner-top-left'
         id            = {data.id}
         owner-id      = {data.OwnerId}
+        no-drag       = {noDrag}
         margin-bottom = {margin}
         {...this.link ()}>
         {content ()}
@@ -37,9 +38,9 @@ export default class Trip extends React.Component {
 
     if (kind === 'trip-box') {
       const m = Unit.parse (this.props.theme.shapes.tripBoxBottomMargin).value;
-      return this.renderTrip (data, m, () => (<TripBox data={data} {...this.link ()} />));
+      return this.renderTrip (data, noDrag, m, () => (<TripBox data={data} {...this.link ()} />));
     } else if (kind === 'trip-ticket') {
-      return this.renderTrip (data, 2, () => (<TripTicket data={data}
+      return this.renderTrip (data, noDrag, 2, () => (<TripTicket data={data}
         no-drag={noDrag} type={data.Type} shape={data.Shape} {...this.link ()} />));
     } else {
       throw new Error (`Trip component contains invalid kind: ${kind}`);
