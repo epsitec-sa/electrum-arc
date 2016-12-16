@@ -39,7 +39,7 @@ export default class DispatchMessengers extends React.Component {
     data.SplitterBacklogWidth = size;
   }
 
-  splitterRoadbooksHeight (data) {
+  getSplitterRoadbooksHeight (data) {
     if (data.SplitterRoadbooksHeight) {
       return data.SplitterRoadbooksHeight;
     } else {
@@ -47,7 +47,7 @@ export default class DispatchMessengers extends React.Component {
     }
   }
 
-  splitterBacklogWidth (data) {
+  getSplitterBacklogWidth (data) {
     if (data.SplitterBacklogWidth) {
       return data.SplitterBacklogWidth;
     } else {
@@ -64,12 +64,12 @@ export default class DispatchMessengers extends React.Component {
     return (
       <Container kind='tickets-root' {...this.link ()} >
         <Splitter kind='horizontal' first-view-id='view-roadbook'
-          default-size={this.splitterRoadbooksHeight (data)}
+          default-size={this.getSplitterRoadbooksHeight (data)}
           onSizeChanged={size => this.onSplitterRoadbooksChanged (data, size)}
           {...this.link ()} >
           <DispatchRoadbooks data={data.Roadbooks} {...this.link ()} />
           <Splitter kind='vertical' first-view-id='view-backlog' last-view-id='view-desk'
-            default-size={this.splitterBacklogWidth (data)} min-size='0px'
+            default-size={this.getSplitterBacklogWidth (data)} min-size='0px'
             onSizeChanged={size => this.onSplitterBacklogChanged (data, size)}
             {...this.link ()} >
             <DispatchBacklog data={data.Backlog.Tickets} {...this.link ()} />

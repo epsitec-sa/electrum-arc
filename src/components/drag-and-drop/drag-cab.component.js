@@ -49,7 +49,7 @@ export default class DragCab extends React.Component {
     console.log ('DragCab.mouseDown');
     const noDrag = this.read ('no-drag');
     if (noDrag === 'true') {
-      return;
+      return;  // if drag prohibited, don't initiate drag & drop ?
     }
     const node = ReactDOM.findDOMNode (this);
     this.dragHeight = node.clientHeight;
@@ -63,7 +63,7 @@ export default class DragCab extends React.Component {
 
   mouseUp (event) {
     const noDrag = this.read ('no-drag');
-    if (noDrag === 'true') {
+    if (noDrag === 'true') {  // simple click when drag prohibited ?
       this.childrenChangeState (event);
     }
   }
