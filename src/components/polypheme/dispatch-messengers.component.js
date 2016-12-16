@@ -57,7 +57,9 @@ export default class DispatchMessengers extends React.Component {
 
   render () {
     let data = this.read ('data');
-    if (!data) {
+    if (data) {
+      data = JSON.parse (data);
+    } else {
       data = window.document.data;
     }
 
