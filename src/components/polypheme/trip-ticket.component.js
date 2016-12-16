@@ -148,10 +148,11 @@ export default class TripTicket extends React.Component {
   }
 
   renderCompacted () {
-    const width = this.props.theme.shapes.tripTicketWidth;
-    const shape = this.read ('shape');
-    const data  = this.read ('data');
-    const type  = this.read ('type');
+    const width  = this.props.theme.shapes.tripTicketWidth;
+    const shape  = this.read ('shape');
+    const data   = this.read ('data');
+    const type   = this.read ('type');
+    const noDrag = this.read ('no-drag');
     const pd    = type.startsWith ('pick') ? 'pick' : 'drop';
 
     const trip           = type.startsWith ('pick') ? data.Trip.Pick : data.Trip.Drop;
@@ -161,7 +162,7 @@ export default class TripTicket extends React.Component {
     const notes          = trip.Notes;
     const height         = data.Warning ? '90px' : '60px';
     const marginBottom   = '-10px';
-    const cursor         = 'move';
+    const cursor         = (noDrag === 'true') ? null : 'move';
 
     return (
       <Ticket width={width} height={height}

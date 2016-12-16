@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import {TripBox, TripTicket, TripTickets, DragCab} from '../../all-components.js';
+import {TripBox, TripTicket, DragCab} from '../../all-components.js';
 import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
@@ -33,12 +33,14 @@ export default class Trip extends React.Component {
   render () {
     const kind = this.read ('kind');
     const data = this.read ('data');
+    const noDrag = (data.Status === 'dispatched') ? 'true' : null;
 
     if (kind === 'trip-box') {
       const m = Unit.parse (this.props.theme.shapes.tripBoxBottomMargin).value;
       return this.renderTrip (data, m, () => (<TripBox data={data} {...this.link ()} />));
     } else if (kind === 'trip-ticket') {
-      return this.renderTrip (data, 2, () => (<TripTicket data={data} type={data.Type} shape={data.Shape} {...this.link ()} />));
+      return this.renderTrip (data, 2, () => (<TripTicket data={data}
+        no-drag={noDrag} type={data.Type} shape={data.Shape} {...this.link ()} />));
     } else {
       throw new Error (`Trip component contains invalid kind: ${kind}`);
     }
