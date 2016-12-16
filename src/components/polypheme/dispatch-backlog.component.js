@@ -12,16 +12,6 @@ export default class DispatchBacklog extends React.Component {
 
   constructor (props) {
     super (props);
-    this.data = null;
-  }
-
-  componentWillMount () {
-    const data = this.read ('data');
-    if (data) {
-      this.data = data;
-    } else {
-      this.data = window.document.data.Backlog.Tickets;
-    }
   }
 
   componentDidMount () {
@@ -55,6 +45,11 @@ export default class DispatchBacklog extends React.Component {
   }
 
   render () {
+    let data = this.read ('data');
+    if (!data) {
+      data = window.document.data.Backlog.Tickets;
+    }
+
     return (
       <Container kind='view-stretch' {...this.link ()} >
         <Container kind='pane-top' {...this.link ()} >
@@ -71,7 +66,7 @@ export default class DispatchBacklog extends React.Component {
         <Container kind='panes' {...this.link ()} >
           <Container kind='column' drag-controller='tickets' drag-source='backlog'
             view-parent-id='view-backlog' {...this.link ()} >
-            {this.renderTickets (this.data)}
+            {this.renderTickets (data)}
           </Container>
         </Container>
       </Container>

@@ -12,16 +12,6 @@ export default class DispatchDesk extends React.Component {
 
   constructor (props) {
     super (props);
-    this.data = null;
-  }
-
-  componentWillMount () {
-    const data = this.read ('data');
-    if (data) {
-      this.data = data;
-    } else {
-      this.data = window.document.data.Desk;
-    }
   }
 
   componentDidMount () {
@@ -73,9 +63,14 @@ export default class DispatchDesk extends React.Component {
   }
 
   render () {
+    let data = this.read ('data');
+    if (!data) {
+      data = window.document.data.Desk;
+    }
+
     return (
       <Container kind='tickets-desk' {...this.link ()} >
-        {this.renderDesk (this.data)}
+        {this.renderDesk (data)}
       </Container>
     );
   }

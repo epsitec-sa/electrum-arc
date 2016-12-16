@@ -15,16 +15,6 @@ export default class DispatchRoadbooks extends React.Component {
 
   constructor (props) {
     super (props);
-    this.data = null;
-  }
-
-  componentWillMount () {
-    const data = this.read ('data');
-    if (data) {
-      this.data = data;
-    } else {
-      this.data = window.document.data.Roadbooks;
-    }
   }
 
   componentDidMount () {
@@ -92,9 +82,14 @@ export default class DispatchRoadbooks extends React.Component {
   }
 
   render () {
+    let data = this.read ('data');
+    if (!data) {
+      data = window.document.data.Roadbooks;
+    }
+
     return (
       <Container kind='tickets-messengers' drag-controller='messengers' drag-source='messengers' {...this.link ()} >
-        {this.renderRoadbooks (this.data)}
+        {this.renderRoadbooks (data)}
       </Container>
     );
   }
