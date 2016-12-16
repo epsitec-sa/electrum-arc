@@ -12,7 +12,16 @@ export default class DispatchBacklog extends React.Component {
 
   constructor (props) {
     super (props);
-    this.data = window.document.data.Backlog.Tickets;
+    this.data = null;
+  }
+
+  componentWillMount () {
+    const data = this.read ('data');
+    if (data) {
+      this.data = data;
+    } else {
+      this.data = window.document.data.Backlog.Tickets;
+    }
   }
 
   componentDidMount () {

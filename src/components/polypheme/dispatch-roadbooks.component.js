@@ -15,7 +15,16 @@ export default class DispatchRoadbooks extends React.Component {
 
   constructor (props) {
     super (props);
-    this.data = window.document.data.Roadbooks;
+    this.data = null;
+  }
+
+  componentWillMount () {
+    const data = this.read ('data');
+    if (data) {
+      this.data = data;
+    } else {
+      this.data = window.document.data.Roadbooks;
+    }
   }
 
   componentDidMount () {

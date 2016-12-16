@@ -14,7 +14,16 @@ export default class DispatchMessengers extends React.Component {
 
   constructor (props) {
     super (props);
-    this.data = window.document.data;
+    this.data = null;
+  }
+
+  componentWillMount () {
+    const data = this.read ('data');
+    if (data) {
+      this.data = data;
+    } else {
+      this.data = window.document.data;
+    }
   }
 
   componentDidMount () {
@@ -63,13 +72,13 @@ export default class DispatchMessengers extends React.Component {
           default-size={this.splitterRoadbooksHeight ()}
           onSizeChanged={size => this.onSplitterRoadbooksChanged (size)}
           {...this.link ()} >
-          <DispatchRoadbooks {...this.link ()} />
+          <DispatchRoadbooks data={this.data.Roadbooks} {...this.link ()} />
           <Splitter kind='vertical' first-view-id='view-backlog' last-view-id='view-desk'
             default-size={this.splitterBacklogWidth ()} min-size='0px'
             onSizeChanged={size => this.onSplitterBacklogChanged (size)}
             {...this.link ()} >
-            <DispatchBacklog {...this.link ()} />
-            <DispatchDesk {...this.link ()} />
+            <DispatchBacklog data={this.data.Backlog.Tickets} {...this.link ()} />
+            <DispatchDesk data={this.data.Desk} {...this.link ()} />
           </Splitter>
         </Splitter>
       </Container>

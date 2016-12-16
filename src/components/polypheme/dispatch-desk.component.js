@@ -12,7 +12,16 @@ export default class DispatchDesk extends React.Component {
 
   constructor (props) {
     super (props);
-    this.data = window.document.data.TicketsTrays;
+    this.data = null;
+  }
+
+  componentWillMount () {
+    const data = this.read ('data');
+    if (data) {
+      this.data = data;
+    } else {
+      this.data = window.document.data.Desk;
+    }
   }
 
   componentDidMount () {
@@ -56,10 +65,10 @@ export default class DispatchDesk extends React.Component {
     );
   }
 
-  renderDesk (ticketsTrays) {
+  renderDesk (desk) {
     const result = [];
     let index = 0;
-    for (var tray of ticketsTrays) {
+    for (var tray of desk) {
       result.push (this.renderTray (tray, index++));
     }
     return result;
