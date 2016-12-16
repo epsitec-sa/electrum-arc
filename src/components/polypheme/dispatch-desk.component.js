@@ -30,9 +30,9 @@ export default class DispatchDesk extends React.Component {
     }
   }
 
-  renderTicket (ticket, kind, index) {
+  renderTicket (ticket, index) {
     return (
-      <Trip key={index} kind={kind} data={ticket} {...this.link ()} />
+      <Trip key={index} kind='trip-ticket' data={ticket} {...this.link ()} />
     );
   }
 
@@ -40,8 +40,7 @@ export default class DispatchDesk extends React.Component {
     const result = [];
     let index = 0;
     for (var ticket of tickets) {
-      const kind = (ticket.Type === 'pair') ? 'trip-tickets' : 'trip-ticket';
-      result.push (this.renderTicket (ticket, kind, index++));
+      result.push (this.renderTicket (ticket, index++));
     }
     return result;
   }

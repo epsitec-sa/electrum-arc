@@ -39,17 +39,17 @@ export default class DispatchRoadbooks extends React.Component {
     );
   }
 
-  renderTicket (ticket, kind, index) {
+  renderTicket (ticket, index) {
     return (
-      <Trip key={index} kind={kind} data={ticket} {...this.link ()} />
+      <Trip key={index} kind='trip-ticket' data={ticket} {...this.link ()} />
     );
   }
 
-  renderTickets (tickets, kind) {
+  renderTickets (tickets) {
     const result = [];
     let index = 0;
     for (var ticket of tickets) {
-      result.push (this.renderTicket (ticket, kind, index++));
+      result.push (this.renderTicket (ticket, index++));
     }
     return result;
   }
@@ -66,7 +66,7 @@ export default class DispatchRoadbooks extends React.Component {
           {this.renderMessenger (roadbook)}
           <Container kind='tickets-trips' drag-controller='tickets' drag-source='roadbooks'
             id={roadbook.id} max-width={maxWidth} {...this.link ()} >
-            {this.renderTickets (roadbook.Tickets, 'trip-ticket')}
+            {this.renderTickets (roadbook.Tickets)}
           </Container>
         </Roadbook>
       </DragCab>
