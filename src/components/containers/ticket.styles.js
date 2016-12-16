@@ -61,7 +61,7 @@ function getOutlinePath (theme, shape, width, height) {
   const h = toInt (height);
 
   let path = '';
-  if (shape === 'header') {
+  if (shape === 'header' || shape === 'last') {
     // Dash line only on bottom.
     path = moveTo (path, 0, 0);
     path = lineTo (path, w, 0);
@@ -70,7 +70,7 @@ function getOutlinePath (theme, shape, width, height) {
     path = horizontalDash (path, -s, -s * 3.5, -(w - r - r));
     path = arcTo (path, r, -r, -r, 0);  // bottom-left corner
     path = close (path);
-  } else if (shape === 'footer') {
+  } else if (shape === 'footer' || shape === 'first') {
     // Dash line only on top.
     path = moveTo (path, 0, r);
     path = arcTo (path, r, r, -r, 0);  // top-left corner
@@ -98,7 +98,7 @@ function getHoverPath (theme, shape, type, width, height) {
   const r = toInt (theme.shapes.ticketCornerRadius);
   const t = toInt (theme.shapes.ticketHoverThickness);
   const i = toInt (Unit.multiply (Unit.multiply (theme.shapes.ticketCornerRadius, r), 1 / t));
-  const s = (shape === 'header' || shape === 'footer') ? 0 : r;
+  const s = (shape === 'header' || shape === 'last') ? 0 : r;
   const w = toInt (width);
   const h = toInt (height);
 
@@ -167,7 +167,7 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.ticketSelectedBackground;
   }
 
-  const v = (inputShape === 'footer') ? '1px' : theme.shapes.ticketVerticalSpacing;
+  const v = (inputShape === 'footer' || inputShape === 'first') ? '1px' : theme.shapes.ticketVerticalSpacing;
   const boxStyle = {
     width:      width,
     height:     height,
