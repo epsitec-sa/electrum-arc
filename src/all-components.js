@@ -45,6 +45,7 @@ import _DispatchBacklog from './components/polypheme/dispatch-backlog.component.
 import _DispatchDesk from './components/polypheme/dispatch-desk.component.js';
 import _DispatchMessengers from './components/polypheme/dispatch-messengers.component.js';
 import _DispatchRoadbooks from './components/polypheme/dispatch-roadbooks.component.js';
+import _DispatchTrips from './components/polypheme/dispatch-trips.component.js';
 import _MessengerTicket from './components/polypheme/messenger-ticket.component.js';
 import _Notification from './components/polypheme/notification.component.js';
 import _Notifications from './components/polypheme/notifications.component.js';
@@ -85,6 +86,7 @@ export const DispatchBacklog = Electrum.wrap ('DispatchBacklog', _DispatchBacklo
 export const DispatchDesk = Electrum.wrap ('DispatchDesk', _DispatchDesk);
 export const DispatchMessengers = Electrum.wrap ('DispatchMessengers', _DispatchMessengers);
 export const DispatchRoadbooks = Electrum.wrap ('DispatchRoadbooks', _DispatchRoadbooks);
+export const DispatchTrips = Electrum.wrap ('DispatchTrips', _DispatchTrips);
 export const MessengerTicket = Electrum.wrap ('MessengerTicket', _MessengerTicket);
 export const Notification = Electrum.wrap ('Notification', _Notification);
 export const Notifications = Electrum.wrap ('Notifications', _Notifications);
