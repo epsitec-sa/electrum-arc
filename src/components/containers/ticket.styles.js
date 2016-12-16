@@ -98,13 +98,13 @@ function getHoverPath (theme, shape, type, width, height) {
   const r = toInt (theme.shapes.ticketCornerRadius);
   const t = toInt (theme.shapes.ticketHoverThickness);
   const i = toInt (Unit.multiply (Unit.multiply (theme.shapes.ticketCornerRadius, r), 1 / t));
-  const s = (shape === 'header' || shape === 'last') ? 0 : r;
   const w = toInt (width);
   const h = toInt (height);
 
   let path = '';
   if (type === 'drop') {
     // u.
+    const s = (shape === 'header' || shape === 'last') ? 0 : r;
     path = moveTo (path, 0, s);
     path = lineTo (path, 0, h - s - r);
     path = arcTo (path, r, r, r, 1);  // bottom-left external corner
@@ -120,6 +120,7 @@ function getHoverPath (theme, shape, type, width, height) {
     path = close (path);
   } else if (type === 'pick') {
     // n.
+    const s = (shape === 'footer' || shape === 'first') ? 0 : r;
     path = moveTo (path, 0, h - s);
     path = lineTo (path, 0, -(h - s - r));
     path = arcTo (path, r, r, -r, 0);  // bottom-left external corner
