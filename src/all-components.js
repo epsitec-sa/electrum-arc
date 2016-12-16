@@ -53,7 +53,6 @@ import _TicketsTray from './components/polypheme/tickets-tray.component.js';
 import _TicketsTray$styles from './components/polypheme/tickets-tray.styles.js';
 import _TripBox from './components/polypheme/trip-box.component.js';
 import _TripTicket from './components/polypheme/trip-ticket.component.js';
-import _TripTickets from './components/polypheme/trip-tickets.component.js';
 import _Trip from './components/polypheme/trip.component.js';
 import _Splitter from './components/splitter/splitter.component.js';
 import _Splitter$styles from './components/splitter/splitter.styles.js';
@@ -91,7 +90,6 @@ export const Roadbook = Electrum.wrap ('Roadbook', _Roadbook, {styles: _Roadbook
 export const TicketsTray = Electrum.wrap ('TicketsTray', _TicketsTray, {styles: _TicketsTray$styles});
 export const TripBox = Electrum.wrap ('TripBox', _TripBox);
 export const TripTicket = Electrum.wrap ('TripTicket', _TripTicket);
-export const TripTickets = Electrum.wrap ('TripTickets', _TripTickets);
 export const Trip = Electrum.wrap ('Trip', _Trip);
 export const Splitter = Electrum.wrap ('Splitter', _Splitter, {styles: _Splitter$styles});
 export const Checkbox = Electrum.wrap ('Checkbox', _Checkbox);

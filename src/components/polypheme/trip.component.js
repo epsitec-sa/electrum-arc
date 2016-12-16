@@ -37,8 +37,6 @@ export default class Trip extends React.Component {
     if (kind === 'trip-box') {
       const m = Unit.parse (this.props.theme.shapes.tripBoxBottomMargin).value;
       return this.renderTrip (data, m, () => (<TripBox data={data} {...this.link ()} />));
-    } else if (kind === 'trip-tickets') {
-      return this.renderTrip (data, 2, () => (<TripTickets data={data} {...this.link ()} />));
     } else if (kind === 'trip-ticket') {
       return this.renderTrip (data, 2, () => (<TripTicket data={data} type={data.Type} shape={data.Shape} {...this.link ()} />));
     } else {
