@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Unit} from 'electrum-theme';
+import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 
 /******************************************************************************/
 
@@ -341,7 +342,7 @@ export default class DragCarrier extends React.Component {
       const toDrag      = this.read ('component-to-drag');
       const fromId      = toDrag.read ('id');
       const fromOwnerId = toDrag.read ('owner-id');
-      window.document.data = window.document.reducerDragAndDrop (window.document.data, {
+      window.document.data = reducerDragAndDrop (window.document.data, {
         type:        'IS_USEFUL',
         fromId:      fromId,
         fromOwnerId: fromOwnerId,
@@ -358,7 +359,7 @@ export default class DragCarrier extends React.Component {
     const toDrag      = this.read ('component-to-drag');
     const fromId      = toDrag.read ('id');
     const fromOwnerId = toDrag.read ('owner-id');
-    window.document.data = window.document.reducerDragAndDrop (window.document.data, {
+    window.document.data = reducerDragAndDrop (window.document.data, {
       type:        'DROP',
       fromId:      fromId,
       fromOwnerId: fromOwnerId,

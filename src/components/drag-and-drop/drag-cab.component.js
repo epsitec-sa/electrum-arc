@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {DragCarrier} from '../../all-components.js';
+import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 
 /******************************************************************************/
 
@@ -98,14 +99,14 @@ export default class DragCab extends React.Component {
   reduce (action, props) {
     const id      = props.data.id;
     const ownerId = props.data.OwnerId;
-    window.document.data = window.document.reducerDragAndDrop (window.document.data, {
+    window.document.data = reducerDragAndDrop (window.document.data, {
       type:    action,
       id:      id,
       ownerId: ownerId,
     });
     if (window.document.mock) {
       // This trick is necessary for update the UI !!!
-      window.document.data = window.document.reducerDragAndDrop (window.document.data, {type: 'CLONE'});
+      window.document.data = reducerDragAndDrop (window.document.data, {type: 'CLONE'});
       for (var c of window.document.toUpdate) {
         c.forceUpdate ();
       }
