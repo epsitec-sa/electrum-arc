@@ -331,20 +331,19 @@ export default class DragCarrier extends React.Component {
 
   isUseful (dest) {
     if (dest) {
-      // const toDrag       = this.read ('component-to-drag');
-      // const dataDispatch = toDrag.read ('data-dispatch');
-      // const fromId       = toDrag.read ('id');
-      // const fromOwnerId  = toDrag.read ('owner-id');
-      // window.document.data = reducerDragAndDrop (dataDispatch, {
-      //   type:        'IS_USEFUL',
-      //   fromId:      fromId,
-      //   fromOwnerId: fromOwnerId,
-      //   toId:        dest.id,
-      //   toOwnerId:   dest.ownerId,
-      //   toPosition:  dest.position,
-      // });
-      // return dataDispatch.isUseful;
-      return true;
+      const toDrag       = this.read ('component-to-drag');
+      const dataDispatch = toDrag.read ('data-dispatch');
+      const fromId       = toDrag.read ('id');
+      const toId         = dest.id;
+      const toOwnerId    = dest.ownerId;
+      console.log ();
+      window.document.data = reducerDragAndDrop (dataDispatch, {
+        type:        'IS_USEFUL',
+        fromId:      fromId,
+        toId:        toId,
+        toOwnerId:   toOwnerId,
+      });
+      return dataDispatch.isUseful;
     }
     return false;
   }

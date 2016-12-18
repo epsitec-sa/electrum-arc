@@ -427,6 +427,17 @@ function drop (state, fromId, toId, toOwnerId) {
   return state;
 }
 
+function isUseful (state, fromId, toId, toOwnerId) {
+  const from = searchId (state, fromId);
+  const to   = searchId (state, toId, toOwnerId);
+  if (from.type === to.type) {
+    state.isUseful = from.index !== to.index && from.index + 1 !== to.index;
+  } else {
+    state.isUseful = true;
+  }
+  return state;
+}
+
 // This trick is necessary for update the UI !!!
 function cloneAll (state) {
   for (var readbook of state.Roadbooks) {
@@ -469,6 +480,9 @@ export default function Reducer (state = {}, action = {}) {
   switch (action.type) {
     case 'DROP':
       state = drop (state, action.fromId, action.toId, action.toOwnerId);
+      break;
+    case 'IS_USEFUL':
+      state = isUseful (state, action.fromId, action.toId, action.toOwnerId);
       break;
     case 'CLONE':
       state = cloneAll (state);
