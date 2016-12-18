@@ -54,42 +54,6 @@ function searchId (state, id, ownerId) {
   throw new Error (`Id not found for ${id}`);
 }
 
-function getOwner (state, ownerId) {
-  if (ownerId === 'messengers') {
-    return {
-      type:    'messengers',
-      id:      state.id,
-      tickets: state.Roadbooks,
-    };
-  }
-  for (var roadbook of state.Roadbooks) {
-    if (roadbook.id === ownerId) {
-      return {
-        type:    'roadbooks',
-        id:      roadbook.id,
-        tickets: roadbook.Tickets,
-      };
-    }
-  }
-  for (var tray of state.Desk) {
-    if (tray.id === ownerId) {
-      return {
-        type:    'desk',
-        id:      tray.id,
-        tickets: tray.Tickets,
-      };
-    }
-  }
-  if (state.Backlog.id === ownerId) {
-    return {
-      type:    'backlog',
-      id:      state.Backlog.id,
-      tickets: state.Backlog.Tickets,
-    };
-  }
-  throw new Error (`Owner not found for ${ownerId}`);
-}
-
 function getRoadbookTickets (state, roadbookId) {
   for (var readbook of state.Roadbooks) {
     if (readbook.id === roadbookId) {
@@ -418,6 +382,9 @@ function changeGeneric (state, warnings, from, to) {
     deleteMission (state, ticket.Trip.MissionId);
   } else {
     deleteTicket (from.tickets, ticket);
+    if (from.type === to.type && from.index < to.index) {
+      to.index--;  // decrease to take account of the deleted item
+    }
   }
 
   // Set the destination.
