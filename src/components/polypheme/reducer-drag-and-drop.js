@@ -17,6 +17,7 @@ function searchTicket (root, items, type, id, ownerId) {
       }
     }
   } else if (root.id === ownerId) {
+    // If id is undefined, destination is after the last element.
     const length = items.length;
     const ticket = (length === 0) ? null : items[length - 1];
     return {
