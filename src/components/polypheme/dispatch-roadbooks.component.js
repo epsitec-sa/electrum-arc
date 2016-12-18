@@ -60,7 +60,7 @@ export default class DispatchRoadbooks extends React.Component {
         color={this.props.theme.palette.roadbookDragAndDropHover}
         thickness={this.props.theme.shapes.dragAndDropThickness}
         radius='0px'
-        data={roadbook}
+        data={roadbook} data-dispatch={dataDispatch}
         id={roadbook.id} owner-id='messengers' {...this.link ()}>
         <Roadbook key={index} {...this.link ()} >
           {this.renderMessenger (roadbook)}

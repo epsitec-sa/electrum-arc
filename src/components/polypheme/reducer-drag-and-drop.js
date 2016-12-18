@@ -2,6 +2,58 @@
 
 import reducerTickets from './reducer-tickets.js';
 
+function searchTicket (root, items, type, id, ownerId) {
+  if (id) {
+    for (var i = 0, len = items.length; i < len; i++) {
+      const ticket = items[i];
+      if (ticket.id === id) {
+        return {
+          ownerId: root.id,
+          type:    type,
+          tickets: items,
+          ticket:  ticket,
+          index:   i,
+        };
+      }
+    }
+  } else if (root.id === ownerId) {
+    const length = items.length;
+    const ticket = (length === 0) ? null : items[length - 1];
+    return {
+      ownerId: root.id,
+      type:    type,
+      tickets: items,
+      ticket:  ticket,
+      index:   items.length,
+    };
+  }
+  return null;
+}
+
+function searchId (state, id, ownerId) {
+  const m = searchTicket (state, state.Roadbooks, 'messengers', id, ownerId);
+  if (m) {
+    return m;
+  }
+  const r = searchTicket (state.Backlog, state.Backlog.Tickets, 'backlog', id, ownerId);
+  if (r) {
+    return r;
+  }
+  for (var roadbook of state.Roadbooks) {
+    const result = searchTicket (roadbook, roadbook.Tickets, 'roadbooks', id, ownerId);
+    if (result) {
+      return result;
+    }
+  }
+  for (var tray of state.Desk) {
+    const result = searchTicket (tray, tray.Tickets, 'desk', id, ownerId);
+    if (result) {
+      return result;
+    }
+  }
+  throw new Error (`Id not found for ${id}`);
+}
+
 function getOwner (state, ownerId) {
   if (ownerId === 'messengers') {
     return {
@@ -60,17 +112,6 @@ function deleteTicket (tickets, ticket) {
     type:   'DELETE_TICKET',
     ticket: ticket,
   });
-}
-
-function getTicketOrder (tickets, id) {
-  var order = 0;
-  for (var ticket of tickets) {
-    if (ticket.id === id) {
-      return order;
-    }
-    order++;
-  }
-  return -1;
 }
 
 function getTicketsFromMissionId (tickets, missionId) {
@@ -365,59 +406,50 @@ function deleteMission (state, missionId) {
   }
 }
 
-function changeGeneric (state, warnings, fromId, fromOwner, toId, toOwner, toPosition) {
-  let fromOrder = getTicketOrder (fromOwner.tickets, fromId);
-  let toOrder   = getTicketOrder (toOwner.tickets, toId);
-  if (fromOwner.id === toOwner.id && toOrder > fromOrder) {
-    toOrder--;
-  }
-  if (toPosition === 'after') {
-    toOrder++;
-  }
-
-  const ticket = fromOwner.tickets[fromOrder];
-  if ((toOwner.type === 'backlog' || toOwner.type === 'desk') && ticket.Type.endsWith ('-transit')) {
+function changeGeneric (state, warnings, from, to) {
+  const ticket = from.ticket;
+  if ((to.type === 'backlog' || to.type === 'desk') && ticket.Type.endsWith ('-transit')) {
     // Transit ticket does not move into backlog or desk.
     return;
   }
 
   // Delete the source.
-  if (toOwner.type === 'backlog' && ticket.Type !== 'both') {
+  if (to.type === 'backlog' && ticket.Type !== 'both') {
     deleteMission (state, ticket.Trip.MissionId);
   } else {
-    deleteTicket (fromOwner.tickets, ticket);
+    deleteTicket (from.tickets, ticket);
   }
 
   // Set the destination.
-  ticket.OwnerId = toOwner.id;
-  if ((toOwner.type === 'roadbooks' || toOwner.type === 'desk') && ticket.Type === 'both') {
+  ticket.OwnerId = to.ownerId;
+  if ((to.type === 'roadbooks' || to.type === 'desk') && ticket.Type === 'both') {
     const pick = clone (ticket);
     const drop = clone (ticket);
     pick.Type = 'pick';
     drop.Type = 'drop';
-    addTicket (toOwner.tickets, toOrder, drop);  // first drop, for have pick/drop in this order
-    addTicket (toOwner.tickets, toOrder, pick);
+    addTicket (to.tickets, to.index, drop);  // first drop, for have pick/drop in this order
+    addTicket (to.tickets, to.index, pick);
     setFlash (state, [pick.id, drop.id]);
-  } else if (toOwner.type === 'backlog' && ticket.Type !== 'both') {
+  } else if (to.type === 'backlog' && ticket.Type !== 'both') {
     ticket.Type = 'both';
     ticket.Status = 'pre-dispatched';
-    addTicket (toOwner.tickets, toOrder, ticket);
+    addTicket (to.tickets, to.index, ticket);
     setFlash (state, [ticket.id]);
   } else {
-    addTicket (toOwner.tickets, toOrder, ticket);
+    addTicket (to.tickets, to.index, ticket);
     setFlash (state, [ticket.id]);
   }
 }
 
 // ------------------------------------------------------------------------------------------
 
-function drop (state, fromId, fromOwnerId, toId, toOwnerId, toPosition) {
+function drop (state, fromId, toId, toOwnerId) {
   console.log ('Reducer.drop');
-  const fromOwner = getOwner (state, fromOwnerId);
-  const toOwner   = getOwner (state, toOwnerId);
+  const from = searchId (state, fromId);
+  const to   = searchId (state, toId, toOwnerId);
   const warnings = [];
-  changeGeneric (state, warnings, fromId, fromOwner, toId, toOwner, toPosition);
-  if (toOwner.type === 'roadbooks') {
+  changeGeneric (state, warnings, from, to);
+  if (to.type === 'roadbooks') {
     deleteTransits (state, warnings);
     createTransits (state, warnings);
   }
@@ -425,29 +457,6 @@ function drop (state, fromId, fromOwnerId, toId, toOwnerId, toPosition) {
   checkAlones (state, warnings);
   setWarnings (state, warnings);
   updateShapes (state);
-  return state;
-}
-
-// Indicates whether the operation 'drop' will perform on a useful action.
-// If destination is near source, the operation is not useful.
-function isUseful (state, fromId, fromOwnerId, toId, toOwnerId, toPosition) {
-  const fromOwner = getOwner (state, fromOwnerId);
-  const toOwner   = getOwner (state, toOwnerId);
-  if (fromOwner.id === toOwner.id) {
-    let fromOrder = getTicketOrder (fromOwner.tickets, fromId);
-    let toOrder   = getTicketOrder (toOwner.tickets, toId);
-    if (fromOrder === toOrder) {
-      state.isUseful = false;
-    } else if (fromOrder === toOrder + 1 && toPosition === 'after') {
-      state.isUseful = false;
-    } else if (fromOrder === toOrder - 1 && toPosition === 'before') {
-      state.isUseful = false;
-    } else {
-      state.isUseful = true;
-    }
-  } else {
-    state.isUseful = true;
-  }
   return state;
 }
 
@@ -462,29 +471,26 @@ function cloneAll (state) {
   return state;
 }
 
-function swapSelected (state, id, ownerId) {
-  const owner = getOwner (state, ownerId);
-  let order = getTicketOrder (owner.tickets, id);
-  owner.tickets[order].Selected = (owner.tickets[order].Selected === 'true') ? 'false' : 'true';
+function swapSelected (state, id) {
+  const search = searchId (state, id);
+  search.tickets[search.index].Selected = (search.tickets[search.index].Selected === 'true') ? 'false' : 'true';
   setFlash (state, []);
   return state;
 }
 
-function swapExtended (state, id, ownerId) {
-  const owner = getOwner (state, ownerId);
-  let order = getTicketOrder (owner.tickets, id);
-  owner.tickets[order].Extended = (owner.tickets[order].Extended === 'true') ? 'false' : 'true';
+function swapExtended (state, id) {
+  const search = searchId (state, id);
+  search.tickets[search.index].Extended = (search.tickets[search.index].Extended === 'true') ? 'false' : 'true';
   setFlash (state, []);
   return state;
 }
 
-function swapStatus (state, id, ownerId) {
-  const owner = getOwner (state, ownerId);
-  let order = getTicketOrder (owner.tickets, id);
-  if (owner.tickets[order].Status === 'dispatched') {
-    owner.tickets[order].Status = 'pre-dispatched';
+function swapStatus (state, id) {
+  const search = searchId (state, id);
+  if (search.tickets[search.index].Status === 'dispatched') {
+    search.tickets[search.index].Status = 'pre-dispatched';
   } else {
-    owner.tickets[order].Status = 'dispatched';
+    search.tickets[search.index].Status = 'dispatched';
   }
   setFlash (state, []);
   return state;
@@ -495,22 +501,19 @@ function swapStatus (state, id, ownerId) {
 export default function Reducer (state = {}, action = {}) {
   switch (action.type) {
     case 'DROP':
-      state = drop (state, action.fromId, action.fromOwnerId, action.toId, action.toOwnerId, action.toPosition);
-      break;
-    case 'IS_USEFUL':
-      state = isUseful (state, action.fromId, action.fromOwnerId, action.toId, action.toOwnerId, action.toPosition);
+      state = drop (state, action.fromId, action.toId, action.toOwnerId);
       break;
     case 'CLONE':
       state = cloneAll (state);
       break;
     case 'SWAP_SELECTED':
-      state = swapSelected (state, action.id, action.ownerId);
+      state = swapSelected (state, action.id);
       break;
     case 'SWAP_EXTENDED':
-      state = swapExtended (state, action.id, action.ownerId);
+      state = swapExtended (state, action.id);
       break;
     case 'SWAP_STATUS':
-      state = swapStatus (state, action.id, action.ownerId);
+      state = swapStatus (state, action.id);
       break;
   }
   return state;

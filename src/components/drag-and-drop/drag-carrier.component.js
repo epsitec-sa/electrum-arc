@@ -144,7 +144,6 @@ export default class DragCarrier extends React.Component {
       return {
         id:         null,
         ownerId:    component.props.id,
-        position:   'null',
         rect:       getVRect (rect, rect.top - thickness, rect.top + thickness),
         parentRect: parentRect,
       };
@@ -156,7 +155,6 @@ export default class DragCarrier extends React.Component {
         this.rectOrigin = {
           id:         t.dataset.id,
           ownerId:    t.dataset.ownerId,
-          position:   'full',
           rect:       rect,
           parentRect: parentRect,
         };
@@ -172,7 +170,6 @@ export default class DragCarrier extends React.Component {
         return {
           id:         t.dataset.id,
           ownerId:    t.dataset.ownerId,
-          position:   'before',
           rect:       getVRect (rect, py - thickness, py + thickness),
           parentRect: parentRect,
         };
@@ -182,9 +179,8 @@ export default class DragCarrier extends React.Component {
     const last = node.children[node.children.length - 1];
     const rect = last.getBoundingClientRect ();
     return {
-      id:         last.dataset.id,
+      id:         null,  // after last
       ownerId:    last.dataset.ownerId,
-      position:   'after',
       rect:       getVRect (rect, rect.bottom - thickness, rect.bottom + thickness),
       parentRect: parentRect,
     };
@@ -197,7 +193,6 @@ export default class DragCarrier extends React.Component {
       return {
         id:         null,
         ownerId:    component.props.id,
-        position:   'null',
         rect:       getHRect (rect, rect.left - thickness, rect.left + thickness),
         parentRect: parentRect,
       };
@@ -209,7 +204,6 @@ export default class DragCarrier extends React.Component {
         this.rectOrigin = {
           id:         t.dataset.id,
           ownerId:    t.dataset.ownerId,
-          position:   'full',
           rect:       rect,
           parentRect: parentRect,
         };
@@ -225,7 +219,6 @@ export default class DragCarrier extends React.Component {
         return {
           id:         t.dataset.id,
           ownerId:    t.dataset.ownerId,
-          position:   'before',
           rect:       getHRect (rect, px - thickness, px + thickness),
           parentRect: parentRect,
         };
@@ -235,9 +228,8 @@ export default class DragCarrier extends React.Component {
     const last = node.children[node.children.length - 1];
     const rect = last.getBoundingClientRect ();
     return {
-      id:         last.dataset.id,
+      id:         null,  // after last
       ownerId:    last.dataset.ownerId,
-      position:   'after',
       rect:       getHRect (rect, rect.right - thickness, rect.right + thickness),
       parentRect: parentRect,
     };
@@ -331,43 +323,41 @@ export default class DragCarrier extends React.Component {
     if (dragEnding) {
       dragEnding (event, this.isDragStarted ());
       const dest = this.getDest ();
-      if (dest && dest.position !== 'full') {
-        this.reduce (dest.id, dest.ownerId, dest.position);
+      if (dest) {
+        this.reduce (dest.id, dest.ownerId);
       }
     }
   }
 
   isUseful (dest) {
     if (dest) {
-      const toDrag       = this.read ('component-to-drag');
-      const dataDispatch = toDrag.read ('data-dispatch');
-      const fromId       = toDrag.read ('id');
-      const fromOwnerId  = toDrag.read ('owner-id');
-      window.document.data = reducerDragAndDrop (dataDispatch, {
-        type:        'IS_USEFUL',
-        fromId:      fromId,
-        fromOwnerId: fromOwnerId,
-        toId:        dest.id,
-        toOwnerId:   dest.ownerId,
-        toPosition:  dest.position,
-      });
-      return dataDispatch.isUseful;
+      // const toDrag       = this.read ('component-to-drag');
+      // const dataDispatch = toDrag.read ('data-dispatch');
+      // const fromId       = toDrag.read ('id');
+      // const fromOwnerId  = toDrag.read ('owner-id');
+      // window.document.data = reducerDragAndDrop (dataDispatch, {
+      //   type:        'IS_USEFUL',
+      //   fromId:      fromId,
+      //   fromOwnerId: fromOwnerId,
+      //   toId:        dest.id,
+      //   toOwnerId:   dest.ownerId,
+      //   toPosition:  dest.position,
+      // });
+      // return dataDispatch.isUseful;
+      return true;
     }
     return false;
   }
 
-  reduce (id, ownerId, position) {
+  reduce (id, ownerId) {
     const toDrag       = this.read ('component-to-drag');
     const dataDispatch = this.read ('data-dispatch');
     const fromId       = toDrag.read ('id');
-    const fromOwnerId  = toDrag.read ('owner-id');
     window.document.data = reducerDragAndDrop (dataDispatch, {
       type:        'DROP',
       fromId:      fromId,
-      fromOwnerId: fromOwnerId,
       toId:        id,
       toOwnerId:   ownerId,
-      toPosition:  position,
     });
     if (window.document.mock) {
       for (var c of window.document.toUpdate) {

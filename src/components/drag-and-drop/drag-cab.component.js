@@ -98,12 +98,10 @@ export default class DragCab extends React.Component {
 
   reduce (action, props) {
     const id           = props.data.id;
-    const ownerId      = props.data.OwnerId;
     const dataDispatch = this.read ('data-dispatch');
     window.document.data = reducerDragAndDrop (dataDispatch, {
-      type:    action,
-      id:      id,
-      ownerId: ownerId,
+      type: action,
+      id:   id,
     });
     if (window.document.mock) {
       // This trick is necessary for update the UI !!!
