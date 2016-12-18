@@ -431,7 +431,7 @@ function drop (state, fromId, toId, toOwnerId) {
 function isUseful (state, fromId, toId, toOwnerId) {
   const from = searchId (state, fromId);
   const to   = searchId (state, toId, toOwnerId);
-  if (from.type === to.type) {
+  if (from.ownerId === to.ownerId) {
     state.isUseful = from.index !== to.index && from.index + 1 !== to.index;
   } else {
     state.isUseful = true;
