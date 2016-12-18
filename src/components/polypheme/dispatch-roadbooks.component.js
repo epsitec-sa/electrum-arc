@@ -61,7 +61,7 @@ export default class DispatchRoadbooks extends React.Component {
         thickness={this.props.theme.shapes.dragAndDropThickness}
         radius='0px'
         data={roadbook} data-dispatch={dataDispatch}
-        id={roadbook.id} owner-id='messengers' {...this.link ()}>
+        id={roadbook.id} {...this.link ()}>
         <Roadbook key={index} {...this.link ()} >
           {this.renderMessenger (roadbook)}
           <Container kind='tickets-trips' drag-controller='tickets' drag-source='roadbooks'

@@ -23,7 +23,6 @@ export default class Trip extends React.Component {
         mode          = 'corner-top-left'
         data-dispatch = {dataDispatch}
         id            = {data.id}
-        owner-id      = {data.OwnerId}
         no-drag       = {noDrag}
         margin-bottom = {margin}
         {...this.link ()}>

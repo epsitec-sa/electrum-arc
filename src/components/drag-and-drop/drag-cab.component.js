@@ -39,10 +39,9 @@ export default class DragCab extends React.Component {
   }
 
   componentDidMount () {
-    const id      = this.read ('id');
-    const ownerId = this.read ('owner-id');
-    if (!id || !ownerId) {
-      throw new Error ('DragCab has not id or ownerId');
+    const id = this.read ('id');
+    if (!id) {
+      throw new Error ('DragCab has not id');
     }
   }
 
@@ -146,7 +145,6 @@ export default class DragCab extends React.Component {
 
   renderForDrag (isDragged) {
     const id            = this.read ('id');
-    const ownerId       = this.read ('owner-id');
     const direction     = this.read ('direction');
     const marginBottom  = this.read ('margin-bottom');
     const dragInProcess = this.getDragInProcess ();
@@ -168,7 +166,6 @@ export default class DragCab extends React.Component {
       <div
         style              = {boxStyle}
         data-id            = {id}
-        data-owner-id      = {ownerId}
         data-margin-bottom = {marginBottom}
         onMouseDown        = {event => this.mouseDown (event)}
         onMouseUp          = {event => this.mouseUp (event)}

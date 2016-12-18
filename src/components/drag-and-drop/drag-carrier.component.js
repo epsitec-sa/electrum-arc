@@ -154,7 +154,7 @@ export default class DragCarrier extends React.Component {
       if (t.dataset.id === id) {
         this.rectOrigin = {
           id:         t.dataset.id,
-          ownerId:    t.dataset.ownerId,
+          ownerId:    component.props.id,
           rect:       rect,
           parentRect: parentRect,
         };
@@ -169,7 +169,7 @@ export default class DragCarrier extends React.Component {
         }
         return {
           id:         t.dataset.id,
-          ownerId:    t.dataset.ownerId,
+          ownerId:    component.props.id,
           rect:       getVRect (rect, py - thickness, py + thickness),
           parentRect: parentRect,
         };
@@ -180,7 +180,7 @@ export default class DragCarrier extends React.Component {
     const rect = last.getBoundingClientRect ();
     return {
       id:         null,  // after last
-      ownerId:    last.dataset.ownerId,
+      ownerId:    component.props.id,
       rect:       getVRect (rect, rect.bottom - thickness, rect.bottom + thickness),
       parentRect: parentRect,
     };
@@ -203,7 +203,7 @@ export default class DragCarrier extends React.Component {
       if (t.dataset.id === id) {
         this.rectOrigin = {
           id:         t.dataset.id,
-          ownerId:    t.dataset.ownerId,
+          ownerId:    component.props.id,
           rect:       rect,
           parentRect: parentRect,
         };
@@ -218,7 +218,7 @@ export default class DragCarrier extends React.Component {
         }
         return {
           id:         t.dataset.id,
-          ownerId:    t.dataset.ownerId,
+          ownerId:    component.props.id,
           rect:       getHRect (rect, px - thickness, px + thickness),
           parentRect: parentRect,
         };
@@ -229,7 +229,7 @@ export default class DragCarrier extends React.Component {
     const rect = last.getBoundingClientRect ();
     return {
       id:         null,  // after last
-      ownerId:    last.dataset.ownerId,
+      ownerId:    component.props.id,
       rect:       getHRect (rect, rect.right - thickness, rect.right + thickness),
       parentRect: parentRect,
     };
