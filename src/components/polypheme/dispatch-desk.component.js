@@ -29,46 +29,45 @@ export default class DispatchDesk extends React.Component {
     }
   }
 
-  renderTicket (ticket, dataDispatch, index) {
+  renderTicket (ticket, index) {
     return (
-      <Trip key={index} kind='trip-ticket' data={ticket} data-dispatch={dataDispatch} {...this.link ()} />
+      <Trip key={index} kind='trip-ticket' data={ticket} {...this.link ()} />
     );
   }
 
-  renderTrayTickets (tickets, dataDispatch) {
+  renderTrayTickets (tickets) {
     const result = [];
     let index = 0;
     for (var ticket of tickets) {
-      result.push (this.renderTicket (ticket, dataDispatch, index++));
+      result.push (this.renderTicket (ticket, index++));
     }
     return result;
   }
 
-  renderTray (tray, dataDispatch, index) {
+  renderTray (tray, index) {
     return (
       <TicketsTray key={index} left={tray.Left} top={tray.Top} rotate={tray.Rotation} title={tray.Name}
         data={tray} {...this.link ()} >
-        {this.renderTrayTickets (tray.Tickets, dataDispatch)}
+        {this.renderTrayTickets (tray.Tickets)}
       </TicketsTray>
     );
   }
 
-  renderDesk (desk, dataDispatch) {
+  renderDesk (desk) {
     const result = [];
     let index = 0;
     for (var tray of desk) {
-      result.push (this.renderTray (tray, dataDispatch, index++));
+      result.push (this.renderTray (tray, index++));
     }
     return result;
   }
 
   render () {
-    let data         = this.read ('data');
-    let dataDispatch = this.read ('data-dispatch');
+    let data = this.read ('data');
 
     return (
       <Container kind='tickets-desk' {...this.link ()} >
-        {this.renderDesk (data, dataDispatch)}
+        {this.renderDesk (data.Desk)}
       </Container>
     );
   }

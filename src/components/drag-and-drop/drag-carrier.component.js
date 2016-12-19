@@ -360,10 +360,10 @@ export default class DragCarrier extends React.Component {
   // toId      -> id before which it is necessary to insert. If it was null, insert after the last item.
   // toOwnerId -> owner where it is necessary to insert. Useful when toId is null.
   reduce (id, ownerId) {
-    const toDrag       = this.read ('component-to-drag');
-    const dataDispatch = this.read ('data-dispatch');
-    const fromId       = toDrag.read ('id');
-    window.document.data = reducerDragAndDrop (dataDispatch, {
+    const toDrag = this.read ('component-to-drag');
+    const data   = this.read ('data');
+    const fromId = toDrag.read ('id');
+    window.document.data = reducerDragAndDrop (data, {
       type:      'DROP',
       fromId:    fromId,
       toId:      id,

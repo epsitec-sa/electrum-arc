@@ -38,57 +38,56 @@ export default class DispatchRoadbooks extends React.Component {
     );
   }
 
-  renderTicket (ticket, dataDispatch, index) {
+  renderTicket (ticket, index) {
     return (
-      <Trip key={index} kind='trip-ticket' data={ticket} data-dispatch={dataDispatch} {...this.link ()} />
+      <Trip key={index} kind='trip-ticket' data={ticket} {...this.link ()} />
     );
   }
 
-  renderTickets (tickets, dataDispatch) {
+  renderTickets (tickets) {
     const result = [];
     let index = 0;
     for (var ticket of tickets) {
-      result.push (this.renderTicket (ticket, dataDispatch, index++));
+      result.push (this.renderTicket (ticket, index++));
     }
     return result;
   }
 
-  renderRoadbook (roadbook, dataDispatch, index) {
+  renderRoadbook (roadbook, index) {
     const maxWidth = Unit.add (this.props.theme.shapes.tripTicketWidth, '20px');
     return (
       <DragCab key={index} drag-handle='messengers' direction='horizontal'
         color={this.props.theme.palette.roadbookDragAndDropHover}
         thickness={this.props.theme.shapes.dragAndDropThickness}
         radius='0px'
-        data={roadbook} data-dispatch={dataDispatch}
+        data={roadbook}
         id={roadbook.id} {...this.link ()}>
         <Roadbook key={index} {...this.link ()} >
           {this.renderMessenger (roadbook)}
           <Container kind='tickets-trips' drag-controller='tickets' drag-source='roadbooks'
             id={roadbook.id} max-width={maxWidth} {...this.link ()} >
-            {this.renderTickets (roadbook.Tickets, dataDispatch)}
+            {this.renderTickets (roadbook.Tickets)}
           </Container>
         </Roadbook>
       </DragCab>
     );
   }
 
-  renderRoadbooks (roadbooks, dataDispatch) {
+  renderRoadbooks (roadbooks) {
     const result = [];
     let index = 0;
     for (var roadbook of roadbooks) {
-      result.push (this.renderRoadbook (roadbook, dataDispatch, index++));
+      result.push (this.renderRoadbook (roadbook, index++));
     }
     return result;
   }
 
   render () {
-    let data         = this.read ('data');
-    let dataDispatch = this.read ('data-dispatch');
+    let data = this.read ('data');
 
     return (
       <Container kind='tickets-messengers' drag-controller='messengers' drag-source='messengers' {...this.link ()} >
-        {this.renderRoadbooks (data, dataDispatch)}
+        {this.renderRoadbooks (data.Roadbooks)}
       </Container>
     );
   }
