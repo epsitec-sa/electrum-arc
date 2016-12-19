@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Unit} from 'electrum-theme';
+import Electrum from 'electrum';
 
 /******************************************************************************/
 
@@ -359,10 +360,10 @@ export default class DragCarrier extends React.Component {
   // toId      -> id before which it is necessary to insert. If it was null, insert after the last item.
   // toOwnerId -> owner where it is necessary to insert. Useful when toId is null.
   reduce (id, ownerId) {
+    const toDrag = this.read ('component-to-drag');
+    const data   = this.read ('data');
+    const fromId = toDrag.read ('id');
     if (window.document.reducerDragAndDrop) {
-      const toDrag = this.read ('component-to-drag');
-      const data   = this.read ('data');
-      const fromId = toDrag.read ('id');
       window.document.reducerDragAndDrop (data, {
         type:      'DROP',
         fromId:    fromId,
@@ -374,6 +375,13 @@ export default class DragCarrier extends React.Component {
           c.forceUpdate ();
         }
       }
+    } else {
+      Electrum.bus.dispatch (this.props, 'dnd', {
+        type:      'DROP',
+        fromId:    fromId,
+        toId:      id,
+        toOwnerId: ownerId,
+      });
     }
   }
 

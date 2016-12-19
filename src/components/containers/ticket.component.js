@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import {Action, ColorManipulator} from 'electrum';
+import {ColorManipulator} from 'electrum';
 import {Unit} from 'electrum-theme';
 
 const {emphasize} = ColorManipulator;
@@ -115,13 +115,13 @@ export default class Ticket extends React.Component {
     const hasHeLeft = this.read ('hasHeLeft');
     const isDragged = this.read ('isDragged');
 
-    const boxStyle         = this.mergeStyles ('box');
-    const shadowStyle      = this.mergeStyles ('shadow');
-    const shapeStyle       = this.mergeStyles ('shape');
-    const hatchStyle       = this.mergeStyles ('hatch');
-    const svgStyle         = this.mergeStyles ('svg');
-    const hoverStyle       = this.mergeStyles ('hover');
-    const contentStyle     = this.mergeStyles ('content');
+    const boxStyle     = this.mergeStyles ('box');
+    const shadowStyle  = this.mergeStyles ('shadow');
+    const shapeStyle   = this.mergeStyles ('shape');
+    const hatchStyle   = this.mergeStyles ('hatch');
+    const svgStyle     = this.mergeStyles ('svg');
+    const hoverStyle   = this.mergeStyles ('hover');
+    const contentStyle = this.mergeStyles ('content');
 
     const hoverOrLink = (this.getHover () || this.getLink ()) && !hasHeLeft && !isDragged;
 

@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {DragCarrier} from '../../all-components.js';
+import Electrum from 'electrum';
 
 /******************************************************************************/
 
@@ -95,9 +96,9 @@ export default class DragCab extends React.Component {
   }
 
   reduce (action, props) {
+    const id   = props.ticket.id;
+    const data = this.read ('data');
     if (window.document.reducerDragAndDrop) {
-      const id   = props.ticket.id;
-      const data = this.read ('data');
       window.document.reducerDragAndDrop (data, {
         type: action,
         id:   id,
@@ -109,6 +110,10 @@ export default class DragCab extends React.Component {
           c.forceUpdate ();
         }
       }
+    } else {
+      Electrum.bus.dispatch (this.props, 'select', {
+        key: id,
+      });
     }
   }
 
