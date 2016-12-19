@@ -156,14 +156,13 @@ export default class TripTicket extends React.Component {
     const width  = this.props.theme.shapes.tripTicketWidth;
     const shape  = this.read ('shape');
     const ticket = this.read ('ticket');
-    const type   = this.read ('type');
     const noDrag = this.read ('no-drag');
-    const pd    = type.startsWith ('pick') ? 'pick' : 'drop';
+    const type   = ticket.Type;
 
     const trip           = type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
     const time           = trip.PlanedTime;
     const directionGlyph = this.getDirectionGlyph (type);
-    const directionColor = ColorHelpers.GetMarkColor (this.props.theme, pd);
+    const directionColor = ColorHelpers.GetMarkColor (this.props.theme, type);
     const notes          = trip.Notes;
     const height         = ticket.Warning ? '90px' : '60px';
     const marginBottom   = '-10px';
@@ -171,7 +170,9 @@ export default class TripTicket extends React.Component {
 
     return (
       <Ticket width={width} height={height}
-        kind='ticket' shape={shape} type={pd} cursor={cursor} data={ticket} selected={ticket.Selected}
+        kind='ticket' shape={shape} cursor={cursor}
+        selected={ticket.Selected} mission-id={ticket.Trip.MissionId}
+        status={ticket.Status} flash={ticket.Flash} warning={ticket.Warning} type={ticket.Type}
         isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           {this.renderWarning (ticket.Warning)}
@@ -192,22 +193,23 @@ export default class TripTicket extends React.Component {
   }
 
   renderExtended () {
-    const width = this.props.theme.shapes.tripTicketWidth;
-    const shape = this.read ('shape');
+    const width  = this.props.theme.shapes.tripTicketWidth;
+    const shape  = this.read ('shape');
     const ticket = this.read ('ticket');
-    const type  = this.read ('type');
-    const pd    = type.startsWith ('pick') ? 'pick' : 'drop';
+    const type   = ticket.Type;
 
     const trip           = type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
     const time           = trip.PlanedTime;
     const directionGlyph = this.getDirectionGlyph (type);
-    const directionColor = ColorHelpers.GetMarkColor (this.props.theme, pd);
+    const directionColor = ColorHelpers.GetMarkColor (this.props.theme, type);
     const marginBottom   = null;
     const cursor         = 'move';
 
     return (
       <Ticket width={width}
-        kind='rect' shape={shape} type={pd} cursor={cursor} data={ticket} selected={ticket.Selected}
+        kind='rect' shape={shape} cursor={cursor}
+        selected={ticket.Selected} mission-id={ticket.Trip.MissionId}
+        status={ticket.Status} flash={ticket.Flash} warning={ticket.Warning} type={ticket.Type}
         isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           {this.renderWarning (ticket.Warning)}

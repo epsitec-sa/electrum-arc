@@ -102,7 +102,7 @@ function getHoverPath (theme, shape, type, width, height) {
   const h = toInt (height);
 
   let path = '';
-  if (type === 'drop') {
+  if (type && type.startsWith ('drop')) {
     // u.
     const s = (shape === 'header' || shape === 'last') ? 0 : r;
     path = moveTo (path, 0, s);
@@ -118,7 +118,7 @@ function getHoverPath (theme, shape, type, width, height) {
     path = arcTo (path, i, -r, -r, 0);  // bottom-left internal corner
     path = lineTo (path, 0, -(h - t - s - r));
     path = close (path);
-  } else if (type === 'pick') {
+  } else if (type && type.startsWith ('pick')) {
     // n.
     const s = (shape === 'footer' || shape === 'first') ? 0 : r;
     path = moveTo (path, 0, h - s);
@@ -265,7 +265,7 @@ export default function styles (theme, props) {
 
   let rectHoverStyle;
   const t2 = Unit.multiply (theme.shapes.ticketHoverThickness, 2);
-  if (inputType === 'drop') {
+  if (inputType && inputType.startsWith ('drop')) {
     // u.
     rectHoverStyle = {
       position:        'absolute',
@@ -278,7 +278,7 @@ export default function styles (theme, props) {
       borderStyle:     'none solid solid solid',
       borderColor:     theme.palette.ticketHover,
     };
-  } else if (inputType === 'pick') {
+  } else if (inputType && inputType.startsWith ('pick')) {
     // n.
     rectHoverStyle = {
       position:        'absolute',

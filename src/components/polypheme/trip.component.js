@@ -39,10 +39,13 @@ export default class Trip extends React.Component {
 
     if (kind === 'trip-box') {
       const m = Unit.parse (this.props.theme.shapes.tripBoxBottomMargin).value;
-      return this.renderTrip (ticket, data, noDrag, m, () => (<TripBox ticket={ticket} {...this.link ()} />));
+      return this.renderTrip (ticket, data, noDrag, m, () => (
+        <TripBox ticket={ticket} {...this.link ()} />
+      ));
     } else if (kind === 'trip-ticket') {
-      return this.renderTrip (ticket, data, noDrag, 2, () => (<TripTicket ticket={ticket}
-        no-drag={noDrag} type={ticket.Type} shape={ticket.Shape} {...this.link ()} />));
+      return this.renderTrip (ticket, data, noDrag, 2, () => (
+        <TripTicket ticket={ticket} no-drag={noDrag} shape={ticket.Shape} {...this.link ()} />
+      ));
     } else {
       throw new Error (`Trip component contains invalid kind: ${kind}`);
     }

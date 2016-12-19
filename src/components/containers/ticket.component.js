@@ -79,16 +79,15 @@ export default class Ticket extends React.Component {
   //  Update state.link to all tickets linked.
   //  By example, pick and drop to a trip, or 4 tickets is has transit.
   setLinkToAll (link) {
-    const data = this.read ('data');
-    if (data.Trip) {
+    const missionId = this.read ('mission-id');
+    if (missionId) {
       for (var i = 0, len = window.document.tickets.length; i < len; i++) {
-        const t = window.document.tickets[i];
-        const d = t.read ('data');
-        if (d && d.Trip) {
-          if (data.Trip.MissionId && d.Trip.MissionId && data.Trip.MissionId === d.Trip.MissionId) {
-            t.setLink (link);
-            t.setTransit (d.Type.endsWith ('-transit'));
-          }
+        const ticket = window.document.tickets[i];
+        const m = ticket.read ('mission-id');
+        const t = ticket.read ('type');
+        if (missionId === m) {
+          ticket.setLink (link);
+          ticket.setTransit (t.endsWith ('-transit'));
         }
       }
     }
@@ -110,10 +109,9 @@ export default class Ticket extends React.Component {
   }
 
   renderTicket () {
-    const data      = this.read ('data');
-    const hatch     = data.Status === 'dispatched';
-    const flash     = data.Flash === 'true';
-    const warning   = data.Warning;
+    const hatch     = this.read ('status') === 'dispatched';
+    const flash     = this.read ('flash') === 'true';
+    const warning   = this.read ('warning');
     const hasHeLeft = this.read ('hasHeLeft');
     const isDragged = this.read ('isDragged');
 
@@ -136,7 +134,7 @@ export default class Ticket extends React.Component {
     if (flash && !isDragged) {
       shapeStyle.fill = this.props.theme.palette.ticketFlashBackground;
     }
-    if (warning && warning !== '' && !isDragged) {  // pick under drop ?
+    if (warning && !isDragged) {  // pick under drop ?
       shapeStyle.fill = this.props.theme.palette.ticketWarningBackground;
     }
     if (this.getHover () && !isDragged) {
@@ -198,10 +196,9 @@ export default class Ticket extends React.Component {
   }
 
   renderRect () {
-    const data      = this.read ('data');
-    const hatch     = data.Status === 'dispatched';
-    const flash     = data.Flash === 'true';
-    const warning   = data.Warning;
+    const hatch     = this.read ('status') === 'dispatched';
+    const flash     = this.read ('flash') === 'true';
+    const warning   = this.read ('warning');
     const hasHeLeft = this.read ('hasHeLeft');
     const isDragged = this.read ('isDragged');
 
@@ -223,7 +220,7 @@ export default class Ticket extends React.Component {
     if (flash && !isDragged) {
       rectStyle.backgroundColor = this.props.theme.palette.ticketFlashBackground;
     }
-    if (warning && warning !== '' && !isDragged) {  // pick under drop ?
+    if (warning && !isDragged) {  // pick under drop ?
       rectStyle.backgroundColor = this.props.theme.palette.ticketWarningBackground;
     }
     if (this.getHover () && !isDragged) {
