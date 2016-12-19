@@ -254,13 +254,12 @@ export default class DragCarrier extends React.Component {
   }
 
   find (x, y) {
-    console.log ('find !!!');
-    const direction  = this.read ('direction');
-    const toDrag     = this.read ('component-to-drag');
-    const dragHandle = toDrag.read ('drag-handle');
+    const direction      = this.read ('direction');
+    const toDrag         = this.read ('component-to-drag');
+    const dragController = toDrag.read ('drag-controller');
     for (var c of window.document.dragControllers) {
-      const dragController = c.props['drag-controller'];
-      if (dragController === dragHandle) {
+      const dc = c.props['drag-controller'];
+      if (dc === dragController) {
         const n = ReactDOM.findDOMNode (c);
         const rect = n.getBoundingClientRect ();
         const parentRect = this.getParentRect (c);
@@ -296,12 +295,12 @@ export default class DragCarrier extends React.Component {
 
   // Return the description of origin, whith is the full rectangle of item origin.
   findOrigin () {
-    const toDrag     = this.read ('component-to-drag');
-    const dragHandle = toDrag.read ('drag-handle');
-    const id         = toDrag.read ('id');
+    const toDrag         = this.read ('component-to-drag');
+    const dragController = toDrag.read ('drag-controller');
+    const id             = toDrag.read ('id');
     for (var c of window.document.dragControllers) {
-      const dragController = c.props['drag-controller'];
-      if (dragController === dragHandle) {
+      const dc = c.props['drag-controller'];
+      if (dc === dragController) {
         const n = ReactDOM.findDOMNode (c);
         const rect = this.findNodeOrigin (c, n, id);
         if (rect) {
