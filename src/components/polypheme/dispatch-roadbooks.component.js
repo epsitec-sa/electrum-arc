@@ -56,7 +56,7 @@ export default class DispatchRoadbooks extends React.Component {
   renderRoadbook (roadbook, data, index) {
     const maxWidth = Unit.add (this.props.theme.shapes.tripTicketWidth, '20px');
     return (
-      <DragCab key={index} drag-handle='roadbook' direction='horizontal'
+      <DragCab key={index} drag-controller='roadbook' direction='horizontal'
         color={this.props.theme.palette.roadbookDragAndDropHover}
         thickness={this.props.theme.shapes.dragAndDropThickness}
         radius='0px'
