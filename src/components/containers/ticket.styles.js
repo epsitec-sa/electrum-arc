@@ -149,7 +149,15 @@ export default function styles (theme, props) {
   const inputColor    = props.color;
   const inputCursor   = props.cursor;
 
-  const radius = (inputKind === 'thin') ? theme.shapes.ticketRectRadius : theme.shapes.ticketCornerRadius;
+  const r = (inputKind === 'thin') ? theme.shapes.ticketRectRadius : theme.shapes.ticketCornerRadius;
+  let radius;
+  if (inputType && inputType.startsWith ('pick')) {
+    radius = r + ' ' + r + ' 0px 0px';
+  } else if (inputType && inputType.startsWith ('drop')) {
+    radius = '0px 0px ' + r + ' ' + r;
+  } else {
+    radius = r;
+  }
 
   let width           = inputWidth;
   let height          = inputHeight;
@@ -264,17 +272,18 @@ export default function styles (theme, props) {
   };
 
   let rectHoverStyle;
+  const t1 = theme.shapes.ticketHoverThickness;
   const t2 = Unit.multiply (theme.shapes.ticketHoverThickness, 2);
   if (inputType && inputType.startsWith ('drop')) {
     // u.
     rectHoverStyle = {
       position:        'absolute',
       width:           'calc(100% - ' + t2 + ')',
-      height:          'calc(100% - ' + t2 + ')',
-      top:             theme.shapes.ticketHoverThickness,
+      height:          'calc(100% - ' + t1 + ')',
+      top:             '1px',
       left:            '0px',
-      borderRadius:    '0px 0px ' + radius + ' ' + radius,
-      borderWidth:     theme.shapes.ticketHoverThickness,
+      borderRadius:    radius,
+      borderWidth:     t1,
       borderStyle:     'none solid solid solid',
       borderColor:     theme.palette.ticketHover,
     };
@@ -283,11 +292,11 @@ export default function styles (theme, props) {
     rectHoverStyle = {
       position:        'absolute',
       width:           'calc(100% - ' + t2 + ')',
-      height:          'calc(100% - ' + t2 + ')',
+      height:          'calc(100% - ' + t1 + ')',
       top:             '0px',
       left:            '0px',
-      borderRadius:    radius + ' ' + radius + ' 0px 0px',
-      borderWidth:     theme.shapes.ticketHoverThickness,
+      borderRadius:    radius,
+      borderWidth:     t1,
       borderStyle:     'solid solid none solid',
       borderColor:     theme.palette.ticketHover,
     };
@@ -299,7 +308,9 @@ export default function styles (theme, props) {
       top:             '0px',
       left:            '0px',
       borderRadius:    radius,
-      border:          theme.shapes.ticketHoverThickness + ' solid ' + theme.palette.ticketHover,
+      borderWidth:     t1,
+      borderStyle:     'solid',
+      borderColor:     theme.palette.ticketHover,
     };
   }
 
