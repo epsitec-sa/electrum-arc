@@ -3,7 +3,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Unit} from 'electrum-theme';
-import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 
 /******************************************************************************/
 
@@ -360,18 +359,20 @@ export default class DragCarrier extends React.Component {
   // toId      -> id before which it is necessary to insert. If it was null, insert after the last item.
   // toOwnerId -> owner where it is necessary to insert. Useful when toId is null.
   reduce (id, ownerId) {
-    const toDrag = this.read ('component-to-drag');
-    const data   = this.read ('data');
-    const fromId = toDrag.read ('id');
-    window.document.data = reducerDragAndDrop (data, {
-      type:      'DROP',
-      fromId:    fromId,
-      toId:      id,
-      toOwnerId: ownerId,
-    });
-    if (window.document.mock) {
-      for (var c of window.document.toUpdate) {
-        c.forceUpdate ();
+    if (window.document.reducerDragAndDrop) {
+      const toDrag = this.read ('component-to-drag');
+      const data   = this.read ('data');
+      const fromId = toDrag.read ('id');
+      window.document.reducerDragAndDrop (data, {
+        type:      'DROP',
+        fromId:    fromId,
+        toId:      id,
+        toOwnerId: ownerId,
+      });
+      if (window.document.mock) {
+        for (var c of window.document.toUpdate) {
+          c.forceUpdate ();
+        }
       }
     }
   }

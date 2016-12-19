@@ -28,17 +28,17 @@ export default class DispatchTrips extends React.Component {
     }
   }
 
-  renderTicket (ticket, dataDispatch, index) {
+  renderTicket (ticket, data, index) {
     return (
-      <Trip key={index} kind='trip-box' data={ticket} data-dispatch={dataDispatch} {...this.link ()} />
+      <Trip key={index} kind='trip-box' ticket={ticket} data={data} {...this.link ()} />
     );
   }
 
-  renderTickets (tickets, dataDispatch) {
+  renderTickets (tickets, data) {
     const result = [];
     let index = 0;
     for (var ticket of tickets) {
-      result.push (this.renderTicket (ticket, dataDispatch, index++));
+      result.push (this.renderTicket (ticket, data, index++));
     }
     return result;
   }

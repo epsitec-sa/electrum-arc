@@ -3,7 +3,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {DragCarrier} from '../../all-components.js';
-import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 
 /******************************************************************************/
 
@@ -96,17 +95,19 @@ export default class DragCab extends React.Component {
   }
 
   reduce (action, props) {
-    const id   = props.data.id;
-    const data = this.read ('data');
-    window.document.data = reducerDragAndDrop (data, {
-      type: action,
-      id:   id,
-    });
-    if (window.document.mock) {
-      // This trick is necessary for update the UI !!!
-      window.document.data = reducerDragAndDrop (data, {type: 'CLONE'});
-      for (var c of window.document.toUpdate) {
-        c.forceUpdate ();
+    if (window.document.reducerDragAndDrop) {
+      const id   = props.ticket.id;
+      const data = this.read ('data');
+      window.document.reducerDragAndDrop (data, {
+        type: action,
+        id:   id,
+      });
+      if (window.document.mock) {
+        // This trick is necessary for update the UI !!!
+        window.document.reducerDragAndDrop (data, {type: 'CLONE'});
+        for (var c of window.document.toUpdate) {
+          c.forceUpdate ();
+        }
       }
     }
   }
@@ -117,6 +118,7 @@ export default class DragCab extends React.Component {
     const thickness = this.read ('thickness');
     const radius    = this.read ('radius');
     const mode      = this.read ('mode');
+    const data      = this.read ('data');
     return (
       <DragCarrier
         direction         = {direction}
@@ -124,6 +126,7 @@ export default class DragCab extends React.Component {
         thickness         = {thickness}
         radius            = {radius}
         mode              = {mode}
+        data              = {data}
         drag-starting     = {() => this.setDragStarting (true)}
         drag-ending       = {(e, x) => this.dragEnding (e, x)}
         drag-height       = {this.dragHeight}

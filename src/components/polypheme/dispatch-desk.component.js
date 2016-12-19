@@ -29,37 +29,37 @@ export default class DispatchDesk extends React.Component {
     }
   }
 
-  renderTicket (ticket, index) {
+  renderTicket (ticket, data, index) {
     return (
-      <Trip key={index} kind='trip-ticket' data={ticket} {...this.link ()} />
+      <Trip key={index} kind='trip-ticket' ticket={ticket} data={data} {...this.link ()} />
     );
   }
 
-  renderTrayTickets (tickets) {
+  renderTrayTickets (tickets, data) {
     const result = [];
     let index = 0;
     for (var ticket of tickets) {
-      result.push (this.renderTicket (ticket, index++));
+      result.push (this.renderTicket (ticket, data, index++));
     }
     return result;
   }
 
-  renderTray (tray, index) {
+  renderTray (tray, data, index) {
     const left = tray.Left ? tray.Left : (30 + 280 * index) + 'px';
     const top  = tray.Top ? tray.Top : '30px';
     return (
       <TicketsTray key={index} left={left} top={top} rotate={tray.Rotation} title={tray.Name}
-        data={tray} {...this.link ()} >
-        {this.renderTrayTickets (tray.Tickets)}
+        tray={tray} {...this.link ()} >
+        {this.renderTrayTickets (tray.Tickets, data)}
       </TicketsTray>
     );
   }
 
-  renderDesk (desk) {
+  renderDesk (desk, data) {
     const result = [];
     let index = 0;
     for (var tray of desk) {
-      result.push (this.renderTray (tray, index++));
+      result.push (this.renderTray (tray, data, index++));
     }
     return result;
   }
@@ -69,7 +69,7 @@ export default class DispatchDesk extends React.Component {
 
     return (
       <Container kind='tickets-desk' {...this.link ()} >
-        {this.renderDesk (data.Desk)}
+        {this.renderDesk (data.Desk, data)}
       </Container>
     );
   }

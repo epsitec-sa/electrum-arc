@@ -155,26 +155,26 @@ export default class TripTicket extends React.Component {
   renderCompacted () {
     const width  = this.props.theme.shapes.tripTicketWidth;
     const shape  = this.read ('shape');
-    const data   = this.read ('data');
+    const ticket = this.read ('ticket');
     const type   = this.read ('type');
     const noDrag = this.read ('no-drag');
     const pd    = type.startsWith ('pick') ? 'pick' : 'drop';
 
-    const trip           = type.startsWith ('pick') ? data.Trip.Pick : data.Trip.Drop;
+    const trip           = type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
     const time           = trip.PlanedTime;
     const directionGlyph = this.getDirectionGlyph (type);
     const directionColor = ColorHelpers.GetMarkColor (this.props.theme, pd);
     const notes          = trip.Notes;
-    const height         = data.Warning ? '90px' : '60px';
+    const height         = ticket.Warning ? '90px' : '60px';
     const marginBottom   = '-10px';
     const cursor         = (noDrag === 'true') ? null : 'move';
 
     return (
       <Ticket width={width} height={height}
-        kind='ticket' shape={shape} type={pd} cursor={cursor} data={data} selected={data.Selected}
+        kind='ticket' shape={shape} type={pd} cursor={cursor} data={ticket} selected={ticket.Selected}
         isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
-          {this.renderWarning (data.Warning)}
+          {this.renderWarning (ticket.Warning)}
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
             <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
             <Label glyph={directionGlyph} glyph-color={directionColor} width='25px' {...this.link ()} />
@@ -183,7 +183,7 @@ export default class TripTicket extends React.Component {
           <Container kind='ticket-row' {...this.link ()} >
             <Label text='' width='75px' {...this.link ()} />
             <Label glyph='cube' spacing='compact' {...this.link ()} />
-            <Label text={this.getPackageCount (data)} grow='1' {...this.link ()} />
+            <Label text={this.getPackageCount (ticket)} grow='1' {...this.link ()} />
             {this.renderNoteGlyphs (notes)}
           </Container>
         </Container>
@@ -194,11 +194,11 @@ export default class TripTicket extends React.Component {
   renderExtended () {
     const width = this.props.theme.shapes.tripTicketWidth;
     const shape = this.read ('shape');
-    const data  = this.read ('data');
+    const ticket = this.read ('ticket');
     const type  = this.read ('type');
     const pd    = type.startsWith ('pick') ? 'pick' : 'drop';
 
-    const trip           = type.startsWith ('pick') ? data.Trip.Pick : data.Trip.Drop;
+    const trip           = type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
     const time           = trip.PlanedTime;
     const directionGlyph = this.getDirectionGlyph (type);
     const directionColor = ColorHelpers.GetMarkColor (this.props.theme, pd);
@@ -207,10 +207,10 @@ export default class TripTicket extends React.Component {
 
     return (
       <Ticket width={width}
-        kind='rect' shape={shape} type={pd} cursor={cursor} data={data} selected={data.Selected}
+        kind='rect' shape={shape} type={pd} cursor={cursor} data={ticket} selected={ticket.Selected}
         isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
-          {this.renderWarning (data.Warning)}
+          {this.renderWarning (ticket.Warning)}
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
             <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
             <Label glyph={directionGlyph} glyph-color={directionColor} width='25px' {...this.link ()} />
@@ -219,17 +219,17 @@ export default class TripTicket extends React.Component {
           {this.renderLine ('building', trip.LongDescription)}
           {this.renderLine ('map-marker', trip.Zone)}
           {this.renderNotes (trip.Notes)}
-          {this.renderLine ('cube', this.packageDescription (data))}
-          {this.renderLine ('money', data.Trip.Price)}
-          {this.renderNotes (data.Trip.Notes)}
+          {this.renderLine ('cube', this.packageDescription (ticket))}
+          {this.renderLine ('money', ticket.Trip.Price)}
+          {this.renderNotes (ticket.Trip.Notes)}
         </Container>
       </Ticket>
     );
   }
 
   render () {
-    const data = this.read ('data');
-    if (data.Extended === 'true') {
+    const ticket = this.read ('ticket');
+    if (ticket.Extended === 'true') {
       return this.renderExtended ();
     } else {
       return this.renderCompacted ();

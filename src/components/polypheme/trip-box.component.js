@@ -65,66 +65,68 @@ export default class TripBox extends React.Component {
     return time;
   }
 
-  getPackageCount (data) {
-    return data.Trip.Packages.length + 'x';
+  getPackageCount (ticket) {
+    return ticket.Trip.Packages.length + 'x';
   }
 
   render () {
     const height = this.props.theme.shapes.tripBoxHeight;
-    const data   = this.read ('data');
+    const ticket = this.read ('ticket');
 
     const cursor = 'move';
 
     const directionColorPick = ColorHelpers.GetMarkColor (this.props.theme, 'pick');
     const directionColorDrop = ColorHelpers.GetMarkColor (this.props.theme, 'drop');
 
-    if (!data || !data.Trip || typeof data.Trip.Pick === 'undefined' || typeof data.Trip.Drop === 'undefined') {
+    if (!ticket || !ticket.Trip || typeof ticket.Trip.Pick === 'undefined' || typeof ticket.Trip.Drop === 'undefined') {
       throw new Error (`TripBox component without data`);
     } else {
       const dimmedColor = this.props.theme.palette.ticketDimmed;
       const dimmedSize  = this.props.theme.shapes.ticketDimmedSize;
 
       return (
-        <Ticket kind='thin' height={height} cursor={cursor} grow='1' data={data} selected={data.Selected}
+        <Ticket kind='thin' height={height} cursor={cursor} grow='1' data={ticket} selected={ticket.Selected}
           isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
           <Container kind='thin-column' border='right' width='10px' {...this.link ()} >
-            <Gauge value={data.Trip.Urgency} {...this.link ()} />
+            <Gauge value={ticket.Trip.Urgency} {...this.link ()} />
           </Container>
           <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
             <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
               <Container kind='thin-row' width='50px' {...this.link ()} >
-                <Label text={this.getTime (data.Trip.Pick.PlanedTime)} font-weight='bold' wrap='no' {...this.link ()} />
+                <Label text={this.getTime (ticket.Trip.Pick.PlanedTime)} font-weight='bold' wrap='no'
+                  {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
                 <Label glyph='plus-square' z-index={0} glyph-color={directionColorPick} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
-                <Label text={data.Trip.Pick.ShortDescription} wrap='no' {...this.link ()} />
+                <Label text={ticket.Trip.Pick.ShortDescription} wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='50px' {...this.link ()} >
-                <Label text={data.Trip.Pick.Zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
+                <Label text={ticket.Trip.Pick.Zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='80px' {...this.link ()} >
                 <Label grow='1' {...this.link ()} />
-                {this.renderNotes (data.Trip.Pick.Notes)}
+                {this.renderNotes (ticket.Trip.Pick.Notes)}
               </Container>
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
               <Container kind='thin-row' width='50px' {...this.link ()} >
-                <Label text={this.getTime (data.Trip.Drop.PlanedTime)} font-weight='bold' wrap='no' {...this.link ()} />
+                <Label text={this.getTime (ticket.Trip.Drop.PlanedTime)} font-weight='bold' wrap='no'
+                  {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
                 <Label glyph='minus-square' z-index={0} glyph-color={directionColorDrop} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
-                <Label text={data.Trip.Drop.ShortDescription} wrap='no' {...this.link ()} />
+                <Label text={ticket.Trip.Drop.ShortDescription} wrap='no' {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='50px' {...this.link ()} >
-                <Label text={data.Trip.Drop.Zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
+                <Label text={ticket.Trip.Drop.Zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='80px' {...this.link ()} >
                 <Label grow='1' {...this.link ()} />
-                {this.renderNotes (data.Trip.Drop.Notes)}
+                {this.renderNotes (ticket.Trip.Drop.Notes)}
               </Container>
             </Container>
           </Container>
@@ -134,7 +136,7 @@ export default class TripBox extends React.Component {
                 <Label glyph='cube' glyph-color={dimmedColor} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
-                <Label text={this.getPackageCount (data)} justify='right' grow='1' wrap='no' {...this.link ()} />
+                <Label text={this.getPackageCount (ticket)} justify='right' grow='1' wrap='no' {...this.link ()} />
               </Container>
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
@@ -142,20 +144,20 @@ export default class TripBox extends React.Component {
                 <Label text='total' font-size={dimmedSize} text-color={dimmedColor} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
-                <Label text={data.Trip.Weight} justify='right' grow='1' wrap='no' {...this.link ()} />
+                <Label text={ticket.Trip.Weight} justify='right' grow='1' wrap='no' {...this.link ()} />
               </Container>
             </Container>
           </Container>
           <Container kind='thin-column' width='90px' {...this.link ()} >
             <Container kind='thin-row' grow='1' {...this.link ()} >
-              <Label text={data.Trip.Price} justify='right' grow='1' wrap='no' {...this.link ()} />
+              <Label text={ticket.Trip.Price} justify='right' grow='1' wrap='no' {...this.link ()} />
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
               <Container kind='thin-row' grow='2' {...this.link ()} >
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
                 <Label grow='1' {...this.link ()} />
-                {this.renderNotes (data.Trip.Notes)}
+                {this.renderNotes (ticket.Trip.Notes)}
               </Container>
             </Container>
           </Container>

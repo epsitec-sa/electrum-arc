@@ -34,50 +34,50 @@ export default class DispatchRoadbooks extends React.Component {
 
   renderMessenger (roadbook) {
     return (
-      <MessengerTicket data={roadbook} {...this.link ()} />
+      <MessengerTicket roadbook={roadbook} {...this.link ()} />
     );
   }
 
-  renderTicket (ticket, index) {
+  renderTicket (ticket, data, index) {
     return (
-      <Trip key={index} kind='trip-ticket' data={ticket} {...this.link ()} />
+      <Trip key={index} kind='trip-ticket' ticket={ticket} data={data} {...this.link ()} />
     );
   }
 
-  renderTickets (tickets) {
+  renderTickets (tickets, data) {
     const result = [];
     let index = 0;
     for (var ticket of tickets) {
-      result.push (this.renderTicket (ticket, index++));
+      result.push (this.renderTicket (ticket, data, index++));
     }
     return result;
   }
 
-  renderRoadbook (roadbook, index) {
+  renderRoadbook (roadbook, data, index) {
     const maxWidth = Unit.add (this.props.theme.shapes.tripTicketWidth, '20px');
     return (
       <DragCab key={index} drag-handle='messengers' direction='horizontal'
         color={this.props.theme.palette.roadbookDragAndDropHover}
         thickness={this.props.theme.shapes.dragAndDropThickness}
         radius='0px'
-        data={roadbook}
+        data={data}
         id={roadbook.id} {...this.link ()}>
         <Roadbook key={index} {...this.link ()} >
           {this.renderMessenger (roadbook)}
           <Container kind='tickets-trips' drag-controller='tickets' drag-source='roadbooks'
             id={roadbook.id} max-width={maxWidth} {...this.link ()} >
-            {this.renderTickets (roadbook.Tickets)}
+            {this.renderTickets (roadbook.Tickets, data)}
           </Container>
         </Roadbook>
       </DragCab>
     );
   }
 
-  renderRoadbooks (roadbooks) {
+  renderRoadbooks (roadbooks, data) {
     const result = [];
     let index = 0;
     for (var roadbook of roadbooks) {
-      result.push (this.renderRoadbook (roadbook, index++));
+      result.push (this.renderRoadbook (roadbook, data, index++));
     }
     return result;
   }
@@ -87,7 +87,7 @@ export default class DispatchRoadbooks extends React.Component {
 
     return (
       <Container kind='tickets-messengers' drag-controller='messengers' drag-source='messengers' {...this.link ()} >
-        {this.renderRoadbooks (data.Roadbooks)}
+        {this.renderRoadbooks (data.Roadbooks, data)}
       </Container>
     );
   }

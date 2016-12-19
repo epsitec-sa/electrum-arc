@@ -12,7 +12,7 @@ export default class Trip extends React.Component {
     super (props);
   }
 
-  renderTrip (data, dataDispatch, noDrag, margin, content) {
+  renderTrip (ticket, data, noDrag, margin, content) {
     return (
       <DragCab
         drag-handle   = 'tickets'
@@ -21,8 +21,8 @@ export default class Trip extends React.Component {
         thickness     = {this.props.theme.shapes.dragAndDropThickness}
         radius        = {this.props.theme.shapes.dragAndDropThickness}
         mode          = 'corner-top-left'
-        data-dispatch = {dataDispatch}
-        id            = {data.id}
+        data          = {data}
+        id            = {ticket.id}
         no-drag       = {noDrag}
         margin-bottom = {margin}
         {...this.link ()}>
@@ -32,17 +32,17 @@ export default class Trip extends React.Component {
   }
 
   render () {
-    const kind         = this.read ('kind');
-    const data         = this.read ('data');
-    const dataDispatch = this.read ('data-dispatch');
-    const noDrag = (data.Status === 'dispatched') ? 'true' : null;
+    const kind   = this.read ('kind');
+    const ticket = this.read ('ticket');
+    const data   = this.read ('data');
+    const noDrag = (ticket.Status === 'dispatched') ? 'true' : null;
 
     if (kind === 'trip-box') {
       const m = Unit.parse (this.props.theme.shapes.tripBoxBottomMargin).value;
-      return this.renderTrip (data, dataDispatch, noDrag, m, () => (<TripBox data={data} {...this.link ()} />));
+      return this.renderTrip (ticket, data, noDrag, m, () => (<TripBox ticket={ticket} {...this.link ()} />));
     } else if (kind === 'trip-ticket') {
-      return this.renderTrip (data, dataDispatch, noDrag, 2, () => (<TripTicket data={data}
-        no-drag={noDrag} type={data.Type} shape={data.Shape} {...this.link ()} />));
+      return this.renderTrip (ticket, data, noDrag, 2, () => (<TripTicket ticket={ticket}
+        no-drag={noDrag} type={ticket.Type} shape={ticket.Shape} {...this.link ()} />));
     } else {
       throw new Error (`Trip component contains invalid kind: ${kind}`);
     }

@@ -55,7 +55,7 @@ export default class TicketsTray extends React.Component {
   }
 
   render () {
-    const data = this.read ('data');
+    const tray = this.read ('tray');
 
     const boxStyle   = this.mergeStyles ('box');
     const titleStyle = this.mergeStyles ('title');
@@ -86,7 +86,7 @@ export default class TicketsTray extends React.Component {
           {htmlEdit}
         </div>
         <Container kind='tickets-tray' drag-controller='tickets' drag-source='desk'
-          id={data.id} {...this.link ()} >
+          id={tray.id} {...this.link ()} >
           {this.props.children}
         </Container>
       </div>
