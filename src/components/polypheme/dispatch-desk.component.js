@@ -45,8 +45,10 @@ export default class DispatchDesk extends React.Component {
   }
 
   renderTray (tray, index) {
+    const left = tray.Left ? tray.Left : (30 + 280 * index) + 'px';
+    const top  = tray.Top ? tray.Top : '30px';
     return (
-      <TicketsTray key={index} left={tray.Left} top={tray.Top} rotate={tray.Rotation} title={tray.Name}
+      <TicketsTray key={index} left={left} top={top} rotate={tray.Rotation} title={tray.Name}
         data={tray} {...this.link ()} >
         {this.renderTrayTickets (tray.Tickets)}
       </TicketsTray>
