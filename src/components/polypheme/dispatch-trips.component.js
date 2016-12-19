@@ -68,7 +68,7 @@ export default class DispatchTrips extends React.Component {
           </Container>
 
           <Container kind='panes' {...this.link ()} >
-            <Container kind='column' drag-controller='tickets' drag-source='backlog' {...this.link ()} >
+            <Container kind='column' drag-controller='ticket' drag-source='backlog' {...this.link ()} >
               {this.renderTickets (data.Backlog.Tickets, data)}
             </Container>
           </Container>

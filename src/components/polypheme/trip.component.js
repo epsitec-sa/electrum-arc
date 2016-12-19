@@ -15,7 +15,7 @@ export default class Trip extends React.Component {
   renderTrip (ticket, data, noDrag, margin, content) {
     return (
       <DragCab
-        drag-handle   = 'tickets'
+        drag-handle   = 'ticket'
         direction     = 'vertical'
         color         = {this.props.theme.palette.dragAndDropHover}
         thickness     = {this.props.theme.shapes.dragAndDropThickness}
