@@ -134,9 +134,7 @@ export default class Container extends React.Component {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
     const kind    = this.read ('kind');
-    const anchor  = this.read ('anchor');
     const navName = this.read ('navigation-name');
-    const id      = this.read ('id');
     const hidden  = this.read ('hidden');
 
     const boxStyle      = this.mergeStyles ('box');
@@ -169,9 +167,7 @@ export default class Container extends React.Component {
         <div
           disabled             = {disabled}
           style                = {boxStyle}
-          id                   = {anchor}
           data-navigation-name = {navName}
-          data-id              = {id}
           >
           {useManagedChildren.includes (kind) ? this.state.managedChildren : this.props.children}
         </div>

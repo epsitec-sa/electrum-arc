@@ -64,7 +64,7 @@ export default class DispatchRoadbooks extends React.Component {
         id={roadbook.id} {...this.link ()}>
         <Roadbook key={index} {...this.link ()} >
           {this.renderMessenger (roadbook)}
-          <Container kind='tickets-trips' drag-controller='tickets' drag-source='roadbooks'
+          <Container kind='tickets-trips' drag-controller='tickets' drag-source='roadbook'
             id={roadbook.id} max-width={maxWidth} {...this.link ()} >
             {this.renderTickets (roadbook.Tickets, data)}
           </Container>
@@ -86,7 +86,7 @@ export default class DispatchRoadbooks extends React.Component {
     let data = this.read ('data');
 
     return (
-      <Container kind='tickets-messengers' drag-controller='messengers' drag-source='messengers' {...this.link ()} >
+      <Container kind='tickets-messengers' drag-controller='messengers' drag-source='roadbooks' {...this.link ()} >
         {this.renderRoadbooks (data.Roadbooks, data)}
       </Container>
     );

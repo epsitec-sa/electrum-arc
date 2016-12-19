@@ -144,6 +144,7 @@ export default class DragCarrier extends React.Component {
       return {
         id:         null,
         ownerId:    component.props.id,
+        ownerKind:  component.props['drag-source'],
         rect:       getVRect (rect, rect.top - thickness, rect.top + thickness),
         parentRect: parentRect,
         index:      0,
@@ -163,6 +164,7 @@ export default class DragCarrier extends React.Component {
         return {
           id:         t.dataset.id,
           ownerId:    component.props.id,
+          ownerKind:  component.props['drag-source'],
           rect:       getVRect (rect, py - thickness, py + thickness),
           parentRect: parentRect,
           index:      i,
@@ -175,6 +177,7 @@ export default class DragCarrier extends React.Component {
     return {
       id:         null,  // after last
       ownerId:    component.props.id,
+      ownerKind:  component.props['drag-source'],
       rect:       getVRect (rect, rect.bottom - thickness, rect.bottom + thickness),
       parentRect: parentRect,
       index:      node.children.length,
@@ -188,6 +191,7 @@ export default class DragCarrier extends React.Component {
       return {
         id:         null,
         ownerId:    component.props.id,
+        ownerKind:  component.props['drag-source'],
         rect:       getHRect (rect, rect.left - thickness, rect.left + thickness),
         parentRect: parentRect,
         index:      0,
@@ -207,6 +211,7 @@ export default class DragCarrier extends React.Component {
         return {
           id:         t.dataset.id,
           ownerId:    component.props.id,
+          ownerKind:  component.props['drag-source'],
           rect:       getHRect (rect, px - thickness, px + thickness),
           parentRect: parentRect,
           index:      i,
@@ -219,6 +224,7 @@ export default class DragCarrier extends React.Component {
     return {
       id:         null,  // after last
       ownerId:    component.props.id,
+      ownerKind:  component.props['drag-source'],
       rect:       getHRect (rect, rect.right - thickness, rect.right + thickness),
       parentRect: parentRect,
       index:      node.children.length,
@@ -248,6 +254,7 @@ export default class DragCarrier extends React.Component {
   }
 
   find (x, y) {
+    console.log ('find !!!');
     const direction  = this.read ('direction');
     const toDrag     = this.read ('component-to-drag');
     const dragHandle = toDrag.read ('drag-handle');
@@ -350,7 +357,7 @@ export default class DragCarrier extends React.Component {
       dragEnding (event, this.isDragStarted ());
       const dest = this.getDest ();
       if (dest) {
-        this.reduce (dest.id, dest.ownerId);
+        this.reduce (dest.id, dest.ownerId, dest.ownerKind);
       }
     }
   }
@@ -359,7 +366,8 @@ export default class DragCarrier extends React.Component {
   // fromId    -> id to item to move.
   // toId      -> id before which it is necessary to insert. If it was null, insert after the last item.
   // toOwnerId -> owner where it is necessary to insert. Useful when toId is null.
-  reduce (id, ownerId) {
+  reduce (id, ownerId, ownerKind) {
+    console.log ('reduce >>>>>>>>>>>>>>>>>>>>');
     const toDrag = this.read ('component-to-drag');
     const data   = this.read ('data');
     const fromId = toDrag.read ('id');
@@ -377,10 +385,11 @@ export default class DragCarrier extends React.Component {
       }
     } else {
       Electrum.bus.dispatch (this.props, 'dnd', {
-        type:      'DROP',
-        fromId:    fromId,
-        toId:      id,
-        toOwnerId: ownerId,
+        itemKind:     (ownerKind === 'roadbooks') ? 'roadbook' : 'ticket',
+        itemId:       fromId,
+        beforeItemId: id,
+        toOwnerId:    ownerId,
+        toOwnerKind:  ownerKind,
       });
     }
   }
