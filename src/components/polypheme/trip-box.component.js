@@ -73,7 +73,8 @@ export default class TripBox extends React.Component {
     const height = this.props.theme.shapes.tripBoxHeight;
     const ticket = this.read ('ticket');
 
-    const cursor = 'move';
+    const cursor   = 'move';
+    const hudGlyph = (ticket.Selected === 'true') ? 'check' : null;
 
     const directionColorPick = ColorHelpers.GetMarkColor (this.props.theme, 'pick');
     const directionColorDrop = ColorHelpers.GetMarkColor (this.props.theme, 'drop');
@@ -86,7 +87,7 @@ export default class TripBox extends React.Component {
 
       return (
         <Ticket kind='thin' height={height} cursor={cursor} grow='1'
-          selected={ticket.Selected} mission-id={ticket.Trip.MissionId}
+          hud-glyph={hudGlyph} mission-id={ticket.Trip.MissionId}
           status={ticket.Status} flash={ticket.Flash} warning={ticket.Warning} type={ticket.Type}
           isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
           <Container kind='thin-column' border='right' width='10px' {...this.link ()} >

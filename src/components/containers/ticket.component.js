@@ -181,7 +181,7 @@ export default class Ticket extends React.Component {
       </svg>
     ) : null;
 
-    const htmlHudGlyph = hudGlyph && !hasHeLeft ? (
+    const htmlHudGlyph = hudGlyph && (!hasHeLeft || isDragged) ? (
       <div style={hudGlyphStyleBox}>
         <i style={hudGlyphStyleContent} className={`fa fa-${hudGlyph}`} />
       </div>
@@ -244,7 +244,7 @@ export default class Ticket extends React.Component {
       rectHoverStyle.borderColor = this.props.theme.palette.ticketTransitHover;
     }
 
-    const htmlHudGlyph = hudGlyph && !hasHeLeft ? (
+    const htmlHudGlyph = hudGlyph && (!hasHeLeft || isDragged) ? (
       <div style={hudGlyphStyleBox}>
         <i style={hudGlyphStyleContent} className={`fa fa-${hudGlyph}`} />
       </div>
