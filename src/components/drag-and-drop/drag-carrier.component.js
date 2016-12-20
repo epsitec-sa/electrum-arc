@@ -324,6 +324,16 @@ export default class DragCarrier extends React.Component {
     return null;
   }
 
+  searchChildren (id) {
+    const container = this.rectOrigin.container;
+    for (let child of container.props.children) {
+      if (child.props.ticket.id === id) {
+        return child;
+      }
+    }
+    return null;
+  }
+
   selectOne (id, value) {
     const dragCab = this.searchDragCab (id);
     dragCab.setDragStarting (value);
@@ -335,7 +345,9 @@ export default class DragCarrier extends React.Component {
   selectMulti (value) {
     console.log ('selectMulti >>>>>>>>>>>>>>>>>>>>');
     if (this.rectOrigin) {
-      if (false) {  // TODO: how make ???
+      const origin = this.searchChildren (this.rectOrigin.id);
+      if (origin.props.ticket.Selected === 'true') {
+        // Drag all selected items.
         const container = this.rectOrigin.container;
         for (let child of container.props.children) {
           if (child.props.ticket.Selected === 'true') {
@@ -343,6 +355,7 @@ export default class DragCarrier extends React.Component {
           }
         }
       } else {
+        // Drag only pointed item.
         this.selectOne (this.rectOrigin.id, value);
       }
     }
