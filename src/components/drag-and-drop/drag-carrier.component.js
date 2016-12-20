@@ -90,13 +90,14 @@ export default class DragCarrier extends React.Component {
       y:    0,
       dest: null,
     };
-    this.moveCount  = 0;
-    this.startX     = 0;
-    this.startY     = 0;
-    this.offsetX    = 0;
-    this.offsetY    = 0;
-    this.rectOrigin = null;
+    this.moveCount       = 0;
+    this.startX          = 0;
+    this.startY          = 0;
+    this.offsetX         = 0;
+    this.offsetY         = 0;
+    this.rectOrigin      = null;
     this.lastDragStarted = false;
+    this.selectedIds     = [];
   }
 
   getX () {
@@ -325,11 +326,15 @@ export default class DragCarrier extends React.Component {
   selectMulti (value) {
     console.log ('selectMulti >>>>>>>>>>>>>>>>>>>>');
     if (this.rectOrigin) {
+      const singleId = this.rectOrigin.id;
       const container = this.rectOrigin.container;
       for (let child of container.props.children) {
-        if (child.props.ticket.Selected === 'true') {
+        if (child.props.ticket.id === singleId || child.props.ticket.Selected === 'true') {
           const dragCab = this.searchDragCab (child.props.ticket.id);
-          dragCab.setDragStartingMulti (value);
+          dragCab.setDragStarting (value);
+          if (value) {
+            this.selectedIds.push (child.props.ticket.id);
+          }
         }
       }
     }
@@ -367,10 +372,6 @@ export default class DragCarrier extends React.Component {
 
     if (!this.lastDragStarted && this.isDragStarted ()) {
       this.lastDragStarted = true;
-      const dragStarting = this.read ('drag-starting');
-      if (dragStarting) {
-        dragStarting ();
-      }
       this.selectMulti (true);
     }
   }
@@ -392,16 +393,14 @@ export default class DragCarrier extends React.Component {
   // fromId    -> id to item to move.
   // toId      -> id before which it is necessary to insert. If it was null, insert after the last item.
   // toOwnerId -> owner where it is necessary to insert. Useful when toId is null.
-  reduce (id, ownerId, ownerKind) {
+  reduce (toId, ownerId, ownerKind) {
     console.log ('reduce >>>>>>>>>>>>>>>>>>>>');
-    const toDrag = this.read ('component-to-drag');
-    const data   = this.read ('data');
-    const fromId = toDrag.read ('id');
+    const data = this.read ('data');
     if (window.document.reducerDragAndDrop) {
       window.document.reducerDragAndDrop (data, {
         type:      'DROP',
-        fromId:    fromId,
-        toId:      id,
+        fromIds:   this.selectedIds,
+        toId:      toId,
         toOwnerId: ownerId,
       });
       if (window.document.mock) {
@@ -412,8 +411,8 @@ export default class DragCarrier extends React.Component {
     } else {
       Electrum.bus.dispatch (this.props, 'dnd', {
         itemKind:     (ownerKind === 'roadbooks') ? 'roadbook' : 'ticket',
-        itemId:       fromId,
-        beforeItemId: id,
+        itemIds:      this.selectedIds,
+        beforeItemId: toId,
         toOwnerId:    ownerId,
         toOwnerKind:  ownerKind,
       });

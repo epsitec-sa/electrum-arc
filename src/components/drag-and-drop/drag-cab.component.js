@@ -12,9 +12,8 @@ export default class DragCab extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      dragInProcess:     false,
-      dragStarting:      false,
-      dragStartingMulti: false,
+      dragInProcess: false,
+      dragStarting:  false,
     };
     this.dragHeight = 0;
   }
@@ -36,16 +35,6 @@ export default class DragCab extends React.Component {
   setDragStarting (value) {
     this.setState ( {
       dragStarting: value
-    });
-  }
-
-  getDragStartingMulti () {
-    return this.state.dragStartingMulti;
-  }
-
-  setDragStartingMulti (value) {
-    this.setState ( {
-      dragStartingMulti: value
     });
   }
 
@@ -154,7 +143,6 @@ export default class DragCab extends React.Component {
         radius            = {radius}
         mode              = {mode}
         data              = {data}
-        drag-starting     = {() => this.setDragStarting (true)}
         drag-ending       = {(e, x) => this.dragEnding (e, x)}
         drag-height       = {this.dragHeight}
         component-to-drag = {this}
@@ -176,7 +164,7 @@ export default class DragCab extends React.Component {
     const direction     = this.read ('direction');
     const marginBottom  = this.read ('margin-bottom');
     const dragInProcess = this.getDragInProcess ();
-    const dragStarting  = this.getDragStarting () || this.getDragStartingMulti ();
+    const dragStarting  = this.getDragStarting ();
 
     const htmlDragCarrier = (dragInProcess && !isDragged) ? this.renderDragCarrier () : null;
 
