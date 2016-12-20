@@ -115,8 +115,6 @@ export default class DragCab extends React.Component {
         id:   id,
       });
       if (window.document.mock) {
-        // This trick is necessary for update the UI !!!
-        window.document.reducerDragAndDrop (data, {type: 'CLONE'});
         for (var c of window.document.toUpdate) {
           c.forceUpdate ();
         }
