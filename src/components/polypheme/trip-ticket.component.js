@@ -167,11 +167,12 @@ export default class TripTicket extends React.Component {
     const height         = ticket.Warning ? '90px' : '60px';
     const marginBottom   = '-10px';
     const cursor         = (noDrag === 'true') ? null : 'move';
+    const hudGlyph       = (ticket.Selected === 'true') ? 'check' : null;
 
     return (
       <Ticket width={width} height={height}
         kind='ticket' shape={shape} cursor={cursor}
-        selected={ticket.Selected} mission-id={ticket.Trip.MissionId}
+        hud-glyph={hudGlyph} mission-id={ticket.Trip.MissionId}
         status={ticket.Status} flash={ticket.Flash} warning={ticket.Warning} type={ticket.Type}
         isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
@@ -204,11 +205,12 @@ export default class TripTicket extends React.Component {
     const directionColor = ColorHelpers.GetMarkColor (this.props.theme, type);
     const marginBottom   = null;
     const cursor         = 'move';
+    const hudGlyph       = (ticket.Selected === 'true') ? 'check' : null;
 
     return (
       <Ticket width={width}
         kind='rect' shape={shape} cursor={cursor}
-        selected={ticket.Selected} mission-id={ticket.Trip.MissionId}
+        hud-glyph={hudGlyph} mission-id={ticket.Trip.MissionId}
         status={ticket.Status} flash={ticket.Flash} warning={ticket.Warning} type={ticket.Type}
         isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >

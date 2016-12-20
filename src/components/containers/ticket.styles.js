@@ -314,6 +314,25 @@ export default function styles (theme, props) {
     };
   }
 
+  const hudGlyphStyleBox = {
+    position:        'absolute',
+    width:           '40px',
+    height:          '40px',
+    top:             '10px',
+    right:           '10px',
+    display:         'flex',
+    justifyContent:  'center',
+    alignItems:      'center',
+    border:          '1px solid',
+    borderRadius:    '20px',
+    backgroundColor: theme.palette.ticketHubBackground,
+  };
+
+  const hudGlyphStyleContent = {
+    transform:       'scale( 1.6 )',
+    color:           theme.palette.ticketHubContent,
+  };
+
   return {
     box:              boxStyle,
     shadow:           shadowStyle,
@@ -327,6 +346,8 @@ export default function styles (theme, props) {
     rectContentHatch: rectContentHatchStyle,
     rectEmpty:        rectEmptyStyle,
     rectHover:        rectHoverStyle,
+    hudGlyphBox:      hudGlyphStyleBox,
+    hudGlyphContent:  hudGlyphStyleContent,
   };
 }
 
