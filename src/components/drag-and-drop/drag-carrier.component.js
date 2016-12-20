@@ -285,6 +285,7 @@ export default class DragCarrier extends React.Component {
         const parentRect = this.getParentRect (container);
         return {
           container:  container,
+          ticket:     t,
           id:         t.dataset.id,
           ownerId:    container.props.id,
           rect:       rect,
@@ -323,19 +324,26 @@ export default class DragCarrier extends React.Component {
     return null;
   }
 
+  selectOne (id, value) {
+    const dragCab = this.searchDragCab (id);
+    dragCab.setDragStarting (value);
+    if (value) {
+      this.selectedIds.push (id);
+    }
+  }
+
   selectMulti (value) {
     console.log ('selectMulti >>>>>>>>>>>>>>>>>>>>');
     if (this.rectOrigin) {
-      const singleId = this.rectOrigin.id;
-      const container = this.rectOrigin.container;
-      for (let child of container.props.children) {
-        if (child.props.ticket.id === singleId || child.props.ticket.Selected === 'true') {
-          const dragCab = this.searchDragCab (child.props.ticket.id);
-          dragCab.setDragStarting (value);
-          if (value) {
-            this.selectedIds.push (child.props.ticket.id);
+      if (false) {  // TODO: how make ???
+        const container = this.rectOrigin.container;
+        for (let child of container.props.children) {
+          if (child.props.ticket.Selected === 'true') {
+            this.selectOne (child.props.ticket.id, value);
           }
         }
+      } else {
+        this.selectOne (this.rectOrigin.id, value);
       }
     }
   }
