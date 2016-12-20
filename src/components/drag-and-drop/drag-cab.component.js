@@ -98,22 +98,22 @@ export default class DragCab extends React.Component {
 
   changeState (ticket, event) {
     if (event.ctrlKey || event.shiftKey || event.metaKey) {  // select/deselect ?
-      this.reduce ('SWAP_SELECTED', ticket.props, event);
+      this.reduce ('SWAP_SELECTED', ticket.props, event.shiftKey);
     } else if (event.altKey) {  // dispatched/undispatched ?
-      this.reduce ('SWAP_STATUS', ticket.props, event);
+      this.reduce ('SWAP_STATUS', ticket.props, event.shiftKey);
     } else {  // compected/extended ?
-      this.reduce ('SWAP_EXTENDED', ticket.props, event);
+      this.reduce ('SWAP_EXTENDED', ticket.props, event.shiftKey);
     }
   }
 
-  reduce (action, props, event) {
+  reduce (action, props, shiftKey) {
     const id   = props.ticket.id;
     const data = this.read ('data');
     if (window.document.reducerDragAndDrop) {
       window.document.reducerDragAndDrop (data, {
-        type:  action,
-        id:    id,
-        event: event,
+        type:     action,
+        id:       id,
+        shiftKey: shiftKey,
       });
       if (window.document.mock) {
         for (var c of window.document.toUpdate) {
@@ -122,7 +122,9 @@ export default class DragCab extends React.Component {
       }
     } else {
       Electrum.bus.dispatch (this.props, 'select', {
-        key: id,
+        type:     action,
+        key:      id,
+        shiftKey: shiftKey,
       });
     }
   }
