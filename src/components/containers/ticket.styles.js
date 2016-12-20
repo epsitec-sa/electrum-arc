@@ -316,20 +316,20 @@ export default function styles (theme, props) {
 
   const hudGlyphStyleBox = {
     position:        'absolute',
-    width:           '46px',
-    height:          '46px',
+    width:           '30px',
+    height:          '30px',
     top:             '7px',
     right:           '7px',
     display:         'flex',
     justifyContent:  'center',
     alignItems:      'center',
     border:          '1px solid',
-    borderRadius:    '23px',
+    borderRadius:    '15px',
     backgroundColor: theme.palette.ticketHubBackground,
   };
 
   const hudGlyphStyleContent = {
-    transform:       'scale( 1.8 )',
+    transform:       'scale( 1.2 )',
     color:           theme.palette.ticketHubContent,
   };
 
