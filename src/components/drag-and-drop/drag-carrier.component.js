@@ -257,8 +257,8 @@ export default class DragCarrier extends React.Component {
 
   find (x, y) {
     const direction      = this.read ('direction');
-    const id             = this.read ('id');
-    const dragCab        = this.searchDragCab (id);
+    const dragId         = this.read ('drag-id');
+    const dragCab        = this.searchDragCab (dragId);
     const dragController = dragCab.read ('drag-controller');
     for (var container of window.document.dragControllers) {
       const dc = container.props['drag-controller'];
@@ -301,12 +301,12 @@ export default class DragCarrier extends React.Component {
   // Return the description of origin, whith is the full rectangle of item origin.
   findOrigin () {
     const dragController = this.read ('drag-controller');
-    const id             = this.read ('id');
+    const dragId         = this.read ('drag-id');
     for (var container of window.document.dragControllers) {
       const dc = container.props['drag-controller'];
       if (dc === dragController) {
         const n = ReactDOM.findDOMNode (container);
-        const rect = this.findNodeOrigin (container, n, id);
+        const rect = this.findNodeOrigin (container, n, dragId);
         if (rect) {
           return rect;
         }
@@ -366,8 +366,8 @@ export default class DragCarrier extends React.Component {
     if (this.moveCount === 0) {  // first move ?
       this.startX = event.clientX;
       this.startY = event.clientY;
-      const id             = this.read ('id');
-      const dragCab        = this.searchDragCab (id);
+      const dragId  = this.read ('drag-id');
+      const dragCab = this.searchDragCab (dragId);
       const node = ReactDOM.findDOMNode (dragCab);
       const rect = node.getBoundingClientRect ();
       this.offsetX = event.clientX - rect.left;

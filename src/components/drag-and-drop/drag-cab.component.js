@@ -134,7 +134,7 @@ export default class DragCab extends React.Component {
     const radius         = this.read ('radius');
     const mode           = this.read ('mode');
     const data           = this.read ('data');
-    const id             = this.read ('id');
+    const dragId         = this.read ('id');
     const dragController = this.read ('drag-controller');
     return (
       <DragCarrier
@@ -147,7 +147,7 @@ export default class DragCab extends React.Component {
         drag-ending       = {(e, x) => this.dragEnding (e, x)}
         drag-height       = {this.dragHeight}
         drag-controller   = {dragController}
-        id                = {id}
+        drag-id           = {dragId}
         {...this.link ()} />
     );
   }
