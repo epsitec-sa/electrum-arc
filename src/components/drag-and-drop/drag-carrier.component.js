@@ -257,8 +257,9 @@ export default class DragCarrier extends React.Component {
 
   find (x, y) {
     const direction      = this.read ('direction');
-    const toDrag         = this.read ('component-to-drag');
-    const dragController = toDrag.read ('drag-controller');
+    const id             = this.read ('id');
+    const dragCab        = this.searchDragCab (id);
+    const dragController = dragCab.read ('drag-controller');
     for (var container of window.document.dragControllers) {
       const dc = container.props['drag-controller'];
       if (dc === dragController) {
@@ -299,9 +300,8 @@ export default class DragCarrier extends React.Component {
 
   // Return the description of origin, whith is the full rectangle of item origin.
   findOrigin () {
-    const toDrag         = this.read ('component-to-drag');
-    const dragController = toDrag.read ('drag-controller');
-    const id             = toDrag.read ('id');
+    const dragController = this.read ('drag-controller');
+    const id             = this.read ('id');
     for (var container of window.document.dragControllers) {
       const dc = container.props['drag-controller'];
       if (dc === dragController) {
@@ -366,8 +366,9 @@ export default class DragCarrier extends React.Component {
     if (this.moveCount === 0) {  // first move ?
       this.startX = event.clientX;
       this.startY = event.clientY;
-      const toDrag = this.read ('component-to-drag');
-      const node = ReactDOM.findDOMNode (toDrag);
+      const id             = this.read ('id');
+      const dragCab        = this.searchDragCab (id);
+      const node = ReactDOM.findDOMNode (dragCab);
       const rect = node.getBoundingClientRect ();
       this.offsetX = event.clientX - rect.left;
       this.offsetY = event.clientY - rect.top;
@@ -416,7 +417,7 @@ export default class DragCarrier extends React.Component {
   // toId      -> id before which it is necessary to insert. If it was null, insert after the last item.
   // toOwnerId -> owner where it is necessary to insert. Useful when toId is null.
   reduce (toId, ownerId, ownerKind) {
-    console.log ('reduce >>>>>>>>>>>>>>>>>>>>');
+    // console.log ('reduce >>>>>>>>>>>>>>>>>>>>');
     const data = this.read ('data');
     if (window.document.reducerDragAndDrop) {
       window.document.reducerDragAndDrop (data, {
@@ -441,13 +442,28 @@ export default class DragCarrier extends React.Component {
     }
   }
 
-  getComponentToDrag () {
-    if (this.isDragStarted ()) {
-      const toDrag = this.read ('component-to-drag');
-      return toDrag.renderForDrag (true);
+  renderOneComponentToDrag (id, index) {
+    const dragCab = this.searchDragCab (id);
+    if (dragCab) {
+      return dragCab.renderForDrag (true, index);
     } else {
       return null;
     }
+  }
+
+  renderComponentToDrag () {
+    const result = [];
+    if (this.isDragStarted ()) {
+      const n = this.selectedIds.length ;
+      for (let i = 0; i < n; i++) {
+        const id = this.selectedIds[i];
+        const r = this.renderOneComponentToDrag (id, i);
+        if (r) {
+          result.push (r);
+        }
+      }
+    }
+    return result;
   }
 
   render () {
@@ -472,6 +488,7 @@ export default class DragCarrier extends React.Component {
       visibility:      'visible',
       position:        'absolute',
       display:         'flex',
+      flexDirection:   'column',
       height:          dragHeight,
       left:            this.getX (),
       top:             this.getY (),
@@ -513,7 +530,7 @@ export default class DragCarrier extends React.Component {
         >
         <div style = {hilitedStyle} />
         <div style = {draggedStyle}>
-          {this.getComponentToDrag ()}
+          {this.renderComponentToDrag ()}
         </div>
       </div>
     );

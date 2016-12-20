@@ -128,12 +128,14 @@ export default class DragCab extends React.Component {
   }
 
   renderDragCarrier () {
-    const direction = this.read ('direction');
-    const color     = this.read ('color');
-    const thickness = this.read ('thickness');
-    const radius    = this.read ('radius');
-    const mode      = this.read ('mode');
-    const data      = this.read ('data');
+    const direction      = this.read ('direction');
+    const color          = this.read ('color');
+    const thickness      = this.read ('thickness');
+    const radius         = this.read ('radius');
+    const mode           = this.read ('mode');
+    const data           = this.read ('data');
+    const id             = this.read ('id');
+    const dragController = this.read ('drag-controller');
     return (
       <DragCarrier
         direction         = {direction}
@@ -144,7 +146,8 @@ export default class DragCab extends React.Component {
         data              = {data}
         drag-ending       = {(e, x) => this.dragEnding (e, x)}
         drag-height       = {this.dragHeight}
-        component-to-drag = {this}
+        drag-controller   = {dragController}
+        id                = {id}
         {...this.link ()} />
     );
   }
@@ -158,7 +161,7 @@ export default class DragCab extends React.Component {
     });
   }
 
-  renderForDrag (isDragged) {
+  renderForDrag (isDragged, index) {
     const id            = this.read ('id');
     const direction     = this.read ('direction');
     const marginBottom  = this.read ('margin-bottom');
@@ -179,6 +182,7 @@ export default class DragCab extends React.Component {
 
     return (
       <div
+        key                = {index}
         style              = {boxStyle}
         data-id            = {id}
         data-margin-bottom = {marginBottom}
