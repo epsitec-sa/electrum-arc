@@ -12,8 +12,9 @@ export default class DragCab extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      dragInProcess: false,
-      dragStarting:  false,
+      dragInProcess:     false,
+      dragStarting:      false,
+      dragStartingMulti: false,
     };
     this.dragHeight = 0;
   }
@@ -38,10 +39,31 @@ export default class DragCab extends React.Component {
     });
   }
 
+  getDragStartingMulti () {
+    return this.state.dragStartingMulti;
+  }
+
+  setDragStartingMulti (value) {
+    this.setState ( {
+      dragStartingMulti: value
+    });
+  }
+
   componentDidMount () {
     const id = this.read ('id');
     if (!id) {
       throw new Error ('DragCab has not id');
+    }
+    if (!window.document.dragCabs) {
+      window.document.dragCabs = [];
+    }
+    window.document.dragCabs.push (this);
+  }
+
+  componentWillUnmount () {
+    const index = window.document.dragCabs.indexOf (this);
+    if (index !== -1) {
+      window.document.dragCabs.splice (index, 1);
     }
   }
 
@@ -154,7 +176,7 @@ export default class DragCab extends React.Component {
     const direction     = this.read ('direction');
     const marginBottom  = this.read ('margin-bottom');
     const dragInProcess = this.getDragInProcess ();
-    const dragStarting  = this.getDragStarting ();
+    const dragStarting  = this.getDragStarting () || this.getDragStartingMulti ();
 
     const htmlDragCarrier = (dragInProcess && !isDragged) ? this.renderDragCarrier () : null;
 

@@ -96,6 +96,7 @@ export default class DragCarrier extends React.Component {
     this.offsetX    = 0;
     this.offsetY    = 0;
     this.rectOrigin = null;
+    this.lastDragStarted = false;
   }
 
   getX () {
@@ -282,6 +283,7 @@ export default class DragCarrier extends React.Component {
         const rect = getBoundingRect (t);
         const parentRect = this.getParentRect (container);
         return {
+          container:  container,
           id:         t.dataset.id,
           ownerId:    container.props.id,
           rect:       rect,
@@ -311,8 +313,30 @@ export default class DragCarrier extends React.Component {
     return null;
   }
 
+  searchDragCab (id) {
+    for (let dragCab of window.document.dragCabs) {
+      if (dragCab.props.id === id) {
+        return dragCab;
+      }
+    }
+    return null;
+  }
+
+  selectMulti (value) {
+    console.log ('selectMulti >>>>>>>>>>>>>>>>>>>>');
+    if (this.rectOrigin) {
+      const container = this.rectOrigin.container;
+      for (let child of container.props.children) {
+        if (child.props.ticket.Selected === 'true') {
+          const dragCab = this.searchDragCab (child.props.ticket.id);
+          dragCab.setDragStartingMulti (value);
+        }
+      }
+    }
+  }
+
   mouseMove (event) {
-    console.log ('mouseMove >>>>>>>>>>>>>>>>>>>>');
+    // console.log ('mouseMove >>>>>>>>>>>>>>>>>>>>');
     if (this.moveCount === 0) {  // first move ?
       this.startX = event.clientX;
       this.startY = event.clientY;
@@ -341,11 +365,13 @@ export default class DragCarrier extends React.Component {
       this.setDest (dest);
     }
 
-    if (this.isDragStarted ()) {
+    if (!this.lastDragStarted && this.isDragStarted ()) {
+      this.lastDragStarted = true;
       const dragStarting = this.read ('drag-starting');
       if (dragStarting) {
         dragStarting ();
       }
+      this.selectMulti (true);
     }
   }
 
@@ -354,6 +380,7 @@ export default class DragCarrier extends React.Component {
     const dragEnding = this.read ('drag-ending');
     if (dragEnding) {
       dragEnding (event, this.isDragStarted ());
+      this.selectMulti (false);
       const dest = this.getDest ();
       if (dest) {
         this.reduce (dest.id, dest.ownerId, dest.ownerKind);
