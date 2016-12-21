@@ -107,6 +107,9 @@ export default class DragCab extends React.Component {
   }
 
   reduce (action, props, shiftKey) {
+    if (!props.ticket) {
+      return;
+    }
     const id   = props.ticket.id;
     const data = this.read ('data');
     if (window.document.reducerDragAndDrop) {
