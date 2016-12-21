@@ -34,7 +34,7 @@ export default class DispatchRoadbooks extends React.Component {
 
   renderMessenger (roadbook) {
     return (
-      <MessengerTicket roadbook={roadbook} ticket={roadbook} {...this.link ()} />
+      <MessengerTicket roadbook={roadbook} {...this.link ()} />
     );
   }
 

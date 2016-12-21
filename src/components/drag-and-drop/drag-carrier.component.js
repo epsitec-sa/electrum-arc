@@ -30,7 +30,7 @@ function getHRect (rect, left, right) {
 }
 
 function isInside (rect, x, y) {
-  if (rect) {
+  if (rect && rect.left < rect.right && rect.top < rect.bottom) {
     return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
   } else {
     return true;
@@ -346,7 +346,7 @@ export default class DragCarrier extends React.Component {
     // console.log ('selectMulti >>>>>>>>>>>>>>>>>>>>');
     if (this.rectOrigin) {
       const origin = this.searchChildren (this.rectOrigin.id);
-      if (origin.props.ticket && origin.props.ticket.Selected === 'true') {
+      if (origin && origin.props.ticket && origin.props.ticket.Selected === 'true') {
         // Drag all selected items.
         const container = this.rectOrigin.container;
         for (let child of container.props.children) {
