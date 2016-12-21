@@ -197,6 +197,7 @@ export default class TripTicket extends React.Component {
     const width  = this.props.theme.shapes.tripTicketWidth;
     const shape  = this.read ('shape');
     const ticket = this.read ('ticket');
+    const noDrag = this.read ('no-drag');
     const type   = ticket.Type;
 
     const trip           = type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
@@ -204,7 +205,7 @@ export default class TripTicket extends React.Component {
     const directionGlyph = this.getDirectionGlyph (type);
     const directionColor = ColorHelpers.GetMarkColor (this.props.theme, type);
     const marginBottom   = null;
-    const cursor         = 'move';
+    const cursor         = (noDrag === 'true') ? null : 'move';
     const hudGlyph       = (ticket.Selected === 'true') ? 'check' : null;
 
     return (
