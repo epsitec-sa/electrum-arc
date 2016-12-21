@@ -1,11 +1,23 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
+import Electrum from 'electrum';
 
 import {
   Container,
   Button
 } from '../../all-components.js';
+
+/******************************************************************************/
+
+function isInside (rect, x, y) {
+  if (rect && rect.left < rect.right && rect.top < rect.bottom) {
+    return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+  } else {
+    return true;
+  }
+}
 
 /******************************************************************************/
 
@@ -16,12 +28,15 @@ export default class Combo extends React.Component {
   }
 
   mouseDown (event) {
-    if (event.clientX > 100) {  // TODO !!!
-      return;
-    }
-    const close = this.read ('close');
-    if (close) {
-      close ();
+    // console.dir ('Combo.mouseDown');
+    const node = ReactDOM.findDOMNode (this);
+    const rect = node.children[0].getBoundingClientRect ();
+    if (!isInside (rect, event.clientX, event.clientY)) {
+      // If the mouse is outside the menu combo, close the combo.
+      const close = this.read ('close');
+      if (close) {
+        close ();
+      }
     }
   }
 

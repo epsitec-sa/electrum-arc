@@ -57,7 +57,7 @@ export default class Trip extends React.Component {
       return true;
     }
     // if (event.button === 2)  // right-click ?
-    if (event.ctrlKey && event.shiftKey) {
+    if (event.button === 2 || (event.ctrlKey && event.shiftKey)) {
       this.showCombo (event.clientX);
       return true;
     }
