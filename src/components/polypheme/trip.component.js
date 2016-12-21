@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {TripBox, TripTicket, DragCab, Combo} from '../../all-components.js';
 import {Unit} from 'electrum-theme';
+import Electrum from 'electrum';
 
 /******************************************************************************/
 
@@ -35,7 +36,7 @@ export default class Trip extends React.Component {
     const comboRect = node.getBoundingClientRect ();
 
     // Compute horizontal position according to mouse.
-    const width = 200;
+    const width = 250;
     this.comboLeft = (x - width / 2) + 'px';
     this.comboWidth = width + 'px';
 
@@ -53,7 +54,6 @@ export default class Trip extends React.Component {
   mouseDown (event) {
     console.log ('Trip.mouseDown');
     if (this.getShowCombo ()) {
-      this.setShowCombo (false);
       return true;
     }
     // if (event.button === 2)  // right-click ?
@@ -64,15 +64,82 @@ export default class Trip extends React.Component {
     return false;
   }
 
+  mouseUp (event) {
+    console.log ('Trip.mouseUp');
+    return false;
+  }
+
+  reduce (action, ticket, shiftKey) {
+    const id   = ticket.id;
+    const data = this.read ('data');
+    if (window.document.reducerDragAndDrop) {
+      window.document.reducerDragAndDrop (data, {
+        type:     action,
+        id:       id,
+        shiftKey: shiftKey,
+      });
+      if (window.document.mock) {
+        for (var c of window.document.toUpdate) {
+          c.forceUpdate ();
+        }
+      }
+    } else {
+      Electrum.bus.dispatch (this.props, 'select', {
+        type:     action,
+        key:      id,
+        shiftKey: shiftKey,
+      });
+    }
+  }
+
+  modify () {
+    this.setShowCombo (false);
+  }
+
+  dispatch () {
+    this.setShowCombo (false);
+    const ticket = this.read ('ticket');
+    this.reduce ('SWAP_STATUS', ticket);
+  }
+
+  extend () {
+    this.setShowCombo (false);
+    const ticket = this.read ('ticket');
+    this.reduce ('SWAP_EXTENDED', ticket);
+  }
+
+  select () {
+    this.setShowCombo (false);
+    const ticket = this.read ('ticket');
+    this.reduce ('SWAP_SELECTED', ticket);
+  }
+
   renderCombo () {
     if (this.getShowCombo ()) {
       console.log ('Trip.renderCombo');
       const ticket = this.read ('ticket');
-      const dispatch = ticket.Status === 'dispatched' ? 'Dé-Dispatch' : 'Dispatch';
-      const extend   = ticket.Extended === 'true' ? 'Compacte' : 'Etend';
-      const select   = ticket.Selected === 'true' ? 'Désélectionne' : 'Sélectionne';
-      const list = ['Modifie', dispatch, extend, select];
-
+      const list = [
+        {
+          text:   'Modifie',
+          glyph:  'pencil',
+          action: () => this.modify (),
+        },
+        {
+          text:   ticket.Status === 'dispatched' ? 'Codispatch' : 'Dispatch',
+          glyph:  ticket.Status === 'dispatched' ? 'square-o' : 'hashtag',
+          action: () => this.dispatch (),
+        },
+        {
+          text:   ticket.Extended === 'true' ? 'Réduit' : 'Etend',
+          glyph:  ticket.Extended === 'true' ? 'arrow-up' : 'arrow-down',
+          action: () => this.extend (),
+        },
+        {
+          text:   ticket.Selected === 'true' ? 'Désélectionne' : 'Sélectionne',
+          glyph:  ticket.Selected === 'true' ? 'circle-o' : 'check-circle',
+          action: () => this.select (),
+        },
+      ];
 
       return (
         <Combo
@@ -81,6 +148,7 @@ export default class Trip extends React.Component {
           bottom = {this.comboBottom}
           width  = {this.comboWidth}
           list   = {list}
+          close  = {() => this.setShowCombo (false)}
           {...this.link ()} />
       );
     } else {
@@ -102,6 +170,7 @@ export default class Trip extends React.Component {
         no-drag         = {noDrag}
         margin-bottom   = {margin}
         mouse-down      = {event => this.mouseDown (event)}
+        mouse-up        = {event => this.mouseUp (event)}
         {...this.link ()}>
         {content ()}
         {this.renderCombo ()}

@@ -1,14 +1,10 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {Unit} from 'electrum-theme';
-import Electrum from 'electrum';
 
 import {
   Container,
-  Button,
-  Label
+  Button
 } from '../../all-components.js';
 
 /******************************************************************************/
@@ -19,9 +15,21 @@ export default class Combo extends React.Component {
     super (props);
   }
 
+  mouseDown (event) {
+    if (event.clientX > 100) {  // TODO !!!
+      return;
+    }
+    const close = this.read ('close');
+    if (close) {
+      close ();
+    }
+  }
+
   renderItem (item, index) {
     return (
-      <Button key={index} kind='menu-item' text={item} {...this.link ()} />
+      <Button key={index} kind='menu-item'
+        glyph={item.glyph} text={item.text} mouse-up={item.action}
+        {...this.link ()} />
     );
   }
 
@@ -70,7 +78,7 @@ export default class Combo extends React.Component {
     };
 
     return (
-      <div style = {fullScreenStyle}>
+      <div style = {fullScreenStyle} onMouseDown = {(event) => this.mouseDown (event)}>
         <div style = {comboStyle}>
           <Container
           kind              = 'flying-balloon'

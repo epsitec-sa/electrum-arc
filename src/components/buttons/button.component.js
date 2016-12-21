@@ -62,6 +62,20 @@ export default class Button extends React.Component {
     internalState.set ('isMenuVisible', isMenuVisible);
   }
 
+  mouseDown () {
+    const mouseDown = this.read ('mouse-down');
+    if (mouseDown) {
+      mouseDown ();
+    }
+  }
+
+  mouseUp () {
+    const mouseUp = this.read ('mouse-up');
+    if (mouseUp) {
+      mouseUp ();
+    }
+  }
+
   render () {
     const {state, theme} = this.props;
     const disabled = Action.isDisabled (state);
@@ -159,10 +173,12 @@ export default class Button extends React.Component {
     if (inputKind === 'container' || inputKind === 'box') {
       return (
         <div
-          onClick  = {this.onClick}  // voir (*)
-          disabled = {disabled}
-          style    = {boxStyle}
-          title    = {inputTooltip}
+          onClick     = {this.onClick}  // voir (*)
+          onMouseDown = {() => this.mouseDown ()}
+          onMouseUp   = {() => this.mouseUp ()}
+          disabled    = {disabled}
+          style       = {boxStyle}
+          title       = {inputTooltip}
         >
           {this.props.children}
         </div>
@@ -170,10 +186,12 @@ export default class Button extends React.Component {
     } else if (inputMenu) {
       return (
         <div
-          onClick  = {() => this.showMenu ()}  // voir (*)
-          disabled = {disabled}
-          style    = {boxStyle}
-          title    = {inputTooltip}
+          onClick     = {() => this.showMenu ()}  // voir (*)
+          onMouseDown = {() => this.mouseDown ()}
+          onMouseUp   = {() => this.mouseUp ()}
+          disabled    = {disabled}
+          style       = {boxStyle}
+          title       = {inputTooltip}
         >
           {layout ().map ((comp) => comp)}
           {htmlTriangle}
@@ -185,11 +203,13 @@ export default class Button extends React.Component {
     } else if (inputToAnchor) {
       return (
         <a
-          onClick  = {this.onClick}  // voir (*)
-          disabled = {disabled}
-          style    = {boxStyle}
-          title    = {inputTooltip}
-          href     = {'#' + inputToAnchor}
+          onClick     = {this.onClick}  // voir (*)
+          onMouseDown = {() => this.mouseDown ()}
+          onMouseUp   = {() => this.mouseUp ()}
+          disabled    = {disabled}
+          style       = {boxStyle}
+          title       = {inputTooltip}
+          href        = {'#' + inputToAnchor}
         >
           {layout ().map ((comp) => comp)}
           {htmlTriangle}
@@ -201,10 +221,12 @@ export default class Button extends React.Component {
     } else {
       return (
         <div
-          onClick  = {this.onClick}  // voir (*)
-          disabled = {disabled}
-          style    = {boxStyle}
-          title    = {inputTooltip}
+          onClick     = {this.onClick}  // voir (*)
+          onMouseDown = {() => this.mouseDown ()}
+          onMouseUp   = {() => this.mouseUp ()}
+          disabled    = {disabled}
+          style       = {boxStyle}
+          title       = {inputTooltip}
         >
           {layout ().map ((comp) => comp)}
           {htmlTriangle}

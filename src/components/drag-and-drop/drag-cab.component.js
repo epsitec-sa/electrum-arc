@@ -111,6 +111,13 @@ export default class DragCab extends React.Component {
   }
 
   mouseUp (event) {
+    const mouseUp = this.read ('mouse-up');
+    if (mouseUp) {
+      const result = mouseUp (event);
+      if (result) {
+        return;
+      }
+    }
     const noDrag = this.read ('no-drag');
     if (noDrag === 'true') {  // simple click when drag prohibited ?
       this.childrenChangeState (event);
