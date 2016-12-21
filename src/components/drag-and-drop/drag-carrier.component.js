@@ -327,7 +327,7 @@ export default class DragCarrier extends React.Component {
   searchChildren (id) {
     const container = this.rectOrigin.container;
     for (let child of container.props.children) {
-      if (child.props.ticket.id === id) {
+      if (child.props.id === id) {
         return child;
       }
     }
@@ -346,7 +346,7 @@ export default class DragCarrier extends React.Component {
     // console.log ('selectMulti >>>>>>>>>>>>>>>>>>>>');
     if (this.rectOrigin) {
       const origin = this.searchChildren (this.rectOrigin.id);
-      if (origin.props.ticket.Selected === 'true') {
+      if (origin.props.ticket && origin.props.ticket.Selected === 'true') {
         // Drag all selected items.
         const container = this.rectOrigin.container;
         for (let child of container.props.children) {

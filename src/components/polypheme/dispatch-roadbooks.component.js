@@ -34,13 +34,13 @@ export default class DispatchRoadbooks extends React.Component {
 
   renderMessenger (roadbook) {
     return (
-      <MessengerTicket roadbook={roadbook} {...this.link ()} />
+      <MessengerTicket roadbook={roadbook} ticket={roadbook} {...this.link ()} />
     );
   }
 
   renderTicket (ticket, data, index) {
     return (
-      <Trip key={index} kind='trip-ticket' ticket={ticket} data={data} {...this.link ()} />
+      <Trip key={index} kind='trip-ticket' id={data.id} ticket={ticket} data={data} {...this.link ()} />
     );
   }
 
