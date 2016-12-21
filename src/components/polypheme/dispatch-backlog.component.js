@@ -61,8 +61,9 @@ export default class DispatchBacklog extends React.Component {
             grow='2' combo-glyph='Search' {...this.link ()} />
         </Container>
         <Container kind='panes' {...this.link ()} >
-          <Container kind='column' drag-controller='ticket' drag-source='backlog'
-            id={data.Backlog.id} view-parent-id='view-backlog' {...this.link ()} >
+          <Container kind='column'
+            drag-controller='ticket' drag-source='backlog' id={data.Backlog.id}
+            view-parent-id='view-backlog' {...this.link ()} >
             {this.renderTickets (data.Backlog.Tickets, data)}
           </Container>
         </Container>
