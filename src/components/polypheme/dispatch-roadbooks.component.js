@@ -40,7 +40,7 @@ export default class DispatchRoadbooks extends React.Component {
 
   renderTicket (ticket, data, index) {
     return (
-      <Trip key={index} kind='trip-ticket' id={data.id} ticket={ticket} data={data} {...this.link ()} />
+      <Trip key={index} kind='trip-ticket' id={ticket.id} ticket={ticket} data={data} {...this.link ()} />
     );
   }
 
