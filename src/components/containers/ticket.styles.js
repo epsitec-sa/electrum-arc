@@ -358,6 +358,22 @@ export default function styles (theme, props) {
     border:          '1px solid',
     borderRadius:    '15px',
     backgroundColor: theme.palette.ticketHudBackground,
+    transition:      'all 0.5s',
+  };
+
+  const hudGlyphBoxNoneStyle = {
+    position:        'absolute',
+    width:           '30px',
+    height:          '30px',
+    top:             '-1px',
+    right:           '0px',
+    display:         'flex',
+    justifyContent:  'center',
+    alignItems:      'center',
+    border:          '1px solid',
+    borderRadius:    '15px',
+    backgroundColor: theme.palette.ticketHudContent,
+    transition:      'all 0.1s',
   };
 
   const hudGlyphStyleContent = {
@@ -381,6 +397,7 @@ export default function styles (theme, props) {
     hudGlyphShadow:     hudGlyphShadowStyle,
     hudGlyphShadowNone: hudGlyphShadowNoneStyle,
     hudGlyphBox:        hudGlyphBoxStyle,
+    hudGlyphBoxNone:    hudGlyphBoxNoneStyle,
     hudGlyphContent:    hudGlyphStyleContent,
   };
 }

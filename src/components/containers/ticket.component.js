@@ -114,10 +114,11 @@ export default class Ticket extends React.Component {
       const hudGlyphShadowStyle     = this.mergeStyles ('hudGlyphShadow');
       const hudGlyphShadowNoneStyle = this.mergeStyles ('hudGlyphShadowNone');
       const hudGlyphBoxStyle        = this.mergeStyles ('hudGlyphBox');
+      const hudGlyphBoxNoneStyle    = this.mergeStyles ('hudGlyphBoxNone');
       const hudGlyphContentStyle    = this.mergeStyles ('hudGlyphContent');
       return (
         <div style={hudGlyph ? hudGlyphShadowStyle : hudGlyphShadowNoneStyle}>
-          <div style={hudGlyphBoxStyle}>
+          <div style={hudGlyph ? hudGlyphBoxStyle : hudGlyphBoxNoneStyle}>
             <i style={hudGlyphContentStyle} className={`fa fa-${hudGlyph}`} />
           </div>
         </div>
