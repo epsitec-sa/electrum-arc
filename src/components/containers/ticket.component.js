@@ -109,15 +109,16 @@ export default class Ticket extends React.Component {
   }
 
   renderHud (hasHeLeft, isDragged) {
-    const hudGlyph = this.read ('hud-glyph');
-    if (hudGlyph && (!hasHeLeft || isDragged)) {
-      const hudGlyphStyleShadow  = this.mergeStyles ('hudGlyphShadow');
-      const hudGlyphStyleBox     = this.mergeStyles ('hudGlyphBox');
-      const hudGlyphStyleContent = this.mergeStyles ('hudGlyphContent');
+    if (!hasHeLeft || isDragged) {
+      const hudGlyph = this.read ('hud-glyph');
+      const hudGlyphShadowStyle     = this.mergeStyles ('hudGlyphShadow');
+      const hudGlyphShadowNoneStyle = this.mergeStyles ('hudGlyphShadowNone');
+      const hudGlyphBoxStyle        = this.mergeStyles ('hudGlyphBox');
+      const hudGlyphContentStyle    = this.mergeStyles ('hudGlyphContent');
       return (
-        <div style={hudGlyphStyleShadow}>
-          <div style={hudGlyphStyleBox}>
-            <i style={hudGlyphStyleContent} className={`fa fa-${hudGlyph}`} />
+        <div style={hudGlyph ? hudGlyphShadowStyle : hudGlyphShadowNoneStyle}>
+          <div style={hudGlyphBoxStyle}>
+            <i style={hudGlyphContentStyle} className={`fa fa-${hudGlyph}`} />
           </div>
         </div>
       );

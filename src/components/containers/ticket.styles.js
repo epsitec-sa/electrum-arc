@@ -326,9 +326,27 @@ export default function styles (theme, props) {
     borderRadius:    '17px',
     boxShadow:       theme.shapes.ticketHudShadow,
     backgroundColor: theme.palette.ticketHudShadow,
+    transform:       'scale(1)',
+    transition:      theme.transitions.easeOut (),
   };
 
-  const hudGlyphStyleBox = {
+  const hudGlyphShadowNoneStyle = {
+    position:        'absolute',
+    width:           '34px',
+    height:          '34px',
+    top:             '8px',
+    right:           '7px',
+    display:         'flex',
+    justifyContent:  'center',
+    alignItems:      'center',
+    borderRadius:    '17px',
+    boxShadow:       theme.shapes.ticketHudShadow,
+    backgroundColor: theme.palette.ticketHudShadow,
+    transform:       'scale(0)',
+    transition:      theme.transitions.easeOut (),
+  };
+
+  const hudGlyphBoxStyle = {
     position:        'absolute',
     width:           '30px',
     height:          '30px',
@@ -343,26 +361,27 @@ export default function styles (theme, props) {
   };
 
   const hudGlyphStyleContent = {
-    transform:       'scale( 1.2 )',
+    transform:       'scale(1.2)',
     color:           theme.palette.ticketHudContent,
   };
 
   return {
-    box:              boxStyle,
-    shadow:           shadowStyle,
-    shape:            shapeStyle,
-    hatch:            hatchStyle,
-    svg:              svgStyle,
-    hover:            hoverStyle,
-    content:          contentStyle,
-    rectShadow:       rectShadowStyle,
-    rect:             rectStyle,
-    rectContentHatch: rectContentHatchStyle,
-    rectEmpty:        rectEmptyStyle,
-    rectHover:        rectHoverStyle,
-    hudGlyphShadow:   hudGlyphShadowStyle,
-    hudGlyphBox:      hudGlyphStyleBox,
-    hudGlyphContent:  hudGlyphStyleContent,
+    box:                boxStyle,
+    shadow:             shadowStyle,
+    shape:              shapeStyle,
+    hatch:              hatchStyle,
+    svg:                svgStyle,
+    hover:              hoverStyle,
+    content:            contentStyle,
+    rectShadow:         rectShadowStyle,
+    rect:               rectStyle,
+    rectContentHatch:   rectContentHatchStyle,
+    rectEmpty:          rectEmptyStyle,
+    rectHover:          rectHoverStyle,
+    hudGlyphShadow:     hudGlyphShadowStyle,
+    hudGlyphShadowNone: hudGlyphShadowNoneStyle,
+    hudGlyphBox:        hudGlyphBoxStyle,
+    hudGlyphContent:    hudGlyphStyleContent,
   };
 }
 
