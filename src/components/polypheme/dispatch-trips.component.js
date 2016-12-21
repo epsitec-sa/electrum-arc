@@ -4,7 +4,8 @@ import React from 'react';
 import {
   Container,
   Trip,
-  TextFieldCombo
+  TextFieldCombo,
+  LabelTextField
 } from '../../all-components.js';
 
 export default class DispatchTrips extends React.Component {
@@ -56,15 +57,15 @@ export default class DispatchTrips extends React.Component {
         <Container kind='view' width='800px' {...this.link ()} >
 
           <Container kind='pane-top' {...this.link ()} >
-            <TextFieldCombo hint-text='Date' combo-glyph='calendar'
+            <TextFieldCombo hint-text='Trier' combo-glyph='sort'
               grow='1' spacing='large' combo-type='calendar'
               combo-direction='right' flying-balloon-anchor='bottom'
-              {...this.link ('exp-date')} />
-            <TextFieldCombo hint-text='Période' combo-glyph='clock-o'
+              {...this.link ()} />
+            <TextFieldCombo hint-text='Filtrer' combo-glyph='filter'
               grow='1' spacing='large' combo-type='clock'
-              flying-balloon-anchor='right' {...this.link ('exp-time')} />
-            <TextFieldCombo shape='rounded' hint-text='Chercher'
-              grow='2' combo-glyph='Search' {...this.link ()} />
+              flying-balloon-anchor='right' {...this.link ()} />
+            <LabelTextField shape='rounded' hint-text='Chercher'
+              grow='2' label-glyph='Search' {...this.link ()} />
           </Container>
 
           <Container kind='panes' {...this.link ()} >
