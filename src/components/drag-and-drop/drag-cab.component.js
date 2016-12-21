@@ -7,6 +7,34 @@ import Electrum from 'electrum';
 
 /******************************************************************************/
 
+function isInside (rect, x, y) {
+  if (rect && rect.left < rect.right && rect.top < rect.bottom) {
+    return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+  } else {
+    return true;
+  }
+}
+
+// Return the property 'drag-controller' of the rectangle targeted by the
+// mouse (x, y). If there are several imbricated rectangles, it is necessary
+// to take the one whose surface is the smallest !
+function findDragController (x, y) {
+  let dc = null;
+  let minSurface = Number.MAX_SAFE_INTEGER;
+  for (var container of window.document.dragControllers) {
+    const node = ReactDOM.findDOMNode (container);
+    const rect = node.getBoundingClientRect ();
+    const surface = rect.width * rect.height;
+    if (isInside (rect, x, y) && surface < minSurface) {
+      dc = container.props['drag-controller'];
+      minSurface = surface;
+    }
+  }
+  return dc;
+}
+
+/******************************************************************************/
+
 export default class DragCab extends React.Component {
 
   constructor (props) {
@@ -57,19 +85,24 @@ export default class DragCab extends React.Component {
   }
 
   mouseDown (event) {
-    console.log ('DragCab.mouseDown');
     const noDrag = this.read ('no-drag');
     if (noDrag === 'true') {
       return;  // if drag prohibited, don't initiate drag & drop ?
     }
+    const dc = findDragController (event.clientX, event.clientY);
+    const p = this.props['drag-controller'];
+    console.log ('mouseDown ' + p + ' find=' + dc);
+    if (dc && dc !== this.props['drag-controller']) {
+      // When clicking in a ticket of a messenger, 2 different drags try to start.
+      // The first to move the ticket (drag-controller = 'ticket') and the second
+      // to move the messenger (drag-controller = 'roadbook').
+      // The second one should not be started. It must start only when a click in
+      // the header of the messenger !
+      return;
+    }
     const node = ReactDOM.findDOMNode (this);
     this.dragHeight = node.clientHeight;
-    const direction = this.read ('direction');
-    if (direction === 'vertical') {
-      this.setDragInProcess (true);
-    } else if (direction === 'horizontal' && event.clientY < 166) {  // TODO: PROVISOIRE !!!
-      this.setDragInProcess (true);
-    }
+    this.setDragInProcess (true);
   }
 
   mouseUp (event) {

@@ -10,7 +10,6 @@ import {
   Label
 } from '../../all-components.js';
 
-
 /******************************************************************************/
 
 function getVRect (rect, top, bottom) {
@@ -86,6 +85,8 @@ function clip (rect, box) {
   }
   return rect;
 }
+
+/******************************************************************************/
 
 export default class DragCarrier extends React.Component {
 
