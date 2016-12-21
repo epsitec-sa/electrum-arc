@@ -85,13 +85,18 @@ export default class DragCab extends React.Component {
   }
 
   mouseDown (event) {
+    const mouseDown = this.read ('mouse-down');
+    if (mouseDown) {
+      const result = mouseDown (event);
+      if (result) {
+        return;
+      }
+    }
     const noDrag = this.read ('no-drag');
     if (noDrag === 'true') {
       return;  // if drag prohibited, don't initiate drag & drop ?
     }
     const dc = findDragController (event.clientX, event.clientY);
-    const p = this.props['drag-controller'];
-    console.log ('mouseDown ' + p + ' find=' + dc);
     if (dc && dc !== this.props['drag-controller']) {
       // When clicking in a ticket of a messenger, 2 different drags try to start.
       // The first to move the ticket (drag-controller = 'ticket') and the second
