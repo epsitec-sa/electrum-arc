@@ -5,6 +5,12 @@ import ReactDOM from 'react-dom';
 import {Unit} from 'electrum-theme';
 import Electrum from 'electrum';
 
+import {
+  Container,
+  Label
+} from '../../all-components.js';
+
+
 /******************************************************************************/
 
 function getVRect (rect, top, bottom) {
@@ -343,7 +349,7 @@ export default class DragCarrier extends React.Component {
   }
 
   selectMulti (value) {
-    console.log ('selectMulti >>>>>>>>>>>>>>>>>>>>');
+    // console.log ('selectMulti >>>>>>>>>>>>>>>>>>>>');
     if (this.rectOrigin) {
       const origin = this.searchChildren (this.rectOrigin.id);
       if (origin && origin.props.ticket && origin.props.ticket.Selected === 'true') {
@@ -442,6 +448,15 @@ export default class DragCarrier extends React.Component {
     }
   }
 
+  renderTooMany (n, index) {
+    const text = `Et encore ${n} autres éléments...`;
+    return (
+      <Container key={index} {...this.link ()}>
+        <Label text={text} {...this.link ()} />
+      </Container>
+    );
+  }
+
   renderOneComponentToDrag (id, index) {
     const dragCab = this.searchDragCab (id);
     if (dragCab) {
@@ -459,6 +474,11 @@ export default class DragCarrier extends React.Component {
         const id = this.selectedIds[i];
         const r = this.renderOneComponentToDrag (id, i);
         if (r) {
+          const rest = n - i;
+          if (i > 5 && rest > 1) {
+            result.push (this.renderTooMany (rest, i));
+            break;
+          }
           result.push (r);
         }
       }
