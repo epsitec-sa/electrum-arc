@@ -451,7 +451,7 @@ export default class DragCarrier extends React.Component {
   renderTooMany (n, index) {
     const text = `Et encore ${n} autres éléments...`;
     return (
-      <Container key={index} {...this.link ()}>
+      <Container key={index} kind='drag-too-many' {...this.link ()}>
         <Label text={text} {...this.link ()} />
       </Container>
     );

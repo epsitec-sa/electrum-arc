@@ -608,6 +608,16 @@ export default function styles (theme, props) {
     margin          = '-5px 0px';
   }
 
+  if (inputKind === 'drag-too-many') {
+    margin          = '5px 0px 0px 0px';
+    padding         = '8px 12px';
+    borderWidth     = '1px';
+    borderStyle     = 'solid';
+    borderRadius    = '50px';
+    borderColor     = theme.palette.buttonBorder;
+    backgroundColor = theme.palette.ticketsBackground;
+  }
+
   if (inputKind === 'notifications-panel') {
     // TODO: improve this code !
     // Subtracting the current items supposed to be present at the total height
