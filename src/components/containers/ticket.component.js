@@ -108,23 +108,38 @@ export default class Ticket extends React.Component {
     this.setLinkToAll (false);
   }
 
+  renderHud (hasHeLeft, isDragged) {
+    const hudGlyph = this.read ('hud-glyph');
+    if (hudGlyph && (!hasHeLeft || isDragged)) {
+      const hudGlyphStyleShadow  = this.mergeStyles ('hudGlyphShadow');
+      const hudGlyphStyleBox     = this.mergeStyles ('hudGlyphBox');
+      const hudGlyphStyleContent = this.mergeStyles ('hudGlyphContent');
+      return (
+        <div style={hudGlyphStyleShadow}>
+          <div style={hudGlyphStyleBox}>
+            <i style={hudGlyphStyleContent} className={`fa fa-${hudGlyph}`} />
+          </div>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   renderTicket () {
     const hatch     = this.read ('status') === 'dispatched';
     const flash     = this.read ('flash') === 'true';
     const warning   = this.read ('warning');
-    const hudGlyph  = this.read ('hud-glyph');
     const hasHeLeft = this.read ('hasHeLeft');
     const isDragged = this.read ('isDragged');
 
-    const boxStyle             = this.mergeStyles ('box');
-    const shadowStyle          = this.mergeStyles ('shadow');
-    const shapeStyle           = this.mergeStyles ('shape');
-    const hatchStyle           = this.mergeStyles ('hatch');
-    const svgStyle             = this.mergeStyles ('svg');
-    const hoverStyle           = this.mergeStyles ('hover');
-    const contentStyle         = this.mergeStyles ('content');
-    const hudGlyphStyleBox     = this.mergeStyles ('hudGlyphBox');
-    const hudGlyphStyleContent = this.mergeStyles ('hudGlyphContent');
+    const boxStyle     = this.mergeStyles ('box');
+    const shadowStyle  = this.mergeStyles ('shadow');
+    const shapeStyle   = this.mergeStyles ('shape');
+    const hatchStyle   = this.mergeStyles ('hatch');
+    const svgStyle     = this.mergeStyles ('svg');
+    const hoverStyle   = this.mergeStyles ('hover');
+    const contentStyle = this.mergeStyles ('content');
 
     const hoverOrLink = (this.getHover () || this.getLink ()) && !hasHeLeft && !isDragged;
 
@@ -181,12 +196,6 @@ export default class Ticket extends React.Component {
       </svg>
     ) : null;
 
-    const htmlHudGlyph = hudGlyph && (!hasHeLeft || isDragged) ? (
-      <div style={hudGlyphStyleBox}>
-        <i style={hudGlyphStyleContent} className={`fa fa-${hudGlyph}`} />
-      </div>
-    ) : null;
-
     return (
       <div
         style       = {boxStyle}
@@ -200,7 +209,7 @@ export default class Ticket extends React.Component {
         <div style = {contentStyle}>
           {this.props.children}
         </div>
-        {htmlHudGlyph}
+        {this.renderHud (hasHeLeft, isDragged)}
       </div>
     );
   }
@@ -209,7 +218,6 @@ export default class Ticket extends React.Component {
     const hatch     = this.read ('status') === 'dispatched';
     const flash     = this.read ('flash') === 'true';
     const warning   = this.read ('warning');
-    const hudGlyph  = this.read ('hud-glyph');
     const hasHeLeft = this.read ('hasHeLeft');
     const isDragged = this.read ('isDragged');
 
@@ -219,8 +227,6 @@ export default class Ticket extends React.Component {
     const rectHoverStyle        = this.mergeStyles ('rectHover');
     const contentStyle          = this.mergeStyles ('content');
     const rectContentHatchStyle = this.mergeStyles ('rectContentHatch');
-    const hudGlyphStyleBox      = this.mergeStyles ('hudGlyphBox');
-    const hudGlyphStyleContent  = this.mergeStyles ('hudGlyphContent');
 
     const hoverOrLink = (this.getHover () || this.getLink ()) && !hasHeLeft && !isDragged;
 
@@ -244,12 +250,6 @@ export default class Ticket extends React.Component {
       rectHoverStyle.borderColor = this.props.theme.palette.ticketTransitHover;
     }
 
-    const htmlHudGlyph = hudGlyph && (!hasHeLeft || isDragged) ? (
-      <div style={hudGlyphStyleBox}>
-        <i style={hudGlyphStyleContent} className={`fa fa-${hudGlyph}`} />
-      </div>
-    ) : null;
-
     return (
       <div
         style       = {rectShadowStyle}
@@ -262,7 +262,7 @@ export default class Ticket extends React.Component {
           </div>
           <div style = {hoverOrLink ? rectHoverStyle : rectEmptyStyle} />
         </div>
-        {htmlHudGlyph}
+        {this.renderHud (hasHeLeft, isDragged)}
       </div>
     );
   }

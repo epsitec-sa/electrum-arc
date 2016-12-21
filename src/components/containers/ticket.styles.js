@@ -314,23 +314,37 @@ export default function styles (theme, props) {
     };
   }
 
+  const hudGlyphShadowStyle = {
+    position:        'absolute',
+    width:           '34px',
+    height:          '34px',
+    top:             '8px',
+    right:           '7px',
+    display:         'flex',
+    justifyContent:  'center',
+    alignItems:      'center',
+    borderRadius:    '17px',
+    boxShadow:       theme.shapes.ticketHudShadow,
+    backgroundColor: theme.palette.ticketHudShadow,
+  };
+
   const hudGlyphStyleBox = {
     position:        'absolute',
     width:           '30px',
     height:          '30px',
-    top:             '7px',
-    right:           '7px',
+    top:             '-1px',
+    right:           '0px',
     display:         'flex',
     justifyContent:  'center',
     alignItems:      'center',
     border:          '1px solid',
     borderRadius:    '15px',
-    backgroundColor: theme.palette.ticketHubBackground,
+    backgroundColor: theme.palette.ticketHudBackground,
   };
 
   const hudGlyphStyleContent = {
     transform:       'scale( 1.2 )',
-    color:           theme.palette.ticketHubContent,
+    color:           theme.palette.ticketHudContent,
   };
 
   return {
@@ -346,6 +360,7 @@ export default function styles (theme, props) {
     rectContentHatch: rectContentHatchStyle,
     rectEmpty:        rectEmptyStyle,
     rectHover:        rectHoverStyle,
+    hudGlyphShadow:   hudGlyphShadowStyle,
     hudGlyphBox:      hudGlyphStyleBox,
     hudGlyphContent:  hudGlyphStyleContent,
   };
