@@ -32,7 +32,7 @@ export default class Combo extends React.Component {
     const node = ReactDOM.findDOMNode (this);
     const rect = node.children[0].getBoundingClientRect ();
     if (!isInside (rect, event.clientX, event.clientY)) {
-      // If the mouse is outside the menu combo, close the combo.
+      // If the mouse is outside the menu combo, close it.
       const close = this.read ('close');
       if (close) {
         close ();

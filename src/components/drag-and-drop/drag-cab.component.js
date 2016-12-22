@@ -86,11 +86,8 @@ export default class DragCab extends React.Component {
 
   mouseDown (event) {
     const mouseDown = this.read ('mouse-down');
-    if (mouseDown) {
-      const result = mouseDown (event);
-      if (result) {
-        return;
-      }
+    if (mouseDown && mouseDown (event)) {
+      return;
     }
     const noDrag = this.read ('no-drag');
     if (noDrag === 'true') {
@@ -112,11 +109,8 @@ export default class DragCab extends React.Component {
 
   mouseUp (event) {
     const mouseUp = this.read ('mouse-up');
-    if (mouseUp) {
-      const result = mouseUp (event);
-      if (result) {
-        return;
-      }
+    if (mouseUp && mouseUp (event)) {
+      return;
     }
     const noDrag = this.read ('no-drag');
     if (noDrag === 'true') {  // simple click when drag prohibited ?

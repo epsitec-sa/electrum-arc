@@ -15,10 +15,10 @@ export default class Trip extends React.Component {
     this.state = {
       showCombo: false,
     };
-    this.comboWidth  = null;
     this.comboLeft   = null;
     this.comboTop    = null;
     this.comboBottom = null;
+    this.justClosed = false;
   }
 
   getShowCombo () {
@@ -29,6 +29,7 @@ export default class Trip extends React.Component {
     this.setState ( {
       showCombo: value
     });
+    this.justClosed = !value;
   }
 
   showCombo (x) {
@@ -36,9 +37,8 @@ export default class Trip extends React.Component {
     const comboRect = node.getBoundingClientRect ();
 
     // Compute horizontal position according to mouse.
-    const width = 250;
+    const width = 200;  // assumed approximate width
     this.comboLeft = (x - width / 2) + 'px';
-    this.comboWidth = width + 'px';
 
     // Puts the menu under the component if it is in the upper half of the window.
     const my = (comboRect.top + comboRect.bottom) / 2;
@@ -66,6 +66,9 @@ export default class Trip extends React.Component {
 
   mouseUp (event) {
     console.log ('Trip.mouseUp');
+    if (this.getShowCombo () || this.justClosed) {
+      return true;
+    }
     return false;
   }
 
@@ -116,37 +119,45 @@ export default class Trip extends React.Component {
 
   renderCombo () {
     if (this.getShowCombo ()) {
-      console.log ('Trip.renderCombo');
+      // console.log ('Trip.renderCombo');
       const ticket = this.read ('ticket');
-      const list = [
+      const list = [];
+      list.push (
         {
-          text:   'Modifie',
+          text:   'Modifier...',
           glyph:  'pencil',
           action: () => this.modify (),
-        },
+        }
+      );
+      if (ticket.Type !== 'both') {
+        list.push (
+          {
+            text:   ticket.Status === 'dispatched' ? 'Non dispatché' : 'Dispatché',
+            glyph:  ticket.Status === 'dispatched' ? 'square-o' : 'hashtag',
+            action: () => this.dispatch (),
+          }
+        );
+        list.push (
+          {
+            text:   ticket.Extended === 'true' ? 'Réduire' : 'Étendre',
+            glyph:  ticket.Extended === 'true' ? 'arrow-up' : 'arrow-down',
+            action: () => this.extend (),
+          }
+        );
+      }
+      list.push (
         {
-          text:   ticket.Status === 'dispatched' ? 'Codispatch' : 'Dispatch',
-          glyph:  ticket.Status === 'dispatched' ? 'square-o' : 'hashtag',
-          action: () => this.dispatch (),
-        },
-        {
-          text:   ticket.Extended === 'true' ? 'Réduit' : 'Etend',
-          glyph:  ticket.Extended === 'true' ? 'arrow-up' : 'arrow-down',
-          action: () => this.extend (),
-        },
-        {
-          text:   ticket.Selected === 'true' ? 'Désélectionne' : 'Sélectionne',
+          text:   ticket.Selected === 'true' ? 'Désélectionner' : 'Sélectionner',
           glyph:  ticket.Selected === 'true' ? 'circle-o' : 'check-circle',
           action: () => this.select (),
-        },
-      ];
+        }
+      );
 
       return (
         <Combo
           left   = {this.comboLeft}
           top    = {this.comboTop}
           bottom = {this.comboBottom}
-          width  = {this.comboWidth}
           list   = {list}
           close  = {() => this.setShowCombo (false)}
           {...this.link ()} />
