@@ -14,7 +14,6 @@ export default class Trip extends React.Component {
     super (props);
     this.state = {
       showCombo:    false,
-      mustBeClosed: false,
     };
     this.comboLeft   = null;
     this.comboTop    = null;
@@ -28,16 +27,6 @@ export default class Trip extends React.Component {
   setShowCombo (value) {
     this.setState ( {
       showCombo: value
-    });
-  }
-
-  getMustBeClosed () {
-    return this.state.mustBeClosed;
-  }
-
-  setMustBeClosed (value) {
-    this.setState ( {
-      mustBeClosed: value
     });
   }
 
@@ -62,7 +51,7 @@ export default class Trip extends React.Component {
 
   mouseDown (event) {
     console.log ('Trip.mouseDown');
-    if (this.getMustBeClosed () || this.getShowCombo ()) {
+    if (this.getShowCombo ()) {
       return true;
     }
     // if (event.button === 2)  // right-click ?
@@ -75,11 +64,6 @@ export default class Trip extends React.Component {
 
   mouseUp (event) {
     console.log ('Trip.mouseUp');
-    if (this.getMustBeClosed ()) {
-      this.setMustBeClosed (false);
-      this.setShowCombo (false);
-      return true;
-    }
     if (this.getShowCombo ()) {
       return true;
     }
