@@ -2,9 +2,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {TripBox, TripTicket, DragCab, Combo, Container, Button, Label, DialogModal} from '../../all-components.js';
+import {TripBox, TripTicket, DragCab, Combo, Container, Button, Label, DialogModal, TripCombo} from '../../all-components.js';
 import {Unit} from 'electrum-theme';
-import Electrum from 'electrum';
 
 /******************************************************************************/
 
@@ -81,48 +80,6 @@ export default class Trip extends React.Component {
     return false;
   }
 
-  reduce (action, ticket, shiftKey) {
-    const id   = ticket.id;
-    const data = this.read ('data');
-    if (window.document.reducerDragAndDrop) {
-      window.document.reducerDragAndDrop (data, {
-        type:     action,
-        id:       id,
-        shiftKey: shiftKey,
-      });
-      if (window.document.mock) {
-        for (var c of window.document.toUpdate) {
-          c.forceUpdate ();
-        }
-      }
-    } else {
-      Electrum.bus.dispatch (this.props, 'select', {
-        type:     action,
-        key:      id,
-        shiftKey: shiftKey,
-      });
-    }
-  }
-
-  modify () {
-    this.setShowModify (true);
-  }
-
-  dispatch () {
-    const ticket = this.read ('ticket');
-    this.reduce ('SWAP_STATUS', ticket);
-  }
-
-  extend () {
-    const ticket = this.read ('ticket');
-    this.reduce ('SWAP_EXTENDED', ticket);
-  }
-
-  select () {
-    const ticket = this.read ('ticket');
-    this.reduce ('SWAP_SELECTED', ticket);
-  }
-
   modifyAccept () {
     this.setShowModify (false);
   }
@@ -134,7 +91,7 @@ export default class Trip extends React.Component {
   renderModify () {
     if (this.getShowModify ()) {
       return (
-        <DialogModal width='400px' height='400px' {...this.link ()}>
+        <DialogModal width='500px' height='400px' {...this.link ()}>
           <Container kind='views' {...this.link ()} >
             <Container kind='full-view' {...this.link ()} >
 
@@ -160,50 +117,19 @@ export default class Trip extends React.Component {
     }
   }
 
-  renderCombo () {
+  renderCombo (data) {
     if (this.getShowCombo ()) {
-      // console.log ('Trip.renderCombo');
       const ticket = this.read ('ticket');
-      const list = [];
-      list.push (
-        {
-          text:   'Modifier...',
-          glyph:  'pencil',
-          action: () => this.modify (),
-        }
-      );
-      if (ticket.Type !== 'both') {
-        list.push (
-          {
-            text:   ticket.Status === 'dispatched' ? 'Non dispatché' : 'Dispatché',
-            glyph:  ticket.Status === 'dispatched' ? 'square-o' : 'hashtag',
-            action: () => this.dispatch (),
-          }
-        );
-        list.push (
-          {
-            text:   ticket.Extended === 'true' ? 'Réduire' : 'Étendre',
-            glyph:  ticket.Extended === 'true' ? 'arrow-up' : 'arrow-down',
-            action: () => this.extend (),
-          }
-        );
-      }
-      list.push (
-        {
-          text:   ticket.Selected === 'true' ? 'Désélectionner' : 'Sélectionner',
-          glyph:  ticket.Selected === 'true' ? 'circle-o' : 'check-circle',
-          action: () => this.select (),
-        }
-      );
-
       return (
-        <Combo
-          left   = {this.comboLeft}
-          top    = {this.comboTop}
-          bottom = {this.comboBottom}
-          list   = {list}
-          close  = {() => this.setShowCombo (false)}
-          {...this.link ()} />
+        <TripCombo
+          data        = {data}
+          ticket      = {ticket}
+          left        = {this.comboLeft}
+          top         = {this.comboTop}
+          bottom      = {this.comboBottom}
+          close-combo = {() => this.setShowCombo (false)}
+          show-modify = {() => this.setShowModify (true)}
+          {...this.link ()}/>
       );
     } else {
       return null;
@@ -227,7 +153,7 @@ export default class Trip extends React.Component {
         mouse-up        = {event => this.mouseUp (event)}
         {...this.link ()}>
         {content ()}
-        {this.renderCombo ()}
+        {this.renderCombo (data)}
         {this.renderModify ()}
       </DragCab>
     );
