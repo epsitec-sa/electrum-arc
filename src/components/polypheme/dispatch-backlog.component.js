@@ -53,38 +53,27 @@ export default class DispatchBacklog extends React.Component {
     this.closeCombo ();
   }
 
-  getSortList () {
+  getItem (text, current, glyph, action) {
+    return {
+      text:   text,
+      glyph:  glyph,
+      active: text === current ? 'true' : 'false',
+      action: action,
+    };
+  }
+
+  getSortList (data) {
     return [
-      {
-        text:   'Chronologique',
-        glyph:  'clock-o',
-        action: () => this.sortTime (),
-      },
-      {
-        text:   'Par types',
-        glyph:  'cube',
-        action: () => this.sortType (),
-      },
+      this.getItem ('Chronologique', data.Backlog.Sort, 'clock-o', () => this.sortTime ()),
+      this.getItem ('Par types',     data.Backlog.Sort, 'cube',    () => this.sortType ()),
     ];
   }
 
-  getFilterList () {
+  getFilterList (data) {
     return [
-      {
-        text:   'Tous',
-        glyph:  'square',
-        action: () => this.filterAll (),
-      },
-      {
-        text:   'Seulement les dring-dring',
-        glyph:  'bell',
-        action: () => this.filterDring (),
-      },
-      {
-        text:   'Seulement les urgents',
-        glyph:  'fighter-jet',
-        action: () => this.filterUrgent (),
-      },
+      this.getItem ('Tous',                      data.Backlog.Filter, 'square',      () => this.filterAll ()),
+      this.getItem ('Seulement les dring-dring', data.Backlog.Filter, 'bell',        () => this.filterDring ()),
+      this.getItem ('Seulement les urgents',     data.Backlog.Filter, 'fighter-jet', () => this.filterUrgent ()),
     ];
   }
 
@@ -110,10 +99,12 @@ export default class DispatchBacklog extends React.Component {
       <Container kind='view-stretch' {...this.link ()} >
         <Container kind='pane-top' {...this.link ()} >
           <TextFieldCombo hint-text='Trier' combo-glyph='sort' width='300px'
-            grow='1' spacing='large' list={this.getSortList ()}
+            value={data.Backlog.Sort}
+            grow='1' spacing='large' list={this.getSortList (data)}
             {...this.link ()} />
           <TextFieldCombo hint-text='Filtrer' combo-glyph='filter' width='300px'
-            grow='1' spacing='large' list={this.getFilterList ()}
+            grow='1' spacing='large' list={this.getFilterList (data)}
+            value={data.Backlog.Filter}
             {...this.link ()} />
           <LabelTextField shape='rounded' hint-text='Chercher'
             grow='2' label-glyph='Search' {...this.link ()} />

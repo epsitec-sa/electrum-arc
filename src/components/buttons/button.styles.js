@@ -419,7 +419,11 @@ export default function styles (theme, props) {
     textTransform     = 'uppercase';
     textWeight        = 'bold';
     borderStyle       = 'none';
-    backgroundColor   = theme.palette.menuItemBackground;
+    if (inputActive === 'true') {
+      backgroundColor   = theme.palette.menuItemActiveBackground;
+    } else {
+      backgroundColor   = theme.palette.menuItemInactiveBackground;
+    }
   }
 
   // Button with a day in Calendar component.
