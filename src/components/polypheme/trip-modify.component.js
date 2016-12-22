@@ -16,6 +16,13 @@ function getTime (time) {
   return time;
 }
 
+function prepareLines (text) {
+  if (text) {
+    text = text.replace (/\\n/g, '\n');  // replace all \\n by \n
+  }
+  return text;
+}
+
 /******************************************************************************/
 
 export default class TripModify extends React.Component {
@@ -61,8 +68,8 @@ export default class TripModify extends React.Component {
           value={getTime (pd.PlanedTime)} width='100px' {...this.link ()} />
         <LabelTextField label-glyph='tag' hint-text='Description courte'
           value={pd.ShortDescription} grow='1' {...this.link ()} />
-        <LabelTextField label-glyph='tags' hint-text='Description complète'
-          value={pd.LongDescription} grow='1' rows={5} {...this.link ()} />
+        <LabelTextField label-glyph='building' hint-text='Description complète'
+          value={prepareLines (pd.LongDescription)} grow='1' rows={5} {...this.link ()} />
       </Container>
     );
   }
