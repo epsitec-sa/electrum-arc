@@ -94,7 +94,7 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'floating') {
-    position        = 'absolute';
+    position        = 'fixed';
     left            = '0px';
     right           = '0px';
     top             = '0px';
@@ -109,7 +109,7 @@ export default function styles (theme, props) {
     justifyContent  = 'center';
     backgroundColor = theme.palette.floatingBackground;
     boxShadow       = theme.shapes.floatingShadow;
-    zIndex          = '1';
+    zIndex          = '10';
   }
 
   if (inputKind === 'floating-header') {

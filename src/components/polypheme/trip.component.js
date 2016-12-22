@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {TripBox, TripTicket, DragCab, Combo} from '../../all-components.js';
+import {TripBox, TripTicket, DragCab, Combo, Container, Button, Label, DialogModal} from '../../all-components.js';
 import {Unit} from 'electrum-theme';
 import Electrum from 'electrum';
 
@@ -13,7 +13,8 @@ export default class Trip extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      showCombo:    false,
+      showCombo:  false,
+      showModify: false,
     };
     this.comboLeft   = null;
     this.comboTop    = null;
@@ -27,6 +28,16 @@ export default class Trip extends React.Component {
   setShowCombo (value) {
     this.setState ( {
       showCombo: value
+    });
+  }
+
+  getShowModify () {
+    return this.state.showModify;
+  }
+
+  setShowModify (value) {
+    this.setState ( {
+      showModify: value
     });
   }
 
@@ -51,7 +62,7 @@ export default class Trip extends React.Component {
 
   mouseDown (event) {
     console.log ('Trip.mouseDown');
-    if (this.getShowCombo ()) {
+    if (this.getShowCombo () || this.getShowModify ()) {
       return true;
     }
     // if (event.button === 2)  // right-click ?
@@ -64,7 +75,7 @@ export default class Trip extends React.Component {
 
   mouseUp (event) {
     console.log ('Trip.mouseUp');
-    if (this.getShowCombo ()) {
+    if (this.getShowCombo () || this.getShowModify ()) {
       return true;
     }
     return false;
@@ -94,6 +105,7 @@ export default class Trip extends React.Component {
   }
 
   modify () {
+    this.setShowModify (true);
   }
 
   dispatch () {
@@ -109,6 +121,43 @@ export default class Trip extends React.Component {
   select () {
     const ticket = this.read ('ticket');
     this.reduce ('SWAP_SELECTED', ticket);
+  }
+
+  modifyAccept () {
+    this.setShowModify (false);
+  }
+
+  modifyCancel () {
+    this.setShowModify (false);
+  }
+
+  renderModify () {
+    if (this.getShowModify ()) {
+      return (
+        <DialogModal width='400px' height='400px' {...this.link ()}>
+          <Container kind='views' {...this.link ()} >
+            <Container kind='full-view' {...this.link ()} >
+
+              <Container kind='pane-navigator' {...this.link ()} >
+                <Label text='Liste des mandats' grow='1' kind='title' {...this.link ()} />
+              </Container>
+
+              <Container kind='panes' subkind='top-margin' {...this.link ()} >
+              </Container>
+
+              <Container kind='actions' subkind='no-shadow' {...this.link ()} >
+                <Button action={() => this.modifyAccept ()} glyph='check' text='Modifier' kind='action'
+                  grow='1' place='left' {...this.link ()} />
+                <Button action={() => this.modifyCancel ()} glyph='close' text='Annuler' kind='action'
+                  grow='1' place='right' {...this.link ()} />
+              </Container>
+            </Container>
+          </Container>
+        </DialogModal>
+      );
+    } else {
+      return null;
+    }
   }
 
   renderCombo () {
@@ -179,6 +228,7 @@ export default class Trip extends React.Component {
         {...this.link ()}>
         {content ()}
         {this.renderCombo ()}
+        {this.renderModify ()}
       </DragCab>
     );
   }
