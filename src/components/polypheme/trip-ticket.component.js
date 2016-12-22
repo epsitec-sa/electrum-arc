@@ -153,11 +153,12 @@ export default class TripTicket extends React.Component {
   }
 
   renderCompacted () {
-    const width  = this.props.theme.shapes.tripTicketWidth;
-    const shape  = this.read ('shape');
-    const ticket = this.read ('ticket');
-    const noDrag = this.read ('no-drag');
-    const type   = ticket.Type;
+    const width    = this.props.theme.shapes.tripTicketWidth;
+    const shape    = this.read ('shape');
+    const ticket   = this.read ('ticket');
+    const noDrag   = this.read ('no-drag');
+    const selected = this.read ('selected');
+    const type     = ticket.Type;
 
     const trip           = type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
     const time           = trip.PlanedTime;
@@ -171,7 +172,7 @@ export default class TripTicket extends React.Component {
 
     return (
       <Ticket width={width} height={height}
-        kind='ticket' shape={shape} cursor={cursor}
+        kind='ticket' shape={shape} cursor={cursor} selected={selected}
         hud-glyph={hudGlyph} mission-id={ticket.Trip.MissionId}
         status={ticket.Status} flash={ticket.Flash} warning={ticket.Warning} type={ticket.Type}
         isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
@@ -194,11 +195,12 @@ export default class TripTicket extends React.Component {
   }
 
   renderExtended () {
-    const width  = this.props.theme.shapes.tripTicketWidth;
-    const shape  = this.read ('shape');
-    const ticket = this.read ('ticket');
-    const noDrag = this.read ('no-drag');
-    const type   = ticket.Type;
+    const width    = this.props.theme.shapes.tripTicketWidth;
+    const shape    = this.read ('shape');
+    const ticket   = this.read ('ticket');
+    const noDrag   = this.read ('no-drag');
+    const selected = this.read ('selected');
+    const type     = ticket.Type;
 
     const trip           = type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
     const time           = trip.PlanedTime;
@@ -210,7 +212,7 @@ export default class TripTicket extends React.Component {
 
     return (
       <Ticket width={width}
-        kind='rect' shape={shape} cursor={cursor}
+        kind='rect' shape={shape} cursor={cursor} selected={selected}
         hud-glyph={hudGlyph} mission-id={ticket.Trip.MissionId}
         status={ticket.Status} flash={ticket.Flash} warning={ticket.Warning} type={ticket.Type}
         isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
