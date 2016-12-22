@@ -26,6 +26,16 @@ export default class Combo extends React.Component {
     super (props);
   }
 
+  get styleProps () {
+    return {
+      left:   this.read ('left'),
+      right:  this.read ('right'),
+      top:    this.read ('top'),
+      bottom: this.read ('bottom'),
+      width:  this.read ('width'),
+    };
+  }
+
   closeCombo () {
     const close = this.read ('close');
     if (close) {
@@ -66,39 +76,12 @@ export default class Combo extends React.Component {
   }
 
   render () {
-    const left   = this.read ('left');
-    const right  = this.read ('right');
-    const top    = this.read ('top');
-    const bottom = this.read ('bottom');
-    const width  = this.read ('width');
-    const list   = this.read ('list');
+    const top   = this.read ('top');
+    const width = this.read ('width');
+    const list  = this.read ('list');
 
-    const fullScreenStyle = {
-      visibility:      'visible',
-      position:        'fixed',
-      zIndex:          10,
-      top:             '0px',
-      left:            '0px',
-      width:           '100%',
-      height:          '100%',
-      userSelect:      'none',
-      // backgroundColor: '#f00',
-      // opacity:         0.1,
-    };
-
-    const comboStyle = {
-      visibility:      'visible',
-      position:        'absolute',
-      zIndex:          11,
-      display:         'flex',
-      flexDirection:   'column',
-      left:            left,
-      right:           right,
-      top:             top,
-      bottom:          bottom,
-      opacity:         1.0,
-      userSelect:      'none',
-    };
+    const fullScreenStyle = this.mergeStyles ('fullScreen');
+    const comboStyle      = this.mergeStyles ('combo');
 
     return (
       <div style = {fullScreenStyle} onMouseDown = {(event) => this.mouseDown (event)}>
