@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {TripBox, TripTicket, DragCab, Combo, Container, Button, Label, DialogModal, TripCombo} from '../../all-components.js';
+import {TripBox, TripTicket, DragCab, TripCombo, TripModify} from '../../all-components.js';
 import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
@@ -80,37 +80,15 @@ export default class Trip extends React.Component {
     return false;
   }
 
-  modifyAccept () {
-    this.setShowModify (false);
-  }
-
-  modifyCancel () {
-    this.setShowModify (false);
-  }
-
-  renderModify () {
+  renderModify (data) {
     if (this.getShowModify ()) {
+      const ticket = this.read ('ticket');
       return (
-        <DialogModal width='500px' height='400px' {...this.link ()}>
-          <Container kind='views' {...this.link ()} >
-            <Container kind='full-view' {...this.link ()} >
-
-              <Container kind='pane-navigator' {...this.link ()} >
-                <Label text='Liste des mandats' grow='1' kind='title' {...this.link ()} />
-              </Container>
-
-              <Container kind='panes' subkind='top-margin' {...this.link ()} >
-              </Container>
-
-              <Container kind='actions' subkind='no-shadow' {...this.link ()} >
-                <Button action={() => this.modifyAccept ()} glyph='check' text='Modifier' kind='action'
-                  grow='1' place='left' {...this.link ()} />
-                <Button action={() => this.modifyCancel ()} glyph='close' text='Annuler' kind='action'
-                  grow='1' place='right' {...this.link ()} />
-              </Container>
-            </Container>
-          </Container>
-        </DialogModal>
+        <TripModify
+          data         = {data}
+          ticket       = {ticket}
+          close-modify = {() => this.setShowModify (false)}
+          {...this.link ()} />
       );
     } else {
       return null;
@@ -154,7 +132,7 @@ export default class Trip extends React.Component {
         {...this.link ()}>
         {content ()}
         {this.renderCombo (data)}
-        {this.renderModify ()}
+        {this.renderModify (data)}
       </DragCab>
     );
   }
