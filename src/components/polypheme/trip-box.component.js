@@ -72,8 +72,9 @@ export default class TripBox extends React.Component {
   }
 
   render () {
-    const height = this.props.theme.shapes.tripBoxHeight;
-    const ticket = this.read ('ticket');
+    const height   = this.props.theme.shapes.tripBoxHeight;
+    const ticket   = this.read ('ticket');
+    const selected = this.read ('selected');
 
     const cursor   = 'move';
     const hudGlyph = (ticket.Selected === 'true') ? 'check' : null;
@@ -88,7 +89,7 @@ export default class TripBox extends React.Component {
       const dimmedSize  = this.props.theme.shapes.ticketDimmedSize;
 
       return (
-        <Ticket kind='thin' height={height} cursor={cursor} grow='1'
+        <Ticket kind='thin' height={height} cursor={cursor} selected={selected} grow='1'
           hud-glyph={hudGlyph} mission-id={ticket.Trip.MissionId}
           status={ticket.Status} flash={ticket.Flash} warning={ticket.Warning} type={ticket.Type}
           isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
