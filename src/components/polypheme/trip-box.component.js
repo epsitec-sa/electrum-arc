@@ -8,6 +8,22 @@ import {ColorHelpers} from 'electrum-theme';
 
 /******************************************************************************/
 
+function getTime (time) {
+  if (time && time.length === 33) {
+    // If format '2016-11-30T17:45:03.9052723+01:00', extract 'hh:mm'.
+    let h = time.substring (11, 13);
+    let m = time.substring (14, 16);
+    time = h + ':' + m;
+  }
+  return time;
+}
+
+function getPackageCount (ticket) {
+  return ticket.Trip.Packages.length + 'x';
+}
+
+/******************************************************************************/
+
 export default class TripBox extends React.Component {
 
   constructor (props) {
@@ -55,20 +71,6 @@ export default class TripBox extends React.Component {
     }
   }
 
-  getTime (time) {
-    if (time && time.length === 33) {
-      // If format '2016-11-30T17:45:03.9052723+01:00', extract 'hh:mm'.
-      let h = time.substring (11, 13);
-      let m = time.substring (14, 16);
-      time = h + ':' + m;
-    }
-    return time;
-  }
-
-  getPackageCount (ticket) {
-    return ticket.Trip.Packages.length + 'x';
-  }
-
   render () {
     const height = this.props.theme.shapes.tripBoxHeight;
     const ticket = this.read ('ticket');
@@ -96,7 +98,7 @@ export default class TripBox extends React.Component {
           <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
             <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
               <Container kind='thin-row' width='50px' {...this.link ()} >
-                <Label text={this.getTime (ticket.Trip.Pick.PlanedTime)} font-weight='bold' wrap='no'
+                <Label text={getTime (ticket.Trip.Pick.PlanedTime)} font-weight='bold' wrap='no'
                   {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
@@ -115,7 +117,7 @@ export default class TripBox extends React.Component {
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
               <Container kind='thin-row' width='50px' {...this.link ()} >
-                <Label text={this.getTime (ticket.Trip.Drop.PlanedTime)} font-weight='bold' wrap='no'
+                <Label text={getTime (ticket.Trip.Drop.PlanedTime)} font-weight='bold' wrap='no'
                   {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
@@ -139,7 +141,7 @@ export default class TripBox extends React.Component {
                 <Label glyph='cube' glyph-color={dimmedColor} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='3' {...this.link ()} >
-                <Label text={this.getPackageCount (ticket)} justify='right' grow='1' wrap='no' {...this.link ()} />
+                <Label text={getPackageCount (ticket)} justify='right' grow='1' wrap='no' {...this.link ()} />
               </Container>
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
