@@ -95,9 +95,17 @@ export default function styles (theme, props) {
     margin:          '0px',
   };
 
+  const textareaStyle = {
+    flexGrow: 1,
+    padding:  '10px',
+    resize:   'none',
+    border:   'none',
+  };
+
   return {
-    box:   boxStyle,
-    field: fieldStyle,
+    box:      boxStyle,
+    field:    fieldStyle,
+    textarea: textareaStyle,
   };
 }
 

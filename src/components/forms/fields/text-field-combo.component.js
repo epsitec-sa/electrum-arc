@@ -145,6 +145,7 @@ export default class TextFieldCombo extends React.Component {
     const inputHintText            = this.read ('hint-text');
     const inputComboType           = this.read ('combo-type');
     const inputFlyingBalloonAnchor = this.read ('flying-balloon-anchor');
+    const inputRows                = this.read ('rows');
     const inputFilterKeys          = this.props['filter-keys'];
     const inputTabIndex            = this.props['tab-index'];
 
@@ -216,6 +217,7 @@ export default class TextFieldCombo extends React.Component {
           flying-balloon-anchor = {inputFlyingBalloonAnchor}
           tab-index             = {inputTabIndex}
           width                 = {inputWidth}
+          rows                  = {inputRows}
           {...this.link ()}
         />
         <Button

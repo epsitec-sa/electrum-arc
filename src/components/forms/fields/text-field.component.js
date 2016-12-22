@@ -32,12 +32,29 @@ export default class TextField extends React.Component {
     const inputMessageInfo         = this.read ('message-info');
     const inputHintText            = this.read ('hint-text');
     const inputFlyingBalloonAnchor = this.read ('flying-balloon-anchor');
+    const inputRows                = this.read ('rows');
     const inputTabIndex            = this.props['tab-index'];
 
-    const boxStyle   = this.mergeStyles ('box');
-    const fieldStyle = this.mergeStyles ('field');
+    const boxStyle      = this.mergeStyles ('box');
+    const fieldStyle    = this.mergeStyles ('field');
+    const textareaStyle = this.mergeStyles ('textarea');
 
-    const htmlInput = (
+    const htmlInput = inputRows ?
+    (
+      <textarea
+        style       = {textareaStyle}
+        onChange    = {this.onChange}
+        onFocus     = {this.onFocus}
+        onBlur      = {this.onBlur}
+        onKeyDown   = {this.onKeyDown}
+        onKeyUp     = {this.onKeyUp}
+        onSelect    = {this.onSelect}
+        disabled    = {disabled}
+        rows        = {inputRows}
+        value       = {inputValue}
+        />
+    ) :
+    (
       <input
         onChange    = {this.onChange}
         onFocus     = {this.onFocus}
