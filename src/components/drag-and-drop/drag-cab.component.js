@@ -85,6 +85,7 @@ export default class DragCab extends React.Component {
   }
 
   mouseDown (event) {
+    console.log ('DragCab.mouseDown');
     const mouseDown = this.read ('mouse-down');
     if (mouseDown && mouseDown (event)) {
       return;
@@ -108,6 +109,7 @@ export default class DragCab extends React.Component {
   }
 
   mouseUp (event) {
+    console.log ('DragCab.mouseUp');
     const mouseUp = this.read ('mouse-up');
     if (mouseUp && mouseUp (event)) {
       return;
@@ -119,6 +121,7 @@ export default class DragCab extends React.Component {
   }
 
   dragEnding (event, isDragDoing) {
+    console.log ('DragCab.dragEnding');
     this.setDragInProcess (false);
     this.setDragStarting (false);
     if (!isDragDoing) {  // simple click done ?

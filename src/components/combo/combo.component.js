@@ -28,7 +28,7 @@ export default class Combo extends React.Component {
   }
 
   mouseDown (event) {
-    // console.dir ('Combo.mouseDown');
+    console.log ('Combo.mouseDown');
     const node = ReactDOM.findDOMNode (this);
     const rect = node.children[0].getBoundingClientRect ();
     if (!isInside (rect, event.clientX, event.clientY)) {
