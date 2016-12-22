@@ -44,7 +44,7 @@ export default class Combo extends React.Component {
   }
 
   actionAndClose (item) {
-    item.action ();
+    item.action (item);
     this.closeCombo ();
   }
 

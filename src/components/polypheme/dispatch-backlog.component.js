@@ -30,27 +30,14 @@ export default class DispatchBacklog extends React.Component {
     }
   }
 
-  closeCombo () {
+  changeSort (data, item) {
+    data.Backlog.Sort = item.text;
+    this.forceUpdate ();
   }
 
-  sortTime () {
-    this.closeCombo ();
-  }
-
-  sortType () {
-    this.closeCombo ();
-  }
-
-  filterAll () {
-    this.closeCombo ();
-  }
-
-  filterDring () {
-    this.closeCombo ();
-  }
-
-  filterUrgent () {
-    this.closeCombo ();
+  changeFilter (data, item) {
+    data.Backlog.Filter = item.text;
+    this.forceUpdate ();
   }
 
   getItem (text, current, glyph, action) {
@@ -62,18 +49,26 @@ export default class DispatchBacklog extends React.Component {
     };
   }
 
+  getSortItem (data, text, glyph) {
+    return this.getItem (text, data.Backlog.Sort, glyph, item => this.changeSort (data, item));
+  }
+
+  getFilterItem (data, text, glyph) {
+    return this.getItem (text, data.Backlog.Filter, glyph, item => this.changeFilter (data, item));
+  }
+
   getSortList (data) {
     return [
-      this.getItem ('Chronologique', data.Backlog.Sort, 'clock-o', () => this.sortTime ()),
-      this.getItem ('Par types',     data.Backlog.Sort, 'cube',    () => this.sortType ()),
+      this.getSortItem (data, 'Chronologique'),
+      this.getSortItem (data, 'Par types'),
     ];
   }
 
   getFilterList (data) {
     return [
-      this.getItem ('Tous',                      data.Backlog.Filter, 'square',      () => this.filterAll ()),
-      this.getItem ('Seulement les dring-dring', data.Backlog.Filter, 'bell',        () => this.filterDring ()),
-      this.getItem ('Seulement les urgents',     data.Backlog.Filter, 'fighter-jet', () => this.filterUrgent ()),
+      this.getFilterItem (data, 'Tous',                      'square'),
+      this.getFilterItem (data, 'Seulement les dring-dring', 'bell'),
+      this.getFilterItem (data, 'Seulement les urgents',     'fighter-jet'),
     ];
   }
 
