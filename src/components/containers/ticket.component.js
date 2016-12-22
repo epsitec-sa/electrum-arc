@@ -134,6 +134,7 @@ export default class Ticket extends React.Component {
     const warning   = this.read ('warning');
     const hasHeLeft = this.read ('hasHeLeft');
     const isDragged = this.read ('isDragged');
+    const selected  = this.read ('selected');
 
     const boxStyle     = this.mergeStyles ('box');
     const shadowStyle  = this.mergeStyles ('shadow');
@@ -159,6 +160,9 @@ export default class Ticket extends React.Component {
     }
     if (this.getHover () && !isDragged) {
       shapeStyle.fill = emphasize (shapeStyle.fill, 0.1);
+    }
+    if (selected === 'true' && !isDragged) {
+      shapeStyle.fill = emphasize (shapeStyle.fill, 0.3);
     }
 
     if (this.getTransit () && !isDragged) {
@@ -222,6 +226,7 @@ export default class Ticket extends React.Component {
     const warning   = this.read ('warning');
     const hasHeLeft = this.read ('hasHeLeft');
     const isDragged = this.read ('isDragged');
+    const selected  = this.read ('selected');
 
     const rectShadowStyle       = this.mergeStyles ('rectShadow');
     const rectStyle             = this.mergeStyles ('rect');
@@ -246,6 +251,9 @@ export default class Ticket extends React.Component {
     }
     if (this.getHover () && !isDragged) {
       rectStyle.backgroundColor = emphasize (rectStyle.backgroundColor, 0.1);
+    }
+    if (selected === 'true' && !isDragged) {
+      rectStyle.backgroundColor = emphasize (rectStyle.backgroundColor, 0.3);
     }
 
     if (this.getTransit () && !isDragged) {

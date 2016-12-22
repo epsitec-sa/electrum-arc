@@ -140,14 +140,13 @@ function getHoverPath (theme, shape, type, width, height) {
 
 
 export default function styles (theme, props) {
-  const inputWidth    = props.width;
-  const inputHeight   = props.height;
-  const inputKind     = props.kind;
-  const inputShape    = props.shape;
-  const inputType     = props.type;
-  const inputSelected = props.selected;
-  const inputColor    = props.color;
-  const inputCursor   = props.cursor;
+  const inputWidth  = props.width;
+  const inputHeight = props.height;
+  const inputKind   = props.kind;
+  const inputShape  = props.shape;
+  const inputType   = props.type;
+  const inputColor  = props.color;
+  const inputCursor = props.cursor;
 
   const r = (inputKind === 'thin') ? theme.shapes.ticketRectRadius : theme.shapes.ticketCornerRadius;
   let radius;
@@ -172,8 +171,6 @@ export default function styles (theme, props) {
       red:      theme.palette.ticketRedBackground,
       green:    theme.palette.ticketGreenBackground,
     } [inputColor];
-  } else if (inputSelected === 'true') {
-    backgroundColor = theme.palette.ticketSelectedBackground;
   }
 
   const v = (inputShape === 'footer' || inputShape === 'first') ? '1px' : theme.shapes.ticketVerticalSpacing;
