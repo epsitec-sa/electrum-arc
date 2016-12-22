@@ -51,6 +51,7 @@ export default class TextField extends React.Component {
         onSelect    = {this.onSelect}
         disabled    = {disabled}
         rows        = {inputRows}
+        tabIndex    = {inputTabIndex}
         value       = {inputValue}
         />
     ) :

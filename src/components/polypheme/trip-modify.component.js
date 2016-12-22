@@ -95,11 +95,9 @@ export default class TripModify extends React.Component {
         <DialogModal width='500px' {...this.link ()}>
           <Container kind='views' {...this.link ()} >
             <Container kind='full-view' {...this.link ()} >
-
               {this.renderHalf (ticket, 'pick')}
               {this.renderHalf (ticket, 'drop')}
               {this.renderFooter ()}
-
             </Container>
           </Container>
         </DialogModal>
@@ -109,10 +107,8 @@ export default class TripModify extends React.Component {
         <DialogModal width='500px' {...this.link ()}>
           <Container kind='views' {...this.link ()} >
             <Container kind='full-view' {...this.link ()} >
-
               {this.renderHalf (ticket, ticket.Type)}
               {this.renderFooter ()}
-
             </Container>
           </Container>
         </DialogModal>
