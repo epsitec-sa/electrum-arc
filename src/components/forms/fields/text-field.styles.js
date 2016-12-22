@@ -71,7 +71,7 @@ export default function styles (theme, props) {
     display:         'flex',
     flexDirection:   'row',
     justifyContent:  'flex-start',
-    alignItems:      'center',
+    alignItems:      'flex-start',
     flexGrow:        flexGrow,
     flexShrink:      flexShrink,
     flexBasis:       flexBasis,
