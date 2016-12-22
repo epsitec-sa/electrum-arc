@@ -70,6 +70,8 @@ export default class TripModify extends React.Component {
           value={pd.ShortDescription} grow='1' {...this.link ()} />
         <LabelTextField label-glyph='building' hint-text='Description complète'
           value={prepareLines (pd.LongDescription)} grow='1' rows={5} {...this.link ()} />
+        <Separator kind='space' {...this.link ()} />
+        <Separator kind='space' {...this.link ()} />
       </Container>
     );
   }
@@ -90,7 +92,7 @@ export default class TripModify extends React.Component {
 
     if (ticket.Type === 'both') {
       return (
-        <DialogModal width='500px' height='550px' {...this.link ()}>
+        <DialogModal width='500px' {...this.link ()}>
           <Container kind='views' {...this.link ()} >
             <Container kind='full-view' {...this.link ()} >
 
@@ -104,7 +106,7 @@ export default class TripModify extends React.Component {
       );
     } else {
       return (
-        <DialogModal width='500px' height='350px' {...this.link ()}>
+        <DialogModal width='500px' {...this.link ()}>
           <Container kind='views' {...this.link ()} >
             <Container kind='full-view' {...this.link ()} >
 

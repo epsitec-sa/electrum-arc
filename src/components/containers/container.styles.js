@@ -95,10 +95,9 @@ export default function styles (theme, props) {
 
   if (inputKind === 'floating') {
     position        = 'fixed';
-    left            = '0px';
-    right           = '0px';
-    top             = '0px';
-    bottom          = '0px';
+    left            = '50%';
+    top             = '50%';
+    transform       = 'translate(-50%, -50%)';
     display         = 'flex';
     flexDirection   = 'column';
     margin          = 'auto';
