@@ -66,7 +66,8 @@ export default class Combo extends React.Component {
     );
   }
 
-  renderCombo (list) {
+  renderCombo () {
+    const list  = this.read ('list');
     const result = [];
     let index = 0;
     for (let item of list) {
@@ -78,7 +79,6 @@ export default class Combo extends React.Component {
   render () {
     const top   = this.read ('top');
     const width = this.read ('width');
-    const list  = this.read ('list');
 
     const fullScreenStyle = this.mergeStyles ('fullScreen');
     const comboStyle      = this.mergeStyles ('combo');
@@ -91,7 +91,7 @@ export default class Combo extends React.Component {
           triangle-position = {top ? 'top' : 'bottom'}
           width             = {width}
           {...this.link ()}>
-            {this.renderCombo (list)}
+            {this.renderCombo ()}
           </Container>
         </div>
       </div>
