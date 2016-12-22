@@ -13,12 +13,12 @@ export default class Trip extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      showCombo: false,
+      showCombo:    false,
+      mustBeClosed: false,
     };
     this.comboLeft   = null;
     this.comboTop    = null;
     this.comboBottom = null;
-    this.mustBeClosed = false;
   }
 
   getShowCombo () {
@@ -28,6 +28,16 @@ export default class Trip extends React.Component {
   setShowCombo (value) {
     this.setState ( {
       showCombo: value
+    });
+  }
+
+  getMustBeClosed () {
+    return this.state.mustBeClosed;
+  }
+
+  setMustBeClosed (value) {
+    this.setState ( {
+      mustBeClosed: value
     });
   }
 
@@ -52,7 +62,7 @@ export default class Trip extends React.Component {
 
   mouseDown (event) {
     console.log ('Trip.mouseDown');
-    if (this.mustBeClosed || this.getShowCombo ()) {
+    if (this.getMustBeClosed () || this.getShowCombo ()) {
       return true;
     }
     // if (event.button === 2)  // right-click ?
@@ -65,8 +75,8 @@ export default class Trip extends React.Component {
 
   mouseUp (event) {
     console.log ('Trip.mouseUp');
-    if (this.mustBeClosed) {
-      this.mustBeClosed = false;
+    if (this.getMustBeClosed ()) {
+      this.setMustBeClosed (false);
       this.setShowCombo (false);
       return true;
     }
@@ -100,23 +110,19 @@ export default class Trip extends React.Component {
   }
 
   modify () {
-    this.setShowCombo (false);
   }
 
   dispatch () {
-    this.setShowCombo (false);
     const ticket = this.read ('ticket');
     this.reduce ('SWAP_STATUS', ticket);
   }
 
   extend () {
-    this.setShowCombo (false);
     const ticket = this.read ('ticket');
     this.reduce ('SWAP_EXTENDED', ticket);
   }
 
   select () {
-    this.setShowCombo (false);
     const ticket = this.read ('ticket');
     this.reduce ('SWAP_SELECTED', ticket);
   }
@@ -163,7 +169,7 @@ export default class Trip extends React.Component {
           top    = {this.comboTop}
           bottom = {this.comboBottom}
           list   = {list}
-          close  = {() => this.mustBeClosed = true}
+          close  = {() => this.setShowCombo (false)}
           {...this.link ()} />
       );
     } else {

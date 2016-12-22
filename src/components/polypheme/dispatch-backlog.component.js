@@ -30,6 +30,64 @@ export default class DispatchBacklog extends React.Component {
     }
   }
 
+  closeCombo () {
+  }
+
+  sortTime () {
+    this.closeCombo ();
+  }
+
+  sortType () {
+    this.closeCombo ();
+  }
+
+  filterAll () {
+    this.closeCombo ();
+  }
+
+  filterDring () {
+    this.closeCombo ();
+  }
+
+  filterUrgent () {
+    this.closeCombo ();
+  }
+
+  getSortList () {
+    return [
+      {
+        text:   'Chronologique',
+        glyph:  'clock-o',
+        action: () => this.sortTime (),
+      },
+      {
+        text:   'Par types',
+        glyph:  'cube',
+        action: () => this.sortType (),
+      },
+    ];
+  }
+
+  getFilterList () {
+    return [
+      {
+        text:   'Tous',
+        glyph:  'square',
+        action: () => this.filterAll (),
+      },
+      {
+        text:   'Seulement les dring-dring',
+        glyph:  'bell',
+        action: () => this.filterDring (),
+      },
+      {
+        text:   'Seulement les urgents',
+        glyph:  'fighter-jet',
+        action: () => this.filterUrgent (),
+      },
+    ];
+  }
+
   renderTicket (ticket, data, index) {
     return (
       <Trip key={index} kind='trip-box' id={ticket.id} ticket={ticket} data={data} {...this.link ()} />
@@ -51,13 +109,12 @@ export default class DispatchBacklog extends React.Component {
     return (
       <Container kind='view-stretch' {...this.link ()} >
         <Container kind='pane-top' {...this.link ()} >
-          <TextFieldCombo hint-text='Trier' combo-glyph='sort'
-            grow='1' spacing='large' combo-type='calendar'
-            combo-direction='right' flying-balloon-anchor='bottom'
+          <TextFieldCombo hint-text='Trier' combo-glyph='sort' width='300px'
+            grow='1' spacing='large' list={this.getSortList ()}
             {...this.link ()} />
-          <TextFieldCombo hint-text='Filtrer' combo-glyph='filter'
-            grow='1' spacing='large' combo-type='clock'
-            flying-balloon-anchor='right' {...this.link ()} />
+          <TextFieldCombo hint-text='Filtrer' combo-glyph='filter' width='300px'
+            grow='1' spacing='large' list={this.getFilterList ()}
+            {...this.link ()} />
           <LabelTextField shape='rounded' hint-text='Chercher'
             grow='2' label-glyph='Search' {...this.link ()} />
         </Container>

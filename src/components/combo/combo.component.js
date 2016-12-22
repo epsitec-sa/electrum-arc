@@ -2,7 +2,6 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Electrum from 'electrum';
 
 import {
   Container,
@@ -27,23 +26,32 @@ export default class Combo extends React.Component {
     super (props);
   }
 
+  closeCombo () {
+    const close = this.read ('close');
+    if (close) {
+      close ();
+    }
+  }
+
   mouseDown (event) {
     console.log ('Combo.mouseDown');
     const node = ReactDOM.findDOMNode (this);
     const rect = node.children[0].getBoundingClientRect ();
     if (!isInside (rect, event.clientX, event.clientY)) {
       // If the mouse is outside the menu combo, close it.
-      const close = this.read ('close');
-      if (close) {
-        close ();
-      }
+      this.closeCombo ();
     }
+  }
+
+  actionAndClose (item) {
+    item.action ();
+    this.closeCombo ();
   }
 
   renderItem (item, index) {
     return (
       <Button key={index} kind='menu-item'
-        glyph={item.glyph} text={item.text} mouse-up={item.action}
+        glyph={item.glyph} text={item.text} mouse-up={() => this.actionAndClose (item)}
         {...this.link ()} />
     );
   }
