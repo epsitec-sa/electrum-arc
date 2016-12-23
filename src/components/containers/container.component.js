@@ -48,7 +48,7 @@ export default class Container extends React.Component {
     count += id             ? 1 : 0;
     if (count !== 0 && count !== 3) {
       // These 3 properties must exist all together, or none !
-      throw new Error (`Container has invalid properties, dragController=${dragController} dragSource=${dragSource} id=${id}`);
+      console.log (`Container has invalid properties, dragController=${dragController} dragSource=${dragSource} id=${id}`);
     }
     const navFor = this.read ('navigation-for');
     if (navFor) {
