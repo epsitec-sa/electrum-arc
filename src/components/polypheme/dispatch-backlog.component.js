@@ -90,12 +90,12 @@ export default class DispatchBacklog extends React.Component {
   }
 
   changeSort (data, item) {
-    data.Backlog.Sort = item.text;
+    data.BacklogSort = item.text;
     this.forceUpdate ();
   }
 
   changeFilter (data, item) {
-    data.Backlog.Filter = item.text;
+    data.BacklogFilter = item.text;
     this.forceUpdate ();
   }
 
@@ -109,11 +109,11 @@ export default class DispatchBacklog extends React.Component {
   }
 
   getSortItem (data, text, glyph) {
-    return this.getItem (text, data.Backlog.Sort, glyph, item => this.changeSort (data, item));
+    return this.getItem (text, data.BacklogSort, glyph, item => this.changeSort (data, item));
   }
 
   getFilterItem (data, text, glyph) {
-    return this.getItem (text, data.Backlog.Filter, glyph, item => this.changeFilter (data, item));
+    return this.getItem (text, data.BacklogFilter, glyph, item => this.changeFilter (data, item));
   }
 
   getSortList (data) {
@@ -137,14 +137,14 @@ export default class DispatchBacklog extends React.Component {
   }
 
   isFiltered (ticket, data) {
-    if (data.Backlog.Filter === 'Tous') {
+    if (data.BacklogFilter === 'Tous') {
       return false;
     } else {
       if (!ticket.Trip || !ticket.Trip.Product) {
         return true;
-      } else if (data.Backlog.Filter.indexOf ('dring') !== -1) {
+      } else if (data.BacklogFilter.indexOf ('dring') !== -1) {
         return ticket.Trip.Product.indexOf ('dring') === -1;
-      } else if (data.Backlog.Filter.indexOf ('urgent') !== -1) {
+      } else if (data.BacklogFilter.indexOf ('urgent') !== -1) {
         return ticket.Trip.Product !== 'Urgent';
       }
       return false;
@@ -159,19 +159,19 @@ export default class DispatchBacklog extends React.Component {
         result.push (ticket);
       }
     }
-    if (data.Backlog.Sort.indexOf ('heure pick') !== -1) {
+    if (data.BacklogSort.indexOf ('heure pick') !== -1) {
       return result.sort (sortTimePick);
-    } else if (data.Backlog.Sort.indexOf ('heure drop') !== -1) {
+    } else if (data.BacklogSort.indexOf ('heure drop') !== -1) {
       return result.sort (sortTimeDrop);
-    } else if (data.Backlog.Sort.indexOf ('zone pick') !== -1) {
+    } else if (data.BacklogSort.indexOf ('zone pick') !== -1) {
       return result.sort (sortZonePick);
-    } else if (data.Backlog.Sort.indexOf ('zone drop') !== -1) {
+    } else if (data.BacklogSort.indexOf ('zone drop') !== -1) {
       return result.sort (sortZoneDrop);
-    } else if (data.Backlog.Sort.indexOf ('produit') !== -1) {
+    } else if (data.BacklogSort.indexOf ('produit') !== -1) {
       return result.sort (sortProduct);
-    } else if (data.Backlog.Sort.indexOf ('prix') !== -1) {
+    } else if (data.BacklogSort.indexOf ('prix') !== -1) {
       return result.sort (sortPrice);
-    } else if (data.Backlog.Sort.indexOf ('poids') !== -1) {
+    } else if (data.BacklogSort.indexOf ('poids') !== -1) {
       return result.sort (sortWeight);
     }
     return result;
@@ -200,12 +200,12 @@ export default class DispatchBacklog extends React.Component {
       <Container kind='view-stretch' {...this.link ()} >
         <Container kind='pane-top' {...this.link ()} >
           <TextFieldCombo hint-text='Trier' combo-glyph='sort' width='300px'
-            value={data.Backlog.Sort}
+            value={data.BacklogSort}
             grow='1' spacing='large' list={this.getSortList (data)}
             {...this.link ()} />
           <TextFieldCombo hint-text='Filtrer' combo-glyph='filter' width='300px'
             grow='1' spacing='large' list={this.getFilterList (data)}
-            value={data.Backlog.Filter}
+            value={data.BacklogFilter}
             {...this.link ()} />
           <LabelTextField shape='rounded' hint-text='Chercher'
             grow='2' label-glyph='Search' {...this.link ()} />
