@@ -152,7 +152,6 @@ export default class DispatchBacklog extends React.Component {
   }
 
   getTickets (tickets, data) {
-    console.log ('getTickets');
     const result = [];
     for (var ticket of tickets) {
       if (!this.isFiltered (ticket, data)) {

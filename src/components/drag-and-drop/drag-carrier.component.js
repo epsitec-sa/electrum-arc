@@ -369,15 +369,24 @@ export default class DragCarrier extends React.Component {
     }
   }
 
+  isSelected (id) {
+    const data = this.read ('data');
+    window.document.reducerDragAndDrop (data, {
+      type: 'IS_SELECTED',
+      id:   id,
+    });
+    return data._isSelected;
+  }
+
   selectMulti (value) {
     // console.log ('selectMulti >>>>>>>>>>>>>>>>>>>>');
     if (this.rectOrigin) {
       const origin = this.searchChildren (this.rectOrigin.id);
-      if (origin && origin.props.ticket && origin.props.ticket.Selected === 'true') {
+      if (origin && origin.props.ticket && this.isSelected (origin.props.ticket.id)) {
         // Drag all selected items.
         const container = this.rectOrigin.container;
         for (let child of container.props.children) {
-          if (child.props.ticket.Selected === 'true') {
+          if (this.isSelected (child.props.ticket.id)) {
             this.selectOne (child.props.ticket.id, value);
           }
         }

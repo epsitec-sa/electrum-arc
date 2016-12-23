@@ -14,6 +14,33 @@ export default class TripTicket extends React.Component {
     super (props);
   }
 
+  isSelected (id) {
+    const data = this.read ('data');
+    window.document.reducerDragAndDrop (data, {
+      type: 'IS_SELECTED',
+      id:   id,
+    });
+    return data._isSelected;
+  }
+
+  isExtended (id) {
+    const data = this.read ('data');
+    window.document.reducerDragAndDrop (data, {
+      type: 'IS_EXTENDED',
+      id:   id,
+    });
+    return data._isExtended;
+  }
+
+  isFlash (id) {
+    const data = this.read ('data');
+    window.document.reducerDragAndDrop (data, {
+      type: 'IS_FLASH',
+      id:   id,
+    });
+    return data._isFlash;
+  }
+
   renderGlyph (glyph) {
     if (glyph.startsWith ('bookmark-')) {
       const color = glyph.substring (9);
@@ -168,13 +195,14 @@ export default class TripTicket extends React.Component {
     const height         = ticket.Warning ? '90px' : '60px';
     const marginBottom   = '-10px';
     const cursor         = (noDrag === 'true') ? null : 'move';
-    const hudGlyph       = (ticket.Selected === 'true') ? 'check' : null;
+    const hudGlyph       = this.isSelected (ticket.id) ? 'check' : null;
+    const flash          = this.isFlash (ticket.id) ? 'true' : 'false';
 
     return (
       <Ticket width={width} height={height}
         kind='ticket' shape={shape} cursor={cursor} selected={selected}
         hud-glyph={hudGlyph} mission-id={ticket.Trip.MissionId}
-        status={ticket.Status} flash={ticket.Flash} warning={ticket.Warning} type={ticket.Type}
+        status={ticket.Status} flash={flash} warning={ticket.Warning} type={ticket.Type}
         isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           {this.renderWarning (ticket.Warning)}
@@ -208,13 +236,14 @@ export default class TripTicket extends React.Component {
     const directionColor = ColorHelpers.GetMarkColor (this.props.theme, type);
     const marginBottom   = null;
     const cursor         = (noDrag === 'true') ? null : 'move';
-    const hudGlyph       = (ticket.Selected === 'true') ? 'check' : null;
+    const hudGlyph       = this.isSelected (ticket.id) ? 'check' : null;
+    const flash          = this.isFlash (ticket.id) ? 'true' : 'false';
 
     return (
       <Ticket width={width}
         kind='rect' shape={shape} cursor={cursor} selected={selected}
         hud-glyph={hudGlyph} mission-id={ticket.Trip.MissionId}
-        status={ticket.Status} flash={ticket.Flash} warning={ticket.Warning} type={ticket.Type}
+        status={ticket.Status} flash={flash} warning={ticket.Warning} type={ticket.Type}
         isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           {this.renderWarning (ticket.Warning)}
@@ -236,7 +265,7 @@ export default class TripTicket extends React.Component {
 
   render () {
     const ticket = this.read ('ticket');
-    if (ticket.Extended === 'true') {
+    if (this.isExtended (ticket.id)) {
       return this.renderExtended ();
     } else {
       return this.renderCompacted ();

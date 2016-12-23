@@ -22,8 +22,28 @@ export default class TripCombo extends React.Component {
     }
   }
 
+  isSelected (id) {
+    const data = this.read ('data');
+    window.document.reducerDragAndDrop (data, {
+      type: 'IS_SELECTED',
+      id:   id,
+    });
+    return data._isSelected;
+  }
+
+  isExtended (id) {
+    const data = this.read ('data');
+    window.document.reducerDragAndDrop (data, {
+      type: 'IS_EXTENDED',
+      id:   id,
+    });
+    return data._isExtended;
+  }
+
   getList () {
     const ticket = this.read ('ticket');
+    const isSelected = this.isSelected (ticket.id);
+    const isExtended = this.isExtended (ticket.id);
     const list = [];
     list.push (
       {
@@ -42,16 +62,16 @@ export default class TripCombo extends React.Component {
       );
       list.push (
         {
-          text:   ticket.Extended === 'true' ? 'Réduire' : 'Étendre',
-          glyph:  ticket.Extended === 'true' ? 'arrow-up' : 'arrow-down',
+          text:   isExtended ? 'Réduire' : 'Étendre',
+          glyph:  isExtended ? 'arrow-up' : 'arrow-down',
           action: () => this.extend (),
         }
       );
     }
     list.push (
       {
-        text:   ticket.Selected === 'true' ? 'Désélectionner' : 'Sélectionner',
-        glyph:  ticket.Selected === 'true' ? 'circle-o' : 'check-circle',
+        text:   isSelected ? 'Désélectionner' : 'Sélectionner',
+        glyph:  isSelected ? 'circle-o' : 'check-circle',
         action: () => this.select (),
       }
     );

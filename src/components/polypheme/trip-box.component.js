@@ -30,6 +30,24 @@ export default class TripBox extends React.Component {
     super (props);
   }
 
+  isSelected (id) {
+    const data = this.read ('data');
+    window.document.reducerDragAndDrop (data, {
+      type: 'IS_SELECTED',
+      id:   id,
+    });
+    return data._isSelected;
+  }
+
+  isFlash (id) {
+    const data = this.read ('data');
+    window.document.reducerDragAndDrop (data, {
+      type: 'IS_FLASH',
+      id:   id,
+    });
+    return data._isFlash;
+  }
+
   renderGlyph (glyph) {
     if (glyph.startsWith ('bookmark-')) {
       const color = glyph.substring (9);
@@ -77,7 +95,8 @@ export default class TripBox extends React.Component {
     const selected = this.read ('selected');
 
     const cursor   = 'move';
-    const hudGlyph = (ticket.Selected === 'true') ? 'check' : null;
+    const hudGlyph = this.isSelected (ticket.id) ? 'check' : null;
+    const flash    = this.isFlash (ticket.id) ? 'true' : 'false';
 
     const directionColorPick = ColorHelpers.GetMarkColor (this.props.theme, 'pick');
     const directionColorDrop = ColorHelpers.GetMarkColor (this.props.theme, 'drop');
@@ -91,7 +110,7 @@ export default class TripBox extends React.Component {
       return (
         <Ticket kind='thin' height={height} cursor={cursor} selected={selected} grow='1'
           hud-glyph={hudGlyph} mission-id={ticket.Trip.MissionId}
-          status={ticket.Status} flash={ticket.Flash} warning={ticket.Warning} type={ticket.Type}
+          status={ticket.Status} flash={flash} warning={ticket.Warning} type={ticket.Type}
           isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
           <Container kind='thin-column' border='right' width='10px' {...this.link ()} >
             <Gauge value={ticket.Trip.Urgency} {...this.link ()} />
