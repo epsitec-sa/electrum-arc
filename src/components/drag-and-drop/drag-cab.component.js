@@ -166,8 +166,13 @@ export default class DragCab extends React.Component {
         }
       }
     } else {
-      Electrum.bus.dispatch (this.props, 'select', {
-        type:     action,
+      const type = {
+        SWAP_SELECTED: 'selections',
+        SWAP_STATUS:   'change-status',
+        SWAP_EXTENDED: 'extendeds',
+      } [action];
+      Electrum.bus.dispatch (this.props, 'dnd', {
+        type:     type,
         key:      id,
         shiftKey: shiftKey,
       });
@@ -179,6 +184,7 @@ export default class DragCab extends React.Component {
     const color          = this.read ('color');
     const thickness      = this.read ('thickness');
     const radius         = this.read ('radius');
+    const overSpacing    = this.read ('over-spacing');
     const mode           = this.read ('mode');
     const data           = this.read ('data');
     const dragId         = this.read ('id');
@@ -189,6 +195,7 @@ export default class DragCab extends React.Component {
         color             = {color}
         thickness         = {thickness}
         radius            = {radius}
+        over-spacing      = {overSpacing}
         mode              = {mode}
         data              = {data}
         drag-ending       = {(e, x) => this.dragEnding (e, x)}

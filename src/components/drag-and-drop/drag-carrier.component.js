@@ -146,8 +146,18 @@ export default class DragCarrier extends React.Component {
     return Unit.parse (Unit.multiply (thickness, 0.5)).value;
   }
 
+  getOverSpacing () {
+    const overSpacing = this.read ('over-spacing');
+    if (overSpacing) {
+      return Unit.parse (Unit.multiply (overSpacing, 1)).value;
+    } else {
+      return 0;
+    }
+  }
+
   findV (container, node, y, parentRect) {
-    const thickness = this.getHalfThickness ();
+    const thickness   = this.getHalfThickness ();
+    const overSpacing = this.getOverSpacing () / 2;
     if (node.children.length === 0) {  // is in top of empty container ?
       const rect = getBoundingRect (node);
       return {
@@ -170,6 +180,7 @@ export default class DragCarrier extends React.Component {
           const lr = getBoundingRect (lt);
           py = (lr.bottom + rect.top) / 2;
         }
+        py -= overSpacing;
         return {
           id:         t.dataset.id,
           ownerId:    container.props.id,
@@ -187,14 +198,15 @@ export default class DragCarrier extends React.Component {
       id:         null,  // after last
       ownerId:    container.props.id,
       ownerKind:  container.props['drag-source'],
-      rect:       getVRect (rect, rect.bottom - thickness, rect.bottom + thickness),
+      rect:       getVRect (rect, rect.bottom - overSpacing - thickness, rect.bottom - overSpacing + thickness),
       parentRect: parentRect,
       index:      node.children.length,
     };
   }
 
   findH (container, node, x, parentRect) {
-    const thickness = this.getHalfThickness ();
+    const thickness   = this.getHalfThickness ();
+    const overSpacing = this.getOverSpacing () / 2;
     if (node.children.length === 0) {  // is in top of empty container ?
       const rect = getBoundingRect (node);
       return {
@@ -217,6 +229,7 @@ export default class DragCarrier extends React.Component {
           const lr = getBoundingRect (lt);
           px = (lr.right + rect.left) / 2;
         }
+        px -= overSpacing;
         return {
           id:         t.dataset.id,
           ownerId:    container.props.id,
@@ -234,7 +247,7 @@ export default class DragCarrier extends React.Component {
       id:         null,  // after last
       ownerId:    container.props.id,
       ownerKind:  container.props['drag-source'],
-      rect:       getHRect (rect, rect.right - thickness, rect.right + thickness),
+      rect:       getHRect (rect, rect.right - overSpacing - thickness, rect.right - overSpacing + thickness),
       parentRect: parentRect,
       index:      node.children.length,
     };
@@ -286,10 +299,17 @@ export default class DragCarrier extends React.Component {
   }
 
   findNodeOrigin (container, node, id) {
+    const direction   = this.read ('direction');
+    const overSpacing = this.getOverSpacing ();
     for (var i = 0, len = node.children.length; i < len; i++) {
       const t = node.children[i];
       if (t.dataset.id === id) {
-        const rect = getBoundingRect (t);
+        let rect = getBoundingRect (t);
+        if (direction === 'horizontal') {
+          rect = getHRect (rect, rect.left, rect.right - overSpacing);
+        } else {
+          rect = getVRect (rect, rect.top, rect.bottom - overSpacing);
+        }
         const parentRect = this.getParentRect (container);
         return {
           container:  container,
@@ -440,6 +460,7 @@ export default class DragCarrier extends React.Component {
       }
     } else {
       Electrum.bus.dispatch (this.props, 'dnd', {
+        type:         'drop',
         itemKind:     (ownerKind === 'roadbooks') ? 'roadbook' : 'ticket',
         itemIds:      this.selectedIds,
         beforeItemId: toId,
@@ -501,20 +522,7 @@ export default class DragCarrier extends React.Component {
       width:           '100%',
       height:          '100%',
       userSelect:      'none',
-      // backgroundColor: '#f00',
-      // opacity:         0.1,
-    };
-
-    const draggedStyle = {
-      visibility:      'visible',
-      position:        'absolute',
-      display:         'flex',
-      flexDirection:   'column',
-      height:          dragHeight,
-      left:            this.getX (),
-      top:             this.getY (),
-      opacity:         0.9,
-      userSelect:      'none',
+      // backgroundColor: 'rgba(100, 0, 0, 0.2)',
     };
 
     const dest = this.getDest ();
@@ -543,6 +551,18 @@ export default class DragCarrier extends React.Component {
         userSelect:      'none',
       };
     }
+
+    const draggedStyle = {
+      visibility:      'visible',
+      position:        'absolute',
+      display:         'flex',
+      flexDirection:   'column',
+      height:          dragHeight,
+      left:            this.getX (),
+      top:             this.getY (),
+      opacity:         0.9,
+      userSelect:      'none',
+    };
 
     return (
       <div style = {fullScreenStyle}

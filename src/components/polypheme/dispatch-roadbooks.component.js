@@ -58,7 +58,8 @@ export default class DispatchRoadbooks extends React.Component {
     return (
       <DragCab key={index} drag-controller='roadbook' direction='horizontal'
         color={this.props.theme.palette.roadbookDragAndDropHover}
-        thickness={this.props.theme.shapes.dragAndDropThickness}
+        thickness={this.props.theme.shapes.dragAndDropRoadbookThickness}
+        over-spacing={this.props.theme.shapes.viewSpacing}
         radius='0px'
         data={data}
         id={roadbook.id} {...this.link ()}>

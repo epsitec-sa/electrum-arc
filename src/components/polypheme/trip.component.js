@@ -120,8 +120,8 @@ export default class Trip extends React.Component {
         drag-controller = 'ticket'
         direction       = 'vertical'
         color           = {this.props.theme.palette.dragAndDropHover}
-        thickness       = {this.props.theme.shapes.dragAndDropThickness}
-        radius          = {this.props.theme.shapes.dragAndDropThickness}
+        thickness       = {this.props.theme.shapes.dragAndDropTicketThickness}
+        radius          = {this.props.theme.shapes.dragAndDropTicketThickness}
         mode            = 'corner-top-left'
         data            = {data}
         id              = {ticket.id}
