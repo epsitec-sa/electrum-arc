@@ -22,6 +22,9 @@ export default class TripCombo extends React.Component {
     }
   }
 
+  showMission () {
+  }
+
   isSelected (id) {
     const data = this.read ('data');
     window.document.reducerDragAndDrop (data, {
@@ -50,6 +53,13 @@ export default class TripCombo extends React.Component {
         text:   'Modifier...',
         glyph:  'pencil',
         action: () => this.showModify (),
+      }
+    );
+    list.push (
+      {
+        text:   'Voir la mission...',
+        glyph:  'eye',
+        action: () => this.showMission (),
       }
     );
     if (ticket.Type !== 'both') {

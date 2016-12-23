@@ -51,8 +51,9 @@ export default class Trip extends React.Component {
     // Puts the menu under the component if it is in the upper half of the window.
     const my = (comboRect.top + comboRect.bottom) / 2;
     const underside = my < window.innerHeight / 2;
-    const top = Unit.add ((window.innerHeight - comboRect.top) + 'px', this.props.theme.shapes.flyingBalloonTriangleSize);
-    const bottom = Unit.add (comboRect.bottom + 'px', this.props.theme.shapes.flyingBalloonTriangleSize);
+    const t = Unit.multiply (this.props.theme.shapes.flyingBalloonTriangleSize, 0.5);
+    const top = Unit.add ((window.innerHeight - comboRect.top) + 'px', t);
+    const bottom = Unit.add (comboRect.bottom + 'px', t);
     this.comboTop = underside ? bottom : null;
     this.comboBottom = underside ? null : top;
 
