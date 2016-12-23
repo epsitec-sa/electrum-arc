@@ -41,7 +41,7 @@ export default class Container extends React.Component {
   componentWillMount () {
     const dragController = this.read ('drag-controller');
     const dragSource     = this.read ('drag-source');
-    const id             = this.read ('id');
+    const id             = this.read ('item-id');
     let count = 0;
     count += dragController ? 1 : 0;
     count += dragSource     ? 1 : 0;

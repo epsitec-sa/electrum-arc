@@ -124,7 +124,7 @@ export default class Trip extends React.Component {
         radius          = {this.props.theme.shapes.dragAndDropTicketThickness}
         mode            = 'corner-top-left'
         data            = {data}
-        id              = {ticket.id}
+        item-id         = {ticket.id}
         no-drag         = {noDrag}
         margin-bottom   = {margin}
         mouse-down      = {event => this.mouseDown (event)}

@@ -67,7 +67,7 @@ export default class DragCab extends React.Component {
   }
 
   componentDidMount () {
-    const id = this.read ('id');
+    const id = this.read ('item-id');
     if (!id) {
       throw new Error ('DragCab has not id');
     }
@@ -187,7 +187,7 @@ export default class DragCab extends React.Component {
     const overSpacing    = this.read ('over-spacing');
     const mode           = this.read ('mode');
     const data           = this.read ('data');
-    const dragId         = this.read ('id');
+    const dragId         = this.read ('item-id');
     const dragController = this.read ('drag-controller');
     return (
       <DragCarrier
@@ -216,7 +216,7 @@ export default class DragCab extends React.Component {
   }
 
   renderForDrag (isDragged, index) {
-    const id            = this.read ('id');
+    const id            = this.read ('item-id');
     const direction     = this.read ('direction');
     const marginBottom  = this.read ('margin-bottom');
     const dragInProcess = this.getDragInProcess ();

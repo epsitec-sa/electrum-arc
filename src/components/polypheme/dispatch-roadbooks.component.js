@@ -40,7 +40,7 @@ export default class DispatchRoadbooks extends React.Component {
 
   renderTicket (ticket, data, index) {
     return (
-      <Trip key={index} kind='trip-ticket' id={ticket.id} ticket={ticket} data={data} {...this.link ()} />
+      <Trip key={index} kind='trip-ticket' item-id={ticket.id} ticket={ticket} data={data} {...this.link ()} />
     );
   }
 
@@ -62,11 +62,11 @@ export default class DispatchRoadbooks extends React.Component {
         over-spacing={this.props.theme.shapes.viewSpacing}
         radius='0px'
         data={data}
-        id={roadbook.id} {...this.link ()}>
+        item-id={roadbook.id} {...this.link ()}>
         <Roadbook key={index} {...this.link ()} >
           {this.renderMessenger (roadbook)}
           <Container kind='tickets-trips'
-            drag-controller='ticket' drag-source='roadbook' id={roadbook.id}
+            drag-controller='ticket' drag-source='roadbook' item-id={roadbook.id}
             max-width={maxWidth} {...this.link ()} >
             {this.renderTickets (roadbook.Tickets, data)}
           </Container>
@@ -89,7 +89,7 @@ export default class DispatchRoadbooks extends React.Component {
 
     return (
       <Container kind='tickets-messengers'
-        drag-controller='roadbook' drag-source='roadbooks' id={data.id}
+        drag-controller='roadbook' drag-source='roadbooks' item-id={data.id}
         {...this.link ()} >
         {this.renderRoadbooks (data.Roadbooks, data)}
       </Container>

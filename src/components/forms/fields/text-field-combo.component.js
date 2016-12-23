@@ -208,7 +208,6 @@ export default class TextFieldCombo extends React.Component {
         style    = {boxStyle}
         >
         <TextField
-          id                    = {id}
           value                 = {inputValue}
           hint-text             = {inputHintText}
           filter-keys           = {inputFilterKeys}

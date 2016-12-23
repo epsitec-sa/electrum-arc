@@ -72,7 +72,6 @@ export default class TextField extends React.Component {
         key         = 'input'
         tabIndex    = {inputTabIndex}
         value       = {inputValue}
-        id          = {id}
         />
     );
 

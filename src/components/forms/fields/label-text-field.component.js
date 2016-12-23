@@ -70,7 +70,6 @@ export default class LabelTextField extends React.Component {
           {...this.link ()}
         />
         <TextField
-          id          = {id}
           type        = {inputType}
           width       = {inputFieldWidth}
           value       = {inputValue}
