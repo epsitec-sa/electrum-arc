@@ -42,6 +42,7 @@ export default class TextField extends React.Component {
     const htmlInput = inputRows ?
     (
       <textarea
+        id          = {id}
         style       = {textareaStyle}
         onChange    = {this.onChange}
         onFocus     = {this.onFocus}
@@ -57,6 +58,7 @@ export default class TextField extends React.Component {
     ) :
     (
       <input
+        id          = {id}
         onChange    = {this.onChange}
         onFocus     = {this.onFocus}
         onBlur      = {this.onBlur}
