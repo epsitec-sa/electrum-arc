@@ -6,12 +6,10 @@ export default function styles (theme, props) {
   const inputWidth  = props.width;
   const inputHeight = props.height;
 
-  let width  = inputWidth;
-  let height = inputHeight;
-
   const boxStyle = {
-    width:           width,
-    height:          height,
+    position:        'absolute',
+    bottom:          '0px',
+    width:           '100%',
     minHeight:       theme.shapes.footerHeight,
     display:         'flex',
     flexDirection:   'row',

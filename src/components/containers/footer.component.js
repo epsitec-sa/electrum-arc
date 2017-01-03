@@ -29,10 +29,7 @@ export default class Footer extends React.Component {
     const boxStyle = this.mergeStyles ('box');
 
     return (
-      <div
-        disabled = {disabled}
-        style    = {boxStyle}
-        >
+      <div style={boxStyle}>
         {this.props.children}
       </div>
     );

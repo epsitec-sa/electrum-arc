@@ -183,9 +183,11 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'right') {
+    position        = 'relative';
     display         = 'flex';
     flexDirection   = 'column';
     flexGrow        = 1;
+    padding         = '0px 0px ' + theme.shapes.footerHeight + ' 0px';
     overflowX       = 'hidden';
   }
 
