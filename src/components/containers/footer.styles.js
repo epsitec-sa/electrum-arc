@@ -7,9 +7,6 @@ export default function styles (theme, props) {
   const inputHeight = props.height;
 
   const boxStyle = {
-    position:        'absolute',
-    bottom:          '0px',
-    width:           '100%',
     minHeight:       theme.shapes.footerHeight,
     display:         'flex',
     flexDirection:   'row',

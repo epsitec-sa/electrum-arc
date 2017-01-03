@@ -183,11 +183,17 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'right') {
-    position        = 'relative';
     display         = 'flex';
     flexDirection   = 'column';
     flexGrow        = 1;
-    padding         = '0px 0px ' + theme.shapes.footerHeight + ' 0px';
+    justifyContent  = 'flex-end';
+    overflowX       = 'hidden';
+  }
+
+  if (inputKind === 'content') {
+    display         = 'flex';
+    flexDirection   = 'column';
+    flexGrow        = 1;
     overflowX       = 'hidden';
   }
 
@@ -218,6 +224,7 @@ export default function styles (theme, props) {
   if (inputKind === 'second-bar') {
     display         = 'flex';
     flexDirection   = 'row';
+    justifyContent  = 'flex-end';
     backgroundColor = theme.palette.viewTabBackground;
   }
 
