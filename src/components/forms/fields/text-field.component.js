@@ -25,8 +25,9 @@ export default class TextField extends React.Component {
   }
 
   render () {
-    const {state, id} = this.props;
+    const {state} = this.props;
     const disabled = Action.isDisabled (state);
+    const id                       = this.read ('id');
     const inputValue               = this.read ('value');
     const inputMessageWarning      = this.read ('message-warning');
     const inputMessageInfo         = this.read ('message-info');
