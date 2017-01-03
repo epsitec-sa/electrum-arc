@@ -1,33 +1,25 @@
 'use strict';
 
 import React from 'react';
-import {Action} from 'electrum';
+import {Button} from '../../all-components.js';
 
 /******************************************************************************/
 
-export default class Footer extends React.Component {
+export default class Route extends React.Component {
 
   constructor (props) {
     super (props);
   }
 
-  get styleProps () {
-    return {
-      width:  this.read ('width'),
-      height: this.read ('height'),
-    };
-  }
-
   render () {
     const {state} = this.props;
-    const disabled = Action.isDisabled (state);
-
-    const boxStyle = this.mergeStyles ('box');
+    const mouseDown = this.read ('mouse-down');
+    console.log ('Route.render');
 
     return (
-      <div style={boxStyle}>
+      <Button kind='container' {...this.props} mouse-down={mouseDown} {...this.link ()}>
         {this.props.children}
-      </div>
+      </Button>
     );
   }
 }

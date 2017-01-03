@@ -63,6 +63,7 @@ export default class Button extends React.Component {
   }
 
   mouseDown () {
+    console.log ('Button.mouseDown');
     const mouseDown = this.read ('mouse-down');
     if (mouseDown) {
       mouseDown ();
