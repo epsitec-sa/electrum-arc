@@ -238,25 +238,6 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.viewTabBackground;
   }
 
-  if (inputKind === 'footer') {
-    minHeight       = theme.shapes.footerHeight;
-    display         = 'flex';
-    flexDirection   = 'row';
-    flexGrow        = 0;
-    justifyContent  = 'flex-start';
-    alignItems      = 'center';
-    backgroundColor = theme.palette.footerBackground;
-  }
-
-  if (inputKind === 'footer-content') {
-    minHeight       = theme.shapes.footerHeight;
-    display         = 'flex';
-    flexDirection   = 'row';
-    flexGrow        = 1;
-    justifyContent  = 'flex-start';
-    alignItems      = 'center';
-  }
-
   if (inputKind === 'views') {
     display         = 'flex';
     flexDirection   = 'row';
