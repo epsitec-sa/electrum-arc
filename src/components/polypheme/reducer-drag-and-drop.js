@@ -11,17 +11,6 @@ function isSelected (state, id) {
   return state.Selections.indexOf (id) !== -1;
 }
 
-function putSelected (state, id, value) {
-  const i = state.Selections.indexOf (id);
-  if (i === -1 && value) {
-    state.Selections.push (id);
-  }
-  if (i !== -1 && !value) {
-    state.Selections.splice (i, 1);
-  }
-  return state;
-}
-
 function setSelected (state, id) {
   const i = state.Selections.indexOf (id);
   if (i === -1) {
@@ -38,6 +27,14 @@ function clearSelected (state, id) {
   return state;
 }
 
+function putSelected (state, id, value) {
+  if (value) {
+    return setSelected (state, id);
+  } else {
+    return clearSelected (state, id);
+  }
+}
+
 // ------------------------------------------------------------------------------------------
 
 function isExtended (state, id) {
@@ -45,17 +42,6 @@ function isExtended (state, id) {
     state.Extendeds = [];
   }
   return state.Extendeds.indexOf (id) !== -1;
-}
-
-function putExtended (state, id, value) {
-  const i = state.Extendeds.indexOf (id);
-  if (i === -1 && value) {
-    state.Extendeds.push (id);
-  }
-  if (i !== -1 && !value) {
-    state.Extendeds.splice (i, 1);
-  }
-  return state;
 }
 
 function setExtended (state, id) {
@@ -74,6 +60,14 @@ function clearExtended (state, id) {
   return state;
 }
 
+function putExtended (state, id, value) {
+  if (value) {
+    return setExtended (state, id);
+  } else {
+    return clearExtended (state, id);
+  }
+}
+
 // ------------------------------------------------------------------------------------------
 
 function isFlash (state, id) {
@@ -81,17 +75,6 @@ function isFlash (state, id) {
     state.Flashes = [];
   }
   return state.Flashes.indexOf (id) !== -1;
-}
-
-function putFlash (state, id, value) {
-  const i = state.Flashes.indexOf (id);
-  if (i === -1 && value) {
-    state.Flashes.push (id);
-  }
-  if (i !== -1 && !value) {
-    state.Flashes.splice (i, 1);
-  }
-  return state;
 }
 
 function setFlash (state, id) {
@@ -108,6 +91,14 @@ function clearFlash (state, id) {
     state.Flashes.splice (i, 1);
   }
   return state;
+}
+
+function putFlash (state, id, value) {
+  if (value) {
+    return setFlash (state, id);
+  } else {
+    return clearFlash (state, id);
+  }
 }
 
 // ------------------------------------------------------------------------------------------
