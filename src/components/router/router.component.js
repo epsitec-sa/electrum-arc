@@ -47,15 +47,14 @@ export default class Router extends React.Component {
   updateViews () {
     const name = this.read ('name');
     for (let view of window.document.views) {
-      if (view.router === name && view.route === this.active) {
-        view.setVisible (true);
-      } else {
-        view.setVisible (false);
+      if (view.router === name) {
+        view.setVisible (view.route === this.active);
       }
     }
   }
 
   mouseDown (name) {
+    console.log ('Router.mouseDown');
     this.active = name;
     this.setNavigation ();
     this.updateViews ();

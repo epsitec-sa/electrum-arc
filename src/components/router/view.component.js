@@ -27,12 +27,9 @@ export default class View extends React.Component {
   }
 
   isVisible () {
-    console.log ('View.isVisible');
-    const router = this.read ('router');
-    const route  = this.read ('route');
-    if (window.document.routers && window.document.routers.has (router)) {
-      const r = window.document.routers.get (router);
-      return r.active === route;
+    if (window.document.routers && window.document.routers.has (this.router)) {
+      const r = window.document.routers.get (this.router);
+      return r.active === this.route;
     } else {
       return false;
     }
@@ -60,11 +57,8 @@ export default class View extends React.Component {
 
   render () {
     if (this.getVisible ()) {
-      const {state} = this.props;
-      const kind = this.read ('kind');
-
       return (
-        <Container kind={kind} {...this.link ()}>
+        <Container {...this.props} {...this.link ()}>
           {this.props.children}
         </Container>
       );
