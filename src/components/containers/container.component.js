@@ -147,6 +147,7 @@ export default class Container extends React.Component {
     const kind    = this.read ('kind');
     const navName = this.read ('navigation-name');
     const hidden  = this.read ('hidden');
+    const show    = this.read ('show');
 
     const boxStyle      = this.mergeStyles ('box');
     const triangleStyle = this.mergeStyles ('triangle');
@@ -161,7 +162,9 @@ export default class Container extends React.Component {
       'pane-hnavigator'
     ];
 
-    if (kind === 'flying-balloon') {
+    if (show === 'false') {
+      return null;
+    } else if (kind === 'flying-balloon') {
       return (
         <div
           disabled = {disabled}
