@@ -3,7 +3,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {DragCarrier} from '../../all-components.js';
-import Electrum from 'electrum';
 import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 
 /******************************************************************************/
@@ -164,17 +163,6 @@ export default class DragCab extends React.Component {
       for (var c of window.document.toUpdate) {
         c.forceUpdate ();
       }
-    } else {
-      const type = {
-        SWAP_SELECTED: 'selections',
-        SWAP_STATUS:   'change-status',
-        SWAP_EXTENDED: 'extendeds',
-      } [action];
-      Electrum.bus.dispatch (this.props, 'dnd', {
-        type:     type,
-        key:      id,
-        shiftKey: shiftKey,
-      });
     }
   }
 

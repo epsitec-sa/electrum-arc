@@ -1,6 +1,16 @@
 'use strict';
 
+import Electrum from 'electrum';
 import reducerTickets from './reducer-tickets.js';
+
+// ------------------------------------------------------------------------------------------
+
+function electrumDispatch (state, type, id) {
+  Electrum.bus.dispatch (state, 'dnd', {
+    type: type,
+    key:  id,
+  });
+}
 
 // ------------------------------------------------------------------------------------------
 
@@ -15,6 +25,7 @@ function setSelected (state, id) {
   const i = state.Selections.indexOf (id);
   if (i === -1) {
     state.Selections.push (id);
+    electrumDispatch (state, 'setSelected', id);
   }
   return state;
 }
@@ -23,6 +34,7 @@ function clearSelected (state, id) {
   const i = state.Selections.indexOf (id);
   if (i !== -1) {
     state.Selections.splice (i, 1);
+    electrumDispatch (state, 'clearSelected', id);
   }
   return state;
 }
@@ -48,6 +60,7 @@ function setExtended (state, id) {
   const i = state.Extendeds.indexOf (id);
   if (i === -1) {
     state.Extendeds.push (id);
+    electrumDispatch (state, 'setExtended', id);
   }
   return state;
 }
@@ -56,6 +69,7 @@ function clearExtended (state, id) {
   const i = state.Extendeds.indexOf (id);
   if (i !== -1) {
     state.Extendeds.splice (i, 1);
+    electrumDispatch (state, 'clearExtended', id);
   }
   return state;
 }
@@ -81,6 +95,7 @@ function setFlash (state, id) {
   const i = state.Flashes.indexOf (id);
   if (i === -1) {
     state.Flashes.push (id);
+    electrumDispatch (state, 'setFlash', id);
   }
   return state;
 }
@@ -89,6 +104,7 @@ function clearFlash (state, id) {
   const i = state.Flashes.indexOf (id);
   if (i !== -1) {
     state.Flashes.splice (i, 1);
+    electrumDispatch (state, 'clearFlash', id);
   }
   return state;
 }
@@ -540,7 +556,7 @@ function changeGeneric (state, flashes, warnings, from, to) {
 // fromId    -> id to item to move.
 // toId      -> id before which it is necessary to insert. If it was null, insert after the last item.
 // toOwnerId -> owner where it is necessary to insert. Useful when toId is null.
-function drop (state, fromIds, toId, toOwnerId) {
+function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
   console.log ('Reducer.drop');
   const flashes = [];
   const warnings = [];
@@ -563,6 +579,17 @@ function drop (state, fromIds, toId, toOwnerId) {
   checkAlones (state, flashes, warnings);
   setMiscs (state, flashes, warnings);
   updateShapes (state);
+
+  // Send action to electrum.
+  Electrum.bus.dispatch (state, 'dnd', {
+    type:         'drop',
+    itemKind:     fromKind,
+    itemIds:      fromIds,
+    beforeItemId: toId,
+    toOwnerId:    toOwnerId,
+    toOwnerKind:  toOwnerKind,
+  });
+
   return state;
 }
 
@@ -629,7 +656,7 @@ export default function Reducer (state = {}, action = {}) {
   // console.log (`reducer action.type=${action.type}`);
   switch (action.type) {
     case 'DROP':
-      state = drop (state, action.fromIds, action.toId, action.toOwnerId);
+      state = drop (state, action.fromKind, action.fromIds, action.toId, action.toOwnerId, action.toOwnerKind);
       break;
 
     case 'SWAP_SELECTED':

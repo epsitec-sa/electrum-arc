@@ -2,7 +2,6 @@
 
 import React from 'react';
 import {Combo} from '../../all-components.js';
-import Electrum from 'electrum';
 import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 
 /******************************************************************************/
@@ -101,12 +100,6 @@ export default class TripCombo extends React.Component {
       for (var c of window.document.toUpdate) {
         c.forceUpdate ();
       }
-    } else {
-      Electrum.bus.dispatch (this.props, 'select', {
-        type:     action,
-        key:      id,
-        shiftKey: shiftKey,
-      });
     }
   }
 

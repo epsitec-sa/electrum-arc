@@ -3,7 +3,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Unit} from 'electrum-theme';
-import Electrum from 'electrum';
 import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 
 import {
@@ -457,24 +456,17 @@ export default class DragCarrier extends React.Component {
     // console.log ('reduce >>>>>>>>>>>>>>>>>>>>');
     const data = this.read ('data');
     reducerDragAndDrop (data, {
-      type:      'DROP',
-      fromIds:   this.selectedIds,
-      toId:      toId,
-      toOwnerId: ownerId,
+      type:        'DROP',
+      fromKind:    (ownerKind === 'roadbooks') ? 'roadbook' : 'ticket',
+      fromIds:     this.selectedIds,
+      toId:        toId,
+      toOwnerId:   ownerId,
+      toOwnerKind: ownerKind,
     });
     if (window.document.mock) {
       for (var c of window.document.toUpdate) {
         c.forceUpdate ();
       }
-    } else {
-      Electrum.bus.dispatch (this.props, 'dnd', {
-        type:         'drop',
-        itemKind:     (ownerKind === 'roadbooks') ? 'roadbook' : 'ticket',
-        itemIds:      this.selectedIds,
-        beforeItemId: toId,
-        toOwnerId:    ownerId,
-        toOwnerKind:  ownerKind,
-      });
     }
   }
 
