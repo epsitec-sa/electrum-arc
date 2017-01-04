@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import {Action} from 'electrum';
 import {Container} from '../../all-components.js';
 
 /******************************************************************************/
