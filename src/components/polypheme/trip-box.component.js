@@ -5,6 +5,7 @@ import React from 'react';
 import {Unit} from 'electrum-theme';
 import {Ticket, Container, Label, Button, Gauge} from '../../all-components.js';
 import {ColorHelpers} from 'electrum-theme';
+import reducerDragAndDrop from './reducer-drag-and-drop.js';
 
 /******************************************************************************/
 
@@ -32,7 +33,7 @@ export default class TripBox extends React.Component {
 
   isSelected (id) {
     const data = this.read ('data');
-    window.document.reducerDragAndDrop (data, {
+    reducerDragAndDrop (data, {
       type: 'IS_SELECTED',
       id:   id,
     });
@@ -41,7 +42,7 @@ export default class TripBox extends React.Component {
 
   isFlash (id) {
     const data = this.read ('data');
-    window.document.reducerDragAndDrop (data, {
+    reducerDragAndDrop (data, {
       type: 'IS_FLASH',
       id:   id,
     });

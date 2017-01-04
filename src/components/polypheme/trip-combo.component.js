@@ -3,6 +3,7 @@
 import React from 'react';
 import {Combo} from '../../all-components.js';
 import Electrum from 'electrum';
+import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 
 /******************************************************************************/
 
@@ -27,7 +28,7 @@ export default class TripCombo extends React.Component {
 
   isSelected (id) {
     const data = this.read ('data');
-    window.document.reducerDragAndDrop (data, {
+    reducerDragAndDrop (data, {
       type: 'IS_SELECTED',
       id:   id,
     });
@@ -36,7 +37,7 @@ export default class TripCombo extends React.Component {
 
   isExtended (id) {
     const data = this.read ('data');
-    window.document.reducerDragAndDrop (data, {
+    reducerDragAndDrop (data, {
       type: 'IS_EXTENDED',
       id:   id,
     });
@@ -91,16 +92,14 @@ export default class TripCombo extends React.Component {
   reduce (action, ticket, shiftKey) {
     const id   = ticket.id;
     const data = this.read ('data');
-    if (window.document.reducerDragAndDrop) {
-      window.document.reducerDragAndDrop (data, {
-        type:     action,
-        id:       id,
-        shiftKey: shiftKey,
-      });
-      if (window.document.mock) {
-        for (var c of window.document.toUpdate) {
-          c.forceUpdate ();
-        }
+    reducerDragAndDrop (data, {
+      type:     action,
+      id:       id,
+      shiftKey: shiftKey,
+    });
+    if (window.document.mock) {
+      for (var c of window.document.toUpdate) {
+        c.forceUpdate ();
       }
     } else {
       Electrum.bus.dispatch (this.props, 'select', {

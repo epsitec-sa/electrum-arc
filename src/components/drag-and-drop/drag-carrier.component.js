@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Unit} from 'electrum-theme';
 import Electrum from 'electrum';
+import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 
 import {
   Container,
@@ -371,7 +372,7 @@ export default class DragCarrier extends React.Component {
 
   isSelected (id) {
     const data = this.read ('data');
-    window.document.reducerDragAndDrop (data, {
+    reducerDragAndDrop (data, {
       type: 'IS_SELECTED',
       id:   id,
     });
@@ -455,17 +456,15 @@ export default class DragCarrier extends React.Component {
   reduce (toId, ownerId, ownerKind) {
     // console.log ('reduce >>>>>>>>>>>>>>>>>>>>');
     const data = this.read ('data');
-    if (window.document.reducerDragAndDrop) {
-      window.document.reducerDragAndDrop (data, {
-        type:      'DROP',
-        fromIds:   this.selectedIds,
-        toId:      toId,
-        toOwnerId: ownerId,
-      });
-      if (window.document.mock) {
-        for (var c of window.document.toUpdate) {
-          c.forceUpdate ();
-        }
+    reducerDragAndDrop (data, {
+      type:      'DROP',
+      fromIds:   this.selectedIds,
+      toId:      toId,
+      toOwnerId: ownerId,
+    });
+    if (window.document.mock) {
+      for (var c of window.document.toUpdate) {
+        c.forceUpdate ();
       }
     } else {
       Electrum.bus.dispatch (this.props, 'dnd', {

@@ -5,6 +5,7 @@ import React from 'react';
 import {Ticket, Container, Label, Separator} from '../../all-components.js';
 import {ColorHelpers} from 'electrum-theme';
 import {Unit} from 'electrum-theme';
+import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 
 /******************************************************************************/
 
@@ -16,7 +17,7 @@ export default class TripTicket extends React.Component {
 
   isSelected (id) {
     const data = this.read ('data');
-    window.document.reducerDragAndDrop (data, {
+    reducerDragAndDrop (data, {
       type: 'IS_SELECTED',
       id:   id,
     });
@@ -25,7 +26,7 @@ export default class TripTicket extends React.Component {
 
   isExtended (id) {
     const data = this.read ('data');
-    window.document.reducerDragAndDrop (data, {
+    reducerDragAndDrop (data, {
       type: 'IS_EXTENDED',
       id:   id,
     });
@@ -34,7 +35,7 @@ export default class TripTicket extends React.Component {
 
   isFlash (id) {
     const data = this.read ('data');
-    window.document.reducerDragAndDrop (data, {
+    reducerDragAndDrop (data, {
       type: 'IS_FLASH',
       id:   id,
     });
