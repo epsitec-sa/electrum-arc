@@ -1,5 +1,6 @@
 'use strict';
 import Electrum from 'electrum';
+import _ButtonClose from './components/buttons/button-close.component.js';
 import _Button from './components/buttons/button.component.js';
 import _Button$styles from './components/buttons/button.styles.js';
 import _Combo from './components/combo/combo.component.js';
@@ -70,6 +71,7 @@ import _View from './components/router/view.component.js';
 import _Splitter from './components/splitter/splitter.component.js';
 import _Splitter$styles from './components/splitter/splitter.styles.js';
 import _Checkbox from './components/switches/checkbox.component.js';
+export const ButtonClose = Electrum.wrap ('ButtonClose', _ButtonClose);
 export const Button = Electrum.wrap ('Button', _Button, {styles: _Button$styles});
 export const Combo = Electrum.wrap ('Combo', _Combo, {styles: _Combo$styles});
 export const DialogModal = Electrum.wrap ('DialogModal', _DialogModal, {styles: _DialogModal$styles});
