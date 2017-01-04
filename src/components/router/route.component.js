@@ -13,11 +13,9 @@ export default class Route extends React.Component {
 
   render () {
     const {state} = this.props;
-    const mouseDown = this.read ('mouse-down');
-    console.log ('Route.render');
 
     return (
-      <Button kind='container' {...this.props} mouse-down={mouseDown} {...this.link ()}>
+      <Button kind='container' {...this.props} {...this.link ()}>
         {this.props.children}
       </Button>
     );

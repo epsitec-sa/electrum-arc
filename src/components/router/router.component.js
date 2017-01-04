@@ -9,7 +9,6 @@ import {Container} from '../../all-components.js';
 export default class Router extends React.Component {
 
   constructor (props) {
-    console.log ('Router.ctor');
     super (props);
     this.state = {
       managedChildren: null,
@@ -18,13 +17,11 @@ export default class Router extends React.Component {
   }
 
   componentWillMount () {
-    console.log ('Router.componentWillMount');
     this.active = this.read ('active');
     this.setNavigation ();
   }
 
   componentDidMount () {
-    console.log ('Router.componentDidMount');
     const name = this.read ('name');
     if (name) {
       if (!window.document.routers) {
@@ -47,14 +44,24 @@ export default class Router extends React.Component {
     }
   }
 
+  updateViews () {
+    const name = this.read ('name');
+    for (let view of window.document.views) {
+      if (view.router === name && view.route === this.active) {
+        view.setVisible (true);
+      } else {
+        view.setVisible (false);
+      }
+    }
+  }
+
   mouseDown (name) {
-    console.log ('Router.mouseDown');
     this.active = name;
     this.setNavigation ();
+    this.updateViews ();
   }
 
   setNavigation () {
-    console.log ('Router.setNavigation');
     const children = React.Children.map (this.props.children, (child, i) => {
       const name = child.props.name;
       const props = {
