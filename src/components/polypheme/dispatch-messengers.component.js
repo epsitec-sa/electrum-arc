@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import Electrum from 'electrum';
 
 import {
   Container,
@@ -33,10 +34,18 @@ export default class DispatchMessengers extends React.Component {
 
   onSplitterRoadbooksChanged (data, size) {
     data.SplitterRoadbooksHeight = size;
+    Electrum.bus.dispatch (data, 'dnd', {
+      type: 'splitterRoadbooksChanged',
+      value: size,
+    });
   }
 
   onSplitterBacklogChanged (data, size) {
     data.SplitterBacklogWidth = size;
+    Electrum.bus.dispatch (data, 'dnd', {
+      type: 'splitterBacklogChanged',
+      value: size,
+    });
   }
 
   getSplitterRoadbooksHeight (data) {
