@@ -5,10 +5,91 @@ import reducerTickets from './reducer-tickets.js';
 
 // ------------------------------------------------------------------------------------------
 
+function searchTicket (root, items, type, id, ownerId) {
+  if (id) {
+    for (var i = 0, len = items.length; i < len; i++) {
+      const ticket = items[i];
+      if (ticket.id === id) {
+        return {
+          ownerId: root.id,
+          type:    type,
+          tickets: items,
+          ticket:  ticket,
+          index:   i,
+        };
+      }
+    }
+  } else if (root.id === ownerId) {
+    // If id is undefined, destination is after the last element.
+    const length = items.length;
+    const ticket = (length === 0) ? null : items[length - 1];
+    return {
+      ownerId: root.id,
+      type:    type,
+      tickets: items,
+      ticket:  ticket,
+      index:   items.length,
+    };
+  }
+  return null;
+}
+
+function searchId (state, id, ownerId) {
+  const r = searchTicket (state.Backlog, state.Backlog.Tickets, 'backlog', id, ownerId);
+  if (r) {
+    return r;
+  }
+  const m = searchTicket (state, state.Roadbooks, 'roadbooks', id, ownerId);
+  if (m) {
+    return m;
+  }
+  for (var roadbook of state.Roadbooks) {
+    const result = searchTicket (roadbook, roadbook.Tickets, 'roadbook', id, ownerId);
+    if (result) {
+      return result;
+    }
+  }
+  for (var tray of state.Desk) {
+    const result = searchTicket (tray, tray.Tickets, 'tray', id, ownerId);
+    if (result) {
+      return result;
+    }
+  }
+  return null;
+}
+
+function searchKind (state, id) {
+  const r = searchTicket (state.Backlog, state.Backlog.Tickets, 'backlog', id, null);
+  if (r) {
+    return r.type;
+  }
+  const m = searchTicket (state, state.Roadbooks, 'roadbooks', id, null);
+  if (m) {
+    return m.type;
+  }
+  for (var roadbook of state.Roadbooks) {
+    const result = searchTicket (roadbook, roadbook.Tickets, 'roadbook', id, null);
+    if (result) {
+      return result.type;
+    }
+  }
+  for (var tray of state.Desk) {
+    const result = searchTicket (tray, tray.Tickets, 'tray', id, null);
+    if (result) {
+      return result.type;
+    }
+  }
+  return null;
+}
+
+// ------------------------------------------------------------------------------------------
+
 function electrumDispatch (state, type, id) {
+  const kind = searchKind (state, id);
   Electrum.bus.dispatch (state, 'dnd', {
     type: type,
     key:  id,
+    kind: kind,
   });
 }
 
@@ -118,59 +199,6 @@ function putFlash (state, id, value) {
 }
 
 // ------------------------------------------------------------------------------------------
-
-function searchTicket (root, items, type, id, ownerId) {
-  if (id) {
-    for (var i = 0, len = items.length; i < len; i++) {
-      const ticket = items[i];
-      if (ticket.id === id) {
-        return {
-          ownerId: root.id,
-          type:    type,
-          tickets: items,
-          ticket:  ticket,
-          index:   i,
-        };
-      }
-    }
-  } else if (root.id === ownerId) {
-    // If id is undefined, destination is after the last element.
-    const length = items.length;
-    const ticket = (length === 0) ? null : items[length - 1];
-    return {
-      ownerId: root.id,
-      type:    type,
-      tickets: items,
-      ticket:  ticket,
-      index:   items.length,
-    };
-  }
-  return null;
-}
-
-function searchId (state, id, ownerId) {
-  const r = searchTicket (state.Backlog, state.Backlog.Tickets, 'backlog', id, ownerId);
-  if (r) {
-    return r;
-  }
-  const m = searchTicket (state, state.Roadbooks, 'roadbooks', id, ownerId);
-  if (m) {
-    return m;
-  }
-  for (var roadbook of state.Roadbooks) {
-    const result = searchTicket (roadbook, roadbook.Tickets, 'roadbook', id, ownerId);
-    if (result) {
-      return result;
-    }
-  }
-  for (var tray of state.Desk) {
-    const result = searchTicket (tray, tray.Tickets, 'tray', id, ownerId);
-    if (result) {
-      return result;
-    }
-  }
-  return null;
-}
 
 function getRoadbookTickets (state, roadbookId) {
   for (var readbook of state.Roadbooks) {
