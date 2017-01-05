@@ -209,9 +209,9 @@ export default class DispatchBacklog extends React.Component {
           <LabelTextField shape='rounded' hint-text='Chercher'
             grow='2' label-glyph='Search' {...this.link ()} />
         </Container>
-        <Container kind='panes' {...this.link ()} >
+        <Container kind='panes' drag-parent={data.Backlog.id} {...this.link ()} >
           <Container kind='column'
-            drag-controller='ticket' drag-source='backlog' item-id={data.Backlog.id}
+            drag-controller='ticket' drag-source='backlog' drag-mode='all' item-id={data.Backlog.id}
             view-parent-id='view-backlog' {...this.link ()} >
             {this.renderTickets (data.Backlog.Tickets, data)}
           </Container>

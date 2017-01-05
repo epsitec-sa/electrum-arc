@@ -158,6 +158,19 @@ export default class DragCarrier extends React.Component {
   findV (container, node, y, parentRect) {
     const thickness   = this.getHalfThickness ();
     const overSpacing = this.getOverSpacing () / 2;
+    if (container.props['drag-mode'] === 'all') {
+      const rect = getBoundingRect (node);
+      return {
+        id:         null,
+        ownerId:    container.props['item-id'],
+        ownerKind:  container.props['drag-source'],
+        rect:       rect.height === 0 ? getVRect (rect, rect.top, rect.top + thickness * 2) : rect,
+        opacity:    0.8,
+        radius:     '2px',
+        parentRect: parentRect,
+        index:      -1,
+      };
+    }
     if (node.children.length === 0) {  // is in top of empty container ?
       const rect = getBoundingRect (node);
       return {
@@ -207,6 +220,19 @@ export default class DragCarrier extends React.Component {
   findH (container, node, x, parentRect) {
     const thickness   = this.getHalfThickness ();
     const overSpacing = this.getOverSpacing () / 2;
+    if (container.props['drag-mode'] === 'all') {
+      const rect = getBoundingRect (node);
+      return {
+        id:         null,
+        ownerId:    container.props['item-id'],
+        ownerKind:  container.props['drag-source'],
+        rect:       rect.width === 0 ? getHRect (rect, rect.left, rect.left + thickness * 2) : rect,
+        opacity:    0.8,
+        radius:     '2px',
+        parentRect: parentRect,
+        index:      -1,
+      };
+    }
     if (node.children.length === 0) {  // is in top of empty container ?
       const rect = getBoundingRect (node);
       return {
@@ -253,6 +279,28 @@ export default class DragCarrier extends React.Component {
     };
   }
 
+  findParentId (id) {
+    if (id) {
+      for (var c of window.document.dragParentControllers) {
+        const parentId = c.props['drag-parent'];
+        if (parentId === id) {
+          return c;
+        }
+      }
+    }
+    return null;
+  }
+
+  getParentRect (container) {
+    const dragParentId = container.props['item-id'];
+    const parent = this.findParentId (dragParentId);
+    if (parent) {
+      const parentNode = ReactDOM.findDOMNode (parent);
+      return parentNode.getBoundingClientRect ();
+    }
+    return null;
+  }
+
   findViewId (id) {
     if (id) {
       for (var c of window.document.viewIds) {
@@ -265,7 +313,7 @@ export default class DragCarrier extends React.Component {
     return null;
   }
 
-  getParentRect (container) {
+  getViewParentRect (container) {
     const dragParentId = container.props['view-parent-id'];
     const parent = this.findViewId (dragParentId);
     if (parent) {
@@ -285,7 +333,9 @@ export default class DragCarrier extends React.Component {
       if (dc === dragController) {
         const n = ReactDOM.findDOMNode (container);
         const rect = n.getBoundingClientRect ();
-        const parentRect = this.getParentRect (container);
+        const vpr = this.getViewParentRect (container);
+        const pr = this.getParentRect (container);
+        const parentRect = clip (vpr, pr);
         if (isInside (parentRect, x, y) && isInside (rect, x, y)) {
           if (direction === 'horizontal') {
             return this.findH (container, n, x, parentRect);
@@ -310,7 +360,7 @@ export default class DragCarrier extends React.Component {
         } else {
           rect = getVRect (rect, rect.top, rect.bottom - overSpacing);
         }
-        const parentRect = this.getParentRect (container);
+        const parentRect = this.getViewParentRect (container);
         return {
           container:  container,
           ticket:     t,
@@ -536,9 +586,10 @@ export default class DragCarrier extends React.Component {
         width:           rect.width,
         top:             rect.top,
         height:          rect.height,
-        borderRadius:    radius,
+        borderRadius:    dest.radius ? dest.radius : radius,
         transition:      'all 0.2s ease-out',
         backgroundColor: color,
+        opacity:         dest.opacity ? dest.opacity : 1.0,
         userSelect:      'none',
       };
     } else {
@@ -548,6 +599,7 @@ export default class DragCarrier extends React.Component {
         borderRadius:    radius,
         transition:      'all 0.2s ease-out',
         backgroundColor: color,
+        opacity:         0,
         userSelect:      'none',
       };
     }
