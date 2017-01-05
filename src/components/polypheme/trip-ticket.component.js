@@ -7,6 +7,7 @@ import {ColorHelpers} from 'electrum-theme';
 import {Unit} from 'electrum-theme';
 import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 import {getTime, getPackageCount} from './converters';
+import {getDirectionGlyph} from './ticket-helpers';
 
 /******************************************************************************/
 
@@ -95,17 +96,6 @@ export default class TripTicket extends React.Component {
     return desc;
   }
 
-  getDirectionGlyph (type) {
-    const transit = type.endsWith ('-transit');
-    if (type.startsWith ('pick')) {
-      return transit ? 'plus-square-o' : 'plus-square';
-    } else if (type.startsWith ('drop')) {
-      return transit ? 'minus-square-o' : 'minus-square';
-    } else {
-      throw new Error (`Unknown type ${type}`);
-    }
-  }
-
   renderLine (glyph, text, index) {
     if (!text) {
       return null;
@@ -172,8 +162,7 @@ export default class TripTicket extends React.Component {
 
     const trip           = type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
     const time           = trip.PlanedTime;
-    const directionGlyph = this.getDirectionGlyph (type);
-    const directionColor = ColorHelpers.GetMarkColor (this.props.theme, type);
+    const directionGlyph = getDirectionGlyph (this.props.theme, type);
     const notes          = trip.Notes;
     const height         = ticket.Warning ? '90px' : '60px';
     const marginBottom   = '-10px';
@@ -191,7 +180,7 @@ export default class TripTicket extends React.Component {
           {this.renderWarning (ticket.Warning)}
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
             <Label text={getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
-            <Label glyph={directionGlyph} glyph-color={directionColor} width='25px' {...this.link ()} />
+            <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
             <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
           </Container>
           <Container kind='ticket-row' {...this.link ()} >
@@ -215,8 +204,7 @@ export default class TripTicket extends React.Component {
 
     const trip           = type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
     const time           = trip.PlanedTime;
-    const directionGlyph = this.getDirectionGlyph (type);
-    const directionColor = ColorHelpers.GetMarkColor (this.props.theme, type);
+    const directionGlyph = getDirectionGlyph (this.props.theme, type);
     const marginBottom   = null;
     const cursor         = (noDrag === 'true') ? null : 'move';
     const hudGlyph       = this.isSelected (ticket.id) ? 'check' : null;
@@ -232,7 +220,7 @@ export default class TripTicket extends React.Component {
           {this.renderWarning (ticket.Warning)}
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
             <Label text={getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
-            <Label glyph={directionGlyph} glyph-color={directionColor} width='25px' {...this.link ()} />
+            <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
             <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
           </Container>
           {this.renderLine ('building', trip.LongDescription)}

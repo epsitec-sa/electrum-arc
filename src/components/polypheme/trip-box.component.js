@@ -7,6 +7,7 @@ import {Ticket, Container, Label, Button, Gauge} from '../../all-components.js';
 import {ColorHelpers} from 'electrum-theme';
 import reducerDragAndDrop from './reducer-drag-and-drop.js';
 import {getTime, getPackageCount} from './converters';
+import {getDirectionGlyph} from './ticket-helpers';
 
 /******************************************************************************/
 
@@ -84,8 +85,8 @@ export default class TripBox extends React.Component {
     const hudGlyph = this.isSelected (ticket.id) ? 'check' : null;
     const flash    = this.isFlash (ticket.id) ? 'true' : 'false';
 
-    const directionColorPick = ColorHelpers.GetMarkColor (this.props.theme, 'pick');
-    const directionColorDrop = ColorHelpers.GetMarkColor (this.props.theme, 'drop');
+    const directionGlyphPick = getDirectionGlyph (this.props.theme, 'pick');
+    const directionGlyphDrop = getDirectionGlyph (this.props.theme, 'drop');
 
     if (!ticket || !ticket.Trip || typeof ticket.Trip.Pick === 'undefined' || typeof ticket.Trip.Drop === 'undefined') {
       throw new Error (`TripBox component without data`);
@@ -108,7 +109,7 @@ export default class TripBox extends React.Component {
                   {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
-                <Label glyph='plus-square' z-index={0} glyph-color={directionColorPick} {...this.link ()} />
+                <Label glyph={directionGlyphPick.glyph} glyph-color={directionGlyphPick.color} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label text={ticket.Trip.Pick.ShortDescription} wrap='no' {...this.link ()} />
@@ -127,7 +128,7 @@ export default class TripBox extends React.Component {
                   {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
-                <Label glyph='minus-square' z-index={0} glyph-color={directionColorDrop} {...this.link ()} />
+                <Label glyph={directionGlyphDrop.glyph} glyph-color={directionGlyphDrop.color} {...this.link ()} />
               </Container>
               <Container kind='thin-row' grow='1' {...this.link ()} >
                 <Label text={ticket.Trip.Drop.ShortDescription} wrap='no' {...this.link ()} />

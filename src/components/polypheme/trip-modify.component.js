@@ -4,6 +4,7 @@ import React from 'react';
 import {DialogModal, Container, Button, Label, LabelTextField, Separator} from '../../all-components.js';
 import {ColorHelpers} from 'electrum-theme';
 import {getTime} from './converters';
+import {getDirectionGlyph} from './ticket-helpers';
 
 /******************************************************************************/
 
@@ -38,22 +39,19 @@ export default class TripModify extends React.Component {
   }
 
   renderHalf (ticket, type) {
-    let glyph, color, title, pd;
+    const directionGlyph = getDirectionGlyph (this.props.theme, type);
+    let title, pd;
     if (type.startsWith ('pick')) {
-      glyph = 'plus-square';
-      color = ColorHelpers.GetMarkColor (this.props.theme, 'pick');
       title = 'Pick';
       pd    = ticket.Trip.Pick;
     } else {
-      glyph = 'minus-square';
-      color = ColorHelpers.GetMarkColor (this.props.theme, 'drop');
       title = 'Drop';
       pd    = ticket.Trip.Drop;
     }
 
     return (
       <Container kind='panes' {...this.link ()} >
-        <Label glyph={glyph} glyph-color={color} text={title} grow='1' kind='title' {...this.link ()} />
+        <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} text={title} grow='1' kind='title' {...this.link ()} />
         <Separator kind='space' {...this.link ()} />
         <LabelTextField label-glyph='clock-o' hint-text='Heure'
           value={getTime (pd.PlanedTime)} width='100px' {...this.link ()} />
