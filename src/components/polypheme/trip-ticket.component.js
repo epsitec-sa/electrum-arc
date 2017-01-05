@@ -6,6 +6,7 @@ import {Ticket, Container, Label, Separator} from '../../all-components.js';
 import {ColorHelpers} from 'electrum-theme';
 import {Unit} from 'electrum-theme';
 import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
+import {getTime, getPackageCount} from './converters';
 
 /******************************************************************************/
 
@@ -83,27 +84,8 @@ export default class TripTicket extends React.Component {
     }
   }
 
-  getTime (time) {
-    if (time && time.length === 33) {
-      // If format '2016-11-30T17:45:03.9052723+01:00', extract 'hh:mm'.
-      let h = time.substring (11, 13);
-      let m = time.substring (14, 16);
-      time = h + ':' + m;
-    } else if (time && time.length === 8) {
-      // If format '12:45:30', extract 'hh:mm'.
-      let h = time.substring (0, 2);
-      let m = time.substring (3, 5);
-      time = h + ':' + m;
-    }
-    return time;
-  }
-
-  getPackageCount (ticket) {
-    return ticket.Trip.Packages.length + 'x';
-  }
-
   packageDescription (ticket) {
-    let desc = this.getPackageCount (ticket);
+    let desc = getPackageCount (ticket.Trip.Packages.length);
     if (ticket.Trip.Weight) {
       desc += ` — ${ticket.Trip.Weight}`;
     }
@@ -208,14 +190,14 @@ export default class TripTicket extends React.Component {
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           {this.renderWarning (ticket.Warning)}
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
-            <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
+            <Label text={getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
             <Label glyph={directionGlyph} glyph-color={directionColor} width='25px' {...this.link ()} />
             <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
           </Container>
           <Container kind='ticket-row' {...this.link ()} >
             <Label text='' width='75px' {...this.link ()} />
             <Label glyph='cube' spacing='compact' {...this.link ()} />
-            <Label text={this.getPackageCount (ticket)} grow='1' {...this.link ()} />
+            <Label text={getPackageCount (ticket.Trip.Packages.length)} grow='1' {...this.link ()} />
             {this.renderNoteGlyphs (notes)}
           </Container>
         </Container>
@@ -249,7 +231,7 @@ export default class TripTicket extends React.Component {
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           {this.renderWarning (ticket.Warning)}
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
-            <Label text={this.getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
+            <Label text={getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
             <Label glyph={directionGlyph} glyph-color={directionColor} width='25px' {...this.link ()} />
             <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
           </Container>

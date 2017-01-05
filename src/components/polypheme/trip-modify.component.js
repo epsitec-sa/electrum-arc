@@ -3,18 +3,9 @@
 import React from 'react';
 import {DialogModal, Container, Button, Label, LabelTextField, Separator} from '../../all-components.js';
 import {ColorHelpers} from 'electrum-theme';
+import {getTime} from './converters';
 
 /******************************************************************************/
-
-function getTime (time) {
-  if (time && time.length === 33) {
-    // If format '2016-11-30T17:45:03.9052723+01:00', extract 'hh:mm'.
-    let h = time.substring (11, 13);
-    let m = time.substring (14, 16);
-    time = h + ':' + m;
-  }
-  return time;
-}
 
 function prepareLines (text) {
   if (text) {
