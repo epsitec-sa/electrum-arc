@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import Electrum from 'electrum';
 import {getTickets} from './backlog-data';
 
 import {
@@ -36,11 +37,21 @@ export default class DispatchBacklog extends React.Component {
   changeSort (data, item) {
     data.BacklogSort = item.text;
     this.forceUpdate ();
+
+    Electrum.bus.dispatch (data, 'dnd', {
+      type: 'changeBacklogSort',
+      value: item.text,
+    });
   }
 
   changeFilter (data, item) {
     data.BacklogFilter = item.text;
     this.forceUpdate ();
+
+    Electrum.bus.dispatch (data, 'dnd', {
+      type: 'changeBacklogFilter',
+      value: item.text,
+    });
   }
 
   getItem (text, current, glyph, action) {

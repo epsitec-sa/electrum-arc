@@ -34,6 +34,7 @@ export default class DispatchMessengers extends React.Component {
 
   onSplitterRoadbooksChanged (data, size) {
     data.SplitterRoadbooksHeight = size;
+
     Electrum.bus.dispatch (data, 'dnd', {
       type: 'splitterRoadbooksChanged',
       value: size,
@@ -42,6 +43,7 @@ export default class DispatchMessengers extends React.Component {
 
   onSplitterBacklogChanged (data, size) {
     data.SplitterBacklogWidth = size;
+
     Electrum.bus.dispatch (data, 'dnd', {
       type: 'splitterBacklogChanged',
       value: size,
