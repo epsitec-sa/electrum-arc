@@ -154,6 +154,10 @@ export default class DragCab extends React.Component {
     }
     const id   = props.ticket.id;
     const data = this.read ('data');
+
+    // inject electrum state (needed for electrumDispatch)
+    data.state = props.state;
+
     reducerDragAndDrop (data, {
       type:     action,
       id:       id,
