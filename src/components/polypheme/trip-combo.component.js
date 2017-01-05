@@ -3,6 +3,7 @@
 import React from 'react';
 import {Combo} from '../../all-components.js';
 import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
+import {isSelected, isExtended} from './ticket-helpers.js';
 
 /******************************************************************************/
 
@@ -25,28 +26,11 @@ export default class TripCombo extends React.Component {
   showMission () {
   }
 
-  isSelected (id) {
-    const data = this.read ('data');
-    reducerDragAndDrop (data, {
-      type: 'IS_SELECTED',
-      id:   id,
-    });
-    return data._isSelected;
-  }
-
-  isExtended (id) {
-    const data = this.read ('data');
-    reducerDragAndDrop (data, {
-      type: 'IS_EXTENDED',
-      id:   id,
-    });
-    return data._isExtended;
-  }
-
   getList () {
+    const data   = this.read ('data');
     const ticket = this.read ('ticket');
-    const isSelected = this.isSelected (ticket.id);
-    const isExtended = this.isExtended (ticket.id);
+    const selected = isSelected (data, ticket.id);
+    const extended = isExtended (data, ticket.id);
     const list = [];
     list.push (
       {
@@ -72,16 +56,16 @@ export default class TripCombo extends React.Component {
       );
       list.push (
         {
-          text:   isExtended ? 'Réduire' : 'Étendre',
-          glyph:  isExtended ? 'arrow-up' : 'arrow-down',
+          text:   extended ? 'Réduire' : 'Étendre',
+          glyph:  extended ? 'arrow-up' : 'arrow-down',
           action: () => this.extend (),
         }
       );
     }
     list.push (
       {
-        text:   isSelected ? 'Désélectionner' : 'Sélectionner',
-        glyph:  isSelected ? 'circle-o' : 'check-circle',
+        text:   selected ? 'Désélectionner' : 'Sélectionner',
+        glyph:  selected ? 'circle-o' : 'check-circle',
         action: () => this.select (),
       }
     );

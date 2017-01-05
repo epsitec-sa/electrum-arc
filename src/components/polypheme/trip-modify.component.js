@@ -2,9 +2,8 @@
 
 import React from 'react';
 import {DialogModal, Container, Button, Label, LabelTextField, Separator} from '../../all-components.js';
-import {ColorHelpers} from 'electrum-theme';
 import {getTime} from './converters';
-import {getDirectionGlyph} from './ticket-helpers';
+import {getDirectionGlyph} from './ticket-helpers.js';
 
 /******************************************************************************/
 

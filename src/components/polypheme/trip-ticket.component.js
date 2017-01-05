@@ -7,7 +7,7 @@ import {ColorHelpers} from 'electrum-theme';
 import {Unit} from 'electrum-theme';
 import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 import {getTime, getPackageCount} from './converters';
-import {getDirectionGlyph} from './ticket-helpers';
+import {isSelected, isExtended, isFlash, getDirectionGlyph} from './ticket-helpers.js';
 
 /******************************************************************************/
 
@@ -15,33 +15,6 @@ export default class TripTicket extends React.Component {
 
   constructor (props) {
     super (props);
-  }
-
-  isSelected (id) {
-    const data = this.read ('data');
-    reducerDragAndDrop (data, {
-      type: 'IS_SELECTED',
-      id:   id,
-    });
-    return data._isSelected;
-  }
-
-  isExtended (id) {
-    const data = this.read ('data');
-    reducerDragAndDrop (data, {
-      type: 'IS_EXTENDED',
-      id:   id,
-    });
-    return data._isExtended;
-  }
-
-  isFlash (id) {
-    const data = this.read ('data');
-    reducerDragAndDrop (data, {
-      type: 'IS_FLASH',
-      id:   id,
-    });
-    return data._isFlash;
   }
 
   renderGlyph (glyph) {
@@ -154,6 +127,7 @@ export default class TripTicket extends React.Component {
 
   renderCompacted () {
     const width    = this.props.theme.shapes.tripTicketWidth;
+    const data     = this.read ('data');
     const shape    = this.read ('shape');
     const ticket   = this.read ('ticket');
     const noDrag   = this.read ('no-drag');
@@ -167,8 +141,8 @@ export default class TripTicket extends React.Component {
     const height         = ticket.Warning ? '90px' : '60px';
     const marginBottom   = '-10px';
     const cursor         = (noDrag === 'true') ? null : 'move';
-    const hudGlyph       = this.isSelected (ticket.id) ? 'check' : null;
-    const flash          = this.isFlash (ticket.id) ? 'true' : 'false';
+    const hudGlyph       = isSelected (data, ticket.id) ? 'check' : null;
+    const flash          = isFlash (data, ticket.id) ? 'true' : 'false';
 
     return (
       <Ticket width={width} height={height}
@@ -196,6 +170,7 @@ export default class TripTicket extends React.Component {
 
   renderExtended () {
     const width    = this.props.theme.shapes.tripTicketWidth;
+    const data     = this.read ('data');
     const shape    = this.read ('shape');
     const ticket   = this.read ('ticket');
     const noDrag   = this.read ('no-drag');
@@ -207,8 +182,8 @@ export default class TripTicket extends React.Component {
     const directionGlyph = getDirectionGlyph (this.props.theme, type);
     const marginBottom   = null;
     const cursor         = (noDrag === 'true') ? null : 'move';
-    const hudGlyph       = this.isSelected (ticket.id) ? 'check' : null;
-    const flash          = this.isFlash (ticket.id) ? 'true' : 'false';
+    const hudGlyph       = isSelected (data, ticket.id) ? 'check' : null;
+    const flash          = isFlash (data, ticket.id) ? 'true' : 'false';
 
     return (
       <Ticket width={width}
@@ -235,8 +210,9 @@ export default class TripTicket extends React.Component {
   }
 
   render () {
+    const data   = this.read ('data');
     const ticket = this.read ('ticket');
-    if (this.isExtended (ticket.id)) {
+    if (isExtended (data, ticket.id)) {
       return this.renderExtended ();
     } else {
       return this.renderCompacted ();

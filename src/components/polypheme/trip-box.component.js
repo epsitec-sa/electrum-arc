@@ -7,7 +7,7 @@ import {Ticket, Container, Label, Button, Gauge} from '../../all-components.js';
 import {ColorHelpers} from 'electrum-theme';
 import reducerDragAndDrop from './reducer-drag-and-drop.js';
 import {getTime, getPackageCount} from './converters';
-import {getDirectionGlyph} from './ticket-helpers';
+import {isSelected, isFlash, getDirectionGlyph} from './ticket-helpers.js';
 
 /******************************************************************************/
 
@@ -15,24 +15,6 @@ export default class TripBox extends React.Component {
 
   constructor (props) {
     super (props);
-  }
-
-  isSelected (id) {
-    const data = this.read ('data');
-    reducerDragAndDrop (data, {
-      type: 'IS_SELECTED',
-      id:   id,
-    });
-    return data._isSelected;
-  }
-
-  isFlash (id) {
-    const data = this.read ('data');
-    reducerDragAndDrop (data, {
-      type: 'IS_FLASH',
-      id:   id,
-    });
-    return data._isFlash;
   }
 
   renderGlyph (glyph) {
@@ -78,12 +60,13 @@ export default class TripBox extends React.Component {
 
   render () {
     const height   = this.props.theme.shapes.tripBoxHeight;
+    const data     = this.read ('data');
     const ticket   = this.read ('ticket');
     const selected = this.read ('selected');
 
     const cursor   = 'move';
-    const hudGlyph = this.isSelected (ticket.id) ? 'check' : null;
-    const flash    = this.isFlash (ticket.id) ? 'true' : 'false';
+    const hudGlyph = isSelected (data, ticket.id) ? 'check' : null;
+    const flash    = isFlash (data, ticket.id) ? 'true' : 'false';
 
     const directionGlyphPick = getDirectionGlyph (this.props.theme, 'pick');
     const directionGlyphDrop = getDirectionGlyph (this.props.theme, 'drop');

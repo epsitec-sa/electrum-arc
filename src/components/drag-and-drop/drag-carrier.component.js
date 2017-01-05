@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Unit} from 'electrum-theme';
 import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
+import {isSelected} from '../polypheme/ticket-helpers.js';
 
 import {
   Container,
@@ -419,24 +420,16 @@ export default class DragCarrier extends React.Component {
     }
   }
 
-  isSelected (id) {
-    const data = this.read ('data');
-    reducerDragAndDrop (data, {
-      type: 'IS_SELECTED',
-      id:   id,
-    });
-    return data._isSelected;
-  }
-
   selectMulti (value) {
     // console.log ('selectMulti >>>>>>>>>>>>>>>>>>>>');
     if (this.rectOrigin) {
+      const data = this.read ('data');
       const origin = this.searchChildren (this.rectOrigin.id);
-      if (origin && origin.props.ticket && this.isSelected (origin.props.ticket.id)) {
+      if (origin && origin.props.ticket && isSelected (data, origin.props.ticket.id)) {
         // Drag all selected items.
         const container = this.rectOrigin.container;
         for (let child of container.props.children) {
-          if (this.isSelected (child.props.ticket.id)) {
+          if (isSelected (data, child.props.ticket.id)) {
             this.selectOne (child.props.ticket.id, value);
           }
         }

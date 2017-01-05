@@ -1,6 +1,31 @@
 'use strict';
 
 import {ColorHelpers} from 'electrum-theme';
+import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
+
+function isSelected (data, id) {
+  reducerDragAndDrop (data, {
+    type: 'IS_SELECTED',
+    id:   id,
+  });
+  return data._isSelected;
+}
+
+function isExtended (data, id) {
+  reducerDragAndDrop (data, {
+    type: 'IS_EXTENDED',
+    id:   id,
+  });
+  return data._isExtended;
+}
+
+function isFlash (data, id) {
+  reducerDragAndDrop (data, {
+    type: 'IS_FLASH',
+    id:   id,
+  });
+  return data._isFlash;
+}
 
 function getDirectionGlyph (theme, type) {
   const transit = type.endsWith ('-transit');
@@ -34,4 +59,9 @@ function getDirectionGlyph (theme, type) {
   }
 }
 
-export {getDirectionGlyph};
+export {
+  isSelected,
+  isExtended,
+  isFlash,
+  getDirectionGlyph
+};
