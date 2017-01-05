@@ -15,32 +15,32 @@ function sortTimeDrop (a, b) {
 }
 
 function sortZonePick (a, b) {
-  const ta = getTime (a.Trip.Pick.Zone);
-  const tb = getTime (b.Trip.Pick.Zone);
+  const ta = a.Trip.Pick.Zone;
+  const tb = b.Trip.Pick.Zone;
   return ta.localeCompare (tb);
 }
 
 function sortZoneDrop (a, b) {
-  const ta = getTime (a.Trip.Drop.Zone);
-  const tb = getTime (b.Trip.Drop.Zone);
+  const ta = a.Trip.Drop.Zone;
+  const tb = b.Trip.Drop.Zone;
   return ta.localeCompare (tb);
 }
 
 function sortProduct (a, b) {
-  const ta = getTime (a.Trip.Product);
-  const tb = getTime (b.Trip.Product);
+  const ta = a.Trip.Product;
+  const tb = b.Trip.Product;
   return ta.localeCompare (tb);
 }
 
 function sortPrice (a, b) {
-  const ta = getTime (a.Trip.Price);
-  const tb = getTime (b.Trip.Price);
+  const ta = a.Trip.Price;
+  const tb = b.Trip.Price;
   return tb.localeCompare (ta);
 }
 
 function sortWeight (a, b) {
-  const ta = getTime (a.Trip.Weight);
-  const tb = getTime (b.Trip.Weight);
+  const ta = a.Trip.Weight;
+  const tb = b.Trip.Weight;
   return tb.localeCompare (ta);
 }
 
