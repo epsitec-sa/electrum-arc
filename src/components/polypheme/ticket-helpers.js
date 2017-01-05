@@ -2,6 +2,7 @@
 
 import {ColorHelpers} from 'electrum-theme';
 import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
+import {getPackageCount} from './converters';
 
 function isSelected (data, id) {
   reducerDragAndDrop (data, {
@@ -59,9 +60,21 @@ function getDirectionGlyph (theme, type) {
   }
 }
 
+function getPackageDescription (ticket) {
+  let desc = getPackageCount (ticket.Trip.Packages.length);
+  if (ticket.Trip.Weight) {
+    desc += ` — ${ticket.Trip.Weight}`;
+  }
+  if (ticket.Trip.Product) {
+    desc += ` — ${ticket.Trip.Product}`;
+  }
+  return desc;
+}
+
 export {
   isSelected,
   isExtended,
   isFlash,
-  getDirectionGlyph
+  getDirectionGlyph,
+  getPackageDescription
 };

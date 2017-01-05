@@ -7,7 +7,7 @@ import {ColorHelpers} from 'electrum-theme';
 import {Unit} from 'electrum-theme';
 import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 import {getTime, getPackageCount} from './converters';
-import {isSelected, isExtended, isFlash, getDirectionGlyph} from './ticket-helpers.js';
+import {isSelected, isExtended, isFlash, getDirectionGlyph, getPackageDescription} from './ticket-helpers.js';
 
 /******************************************************************************/
 
@@ -56,17 +56,6 @@ export default class TripTicket extends React.Component {
       }
       return line;
     }
-  }
-
-  packageDescription (ticket) {
-    let desc = getPackageCount (ticket.Trip.Packages.length);
-    if (ticket.Trip.Weight) {
-      desc += ` — ${ticket.Trip.Weight}`;
-    }
-    if (ticket.Trip.Product) {
-      desc += ` — ${ticket.Trip.Product}`;
-    }
-    return desc;
   }
 
   renderLine (glyph, text, index) {
@@ -201,7 +190,7 @@ export default class TripTicket extends React.Component {
           {this.renderLine ('building', trip.LongDescription)}
           {this.renderLine ('map-marker', trip.Zone)}
           {this.renderNotes (trip.Notes)}
-          {this.renderLine ('cube', this.packageDescription (ticket))}
+          {this.renderLine ('cube', getPackageDescription (ticket))}
           {this.renderLine ('money', ticket.Trip.Price)}
           {this.renderNotes (ticket.Trip.Notes)}
         </Container>
