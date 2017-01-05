@@ -157,6 +157,7 @@ export default class DragCab extends React.Component {
 
     // inject electrum state (needed for electrumDispatch)
     data.state = props.state;
+
     reducerDragAndDrop (data, {
       type:     action,
       id:       id,
