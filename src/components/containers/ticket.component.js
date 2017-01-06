@@ -153,11 +153,11 @@ export default class Ticket extends React.Component {
       contentStyle.visibility = 'hidden';
     }
 
-    if (status === 'delivered') {
-      shapeStyle.fill = this.props.theme.palette.ticketDeliveredBackground;
-    }
     if (flash && !isDragged) {
       shapeStyle.fill = this.props.theme.palette.ticketFlashBackground;
+    }
+    if (status === 'delivered') {
+      shapeStyle.fill = this.props.theme.palette.ticketDeliveredBackground;
     }
     if (warning && !isDragged) {  // pick under drop ?
       shapeStyle.fill = this.props.theme.palette.ticketWarningBackground;
@@ -248,11 +248,11 @@ export default class Ticket extends React.Component {
       contentStyle.visibility = 'hidden';
     }
 
-    if (status === 'delivered') {
-      rectStyle.backgroundColor = this.props.theme.palette.ticketDeliveredBackground;
-    }
     if (flash && !isDragged) {
       rectStyle.backgroundColor = this.props.theme.palette.ticketFlashBackground;
+    }
+    if (status === 'delivered') {
+      rectStyle.backgroundColor = this.props.theme.palette.ticketDeliveredBackground;
     }
     if (warning && !isDragged) {  // pick under drop ?
       rectStyle.backgroundColor = this.props.theme.palette.ticketWarningBackground;

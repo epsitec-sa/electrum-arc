@@ -465,9 +465,6 @@ function setMisc (state, list, flashes, warnings) {
     const w = getTextWarning (warnings, ticket.id);
     const f = (flashes.indexOf (ticket.id) !== -1);
     let s = isSelected (state, ticket.id);
-    if (f) {
-      s = false;  // if flash -> deselect item
-    }
     if (ticket.Warning !== w ||
         isFlash (state, ticket.id) !== f ||
         isSelected (state, ticket.id) !== s) {  // changing ?
@@ -502,12 +499,13 @@ function firstSelectedIndex (state, result) {
   return 0;
 }
 
-function selectZone (state, result, fromIndex, toIndex, value) {
+function selectZone (state, flashes, result, fromIndex, toIndex, value) {
   for (let i = 0; i < result.tickets.length; i++) {
     const ticket = result.tickets[i];
-    if (ticket.Status === 'pre-dispatched' && i >= fromIndex && i <= toIndex) {
+    if ((ticket.Status === 'backlog' || ticket.Status === 'pre-dispatched') && i >= fromIndex && i <= toIndex) {
       putSelected (state, ticket.id, value);
       result.tickets[i] = clone (state, ticket);  // Trick necessary for update UI !!!
+      flashes.push (result.tickets[i].id);
     }
   }
 }
@@ -566,15 +564,19 @@ function changeGeneric (state, flashes, warnings, from, to) {
     drop.Type = 'drop';
     addTicket (to.tickets, to.index, drop);  // first drop, for have pick/drop in this order
     addTicket (to.tickets, to.index, pick);
+    clearSelected (state, pick.id);
+    clearSelected (state, drop.id);
     flashes.push (pick.id);
     flashes.push (drop.id);
   } else if (to.type === 'backlog' && ticket.Type !== 'both') {
     ticket.Type = 'both';
     ticket.Status = 'pre-dispatched';
     addTicket (to.tickets, to.index, ticket);
+    clearSelected (state, ticket.id);
     flashes.push (ticket.id);
   } else {
     addTicket (to.tickets, to.index, ticket);
+    clearSelected (state, ticket.id);
     flashes.push (ticket.id);
   }
 }
@@ -622,11 +624,13 @@ function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
 }
 
 function swapSelected (state, id, shiftKey) {
+  const flashes = [];
+  const warnings = [];
   const result = searchId (state, id);
   if (shiftKey) {
     if (isSelected (state, result.tickets[result.index].id)) {
       // Deselect all items.
-      selectZone (state, result, 0, 9999, false);
+      selectZone (state, flashes, result, 0, 9999, false);
     } else {
       // Select from first selected item to pointed item.
       let fromIndex = firstSelectedIndex (state, result);
@@ -636,20 +640,24 @@ function swapSelected (state, id, shiftKey) {
         fromIndex = toIndex;  // fromIndex <-> toIndex
         toIndex = x;
       }
-      selectZone (state, result, fromIndex, toIndex, true);
+      selectZone (state, flashes, result, fromIndex, toIndex, true);
     }
   } else {
     // Select or deselect pointed item.
     const ticket = result.tickets[result.index];
-    if (ticket.Status === 'pre-dispatched') {
+    if (ticket.Status === 'backlog' || ticket.Status === 'pre-dispatched') {
       putSelected (state, ticket.id, !isSelected (state, ticket.id));
       result.tickets[result.index] = clone (state, ticket);  // Trick necessary for update UI !!!
+      flashes.push (result.tickets[result.index].id);
     }
   }
+  setMiscs (state, flashes, warnings);
   return state;
 }
 
 function swapExtended (state, id) {
+  const flashes = [];
+  const warnings = [];
   const result = searchId (state, id);
   if (result.type !== 'backlog') {
     const ticket = result.tickets[result.index];
@@ -659,25 +667,31 @@ function swapExtended (state, id) {
       setExtended (state, ticket.id);
     }
     result.tickets[result.index] = clone (state, ticket);  // Trick necessary for update UI !!!
+    flashes.push (result.tickets[result.index].id);
   }
+  setMiscs (state, flashes, warnings);
   return state;
 }
 
 function swapStatus (state, id) {
+  const flashes = [];
+  const warnings = [];
   const result = searchId (state, id);
   if (result.type === 'roadbook') {
     const ticket = result.tickets[result.index];
-    if (ticket.Status === 'pre-dispatched') {
-      ticket.Status = 'dispatched';
-      clearSelected (state, ticket.id);
-    } else if (ticket.Status === 'dispatched') {
+    if (ticket.Status === 'dispatched') {
       ticket.Status = 'delivered';
       clearSelected (state, ticket.id);
-    } else {
+    } else if (ticket.Status === 'delivered') {
       ticket.Status = 'pre-dispatched';
+    } else {
+      ticket.Status = 'dispatched';
+      clearSelected (state, ticket.id);
     }
     result.tickets[result.index] = clone (state, ticket);  // Trick necessary for update UI !!!
+    flashes.push (result.tickets[result.index].id);
   }
+  setMiscs (state, flashes, warnings);
   return state;
 }
 
