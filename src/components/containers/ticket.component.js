@@ -108,6 +108,22 @@ export default class Ticket extends React.Component {
     this.setLinkToAll (false);
   }
 
+  mouseDown (event) {
+    console.log ('Ticket.mouseDown');
+    const x = this.read ('mouse-down');
+    if (x) {
+      x (event);
+    }
+  }
+
+  mouseUp (event) {
+    console.log ('Ticket.mouseUp');
+    const x = this.read ('mouse-up');
+    if (x) {
+      x (event);
+    }
+  }
+
   renderHud (hasHeLeft, isDragged) {
     if (!hasHeLeft || isDragged) {
       const hudGlyph = this.read ('hud-glyph');
@@ -211,6 +227,8 @@ export default class Ticket extends React.Component {
         style       = {boxStyle}
         onMouseOver = {() => this.mouseOver ()}
         onMouseOut  = {() => this.mouseOut ()}
+        onMouseDown = {event => this.mouseDown (event)}
+        onMouseUp   = {event => this.mouseUp (event)}
         >
         {htmlShadow}
         {htmlShape}
@@ -273,6 +291,8 @@ export default class Ticket extends React.Component {
         style       = {rectShadowStyle}
         onMouseOver = {() => this.mouseOver ()}
         onMouseOut  = {() => this.mouseOut ()}
+        onMouseDown = {event => this.mouseDown (event)}
+        onMouseUp   = {event => this.mouseUp (event)}
         >
         <div style = {rectStyle}>
           <div style = {hatch ? rectContentHatchStyle : contentStyle}>
