@@ -505,7 +505,7 @@ function firstSelectedIndex (state, result) {
 function selectZone (state, result, fromIndex, toIndex, value) {
   for (let i = 0; i < result.tickets.length; i++) {
     const ticket = result.tickets[i];
-    if (ticket.Status !== 'dispatched' && i >= fromIndex && i <= toIndex) {
+    if (ticket.Status === 'pre-dispatched' && i >= fromIndex && i <= toIndex) {
       putSelected (state, ticket.id, value);
       result.tickets[i] = clone (state, ticket);  // Trick necessary for update UI !!!
     }
@@ -641,7 +641,7 @@ function swapSelected (state, id, shiftKey) {
   } else {
     // Select or deselect pointed item.
     const ticket = result.tickets[result.index];
-    if (ticket.Status !== 'dispatched') {
+    if (ticket.Status === 'pre-dispatched') {
       putSelected (state, ticket.id, !isSelected (state, ticket.id));
       result.tickets[result.index] = clone (state, ticket);  // Trick necessary for update UI !!!
     }
@@ -667,11 +667,14 @@ function swapStatus (state, id) {
   const result = searchId (state, id);
   if (result.type === 'roadbook') {
     const ticket = result.tickets[result.index];
-    if (ticket.Status === 'dispatched') {
-      ticket.Status = 'pre-dispatched';
-    } else {
+    if (ticket.Status === 'pre-dispatched') {
       ticket.Status = 'dispatched';
       clearSelected (state, ticket.id);
+    } else if (ticket.Status === 'dispatched') {
+      ticket.Status = 'delivered';
+      clearSelected (state, ticket.id);
+    } else {
+      ticket.Status = 'pre-dispatched';
     }
     result.tickets[result.index] = clone (state, ticket);  // Trick necessary for update UI !!!
   }

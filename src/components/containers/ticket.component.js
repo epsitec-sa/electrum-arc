@@ -129,7 +129,7 @@ export default class Ticket extends React.Component {
   }
 
   renderTicket () {
-    const hatch     = this.read ('status') === 'dispatched';
+    const status    = this.read ('status');
     const flash     = this.read ('flash') === 'true';
     const warning   = this.read ('warning');
     const hasHeLeft = this.read ('hasHeLeft');
@@ -144,6 +144,7 @@ export default class Ticket extends React.Component {
     const hoverStyle   = this.mergeStyles ('hover');
     const contentStyle = this.mergeStyles ('content');
 
+    const hatch       = status === 'dispatched' || status === 'delivered';
     const hoverOrLink = (this.getHover () || this.getLink ()) && !hasHeLeft && !isDragged;
 
     if (hasHeLeft && !isDragged) {
@@ -152,6 +153,9 @@ export default class Ticket extends React.Component {
       contentStyle.visibility = 'hidden';
     }
 
+    if (status === 'delivered') {
+      shapeStyle.fill = this.props.theme.palette.ticketDeliveredBackground;
+    }
     if (flash && !isDragged) {
       shapeStyle.fill = this.props.theme.palette.ticketFlashBackground;
     }
@@ -221,7 +225,7 @@ export default class Ticket extends React.Component {
   }
 
   renderRect () {
-    const hatch     = this.read ('status') === 'dispatched';
+    const status    = this.read ('status');
     const flash     = this.read ('flash') === 'true';
     const warning   = this.read ('warning');
     const hasHeLeft = this.read ('hasHeLeft');
@@ -235,6 +239,7 @@ export default class Ticket extends React.Component {
     const contentStyle          = this.mergeStyles ('content');
     const rectContentHatchStyle = this.mergeStyles ('rectContentHatch');
 
+    const hatch       = status === 'dispatched' || status === 'delivered';
     const hoverOrLink = (this.getHover () || this.getLink ()) && !hasHeLeft && !isDragged;
 
     if (hasHeLeft && !isDragged) {
@@ -243,6 +248,9 @@ export default class Ticket extends React.Component {
       contentStyle.visibility = 'hidden';
     }
 
+    if (status === 'delivered') {
+      rectStyle.backgroundColor = this.props.theme.palette.ticketDeliveredBackground;
+    }
     if (flash && !isDragged) {
       rectStyle.backgroundColor = this.props.theme.palette.ticketFlashBackground;
     }

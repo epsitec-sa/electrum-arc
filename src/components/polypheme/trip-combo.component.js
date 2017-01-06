@@ -47,13 +47,31 @@ export default class TripCombo extends React.Component {
       }
     );
     if (ticket.Type !== 'both') {
-      list.push (
-        {
-          text:   ticket.Status === 'dispatched' ? 'Non dispatché' : 'Dispatché',
-          glyph:  ticket.Status === 'dispatched' ? 'square-o' : 'hashtag',
-          action: () => this.dispatch (),
-        }
-      );
+      if (ticket.Status === 'pre-dispatched') {
+        list.push (
+          {
+            text:   'Dispatché',
+            glyph:  'hashtag',
+            action: () => this.dispatch (),
+          }
+        );
+      } else if (ticket.Status === 'dispatched') {
+        list.push (
+          {
+            text:   'Livré',
+            glyph:  'envelope',
+            action: () => this.dispatch (),
+          }
+        );
+      } else if (ticket.Status === 'delivered') {
+        list.push (
+          {
+            text:   'Non dispatché',
+            glyph:  'square-o',
+            action: () => this.dispatch (),
+          }
+        );
+      }
       list.push (
         {
           text:   extended ? 'Réduire' : 'Étendre',
