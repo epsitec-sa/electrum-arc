@@ -130,6 +130,7 @@ export default class Trip extends React.Component {
         margin-bottom   = {margin}
         mouse-down      = {event => this.mouseDown (event)}
         mouse-up        = {event => this.mouseUp (event)}
+        show-modify     = {() => this.setShowModify (true)}
         {...this.link ()}>
         {content ()}
         {this.renderCombo (data)}
