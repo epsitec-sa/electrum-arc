@@ -264,9 +264,11 @@ function clone (state, ticket) {
   const oldId = n.id;
   n.id = getNewId ();
   updateId (state, oldId, n.id);
-  n.Trip.id = getNewId ();
-  n.Trip.Pick.id = getNewId ();
-  n.Trip.Drop.id = getNewId ();
+  if (n.Trip) {
+    n.Trip.id = getNewId ();
+    n.Trip.Pick.id = getNewId ();
+    n.Trip.Drop.id = getNewId ();
+  }
   return n;
 }
 
@@ -460,8 +462,8 @@ function getTextWarning (warnings, id) {
 }
 
 function setMisc (state, list, flashes, warnings) {
-  for (let i = 0; i < list.Tickets.length; i++) {
-    const ticket = normalize (list.Tickets[i]);
+  for (let i = 0; i < list.length; i++) {
+    const ticket = normalize (list[i]);
     const w = getTextWarning (warnings, ticket.id);
     const f = (flashes.indexOf (ticket.id) !== -1);
     let s = isSelected (state, ticket.id);
@@ -471,7 +473,7 @@ function setMisc (state, list, flashes, warnings) {
       ticket.Warning  = w;  // set or clear warning message
       putFlash (state, ticket.id, f);  // set or clear flash mode
       putSelected (state, ticket.id, s);  // select or deselect ticket
-      list.Tickets[i] = clone (state, ticket);  // Trick necessary for update UI !!!
+      list[i] = clone (state, ticket);  // Trick necessary for update UI !!!
     }
   }
 }
@@ -479,12 +481,13 @@ function setMisc (state, list, flashes, warnings) {
 // Set flashes and warnings to all ticket into Roadbooks, Desk and Backlog.
 function setMiscs (state, flashes, warnings) {
   for (var readbook of state.Roadbooks) {
-    setMisc (state, readbook, flashes, warnings);
+    setMisc (state, readbook.Tickets, flashes, warnings);
   }
   for (var tray of state.Desk) {
-    setMisc (state, tray, flashes, warnings);
+    setMisc (state, tray.Tickets, flashes, warnings);
   }
-  setMisc (state, state.Backlog, flashes, warnings);
+  setMisc (state, state.Backlog.Tickets, flashes, warnings);
+  setMisc (state, state.Roadbooks, flashes, warnings);
 }
 
 // ------------------------------------------------------------------------------------------
@@ -656,6 +659,7 @@ function swapSelected (state, id, shiftKey) {
 }
 
 function swapExtended (state, id) {
+  // console.log ('reducer.swapExtended');
   const flashes = [];
   const warnings = [];
   const result = searchId (state, id);

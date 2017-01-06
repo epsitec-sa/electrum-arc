@@ -32,9 +32,9 @@ export default class DispatchRoadbooks extends React.Component {
     }
   }
 
-  renderMessenger (roadbook) {
+  renderMessenger (data, roadbook) {
     return (
-      <MessengerTicket roadbook={roadbook} {...this.link ()} />
+      <MessengerTicket data={data} roadbook={roadbook} {...this.link ()} />
     );
   }
 
@@ -63,8 +63,8 @@ export default class DispatchRoadbooks extends React.Component {
         radius='0px'
         data={data}
         item-id={roadbook.id} {...this.link ()}>
-        <Roadbook key={index} {...this.link ()} >
-          {this.renderMessenger (roadbook)}
+        <Roadbook key={index} data={data} roadbook={roadbook} {...this.link ()} >
+          {this.renderMessenger (data, roadbook)}
           <Container kind='tickets-trips'
             drag-controller='ticket' drag-source='roadbook' item-id={roadbook.id}
             max-width={maxWidth} {...this.link ()} >
