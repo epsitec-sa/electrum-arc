@@ -44,11 +44,14 @@ export default class DispatchRoadbooks extends React.Component {
     );
   }
 
-  renderTickets (tickets, data) {
+  renderTickets (roadbook, data) {
     const result = [];
+    const showHidden = roadbook.ShowHidden === 'true';
     let index = 0;
-    for (var ticket of tickets) {
-      result.push (this.renderTicket (ticket, data, index++));
+    for (var ticket of roadbook.Tickets) {
+      if (showHidden || ticket.Status !== 'delivered') {
+        result.push (this.renderTicket (ticket, data, index++));
+      }
     }
     return result;
   }
@@ -68,7 +71,7 @@ export default class DispatchRoadbooks extends React.Component {
           <Container kind='tickets-trips'
             drag-controller='ticket' drag-source='roadbook' item-id={roadbook.id}
             max-width={maxWidth} {...this.link ()} >
-            {this.renderTickets (roadbook.Tickets, data)}
+            {this.renderTickets (roadbook, data)}
           </Container>
         </Roadbook>
       </DragCab>

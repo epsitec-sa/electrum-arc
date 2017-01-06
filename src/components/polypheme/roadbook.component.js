@@ -25,7 +25,7 @@ export default class Roadbook extends React.Component {
     const boxStyle = this.mergeStyles ('box');
 
     if (roadbook.Compacted === 'true') {
-      boxStyle.backgroundColor = '#f00';
+      boxStyle.backgroundColor = '#f00';  // TODO: !!!
     }
 
     // When dragging, show a source component empty.
