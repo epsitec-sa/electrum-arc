@@ -46,11 +46,14 @@ export default class DispatchRoadbooks extends React.Component {
 
   renderTickets (roadbook, data) {
     const result = [];
+    const compacted  = roadbook.Compacted  === 'true';
     const showHidden = roadbook.ShowHidden === 'true';
-    let index = 0;
-    for (var ticket of roadbook.Tickets) {
-      if (showHidden || ticket.Status !== 'delivered') {
-        result.push (this.renderTicket (ticket, data, index++));
+    if (!compacted) {
+      let index = 0;
+      for (var ticket of roadbook.Tickets) {
+        if (showHidden || ticket.Status !== 'delivered') {
+          result.push (this.renderTicket (ticket, data, index++));
+        }
       }
     }
     return result;

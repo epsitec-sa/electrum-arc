@@ -117,11 +117,12 @@ export default class MessengerTicket extends React.Component {
     }
   }
 
-  render () {
-    const width    = this.props.theme.shapes.tripTicketWidth;
-    const height   = this.props.theme.shapes.messengerHeight;
+  renderExtended () {
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
+
+    const width  = this.props.theme.shapes.tripTicketWidth;
+    const height = this.props.theme.shapes.messengerHeight;
 
     const photo = (roadbook.Messenger && roadbook.Messenger.Photo && roadbook.Messenger.Photo.Glyph) ?
       roadbook.Messenger.Photo.Glyph :
@@ -149,6 +150,35 @@ export default class MessengerTicket extends React.Component {
         {this.renderModify (data)}
       </Ticket>
     );
+  }
+
+  renderCompacted () {
+    const data     = this.read ('data');
+    const roadbook = this.read ('roadbook');
+
+    const width  = this.props.theme.shapes.tripTicketCompactedWidth;
+    const height = '100%';
+
+    // TODO: Replace Ticket by componebt with vertical text !
+    return (
+      <Ticket kind='rect' shape='header' width={width} height={height} color='selected'
+        mouse-down = {event => this.mouseDown (event)}
+        mouse-up   = {event => this.mouseUp (event)}
+        no-drag='false' cursor='ew-resize' {...this.link ()} >
+        {this.renderCombo (data)}
+        {this.renderModify (data)}
+      </Ticket>
+    );
+  }
+
+  render () {
+    const roadbook = this.read ('roadbook');
+    const compacted  = roadbook.Compacted  === 'true';
+    if (compacted) {
+      return this.renderCompacted ();
+    } else {
+      return this.renderExtended ();
+    }
   }
 }
 
