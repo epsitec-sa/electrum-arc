@@ -9,6 +9,30 @@ import {isExtended} from './ticket-helpers.js';
 
 export default class MessengerCombo extends React.Component {
 
+  reduce (action, ticket) {
+    const id   = ticket.id;
+    const data = this.read ('data');
+    reducerDragAndDrop (data, {
+      type: action,
+      id:   id,
+    });
+    if (window.document.mock) {
+      for (var c of window.document.toUpdate) {
+        c.forceUpdate ();
+      }
+    }
+  }
+
+  swapCompacted () {
+    const roadbook = this.read ('roadbook');
+    this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook);
+  }
+
+  swapShowHidden () {
+    const roadbook = this.read ('roadbook');
+    this.reduce ('SWAP_ROADBOOK_SHOWHIDDEN', roadbook);
+  }
+
   closeCombo () {
     const closeCombo = this.read ('close-combo');
     if (closeCombo) {
@@ -27,9 +51,9 @@ export default class MessengerCombo extends React.Component {
   }
 
   getList () {
-    const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
-    const extended = isExtended (data, roadbook.id);
+    const compacted  = roadbook.Compacted  === 'true';
+    const showHidden = roadbook.ShowHidden === 'true';
     const list = [];
     list.push (
       {
@@ -41,38 +65,25 @@ export default class MessengerCombo extends React.Component {
     list.push (
       {
         text:   'Voir le coursier...',
-        glyph:  'eye',
+        glyph:  'user',
         action: () => this.showMission (),
       }
     );
     list.push (
       {
-        text:   extended ? 'Réduire' : 'Étendre',
-        glyph:  extended ? 'arrow-left' : 'arrow-right',
-        action: () => this.extend (),
+        text:   compacted ? 'Étendre' : 'Réduire',
+        glyph:  compacted ? 'arrow-right' : 'arrow-left',
+        action: () => this.swapCompacted (),
+      }
+    );
+    list.push (
+      {
+        text:   showHidden ? 'Cacher les livrés' : 'Montrer les livrés',
+        glyph:  showHidden ? 'eye-slash' : 'eye',
+        action: () => this.swapShowHidden (),
       }
     );
     return list;
-  }
-
-  reduce (action, ticket, shiftKey) {
-    const id   = ticket.id;
-    const data = this.read ('data');
-    reducerDragAndDrop (data, {
-      type:     action,
-      id:       id,
-      shiftKey: shiftKey,
-    });
-    if (window.document.mock) {
-      for (var c of window.document.toUpdate) {
-        c.forceUpdate ();
-      }
-    }
-  }
-
-  extend () {
-    const roadbook = this.read ('roadbook');
-    this.reduce ('SWAP_EXTENDED', roadbook);
   }
 
   render () {

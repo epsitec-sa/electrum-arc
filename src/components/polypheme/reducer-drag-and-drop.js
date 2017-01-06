@@ -699,6 +699,36 @@ function swapStatus (state, id) {
   return state;
 }
 
+function swapRoadbookCompacted (state, id) {
+  const result = searchId (state, id);
+  if (result.type !== 'roadbooks') {
+    throw new Error (`Invalid type ${result.type}`);
+  }
+  const roadbook = result.tickets[result.index];
+  if (roadbook.Compacted === 'true') {
+    roadbook.Compacted = 'false';
+  } else {
+    roadbook.Compacted = 'true';
+  }
+  result.tickets[result.index] = clone (state, roadbook);  // Trick necessary for update UI !!!
+  return state;
+}
+
+function swapRoadbookShowHidden (state, id) {
+  const result = searchId (state, id);
+  if (result.type !== 'roadbooks') {
+    throw new Error (`Invalid type ${result.type}`);
+  }
+  const roadbook = result.tickets[result.index];
+  if (roadbook.ShowHidden === 'true') {
+    roadbook.ShowHidden = 'false';
+  } else {
+    roadbook.ShowHidden = 'true';
+  }
+  result.tickets[result.index] = clone (state, roadbook);  // Trick necessary for update UI !!!
+  return state;
+}
+
 // ------------------------------------------------------------------------------------------
 
 export default function Reducer (state = {}, action = {}) {
@@ -746,6 +776,13 @@ export default function Reducer (state = {}, action = {}) {
       break;
     case 'CLEAR_FLASH':
       state = clearFlash (state, action.id);
+      break;
+
+    case 'SWAP_ROADBOOK_COMPACTED':
+      state = swapRoadbookCompacted (state, action.id);
+      break;
+    case 'SWAP_ROADBOOK_SHOWHIDDEN':
+      state = swapRoadbookShowHidden (state, action.id);
       break;
   }
   return state;
