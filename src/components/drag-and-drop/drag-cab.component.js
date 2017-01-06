@@ -145,6 +145,13 @@ export default class DragCab extends React.Component {
     }
   }
 
+  // TODO: why use ???
+  closeModify (action, ticket, event) {
+    if (action === 'accept') {
+      this.reduce ('SWAP_STATUS', ticket.props, event.shiftKey);
+    }
+  }
+
   changeState (ticket, event) {
     if (event.ctrlKey || event.shiftKey || event.metaKey) {  // select/deselect ?
       this.reduce ('SWAP_SELECTED', ticket.props, event.shiftKey);

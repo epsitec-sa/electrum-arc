@@ -81,6 +81,11 @@ export default class Trip extends React.Component {
     return false;
   }
 
+  closeModify (action) {
+    console.log ('Trip.closeModify ' + action);
+    this.setShowModify (false);
+  }
+
   renderModify (data) {
     if (this.getShowModify ()) {
       const ticket = this.read ('ticket');
@@ -88,7 +93,7 @@ export default class Trip extends React.Component {
         <TripModify
           data         = {data}
           ticket       = {ticket}
-          close-modify = {() => this.setShowModify (false)}
+          close-modify = {action => this.closeModify (action)}
           {...this.link ()} />
       );
     } else {

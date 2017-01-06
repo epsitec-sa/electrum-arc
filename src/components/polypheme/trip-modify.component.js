@@ -22,19 +22,19 @@ export default class TripModify extends React.Component {
     super (props);
   }
 
-  closeModify () {
+  closeModify (action) {
     const closeModify = this.read ('close-modify');
     if (closeModify) {
-      closeModify ();
+      closeModify (action);
     }
   }
 
   modifyAccept () {
-    this.closeModify ();
+    this.closeModify ('accept');
   }
 
   modifyCancel () {
-    this.closeModify ();
+    this.closeModify ('cancel');
   }
 
   renderHalf (ticket, type) {
