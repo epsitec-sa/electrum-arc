@@ -378,6 +378,30 @@ export default function styles (theme, props) {
     color:           theme.palette.ticketHudContent,
   };
 
+  const coverStyle = {
+    display:         'flex',
+    width:           inputWidth,
+    margin:          '0px',
+    position:        'relative',
+    cursor:          inputCursor,
+    transition:      theme.transitions.easeOut (),
+    backgroundColor: backgroundColor,
+  };
+
+  const w = inputWidth ? Unit.multiply (inputWidth, 0.5) : null;
+  const coverContentStyle = {
+    display:         'flex',
+    height:          inputWidth,
+    lineHeight:      inputWidth,
+    margin:          theme.shapes.coverTopMargin + ' 0px 0px 0px',
+    position:        'relative',
+    cursor:          inputCursor,
+    transition:      theme.transitions.easeOut (),
+    transform:       'rotate(90deg)',
+    transformOrigin: w + ' ' + w,
+    whiteSpace:      'nowrap',
+  };
+
   return {
     box:                boxStyle,
     shadow:             shadowStyle,
@@ -396,6 +420,8 @@ export default function styles (theme, props) {
     hudGlyphBox:        hudGlyphBoxStyle,
     hudGlyphBoxNone:    hudGlyphBoxNoneStyle,
     hudGlyphContent:    hudGlyphStyleContent,
+    cover:              coverStyle,
+    coverContent:       coverContentStyle,
   };
 }
 

@@ -157,14 +157,19 @@ export default class MessengerTicket extends React.Component {
     const roadbook = this.read ('roadbook');
 
     const width  = this.props.theme.shapes.tripTicketCompactedWidth;
-    const height = '100%';
 
-    // TODO: Replace Ticket by componebt with vertical text !
+    const name = (roadbook.Messenger && roadbook.Messenger.Name) ?
+      roadbook.Messenger.Name :
+      'A définir';
+
     return (
-      <Ticket kind='rect' shape='header' width={width} height={height} color='selected'
+      <Ticket kind='cover' shape='header' width={width} color='selected'
         mouse-down = {event => this.mouseDown (event)}
         mouse-up   = {event => this.mouseUp (event)}
         no-drag='false' cursor='ew-resize' {...this.link ()} >
+        <Container kind='column' grow='1' {...this.link ()} >
+          <Label text={name} text-color='#fff' {...this.link ()} />
+        </Container>
         {this.renderCombo (data)}
         {this.renderModify (data)}
       </Ticket>

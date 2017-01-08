@@ -60,7 +60,6 @@ export default class DispatchRoadbooks extends React.Component {
   }
 
   renderRoadbook (roadbook, data, index) {
-    const maxWidth = Unit.add (this.props.theme.shapes.tripTicketWidth, '20px');
     return (
       <DragCab key={index} drag-controller='roadbook' direction='horizontal'
         color={this.props.theme.palette.roadbookDragAndDropHover}
@@ -73,7 +72,7 @@ export default class DispatchRoadbooks extends React.Component {
           {this.renderMessenger (data, roadbook)}
           <Container kind='tickets-trips'
             drag-controller='ticket' drag-source='roadbook' item-id={roadbook.id}
-            max-width={maxWidth} {...this.link ()} >
+            {...this.link ()} >
             {this.renderTickets (roadbook, data)}
           </Container>
         </Roadbook>

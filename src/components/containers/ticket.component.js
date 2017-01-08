@@ -305,10 +305,48 @@ export default class Ticket extends React.Component {
     );
   }
 
+  renderCover () {
+    const status    = this.read ('status');
+    const hasHeLeft = this.read ('hasHeLeft');
+    const isDragged = this.read ('isDragged');
+    const selected  = this.read ('selected');
+
+    const coverStyle        = this.mergeStyles ('cover');
+    const coverContentStyle = this.mergeStyles ('coverContent');
+
+    if (hasHeLeft && !isDragged) {
+      coverStyle.backgroundColor = this.props.theme.palette.ticketDragAndDropShadow;
+      coverContentStyle.visibility = 'hidden';
+    }
+
+    if (this.getHover () && !isDragged) {
+      coverStyle.backgroundColor = emphasize (coverStyle.backgroundColor, 0.1);
+    }
+    if (selected === 'true' && !isDragged) {
+      coverStyle.backgroundColor = emphasize (coverStyle.backgroundColor, 0.3);
+    }
+
+    return (
+      <div
+        style       = {coverStyle}
+        onMouseOver = {() => this.mouseOver ()}
+        onMouseOut  = {() => this.mouseOut ()}
+        onMouseDown = {event => this.mouseDown (event)}
+        onMouseUp   = {event => this.mouseUp (event)}
+        >
+        <div style = {coverContentStyle}>
+          {this.props.children}
+        </div>
+      </div>
+    );
+  }
+
   render () {
     const kind = this.read ('kind');
     if (kind === 'ticket') {
       return this.renderTicket ();
+    } else if (kind === 'cover') {
+      return this.renderCover ();
     } else {
       return this.renderRect ();
     }
