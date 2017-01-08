@@ -397,7 +397,7 @@ export default function styles (theme, props) {
     position:        'relative',
     cursor:          inputCursor,
     transition:      theme.transitions.easeOut (),
-    transform:       'rotate(90deg)',
+    transform:       'rotate(90deg)',  // 90 deg CW, from top to bottom
     transformOrigin: w + ' ' + w,
     whiteSpace:      'nowrap',
   };
