@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {TripBox, TripTicket, DragCab, TripCombo, TripModify} from '../../all-components.js';
 import {Unit} from 'electrum-theme';
+import {setDragCabHasCombo, getComboLocation} from '../combo/combo-helpers.js';
 
 /******************************************************************************/
 
@@ -15,9 +16,7 @@ export default class Trip extends React.Component {
       showCombo:  false,
       showModify: false,
     };
-    this.comboLeft   = null;
-    this.comboTop    = null;
-    this.comboBottom = null;
+    this.comboLocation = null;
   }
 
   getShowCombo () {
@@ -28,6 +27,9 @@ export default class Trip extends React.Component {
     this.setState ( {
       showCombo: value
     });
+    const ticket = this.read ('ticket');
+    const id = ticket.id;
+    setDragCabHasCombo (id, value);
   }
 
   getShowModify () {
@@ -42,21 +44,7 @@ export default class Trip extends React.Component {
 
   showCombo (x, y) {
     const node = ReactDOM.findDOMNode (this);
-    const comboRect = node.getBoundingClientRect ();
-
-    // Compute horizontal position according to mouse.
-    const width = 250;  // assumed approximate width
-    this.comboLeft = (x - width / 2) + 'px';
-
-    // Puts the menu under the component if it is in the upper half of the window.
-    const my = (comboRect.top + comboRect.bottom) / 2;
-    const underside = my < window.innerHeight / 2;
-    const t = this.props.theme.shapes.flyingBalloonTriangleSize;
-    const top = Unit.add ((window.innerHeight - y) + 'px', t);
-    const bottom = Unit.add (y + 'px', t);
-    this.comboTop = underside ? bottom : null;
-    this.comboBottom = underside ? null : top;
-
+    this.comboLocation = getComboLocation (node, x, y, 250, this.props.theme);
     this.setShowCombo (true);
   }
 
@@ -108,9 +96,9 @@ export default class Trip extends React.Component {
         <TripCombo
           data        = {data}
           ticket      = {ticket}
-          left        = {this.comboLeft}
-          top         = {this.comboTop}
-          bottom      = {this.comboBottom}
+          left        = {this.comboLocation.left}
+          top         = {this.comboLocation.top}
+          bottom      = {this.comboLocation.bottom}
           close-combo = {() => this.setShowCombo (false)}
           show-modify = {() => this.setShowModify (true)}
           {...this.link ()}/>
