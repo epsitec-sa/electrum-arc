@@ -420,6 +420,7 @@ export default function styles (theme, props) {
     textTransform     = 'uppercase';
     textWeight        = 'bold';
     borderStyle       = 'none';
+    glyphColor        = theme.palette.menuText;
     textColor         = theme.palette.menuText;
     if (inputActive === 'true') {
       backgroundColor   = theme.palette.menuItemActiveBackground;

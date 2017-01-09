@@ -81,7 +81,6 @@ export default function styles (theme, props) {
   const s = theme.shapes.lineSpacing;
   const d = Unit.multiply (m, 0.5);
   const t = Unit.add (theme.shapes.flyingBalloonTriangleSize, '1px', 0);  // round (suppress decimals)
-  const p = theme.shapes.flyingBalloonPadding;
 
   if (inputKind === 'root') {
     fontFamily      = theme.typo.font;
@@ -775,9 +774,11 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'flying-balloon') {
-    padding         = p + ' 1px';
+    padding         = theme.shapes.flyingBalloonPadding;
     backgroundColor = theme.palette.flyingBalloonBackground;
     position        = 'relative';
+    boxShadow       = theme.shapes.floatingShadow;
+    borderRadius    = theme.shapes.flyingBalloonRadius;
   }
 
   if (flexGrow) {
@@ -843,6 +844,7 @@ export default function styles (theme, props) {
   // a box with a small triangle which overlaps with the upper part (for example).
   let triangleStyle = null;
   if (inputKind === 'flying-balloon') {
+    const p = theme.shapes.flyingBalloonTriangle;
     if (inputTrianglePosition === 'left') {
       triangleStyle = {
         position:     'absolute',
