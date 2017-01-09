@@ -24,16 +24,19 @@ export default class MessengerCombo extends React.Component {
   }
 
   swapCompacted () {
+    console.log ('MessengerCombo.swapCompacted');
     const roadbook = this.read ('roadbook');
     this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook);
   }
 
   swapShowHidden () {
+    console.log ('MessengerCombo.swapShowHidden');
     const roadbook = this.read ('roadbook');
     this.reduce ('SWAP_ROADBOOK_SHOWHIDDEN', roadbook);
   }
 
   closeCombo () {
+    console.log ('MessengerCombo.closeCombo');
     const closeCombo = this.read ('close-combo');
     if (closeCombo) {
       closeCombo ();
@@ -41,6 +44,7 @@ export default class MessengerCombo extends React.Component {
   }
 
   showModify () {
+    console.log ('MessengerCombo.showModify');
     const showModify = this.read ('show-modify');
     if (showModify) {
       showModify ();
@@ -48,6 +52,7 @@ export default class MessengerCombo extends React.Component {
   }
 
   showMission () {
+    console.log ('MessengerCombo.showMission');
   }
 
   getList () {

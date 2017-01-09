@@ -413,7 +413,11 @@ export default class DragCarrier extends React.Component {
   }
 
   selectOne (id, value) {
+    console.log ('DragCarrier.selectOne');
     const dragCab = this.searchDragCab (id);
+    if (value && !dragCab.getDragInProcess ()) {
+      return;
+    }
     dragCab.setDragStarting (value);
     if (value) {
       this.selectedIds.push (id);
@@ -421,7 +425,7 @@ export default class DragCarrier extends React.Component {
   }
 
   selectMulti (value) {
-    // console.log ('selectMulti >>>>>>>>>>>>>>>>>>>>');
+    console.log ('DragCarrier.selectMulti');
     if (this.rectOrigin) {
       const data = this.read ('data');
       const origin = this.searchChildren (this.rectOrigin.id);
@@ -441,7 +445,7 @@ export default class DragCarrier extends React.Component {
   }
 
   mouseMove (event) {
-    // console.log ('mouseMove >>>>>>>>>>>>>>>>>>>>');
+    console.log ('DragCarrier.mouseMove');
     if (this.moveCount === 0) {  // first move ?
       this.startX = event.clientX;
       this.startY = event.clientY;
@@ -479,7 +483,7 @@ export default class DragCarrier extends React.Component {
   }
 
   mouseUp (event) {
-    // console.log ('mouseUp >>>>>>>>>>>>>>>>>>>>');
+    console.log ('DragCarrier.mouseUp');
     const dragEnding = this.read ('drag-ending');
     if (dragEnding) {
       dragEnding (event, this.isDragStarted ());

@@ -25,6 +25,7 @@ export default class MessengerTicket extends React.Component {
     this.setState ( {
       showCombo: value
     });
+    this.setDragCabHasCombo (value);
   }
 
   getShowModify () {
@@ -37,7 +38,22 @@ export default class MessengerTicket extends React.Component {
     });
   }
 
+  // Set the DragCab.hasCombo parent to true or false. It will be informed that a combo is
+  // opening, for don't initiate a drag and drop.
+  setDragCabHasCombo (value) {
+    const roadbook = this.read ('roadbook');
+    const id = roadbook.id;
+    for (let dragCab of window.document.dragCabs) {
+      if (dragCab.props['item-id'] === id) {
+        console.log ('MessengerTicket.setDragCabHasCombo id=' + id + ' value=' + value);
+        dragCab.hasCombo = value;
+        return;
+      }
+    }
+  }
+
   showCombo (x, y) {
+    console.log ('MessengerTicket.showCombo');
     const node = ReactDOM.findDOMNode (this);
     const comboRect = node.getBoundingClientRect ();
 

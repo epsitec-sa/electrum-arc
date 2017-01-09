@@ -42,8 +42,10 @@ export default class DragCab extends React.Component {
     this.state = {
       dragInProcess: false,
       dragStarting:  false,
+      hasCombo:      false,
     };
     this.dragHeight = 0;
+    this.hasCombo   = false;
   }
 
   getDragInProcess () {
@@ -86,6 +88,9 @@ export default class DragCab extends React.Component {
 
   mouseDown (event) {
     console.log ('DragCab.mouseDown');
+    if (this.hasCombo) {  // does a child have an open combo-menu ?
+      return;
+    }
     const mouseDown = this.read ('mouse-down');
     if (mouseDown && mouseDown (event)) {
       return;
@@ -110,6 +115,9 @@ export default class DragCab extends React.Component {
 
   mouseUp (event) {
     console.log ('DragCab.mouseUp');
+    if (this.hasCombo) {  // does a child have an open combo-menu ?
+      return;
+    }
     const mouseUp = this.read ('mouse-up');
     if (mouseUp && mouseUp (event)) {
       return;

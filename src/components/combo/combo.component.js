@@ -87,10 +87,10 @@ export default class Combo extends React.Component {
       <div style = {fullScreenStyle} onMouseDown = {(event) => this.mouseDown (event)}>
         <div style = {comboStyle}>
           <Container
-          kind              = 'flying-balloon'
-          triangle-position = {top ? 'top' : 'bottom'}
-          width             = {width}
-          {...this.link ()}>
+            kind              = 'flying-balloon'
+            triangle-position = {top ? 'top' : 'bottom'}
+            width             = {width}
+            {...this.link ()}>
             {this.renderCombo ()}
           </Container>
         </div>
