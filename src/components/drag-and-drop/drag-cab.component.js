@@ -114,9 +114,11 @@ export default class DragCab extends React.Component {
     if (mouseUp && mouseUp (event)) {
       return;
     }
-    const noDrag = this.read ('no-drag');
-    if (noDrag === 'true') {  // simple click when drag prohibited ?
-      this.childrenChangeState (event);
+    if (this.props['drag-controller'] === 'ticket') {
+      const noDrag = this.read ('no-drag');
+      if (noDrag === 'true') {  // simple click when drag prohibited ?
+        this.childrenChangeState (event);
+      }
     }
   }
 
@@ -124,8 +126,10 @@ export default class DragCab extends React.Component {
     console.log ('DragCab.dragEnding');
     this.setDragInProcess (false);
     this.setDragStarting (false);
-    if (!isDragDoing) {  // simple click done ?
-      this.childrenChangeState (event);
+    if (this.props['drag-controller'] === 'ticket') {
+      if (!isDragDoing) {  // simple click done ?
+        this.childrenChangeState (event);
+      }
     }
   }
 
