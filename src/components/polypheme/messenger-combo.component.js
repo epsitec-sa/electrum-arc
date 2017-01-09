@@ -3,7 +3,6 @@
 import React from 'react';
 import {Combo} from '../../all-components.js';
 import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
-import {isExtended} from './ticket-helpers.js';
 
 /******************************************************************************/
 

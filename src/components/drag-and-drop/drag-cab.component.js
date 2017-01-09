@@ -87,7 +87,7 @@ export default class DragCab extends React.Component {
   }
 
   mouseDown (event) {
-    console.log ('DragCab.mouseDown');
+    // console.log ('DragCab.mouseDown');
     if (this.hasCombo) {  // does a child have an open combo-menu ?
       return;
     }
@@ -114,7 +114,7 @@ export default class DragCab extends React.Component {
   }
 
   mouseUp (event) {
-    console.log ('DragCab.mouseUp');
+    // console.log ('DragCab.mouseUp');
     if (this.hasCombo) {  // does a child have an open combo-menu ?
       return;
     }
@@ -131,7 +131,7 @@ export default class DragCab extends React.Component {
   }
 
   dragEnding (event, isDragDoing) {
-    console.log ('DragCab.dragEnding');
+    // console.log ('DragCab.dragEnding');
     this.setDragInProcess (false);
     this.setDragStarting (false);
     if (this.props['drag-controller'] === 'ticket') {

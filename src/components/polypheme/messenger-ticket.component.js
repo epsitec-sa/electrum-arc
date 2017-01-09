@@ -45,7 +45,7 @@ export default class MessengerTicket extends React.Component {
     const id = roadbook.id;
     for (let dragCab of window.document.dragCabs) {
       if (dragCab.props['item-id'] === id) {
-        console.log ('MessengerTicket.setDragCabHasCombo id=' + id + ' value=' + value);
+        // console.log ('MessengerTicket.setDragCabHasCombo id=' + id + ' value=' + value);
         dragCab.hasCombo = value;
         return;
       }
@@ -53,7 +53,7 @@ export default class MessengerTicket extends React.Component {
   }
 
   showCombo (x, y) {
-    console.log ('MessengerTicket.showCombo');
+    // console.log ('MessengerTicket.showCombo');
     const node = ReactDOM.findDOMNode (this);
     const comboRect = node.getBoundingClientRect ();
 
@@ -74,7 +74,7 @@ export default class MessengerTicket extends React.Component {
   }
 
   mouseDown (event) {
-    console.log ('MessengerTicket.mouseDown');
+    // console.log ('MessengerTicket.mouseDown');
     if (this.getShowCombo () || this.getShowModify ()) {
       return true;
     }
@@ -87,7 +87,7 @@ export default class MessengerTicket extends React.Component {
   }
 
   mouseUp (event) {
-    console.log ('MessengerTicket.mouseUp');
+    // console.log ('MessengerTicket.mouseUp');
     if (this.getShowCombo () || this.getShowModify ()) {
       return true;
     }
@@ -95,7 +95,7 @@ export default class MessengerTicket extends React.Component {
   }
 
   closeModify (action) {
-    console.log ('MessengerTicket.closeModify ' + action);
+    // console.log ('MessengerTicket.closeModify ' + action);
     this.setShowModify (false);
   }
 

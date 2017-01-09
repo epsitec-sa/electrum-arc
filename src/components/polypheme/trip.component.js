@@ -61,7 +61,7 @@ export default class Trip extends React.Component {
   }
 
   mouseDown (event) {
-    console.log ('Trip.mouseDown');
+    // console.log ('Trip.mouseDown');
     if (this.getShowCombo () || this.getShowModify ()) {
       return true;
     }
@@ -74,7 +74,7 @@ export default class Trip extends React.Component {
   }
 
   mouseUp (event) {
-    console.log ('Trip.mouseUp');
+    // console.log ('Trip.mouseUp');
     if (this.getShowCombo () || this.getShowModify ()) {
       return true;
     }
@@ -82,7 +82,7 @@ export default class Trip extends React.Component {
   }
 
   closeModify (action) {
-    console.log ('Trip.closeModify ' + action);
+    // console.log ('Trip.closeModify ' + action);
     this.setShowModify (false);
   }
 
