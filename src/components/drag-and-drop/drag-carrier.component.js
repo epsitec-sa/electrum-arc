@@ -415,9 +415,6 @@ export default class DragCarrier extends React.Component {
   selectOne (id, value) {
     // console.log ('DragCarrier.selectOne');
     const dragCab = this.searchDragCab (id);
-    if (value && !dragCab.getDragInProcess ()) {
-      return;
-    }
     dragCab.setDragStarting (value);
     if (value) {
       this.selectedIds.push (id);
@@ -425,7 +422,7 @@ export default class DragCarrier extends React.Component {
   }
 
   selectMulti (value) {
-    // console.log ('DragCarrier.selectMulti');
+    console.log ('DragCarrier.selectMulti');
     if (this.rectOrigin) {
       const data = this.read ('data');
       const origin = this.searchChildren (this.rectOrigin.id);
