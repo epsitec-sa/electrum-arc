@@ -46,17 +46,29 @@ export default class DispatchRoadbooks extends React.Component {
 
   renderTickets (roadbook, data) {
     const result = [];
-    const compacted  = roadbook.Compacted  === 'true';
     const showHidden = roadbook.ShowHidden === 'true';
-    if (!compacted) {
-      let index = 0;
-      for (var ticket of roadbook.Tickets) {
-        if (showHidden || ticket.Status !== 'delivered') {
-          result.push (this.renderTicket (ticket, data, index++));
-        }
+    let index = 0;
+    for (var ticket of roadbook.Tickets) {
+      if (showHidden || ticket.Status !== 'delivered') {
+        result.push (this.renderTicket (ticket, data, index++));
       }
     }
     return result;
+  }
+
+  renderTicketsContainer (roadbook, data) {
+    const compacted  = roadbook.Compacted  === 'true';
+    if (compacted) {
+      return null;
+    } else {
+      return (
+        <Container kind='tickets-trips'
+          drag-controller='ticket' drag-source='roadbook' item-id={roadbook.id}
+          {...this.link ()} >
+          {this.renderTickets (roadbook, data)}
+        </Container>
+      );
+    }
   }
 
   renderRoadbook (roadbook, data, index) {
@@ -70,11 +82,7 @@ export default class DispatchRoadbooks extends React.Component {
         item-id={roadbook.id} {...this.link ()}>
         <Roadbook key={index} data={data} roadbook={roadbook} {...this.link ()} >
           {this.renderMessenger (data, roadbook)}
-          <Container kind='tickets-trips'
-            drag-controller='ticket' drag-source='roadbook' item-id={roadbook.id}
-            {...this.link ()} >
-            {this.renderTickets (roadbook, data)}
-          </Container>
+          {this.renderTicketsContainer (roadbook, data)}
         </Roadbook>
       </DragCab>
     );

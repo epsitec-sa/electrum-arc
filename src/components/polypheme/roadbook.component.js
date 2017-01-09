@@ -25,7 +25,6 @@ export default class Roadbook extends React.Component {
     const boxStyle = this.mergeStyles ('box');
 
     if (roadbook.Compacted === 'true') {
-      boxStyle.flexDirection = 'row';
       boxStyle.maxWidth      = this.props.theme.shapes.tripTicketCompactedWidth;
       boxStyle.padding       = '0px';
     }

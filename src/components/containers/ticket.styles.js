@@ -381,6 +381,7 @@ export default function styles (theme, props) {
   const coverStyle = {
     display:         'flex',
     width:           inputWidth,
+    height:          '100%',
     margin:          '0px',
     position:        'relative',
     cursor:          inputCursor,

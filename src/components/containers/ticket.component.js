@@ -306,7 +306,6 @@ export default class Ticket extends React.Component {
   }
 
   renderCover () {
-    const status    = this.read ('status');
     const hasHeLeft = this.read ('hasHeLeft');
     const isDragged = this.read ('isDragged');
     const selected  = this.read ('selected');
