@@ -99,13 +99,15 @@ export default class MessengerTicket extends React.Component {
     this.setShowModify (false);
   }
 
+  // Return the name displayed in cover mode, 'Blupi (12)' by example.
+  //  Blupi -> messenger name
+  //  12    -> number of trips
   getCompactedName (roadbook) {
     const name = (roadbook.Messenger && roadbook.Messenger.Name) ?
       roadbook.Messenger.Name :
       'A définir';
     const n = roadbook.Tickets.length;
-
-    if (n > 0) {
+    if (n > 0) {  // has trips ?
       return `${name} (${n})`;
     } else {
       return name;
