@@ -99,6 +99,19 @@ export default class MessengerTicket extends React.Component {
     this.setShowModify (false);
   }
 
+  getCompactedName (roadbook) {
+    const name = (roadbook.Messenger && roadbook.Messenger.Name) ?
+      roadbook.Messenger.Name :
+      'A définir';
+    const n = roadbook.Tickets.length;
+
+    if (n > 0) {
+      return `${name} (${n})`;
+    } else {
+      return name;
+    }
+  }
+
   renderModify (data) {
     if (this.getShowModify ()) {
       const roadbook = this.read ('roadbook');
@@ -172,11 +185,7 @@ export default class MessengerTicket extends React.Component {
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
 
-    const width  = this.props.theme.shapes.tripTicketCompactedWidth;
-
-    const name = (roadbook.Messenger && roadbook.Messenger.Name) ?
-      roadbook.Messenger.Name :
-      'A définir';
+    const width = this.props.theme.shapes.tripTicketCompactedWidth;
 
     return (
       <Container kind='column' {...this.link ()}>
@@ -185,7 +194,7 @@ export default class MessengerTicket extends React.Component {
           mouse-up   = {event => this.mouseUp (event)}
           no-drag='false' cursor='ew-resize' {...this.link ()} >
           <Container kind='column' grow='1' {...this.link ()} >
-            <Label text={name} text-color='#fff' {...this.link ()} />
+            <Label text={this.getCompactedName (roadbook)} text-color='#fff' {...this.link ()} />
           </Container>
         </Ticket>
         {this.renderCombo (data)}
