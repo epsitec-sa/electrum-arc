@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Ticket, Container, Label, Button, MessengerModify, MessengerCombo} from '../../all-components.js';
-import {Unit} from 'electrum-theme';
+import {setDragCabHasCombo, getComboLocation} from '../combo/combo-helpers.js';
 
 /******************************************************************************/
 
@@ -15,6 +15,7 @@ export default class MessengerTicket extends React.Component {
       showCombo:  false,
       showModify: false,
     };
+    this.comboLocation = null;
   }
 
   getShowCombo () {
@@ -25,7 +26,9 @@ export default class MessengerTicket extends React.Component {
     this.setState ( {
       showCombo: value
     });
-    this.setDragCabHasCombo (value);
+    const roadbook = this.read ('roadbook');
+    const id = roadbook.id;
+    setDragCabHasCombo (id, value);
   }
 
   getShowModify () {
@@ -38,38 +41,10 @@ export default class MessengerTicket extends React.Component {
     });
   }
 
-  // Set the DragCab.hasCombo parent to true or false. It will be informed that a combo is
-  // opening, for don't initiate a drag and drop.
-  setDragCabHasCombo (value) {
-    const roadbook = this.read ('roadbook');
-    const id = roadbook.id;
-    for (let dragCab of window.document.dragCabs) {
-      if (dragCab.props['item-id'] === id) {
-        // console.log ('MessengerTicket.setDragCabHasCombo id=' + id + ' value=' + value);
-        dragCab.hasCombo = value;
-        return;
-      }
-    }
-  }
-
   showCombo (x, y) {
     // console.log ('MessengerTicket.showCombo');
     const node = ReactDOM.findDOMNode (this);
-    const comboRect = node.getBoundingClientRect ();
-
-    // Compute horizontal position according to mouse.
-    const width = 300;  // assumed approximate width
-    this.comboLeft = (x - width / 2) + 'px';
-
-    // Puts the menu under the component if it is in the upper half of the window.
-    const my = (comboRect.top + comboRect.bottom) / 2;
-    const underside = my < window.innerHeight / 2;
-    const t = this.props.theme.shapes.flyingBalloonTriangleSize;
-    const top = Unit.add ((window.innerHeight - y) + 'px', t);
-    const bottom = Unit.add (y + 'px', t);
-    this.comboTop = underside ? bottom : null;
-    this.comboBottom = underside ? null : top;
-
+    this.comboLocation = getComboLocation (node, x, y, 300, this.props.theme);
     this.setShowCombo (true);
   }
 
@@ -136,9 +111,9 @@ export default class MessengerTicket extends React.Component {
         <MessengerCombo
           data        = {data}
           roadbook    = {roadbook}
-          left        = {this.comboLeft}
-          top         = {this.comboTop}
-          bottom      = {this.comboBottom}
+          left        = {this.comboLocation.left}
+          top         = {this.comboLocation.top}
+          bottom      = {this.comboLocation.bottom}
           close-combo = {() => this.setShowCombo (false)}
           show-modify = {() => this.setShowModify (true)}
           {...this.link ()}/>
