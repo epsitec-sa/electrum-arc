@@ -775,7 +775,7 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'flying-balloon') {
-    padding         = p;
+    padding         = p + ' 1px';
     backgroundColor = theme.palette.flyingBalloonBackground;
     position        = 'relative';
   }
