@@ -37,20 +37,20 @@ export default class MessengerTicket extends React.Component {
     });
   }
 
-  showCombo (x) {
+  showCombo (x, y) {
     const node = ReactDOM.findDOMNode (this);
     const comboRect = node.getBoundingClientRect ();
 
     // Compute horizontal position according to mouse.
-    const width = 200;  // assumed approximate width
+    const width = 300;  // assumed approximate width
     this.comboLeft = (x - width / 2) + 'px';
 
     // Puts the menu under the component if it is in the upper half of the window.
     const my = (comboRect.top + comboRect.bottom) / 2;
     const underside = my < window.innerHeight / 2;
-    const t = Unit.multiply (this.props.theme.shapes.flyingBalloonTriangleSize, 0.5);
-    const top = Unit.add ((window.innerHeight - comboRect.top) + 'px', t);
-    const bottom = Unit.add (comboRect.bottom + 'px', t);
+    const t = this.props.theme.shapes.flyingBalloonTriangleSize;
+    const top = Unit.add ((window.innerHeight - y) + 'px', t);
+    const bottom = Unit.add (y + 'px', t);
     this.comboTop = underside ? bottom : null;
     this.comboBottom = underside ? null : top;
 
@@ -63,8 +63,8 @@ export default class MessengerTicket extends React.Component {
       return true;
     }
     // if (event.button === 2)  // right-click ?
-    if (event.button === 2 || (event.ctrlKey && event.shiftKey)) {
-      this.showCombo (event.clientX);
+    if (event.button === 2 || (event.ctrlKey && event.shiftKey)) {  // right-click ?
+      this.showCombo (event.clientX, event.clientY);
       return true;
     }
     return false;
@@ -163,16 +163,18 @@ export default class MessengerTicket extends React.Component {
       'A définir';
 
     return (
-      <Ticket kind='cover' shape='header' width={width} color='selected'
-        mouse-down = {event => this.mouseDown (event)}
-        mouse-up   = {event => this.mouseUp (event)}
-        no-drag='false' cursor='ew-resize' {...this.link ()} >
-        <Container kind='column' grow='1' {...this.link ()} >
-          <Label text={name} text-color='#fff' {...this.link ()} />
-        </Container>
+      <Container kind='column' {...this.link ()}>
+        <Ticket kind='cover' shape='header' width={width} color='selected'
+          mouse-down = {event => this.mouseDown (event)}
+          mouse-up   = {event => this.mouseUp (event)}
+          no-drag='false' cursor='ew-resize' {...this.link ()} >
+          <Container kind='column' grow='1' {...this.link ()} >
+            <Label text={name} text-color='#fff' {...this.link ()} />
+          </Container>
+        </Ticket>
         {this.renderCombo (data)}
         {this.renderModify (data)}
-      </Ticket>
+      </Container>
     );
   }
 

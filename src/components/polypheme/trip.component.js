@@ -40,20 +40,20 @@ export default class Trip extends React.Component {
     });
   }
 
-  showCombo (x) {
+  showCombo (x, y) {
     const node = ReactDOM.findDOMNode (this);
     const comboRect = node.getBoundingClientRect ();
 
     // Compute horizontal position according to mouse.
-    const width = 200;  // assumed approximate width
+    const width = 250;  // assumed approximate width
     this.comboLeft = (x - width / 2) + 'px';
 
     // Puts the menu under the component if it is in the upper half of the window.
     const my = (comboRect.top + comboRect.bottom) / 2;
     const underside = my < window.innerHeight / 2;
-    const t = Unit.multiply (this.props.theme.shapes.flyingBalloonTriangleSize, 0.5);
-    const top = Unit.add ((window.innerHeight - comboRect.top) + 'px', t);
-    const bottom = Unit.add (comboRect.bottom + 'px', t);
+    const t = this.props.theme.shapes.flyingBalloonTriangleSize;
+    const top = Unit.add ((window.innerHeight - y) + 'px', t);
+    const bottom = Unit.add (y + 'px', t);
     this.comboTop = underside ? bottom : null;
     this.comboBottom = underside ? null : top;
 
@@ -67,7 +67,7 @@ export default class Trip extends React.Component {
     }
     // if (event.button === 2)  // right-click ?
     if (event.button === 2 || (event.ctrlKey && event.shiftKey)) {
-      this.showCombo (event.clientX);
+      this.showCombo (event.clientX, event.clientY);
       return true;
     }
     return false;
