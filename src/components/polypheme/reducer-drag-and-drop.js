@@ -506,9 +506,11 @@ function selectZone (state, flashes, result, fromIndex, toIndex, value) {
   for (let i = 0; i < result.tickets.length; i++) {
     const ticket = result.tickets[i];
     if ((ticket.Status === 'backlog' || ticket.Status === 'pre-dispatched') && i >= fromIndex && i <= toIndex) {
-      putSelected (state, ticket.id, value);
-      result.tickets[i] = clone (state, ticket);  // Trick necessary for update UI !!!
-      flashes.push (result.tickets[i].id);
+      if (isSelected (state, ticket.id) !== value) {
+        putSelected (state, ticket.id, value);
+        result.tickets[i] = clone (state, ticket);  // Trick necessary for update UI !!!
+        flashes.push (result.tickets[i].id);
+      }
     }
   }
 }
