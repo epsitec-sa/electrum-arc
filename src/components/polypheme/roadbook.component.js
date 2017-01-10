@@ -25,8 +25,10 @@ export default class Roadbook extends React.Component {
     const boxStyle = this.mergeStyles ('box');
 
     if (roadbook.Compacted === 'true') {
-      boxStyle.maxWidth      = this.props.theme.shapes.tripTicketCompactedWidth;
-      boxStyle.padding       = '0px';
+      if (boxStyle.minWidth) {
+        boxStyle.minWidth = this.props.theme.shapes.tripTicketCompactedWidth;
+      }
+      boxStyle.padding  = '0px';
     }
 
     // When dragging, show a source component empty.

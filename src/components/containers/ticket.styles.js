@@ -391,7 +391,7 @@ export default function styles (theme, props) {
     display:         'flex',
     height:          inputWidth,
     lineHeight:      inputWidth,
-    margin:          theme.shapes.coverTopMargin + ' 0px 0px 0px',
+    margin:          theme.shapes.ticketCoverTopMargin + ' 0px 0px 0px',
     position:        'relative',
     cursor:          inputCursor,
     transition:      theme.transitions.easeOut (),

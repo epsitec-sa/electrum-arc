@@ -247,8 +247,7 @@ export default class DragCab extends React.Component {
     const boxStyle = direction === 'horizontal' ? {
       display:       'flex',
       flexDirection: 'column',
-      flexGrow:      1,
-      alignItems:    'stretch',
+      flexGrow:      isDragged && dragStarting ? 1 : null,
       userSelect:    'none',
     } : {
       userSelect:    'none',

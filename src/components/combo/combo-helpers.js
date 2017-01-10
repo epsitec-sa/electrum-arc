@@ -3,7 +3,7 @@
 import {Unit} from 'electrum-theme';
 
 // Set the DragCab.hasCombo parent to true or false. It will be informed that a combo is
-// opening, so as not to initiate a drag and drop.xxxxxxxx
+// opening, so as not to initiate a drag and drop.
 function setDragCabHasCombo (id, value) {
   for (let dragCab of window.document.dragCabs) {
     if (dragCab.props['item-id'] === id) {
