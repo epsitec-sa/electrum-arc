@@ -48,10 +48,18 @@ export default class TripCombo extends React.Component {
     );
     list.push (
       {
-        text:     selected ? 'Désélectionner' : 'Sélectionner',
+        text:     selected ? 'Désélectionner un' : 'Sélectionner un',
         glyph:    selected ? 'circle-o' : 'check-circle',
         shortcut: '_ctrl_+clic',
         action: () => this.select (),
+      }
+    );
+    list.push (
+      {
+        text:     selected ? 'Tout désélectionner' : 'Sélectionner plusieurs',
+        glyph:    selected ? 'circle-o' : 'check-circle',
+        shortcut: '_shift_+clic',
+        action: () => this.selectMany (),
       }
     );
     if (ticket.Type !== 'both') {
@@ -99,13 +107,14 @@ export default class TripCombo extends React.Component {
     return list;
   }
 
-  reduce (action, ticket, value) {
+  reduce (action, ticket, value, shiftKey) {
     const id   = ticket.id;
     const data = this.read ('data');
     reducerDragAndDrop (data, {
-      type:  action,
-      id:    id,
-      value: value,
+      type:     action,
+      id:       id,
+      value:    value,
+      shiftKey: shiftKey,
     });
     if (window.document.mock) {
       for (var c of window.document.toUpdate) {
@@ -130,6 +139,11 @@ export default class TripCombo extends React.Component {
   select () {
     const ticket = this.read ('ticket');
     this.reduce ('SWAP_SELECTED', ticket);
+  }
+
+  selectMany () {
+    const ticket = this.read ('ticket');
+    this.reduce ('SWAP_SELECTED', ticket, null, true);
   }
 
   render () {
