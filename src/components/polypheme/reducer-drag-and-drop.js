@@ -565,6 +565,8 @@ function changeGeneric (state, flashes, warnings, from, to) {
     const drop = clone (state, ticket);
     pick.Type = 'pick';
     drop.Type = 'drop';
+    pick.Status = 'pre-dispatched';
+    drop.Status = 'pre-dispatched';
     addTicket (to.tickets, to.index, drop);  // first drop, for have pick/drop in this order
     addTicket (to.tickets, to.index, pick);
     clearSelected (state, pick.id);
@@ -573,7 +575,7 @@ function changeGeneric (state, flashes, warnings, from, to) {
     flashes.push (drop.id);
   } else if (to.type === 'backlog' && ticket.Type !== 'both') {
     ticket.Type = 'both';
-    ticket.Status = 'pre-dispatched';
+    ticket.Status = 'backlog';
     addTicket (to.tickets, to.index, ticket);
     clearSelected (state, ticket.id);
     flashes.push (ticket.id);
