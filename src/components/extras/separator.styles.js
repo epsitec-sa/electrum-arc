@@ -47,6 +47,13 @@ export default function styles (theme, props) {
     borderStyle     = 'none';
   }
 
+  if (inputKind === 'menu-separator') {
+    height          = theme.shapes.flyingBalloonPadding;
+    margin          = '0px';
+    borderWidth     = '0px';
+    borderStyle     = 'none';
+  }
+
   if (inputKind === 'floating-footer') {
     borderColor = theme.palette.floatingSecondary;
   }

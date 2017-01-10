@@ -62,7 +62,7 @@ export default class Combo extends React.Component {
   renderItem (item, index) {
     if (item.separator) {
       return (
-        <Separator key={index} kind='space' {...this.link ()} />
+        <Separator key={index} kind='menu-separator' {...this.link ()} />
       );
     } else {
       return (
