@@ -46,44 +46,6 @@ export default class TripCombo extends React.Component {
         action: () => this.showMission (),
       }
     );
-    if (ticket.Type !== 'both') {
-      if (ticket.Status === 'dispatched') {
-        list.push (
-          {
-            text:     'Livré',
-            glyph:    'envelope',
-            shortcut: '(clic)',
-            action: () => this.dispatch (),
-          }
-        );
-      } else if (ticket.Status === 'delivered') {
-        list.push (
-          {
-            text:     'Non dispatché',
-            glyph:    'square-o',
-            shortcut: '(clic)',
-            action: () => this.dispatch (),
-          }
-        );
-      } else {
-        list.push (
-          {
-            text:     'Dispatché',
-            glyph:    'hashtag',
-            shortcut: '(clic)',
-            action: () => this.dispatch (),
-          }
-        );
-      }
-      list.push (
-        {
-          text:     extended ? 'Réduire' : 'Étendre',
-          glyph:    extended ? 'arrow-up' : 'arrow-down',
-          shortcut: '(alt-clic)',
-          action: () => this.extend (),
-        }
-      );
-    }
     list.push (
       {
         text:     selected ? 'Désélectionner' : 'Sélectionner',
@@ -92,16 +54,55 @@ export default class TripCombo extends React.Component {
         action: () => this.select (),
       }
     );
+    if (ticket.Type !== 'both') {
+      list.push (
+        {
+          text:     extended ? 'Réduire' : 'Étendre',
+          glyph:    extended ? 'arrow-up' : 'arrow-down',
+          shortcut: '(alt-clic)',
+          action: () => this.extend (),
+        }
+      );
+      list.push (
+        {
+          separator: true,
+        }
+      );
+      list.push (
+        {
+          text:   'Non dispatché',
+          glyph:  'square-o',
+          active: ticket.Status === 'pre-dispatched' ? 'true' : 'false',
+          action: () => this.dispatch ('pre-dispatched'),
+        }
+      );
+      list.push (
+        {
+          text:   'Dispatché',
+          glyph:  'hashtag',
+          active: ticket.Status === 'dispatched' ? 'true' : 'false',
+          action: () => this.dispatch ('dispatched'),
+        }
+      );
+      list.push (
+        {
+          text:   'Livré',
+          glyph:  'envelope',
+          active: ticket.Status === 'delivered' ? 'true' : 'false',
+          action: () => this.dispatch ('delivered'),
+        }
+      );
+    }
     return list;
   }
 
-  reduce (action, ticket, shiftKey) {
+  reduce (action, ticket, value) {
     const id   = ticket.id;
     const data = this.read ('data');
     reducerDragAndDrop (data, {
-      type:     action,
-      id:       id,
-      shiftKey: shiftKey,
+      type:  action,
+      id:    id,
+      value: value,
     });
     if (window.document.mock) {
       for (var c of window.document.toUpdate) {
@@ -110,12 +111,12 @@ export default class TripCombo extends React.Component {
     }
   }
 
-  dispatch () {
+  dispatch (value) {
     const ticket = this.read ('ticket');
     if (ticket.Status === 'dispatched') {
       this.showModify ();
     }
-    this.reduce ('SWAP_STATUS', ticket);
+    this.reduce ('CHANGE_STATUS', ticket, value);
   }
 
   extend () {
