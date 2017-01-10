@@ -70,25 +70,28 @@ export default class TripCombo extends React.Component {
       );
       list.push (
         {
-          text:   'Non dispatché',
-          glyph:  'square-o',
-          active: ticket.Status === 'pre-dispatched' ? 'true' : 'false',
+          text:     'Non dispatché',
+          glyph:    'square-o',
+          active:   ticket.Status === 'pre-dispatched' ? 'true' : 'false',
+          shortcut: ticket.Status === 'delivered' ? '(clic)' : null,
           action: () => this.dispatch ('pre-dispatched'),
         }
       );
       list.push (
         {
-          text:   'Dispatché',
-          glyph:  'hashtag',
-          active: ticket.Status === 'dispatched' ? 'true' : 'false',
+          text:     'Dispatché',
+          glyph:    'hashtag',
+          active:   ticket.Status === 'dispatched' ? 'true' : 'false',
+          shortcut: ticket.Status === 'pre-dispatched' ? '(clic)' : null,
           action: () => this.dispatch ('dispatched'),
         }
       );
       list.push (
         {
-          text:   'Livré',
-          glyph:  'envelope',
-          active: ticket.Status === 'delivered' ? 'true' : 'false',
+          text:     'Livré',
+          glyph:    'envelope',
+          active:   ticket.Status === 'delivered' ? 'true' : 'false',
+          shortcut: ticket.Status === 'dispatched' ? '(clic)' : null,
           action: () => this.dispatch ('delivered'),
         }
       );
