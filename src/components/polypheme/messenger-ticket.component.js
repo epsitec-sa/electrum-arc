@@ -44,7 +44,7 @@ export default class MessengerTicket extends React.Component {
   showCombo (x, y) {
     // console.log ('MessengerTicket.showCombo');
     const node = ReactDOM.findDOMNode (this);
-    this.comboLocation = getComboLocation (node, x, y, 300, this.props.theme);
+    this.comboLocation = getComboLocation (node, this.props.theme, x, y);
     this.setShowCombo (true);
   }
 
@@ -111,7 +111,7 @@ export default class MessengerTicket extends React.Component {
         <MessengerCombo
           data        = {data}
           roadbook    = {roadbook}
-          left        = {this.comboLocation.left}
+          center      = {this.comboLocation.center}
           top         = {this.comboLocation.top}
           bottom      = {this.comboLocation.bottom}
           close-combo = {() => this.setShowCombo (false)}

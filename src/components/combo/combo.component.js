@@ -29,7 +29,7 @@ export default class Combo extends React.Component {
 
   get styleProps () {
     return {
-      left:   this.read ('left'),
+      center: this.read ('center'),
       right:  this.read ('right'),
       top:    this.read ('top'),
       bottom: this.read ('bottom'),

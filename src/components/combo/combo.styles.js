@@ -3,7 +3,7 @@
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  const left   = props.left;
+  const center = props.center;
   const right  = props.right;
   const top    = props.top;
   const bottom = props.bottom;
@@ -23,10 +23,11 @@ export default function styles (theme, props) {
   const comboStyle = {
     visibility:      'visible',
     position:        'absolute',
+    transform:       'translate(-50%, 0%)',
     zIndex:          11,
     display:         'flex',
     flexDirection:   'column',
-    left:            left,
+    left:            center,
     right:           right,
     top:             top,
     bottom:          bottom,

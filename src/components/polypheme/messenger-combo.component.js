@@ -91,13 +91,13 @@ export default class MessengerCombo extends React.Component {
   }
 
   render () {
-    const left   = this.read ('left');
+    const center = this.read ('center');
     const top    = this.read ('top');
     const bottom = this.read ('bottom');
 
     return (
       <Combo
-        left   = {left}
+        center = {center}
         top    = {top}
         bottom = {bottom}
         list   = {this.getList ()}

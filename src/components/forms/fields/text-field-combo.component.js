@@ -3,8 +3,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Action} from 'electrum';
-import {Unit} from 'electrum-theme';
-import {Button, TextField, Calendar, Clock, Combo} from 'electrum-arc';
+import {Button, TextField, Combo} from 'electrum-arc';
+import {getComboLocation} from '../../combo/combo-helpers.js';
 
 /******************************************************************************/
 
@@ -15,9 +15,7 @@ export default class TextFieldCombo extends React.Component {
     this.state = {
       showCombo: false,
     };
-    this.comboLeft   = null;
-    this.comboTop    = null;
-    this.comboBottom = null;
+    this.comboLocation = null;
   }
 
   getShowCombo () {
@@ -50,19 +48,7 @@ export default class TextFieldCombo extends React.Component {
 
   showCombo () {
     const node = ReactDOM.findDOMNode (this);
-    const comboRect = node.getBoundingClientRect ();
-
-    // Compute horizontal position according to mouse.
-    this.comboLeft = comboRect.left + 'px';
-
-    // Puts the menu under the component if it is in the upper half of the window.
-    const my = (comboRect.top + comboRect.bottom) / 2;
-    const underside = my < window.innerHeight / 2;
-    const top = Unit.add ((window.innerHeight - comboRect.top) + 'px', this.props.theme.shapes.flyingBalloonTriangleSize);
-    const bottom = Unit.add (comboRect.bottom + 'px', this.props.theme.shapes.flyingBalloonTriangleSize);
-    this.comboTop = underside ? bottom : null;
-    this.comboBottom = underside ? null : top;
-
+    this.comboLocation = getComboLocation (node, this.props.theme);
     this.setShowCombo (true);
   }
 
@@ -123,9 +109,9 @@ export default class TextFieldCombo extends React.Component {
     if (list && this.getShowCombo ()) {
       return (
         <Combo
-          left   = {this.comboLeft}
-          top    = {this.comboTop}
-          bottom = {this.comboBottom}
+          center = {this.comboLocation.center}
+          top    = {this.comboLocation.top}
+          bottom = {this.comboLocation.bottom}
           list   = {list}
           close  = {() => this.setShowCombo (false)}
           {...this.link ()} />

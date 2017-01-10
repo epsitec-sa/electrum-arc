@@ -14,25 +14,33 @@ function setDragCabHasCombo (id, value) {
 }
 
 // Compute the location for a combo-menu.
-function getComboLocation (node, x, y, hopeWidth, theme) {
+function getComboLocation (node, theme, x, y) {
   const rect = node.getBoundingClientRect ();
 
-  // Compute horizontal position according to mouse.
-  const left = (x - hopeWidth / 2) + 'px';
+  // Compute horizontal position according to mouse or component.
+  let center;
+  if (x) {
+    center = x + 'px';
+  } else {
+    center = ((rect.left + rect.right) / 2) + 'px';
+  }
 
   // Puts the menu under the component if it's in the upper half of the window.
+  const t = theme.shapes.flyingBalloonTriangleSize;
+  let topValue, bottomValue;
+  if (y) {
+    topValue    = Unit.add ((window.innerHeight - y) + 'px', t);
+    bottomValue = Unit.add (y + 'px', t);
+  } else {
+    topValue    = Unit.add ((window.innerHeight - rect.top) + 'px', t);
+    bottomValue = Unit.add (rect.bottom + 'px', t);
+  }
   const my = (rect.top + rect.bottom) / 2;
   const underside = my < window.innerHeight / 2;
-  const t = theme.shapes.flyingBalloonTriangleSize;
-  const topValue    = Unit.add ((window.innerHeight - y) + 'px', t);
-  const bottomValue = Unit.add (y + 'px', t);
-  const top    = underside ? bottomValue : null;
-  const bottom = underside ? null : topValue;
-
   return {
-    left:   left,
-    top:    top,
-    bottom: bottom,
+    center: center,
+    top:    underside ? bottomValue : null,
+    bottom: underside ? null : topValue,
   };
 }
 
