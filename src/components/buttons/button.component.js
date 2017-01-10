@@ -181,7 +181,7 @@ export default class Button extends React.Component {
       const shortcutStyle = this.mergeStyles ('shortcut');
       return (
         <label key='shortcut' style={shortcutStyle}>
-          {shortcut}
+          {'[' + shortcut + ']'}
         </label>
       );
     } else {

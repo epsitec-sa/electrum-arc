@@ -50,7 +50,7 @@ export default class TripCombo extends React.Component {
       {
         text:     selected ? 'Désélectionner' : 'Sélectionner',
         glyph:    selected ? 'circle-o' : 'check-circle',
-        shortcut: '(ctrl-clic)',
+        shortcut: 'ctrl+clic',
         action: () => this.select (),
       }
     );
@@ -59,7 +59,7 @@ export default class TripCombo extends React.Component {
         {
           text:     extended ? 'Réduire' : 'Étendre',
           glyph:    extended ? 'arrow-up' : 'arrow-down',
-          shortcut: '(alt-clic)',
+          shortcut: 'alt+clic',
           action: () => this.extend (),
         }
       );
@@ -73,7 +73,7 @@ export default class TripCombo extends React.Component {
           text:     'Non dispatché',
           glyph:    'ban',
           active:   ticket.Status === 'pre-dispatched' ? 'true' : 'false',
-          shortcut: ticket.Status === 'delivered' ? '(clic)' : null,
+          shortcut: ticket.Status === 'delivered' ? 'clic' : null,
           action: () => this.dispatch ('pre-dispatched'),
         }
       );
@@ -82,7 +82,7 @@ export default class TripCombo extends React.Component {
           text:     'Dispatché',
           glyph:    'envelope-o',
           active:   ticket.Status === 'dispatched' ? 'true' : 'false',
-          shortcut: ticket.Status === 'pre-dispatched' ? '(clic)' : null,
+          shortcut: ticket.Status === 'pre-dispatched' ? 'clic' : null,
           action: () => this.dispatch ('dispatched'),
         }
       );
@@ -91,7 +91,7 @@ export default class TripCombo extends React.Component {
           text:     'Livré',
           glyph:    'envelope',
           active:   ticket.Status === 'delivered' ? 'true' : 'false',
-          shortcut: ticket.Status === 'dispatched' ? '(clic)' : null,
+          shortcut: ticket.Status === 'dispatched' ? 'clic' : null,
           action: () => this.dispatch ('delivered'),
         }
       );
