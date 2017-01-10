@@ -5,7 +5,8 @@ import ReactDOM from 'react-dom';
 
 import {
   Container,
-  Button
+  Button,
+  Separator
 } from '../../all-components.js';
 
 /******************************************************************************/
@@ -59,12 +60,18 @@ export default class Combo extends React.Component {
   }
 
   renderItem (item, index) {
-    return (
-      <Button key={index} kind='menu-item'
-        glyph={item.glyph} text={item.text} shortcut={item.shortcut} active={item.active}
-        mouse-up={() => this.actionAndClose (item)}
-        {...this.link ()} />
-    );
+    if (item.separator) {
+      return (
+        <Separator key={index} kind='space' {...this.link ()} />
+      );
+    } else {
+      return (
+        <Button key={index} kind='menu-item'
+          glyph={item.glyph} text={item.text} shortcut={item.shortcut} active={item.active}
+          mouse-up={() => this.actionAndClose (item)}
+          {...this.link ()} />
+      );
+    }
   }
 
   renderCombo () {
