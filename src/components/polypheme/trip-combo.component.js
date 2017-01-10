@@ -71,7 +71,7 @@ export default class TripCombo extends React.Component {
       list.push (
         {
           text:     'Non dispatché',
-          glyph:    'square-o',
+          glyph:    'ban',
           active:   ticket.Status === 'pre-dispatched' ? 'true' : 'false',
           shortcut: ticket.Status === 'delivered' ? '(clic)' : null,
           action: () => this.dispatch ('pre-dispatched'),
@@ -80,7 +80,7 @@ export default class TripCombo extends React.Component {
       list.push (
         {
           text:     'Dispatché',
-          glyph:    'hashtag',
+          glyph:    'envelope-o',
           active:   ticket.Status === 'dispatched' ? 'true' : 'false',
           shortcut: ticket.Status === 'pre-dispatched' ? '(clic)' : null,
           action: () => this.dispatch ('dispatched'),
