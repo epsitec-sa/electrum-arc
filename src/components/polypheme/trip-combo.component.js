@@ -50,7 +50,7 @@ export default class TripCombo extends React.Component {
       {
         text:     selected ? 'Désélectionner' : 'Sélectionner',
         glyph:    selected ? 'circle-o' : 'check-circle',
-        shortcut: 'ctrl+clic',
+        shortcut: '_ctrl_+clic',
         action: () => this.select (),
       }
     );
@@ -59,7 +59,7 @@ export default class TripCombo extends React.Component {
         {
           text:     extended ? 'Réduire' : 'Étendre',
           glyph:    extended ? 'arrow-up' : 'arrow-down',
-          shortcut: 'alt+clic',
+          shortcut: '_alt_+clic',
           action: () => this.extend (),
         }
       );

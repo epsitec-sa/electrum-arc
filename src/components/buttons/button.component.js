@@ -2,8 +2,8 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-
 import {Badge, Menu} from '../../all-components.js';
+import {getShortcut} from './shortcut-helpers.js';
 
 /******************************************************************************/
 
@@ -181,7 +181,7 @@ export default class Button extends React.Component {
       const shortcutStyle = this.mergeStyles ('shortcut');
       return (
         <label key='shortcut' style={shortcutStyle}>
-          {'[' + shortcut + ']'}
+          {getShortcut (shortcut)}
         </label>
       );
     } else {
