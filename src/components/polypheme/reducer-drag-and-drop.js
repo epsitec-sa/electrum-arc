@@ -699,6 +699,23 @@ function swapStatus (state, id) {
   return state;
 }
 
+function changeStatus (state, id, value) {
+  const flashes = [];
+  const warnings = [];
+  const result = searchId (state, id);
+  if (result.type === 'roadbook') {
+    const ticket = result.tickets[result.index];
+    ticket.Status = value;
+    if (value !== 'pre-dispatched') {
+      clearSelected (state, ticket.id);
+    }
+    result.tickets[result.index] = clone (state, ticket);  // Trick necessary for update UI !!!
+    flashes.push (result.tickets[result.index].id);
+  }
+  setMiscs (state, flashes, warnings);
+  return state;
+}
+
 function swapRoadbookCompacted (state, id) {
   const result = searchId (state, id);
   if (result.type !== 'roadbooks') {
@@ -746,6 +763,9 @@ export default function Reducer (state = {}, action = {}) {
       break;
     case 'SWAP_STATUS':
       state = swapStatus (state, action.id);
+      break;
+    case 'CHANGE_STATUS':
+      state = changeStatus (state, action.id, action.value);
       break;
 
     case 'IS_SELECTED':
