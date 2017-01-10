@@ -14,6 +14,7 @@ function setDragCabHasCombo (id, value) {
 }
 
 // Compute the location for a combo-menu.
+// If x or y are undefined, the location is based on bounding rect of node.
 function getComboLocation (node, theme, x, y) {
   const rect = node.getBoundingClientRect ();
 
