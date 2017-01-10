@@ -137,7 +137,7 @@ export default class Trip extends React.Component {
     const ticket   = this.read ('ticket');
     const data     = this.read ('data');
     const noDrag   = (ticket.Status === 'dispatched' || ticket.Status === 'delivered') ? 'true' : null;
-    const selected = this.getShowCombo () || this.getShowModify () ? 'true' : false;
+    const selected = this.getShowCombo () || this.getShowModify () ? 'true' : 'false';
 
     if (kind === 'trip-box') {
       const m = Unit.parse (this.props.theme.shapes.tripBoxBottomMargin).value;

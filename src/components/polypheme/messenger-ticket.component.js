@@ -126,6 +126,8 @@ export default class MessengerTicket extends React.Component {
   renderExtended () {
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
+    const selected = this.getShowCombo () || this.getShowModify ();
+    const color    = selected ? 'selectedMessenger' : 'messenger';
 
     const width  = this.props.theme.shapes.tripTicketWidth;
     const height = this.props.theme.shapes.messengerHeight;
@@ -138,7 +140,7 @@ export default class MessengerTicket extends React.Component {
       'A définir';
 
     return (
-      <Ticket kind='ticket' shape='header' width={width} height={height} color='selected'
+      <Ticket kind='ticket' shape='header' width={width} height={height} color={color}
         mouse-down = {event => this.mouseDown (event)}
         mouse-up   = {event => this.mouseUp (event)}
         no-drag='false' cursor='ew-resize' {...this.link ()} >
@@ -161,12 +163,14 @@ export default class MessengerTicket extends React.Component {
   renderCompacted () {
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
+    const selected = this.getShowCombo () || this.getShowModify ();
+    const color    = selected ? 'selectedMessenger' : 'messenger';
 
     const width = this.props.theme.shapes.tripTicketCompactedWidth;
 
     return (
       <Container kind='column' {...this.link ()}>
-        <Ticket kind='cover' shape='header' width={width} color='selected'
+        <Ticket kind='cover' shape='header' width={width} color={color}
           mouse-down = {event => this.mouseDown (event)}
           mouse-up   = {event => this.mouseUp (event)}
           no-drag='false' cursor='ew-resize' {...this.link ()} >

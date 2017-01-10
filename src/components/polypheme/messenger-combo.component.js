@@ -35,7 +35,7 @@ export default class MessengerCombo extends React.Component {
     console.log ('MessengerCombo.swapCompactedAndShift');
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
-    const compacted  = roadbook.Compacted  === 'true';
+    const compacted = roadbook.Compacted  === 'true';
     if (compacted) {
       this.shiftToBegin ();
       this.reduce ('SWAP_ROADBOOK_COMPACTED', data.Roadbooks[0].id);

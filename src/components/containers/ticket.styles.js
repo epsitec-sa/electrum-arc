@@ -165,11 +165,8 @@ export default function styles (theme, props) {
 
   if (inputColor) {
     backgroundColor = {
-      selected: theme.palette.ticketSelectedBackground,
-      blue:     theme.palette.ticketBlueBackground,
-      yellow:   theme.palette.ticketYellowBackground,
-      red:      theme.palette.ticketRedBackground,
-      green:    theme.palette.ticketGreenBackground,
+      messenger:         theme.palette.ticketMessengerBackground,
+      selectedMessenger: theme.palette.ticketSelectedMessengerBackground,
     } [inputColor];
   }
 
