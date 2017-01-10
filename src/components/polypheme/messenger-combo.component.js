@@ -123,8 +123,9 @@ export default class MessengerCombo extends React.Component {
     );
     list.push (
       {
-        text:   compacted ? 'Étendre' : 'Réduire',
-        glyph:  compacted ? 'expand' : 'compress',
+        text:     compacted ? 'Étendre' : 'Réduire',
+        glyph:    compacted ? 'expand' : 'compress',
+        shortcut: '_alt_+clic',
         action: () => this.swapCompacted (),
       }
     );

@@ -122,27 +122,42 @@ export default class DragCab extends React.Component {
     if (mouseUp && mouseUp (event)) {
       return;
     }
-    if (this.props['drag-controller'] === 'ticket') {
-      const noDrag = this.read ('no-drag');
-      if (noDrag === 'true') {  // simple click when drag prohibited ?
-        this.childrenChangeState (event);
+    const noDrag = this.read ('no-drag');
+    if (noDrag === 'true') {  // simple click when drag prohibited ?
+      if (this.props['drag-controller'] === 'ticket') {
+        this.childrenChangeTicketState (event);
+      } else if (this.props['drag-controller'] === 'roadbook') {
+        this.childrenChangeRoadbookState (event);
       }
     }
   }
 
   dragEnding (event, isDragDoing) {
-    // console.log ('DragCab.dragEnding');
+    console.log ('DragCab.dragEnding');
     this.setDragInProcess (false);
     this.setDragStarting (false);
     if (this.props['drag-controller'] === 'ticket') {
       if (!isDragDoing) {  // simple click done ?
-        this.childrenChangeState (event);
+        this.childrenChangeTicketState (event);
+      }
+    } else if (this.props['drag-controller'] === 'roadbook') {
+      if (!isDragDoing) {  // simple click done ?
+        this.childrenChangeRoadbookState (event);
       }
     }
   }
 
-  childrenChangeState (event) {
-    React.Children.forEach (this.props.children, ticket => this.changeState (ticket, event));
+  childrenChangeTicketState (event) {
+    React.Children.forEach (this.props.children, ticket => this.changeTicketState (ticket, event));
+    if (window.document.mock) {
+      for (var c of window.document.toUpdate) {
+        c.forceUpdate ();
+      }
+    }
+  }
+
+  childrenChangeRoadbookState (event) {
+    React.Children.forEach (this.props.children, roadbook => this.changeRoadbookState (roadbook, event));
     if (window.document.mock) {
       for (var c of window.document.toUpdate) {
         c.forceUpdate ();
@@ -164,7 +179,7 @@ export default class DragCab extends React.Component {
     }
   }
 
-  changeState (ticket, event) {
+  changeTicketState (ticket, event) {
     if (event.ctrlKey || event.shiftKey || event.metaKey) {  // select/deselect ?
       this.reduce ('SWAP_SELECTED', ticket.props, event.shiftKey);
     } else if (event.altKey) {  // compected/extended ?
@@ -177,11 +192,21 @@ export default class DragCab extends React.Component {
     }
   }
 
+  changeRoadbookState (roadbook, event) {
+    if (event.altKey) {  // compected/extended ?
+      this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.props);
+    }
+  }
+
   reduce (action, props, shiftKey) {
-    if (!props.ticket) {
+    let id;
+    if (props.ticket) {
+      id = props.ticket.id;
+    } else if (props.roadbook) {
+      id = props.roadbook.id;
+    } else {
       return;
     }
-    const id   = props.ticket.id;
     const data = this.read ('data');
 
     // inject electrum state (needed for electrumDispatch)
