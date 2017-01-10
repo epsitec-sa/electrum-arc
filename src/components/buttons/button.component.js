@@ -77,101 +77,144 @@ export default class Button extends React.Component {
     }
   }
 
-  render () {
-    const {state, theme} = this.props;
-    const disabled = Action.isDisabled (state);
-    const inputKind          = this.read ('kind');
-    const inputActive        = this.read ('active');
-    const inputGlyph         = this.read ('glyph');
-    const inputRotate        = this.read ('rotate');
-    const inputFlip          = this.read ('flip');
-    const inputSpin          = this.read ('spin');
-    const inputText          = this.read ('text');
-    const inputGlyphPosition = this.read ('glyph-position');
-    const inputBadgeValue    = this.read ('badge-value');
-    const inputTooltip       = this.read ('tooltip');
-    const inputMenu          = this.read ('menu');
-    const inputToAnchor      = this.read ('to-anchor');
-
+  isMenuVisible () {
     // Get or create the internalState.
-    let isMenuVisible = 'false';
-    if (inputMenu) {
+    const menu = this.read ('menu');
+    if (menu) {
       let internalState = this.getInternalState ();
       if (!internalState.get ('isMenuVisible')) {
         // At first time, initialize internalState.isMenuVisible with false.
         internalState = internalState.set ('isMenuVisible', 'false');
       }
-      isMenuVisible = internalState.get ('isMenuVisible');
+      return internalState.get ('isMenuVisible');
+    } else {
+      return 'false';
     }
+  }
 
-    const boxStyle   = this.mergeStyles ('box');
-    const glyphStyle = this.mergeStyles ('glyph');
-    const textStyle  = this.mergeStyles ('text');
+  renderBadge () {
+    const badgeValue = this.read ('badge-value');
+    if (badgeValue) {
+      return (
+        <Badge
+          value={badgeValue}
+          layer='over'
+          {...this.link ()}
+        />
+      );
+    } else {
+      return null;
+    }
+  }
 
-    const htmlText = (
-      <label key='text' style={textStyle}>
-        {inputText}
-      </label>
-    );
-
-    const renderSpin = inputSpin ? 'fa-spin' : '';
-    const htmlGlyph = (
-      <i key='icon'
-        style={glyphStyle}
-        className={`fa
-        fa-${inputGlyph}
-        fa-rotate-${inputRotate}
-        fa-flip-${inputFlip}
-        ${renderSpin}`}
-      />
-    );
-
-    const htmlBadge = inputBadgeValue ? (
-      <Badge
-        value={inputBadgeValue}
-        layer='over'
-        {...this.link ()}
-      />
-    ) : null;
-
-    let htmlTriangle = null;
-    if (inputKind === 'main-tab' && inputActive === 'true') {
+  renderTriangle () {
+    const kind   = this.read ('kind');
+    const active = this.read ('active');
+    if (kind === 'main-tab' && active === 'true') {
       const triangleStyle = this.mergeStyles ('triangle');
-      htmlTriangle = (
+      return (
         <div style={triangleStyle} />
       );
+    } else {
+      return null;
     }
+  }
 
-    let htmlMenu = null;
-    if (isMenuVisible === 'true') {
-      const htmlCombo = (
-        <Menu items={inputMenu} {...this.link ()} />
-      );
+  renderMenu () {
+    if (this.isMenuVisible () === 'true') {
+      const menu = this.read ('menu');
       const menuBoxStyle = this.mergeStyles ('menuBox');
-      htmlMenu = (
+      return (
         <div style={menuBoxStyle}>
-          {htmlCombo}
+          <Menu items={menu} {...this.link ()} />
         </div>
       );
+    } else {
+      return null;
     }
+  }
 
-    const layout = () => {
-      if (inputGlyph) {
-        if (inputText) {
-          if (inputGlyphPosition === 'right') {
-            return [htmlText, htmlGlyph];
-          } else {
-            return [htmlGlyph, htmlText];
-          }
-        } else {
-          return [htmlGlyph];
-        }
-      } else {
-        return [htmlText];
+  renderGlyph () {
+    const glyph  = this.read ('glyph');
+    if (glyph) {
+      const rotate = this.read ('rotate');
+      const flip   = this.read ('flip');
+      const spin   = this.read ('spin');
+      const renderSpin = spin ? 'fa-spin' : '';
+      const glyphStyle = this.mergeStyles ('glyph');
+      return (
+        <i key='icon'
+          style={glyphStyle}
+          className={`fa
+          fa-${glyph}
+          fa-rotate-${rotate}
+          fa-flip-${flip}
+          ${renderSpin}`}
+        />
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderText () {
+    const text = this.read ('text');
+    if (text) {
+      const shortcut = this.read ('shortcut');
+      const textStyle = this.mergeStyles ('text');
+      if (shortcut) {
+        textStyle.flexGrow = 1;
       }
-    };
+      return (
+        <label key='text' style={textStyle}>
+          {text}
+        </label>
+      );
+    } else {
+      return null;
+    }
+  }
 
-    if (inputKind === 'container' || inputKind === 'box') {
+  renderShortcut () {
+    const shortcut = this.read ('shortcut');
+    if (shortcut) {
+      const shortcutStyle = this.mergeStyles ('shortcut');
+      return (
+        <label key='shortcut' style={shortcutStyle}>
+          {shortcut}
+        </label>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderLayout () {
+    const result = [];
+    const glyphPosition = this.read ('glyph-position');
+    if (glyphPosition === 'right') {
+      result.push (this.renderText ());
+      result.push (this.renderShortcut ());
+      result.push (this.renderGlyph ());
+    } else {
+      result.push (this.renderGlyph ());
+      result.push (this.renderText ());
+      result.push (this.renderShortcut ());
+    }
+    return result;
+  }
+
+  render () {
+    const {state} = this.props;
+    const disabled = Action.isDisabled (state);
+    const kind     = this.read ('kind');
+    const tooltip  = this.read ('tooltip');
+    const menu     = this.read ('menu');
+    const toAnchor = this.read ('to-anchor');
+
+    const boxStyle = this.mergeStyles ('box');
+
+    if (kind === 'container' || kind === 'box') {
       return (
         <div
           onClick     = {this.onClick}  // voir (*)
@@ -179,12 +222,12 @@ export default class Button extends React.Component {
           onMouseUp   = {() => this.mouseUp ()}
           disabled    = {disabled}
           style       = {boxStyle}
-          title       = {inputTooltip}
+          title       = {tooltip}
         >
           {this.props.children}
         </div>
       );
-    } else if (inputMenu) {
+    } else if (menu) {
       return (
         <div
           onClick     = {() => this.showMenu ()}  // voir (*)
@@ -192,16 +235,16 @@ export default class Button extends React.Component {
           onMouseUp   = {() => this.mouseUp ()}
           disabled    = {disabled}
           style       = {boxStyle}
-          title       = {inputTooltip}
+          title       = {tooltip}
         >
-          {layout ().map ((comp) => comp)}
-          {htmlTriangle}
-          {htmlBadge}
-          {htmlMenu}
+          {this.renderLayout ()}
+          {this.renderTriangle ()}
+          {this.renderBadge ()}
+          {this.renderMenu ()}
           {this.props.children}
         </div>
       );
-    } else if (inputToAnchor) {
+    } else if (toAnchor) {
       return (
         <a
           onClick     = {this.onClick}  // voir (*)
@@ -209,13 +252,13 @@ export default class Button extends React.Component {
           onMouseUp   = {() => this.mouseUp ()}
           disabled    = {disabled}
           style       = {boxStyle}
-          title       = {inputTooltip}
-          href        = {'#' + inputToAnchor}
+          title       = {tooltip}
+          href        = {'#' + toAnchor}
         >
-          {layout ().map ((comp) => comp)}
-          {htmlTriangle}
-          {htmlBadge}
-          {htmlMenu}
+          {this.renderLayout ()}
+          {this.renderTriangle ()}
+          {this.renderBadge ()}
+          {this.renderMenu ()}
           {this.props.children}
         </a>
       );
@@ -227,12 +270,12 @@ export default class Button extends React.Component {
           onMouseUp   = {() => this.mouseUp ()}
           disabled    = {disabled}
           style       = {boxStyle}
-          title       = {inputTooltip}
+          title       = {tooltip}
         >
-          {layout ().map ((comp) => comp)}
-          {htmlTriangle}
-          {htmlBadge}
-          {htmlMenu}
+          {this.renderLayout ()}
+          {this.renderTriangle ()}
+          {this.renderBadge ()}
+          {this.renderMenu ()}
           {this.props.children}
         </div>
       );

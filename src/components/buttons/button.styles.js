@@ -608,6 +608,17 @@ export default function styles (theme, props) {
     wordWrap:        'break-word',
   };
 
+  const shortcutStyle = {
+    width:           textWidth,
+    flexGrow:        textGrow,
+    color:           textColor,
+    fontSize:        Unit.multiply (textSize, theme.typo.fontScale * 0.9),
+    overflow:        'hidden',
+    textOverflow:    'ellipsis',
+    whiteSpace:      'nowrap',
+    wordWrap:        'break-word',
+  };
+
   if (!disabled && actif) {
     boxStyle[':hover'] = {
       color:           textHoverColor,  // (*)
@@ -651,6 +662,7 @@ export default function styles (theme, props) {
     box:      boxStyle,
     glyph:    glyphStyle,
     text:     textStyle,
+    shortcut: shortcutStyle,
     triangle: triangleStyle,
     menuBox:  menuBoxStyle,
   };
