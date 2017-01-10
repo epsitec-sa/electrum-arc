@@ -50,40 +50,45 @@ export default class TripCombo extends React.Component {
       if (ticket.Status === 'dispatched') {
         list.push (
           {
-            text:   'Livré',
-            glyph:  'envelope',
+            text:     'Livré',
+            glyph:    'envelope',
+            shortcut: '(clic)',
             action: () => this.dispatch (),
           }
         );
       } else if (ticket.Status === 'delivered') {
         list.push (
           {
-            text:   'Non dispatché',
-            glyph:  'square-o',
+            text:     'Non dispatché',
+            glyph:    'square-o',
+            shortcut: '(clic)',
             action: () => this.dispatch (),
           }
         );
       } else {
         list.push (
           {
-            text:   'Dispatché',
-            glyph:  'hashtag',
+            text:     'Dispatché',
+            glyph:    'hashtag',
+            shortcut: '(clic)',
             action: () => this.dispatch (),
           }
         );
       }
       list.push (
         {
-          text:   extended ? 'Réduire' : 'Étendre',
-          glyph:  extended ? 'arrow-up' : 'arrow-down',
+          text:     extended ? 'Réduire' : 'Étendre',
+          glyph:    extended ? 'arrow-up' : 'arrow-down',
+          shortcut: '(alt-clic)',
           action: () => this.extend (),
         }
       );
     }
     list.push (
       {
-        text:   selected ? 'Désélectionner' : 'Sélectionner',
-        glyph:  selected ? 'circle-o' : 'check-circle',
+        text:     selected ? 'Désélectionner' : 'Sélectionner',
+        glyph:    selected ? 'circle-o' : 'check-circle',
+        shortcut: '(ctrl-clic)',
         action: () => this.select (),
       }
     );

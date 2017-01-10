@@ -61,7 +61,8 @@ export default class Combo extends React.Component {
   renderItem (item, index) {
     return (
       <Button key={index} kind='menu-item'
-        glyph={item.glyph} text={item.text} active={item.active} mouse-up={() => this.actionAndClose (item)}
+        glyph={item.glyph} text={item.text} shortcut={item.shortcut} active={item.active}
+        mouse-up={() => this.actionAndClose (item)}
         {...this.link ()} />
     );
   }
