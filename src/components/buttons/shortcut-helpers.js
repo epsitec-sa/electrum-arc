@@ -1,5 +1,6 @@
 'use strict';
 
+// See http://www.javascripter.net/faq/operatin.htm
 function getOSName () {
   const v = navigator.appVersion;
   if (v.indexOf ('Win') !== -1) {
@@ -16,9 +17,11 @@ function getOSName () {
 }
 
 function replace (text, search, futur) {
-  return text.replace (new RegExp(search, 'g'), futur);
+  return text.replace (new RegExp (search, 'g'), futur);
 }
 
+// Return the final text for a shortcut. Replace the meta keys
+// (noted with _key_) by the key according to OS.
 function getShortcut (text) {
   if (text) {
     const os = getOSName ();
@@ -46,7 +49,8 @@ function getShortcut (text) {
     text = replace (text, '_ctrl_',  ctrl);
     text = replace (text, '_shift_', shift);
     text = replace (text, '_alt_',   alt);
-    return '[' + text + ']';
+    // return '[' + text + ']';
+    return text;  // more simple without [] !
   } else {
     return null;
   }
