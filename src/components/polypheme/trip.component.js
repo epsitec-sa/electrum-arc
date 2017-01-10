@@ -44,7 +44,7 @@ export default class Trip extends React.Component {
 
   showCombo (x, y) {
     const node = ReactDOM.findDOMNode (this);
-    this.comboLocation = getComboLocation (node, this.props.theme, x, y);
+    this.comboLocation = getComboLocation (node, this.props.theme, x);
     this.setShowCombo (true);
   }
 
