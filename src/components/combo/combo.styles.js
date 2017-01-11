@@ -17,6 +17,7 @@ export default function styles (theme, props) {
     width:           '100%',
     height:          '100%',
     userSelect:      'none',
+    cursor:          'not-allowed',
     // backgroundColor: 'rgba(0, 0, 0, 0.2)',
   };
 
@@ -32,6 +33,7 @@ export default function styles (theme, props) {
     top:             top,
     bottom:          bottom,
     opacity:         1.0,
+    cursor:          'default',
     userSelect:      'none',
   };
 
