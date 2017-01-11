@@ -774,7 +774,8 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'flying-balloon') {
-    padding         = theme.shapes.flyingBalloonPadding;
+    const fbp = theme.shapes.flyingBalloonPadding;
+    padding         = Unit.add (fbp, '1px') + ' ' + fbp + ' ' + fbp + ' ' + fbp;
     backgroundColor = theme.palette.flyingBalloonBackground;
     position        = 'relative';
     boxShadow       = theme.shapes.floatingShadow;
