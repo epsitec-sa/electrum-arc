@@ -19,7 +19,6 @@ export default class DialogModal extends React.Component {
   }
 
   mouseDown (event) {
-
   }
 
   render () {
@@ -34,6 +33,7 @@ export default class DialogModal extends React.Component {
         <div style = {comboStyle}>
           <Container
             kind   = 'floating'
+            cursor = 'default'
             width  = {width}
             height = {height}
             {...this.link ()}>
