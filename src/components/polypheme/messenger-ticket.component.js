@@ -138,6 +138,7 @@ export default class MessengerTicket extends React.Component {
     const name = (roadbook.Messenger && roadbook.Messenger.Name) ?
       roadbook.Messenger.Name :
       'A définir';
+    const mode = (roadbook.ShowHidden === 'true') ? 'eye' : null;
 
     return (
       <Ticket kind='ticket' shape='header' width={width} height={height} color={color}
@@ -149,6 +150,7 @@ export default class MessengerTicket extends React.Component {
         </Container>
         <Container kind='column' grow='1' {...this.link ()} >
           <Label glyph={roadbook.Transport} glyph-size='150%' {...this.link ()} />
+          <Label glyph={mode} glyph-size='120%' {...this.link ()} />
         </Container>
         <Container kind='column' grow='3' {...this.link ()} >
           <Label text={name} text-color='#fff' {...this.link ()} />
