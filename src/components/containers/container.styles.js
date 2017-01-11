@@ -713,6 +713,13 @@ export default function styles (theme, props) {
     padding         = s;
   }
 
+  if (inputKind === 'ticket-mode') {
+    display         = 'flex';
+    flexDirection   = 'column';
+    flexGrow        = inputGrow;
+    margin          = '0px -20px 0px 0px';
+  }
+
   if (inputKind && inputKind.startsWith ('thin-')) {
     if (inputBorder) {
       if (inputBorder === 'top') {
