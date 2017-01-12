@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {mouseTrap} from 'react-mousetrap';
+import MouseTrap from 'mousetrap';
 
 import {
   Container,
@@ -30,12 +30,12 @@ export default class Combo extends React.Component {
 
   componentWillMount () {
     console.log ('Combo.componentWillMount');
-    // mouseTrap.bind ('esc', this.closeCombo);
+    MouseTrap.bind ('esc', () => this.closeCombo ());
   }
 
   componentWillUnmount () {
     console.log ('Combo.componentWillUnmount');
-    // mouseTrap.unbind ('esc');
+    MouseTrap.unbind ('esc');
   }
 
   get styleProps () {
