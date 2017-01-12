@@ -705,6 +705,7 @@ function setStatus (state, flashes, tickets, index, value) {
 function setBothStatus (state, flashes, tickets, index, value) {
   setStatus (state, flashes, tickets, index, value);
   if (tickets[index].Type.startsWith ('drop')) {
+    // If changing the drop status, change also the pick status.
     index = getPickIndexFromMissionId (tickets, tickets[index].Trip.MissionId);
     if (index !== -1) {
       setStatus (state, flashes, tickets, index, value);
