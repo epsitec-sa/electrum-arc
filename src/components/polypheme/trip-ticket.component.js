@@ -129,7 +129,7 @@ export default class TripTicket extends React.Component {
     const notes          = trip.Notes;
     const height         = ticket.Warning ? '90px' : '60px';
     const marginBottom   = '-10px';
-    const cursor         = (noDrag === 'true') ? null : 'move';
+    const cursor         = (noDrag === 'true') ? 'default' : 'move';
     const hudGlyph       = isSelected (data, ticket.id) ? 'check' : null;
     const flash          = isFlash (data, ticket.id) ? 'true' : 'false';
 
@@ -170,7 +170,7 @@ export default class TripTicket extends React.Component {
     const time           = trip.PlanedTime;
     const directionGlyph = getDirectionGlyph (this.props.theme, type);
     const marginBottom   = null;
-    const cursor         = (noDrag === 'true') ? null : 'move';
+    const cursor         = (noDrag === 'true') ? 'default' : 'move';
     const hudGlyph       = isSelected (data, ticket.id) ? 'check' : null;
     const flash          = isFlash (data, ticket.id) ? 'true' : 'false';
 
