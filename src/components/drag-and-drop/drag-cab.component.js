@@ -3,7 +3,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {DragCarrier} from '../../all-components.js';
-import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 
 /******************************************************************************/
 
@@ -124,11 +123,7 @@ export default class DragCab extends React.Component {
     }
     const noDrag = this.read ('no-drag');
     if (noDrag === 'true') {  // simple click when drag prohibited ?
-      if (this.props['drag-controller'] === 'ticket') {
-        this.childrenChangeTicketState (event);
-      } else if (this.props['drag-controller'] === 'roadbook') {
-        this.childrenChangeRoadbookState (event);
-      }
+      this.doClickAction (event);
     }
   }
 
@@ -136,91 +131,15 @@ export default class DragCab extends React.Component {
     console.log ('DragCab.dragEnding');
     this.setDragInProcess (false);
     this.setDragStarting (false);
-    if (this.props['drag-controller'] === 'ticket') {
-      if (!isDragDoing) {  // simple click done ?
-        this.childrenChangeTicketState (event);
-      }
-    } else if (this.props['drag-controller'] === 'roadbook') {
-      if (!isDragDoing) {  // simple click done ?
-        this.childrenChangeRoadbookState (event);
-      }
+    if (!isDragDoing) {  // simple click done ?
+      this.doClickAction (event);
     }
   }
 
-  childrenChangeTicketState (event) {
-    React.Children.forEach (this.props.children, ticket => this.changeTicketState (ticket, event));
-    if (window.document.mock) {
-      for (var c of window.document.toUpdate) {
-        c.forceUpdate ();
-      }
-    }
-  }
-
-  childrenChangeRoadbookState (event) {
-    React.Children.forEach (this.props.children, roadbook => this.changeRoadbookState (roadbook, event));
-    if (window.document.mock) {
-      for (var c of window.document.toUpdate) {
-        c.forceUpdate ();
-      }
-    }
-  }
-
-  showModify () {
-    const showModify = this.read ('show-modify');
-    if (showModify) {
-      showModify ();
-    }
-  }
-
-  // TODO: why use ???
-  closeModify (action, ticket, event) {
-    if (action === 'accept') {
-      this.reduce ('SWAP_STATUS', ticket.props, event.shiftKey);
-    }
-  }
-
-  changeTicketState (ticket, event) {
-    if (event.ctrlKey || event.shiftKey || event.metaKey) {  // select/deselect ?
-      this.reduce ('SWAP_SELECTED', ticket.props, event.shiftKey);
-    } else if (event.altKey) {  // compected/extended ?
-      this.reduce ('SWAP_EXTENDED', ticket.props, event.shiftKey);
-    } else {  // pre-dispatched/dispatched/delivered ?
-      if (ticket.props.ticket.Status === 'dispatched') {
-        this.showModify ();
-      }
-      this.reduce ('SWAP_STATUS', ticket.props, event.shiftKey);
-    }
-  }
-
-  changeRoadbookState (roadbook, event) {
-    if (event.altKey) {  // compected/extended ?
-      this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.props);
-    }
-  }
-
-  reduce (action, props, shiftKey) {
-    let id;
-    if (props.ticket) {
-      id = props.ticket.id;
-    } else if (props.roadbook) {
-      id = props.roadbook.id;
-    } else {
-      return;
-    }
-    const data = this.read ('data');
-
-    // inject electrum state (needed for electrumDispatch)
-    data.state = props.state;
-
-    reducerDragAndDrop (data, {
-      type:     action,
-      id:       id,
-      shiftKey: shiftKey,
-    });
-    if (window.document.mock) {
-      for (var c of window.document.toUpdate) {
-        c.forceUpdate ();
-      }
+  doClickAction (event) {
+    const action = this.read ('do-click-action');
+    if (action) {
+      action (event);
     }
   }
 

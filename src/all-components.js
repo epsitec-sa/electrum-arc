@@ -64,6 +64,7 @@ import _TicketsTray from './components/polypheme/tickets-tray.component.js';
 import _TicketsTray$styles from './components/polypheme/tickets-tray.styles.js';
 import _TripBox from './components/polypheme/trip-box.component.js';
 import _TripCombo from './components/polypheme/trip-combo.component.js';
+import _TripDeliver from './components/polypheme/trip-deliver.component.js';
 import _TripModify from './components/polypheme/trip-modify.component.js';
 import _TripTicket from './components/polypheme/trip-ticket.component.js';
 import _Trip from './components/polypheme/trip.component.js';
@@ -114,6 +115,7 @@ export const Roadbook = Electrum.wrap ('Roadbook', _Roadbook, {styles: _Roadbook
 export const TicketsTray = Electrum.wrap ('TicketsTray', _TicketsTray, {styles: _TicketsTray$styles});
 export const TripBox = Electrum.wrap ('TripBox', _TripBox);
 export const TripCombo = Electrum.wrap ('TripCombo', _TripCombo);
+export const TripDeliver = Electrum.wrap ('TripDeliver', _TripDeliver);
 export const TripModify = Electrum.wrap ('TripModify', _TripModify);
 export const TripTicket = Electrum.wrap ('TripTicket', _TripTicket);
 export const Trip = Electrum.wrap ('Trip', _Trip);

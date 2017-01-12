@@ -23,6 +23,13 @@ export default class TripCombo extends React.Component {
     }
   }
 
+  showDeliver () {
+    const showDeliver = this.read ('show-deliver');
+    if (showDeliver) {
+      showDeliver ();
+    }
+  }
+
   showMission () {
   }
 
@@ -126,9 +133,10 @@ export default class TripCombo extends React.Component {
   dispatch (value) {
     const ticket = this.read ('ticket');
     if (ticket.Status === 'dispatched') {
-      this.showModify ();
+      this.showDeliver ();
+    } else {
+      this.reduce ('CHANGE_STATUS', ticket, value);
     }
-    this.reduce ('CHANGE_STATUS', ticket, value);
   }
 
   extend () {

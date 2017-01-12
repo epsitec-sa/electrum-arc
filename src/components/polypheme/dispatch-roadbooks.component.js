@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import {Unit} from 'electrum-theme';
+import reducerDragAndDrop from './reducer-drag-and-drop.js';
 
 import {
   Container,
@@ -28,6 +28,31 @@ export default class DispatchRoadbooks extends React.Component {
       const index = window.document.toUpdate.indexOf (this);
       if (index !== -1) {
         window.document.toUpdate.splice (index, 1);
+      }
+    }
+  }
+
+  doClickAction (roadbook, event) {
+    if (event.altKey) {  // compected/extended ?
+      this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook);
+    }
+  }
+
+  reduce (action, roadbook) {
+    console.log ('DispatchRoadbooks.reducer');
+    const data = this.read ('data');
+    const id   = roadbook.id;
+
+    // inject electrum state (needed for electrumDispatch)
+    data.state = this.props.state;
+
+    reducerDragAndDrop (data, {
+      type: action,
+      id:   id,
+    });
+    if (window.document.mock) {
+      for (var c of window.document.toUpdate) {
+        c.forceUpdate ();
       }
     }
   }
@@ -73,13 +98,18 @@ export default class DispatchRoadbooks extends React.Component {
 
   renderRoadbook (roadbook, data, index) {
     return (
-      <DragCab key={index} drag-controller='roadbook' direction='horizontal'
-        color={this.props.theme.palette.roadbookDragAndDropHover}
-        thickness={this.props.theme.shapes.dragAndDropRoadbookThickness}
-        over-spacing={this.props.theme.shapes.viewSpacing}
-        radius='0px'
-        data={data}
-        item-id={roadbook.id} {...this.link ()}>
+      <DragCab
+        key             = {index}
+        drag-controller = 'roadbook'
+        direction       = 'horizontal'
+        color           = {this.props.theme.palette.roadbookDragAndDropHover}
+        thickness       = {this.props.theme.shapes.dragAndDropRoadbookThickness}
+        over-spacing    = {this.props.theme.shapes.viewSpacing}
+        radius          = '0px'
+        data            = {data}
+        do-click-action = {(event) => this.doClickAction (roadbook, event)}
+        item-id         = {roadbook.id}
+        {...this.link ()}>
         <Roadbook key={index} data={data} roadbook={roadbook} {...this.link ()} >
           {this.renderMessenger (data, roadbook)}
           {this.renderTicketsContainer (roadbook, data)}
