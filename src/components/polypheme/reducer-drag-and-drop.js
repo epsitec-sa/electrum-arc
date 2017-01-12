@@ -234,6 +234,17 @@ function getTicketsFromMissionId (tickets, missionId) {
   return result;
 }
 
+function getPickIndexFromMissionId (tickets, missionId) {
+  let index = 0;
+  for (var ticket of tickets) {
+    if (ticket.Trip.MissionId === missionId && ticket.Type.startsWith ('pick')) {
+      return index;
+    }
+    index++;
+  }
+  return -1;
+}
+
 // Return a new random guid.
 // See http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
 function getNewId () {
@@ -681,23 +692,41 @@ function swapExtended (state, id) {
   return state;
 }
 
+function setStatus (state, flashes, tickets, index, value) {
+  const ticket = tickets[index];
+  ticket.Status = value;
+  if (value !== 'pre-dispatched') {
+    clearSelected (state, ticket.id);
+  }
+  tickets[index] = clone (state, ticket);  // Trick necessary for update UI !!!
+  flashes.push (tickets[index].id);
+}
+
+function setBothStatus (state, flashes, tickets, index, value) {
+  setStatus (state, flashes, tickets, index, value);
+  if (tickets[index].Type.startsWith ('drop')) {
+    index = getPickIndexFromMissionId (tickets, tickets[index].Trip.MissionId);
+    if (index !== -1) {
+      setStatus (state, flashes, tickets, index, value);
+    }
+  }
+}
+
 function swapStatus (state, id) {
   const flashes = [];
   const warnings = [];
   const result = searchId (state, id);
   if (result.type === 'roadbook') {
-    const ticket = result.tickets[result.index];
-    if (ticket.Status === 'dispatched') {
-      ticket.Status = 'delivered';
-      clearSelected (state, ticket.id);
-    } else if (ticket.Status === 'delivered') {
-      ticket.Status = 'pre-dispatched';
+    const current = result.tickets[result.index].Status;
+    let value;
+    if (current === 'dispatched') {
+      value = 'delivered';
+    } else if (current === 'delivered') {
+      value = 'pre-dispatched';
     } else {
-      ticket.Status = 'dispatched';
-      clearSelected (state, ticket.id);
+      value = 'dispatched';
     }
-    result.tickets[result.index] = clone (state, ticket);  // Trick necessary for update UI !!!
-    flashes.push (result.tickets[result.index].id);
+    setBothStatus (state, flashes, result.tickets, result.index, value);
   }
   setMiscs (state, flashes, warnings);
   return state;
@@ -708,13 +737,7 @@ function changeStatus (state, id, value) {
   const warnings = [];
   const result = searchId (state, id);
   if (result.type === 'roadbook') {
-    const ticket = result.tickets[result.index];
-    ticket.Status = value;
-    if (value !== 'pre-dispatched') {
-      clearSelected (state, ticket.id);
-    }
-    result.tickets[result.index] = clone (state, ticket);  // Trick necessary for update UI !!!
-    flashes.push (result.tickets[result.index].id);
+    setBothStatus (state, flashes, result.tickets, result.index, value);
   }
   setMiscs (state, flashes, warnings);
   return state;
