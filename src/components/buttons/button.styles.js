@@ -105,8 +105,9 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'label') {
-    boxHeight       = null;
-    backgroundColor = theme.palette.labelButtonBackground;
+    boxJustifyContent = null;
+    boxHeight         = null;
+    backgroundColor   = theme.palette.labelButtonBackground;
     actif = false;
   }
 

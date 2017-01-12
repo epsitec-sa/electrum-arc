@@ -51,12 +51,10 @@ export default class TripDeliver extends React.Component {
       <Container kind='panes' {...this.link ()} >
         <Label text={`Livraison du ${title}`} grow='1' kind='title' {...this.link ()} />
         <Separator kind='space' {...this.link ()} />
-        <LabelTextField label-glyph='clock-o' hint-text='Heure'
-          value={getTime (pd.PlanedTime)} width='100px' {...this.link ()} />
-        <LabelTextField label-glyph='tag' hint-text='Description courte'
-          value={pd.ShortDescription} grow='1' {...this.link ()} />
-        <LabelTextField label-glyph='building' hint-text='Description complète'
-          value={prepareLines (pd.LongDescription)} grow='1' rows={5} {...this.link ()} />
+        <LabelTextField label-text='Heure planifiée' label-width='200px' hint-text='Heure'
+          value={getTime (pd.PlanedTime)} grow='1' {...this.link ()} />
+        <LabelTextField label-text='Heure de livraison' label-width='200px' hint-text='Heure'
+          value={getTime (pd.RealisedTime)} grow='1' {...this.link ()} />
         <Separator kind='space' {...this.link ()} />
         <Separator kind='space' {...this.link ()} />
       </Container>
