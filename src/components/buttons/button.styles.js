@@ -421,11 +421,17 @@ export default function styles (theme, props) {
     textTransform     = 'uppercase';
     textWeight        = 'bold';
     borderStyle       = 'none';
-    glyphColor        = theme.palette.menuText;
-    textColor         = theme.palette.menuText;
     if (inputActive === 'true') {
+      glyphColor        = theme.palette.menuText;
+      textColor         = theme.palette.menuText;
       backgroundColor   = theme.palette.menuItemActiveBackground;
+    } else if (inputActive === 'focused') {
+      glyphColor        = theme.palette.menuFocusText;
+      textColor         = theme.palette.menuFocusText;
+      backgroundColor   = theme.palette.menuItemFocusBackground;
     } else {
+      glyphColor        = theme.palette.menuText;
+      textColor         = theme.palette.menuText;
       backgroundColor   = theme.palette.menuItemInactiveBackground;
     }
   }

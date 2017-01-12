@@ -26,16 +26,35 @@ export default class Combo extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      focusedIndex: -1
+    };
+  }
+
+  getFocusedIndex () {
+    return this.state.focusedIndex;
+  }
+
+  setFocusedIndex (value) {
+    this.setState ( {
+      focusedIndex: value
+    });
   }
 
   componentWillMount () {
     console.log ('Combo.componentWillMount');
-    MouseTrap.bind ('esc', () => this.closeCombo ());
+    MouseTrap.bind ('esc',   () => this.closeCombo ());
+    MouseTrap.bind ('up',    () => this.prevIndex ());
+    MouseTrap.bind ('down',  () => this.nextIndex ());
+    MouseTrap.bind ('enter', () => this.enterAction ());
   }
 
   componentWillUnmount () {
     console.log ('Combo.componentWillUnmount');
     MouseTrap.unbind ('esc');
+    MouseTrap.unbind ('up');
+    MouseTrap.unbind ('down');
+    MouseTrap.unbind ('enter');
   }
 
   get styleProps () {
@@ -46,6 +65,44 @@ export default class Combo extends React.Component {
       bottom: this.read ('bottom'),
       width:  this.read ('width'),
     };
+  }
+
+  nextIndex () {
+    const list = this.read ('list');
+    let index = this.getFocusedIndex ();
+    while (index < list.length - 1) {
+      index++;
+      if (!list[index].separator) {
+        break;
+      }
+    }
+    this.setFocusedIndex (index);
+    console.log ('Combo.nextIndex index=' + index);
+  }
+
+  prevIndex () {
+    const list = this.read ('list');
+    let index = this.getFocusedIndex ();
+    if (index === -1) {
+      index = list.length;
+    }
+    while (index > 0) {
+      index--;
+      if (!list[index].separator) {
+        break;
+      }
+    }
+    this.setFocusedIndex (index);
+    console.log ('Combo.prevIndex index=' + index);
+  }
+
+  enterAction () {
+    const index = this.getFocusedIndex ();
+    if (index !== -1) {
+      const list = this.read ('list');
+      const item = list[index];
+      this.actionAndClose (item);
+    }
   }
 
   closeCombo () {
@@ -70,27 +127,35 @@ export default class Combo extends React.Component {
     this.closeCombo ();
   }
 
-  renderItem (item, index) {
+  renderItem (item, focused, index) {
     if (item.separator) {
       return (
         <Separator key={index} kind='menu-separator' {...this.link ()} />
       );
     } else {
+      const active = focused ? 'focused' : item.active;
       return (
-        <Button key={index} kind='menu-item'
-          glyph={item.glyph} text={item.text} shortcut={item.shortcut} active={item.active}
-          mouse-up={() => this.actionAndClose (item)}
+        <Button
+          key      = {index}
+          kind     = 'menu-item'
+          glyph    = {item.glyph}
+          text     = {item.text}
+          shortcut = {item.shortcut}
+          active   = {active}
+          mouse-up = {() => this.actionAndClose (item)}
           {...this.link ()} />
       );
     }
   }
 
   renderCombo () {
-    const list  = this.read ('list');
+    const list = this.read ('list');
     const result = [];
+    const focusedIndex = this.getFocusedIndex ();
     let index = 0;
     for (let item of list) {
-      result.push (this.renderItem (item, index++));
+      const focused = (index === focusedIndex);
+      result.push (this.renderItem (item, focused, index++));
     }
     return result;
   }
