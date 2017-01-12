@@ -31,6 +31,7 @@
     "electrum-theme": "^4.4.1",
     "leaflet": "^0.7.7",
     "react-dragula": "^1.1.17",
+    "react-mousetrap": "^0.1.1",
     "react-split-pane": "^0.1.51",
     "velocity-animate": "^1.2.3"
   },
