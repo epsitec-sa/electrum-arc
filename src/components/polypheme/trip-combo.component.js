@@ -131,10 +131,10 @@ export default class TripCombo extends React.Component {
   }
 
   dispatch (value) {
-    const ticket = this.read ('ticket');
-    if (ticket.Status === 'dispatched') {
+    if (value === 'delivered') {
       this.showDeliver ();
     } else {
+      const ticket = this.read ('ticket');
       this.reduce ('CHANGE_STATUS', ticket, value);
     }
   }
