@@ -71,10 +71,23 @@ function getPackageDescription (ticket) {
   return desc;
 }
 
+function getStatusDescription (ticket) {
+  if (ticket.Status === 'pre-dispatched') {
+    return 'Pré-dispatché';
+  } else if (ticket.Status === 'dispatched') {
+    return 'Dispatché';
+  } else if (ticket.Status === 'delivered') {
+    return 'Livré';
+  } else {
+    return ticket.Status;
+  }
+}
+
 export {
   isSelected,
   isExtended,
   isFlash,
   getDirectionGlyph,
-  getPackageDescription
+  getPackageDescription,
+  getStatusDescription
 };

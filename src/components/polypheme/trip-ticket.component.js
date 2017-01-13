@@ -7,7 +7,7 @@ import {ColorHelpers} from 'electrum-theme';
 import {Unit} from 'electrum-theme';
 import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 import {getTime, getPackageCount} from './converters';
-import {isSelected, isExtended, isFlash, getDirectionGlyph, getPackageDescription} from './ticket-helpers.js';
+import {isSelected, isExtended, isFlash, getDirectionGlyph, getPackageDescription, getStatusDescription} from './ticket-helpers.js';
 
 /******************************************************************************/
 
@@ -192,6 +192,7 @@ export default class TripTicket extends React.Component {
           {this.renderNotes (trip.Notes)}
           {this.renderLine ('cube', getPackageDescription (ticket))}
           {this.renderLine ('money', ticket.Trip.Price)}
+          {this.renderLine ('info-circle', getStatusDescription (ticket))}
           {this.renderNotes (ticket.Trip.Notes)}
         </Container>
       </Ticket>
