@@ -235,6 +235,27 @@ function getTicketsFromMissionId (tickets, missionId) {
   return result;
 }
 
+function fillAllTicketsFromMissionId (state, list, missionId, result) {
+  for (let i = 0; i < list.length; i++) {
+    const ticket = list[i];
+    if (ticket.Trip.MissionId === missionId) {
+      result.push (ticket);
+    }
+  }
+}
+
+function getAllTicketsFromMissionId (state, missionId) {
+  const result = [];
+  for (var readbook of state.Roadbooks) {
+    fillAllTicketsFromMissionId (state, readbook.Tickets, missionId, result);
+  }
+  for (var tray of state.Desk) {
+    fillAllTicketsFromMissionId (state, tray.Tickets, missionId, result);
+  }
+  fillAllTicketsFromMissionId (state, state.Backlog.Tickets, missionId, result);
+  return result;
+}
+
 function getPickIndexFromMissionId (tickets, missionId) {
   let index = 0;
   for (var ticket of tickets) {
