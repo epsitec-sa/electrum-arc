@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Action} from 'electrum';
-import {Button, TextField, Combo} from 'electrum-arc';
+import {Button, TextField, Combo, Label} from 'electrum-arc';
 import {getComboLocation} from '../../combo/combo-helpers.js';
 
 /******************************************************************************/
@@ -14,6 +14,7 @@ export default class TextFieldCombo extends React.Component {
     super (props);
     this.state = {
       showCombo: false,
+      readonly:  false,
     };
     this.comboLocation = null;
   }
@@ -25,6 +26,16 @@ export default class TextFieldCombo extends React.Component {
   setShowCombo (value) {
     this.setState ( {
       showCombo: value
+    });
+  }
+
+  getReadonly () {
+    return this.state.readonly;
+  }
+
+  setReadonly (value) {
+    this.setState ( {
+      readonly: value
     });
   }
 
@@ -129,12 +140,16 @@ export default class TextFieldCombo extends React.Component {
     const inputShape               = this.read ('shape');
     const inputGlyph               = this.read ('combo-glyph');
     const inputValue               = this.read ('value');
+    const inputSelectedValue       = this.read ('selected-value');
     const inputHintText            = this.read ('hint-text');
     const inputComboType           = this.read ('combo-type');
     const inputFlyingBalloonAnchor = this.read ('flying-balloon-anchor');
     const inputRows                = this.read ('rows');
     const inputFilterKeys          = this.props['filter-keys'];
     const inputTabIndex            = this.props['tab-index'];
+
+    const displayValue = (inputSelectedValue && inputSelectedValue !== '') ? inputSelectedValue : inputValue;
+    // const displayValue = (this.getReadonly ()) ? inputSelectedValue : inputValue;
 
     // Get or create the internalState.
     var internalState = this.getInternalState ();
@@ -189,36 +204,44 @@ export default class TextFieldCombo extends React.Component {
     //      );
     //    }
 
-    return (
-      <span
-        disabled = {disabled}
-        style    = {boxStyle}
-        >
-        <TextField
-          id                    = {id}
-          value                 = {inputValue}
-          hint-text             = {inputHintText}
-          filter-keys           = {inputFilterKeys}
-          spacing               = 'overlap'
-          shape                 = {textFieldShape}
-          flying-balloon-anchor = {inputFlyingBalloonAnchor}
-          tab-index             = {inputTabIndex}
-          width                 = {inputWidth}
-          rows                  = {inputRows}
-          {...this.link ()}
-        />
-        <Button
-          kind        = 'combo'
-          glyph       = {inputGlyph}
-          shape       = {buttonShape}
-          active      = {isComboVisible}
-          action      = {() => this.buttonClicked ()}
-          {...this.link ()}
+    if (inputSelectedValue && inputSelectedValue !== '') {
+      return (
+        <span>
+          <Label text={displayValue} {...this.link ()} />
+        </span>
+      );
+    } else {
+      return (
+        <span
+          disabled = {disabled}
+          style    = {boxStyle}
+          >
+          <TextField
+            id                    = {id}
+            value                 = {displayValue}
+            hint-text             = {inputHintText}
+            filter-keys           = {inputFilterKeys}
+            spacing               = 'overlap'
+            shape                 = {textFieldShape}
+            flying-balloon-anchor = {inputFlyingBalloonAnchor}
+            tab-index             = {inputTabIndex}
+            width                 = {inputWidth}
+            rows                  = {inputRows}
+            {...this.link ()}
           />
-        {htmlCalendar}
-        {this.renderCombo ()}
-      </span>
-    );
+          <Button
+            kind        = 'combo'
+            glyph       = {inputGlyph}
+            shape       = {buttonShape}
+            active      = {isComboVisible}
+            action      = {() => this.buttonClicked ()}
+            {...this.link ()}
+            />
+          {htmlCalendar}
+          {this.renderCombo ()}
+        </span>
+      );
+    }
   }
 }
 
