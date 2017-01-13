@@ -43,6 +43,13 @@ export default class LabelTextField extends React.Component {
     };
   }
 
+  onMyChange (e) {
+    const onChange = this.read ('onChange');
+    if (onChange) {
+      onChange (e);
+    }
+  }
+
   onMyFocus () {
     this.setReadonly (false);
   }
@@ -111,8 +118,9 @@ export default class LabelTextField extends React.Component {
           tab-index   = {inputTabIndex}
           rows        = {inputRows}
           readonly    = {readonly ? 'true' : 'false'}
-          onFocus     = {() => this.onMyFocus ()}
-          onBlur      = {() => this.onMyBlur ()}
+          onChange    = {e => this.onMyChange (e)}
+          onFocus     = {e => this.onMyFocus (e)}
+          onBlur      = {e => this.onMyBlur (e)}
           {...this.link ()}
         />
       </span>

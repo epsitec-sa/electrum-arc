@@ -25,6 +25,14 @@ export default class TextField extends React.Component {
     };
   }
 
+  onMyChange (e) {
+    this.onChange (e);
+    const onChange = this.read ('onChange');
+    if (onChange) {
+      onChange (e);
+    }
+  }
+
   onMyFocus (e) {
     this.onFocus (e);
     const onFocus = this.read ('onFocus');
@@ -63,9 +71,9 @@ export default class TextField extends React.Component {
       <textarea
         id          = {id}
         style       = {textareaStyle}
-        onChange    = {this.onChange}
-        onFocus     = {this.onMyFocus}
-        onBlur      = {this.onMyBlur}
+        onChange    = {e => this.onMyChange (e)}
+        onFocus     = {e => this.onMyFocus (e)}
+        onBlur      = {e => this.onMyBlur (e)}
         onKeyDown   = {this.onKeyDown}
         onKeyUp     = {this.onKeyUp}
         onSelect    = {this.onSelect}
@@ -78,9 +86,9 @@ export default class TextField extends React.Component {
     (
       <input
         id          = {id}
-        onChange    = {this.onChange}
-        onFocus     = {this.onMyFocus}
-        onBlur      = {this.onMyBlur}
+        onChange    = {e => this.onMyChange (e)}
+        onFocus     = {e => this.onMyFocus (e)}
+        onBlur      = {e => this.onMyBlur (e)}
         onKeyDown   = {this.onKeyDown}
         onKeyUp     = {this.onKeyUp}
         onSelect    = {this.onSelect}
