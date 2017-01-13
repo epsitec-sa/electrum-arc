@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Action} from 'electrum';
-import {Button, TextField, Combo, Label} from 'electrum-arc';
+import {Button, TextField, Combo} from 'electrum-arc';
 import {getComboLocation} from '../../combo/combo-helpers.js';
 
 /******************************************************************************/
@@ -119,6 +119,10 @@ export default class TextFieldCombo extends React.Component {
     this.setReadonly (false);
   }
 
+  onMyFocus () {
+    this.setReadonly (false);
+  }
+
   onMyBlur () {
     this.setReadonly (true);
   }
@@ -216,15 +220,31 @@ export default class TextFieldCombo extends React.Component {
     if (readonly) {
       return (
         <span
-          style = {boxStyle}
+          disabled = {disabled}
+          style    = {boxStyle}
           >
-          <Label
-            text = {displayValue}
+          <TextField
+            id                    = {id}
+            value                 = {displayValue}
+            hint-text             = {inputHintText}
+            filter-keys           = {inputFilterKeys}
+            spacing               = 'overlap'
+            shape                 = {textFieldShape}
+            flying-balloon-anchor = {inputFlyingBalloonAnchor}
+            tab-index             = {inputTabIndex}
+            width                 = {inputWidth}
+            rows                  = {inputRows}
+            readonly              = 'true'
+            onFocus               = {() => this.onMyFocus ()}
+            onBlur                = {() => this.onMyBlur ()}
             {...this.link ()}
             />
           <Button
-            glyph  = 'pencil'
-            action = {() => this.pencilClicked ()}
+            kind        = 'combo'
+            glyph       = {inputGlyph}
+            shape       = {buttonShape}
+            active      = {isComboVisible}
+            mouse-up    = {() => this.pencilClicked ()}
             {...this.link ()}
             />
         </span>
@@ -246,9 +266,10 @@ export default class TextFieldCombo extends React.Component {
             tab-index             = {inputTabIndex}
             width                 = {inputWidth}
             rows                  = {inputRows}
+            onFocus               = {() => this.onMyFocus ()}
             onBlur                = {() => this.onMyBlur ()}
             {...this.link ()}
-          />
+            />
           <Button
             kind        = 'combo'
             glyph       = {inputGlyph}

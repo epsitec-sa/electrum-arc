@@ -21,7 +21,16 @@ export default class TextField extends React.Component {
       shape:          this.read ('shape'),
       messageInfo:    this.read ('message-info'),
       messageWarning: this.read ('message-warning'),
+      readonly:       this.read ('readonly'),
     };
+  }
+
+  onMyFocus (e) {
+    this.onFocus (e);
+    const onFocus = this.read ('onFocus');
+    if (onFocus) {
+      onFocus (e);
+    }
   }
 
   onMyBlur (e) {
@@ -42,6 +51,7 @@ export default class TextField extends React.Component {
     const inputHintText            = this.read ('hint-text');
     const inputFlyingBalloonAnchor = this.read ('flying-balloon-anchor');
     const inputRows                = this.read ('rows');
+    const inputReadonly            = this.read ('readonly');
     const inputTabIndex            = this.props['tab-index'];
 
     const boxStyle      = this.mergeStyles ('box');
@@ -54,7 +64,7 @@ export default class TextField extends React.Component {
         id          = {id}
         style       = {textareaStyle}
         onChange    = {this.onChange}
-        onFocus     = {this.onFocus}
+        onFocus     = {this.onMyFocus}
         onBlur      = {this.onMyBlur}
         onKeyDown   = {this.onKeyDown}
         onKeyUp     = {this.onKeyUp}
@@ -69,7 +79,7 @@ export default class TextField extends React.Component {
       <input
         id          = {id}
         onChange    = {this.onChange}
-        onFocus     = {this.onFocus}
+        onFocus     = {this.onMyFocus}
         onBlur      = {this.onMyBlur}
         onKeyDown   = {this.onKeyDown}
         onKeyUp     = {this.onKeyUp}

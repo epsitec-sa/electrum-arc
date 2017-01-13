@@ -9,6 +9,7 @@ export default function styles (theme, props) {
   const inputSpacing        = props.spacing;
   const inputWidth          = props.width;
   const inputShape          = props.shape;
+  const inputReadonly       = props.readonly;
 
   let flexGrow    = inputGrow;
   let flexShrink  = null;
@@ -67,6 +68,7 @@ export default function styles (theme, props) {
     }
   }
 
+  const bg = (inputReadonly === 'true') ? theme.palette.textFieldReadonlyBackground : theme.palette.textFieldBackground;
   const boxStyle = {
     display:         'flex',
     flexDirection:   'row',
@@ -77,7 +79,7 @@ export default function styles (theme, props) {
     flexBasis:       flexBasis,
     border:          '1px solid ' + theme.palette.buttonBorder,
     borderRadius:    borderRadius,
-    backgroundColor: theme.palette.textFieldBackground,
+    backgroundColor: bg,
     padding:         padding,
     marginTop:       '0px',
     marginRight:     marginRight,
@@ -93,6 +95,7 @@ export default function styles (theme, props) {
     border:          'none',
     padding:         '10px',
     margin:          '0px',
+    backgroundColor: bg,
   };
 
   const textareaStyle = {
