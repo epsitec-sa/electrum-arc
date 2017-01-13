@@ -24,6 +24,14 @@ export default class TextField extends React.Component {
     };
   }
 
+  onMyBlur (e) {
+    this.onBlur (e);
+    const onBlur = this.read ('onBlur');
+    if (onBlur) {
+      onBlur (e);
+    }
+  }
+
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
@@ -47,7 +55,7 @@ export default class TextField extends React.Component {
         style       = {textareaStyle}
         onChange    = {this.onChange}
         onFocus     = {this.onFocus}
-        onBlur      = {this.onBlur}
+        onBlur      = {this.onMyBlur}
         onKeyDown   = {this.onKeyDown}
         onKeyUp     = {this.onKeyUp}
         onSelect    = {this.onSelect}
@@ -62,7 +70,7 @@ export default class TextField extends React.Component {
         id          = {id}
         onChange    = {this.onChange}
         onFocus     = {this.onFocus}
-        onBlur      = {this.onBlur}
+        onBlur      = {this.onMyBlur}
         onKeyDown   = {this.onKeyDown}
         onKeyUp     = {this.onKeyUp}
         onSelect    = {this.onSelect}

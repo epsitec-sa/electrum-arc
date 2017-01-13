@@ -14,7 +14,7 @@ export default class TextFieldCombo extends React.Component {
     super (props);
     this.state = {
       showCombo: false,
-      readonly:  false,
+      readonly:  true,
     };
     this.comboLocation = null;
   }
@@ -115,6 +115,14 @@ export default class TextFieldCombo extends React.Component {
     return list;
   }
 
+  pencilClicked () {
+    this.setReadonly (false);
+  }
+
+  onMyBlur () {
+    this.setReadonly (true);
+  }
+
   renderCombo () {
     const list = this.read ('list');
     if (list && this.getShowCombo ()) {
@@ -148,7 +156,8 @@ export default class TextFieldCombo extends React.Component {
     const inputFilterKeys          = this.props['filter-keys'];
     const inputTabIndex            = this.props['tab-index'];
 
-    const displayValue = (inputSelectedValue && inputSelectedValue !== '') ? inputSelectedValue : inputValue;
+    const readonly = this.getReadonly () && inputSelectedValue && inputSelectedValue !== '';
+    const displayValue = readonly ? inputSelectedValue : inputValue;
     // const displayValue = (this.getReadonly ()) ? inputSelectedValue : inputValue;
 
     // Get or create the internalState.
@@ -204,10 +213,20 @@ export default class TextFieldCombo extends React.Component {
     //      );
     //    }
 
-    if (inputSelectedValue && inputSelectedValue !== '') {
+    if (readonly) {
       return (
-        <span>
-          <Label text={displayValue} {...this.link ()} />
+        <span
+          style = {boxStyle}
+          >
+          <Label
+            text = {displayValue}
+            {...this.link ()}
+            />
+          <Button
+            glyph  = 'pencil'
+            action = {() => this.pencilClicked ()}
+            {...this.link ()}
+            />
         </span>
       );
     } else {
@@ -227,6 +246,7 @@ export default class TextFieldCombo extends React.Component {
             tab-index             = {inputTabIndex}
             width                 = {inputWidth}
             rows                  = {inputRows}
+            onBlur                = {() => this.onMyBlur ()}
             {...this.link ()}
           />
           <Button
