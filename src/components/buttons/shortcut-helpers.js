@@ -27,7 +27,7 @@ function getShortcut (text) {
     const os = getOSName ();
     const ctrl = {
       Windows: 'Ctrl',
-      MacOS:   'ctrl',
+      MacOS:   'cmd',
       UNIX:    'ctrl',
       Linux:   'ctrl',
       x:       'ctrl',
@@ -41,7 +41,7 @@ function getShortcut (text) {
     } [os];
     const alt = {
       Windows: 'Alt',
-      MacOS:   'cmd',
+      MacOS:   'alt',
       UNIX:    'alt',
       Linux:   'alt',
       x:       'alt',
