@@ -84,12 +84,13 @@ function searchKind (state, id) {
 
 // ------------------------------------------------------------------------------------------
 
-function electrumDispatch (state, type, id) {
+function electrumDispatch (state, type, id, value) {
   const kind = searchKind (state, id);
   Electrum.bus.dispatch (state, 'dnd', {
-    type: type,
-    key:  id,
-    kind: kind,
+    type:  type,
+    key:   id,
+    kind:  kind,
+    value: value,
   });
 }
 
@@ -700,6 +701,7 @@ function setStatus (state, flashes, tickets, index, value) {
   }
   tickets[index] = clone (state, ticket);  // Trick necessary for update UI !!!
   flashes.push (tickets[index].id);
+  electrumDispatch (state, 'setStatus', tickets[index].id, value);
 }
 
 function setBothStatus (state, flashes, tickets, index, value) {
