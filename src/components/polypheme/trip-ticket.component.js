@@ -15,6 +15,19 @@ export default class TripTicket extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      link: false,
+    };
+  }
+
+  getLink () {
+    return this.state.link;
+  }
+
+  setLink (value) {
+    this.setState ( {
+      link: value
+    });
   }
 
   renderGlyph (glyph) {
@@ -114,6 +127,16 @@ export default class TripTicket extends React.Component {
     }
   }
 
+  renderOrder (ticket) {
+    if (this.getLink ()) {
+      return (
+        <Badge value={ticket.Order + 1} kind='ticket-order' {...this.link ()} />
+      );
+    } else {
+      return null;
+    }
+  }
+
   renderCompacted () {
     const width    = this.props.theme.shapes.tripTicketWidth;
     const data     = this.read ('data');
@@ -135,6 +158,7 @@ export default class TripTicket extends React.Component {
 
     return (
       <Ticket width={width} height={height}
+        link-changing={x => this.setLink (x)}
         kind='ticket' shape={shape} cursor={cursor} selected={selected}
         hud-glyph={hudGlyph} mission-id={ticket.Trip.MissionId}
         status={ticket.Status} flash={flash} warning={ticket.Warning} type={ticket.Type}
@@ -145,7 +169,7 @@ export default class TripTicket extends React.Component {
             <Label text={getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
             <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
             <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
-            <Badge value={ticket.Order + 1} kind='ticket-order' {...this.link ()} />
+            {this.renderOrder (ticket)}
           </Container>
           <Container kind='ticket-row' {...this.link ()} >
             <Label text='' width='75px' {...this.link ()} />
@@ -177,6 +201,7 @@ export default class TripTicket extends React.Component {
 
     return (
       <Ticket width={width}
+        link-changing={x => this.setLink (x)}
         kind='rect' shape={shape} cursor={cursor} selected={selected}
         hud-glyph={hudGlyph} mission-id={ticket.Trip.MissionId}
         status={ticket.Status} flash={flash} warning={ticket.Warning} type={ticket.Type}
@@ -187,7 +212,7 @@ export default class TripTicket extends React.Component {
             <Label text={getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
             <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
             <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
-            <Badge value={ticket.Order + 1} kind='ticket-order' {...this.link ()} />
+            {this.renderOrder (ticket)}
           </Container>
           {this.renderLine ('building', trip.LongDescription)}
           {this.renderLine ('map-marker', trip.Zone)}

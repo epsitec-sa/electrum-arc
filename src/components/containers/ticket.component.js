@@ -77,7 +77,7 @@ export default class Ticket extends React.Component {
   }
 
   //  Update state.link to all tickets linked.
-  //  By example, pick and drop to a trip, or 4 tickets is has transit.
+  //  By example, pick and drop to a trip, or 4 tickets if has transit.
   setLinkToAll (link) {
     const missionId = this.read ('mission-id');
     if (missionId) {
@@ -88,6 +88,10 @@ export default class Ticket extends React.Component {
         if (missionId === m) {
           ticket.setLink (link);
           ticket.setTransit (t.endsWith ('-transit'));
+          const lc = ticket.read ('link-changing');
+          if (lc) {
+            lc (link);
+          }
         }
       }
     }
