@@ -439,7 +439,6 @@ function getAllTicketsFromMissionId (state, missionId) {
   for (var tray of state.Desk) {
     fillAllTicketsFromMissionId (state, tray.Tickets, missionId, result);
   }
-  fillAllTicketsFromMissionId (state, state.Backlog.Tickets, missionId, result);
   return result.sort (sortTicket);
 }
 
@@ -473,7 +472,7 @@ function updateListOrders (state, list) {
   }
 }
 
-// Update order to all ticket into Roadbooks, Desk and Backlog.
+// Update order to all ticket into Roadbooks and Desk.
 function updateOrders (state) {
   console.log ('reducer.updateOrders');
   for (var readbook of state.Roadbooks) {
@@ -482,7 +481,6 @@ function updateOrders (state) {
   for (var tray of state.Desk) {
     updateListOrders (state, tray.Tickets);
   }
-  updateListOrders (state, state.Backlog.Tickets);
 }
 
 // ------------------------------------------------------------------------------------------
@@ -783,8 +781,11 @@ function swapExtended (state, id) {
   return state;
 }
 
-function setStatus (state, flashes, tickets, index, value) {
-  const ticket = tickets[index];
+function setStatus (state, flashes, id, value) {
+  const result = searchId (state, id);
+  const ticket  = result.ticket;
+  const tickets = result.tickets;
+  const index   = result.index;
   ticket.Status = value;
   if (value !== 'pre-dispatched') {
     clearSelected (state, ticket.id);
@@ -794,13 +795,27 @@ function setStatus (state, flashes, tickets, index, value) {
   electrumDispatch (state, 'setStatus', tickets[index].id, value);
 }
 
-function setBothStatus (state, flashes, tickets, index, value) {
-  setStatus (state, flashes, tickets, index, value);
-  if (tickets[index].Type.startsWith ('drop')) {
-    // If changing the drop status, change also the pick status.
-    index = getPickIndexFromMissionId (tickets, tickets[index].Trip.MissionId);
-    if (index !== -1) {
-      setStatus (state, flashes, tickets, index, value);
+function getStatusIndex (value) {
+  return {
+    ['pre-dispatched']: 1,
+    dispatched:         2,
+    delivered:          3,
+  } [value];
+}
+
+function changeStatusNecessary (up, refTicket, otherTicket) {
+  const refOrder   = refTicket.Order   ? refTicket.Order   : 0;
+  const otherOrder = otherTicket.Order ? otherTicket.Order : 0;
+  return (up && otherOrder <= refOrder) || (!up && otherOrder >= refOrder);
+}
+
+function setBothStatus (state, flashes, ticket, currentValue, newValue) {
+  console.log ('reducer.setBothStatus');
+  const up = getStatusIndex (currentValue) < getStatusIndex (newValue);
+  const tickets = getAllTicketsFromMissionId (state, ticket.Trip.MissionId);
+  for (var t of tickets) {
+    if (changeStatusNecessary (up, ticket, t)) {
+      setStatus (state, flashes, t.id, newValue);
     }
   }
 }
@@ -810,27 +825,28 @@ function swapStatus (state, id) {
   const warnings = [];
   const result = searchId (state, id);
   if (result.type === 'roadbook') {
-    const current = result.tickets[result.index].Status;
-    let value;
-    if (current === 'dispatched') {
-      value = 'delivered';
-    } else if (current === 'delivered') {
-      value = 'pre-dispatched';
+    const currentValue = result.tickets[result.index].Status;
+    let newValue;
+    if (currentValue === 'dispatched') {
+      newValue = 'delivered';
+    } else if (currentValue === 'delivered') {
+      newValue = 'pre-dispatched';
     } else {
-      value = 'dispatched';
+      newValue = 'dispatched';
     }
-    setBothStatus (state, flashes, result.tickets, result.index, value);
+    setBothStatus (state, flashes, result.ticket, currentValue, newValue);
   }
   setMiscs (state, flashes, warnings);
   return state;
 }
 
-function changeStatus (state, id, value) {
+function changeStatus (state, id, newValue) {
   const flashes = [];
   const warnings = [];
   const result = searchId (state, id);
   if (result.type === 'roadbook') {
-    setBothStatus (state, flashes, result.tickets, result.index, value);
+    const currentValue = result.tickets[result.index].Status;
+    setBothStatus (state, flashes, result.ticket, currentValue, newValue);
   }
   setMiscs (state, flashes, warnings);
   return state;
