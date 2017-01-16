@@ -157,12 +157,23 @@ export default class TripTicket extends React.Component {
     const flash          = isFlash (data, ticket.id) ? 'true' : 'false';
 
     return (
-      <Ticket width={width} height={height}
-        link-changing={x => this.setLink (x)}
-        kind='ticket' shape={shape} cursor={cursor} selected={selected}
-        hud-glyph={hudGlyph} mission-id={ticket.Trip.MissionId}
-        status={ticket.Status} flash={flash} warning={ticket.Warning} type={ticket.Type}
-        isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
+      <Ticket
+        width         = {width}
+        height        = {height}
+        link-changing = {x => this.setLink (x)}
+        kind          = 'ticket'
+        shape         = {shape}
+        cursor        = {cursor}
+        selected      = {selected}
+        hud-glyph     = {hudGlyph}
+        mission-id    = {ticket.Trip.MissionId}
+        status        = {ticket.Status}
+        flash         = {flash}
+        warning       = {ticket.Warning}
+        type          = {ticket.Type}
+        isDragged     = {this.props.isDragged}
+        hasHeLeft     = {this.props.hasHeLeft}
+        {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           {this.renderWarning (ticket.Warning)}
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
@@ -200,12 +211,22 @@ export default class TripTicket extends React.Component {
     const flash          = isFlash (data, ticket.id) ? 'true' : 'false';
 
     return (
-      <Ticket width={width}
-        link-changing={x => this.setLink (x)}
-        kind='rect' shape={shape} cursor={cursor} selected={selected}
-        hud-glyph={hudGlyph} mission-id={ticket.Trip.MissionId}
-        status={ticket.Status} flash={flash} warning={ticket.Warning} type={ticket.Type}
-        isDragged={this.props.isDragged} hasHeLeft={this.props.hasHeLeft} {...this.link ()} >
+      <Ticket
+        width         = {width}
+        link-changing = {x => this.setLink (x)}
+        kind          = 'rect'
+        shape         = {shape}
+        cursor        = {cursor}
+        selected      = {selected}
+        hud-glyph     = {hudGlyph}
+        mission-id    = {ticket.Trip.MissionId}
+        status        = {ticket.Status}
+        flash         = {flash}
+        warning       = {ticket.Warning}
+        type          = {ticket.Type}
+        isDragged     = {this.props.isDragged}
+        hasHeLeft     = {this.props.hasHeLeft}
+        {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           {this.renderWarning (ticket.Warning)}
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
