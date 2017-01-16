@@ -34,11 +34,11 @@ export default class Badge extends React.Component {
 
     return (
       <div
-        disabled={disabled}
-        style={boxStyle}
+        disabled = {disabled}
+        style    = {boxStyle}
         >
         <label
-          style={labelStyle}
+          style = {labelStyle}
           >
           {truncatedValue}
         </label>

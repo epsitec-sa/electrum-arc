@@ -320,7 +320,7 @@ export default function styles (theme, props) {
     borderRadius:    '17px',
     boxShadow:       theme.shapes.ticketHudShadow,
     backgroundColor: theme.palette.ticketHudShadow,
-    transform:       'scale(1)',
+    opacity:         1,
     transition:      theme.transitions.easeOut (),
   };
 
@@ -336,7 +336,7 @@ export default function styles (theme, props) {
     borderRadius:    '17px',
     boxShadow:       theme.shapes.ticketHudShadow,
     backgroundColor: theme.palette.ticketHudShadow,
-    transform:       'scale(0)',
+    opacity:         0,
     transition:      theme.transitions.easeOut (),
   };
 
@@ -352,10 +352,9 @@ export default function styles (theme, props) {
     border:          '1px solid',
     borderRadius:    '15px',
     backgroundColor: theme.palette.ticketHudBackground,
-    transition:      'all 0.5s',
   };
 
-  const hudGlyphBoxNoneStyle = {
+  const hudGlyphBoxStyleNumber = {
     position:        'absolute',
     width:           '30px',
     height:          '30px',
@@ -366,13 +365,13 @@ export default function styles (theme, props) {
     alignItems:      'center',
     border:          '1px solid',
     borderRadius:    '15px',
-    backgroundColor: theme.palette.ticketHudContent,
-    transition:      'all 0.1s',
+    backgroundColor: theme.palette.ticketHudNumberBackground,
   };
 
   const hudGlyphStyleContent = {
     transform:       'scale(1.2)',
     color:           theme.palette.ticketHudContent,
+    fontWeight:      'bold',
   };
 
   const coverStyle = {
@@ -416,7 +415,7 @@ export default function styles (theme, props) {
     hudGlyphShadow:     hudGlyphShadowStyle,
     hudGlyphShadowNone: hudGlyphShadowNoneStyle,
     hudGlyphBox:        hudGlyphBoxStyle,
-    hudGlyphBoxNone:    hudGlyphBoxNoneStyle,
+    hudGlyphBoxNumber:  hudGlyphBoxStyleNumber,
     hudGlyphContent:    hudGlyphStyleContent,
     cover:              coverStyle,
     coverContent:       coverContentStyle,

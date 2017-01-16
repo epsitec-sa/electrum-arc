@@ -30,6 +30,22 @@ export default class TripTicket extends React.Component {
     });
   }
 
+  // Return the glyph for badge to top/right corner.
+  // If selected, return glyph 'check' (v).
+  // If link-hover, return 1 to 9.
+  getHudGlyph (data, ticket) {
+    if (isSelected (data, ticket.id)) {
+      return 'check';
+    } else {
+      if (this.getLink ()) {
+        return ticket.Order + 1;
+      } else {
+        return null;
+      }
+    }
+    return isSelected (data, ticket.id) ? 'check' : null;
+  }
+
   renderGlyph (glyph) {
     if (glyph.startsWith ('bookmark-')) {
       const color = glyph.substring (9);
@@ -127,16 +143,6 @@ export default class TripTicket extends React.Component {
     }
   }
 
-  renderOrder (ticket) {
-    if (this.getLink ()) {
-      return (
-        <Badge value={ticket.Order + 1} kind='ticket-order' {...this.link ()} />
-      );
-    } else {
-      return null;
-    }
-  }
-
   renderCompacted () {
     const width    = this.props.theme.shapes.tripTicketWidth;
     const data     = this.read ('data');
@@ -153,14 +159,14 @@ export default class TripTicket extends React.Component {
     const height         = ticket.Warning ? '90px' : '60px';
     const marginBottom   = '-10px';
     const cursor         = (noDrag === 'true') ? 'default' : 'move';
-    const hudGlyph       = isSelected (data, ticket.id) ? 'check' : null;
+    const hudGlyph       = this.getHudGlyph (data, ticket);
     const flash          = isFlash (data, ticket.id) ? 'true' : 'false';
 
     return (
       <Ticket
         width         = {width}
         height        = {height}
-        link-changing = {x => this.setLink (x)}
+        link-changing = {value => this.setLink (value)}
         kind          = 'ticket'
         shape         = {shape}
         cursor        = {cursor}
@@ -180,7 +186,6 @@ export default class TripTicket extends React.Component {
             <Label text={getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
             <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
             <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
-            {this.renderOrder (ticket)}
           </Container>
           <Container kind='ticket-row' {...this.link ()} >
             <Label text='' width='75px' {...this.link ()} />
@@ -207,13 +212,13 @@ export default class TripTicket extends React.Component {
     const directionGlyph = getDirectionGlyph (this.props.theme, type);
     const marginBottom   = null;
     const cursor         = (noDrag === 'true') ? 'default' : 'move';
-    const hudGlyph       = isSelected (data, ticket.id) ? 'check' : null;
+    const hudGlyph       = this.getHudGlyph (data, ticket);
     const flash          = isFlash (data, ticket.id) ? 'true' : 'false';
 
     return (
       <Ticket
         width         = {width}
-        link-changing = {x => this.setLink (x)}
+        link-changing = {value => this.setLink (value)}
         kind          = 'rect'
         shape         = {shape}
         cursor        = {cursor}
@@ -233,7 +238,6 @@ export default class TripTicket extends React.Component {
             <Label text={getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
             <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
             <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
-            {this.renderOrder (ticket)}
           </Container>
           {this.renderLine ('building', trip.LongDescription)}
           {this.renderLine ('map-marker', trip.Zone)}
