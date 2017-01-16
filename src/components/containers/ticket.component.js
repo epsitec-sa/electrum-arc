@@ -128,31 +128,34 @@ export default class Ticket extends React.Component {
     }
   }
 
+  renderBackgroundText () {
+    const text = this.read ('background-text');
+    if (text) {
+      const backgroundTextStyle = this.mergeStyles ('backgroundText');
+      return (
+        <div style={backgroundTextStyle}>
+          {text}
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   renderHud (hasHeLeft, isDragged) {
     if (!hasHeLeft || isDragged) {
       const hudGlyph = this.read ('hud-glyph');
       const hudGlyphShadowStyle     = this.mergeStyles ('hudGlyphShadow');
       const hudGlyphShadowNoneStyle = this.mergeStyles ('hudGlyphShadowNone');
       const hudGlyphBoxStyle        = this.mergeStyles ('hudGlyphBox');
-      const hudGlyphBoxStyleNumber  = this.mergeStyles ('hudGlyphBoxNumber');
       const hudGlyphContentStyle    = this.mergeStyles ('hudGlyphContent');
-      if (hudGlyph >= 0 && hudGlyph <= 9) {
-        return (
-          <div style={hudGlyph ? hudGlyphShadowStyle : hudGlyphShadowNoneStyle}>
-            <div style={hudGlyphBoxStyleNumber}>
-              <div style={hudGlyphContentStyle}> {hudGlyph} </div>
-            </div>
+      return (
+        <div style={hudGlyph ? hudGlyphShadowStyle : hudGlyphShadowNoneStyle}>
+          <div style={hudGlyphBoxStyle}>
+            <i style={hudGlyphContentStyle} className={`fa fa-${hudGlyph}`} />
           </div>
-        );
-      } else {
-        return (
-          <div style={hudGlyph ? hudGlyphShadowStyle : hudGlyphShadowNoneStyle}>
-            <div style={hudGlyphBoxStyle}>
-              <i style={hudGlyphContentStyle} className={`fa fa-${hudGlyph}`} />
-            </div>
-          </div>
-        );
-      }
+        </div>
+      );
     } else {
       return null;
     }
@@ -247,6 +250,7 @@ export default class Ticket extends React.Component {
         {htmlShadow}
         {htmlShape}
         {htmlHatch}
+        {this.renderBackgroundText ()}
         {htmlHover}
         <div style = {contentStyle}>
           {this.props.children}
@@ -310,6 +314,7 @@ export default class Ticket extends React.Component {
         >
         <div style = {rectStyle}>
           <div style = {hatch ? rectContentHatchStyle : contentStyle}>
+            {this.renderBackgroundText ()}
             {this.props.children}
           </div>
           <div style = {hoverOrLink ? rectHoverStyle : rectEmptyStyle} />

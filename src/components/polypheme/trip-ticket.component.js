@@ -30,19 +30,15 @@ export default class TripTicket extends React.Component {
     });
   }
 
-  // Return the glyph for badge to top/right corner.
-  // If selected, return glyph 'check' (v).
-  // If link-hover, return 1 to 9.
-  getHudGlyph (data, ticket) {
-    if (isSelected (data, ticket.id)) {
-      return 'check';
+  getBackgroundText (ticket) {
+    if (this.getLink ()) {
+      return ticket.Order + 1;
     } else {
-      if (this.getLink ()) {
-        return ticket.Order + 1;
-      } else {
-        return null;
-      }
+      return null;
     }
+  }
+
+  getHudGlyph (data, ticket) {
     return isSelected (data, ticket.id) ? 'check' : null;
   }
 
@@ -164,21 +160,22 @@ export default class TripTicket extends React.Component {
 
     return (
       <Ticket
-        width         = {width}
-        height        = {height}
-        link-changing = {value => this.setLink (value)}
-        kind          = 'ticket'
-        shape         = {shape}
-        cursor        = {cursor}
-        selected      = {selected}
-        hud-glyph     = {hudGlyph}
-        mission-id    = {ticket.Trip.MissionId}
-        status        = {ticket.Status}
-        flash         = {flash}
-        warning       = {ticket.Warning}
-        type          = {ticket.Type}
-        isDragged     = {this.props.isDragged}
-        hasHeLeft     = {this.props.hasHeLeft}
+        width           = {width}
+        height          = {height}
+        background-text = {this.getBackgroundText (ticket)}
+        link-changing   = {value => this.setLink (value)}
+        kind            = 'ticket'
+        shape           = {shape}
+        cursor          = {cursor}
+        selected        = {selected}
+        hud-glyph       = {hudGlyph}
+        mission-id      = {ticket.Trip.MissionId}
+        status          = {ticket.Status}
+        flash           = {flash}
+        warning         = {ticket.Warning}
+        type            = {ticket.Type}
+        isDragged       = {this.props.isDragged}
+        hasHeLeft       = {this.props.hasHeLeft}
         {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           {this.renderWarning (ticket.Warning)}
@@ -217,20 +214,21 @@ export default class TripTicket extends React.Component {
 
     return (
       <Ticket
-        width         = {width}
-        link-changing = {value => this.setLink (value)}
-        kind          = 'rect'
-        shape         = {shape}
-        cursor        = {cursor}
-        selected      = {selected}
-        hud-glyph     = {hudGlyph}
-        mission-id    = {ticket.Trip.MissionId}
-        status        = {ticket.Status}
-        flash         = {flash}
-        warning       = {ticket.Warning}
-        type          = {ticket.Type}
-        isDragged     = {this.props.isDragged}
-        hasHeLeft     = {this.props.hasHeLeft}
+        width           = {width}
+        background-text = {this.getBackgroundText (ticket)}
+        link-changing   = {value => this.setLink (value)}
+        kind            = 'rect'
+        shape           = {shape}
+        cursor          = {cursor}
+        selected        = {selected}
+        hud-glyph       = {hudGlyph}
+        mission-id      = {ticket.Trip.MissionId}
+        status          = {ticket.Status}
+        flash           = {flash}
+        warning         = {ticket.Warning}
+        type            = {ticket.Type}
+        isDragged       = {this.props.isDragged}
+        hasHeLeft       = {this.props.hasHeLeft}
         {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           {this.renderWarning (ticket.Warning)}
