@@ -13,6 +13,7 @@ export default class Badge extends React.Component {
 
   get styleProps () {
     return {
+      kind:  this.read ('kind'),
       value: this.read ('value'),
       layer: this.read ('layer'),
     };
@@ -23,7 +24,7 @@ export default class Badge extends React.Component {
     const disabled = Action.isDisabled (state);
     const inputValue = this.read ('value');
 
-    let truncatedValue = inputValue.toString ();
+    let truncatedValue = inputValue ? inputValue.toString () : '';
     if (truncatedValue.length > 3) {
       truncatedValue = truncatedValue.substring (0, 3) + '...';
     }

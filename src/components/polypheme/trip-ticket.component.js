@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {Ticket, Container, Label, Separator} from '../../all-components.js';
+import {Ticket, Container, Label, Separator, Badge} from '../../all-components.js';
 import {ColorHelpers} from 'electrum-theme';
 import {Unit} from 'electrum-theme';
 import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
@@ -145,6 +145,7 @@ export default class TripTicket extends React.Component {
             <Label text={getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
             <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
             <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
+            <Badge value={ticket.Order + 1} kind='ticket-order' {...this.link ()} />
           </Container>
           <Container kind='ticket-row' {...this.link ()} >
             <Label text='' width='75px' {...this.link ()} />
@@ -186,6 +187,7 @@ export default class TripTicket extends React.Component {
             <Label text={getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
             <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
             <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
+            <Badge value={ticket.Order + 1} kind='ticket-order' {...this.link ()} />
           </Container>
           {this.renderLine ('building', trip.LongDescription)}
           {this.renderLine ('map-marker', trip.Zone)}

@@ -5,22 +5,41 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  const inputLayer = props.layer;
+  const kind  = props.kind;
+  const layer = props.layer;
 
-  let boxPosition = null;
-  let boxRight    = null;
-  let boxTop      = null;
+  let boxWidth        = theme.shapes.lineHeight;
+  let boxHeight       = theme.shapes.lineHeight;
+  let boxAlignSelf    = null;
+  let boxPosition     = null;
+  let boxRight        = null;
+  let boxTop          = null;
+  let boxMargin       = null;
+  let labelHeight     = theme.shapes.badgeHeight;
+  let labelRadius     = theme.shapes.badgeRadius;
+  let backgroundColor = theme.palette.badgeBackground;
+
+  if (kind === 'ticket-order') {
+    boxWidth        = null;
+    boxHeight       = null;
+    boxAlignSelf    = 'flex-start';
+    boxMargin       = '5px 0px 0px 0px';
+    labelRadius     = labelHeight;
+    backgroundColor = theme.palette.ticketBadgeBackground;
+  }
 
   // If badge has layer='over', place it on top-right corner of parent.
-  if (inputLayer === 'over') {
+  if (layer === 'over') {
     boxPosition = 'absolute';
     boxRight    = '0px';
     boxTop      = '0px';
   }
 
   const boxStyle = {
-    width:           theme.shapes.lineHeight,
-    height:          theme.shapes.lineHeight,
+    width:           boxWidth,
+    height:          boxHeight,
+    alignSelf:       boxAlignSelf,
+    margin:          boxMargin,
     display:         'flex',
     flexDirection:   'row',
     justifyContent:  'center',
@@ -30,15 +49,13 @@ export default function styles (theme, props) {
     top:             boxTop,
   };
 
-  const h = theme.shapes.badgeHeight;
-  const r = theme.shapes.badgeRadius;
-  const m = Unit.multiply (h, 0.25);
-  const w = Unit.sub (h, Unit.multiply (m, 2.0));
+  const m = Unit.multiply (labelHeight, 0.25);
+  const w = Unit.sub (labelHeight, Unit.multiply (m, 2.0));
 
   const labelStyle = {
     minWidth:        w,
-    height:          h,
-    borderRadius:    r,
+    height:          labelHeight,
+    borderRadius:    labelRadius,
     padding:         '0px ' + m + ' 1px ' + m,
     display:         'flex',
     flexDirection:   'row',
@@ -47,7 +64,7 @@ export default function styles (theme, props) {
     fontSize:        Unit.multiply (theme.shapes.badgeTextSize, theme.typo.fontScale),
     fontWeight:      'bold',
     color:           theme.palette.badgeText,
-    backgroundColor: theme.palette.badgeBackground,
+    backgroundColor: backgroundColor,
   };
 
   return {
