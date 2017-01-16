@@ -2,6 +2,7 @@
 
 import Electrum from 'electrum';
 import reducerTickets from './reducer-tickets.js';
+import {getTime} from './converters';
 
 // ------------------------------------------------------------------------------------------
 
@@ -235,6 +236,41 @@ function getTicketsFromMissionId (tickets, missionId) {
   return result;
 }
 
+// Get sorting order :
+//  Type = 'pick'          -> 1
+//  Type = 'pick-transit'  -> 2
+//  Type = 'drop-transit'  -> 3
+//  Type = 'drop'          -> 4
+function getSortingTicketOrder (ticket) {
+  if (ticket.Type.startsWith ('pick')) {
+    if (ticket.Type.endsWith ('-transit')) {
+      return 2;
+    } else {
+      return 1;
+    }
+  } else if (ticket.Type.startsWith ('drop')) {
+    if (ticket.Type.endsWith ('-transit')) {
+      return 3;
+    } else {
+      return 4;
+    }
+  } else {
+    throw new Error (`Unknown sorted type ${ticket.Type}`);
+  }
+}
+
+function sortTicket (a, b) {
+  const sa = getSortingTicketOrder (a);
+  const sb = getSortingTicketOrder (b);
+  if (sa === sb) {
+    const ta = getTime (a.Trip.Drop.PlanedTime);
+    const tb = getTime (b.Trip.Drop.PlanedTime);
+    return ta.localeCompare (tb);
+  } else {
+    return sa.localeCompare (sb);
+  }
+}
+
 function fillAllTicketsFromMissionId (state, list, missionId, result) {
   for (let i = 0; i < list.length; i++) {
     const ticket = list[i];
@@ -253,7 +289,7 @@ function getAllTicketsFromMissionId (state, missionId) {
     fillAllTicketsFromMissionId (state, tray.Tickets, missionId, result);
   }
   fillAllTicketsFromMissionId (state, state.Backlog.Tickets, missionId, result);
-  return result;
+  return result.sort (sortTicket);
 }
 
 function getPickIndexFromMissionId (tickets, missionId) {
