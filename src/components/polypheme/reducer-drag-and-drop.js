@@ -236,73 +236,6 @@ function getTicketsFromMissionId (tickets, missionId) {
   return result;
 }
 
-// Get sorting order :
-//  Type = 'pick'          -> 1
-//  Type = 'pick-transit'  -> 2
-//  Type = 'drop-transit'  -> 3
-//  Type = 'drop'          -> 4
-function getSortingTicketOrder (ticket) {
-  if (ticket.Type.startsWith ('pick')) {
-    if (ticket.Type.endsWith ('-transit')) {
-      return 2;
-    } else {
-      return 1;
-    }
-  } else if (ticket.Type.startsWith ('drop')) {
-    if (ticket.Type.endsWith ('-transit')) {
-      return 3;
-    } else {
-      return 4;
-    }
-  } else {
-    throw new Error (`Unknown sorted type ${ticket.Type}`);
-  }
-}
-
-function sortTicket (a, b) {
-  const sa = getSortingTicketOrder (a);
-  const sb = getSortingTicketOrder (b);
-  if (sa === sb) {
-    const ta = getTime (a.Trip.Drop.PlanedTime);
-    const tb = getTime (b.Trip.Drop.PlanedTime);
-    return ta.localeCompare (tb);
-  } else {
-    return sa.localeCompare (sb);
-  }
-}
-
-function fillAllTicketsFromMissionId (state, list, missionId, result) {
-  for (let i = 0; i < list.length; i++) {
-    const ticket = list[i];
-    if (ticket.Trip.MissionId === missionId) {
-      result.push (ticket);
-    }
-  }
-}
-
-function getAllTicketsFromMissionId (state, missionId) {
-  const result = [];
-  for (var readbook of state.Roadbooks) {
-    fillAllTicketsFromMissionId (state, readbook.Tickets, missionId, result);
-  }
-  for (var tray of state.Desk) {
-    fillAllTicketsFromMissionId (state, tray.Tickets, missionId, result);
-  }
-  fillAllTicketsFromMissionId (state, state.Backlog.Tickets, missionId, result);
-  return result.sort (sortTicket);
-}
-
-function getPickIndexFromMissionId (tickets, missionId) {
-  let index = 0;
-  for (var ticket of tickets) {
-    if (ticket.Trip.MissionId === missionId && ticket.Type.startsWith ('pick')) {
-      return index;
-    }
-    index++;
-  }
-  return -1;
-}
-
 // Return a new random guid.
 // See http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
 function getNewId () {
@@ -451,6 +384,105 @@ function checkOrders (state, flashes, warnings) {
   for (var tray of state.Desk) {
     checkOrder (tray, flashes, warnings);
   }
+}
+
+// Get sorting order :
+//  Type = 'pick'          -> 1
+//  Type = 'drop-transit'  -> 2
+//  Type = 'pick-transit'  -> 3
+//  Type = 'drop'          -> 4
+function getSortingTicketOrder (ticket) {
+  const type = ticket.Type;
+  if (type.startsWith ('pick')) {
+    if (type.endsWith ('-transit')) {
+      return 3;
+    } else {
+      return 1;
+    }
+  } else if (type.startsWith ('drop')) {
+    if (type.endsWith ('-transit')) {
+      return 2;
+    } else {
+      return 4;
+    }
+  } else {
+    throw new Error (`Unknown sorted type ${type}`);
+  }
+}
+
+function sortTicket (a, b) {
+  const sa = getSortingTicketOrder (a).toString ();
+  const sb = getSortingTicketOrder (b).toString ();
+  if (sa === sb) {
+    const ta = getTime (a.Trip.Drop.PlanedTime);
+    const tb = getTime (b.Trip.Drop.PlanedTime);
+    return ta.localeCompare (tb);
+  } else {
+    return sa.localeCompare (sb);
+  }
+}
+
+function fillAllTicketsFromMissionId (state, list, missionId, result) {
+  for (let i = 0; i < list.length; i++) {
+    const ticket = list[i];
+    if (ticket.Trip.MissionId === missionId) {
+      result.push (ticket);
+    }
+  }
+}
+
+function getAllTicketsFromMissionId (state, missionId) {
+  const result = [];
+  for (var readbook of state.Roadbooks) {
+    fillAllTicketsFromMissionId (state, readbook.Tickets, missionId, result);
+  }
+  for (var tray of state.Desk) {
+    fillAllTicketsFromMissionId (state, tray.Tickets, missionId, result);
+  }
+  fillAllTicketsFromMissionId (state, state.Backlog.Tickets, missionId, result);
+  return result.sort (sortTicket);
+}
+
+function getPickIndexFromMissionId (tickets, missionId) {
+  let index = 0;
+  for (var ticket of tickets) {
+    if (ticket.Trip.MissionId === missionId && ticket.Type.startsWith ('pick')) {
+      return index;
+    }
+    index++;
+  }
+  return -1;
+}
+
+function setOrder (state, ticket, order) {
+  if (ticket.Order !== order) {
+    ticket.Order = order;
+    electrumDispatch (state, 'setOrder', ticket.id);
+  }
+}
+
+function updateListOrders (state, list) {
+  for (var ticket of list) {
+    if (ticket.Type === 'pick') {  // root of pick/pick-transit/drop-transit/drop sequence ?
+      const tickets = getAllTicketsFromMissionId (state, ticket.Trip.MissionId);
+      for (let i = 0; i < tickets.length; i++) {
+        const t = tickets[i];
+        setOrder (state, t, i);
+      }
+    }
+  }
+}
+
+// Update order to all ticket into Roadbooks, Desk and Backlog.
+function updateOrders (state) {
+  console.log ('reducer.updateOrders');
+  for (var readbook of state.Roadbooks) {
+    updateListOrders (state, readbook.Tickets);
+  }
+  for (var tray of state.Desk) {
+    updateListOrders (state, tray.Tickets);
+  }
+  updateListOrders (state, state.Backlog.Tickets);
 }
 
 // ------------------------------------------------------------------------------------------
@@ -681,6 +713,7 @@ function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
     deleteTransits (state, flashes, warnings);
     createTransits (state, flashes, warnings);
   }
+  updateOrders (state);
   checkOrders (state, flashes, warnings);
   checkAlones (state, flashes, warnings);
   setMiscs (state, flashes, warnings);
