@@ -369,7 +369,7 @@ function checkOrder (list, flashes, warnings) {
   for (let i = 0; i < list.Tickets.length; i++) {
     const ticket = list.Tickets[i];
     const same = getTicketsFromMissionId (list.Tickets, ticket.Trip.MissionId);
-    if (same.length === 2 && same[0].Type.startsWith ('drop') && same[1].Type.startsWith ('pick')) {
+    if (same.length === 2 && same[0].Order > same[1].Order) {
       warnings.push ({id: same[0].id, text: 'Drop avant pick'});
       warnings.push ({id: same[1].id, text: 'Pick après drop'});
     }
@@ -414,6 +414,7 @@ function sortTicket (a, b) {
   const sa = getSortingTicketOrder (a).toString ();
   const sb = getSortingTicketOrder (b).toString ();
   if (sa === sb) {
+    // If they have the same type, sort chronologically.
     const ta = getTime (a.Trip.Drop.PlanedTime);
     const tb = getTime (b.Trip.Drop.PlanedTime);
     return ta.localeCompare (tb);
@@ -431,6 +432,8 @@ function fillAllTicketsFromMissionId (state, list, missionId, result) {
   }
 }
 
+// Returns all tickets from the same mission, sorted chronologically.
+// By example: pick, pick-transit, drop-transit and drop.
 function getAllTicketsFromMissionId (state, missionId) {
   const result = [];
   for (var readbook of state.Roadbooks) {
@@ -440,17 +443,6 @@ function getAllTicketsFromMissionId (state, missionId) {
     fillAllTicketsFromMissionId (state, tray.Tickets, missionId, result);
   }
   return result.sort (sortTicket);
-}
-
-function getPickIndexFromMissionId (tickets, missionId) {
-  let index = 0;
-  for (var ticket of tickets) {
-    if (ticket.Trip.MissionId === missionId && ticket.Type.startsWith ('pick')) {
-      return index;
-    }
-    index++;
-  }
-  return -1;
 }
 
 function setOrder (state, ticket, order) {
@@ -474,7 +466,7 @@ function updateListOrders (state, list) {
 
 // Update order to all ticket into Roadbooks and Desk.
 function updateOrders (state) {
-  console.log ('reducer.updateOrders');
+  // console.log ('reducer.updateOrders');
   for (var readbook of state.Roadbooks) {
     updateListOrders (state, readbook.Tickets);
   }
@@ -781,6 +773,7 @@ function swapExtended (state, id) {
   return state;
 }
 
+// Change the status of a single tickets.
 function setStatus (state, flashes, id, value) {
   const result = searchId (state, id);
   const ticket  = result.ticket;
@@ -795,6 +788,7 @@ function setStatus (state, flashes, id, value) {
   electrumDispatch (state, 'setStatus', tickets[index].id, value);
 }
 
+// Returns the index of a status, to determine the direction of the operation (ascending or descending).
 function getStatusIndex (value) {
   return {
     ['pre-dispatched']: 1,
@@ -803,19 +797,30 @@ function getStatusIndex (value) {
   } [value];
 }
 
-function changeStatusNecessary (up, refTicket, otherTicket) {
+function changeStatusNecessary (ascending, refTicket, otherTicket, newValue) {
   const refOrder   = refTicket.Order   ? refTicket.Order   : 0;
   const otherOrder = otherTicket.Order ? otherTicket.Order : 0;
-  return (up && otherOrder <= refOrder) || (!up && otherOrder >= refOrder);
+  if (ascending) {  // pre-dispatched > dispatched > delivered ?
+    // Propage changes to older tickets.
+    if (newValue === 'dispatched') {
+      // Restricted change to tickets from the same messenger.
+      return otherOrder <= refOrder && refTicket.OwnerId === otherTicket.OwnerId;
+    } else {
+      return otherOrder <= refOrder;
+    }
+  } else {  // delivered > dispatched > pre-dispatched ?
+    // Propage change the tickets more resent.
+    return otherOrder >= refOrder;
+  }
 }
 
+// Change the status of (almost) all tickets, according to subtle business rules.
 function setBothStatus (state, flashes, ticket, currentValue, newValue) {
-  console.log ('reducer.setBothStatus');
-  const up = getStatusIndex (currentValue) < getStatusIndex (newValue);
+  const ascending = getStatusIndex (currentValue) < getStatusIndex (newValue);
   const tickets = getAllTicketsFromMissionId (state, ticket.Trip.MissionId);
-  for (var t of tickets) {
-    if (changeStatusNecessary (up, ticket, t)) {
-      setStatus (state, flashes, t.id, newValue);
+  for (var otherTicket of tickets) {
+    if (changeStatusNecessary (ascending, ticket, otherTicket, newValue)) {
+      setStatus (state, flashes, otherTicket.id, newValue);
     }
   }
 }
