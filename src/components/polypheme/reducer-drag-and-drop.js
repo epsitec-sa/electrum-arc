@@ -226,13 +226,17 @@ function deleteTicket (tickets, ticket) {
   });
 }
 
-function getTicketsFromMissionId (tickets, missionId) {
-  const result = [];
+function fillTicketsFromMissionId (tickets, missionId, result) {
   for (var ticket of tickets) {
     if (ticket.Trip.MissionId === missionId) {
       result.push (ticket);
     }
   }
+}
+
+function getTicketsFromMissionId (tickets, missionId) {
+  const result = [];
+  fillTicketsFromMissionId (tickets, missionId, result);
   return result;
 }
 
@@ -423,24 +427,15 @@ function sortTicket (a, b) {
   }
 }
 
-function fillAllTicketsFromMissionId (state, list, missionId, result) {
-  for (let i = 0; i < list.length; i++) {
-    const ticket = list[i];
-    if (ticket.Trip.MissionId === missionId) {
-      result.push (ticket);
-    }
-  }
-}
-
 // Returns all tickets from the same mission, sorted chronologically.
 // By example: pick, pick-transit, drop-transit and drop.
-function getAllTicketsFromMissionId (state, missionId) {
+function getSorteTicketsFromMissionId (state, missionId) {
   const result = [];
   for (var readbook of state.Roadbooks) {
-    fillAllTicketsFromMissionId (state, readbook.Tickets, missionId, result);
+    fillTicketsFromMissionId (readbook.Tickets, missionId, result);
   }
   for (var tray of state.Desk) {
-    fillAllTicketsFromMissionId (state, tray.Tickets, missionId, result);
+    fillTicketsFromMissionId (tray.Tickets, missionId, result);
   }
   return result.sort (sortTicket);
 }
@@ -455,7 +450,7 @@ function setOrder (state, ticket, order) {
 function updateListOrders (state, list) {
   for (var ticket of list) {
     if (ticket.Type === 'pick') {  // root of pick/pick-transit/drop-transit/drop sequence ?
-      const tickets = getAllTicketsFromMissionId (state, ticket.Trip.MissionId);
+      const tickets = getSorteTicketsFromMissionId (state, ticket.Trip.MissionId);
       for (let i = 0; i < tickets.length; i++) {
         const t = tickets[i];
         setOrder (state, t, i);
@@ -817,7 +812,7 @@ function changeStatusNecessary (ascending, refTicket, otherTicket, newValue) {
 // Change the status of (almost) all tickets, according to subtle business rules.
 function setBothStatus (state, flashes, ticket, currentValue, newValue) {
   const ascending = getStatusIndex (currentValue) < getStatusIndex (newValue);
-  const tickets = getAllTicketsFromMissionId (state, ticket.Trip.MissionId);
+  const tickets = getSorteTicketsFromMissionId (state, ticket.Trip.MissionId);
   for (var otherTicket of tickets) {
     if (changeStatusNecessary (ascending, ticket, otherTicket, newValue)) {
       setStatus (state, flashes, otherTicket.id, newValue);
