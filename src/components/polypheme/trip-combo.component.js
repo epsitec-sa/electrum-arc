@@ -36,6 +36,7 @@ export default class TripCombo extends React.Component {
   getList () {
     const data   = this.read ('data');
     const ticket = this.read ('ticket');
+    const source = this.read ('source');
     const selected = isSelected (data, ticket.id);
     const extended = isExtended (data, ticket.id);
     const list = [];
@@ -78,38 +79,40 @@ export default class TripCombo extends React.Component {
           action: () => this.extend (),
         }
       );
-      list.push (
-        {
-          separator: true,
-        }
-      );
-      list.push (
-        {
-          text:     'Non dispatché',
-          glyph:    'ban',
-          active:   ticket.Status === 'pre-dispatched' ? 'true' : 'false',
-          shortcut: ticket.Status === 'delivered' ? 'clic' : null,
-          action: () => this.dispatch ('pre-dispatched'),
-        }
-      );
-      list.push (
-        {
-          text:     'Dispatché',
-          glyph:    'envelope-o',
-          active:   ticket.Status === 'dispatched' ? 'true' : 'false',
-          shortcut: ticket.Status === 'pre-dispatched' ? 'clic' : null,
-          action: () => this.dispatch ('dispatched'),
-        }
-      );
-      list.push (
-        {
-          text:     'Livré',
-          glyph:    'envelope',
-          active:   ticket.Status === 'delivered' ? 'true' : 'false',
-          shortcut: ticket.Status === 'dispatched' ? 'clic' : null,
-          action: () => this.dispatch ('delivered'),
-        }
-      );
+      if (source === 'roadbook') {
+        list.push (
+          {
+            separator: true,
+          }
+        );
+        list.push (
+          {
+            text:     'Non dispatché',
+            glyph:    'ban',
+            active:   ticket.Status === 'pre-dispatched' ? 'true' : 'false',
+            shortcut: ticket.Status === 'delivered' ? 'clic' : null,
+            action: () => this.dispatch ('pre-dispatched'),
+          }
+        );
+        list.push (
+          {
+            text:     'Dispatché',
+            glyph:    'envelope-o',
+            active:   ticket.Status === 'dispatched' ? 'true' : 'false',
+            shortcut: ticket.Status === 'pre-dispatched' ? 'clic' : null,
+            action: () => this.dispatch ('dispatched'),
+          }
+        );
+        list.push (
+          {
+            text:     'Livré',
+            glyph:    'envelope',
+            active:   ticket.Status === 'delivered' ? 'true' : 'false',
+            shortcut: ticket.Status === 'dispatched' ? 'clic' : null,
+            action: () => this.dispatch ('delivered'),
+          }
+        );
+      }
     }
     return list;
   }

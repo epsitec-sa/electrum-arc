@@ -32,7 +32,7 @@ export default class TripTicket extends React.Component {
 
   getBackgroundText (ticket) {
     if (this.getLink ()) {
-      return ticket.Order + 1;
+      return ticket.Order + 1;  // display 1..4 (for pick, drop-transit, pick-transit and drop)
     } else {
       return null;
     }

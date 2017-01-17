@@ -31,7 +31,7 @@ export default class DispatchTrips extends React.Component {
 
   renderTicket (ticket, data, index) {
     return (
-      <Trip key={index} kind='trip-box' ticket={ticket} data={data} {...this.link ()} />
+      <Trip key={index} kind='trip-box' source='backlog' ticket={ticket} data={data} {...this.link ()} />
     );
   }
 

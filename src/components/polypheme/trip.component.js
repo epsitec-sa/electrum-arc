@@ -170,10 +170,12 @@ export default class Trip extends React.Component {
   renderCombo (data) {
     if (this.getShowCombo ()) {
       const ticket = this.read ('ticket');
+      const source = this.read ('source');
       return (
         <TripCombo
           data         = {data}
           ticket       = {ticket}
+          source       = {source}
           center       = {this.comboLocation.center}
           top          = {this.comboLocation.top}
           bottom       = {this.comboLocation.bottom}

@@ -93,7 +93,7 @@ export default class DispatchBacklog extends React.Component {
 
   renderTicket (ticket, data, index) {
     return (
-      <Trip key={index} kind='trip-box' item-id={ticket.id} ticket={ticket} data={data} {...this.link ()} />
+      <Trip key={index} kind='trip-box' source='backlog' item-id={ticket.id} ticket={ticket} data={data} {...this.link ()} />
     );
   }
 
