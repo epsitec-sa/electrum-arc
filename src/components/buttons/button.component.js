@@ -217,12 +217,14 @@ export default class Button extends React.Component {
     if (kind === 'container' || kind === 'box') {
       return (
         <div
-          onClick     = {this.onClick}  // voir (*)
-          onMouseDown = {() => this.mouseDown ()}
-          onMouseUp   = {() => this.mouseUp ()}
-          disabled    = {disabled}
-          style       = {boxStyle}
-          title       = {tooltip}
+          onClick      = {this.onClick}  // voir (*)
+          onMouseDown  = {() => this.mouseDown ()}
+          onMouseUp    = {() => this.mouseUp ()}
+          onTouchStart = {() => this.mouseDown ()}
+          onTouchEnd   = {() => this.mouseUp ()}
+          disabled     = {disabled}
+          style        = {boxStyle}
+          title        = {tooltip}
         >
           {this.props.children}
         </div>
@@ -230,12 +232,14 @@ export default class Button extends React.Component {
     } else if (menu) {
       return (
         <div
-          onClick     = {() => this.showMenu ()}  // voir (*)
-          onMouseDown = {() => this.mouseDown ()}
-          onMouseUp   = {() => this.mouseUp ()}
-          disabled    = {disabled}
-          style       = {boxStyle}
-          title       = {tooltip}
+          onClick      = {() => this.showMenu ()}  // voir (*)
+          onMouseDown  = {() => this.mouseDown ()}
+          onMouseUp    = {() => this.mouseUp ()}
+          onTouchStart = {() => this.mouseDown ()}
+          onTouchEnd   = {() => this.mouseUp ()}
+          disabled     = {disabled}
+          style        = {boxStyle}
+          title        = {tooltip}
         >
           {this.renderLayout ()}
           {this.renderTriangle ()}
@@ -247,13 +251,15 @@ export default class Button extends React.Component {
     } else if (toAnchor) {
       return (
         <a
-          onClick     = {this.onClick}  // voir (*)
-          onMouseDown = {() => this.mouseDown ()}
-          onMouseUp   = {() => this.mouseUp ()}
-          disabled    = {disabled}
-          style       = {boxStyle}
-          title       = {tooltip}
-          href        = {'#' + toAnchor}
+          onClick      = {this.onClick}  // voir (*)
+          onMouseDown  = {() => this.mouseDown ()}
+          onMouseUp    = {() => this.mouseUp ()}
+          onTouchStart = {() => this.mouseDown ()}
+          onTouchEnd   = {() => this.mouseUp ()}
+          disabled     = {disabled}
+          style        = {boxStyle}
+          title        = {tooltip}
+          href         = {'#' + toAnchor}
         >
           {this.renderLayout ()}
           {this.renderTriangle ()}
@@ -265,12 +271,14 @@ export default class Button extends React.Component {
     } else {
       return (
         <div
-          onClick     = {this.onClick}  // voir (*)
-          onMouseDown = {() => this.mouseDown ()}
-          onMouseUp   = {() => this.mouseUp ()}
-          disabled    = {disabled}
-          style       = {boxStyle}
-          title       = {tooltip}
+          onClick      = {this.onClick}  // voir (*)
+          onMouseDown  = {() => this.mouseDown ()}
+          onMouseUp    = {() => this.mouseUp ()}
+          onTouchStart = {() => this.mouseDown ()}
+          onTouchEnd   = {() => this.mouseUp ()}
+          disabled     = {disabled}
+          style        = {boxStyle}
+          title        = {tooltip}
         >
           {this.renderLayout ()}
           {this.renderTriangle ()}

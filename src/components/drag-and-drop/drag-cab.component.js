@@ -205,6 +205,8 @@ export default class DragCab extends React.Component {
         data-margin-bottom = {marginBottom}
         onMouseDown        = {event => this.mouseDown (event)}
         onMouseUp          = {event => this.mouseUp (event)}
+        onTouchStart       = {event => this.mouseDown (event)}
+        onTouchEnd         = {event => this.mouseUp (event)}
         >
         {this.renderChildren (isDragged, dragStarting)}
         {htmlDragCarrier}

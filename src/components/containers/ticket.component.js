@@ -241,11 +241,13 @@ export default class Ticket extends React.Component {
 
     return (
       <div
-        style       = {boxStyle}
-        onMouseOver = {() => this.mouseOver ()}
-        onMouseOut  = {() => this.mouseOut ()}
-        onMouseDown = {event => this.mouseDown (event)}
-        onMouseUp   = {event => this.mouseUp (event)}
+        style        = {boxStyle}
+        onMouseOver  = {() => this.mouseOver ()}
+        onMouseOut   = {() => this.mouseOut ()}
+        onMouseDown  = {event => this.mouseDown (event)}
+        onMouseUp    = {event => this.mouseUp (event)}
+        onTouchStart = {event => this.mouseDown (event)}
+        onTouchEnd   = {event => this.mouseUp (event)}
         >
         {htmlShadow}
         {htmlShape}
@@ -306,11 +308,13 @@ export default class Ticket extends React.Component {
 
     return (
       <div
-        style       = {rectShadowStyle}
-        onMouseOver = {() => this.mouseOver ()}
-        onMouseOut  = {() => this.mouseOut ()}
-        onMouseDown = {event => this.mouseDown (event)}
-        onMouseUp   = {event => this.mouseUp (event)}
+        style        = {rectShadowStyle}
+        onMouseOver  = {() => this.mouseOver ()}
+        onMouseOut   = {() => this.mouseOut ()}
+        onMouseDown  = {event => this.mouseDown (event)}
+        onMouseUp    = {event => this.mouseUp (event)}
+        onTouchStart = {event => this.mouseDown (event)}
+        onTouchEnd   = {event => this.mouseUp (event)}
         >
         <div style = {rectStyle}>
           <div style = {hatch ? rectContentHatchStyle : contentStyle}>
@@ -346,11 +350,13 @@ export default class Ticket extends React.Component {
 
     return (
       <div
-        style       = {coverStyle}
-        onMouseOver = {() => this.mouseOver ()}
-        onMouseOut  = {() => this.mouseOut ()}
-        onMouseDown = {event => this.mouseDown (event)}
-        onMouseUp   = {event => this.mouseUp (event)}
+        style        = {coverStyle}
+        onMouseOver  = {() => this.mouseOver ()}
+        onMouseOut   = {() => this.mouseOut ()}
+        onMouseDown  = {event => this.mouseDown (event)}
+        onMouseUp    = {event => this.mouseUp (event)}
+        onTouchStart = {event => this.mouseDown (event)}
+        onTouchEnd   = {event => this.mouseUp (event)}
         >
         <div style = {coverContentStyle}>
           {this.props.children}

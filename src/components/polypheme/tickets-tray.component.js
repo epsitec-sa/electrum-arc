@@ -80,8 +80,9 @@ export default class TicketsTray extends React.Component {
     return (
       <div style = {boxStyle}>
         <div
-          style       = {titleStyle}
-          onMouseDown = {() => this.mouseDown ()}
+          style        = {titleStyle}
+          onMouseDown  = {() => this.mouseDown ()}
+          onTouchStart = {() => this.mouseDown ()}
           >
           {htmlEdit}
         </div>

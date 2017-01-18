@@ -168,7 +168,11 @@ export default class Combo extends React.Component {
     const comboStyle      = this.mergeStyles ('combo');
 
     return (
-      <div style = {fullScreenStyle} onMouseDown = {(event) => this.mouseDown (event)}>
+      <div
+        style        = {fullScreenStyle}
+        onMouseDown  = {(event) => this.mouseDown (event)}
+        onTouchStart = {(event) => this.mouseDown (event)}
+        >
         <div style = {comboStyle}>
           <Container
             kind              = 'flying-balloon'

@@ -618,6 +618,8 @@ export default class DragCarrier extends React.Component {
       <div style = {fullScreenStyle}
         onMouseMove = {event => this.mouseMove (event)}
         onMouseUp   = {event => this.mouseUp (event)}
+        onTouchMove = {event => this.mouseMove (event)}
+        onTouchEnd  = {event => this.mouseUp (event)}
         >
         <div style = {hilitedStyle} />
         <div style = {draggedStyle}>
