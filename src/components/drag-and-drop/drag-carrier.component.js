@@ -448,6 +448,9 @@ export default class DragCarrier extends React.Component {
       x = event.touches[0].clientX;
       y = event.touches[0].clientY;
     }
+    if (!x || !y) {
+      return;
+    }
     if (this.moveCount === 0) {  // first move ?
       this.startX = x;
       this.startY = y;
