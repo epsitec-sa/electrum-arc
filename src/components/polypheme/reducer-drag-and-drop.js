@@ -270,11 +270,12 @@ function clone (state, ticket) {
   const oldId = n.id;
   n.id = getNewId ();
   updateId (state, oldId, n.id);
-  if (n.Trip) {
-    n.Trip.id = getNewId ();
-    n.Trip.Pick.id = getNewId ();
-    n.Trip.Drop.id = getNewId ();
-  }
+  return n;
+}
+
+// Trick necessary for update UI !!!
+function regen (state, ticket) {
+  const n = JSON.parse (JSON.stringify (ticket));
   return n;
 }
 
@@ -521,7 +522,7 @@ function updateShape (state, list) {
     }
     if (ticket.Shape !== shape) {  // changing ?
       ticket.Shape = shape;
-      list.Tickets[i] = clone (state, ticket);  // Trick necessary for update UI !!!
+      list.Tickets[i] = regen (state, ticket);
     }
   }
 }
@@ -559,7 +560,7 @@ function setMisc (state, list, flashes, warnings) {
       ticket.Warning  = w;  // set or clear warning message
       putFlash (state, ticket.id, f);  // set or clear flash mode
       putSelected (state, ticket.id, s);  // select or deselect ticket
-      list[i] = clone (state, ticket);  // Trick necessary for update UI !!!
+      list[i] = regen (state, ticket);
     }
   }
 }
@@ -594,7 +595,7 @@ function selectZone (state, flashes, result, fromIndex, toIndex, value) {
     if ((ticket.Status === 'backlog' || ticket.Status === 'pre-dispatched') && i >= fromIndex && i <= toIndex) {
       if (isSelected (state, ticket.id) !== value) {
         putSelected (state, ticket.id, value);
-        result.tickets[i] = clone (state, ticket);  // Trick necessary for update UI !!!
+        result.tickets[i] = regen (state, ticket);
         flashes.push (result.tickets[i].id);
       }
     }
@@ -741,7 +742,7 @@ function swapSelected (state, id, shiftKey) {
     const ticket = result.tickets[result.index];
     if (ticket.Status === 'backlog' || ticket.Status === 'pre-dispatched') {
       putSelected (state, ticket.id, !isSelected (state, ticket.id));
-      result.tickets[result.index] = clone (state, ticket);  // Trick necessary for update UI !!!
+      result.tickets[result.index] = regen (state, ticket);
       flashes.push (result.tickets[result.index].id);
     }
   }
@@ -761,7 +762,7 @@ function swapExtended (state, id) {
     } else {
       setExtended (state, ticket.id);
     }
-    result.tickets[result.index] = clone (state, ticket);  // Trick necessary for update UI !!!
+    result.tickets[result.index] = regen (state, ticket);
     flashes.push (result.tickets[result.index].id);
   }
   setMiscs (state, flashes, warnings);
@@ -778,7 +779,7 @@ function setStatus (state, flashes, id, value) {
   if (value !== 'pre-dispatched') {
     clearSelected (state, ticket.id);
   }
-  tickets[index] = clone (state, ticket);  // Trick necessary for update UI !!!
+  tickets[index] = regen (state, ticket);
   flashes.push (tickets[index].id);
   electrumDispatch (state, 'setStatus', tickets[index].id, value);
 }
@@ -863,7 +864,7 @@ function swapRoadbookCompacted (state, id) {
   } else {
     roadbook.Compacted = 'true';
   }
-  result.tickets[result.index] = clone (state, roadbook);  // Trick necessary for update UI !!!
+  result.tickets[result.index] = regen (state, roadbook);
   return state;
 }
 
@@ -878,7 +879,7 @@ function swapRoadbookShowHidden (state, id) {
   } else {
     roadbook.ShowHidden = 'true';
   }
-  result.tickets[result.index] = clone (state, roadbook);  // Trick necessary for update UI !!!
+  result.tickets[result.index] = regen (state, roadbook);
   return state;
 }
 
