@@ -159,6 +159,7 @@ export default class Container extends React.Component {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
     const kind    = this.read ('kind');
+    const anchor  = this.read ('anchor');
     const navName = this.read ('navigation-name');
     const hidden  = this.read ('hidden');
     const show    = this.read ('show');
@@ -183,6 +184,7 @@ export default class Container extends React.Component {
         <div
           disabled = {disabled}
           style    = {boxStyle}
+          id       = {anchor}
           >
           <div style = {triangleStyle}/>
           <div>
@@ -195,6 +197,7 @@ export default class Container extends React.Component {
         <div
           disabled             = {disabled}
           style                = {boxStyle}
+          id                   = {anchor}
           data-navigation-name = {navName}
           >
           {useManagedChildren.includes (kind) ? this.state.managedChildren : this.props.children}
