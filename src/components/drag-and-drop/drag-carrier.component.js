@@ -442,30 +442,35 @@ export default class DragCarrier extends React.Component {
   }
 
   mouseMove (event) {
-    // console.log ('DragCarrier.mouseMove');
+    let x = event.clientX;
+    let y = event.clientY;
+    if (!x && event.touches.length > 0) {
+      x = event.touches[0].clientX;
+      y = event.touches[0].clientY;
+    }
     if (this.moveCount === 0) {  // first move ?
-      this.startX = event.clientX;
-      this.startY = event.clientY;
+      this.startX = x;
+      this.startY = y;
       const dragId  = this.read ('drag-id');
       const dragCab = this.searchDragCab (dragId);
       const node = ReactDOM.findDOMNode (dragCab);
       const rect = node.getBoundingClientRect ();
-      this.offsetX = event.clientX - rect.left;
-      this.offsetY = event.clientY - rect.top;
+      this.offsetX = x - rect.left;
+      this.offsetY = y - rect.top;
       this.rectOrigin = this.findOrigin ();
     }
     this.moveCount++;
 
     const mode = this.read ('mode');
     if (mode === 'corner-top-left') {
-      this.setX (event.clientX);
-      this.setY (event.clientY);
+      this.setX (x);
+      this.setY (y);
     } else {  // keep mouse at click point
-      this.setX (event.clientX - this.offsetX);
-      this.setY (event.clientY - this.offsetY);
+      this.setX (x - this.offsetX);
+      this.setY (y - this.offsetY);
     }
 
-    const dest = this.find (event.clientX, event.clientY);
+    const dest = this.find (x, y);
     if (dest && dest.ownerId === this.rectOrigin.ownerId &&
       (dest.index === this.rectOrigin.index || dest.index === this.rectOrigin.index + 1)) {
       this.setDest (this.rectOrigin);
