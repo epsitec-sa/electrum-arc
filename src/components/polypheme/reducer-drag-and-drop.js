@@ -770,7 +770,7 @@ function swapExtended (state, id) {
 }
 
 // Change the status of a single tickets.
-function setStatus (state, flashes, id, value) {
+function setStatus (state, flashes, id, value, time) {
   const result = searchId (state, id);
   const ticket  = result.ticket;
   const tickets = result.tickets;
@@ -778,6 +778,13 @@ function setStatus (state, flashes, id, value) {
   ticket.Status = value;
   if (value !== 'pre-dispatched') {
     clearSelected (state, ticket.id);
+  }
+  if (value === 'delivered') {
+    ticket.Trip.Pick.RealisedTime = time;
+    ticket.Trip.Drop.RealisedTime = time;
+  } else {
+    ticket.Trip.Pick.RealisedTime = null;
+    ticket.Trip.Drop.RealisedTime = null;
   }
   tickets[index] = regen (state, ticket);
   flashes.push (tickets[index].id);
@@ -794,29 +801,32 @@ function getStatusIndex (value) {
 }
 
 function changeStatusNecessary (ascending, refTicket, otherTicket, newValue) {
+  console.log ('reducer.changeStatusNecessary');
   const refOrder   = refTicket.Order   ? refTicket.Order   : 0;
   const otherOrder = otherTicket.Order ? otherTicket.Order : 0;
+  const refStatusIndex   = getStatusIndex (refTicket.Status);
+  const otherStatusIndex = getStatusIndex (otherTicket.Status);
   if (ascending) {  // pre-dispatched > dispatched > delivered ?
     // Propage changes to older tickets.
     if (newValue === 'dispatched') {
       // Restricted change to tickets from the same messenger.
-      return otherOrder <= refOrder && refTicket.OwnerId === otherTicket.OwnerId;
+      return otherStatusIndex <= refStatusIndex && otherOrder <= refOrder && refTicket.OwnerId === otherTicket.OwnerId;
     } else {
-      return otherOrder <= refOrder;
+      return otherStatusIndex <= refStatusIndex && otherOrder <= refOrder;
     }
   } else {  // delivered > dispatched > pre-dispatched ?
     // Propage change the tickets more resent.
-    return otherOrder >= refOrder;
+    return otherStatusIndex >= refStatusIndex && otherOrder >= refOrder;
   }
 }
 
 // Change the status of (almost) all tickets, according to subtle business rules.
-function setBothStatus (state, flashes, ticket, currentValue, newValue) {
+function setBothStatus (state, flashes, ticket, currentValue, newValue, time) {
   const ascending = getStatusIndex (currentValue) < getStatusIndex (newValue);
   const tickets = getSorteTicketsFromMissionId (state, ticket.Trip.MissionId);
   for (var otherTicket of tickets) {
     if (changeStatusNecessary (ascending, ticket, otherTicket, newValue)) {
-      setStatus (state, flashes, otherTicket.id, newValue);
+      setStatus (state, flashes, otherTicket.id, newValue, time);
     }
   }
 }
@@ -841,13 +851,13 @@ function swapStatus (state, id) {
   return state;
 }
 
-function changeStatus (state, id, newValue) {
+function changeStatus (state, id, newValue, time) {
   const flashes = [];
   const warnings = [];
   const result = searchId (state, id);
   if (result.type === 'roadbook') {
     const currentValue = result.tickets[result.index].Status;
-    setBothStatus (state, flashes, result.ticket, currentValue, newValue);
+    setBothStatus (state, flashes, result.ticket, currentValue, newValue, time);
   }
   setMiscs (state, flashes, warnings);
   return state;
@@ -911,7 +921,7 @@ export default function Reducer (state = {}, action = {}) {
       state = swapStatus (state, action.id);
       break;
     case 'CHANGE_STATUS':
-      state = changeStatus (state, action.id, action.value);
+      state = changeStatus (state, action.id, action.value, action.time);
       break;
 
     case 'IS_SELECTED':
