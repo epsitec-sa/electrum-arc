@@ -51,19 +51,20 @@ export default class TicketsTray extends React.Component {
     this.setTitle (title);
   }
 
+  // The button was clicked, replace Button by TextField (edit = true).
   mouseDown (e) {
     this.setEdit (true);
   }
 
-  onMyFocus (e) {
-    // console.log ('TicketsTray.onMyFocus');
-  }
-
+  // The TextField has lost focus, replace TextField by Button (edit = false).
   onMyBlur (e) {
     // console.log ('TicketsTray.onMyBlur');
     this.setEdit (false);
   }
 
+  // The title in TextField was changed, update the data.
+  // This method was called only when the TextField lost focus (not at every keys pressed),
+  // for minimized the interaction with Lydia (see updateStrategy = 'when-blur').
   onMyChange (e) {
     const value = e.target.value;
     // console.log ('TicketsTray.onMyChange ' + value);
@@ -78,6 +79,8 @@ export default class TicketsTray extends React.Component {
     });
   }
 
+  // Render the header, that contains a Button (with a look like a Label)
+  // or a TextField.
   renderHeader () {
     if (this.getEdit ()) {
       return (
@@ -85,7 +88,6 @@ export default class TicketsTray extends React.Component {
           autofocus      = {true}
           updateStrategy = 'when-blur'
           value          = {this.getTitle ()}
-          onFocus        = {e => this.onMyFocus (e)}
           onBlur         = {e => this.onMyBlur (e)}
           onChange       = {e => this.onMyChange (e)}
           {...this.link ()} />
@@ -110,8 +112,11 @@ export default class TicketsTray extends React.Component {
     return (
       <div style = {boxStyle}>
         {this.renderHeader ()}
-        <Container kind='tickets-tray'
-          drag-controller='ticket' drag-source='tray' item-id={tray.id}
+        <Container
+          kind            = 'tickets-tray'
+          drag-controller = 'ticket'
+          drag-source     = 'tray'
+          item-id         = {tray.id}
           {...this.link ()} >
           {this.props.children}
         </Container>
