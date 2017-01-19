@@ -96,7 +96,7 @@ export default class Trip extends React.Component {
     }
   }
 
-  reduce (action, shiftKey, value) {
+  reduce (action, shiftKey, value, time) {
     console.log ('Trip.reducer');
     const data   = this.read ('data');
     const ticket = this.read ('ticket');
@@ -110,6 +110,7 @@ export default class Trip extends React.Component {
       id:       id,
       shiftKey: shiftKey,
       value:    value,
+      time:     time,
     });
     if (window.document.mock) {
       for (var c of window.document.toUpdate) {
@@ -130,10 +131,10 @@ export default class Trip extends React.Component {
     this.setShowDeliver (true);
   }
 
-  closeDeliver (action) {
+  closeDeliver (action, time) {
     this.setShowDeliver (false);
     if (action === 'accept') {
-      this.reduce ('CHANGE_STATUS', false, 'delivered');
+      this.reduce ('CHANGE_STATUS', false, 'delivered', time);
     }
   }
 
@@ -159,7 +160,7 @@ export default class Trip extends React.Component {
         <TripDeliver
           data          = {data}
           ticket        = {ticket}
-          close-deliver = {action => this.closeDeliver (action)}
+          close-deliver = {(action, time) => this.closeDeliver (action, time)}
           {...this.link ()} />
       );
     } else {

@@ -2,17 +2,7 @@
 
 import React from 'react';
 import {DialogModal, Container, Button, Label, LabelTextField, Separator} from '../../all-components.js';
-import {getTime} from './converters';
-import {getDirectionGlyph} from './ticket-helpers.js';
-
-/******************************************************************************/
-
-function prepareLines (text) {
-  if (text) {
-    text = text.replace (/\\n/g, '\n');  // replace all \\n by \n
-  }
-  return text;
-}
+import {getTime, setTime, checkTime} from './converters';
 
 /******************************************************************************/
 
@@ -20,41 +10,102 @@ export default class TripDeliver extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      realisedTime: '',
+      ok:           true,
+    };
+  }
+
+  getRealisedTime () {
+    return this.state.realisedTime;
+  }
+
+  setRealisedTime (value) {
+    this.setState ( {
+      realisedTime: value
+    });
+  }
+
+  getOk () {
+    return this.state.ok;
+  }
+
+  setOk (value) {
+    this.setState ( {
+      ok: value
+    });
+  }
+
+  componentWillMount () {
+    console.log ('TripDeliver.componentWillMount');
+    const ticket = this.read ('ticket');
+    const trip = this.getTrip (ticket);
+    const time = getTime (trip.RealisedTime, true);
+    this.setRealisedTime (time);
+  }
+
+  getTime () {
+    const ticket = this.read ('ticket');
+    const trip = this.getTrip (ticket);
+    return setTime (trip.RealisedTime, this.getRealisedTime ());
   }
 
   closeDeliver (action) {
     const closeDeliver = this.read ('close-deliver');
     if (closeDeliver) {
-      closeDeliver (action);
+      closeDeliver (action, this.getTime ());
     }
   }
 
   doAccept () {
-    this.closeDeliver ('accept');
+    if (this.getOk ()) {
+      this.closeDeliver ('accept');
+    }
   }
 
   doCancel () {
     this.closeDeliver ('cancel');
   }
 
-  renderHalf (ticket, type) {
-    let title, pd;
-    if (type.startsWith ('pick')) {
-      title = 'Pick';
-      pd    = ticket.Trip.Pick;
+  getTrip (ticket) {
+    if (ticket.Type.startsWith ('pick')) {
+      return ticket.Trip.Pick;
     } else {
-      title = 'Drop';
-      pd    = ticket.Trip.Drop;
+      return ticket.Trip.Drop;
     }
+  }
+
+  onMyChange (e) {
+    const value = e.target.value;
+    // console.log ('TripDeliver.onMyChange ' + value);
+    this.setRealisedTime (value);
+    this.setOk (checkTime (value));
+  }
+
+  renderMain (ticket) {
+    const trip = this.getTrip (ticket);
 
     return (
       <Container kind='panes' {...this.link ()} >
-        <Label text={`Livraison du ${title}`} grow='1' kind='title' {...this.link ()} />
+        <Label text={`Livraison du ${ticket.Type}`} grow='1' kind='title' {...this.link ()} />
         <Separator kind='space' {...this.link ()} />
-        <LabelTextField label-text='Heure planifiée' label-width='200px' hint-text='Heure'
-          value={getTime (pd.PlanedTime)} grow='1' {...this.link ()} />
-        <LabelTextField label-text='Heure de livraison' label-width='200px' hint-text='Heure'
-          value={getTime (pd.RealisedTime)} grow='1' {...this.link ()} />
+        <LabelTextField
+          grow        = '1'
+          readonly    = 'true'
+          label-text  = 'Heure planifiée'
+          label-width = '200px'
+          hint-text   = 'Heure'
+          value       = {getTime (trip.PlanedTime)}
+          {...this.link ()} />
+        <LabelTextField
+          grow           = '1'
+          label-text     = 'Heure de livraison'
+          label-width    = '200px'
+          hint-text      = 'Heure'
+          updateStrategy = 'every-time'
+          value          = {this.getRealisedTime ()}
+          onChange       = {e => this.onMyChange (e)}
+          {...this.link ()} />
         <Separator kind='space' {...this.link ()} />
         <Separator kind='space' {...this.link ()} />
       </Container>
@@ -64,10 +115,23 @@ export default class TripDeliver extends React.Component {
   renderFooter () {
     return (
       <Container kind='actions' subkind='no-shadow' {...this.link ()} >
-        <Button action={() => this.doAccept ()} glyph='check' text='C´est livré' kind='action'
-          grow='1' place='left' {...this.link ()} />
-        <Button action={() => this.doCancel ()} glyph='close' text='Annuler' kind='action'
-          grow='1' place='right' {...this.link ()} />
+        <Button
+          action   = {() => this.doAccept ()}
+          disabled = {this.getOk () ? 'false' : 'true'}
+          glyph    = 'check'
+          text     = 'C´est livré'
+          kind     = 'action'
+          grow     = '1'
+          place    = 'left'
+          {...this.link ()} />
+        <Button
+          action   = {() => this.doCancel ()}
+          glyph    = 'close'
+          text     = 'Annuler'
+          kind     = 'action'
+          grow     = '1'
+          place    = 'right'
+          {...this.link ()} />
       </Container>
     );
   }
@@ -76,23 +140,13 @@ export default class TripDeliver extends React.Component {
     const ticket = this.read ('ticket');
 
     if (ticket.Type === 'both') {
-      return (
-        <DialogModal width='500px' {...this.link ()}>
-          <Container kind='views' {...this.link ()} >
-            <Container kind='full-view' {...this.link ()} >
-              {this.renderHalf (ticket, 'pick')}
-              {this.renderHalf (ticket, 'drop')}
-              {this.renderFooter ()}
-            </Container>
-          </Container>
-        </DialogModal>
-      );
+      throw new Error ('Unsupported ticket.Type');
     } else {
       return (
         <DialogModal width='500px' {...this.link ()}>
           <Container kind='views' {...this.link ()} >
             <Container kind='full-view' {...this.link ()} >
-              {this.renderHalf (ticket, ticket.Type)}
+              {this.renderMain (ticket)}
               {this.renderFooter ()}
             </Container>
           </Container>
