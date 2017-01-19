@@ -148,21 +148,21 @@ export default class TextFieldCombo extends React.Component {
     const {state}  = this.props;
     const disabled = Action.isDisabled (state);
     const id                       = this.read ('id');
-    const inputWidth               = this.read ('width');
-    const inputShape               = this.read ('shape');
-    const inputGlyph               = this.read ('combo-glyph');
-    const inputValue               = this.read ('value');
-    const inputSelectedValue       = this.read ('selected-value');
-    const inputHintText            = this.read ('hint-text');
-    const inputComboType           = this.read ('combo-type');
-    const inputFlyingBalloonAnchor = this.read ('flying-balloon-anchor');
-    const inputRows                = this.read ('rows');
-    const inputFilterKeys          = this.props['filter-keys'];
-    const inputTabIndex            = this.props['tab-index'];
+    const width               = this.read ('width');
+    const shape               = this.read ('shape');
+    const glyph               = this.read ('combo-glyph');
+    const value               = this.read ('value');
+    const selectedValue       = this.read ('selected-value');
+    const hintText            = this.read ('hint-text');
+    const comboType           = this.read ('combo-type');
+    const flyingBalloonAnchor = this.read ('flying-balloon-anchor');
+    const rows                = this.read ('rows');
+    const filterKeys          = this.props['filter-keys'];
+    const tabIndex            = this.props['tab-index'];
 
-    const readonly = this.getReadonly () && inputSelectedValue && inputSelectedValue !== '';
-    const displayValue = readonly ? inputSelectedValue : inputValue;
-    // const displayValue = (this.getReadonly ()) ? inputSelectedValue : inputValue;
+    const readonly = this.getReadonly () && selectedValue && selectedValue !== '';
+    const displayValue = readonly ? selectedValue : value;
+    // const displayValue = (this.getReadonly ()) ? selectedValue : value;
 
     // Get or create the internalState.
     var internalState = this.getInternalState ();
@@ -174,7 +174,7 @@ export default class TextFieldCombo extends React.Component {
 
     const boxStyle = this.mergeStyles ('box');
 
-    const shape = inputShape ? inputShape : 'smooth';
+    const s = shape ? shape : 'smooth';
     const textFieldShapes = {
       smooth:  'left-smooth',
       rounded: 'left-rounded',
@@ -183,20 +183,20 @@ export default class TextFieldCombo extends React.Component {
       smooth:  'right-smooth',
       rounded: 'right-rounded',
     };
-    const textFieldShape = textFieldShapes[shape];
-    const buttonShape    = buttonShapes[shape];
+    const textFieldShape = textFieldShapes[s];
+    const buttonShape    = buttonShapes[s];
 
     let htmlCalendar = null;
     //    if (isComboVisible === 'true') {
     //      var htmlCombo = null;
-    //      if (inputComboType === 'calendar') {
+    //      if (comboType === 'calendar') {
     //        htmlCombo = (
     //          <Calendar
     //            onChange={(date) => this.dateChanged (date)}
     //            {...this.link ()}
     //          />
     //        );
-    //      } else if (inputComboType === 'clock') {
+    //      } else if (comboType === 'clock') {
     //        htmlCombo = (
     //          <Clock
     //            onChange={(date) => this.timeChanged (date)}
@@ -206,7 +206,7 @@ export default class TextFieldCombo extends React.Component {
     //      } else {
     //        const emptyComboStyle = this.mergeStyles ('emptyCombo');
     //        htmlCombo = (
-    //          <span style={emptyComboStyle}>{inputComboType}</span>
+    //          <span style={emptyComboStyle}>{comboType}</span>
     //        );
     //      }
     //      const comboBoxStyle = this.mergeStyles ('comboBox');
@@ -226,14 +226,14 @@ export default class TextFieldCombo extends React.Component {
           <TextField
             id                    = {id}
             value                 = {displayValue}
-            hint-text             = {inputHintText}
-            filter-keys           = {inputFilterKeys}
+            hint-text             = {hintText}
+            filter-keys           = {filterKeys}
             spacing               = 'overlap'
             shape                 = {textFieldShape}
-            flying-balloon-anchor = {inputFlyingBalloonAnchor}
-            tab-index             = {inputTabIndex}
-            width                 = {inputWidth}
-            rows                  = {inputRows}
+            flying-balloon-anchor = {flyingBalloonAnchor}
+            tab-index             = {tabIndex}
+            width                 = {width}
+            rows                  = {rows}
             readonly              = 'true'
             onFocus               = {() => this.onMyFocus ()}
             onBlur                = {() => this.onMyBlur ()}
@@ -241,7 +241,7 @@ export default class TextFieldCombo extends React.Component {
             />
           <Button
             kind        = 'combo'
-            glyph       = {inputGlyph}
+            glyph       = {glyph}
             shape       = {buttonShape}
             active      = {isComboVisible}
             mouse-up    = {() => this.pencilClicked ()}
@@ -258,21 +258,21 @@ export default class TextFieldCombo extends React.Component {
           <TextField
             id                    = {id}
             value                 = {displayValue}
-            hint-text             = {inputHintText}
-            filter-keys           = {inputFilterKeys}
+            hint-text             = {hintText}
+            filter-keys           = {filterKeys}
             spacing               = 'overlap'
             shape                 = {textFieldShape}
-            flying-balloon-anchor = {inputFlyingBalloonAnchor}
-            tab-index             = {inputTabIndex}
-            width                 = {inputWidth}
-            rows                  = {inputRows}
+            flying-balloon-anchor = {flyingBalloonAnchor}
+            tab-index             = {tabIndex}
+            width                 = {width}
+            rows                  = {rows}
             onFocus               = {() => this.onMyFocus ()}
             onBlur                = {() => this.onMyBlur ()}
             {...this.link ()}
             />
           <Button
             kind        = 'combo'
-            glyph       = {inputGlyph}
+            glyph       = {glyph}
             shape       = {buttonShape}
             active      = {isComboVisible}
             action      = {() => this.buttonClicked ()}

@@ -62,18 +62,18 @@ export default class Button extends React.Component {
     internalState.set ('isMenuVisible', isMenuVisible);
   }
 
-  mouseDown () {
+  mouseDown (e) {
     console.log ('Button.mouseDown');
     const mouseDown = this.read ('mouse-down');
     if (mouseDown) {
-      mouseDown ();
+      mouseDown (e);
     }
   }
 
-  mouseUp () {
+  mouseUp (e) {
     const mouseUp = this.read ('mouse-up');
     if (mouseUp) {
-      mouseUp ();
+      mouseUp (e);
     }
   }
 
@@ -218,10 +218,10 @@ export default class Button extends React.Component {
       return (
         <div
           onClick      = {this.onClick}  // voir (*)
-          onMouseDown  = {() => this.mouseDown ()}
-          onMouseUp    = {() => this.mouseUp ()}
-          onTouchStart = {() => this.mouseDown ()}
-          onTouchEnd   = {() => this.mouseUp ()}
+          onMouseDown  = {e => this.mouseDown (e)}
+          onMouseUp    = {e => this.mouseUp (e)}
+          onTouchStart = {e => this.mouseDown (e)}
+          onTouchEnd   = {e => this.mouseUp (e)}
           disabled     = {disabled}
           style        = {boxStyle}
           title        = {tooltip}
@@ -233,10 +233,10 @@ export default class Button extends React.Component {
       return (
         <div
           onClick      = {() => this.showMenu ()}  // voir (*)
-          onMouseDown  = {() => this.mouseDown ()}
-          onMouseUp    = {() => this.mouseUp ()}
-          onTouchStart = {() => this.mouseDown ()}
-          onTouchEnd   = {() => this.mouseUp ()}
+          onMouseDown  = {e => this.mouseDown (e)}
+          onMouseUp    = {e => this.mouseUp (e)}
+          onTouchStart = {e => this.mouseDown (e)}
+          onTouchEnd   = {e => this.mouseUp (e)}
           disabled     = {disabled}
           style        = {boxStyle}
           title        = {tooltip}
@@ -252,10 +252,10 @@ export default class Button extends React.Component {
       return (
         <a
           onClick      = {this.onClick}  // voir (*)
-          onMouseDown  = {() => this.mouseDown ()}
-          onMouseUp    = {() => this.mouseUp ()}
-          onTouchStart = {() => this.mouseDown ()}
-          onTouchEnd   = {() => this.mouseUp ()}
+          onMouseDown  = {e => this.mouseDown (e)}
+          onMouseUp    = {e => this.mouseUp (e)}
+          onTouchStart = {e => this.mouseDown (e)}
+          onTouchEnd   = {e => this.mouseUp (e)}
           disabled     = {disabled}
           style        = {boxStyle}
           title        = {tooltip}
@@ -272,10 +272,10 @@ export default class Button extends React.Component {
       return (
         <div
           onClick      = {this.onClick}  // voir (*)
-          onMouseDown  = {() => this.mouseDown ()}
-          onMouseUp    = {() => this.mouseUp ()}
-          onTouchStart = {() => this.mouseDown ()}
-          onTouchEnd   = {() => this.mouseUp ()}
+          onMouseDown  = {e => this.mouseDown (e)}
+          onMouseUp    = {e => this.mouseUp (e)}
+          onTouchStart = {e => this.mouseDown (e)}
+          onTouchEnd   = {e => this.mouseUp (e)}
           disabled     = {disabled}
           style        = {boxStyle}
           title        = {tooltip}

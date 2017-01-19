@@ -1,7 +1,8 @@
 'use strict';
 
 import React from 'react';
-import {Container, Label, TextField} from 'electrum-arc';
+import {Container, Button, TextField} from 'electrum-arc';
+import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 
 /******************************************************************************/
 
@@ -46,46 +47,69 @@ export default class TicketsTray extends React.Component {
   }
 
   componentDidMount () {
-    const inputTitle = this.read ('title');
-    this.setTitle (inputTitle);
+    const title = this.read ('title');
+    this.setTitle (title);
   }
 
-  mouseDown () {
-    this.setEdit (!this.getEdit ());
+  mouseDown (e) {
+    this.setEdit (true);
+  }
+
+  onMyFocus (e) {
+    // console.log ('TicketsTray.onMyFocus');
+  }
+
+  onMyBlur (e) {
+    // console.log ('TicketsTray.onMyBlur');
+    this.setEdit (false);
+  }
+
+  onMyChange (e) {
+    const value = e.target.value;
+    // console.log ('TicketsTray.onMyChange ' + value);
+    this.setTitle (value);
+
+    const data = this.read ('data');
+    const tray = this.read ('tray');
+    reducerDragAndDrop (data, {
+      type:  'SET_TRAY_NAME',
+      id:    tray.id,
+      value: value,
+    });
+  }
+
+  renderHeader () {
+    if (this.getEdit ()) {
+      return (
+        <TextField
+          autofocus      = {true}
+          updateStrategy = 'when-blur'
+          value          = {this.getTitle ()}
+          onFocus        = {e => this.onMyFocus (e)}
+          onBlur         = {e => this.onMyBlur (e)}
+          onChange       = {e => this.onMyChange (e)}
+          {...this.link ()} />
+      );
+    } else {
+      return (
+        <Button
+          kind       = 'tray-title'
+          grow       = {1}
+          text       = {this.getTitle ()}
+          mouse-down = {e => this.mouseDown (e)}
+          {...this.link ()} />
+      );
+    }
   }
 
   render () {
     const tray = this.read ('tray');
 
-    const boxStyle   = this.mergeStyles ('box');
-    const titleStyle = this.mergeStyles ('title');
-
-    if (this.getEdit ()) {
-      titleStyle.margin   = '0px';
-      titleStyle.position = 'relative';
-      titleStyle.top      = '-5px';
-    }
-
-    let htmlEdit;
-    if (this.getEdit ()) {
-      htmlEdit = (
-        <TextField value={this.getTitle ()} {...this.link ()} />
-      );
-    } else {
-      htmlEdit = (
-        <Label kind='tickets-glue' text={this.getTitle ()} {...this.link ()} />
-      );
-    }
+    const boxStyle = this.mergeStyles ('box');
 
     return (
       <div style = {boxStyle}>
-        <div
-          style        = {titleStyle}
-          onMouseDown  = {() => this.mouseDown ()}
-          onTouchStart = {() => this.mouseDown ()}
-          >
-          {htmlEdit}
-        </div>
+        {this.renderHeader ()}
         <Container kind='tickets-tray'
           drag-controller='ticket' drag-source='tray' item-id={tray.id}
           {...this.link ()} >

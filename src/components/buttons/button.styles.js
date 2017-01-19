@@ -70,6 +70,7 @@ export default function styles (theme, props) {
   let textSize             = theme.shapes.buttonTextSize;
   let actif                = true;
   let boxPosition          = inputPosition ? inputPosition : 'relative';
+  let cursor               = inputCursor;
 
   // Initialize variables for button without border.
   if (inputBorder === 'none') {
@@ -436,6 +437,16 @@ export default function styles (theme, props) {
     }
   }
 
+  if (inputKind === 'tray-title') {
+    boxHeight         = Unit.add (theme.shapes.lineHeight, '2px');  // same as TextField with 2px for borders
+    borderStyle       = 'none';
+    boxJustifyContent = 'flex-start';
+    textColor         = theme.palette.ticketGlueTitle;
+    textWeight        = 'bold';
+    textSize          = theme.shapes.ticketGlueTitleSize;
+    backgroundColor   = null;
+  }
+
   // Button with a day in Calendar component.
   if (inputKind  === 'calendar') {
     borderStyle     = 'none';
@@ -568,7 +579,7 @@ export default function styles (theme, props) {
     transition:      theme.transitions.easeOut (),
     zIndex:          boxZIndex,
     textDecoration:  'none',
-    cursor:          inputCursor,
+    cursor:          cursor,
   };
 
   if (glyphSize) {

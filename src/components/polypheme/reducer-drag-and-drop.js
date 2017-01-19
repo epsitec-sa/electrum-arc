@@ -883,6 +883,15 @@ function swapRoadbookShowHidden (state, id) {
   return state;
 }
 
+function setTrayName (state, id, value) {
+  for (var tray of state.Desk) {
+    if (tray.id === id) {
+      tray.Name = value;
+      electrumDispatch (state, 'setTrayName', id, value);
+    }
+  }
+}
+
 // ------------------------------------------------------------------------------------------
 
 export default function Reducer (state = {}, action = {}) {
@@ -940,6 +949,10 @@ export default function Reducer (state = {}, action = {}) {
       break;
     case 'SWAP_ROADBOOK_SHOWHIDDEN':
       state = swapRoadbookShowHidden (state, action.id);
+      break;
+
+    case 'SET_TRAY_NAME':
+      state = setTrayName (state, action.id, action.value);
       break;
   }
   return state;

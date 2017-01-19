@@ -61,26 +61,26 @@ export default class LabelTextField extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const id                 = this.read ('id');
-    const inputType          = this.read ('type');
-    const inputShape         = this.read ('shape');
-    const inputLabelGlyph    = this.read ('label-glyph');
-    const inputLabelText     = this.read ('label-text');
-    const inputLabelWidth    = this.read ('label-width');
-    const inputFieldWidth    = this.read ('field-width');
-    const inputValue         = this.read ('value');
-    const inputSelectedValue = this.read ('selected-value');
-    const inputHintText      = this.read ('hint-text');
-    const inputRows          = this.read ('rows');
-    const inputFilterKeys    = this.props['filter-keys'];
-    const inputTabIndex      = this.props['tab-index'];
+    const id            = this.read ('id');
+    const type          = this.read ('type');
+    const shape         = this.read ('shape');
+    const labelGlyph    = this.read ('label-glyph');
+    const labelText     = this.read ('label-text');
+    const labelWidth    = this.read ('label-width');
+    const fieldWidth    = this.read ('field-width');
+    const value         = this.read ('value');
+    const selectedValue = this.read ('selected-value');
+    const hintText      = this.read ('hint-text');
+    const rows          = this.read ('rows');
+    const filterKeys    = this.props['filter-keys'];
+    const tabIndex      = this.props['tab-index'];
 
-    const readonly = this.getReadonly () && inputSelectedValue && inputSelectedValue !== '';
-    const displayValue = readonly ? inputSelectedValue : inputValue;
+    const readonly = this.getReadonly () && selectedValue && selectedValue !== '';
+    const displayValue = readonly ? selectedValue : value;
 
     const boxStyle = this.mergeStyles ('box');
 
-    const shape = inputShape ? inputShape : 'smooth';
+    const s = shape ? shape : 'smooth';
     const buttonShapes = {
       smooth:  'left-smooth',
       rounded: 'left-rounded',
@@ -89,8 +89,8 @@ export default class LabelTextField extends React.Component {
       smooth:  'right-smooth',
       rounded: 'right-rounded',
     };
-    const buttonShape    = buttonShapes[shape];
-    const textFieldShape = textFieldShapes[shape];
+    const buttonShape    = buttonShapes[s];
+    const textFieldShape = textFieldShapes[s];
 
     return (
       <span
@@ -98,9 +98,9 @@ export default class LabelTextField extends React.Component {
         style={boxStyle}
         >
         <Button
-          glyph       = {inputLabelGlyph}
-          text        = {inputLabelText}
-          width       = {inputLabelWidth}
+          glyph       = {labelGlyph}
+          text        = {labelText}
+          width       = {labelWidth}
           shape       = {buttonShape}
           kind        = 'label'
           justify     = 'left'
@@ -109,14 +109,14 @@ export default class LabelTextField extends React.Component {
         />
         <TextField
           id          = {id}
-          type        = {inputType}
-          width       = {inputFieldWidth}
+          type        = {type}
+          width       = {fieldWidth}
           value       = {displayValue}
-          hint-text   = {inputHintText}
-          filter-keys = {inputFilterKeys}
+          hint-text   = {hintText}
+          filter-keys = {filterKeys}
           shape       = {textFieldShape}
-          tab-index   = {inputTabIndex}
-          rows        = {inputRows}
+          tab-index   = {tabIndex}
+          rows        = {rows}
           readonly    = {readonly ? 'true' : 'false'}
           onChange    = {e => this.onMyChange (e)}
           onFocus     = {e => this.onMyFocus (e)}

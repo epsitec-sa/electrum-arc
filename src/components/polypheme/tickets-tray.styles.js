@@ -18,17 +18,8 @@ export default function styles (theme, props) {
     boxShadow:       theme.shapes.ticketGlueShadow,
   };
 
-  const titleStyle = {
-    display:   'flex',
-    minHeight: '30px',
-    maxHeight: '30px',
-    margin:    '0px 10px',
-    cursor:    'pointer',
-  };
-
   return {
-    box:   boxStyle,
-    title: titleStyle,
+    box: boxStyle,
   };
 }
 
