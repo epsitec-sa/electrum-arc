@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {Action} from 'electrum';
 import {FlyingBalloon} from 'electrum-arc';
 
@@ -10,6 +11,19 @@ export default class TextField extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      value: ''
+    };
+  }
+
+  getValue () {
+    return this.state.value;
+  }
+
+  setValue (value) {
+    this.setState ( {
+      value: value
+    });
   }
 
   get styleProps () {
@@ -25,11 +39,30 @@ export default class TextField extends React.Component {
     };
   }
 
+  componentDidMount () {
+    // console.log ('TextField.componentDidMount');
+    const updateStrategy = this.read ('updateStrategy');
+    if (updateStrategy === 'every-time' || updateStrategy === 'when-blur') {
+      const value = this.read ('value');
+      this.setValue (value);
+    }
+    const autofocus = this.read ('autofocus');
+    if (autofocus) {
+      const node = ReactDOM.findDOMNode (this);
+      node.focus ();  // TODO: this action has not effect !!!
+    }
+  }
+
   onMyChange (e) {
+    // console.log ('TextField.onMyChange');
     this.onChange (e);
     const onChange = this.read ('onChange');
     if (onChange) {
-      onChange (e);
+      this.setValue (e.target.value);
+      const updateStrategy = this.read ('updateStrategy');
+      if (updateStrategy === 'every-time') {
+        onChange (e);
+      }
     }
   }
 
@@ -43,6 +76,13 @@ export default class TextField extends React.Component {
 
   onMyBlur (e) {
     this.onBlur (e);
+    const onChange = this.read ('onChange');
+    if (onChange) {
+      const updateStrategy = this.read ('updateStrategy');
+      if (updateStrategy === 'when-blur') {
+        onChange (e);
+      }
+    }
     const onBlur = this.read ('onBlur');
     if (onBlur) {
       onBlur (e);
@@ -52,21 +92,24 @@ export default class TextField extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const id                       = this.read ('id');
-    const inputValue               = this.read ('value');
-    const inputMessageWarning      = this.read ('message-warning');
-    const inputMessageInfo         = this.read ('message-info');
-    const inputHintText            = this.read ('hint-text');
-    const inputFlyingBalloonAnchor = this.read ('flying-balloon-anchor');
-    const inputRows                = this.read ('rows');
-    const inputReadonly            = this.read ('readonly');
-    const inputTabIndex            = this.props['tab-index'];
+    const id                  = this.read ('id');
+    const value               = this.read ('value');
+    const updateStrategy      = this.read ('updateStrategy');
+    const messageWarning      = this.read ('message-warning');
+    const messageInfo         = this.read ('message-info');
+    const hintText            = this.read ('hint-text');
+    const flyingBalloonAnchor = this.read ('flying-balloon-anchor');
+    const rows                = this.read ('rows');
+    const tabIndex            = this.props['tab-index'];
+
+    const editedValue = (updateStrategy === 'every-time' || updateStrategy === 'when-blur') ?
+      this.getValue () : value;
 
     const boxStyle      = this.mergeStyles ('box');
     const fieldStyle    = this.mergeStyles ('field');
     const textareaStyle = this.mergeStyles ('textarea');
 
-    const htmlInput = inputRows ?
+    const htmlInput = rows ?
     (
       <textarea
         id          = {id}
@@ -78,9 +121,9 @@ export default class TextField extends React.Component {
         onKeyUp     = {this.onKeyUp}
         onSelect    = {this.onSelect}
         disabled    = {disabled}
-        rows        = {inputRows}
-        tabIndex    = {inputTabIndex}
-        value       = {inputValue}
+        rows        = {rows}
+        tabIndex    = {tabIndex}
+        value       = {editedValue}
         />
     ) :
     (
@@ -94,13 +137,13 @@ export default class TextField extends React.Component {
         onSelect    = {this.onSelect}
         disabled    = {disabled}
         maxLength   = {this.props.maxLength}
-        placeholder = {inputHintText}
+        placeholder = {hintText}
         size        = {this.props.size || 'size'}
         style       = {fieldStyle}
         type        = {this.props.type || 'text'}
         key         = 'input'
-        tabIndex    = {inputTabIndex}
-        value       = {inputValue}
+        tabIndex    = {tabIndex}
+        value       = {editedValue}
         />
     );
 
@@ -110,14 +153,14 @@ export default class TextField extends React.Component {
       top:    'bottom',
       left:   'right',
       right:  'left',
-    } [inputFlyingBalloonAnchor];
+    } [flyingBalloonAnchor];
 
     let htmlFlyingBalloon = null;
-    if (inputMessageWarning || inputMessageInfo) {
+    if (messageWarning || messageInfo) {
       htmlFlyingBalloon = (
         <FlyingBalloon
-          primary-text      = {inputMessageWarning}
-          secondary-text    = {inputMessageInfo}
+          primary-text      = {messageWarning}
+          secondary-text    = {messageInfo}
           triangle-position = {trianglePosition}
           {...this.link ()} />
       );
