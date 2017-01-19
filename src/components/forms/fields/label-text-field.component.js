@@ -73,11 +73,13 @@ export default class LabelTextField extends React.Component {
     const selectedValue  = this.read ('selected-value');
     const hintText       = this.read ('hint-text');
     const rows           = this.read ('rows');
+    const readonly       = this.read ('readonly');
     const filterKeys     = this.props['filter-keys'];
     const tabIndex       = this.props['tab-index'];
 
-    const readonly = this.getReadonly () && selectedValue && selectedValue !== '';
-    const displayValue = readonly ? selectedValue : value;
+    const autoReadonly = this.getReadonly () && selectedValue && selectedValue !== '';
+    const displayValue = autoReadonly ? selectedValue : value;
+    const visibleReadonly = readonly ? readonly : (autoReadonly ? 'true' : 'false');
 
     const boxStyle = this.mergeStyles ('box');
 
@@ -119,7 +121,7 @@ export default class LabelTextField extends React.Component {
           shape          = {textFieldShape}
           tab-index      = {tabIndex}
           rows           = {rows}
-          readonly       = {readonly ? 'true' : 'false'}
+          readonly       = {visibleReadonly}
           onChange       = {e => this.onMyChange (e)}
           onFocus        = {e => this.onMyFocus (e)}
           onBlur         = {e => this.onMyBlur (e)}

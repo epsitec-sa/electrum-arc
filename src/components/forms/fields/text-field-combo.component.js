@@ -158,12 +158,13 @@ export default class TextFieldCombo extends React.Component {
     const comboType           = this.read ('combo-type');
     const flyingBalloonAnchor = this.read ('flying-balloon-anchor');
     const rows                = this.read ('rows');
+    const readonly       = this.read ('readonly');
     const filterKeys          = this.props['filter-keys'];
     const tabIndex            = this.props['tab-index'];
 
-    const readonly = this.getReadonly () && selectedValue && selectedValue !== '';
-    const displayValue = readonly ? selectedValue : value;
-    // const displayValue = (this.getReadonly ()) ? selectedValue : value;
+    const autoReadonly = this.getReadonly () && selectedValue && selectedValue !== '';
+    const displayValue = autoReadonly ? selectedValue : value;
+    const visibleReadonly = readonly ? readonly : (autoReadonly ? 'true' : 'false');
 
     // Get or create the internalState.
     var internalState = this.getInternalState ();
@@ -218,74 +219,40 @@ export default class TextFieldCombo extends React.Component {
     //      );
     //    }
 
-    if (readonly) {
-      return (
-        <span
-          disabled = {disabled}
-          style    = {boxStyle}
-          >
-          <TextField
-            id                    = {id}
-            updateStrategy        = {updateStrategy}
-            value                 = {displayValue}
-            hint-text             = {hintText}
-            filter-keys           = {filterKeys}
-            spacing               = 'overlap'
-            shape                 = {textFieldShape}
-            flying-balloon-anchor = {flyingBalloonAnchor}
-            tab-index             = {tabIndex}
-            width                 = {width}
-            rows                  = {rows}
-            readonly              = 'true'
-            onFocus               = {() => this.onMyFocus ()}
-            onBlur                = {() => this.onMyBlur ()}
-            {...this.link ()}
-            />
-          <Button
-            kind        = 'combo'
-            glyph       = {glyph}
-            shape       = {buttonShape}
-            active      = {isComboVisible}
-            mouse-up    = {() => this.pencilClicked ()}
-            {...this.link ()}
-            />
-        </span>
-      );
-    } else {
-      return (
-        <span
-          disabled = {disabled}
-          style    = {boxStyle}
-          >
-          <TextField
-            id                    = {id}
-            updateStrategy        = {updateStrategy}
-            value                 = {displayValue}
-            hint-text             = {hintText}
-            filter-keys           = {filterKeys}
-            spacing               = 'overlap'
-            shape                 = {textFieldShape}
-            flying-balloon-anchor = {flyingBalloonAnchor}
-            tab-index             = {tabIndex}
-            width                 = {width}
-            rows                  = {rows}
-            onFocus               = {() => this.onMyFocus ()}
-            onBlur                = {() => this.onMyBlur ()}
-            {...this.link ()}
-            />
-          <Button
-            kind        = 'combo'
-            glyph       = {glyph}
-            shape       = {buttonShape}
-            active      = {isComboVisible}
-            action      = {() => this.buttonClicked ()}
-            {...this.link ()}
-            />
-          {htmlCalendar}
-          {this.renderCombo ()}
-        </span>
-      );
-    }
+    return (
+      <span
+        disabled = {disabled}
+        style    = {boxStyle}
+        >
+        <TextField
+          id                    = {id}
+          updateStrategy        = {updateStrategy}
+          value                 = {displayValue}
+          hint-text             = {hintText}
+          filter-keys           = {filterKeys}
+          spacing               = 'overlap'
+          shape                 = {textFieldShape}
+          flying-balloon-anchor = {flyingBalloonAnchor}
+          tab-index             = {tabIndex}
+          width                 = {width}
+          rows                  = {rows}
+          readonly              = {visibleReadonly}
+          onFocus               = {() => this.onMyFocus ()}
+          onBlur                = {() => this.onMyBlur ()}
+          {...this.link ()}
+          />
+        <Button
+          kind        = 'combo'
+          glyph       = {glyph}
+          shape       = {buttonShape}
+          active      = {isComboVisible}
+          action      = {() => this.buttonClicked ()}
+          {...this.link ()}
+          />
+        {htmlCalendar}
+        {this.renderCombo ()}
+      </span>
+    );
   }
 }
 
