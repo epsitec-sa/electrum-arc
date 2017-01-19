@@ -149,7 +149,8 @@ export default class TripTicket extends React.Component {
     const type     = ticket.Type;
 
     const trip           = type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
-    const time           = trip.PlanedTime;
+    const planedTime     = trip.PlanedTime;
+    const realisedTime   = trip.RealisedTime;
     const directionGlyph = getDirectionGlyph (this.props.theme, type);
     const notes          = trip.Notes;
     const height         = ticket.Warning ? '90px' : '60px';
@@ -180,12 +181,13 @@ export default class TripTicket extends React.Component {
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           {this.renderWarning (ticket.Warning)}
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
-            <Label text={getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
+            <Label text={getTime (planedTime)} font-weight='bold' width='50px' {...this.link ()} />
             <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
             <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
           </Container>
           <Container kind='ticket-row' {...this.link ()} >
-            <Label text='' width='75px' {...this.link ()} />
+            <Label text={getTime (realisedTime)} font-weight='normal' width='50px' {...this.link ()} />
+            <Label text='' width='25px' {...this.link ()} />
             <Label glyph='cube' spacing='compact' {...this.link ()} />
             <Label text={getPackageCount (ticket.Trip.Packages.length)} grow='1' {...this.link ()} />
             {this.renderNoteGlyphs (notes)}
@@ -205,7 +207,7 @@ export default class TripTicket extends React.Component {
     const type     = ticket.Type;
 
     const trip           = type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
-    const time           = trip.PlanedTime;
+    const planedTime     = trip.PlanedTime;
     const directionGlyph = getDirectionGlyph (this.props.theme, type);
     const marginBottom   = null;
     const cursor         = (noDrag === 'true') ? 'default' : 'move';
@@ -233,7 +235,7 @@ export default class TripTicket extends React.Component {
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           {this.renderWarning (ticket.Warning)}
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
-            <Label text={getTime (time)} font-weight='bold' width='50px' {...this.link ()} />
+            <Label text={getTime (planedTime)} font-weight='bold' width='50px' {...this.link ()} />
             <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
             <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
           </Container>
