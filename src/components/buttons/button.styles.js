@@ -8,8 +8,6 @@ const {emphasize} = ColorManipulator;
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  const {state} = props;
-  const disabled = Action.isDisabled (state);
   const inputGlyph           = props.glyph;
   const inputText            = props.text;
   const inputBorder          = props.border;
@@ -35,6 +33,7 @@ export default function styles (theme, props) {
   const inputZIndex          = props.zIndex;
   const inputCursor          = props.cursor;
   const inputPosition        = props.position;
+  const inputDisabled        = props.disabled === 'true';
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -539,7 +538,7 @@ export default function styles (theme, props) {
   }
 
   // Alter colors if component is disable.
-  if (disabled) {
+  if (inputDisabled) {
     borderColor = theme.palette.buttonDisableBorder;
     if (backgroundColor) {
       backgroundColor = theme.palette.buttonDisableBackground;
@@ -637,7 +636,7 @@ export default function styles (theme, props) {
     wordWrap:        'break-word',
   };
 
-  if (!disabled && actif) {
+  if (!inputDisabled && actif) {
     boxStyle[':hover'] = {
       color:           textHoverColor,  // (*)
       borderColor:     borderHoverColor,

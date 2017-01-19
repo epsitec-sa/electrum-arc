@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import {Action} from 'electrum';
 import {Badge, Menu} from '../../all-components.js';
 import {getShortcut} from './shortcut-helpers.js';
 
@@ -40,6 +39,7 @@ export default class Button extends React.Component {
       zIndex:          this.read ('z-index'),
       cursor:          this.read ('cursor'),
       position:        this.read ('position'),
+      disabled:        this.read ('disabled'),
     };
   }
 
@@ -64,6 +64,10 @@ export default class Button extends React.Component {
 
   mouseDown (e) {
     console.log ('Button.mouseDown');
+    const disabled = this.read ('disabled');
+    if (disabled === 'true') {
+      return;
+    }
     const mouseDown = this.read ('mouse-down');
     if (mouseDown) {
       mouseDown (e);
@@ -71,6 +75,10 @@ export default class Button extends React.Component {
   }
 
   mouseUp (e) {
+    const disabled = this.read ('disabled');
+    if (disabled === 'true') {
+      return;
+    }
     const mouseUp = this.read ('mouse-up');
     if (mouseUp) {
       mouseUp (e);
@@ -205,8 +213,6 @@ export default class Button extends React.Component {
   }
 
   render () {
-    const {state} = this.props;
-    const disabled = Action.isDisabled (state);
     const kind     = this.read ('kind');
     const tooltip  = this.read ('tooltip');
     const menu     = this.read ('menu');
@@ -222,7 +228,6 @@ export default class Button extends React.Component {
           onMouseUp    = {e => this.mouseUp (e)}
           onTouchStart = {e => this.mouseDown (e)}
           onTouchEnd   = {e => this.mouseUp (e)}
-          disabled     = {disabled}
           style        = {boxStyle}
           title        = {tooltip}
         >
@@ -237,7 +242,6 @@ export default class Button extends React.Component {
           onMouseUp    = {e => this.mouseUp (e)}
           onTouchStart = {e => this.mouseDown (e)}
           onTouchEnd   = {e => this.mouseUp (e)}
-          disabled     = {disabled}
           style        = {boxStyle}
           title        = {tooltip}
         >
@@ -256,7 +260,6 @@ export default class Button extends React.Component {
           onMouseUp    = {e => this.mouseUp (e)}
           onTouchStart = {e => this.mouseDown (e)}
           onTouchEnd   = {e => this.mouseUp (e)}
-          disabled     = {disabled}
           style        = {boxStyle}
           title        = {tooltip}
           href         = {'#' + toAnchor}
@@ -276,7 +279,6 @@ export default class Button extends React.Component {
           onMouseUp    = {e => this.mouseUp (e)}
           onTouchStart = {e => this.mouseDown (e)}
           onTouchEnd   = {e => this.mouseUp (e)}
-          disabled     = {disabled}
           style        = {boxStyle}
           title        = {tooltip}
         >
