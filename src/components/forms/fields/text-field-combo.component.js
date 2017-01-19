@@ -152,6 +152,7 @@ export default class TextFieldCombo extends React.Component {
     const shape               = this.read ('shape');
     const glyph               = this.read ('combo-glyph');
     const value               = this.read ('value');
+    const updateStrategy      = this.read ('updateStrategy');
     const selectedValue       = this.read ('selected-value');
     const hintText            = this.read ('hint-text');
     const comboType           = this.read ('combo-type');
@@ -225,6 +226,7 @@ export default class TextFieldCombo extends React.Component {
           >
           <TextField
             id                    = {id}
+            updateStrategy        = {updateStrategy}
             value                 = {displayValue}
             hint-text             = {hintText}
             filter-keys           = {filterKeys}
@@ -257,6 +259,7 @@ export default class TextFieldCombo extends React.Component {
           >
           <TextField
             id                    = {id}
+            updateStrategy        = {updateStrategy}
             value                 = {displayValue}
             hint-text             = {hintText}
             filter-keys           = {filterKeys}

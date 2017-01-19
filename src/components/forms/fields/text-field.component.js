@@ -39,13 +39,17 @@ export default class TextField extends React.Component {
     };
   }
 
-  componentDidMount () {
-    // console.log ('TextField.componentDidMount');
+  componentWillMount () {
+    console.log ('TextField.componentWillMount');
     const updateStrategy = this.read ('updateStrategy');
     if (updateStrategy === 'every-time' || updateStrategy === 'when-blur') {
       const value = this.read ('value');
       this.setValue (value);
     }
+  }
+
+  componentDidMount () {
+    console.log ('TextField.componentDidMount');
     const autofocus = this.read ('autofocus');
     if (autofocus) {
       const node = ReactDOM.findDOMNode (this);
