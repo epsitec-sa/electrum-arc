@@ -93,63 +93,95 @@ export default class TextField extends React.Component {
     }
   }
 
-  render () {
+  renderInput () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const id                  = this.read ('id');
-    const value               = this.read ('value');
-    const updateStrategy      = this.read ('updateStrategy');
-    const messageWarning      = this.read ('message-warning');
-    const messageInfo         = this.read ('message-info');
-    const hintText            = this.read ('hint-text');
-    const flyingBalloonAnchor = this.read ('flying-balloon-anchor');
-    const rows                = this.read ('rows');
-    const tabIndex            = this.props['tab-index'];
+    const id             = this.read ('id');
+    const value          = this.read ('value');
+    const updateStrategy = this.read ('updateStrategy');
+    const hintText       = this.read ('hint-text');
+    const rows           = this.read ('rows');
+    const tabIndex       = this.props['tab-index'];
 
     const editedValue = (updateStrategy === 'every-time' || updateStrategy === 'when-blur') ?
       this.getValue () : value;
 
-    const boxStyle      = this.mergeStyles ('box');
-    const fieldStyle    = this.mergeStyles ('field');
-    const textareaStyle = this.mergeStyles ('textarea');
+    if (rows) {
+      const textareaStyle = this.mergeStyles ('textarea');
+      return (
+        <textarea
+          id          = {id}
+          style       = {textareaStyle}
+          onChange    = {e => this.onMyChange (e)}
+          onFocus     = {e => this.onMyFocus (e)}
+          onBlur      = {e => this.onMyBlur (e)}
+          onKeyDown   = {this.onKeyDown}
+          onKeyUp     = {this.onKeyUp}
+          onSelect    = {this.onSelect}
+          disabled    = {disabled}
+          rows        = {rows}
+          tabIndex    = {tabIndex}
+          value       = {editedValue}
+          />
+      );
+    } else {
+      const fieldStyle = this.mergeStyles ('field');
+      return (
+        <input
+          id          = {id}
+          onChange    = {e => this.onMyChange (e)}
+          onFocus     = {e => this.onMyFocus (e)}
+          onBlur      = {e => this.onMyBlur (e)}
+          onKeyDown   = {this.onKeyDown}
+          onKeyUp     = {this.onKeyUp}
+          onSelect    = {this.onSelect}
+          disabled    = {disabled}
+          maxLength   = {this.props.maxLength}
+          placeholder = {hintText}
+          size        = {this.props.size || 'size'}
+          style       = {fieldStyle}
+          type        = {this.props.type || 'text'}
+          key         = 'input'
+          tabIndex    = {tabIndex}
+          value       = {editedValue}
+          />
+      );
+    }
+  }
 
-    const htmlInput = rows ?
-    (
-      <textarea
-        id          = {id}
-        style       = {textareaStyle}
-        onChange    = {e => this.onMyChange (e)}
-        onFocus     = {e => this.onMyFocus (e)}
-        onBlur      = {e => this.onMyBlur (e)}
-        onKeyDown   = {this.onKeyDown}
-        onKeyUp     = {this.onKeyUp}
-        onSelect    = {this.onSelect}
-        disabled    = {disabled}
-        rows        = {rows}
-        tabIndex    = {tabIndex}
-        value       = {editedValue}
-        />
-    ) :
-    (
-      <input
-        id          = {id}
-        onChange    = {e => this.onMyChange (e)}
-        onFocus     = {e => this.onMyFocus (e)}
-        onBlur      = {e => this.onMyBlur (e)}
-        onKeyDown   = {this.onKeyDown}
-        onKeyUp     = {this.onKeyUp}
-        onSelect    = {this.onSelect}
-        disabled    = {disabled}
-        maxLength   = {this.props.maxLength}
-        placeholder = {hintText}
-        size        = {this.props.size || 'size'}
-        style       = {fieldStyle}
-        type        = {this.props.type || 'text'}
-        key         = 'input'
-        tabIndex    = {tabIndex}
-        value       = {editedValue}
-        />
-    );
+  renderFlyingBalloon () {
+    const messageWarning      = this.read ('message-warning');
+    const messageInfo         = this.read ('message-info');
+    const flyingBalloonAnchor = this.read ('flying-balloon-anchor');
+    // Conversion from flying-balloon-anchor to triangle-position.
+    const trianglePosition = {
+      bottom: 'top',
+      top:    'bottom',
+      left:   'right',
+      right:  'left',
+    } [flyingBalloonAnchor];
+
+    if (messageWarning || messageInfo) {
+      return (
+        <FlyingBalloon
+          primary-text      = {messageWarning}
+          secondary-text    = {messageInfo}
+          triangle-position = {trianglePosition}
+          {...this.link ()} />
+      );
+    } else {
+      return null;
+    }
+  }
+
+  render () {
+    const {state} = this.props;
+    const disabled = Action.isDisabled (state);
+    const messageWarning      = this.read ('message-warning');
+    const messageInfo         = this.read ('message-info');
+    const flyingBalloonAnchor = this.read ('flying-balloon-anchor');
+
+    const boxStyle = this.mergeStyles ('box');
 
     // Conversion from flying-balloon-anchor to triangle-position.
     const trianglePosition = {
@@ -175,8 +207,8 @@ export default class TextField extends React.Component {
        disabled={disabled}
        style={boxStyle}
        >
-       {htmlInput}
-       {htmlFlyingBalloon}
+       {this.renderInput ()}
+       {this.renderFlyingBalloon ()}
      </span>
     );
   }
