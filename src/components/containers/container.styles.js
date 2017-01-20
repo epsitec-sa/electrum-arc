@@ -523,6 +523,16 @@ export default function styles (theme, props) {
     padding              = '0px';
   }
 
+  if (inputKind === 'footer') {
+    minHeight       = theme.shapes.footerHeight;
+    display         = 'flex';
+    flexDirection   = 'row';
+    flexGrow        = 0;
+    justifyContent  = 'flex-start';
+    alignItems      = 'center';
+    backgroundColor = theme.palette.footerBackground;
+  }
+
   if (inputKind === 'tickets') {
     const mm        = Unit.multiply (m, 0.5);
     overflowY       = 'auto';
