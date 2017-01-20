@@ -30,6 +30,13 @@ export default class TripCombo extends React.Component {
     }
   }
 
+  showPredispatch () {
+    const showPredispatch = this.read ('show-predispatch');
+    if (showPredispatch) {
+      showPredispatch ();
+    }
+  }
+
   showMission () {
   }
 
@@ -136,6 +143,8 @@ export default class TripCombo extends React.Component {
   dispatch (value) {
     if (value === 'delivered') {
       this.showDeliver ();
+    } else if (value === 'pre-dispatch') {
+      this.showPredispatch ();
     } else {
       const ticket = this.read ('ticket');
       this.reduce ('CHANGE_STATUS', ticket, value);

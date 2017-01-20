@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {TripBox, TripTicket, DragCab, TripCombo, TripModify, TripDeliver} from '../../all-components.js';
+import {TripBox, TripTicket, DragCab, TripCombo, TripModify, TripDeliver, TripPredispatch} from '../../all-components.js';
 import {Unit} from 'electrum-theme';
 import reducerDragAndDrop from './reducer-drag-and-drop.js';
 import {setDragCabHasCombo, getComboLocation} from '../combo/combo-helpers.js';
@@ -14,9 +14,10 @@ export default class Trip extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      showCombo:   false,
-      showModify:  false,
-      showDeliver: false,
+      showCombo:       false,
+      showModify:      false,
+      showDeliver:     false,
+      showPredispatch: false,
     };
     this.comboLocation = null;
   }
@@ -54,6 +55,20 @@ export default class Trip extends React.Component {
     });
   }
 
+  getShowPredispatch () {
+    return this.state.showPredispatch;
+  }
+
+  setShowPredispatch (value) {
+    this.setState ( {
+      showPredispatch: value
+    });
+  }
+
+  getShowSomethink () {
+    return this.getShowCombo () || this.getShowModify () || this.getShowDeliver () || this.getShowPredispatch ();
+  }
+
   showCombo (x, y) {
     const node = ReactDOM.findDOMNode (this);
     this.comboLocation = getComboLocation (node, this.props.theme, x);
@@ -62,7 +77,7 @@ export default class Trip extends React.Component {
 
   mouseDown (event) {
     // console.log ('Trip.mouseDown');
-    if (this.getShowCombo () || this.getShowModify () || this.getShowDeliver ()) {
+    if (this.getShowSomethink ()) {
       return true;
     }
     // if (event.button === 2)  // right-click ?
@@ -75,7 +90,7 @@ export default class Trip extends React.Component {
 
   mouseUp (event) {
     // console.log ('Trip.mouseUp');
-    if (this.getShowCombo () || this.getShowModify () || this.getShowDeliver ()) {
+    if (this.getShowSomethink ()) {
       return true;
     }
     return false;
@@ -90,6 +105,8 @@ export default class Trip extends React.Component {
       const ticket = this.read ('ticket');
       if (ticket.Status === 'dispatched') {
         this.showDeliver ();
+      } else if (ticket.Status === 'delivered') {
+        this.showPredispatch ();
       } else {
         this.reduce ('SWAP_STATUS', event.shiftKey);
       }
@@ -138,6 +155,17 @@ export default class Trip extends React.Component {
     }
   }
 
+  showPredispatch () {
+    this.setShowPredispatch (true);
+  }
+
+  closePredispatch (action, time) {
+    this.setShowPredispatch (false);
+    if (action === 'accept') {
+      this.reduce ('CHANGE_STATUS', false, 'pre-dispatched', time);
+    }
+  }
+
   renderModify (data) {
     if (this.getShowModify ()) {
       const ticket = this.read ('ticket');
@@ -168,21 +196,37 @@ export default class Trip extends React.Component {
     }
   }
 
+  renderPredispatch (data) {
+    if (this.getShowPredispatch ()) {
+      const ticket = this.read ('ticket');
+      return (
+        <TripPredispatch
+          data              = {data}
+          ticket            = {ticket}
+          close-predispatch = {(action, time) => this.closePredispatch (action, time)}
+          {...this.link ()} />
+      );
+    } else {
+      return null;
+    }
+  }
+
   renderCombo (data) {
     if (this.getShowCombo ()) {
       const ticket = this.read ('ticket');
       const source = this.read ('source');
       return (
         <TripCombo
-          data         = {data}
-          ticket       = {ticket}
-          source       = {source}
-          center       = {this.comboLocation.center}
-          top          = {this.comboLocation.top}
-          bottom       = {this.comboLocation.bottom}
-          close-combo  = {() => this.setShowCombo (false)}
-          show-modify  = {() => this.showModify ()}
-          show-deliver = {() => this.showDeliver ()}
+          data             = {data}
+          ticket           = {ticket}
+          source           = {source}
+          center           = {this.comboLocation.center}
+          top              = {this.comboLocation.top}
+          bottom           = {this.comboLocation.bottom}
+          close-combo      = {() => this.setShowCombo (false)}
+          show-modify      = {() => this.showModify ()}
+          show-deliver     = {() => this.showDeliver ()}
+          show-predispatch = {() => this.showPredispatch ()}
           {...this.link ()}/>
       );
     } else {
@@ -211,6 +255,7 @@ export default class Trip extends React.Component {
         {this.renderCombo (data)}
         {this.renderModify (data)}
         {this.renderDeliver (data)}
+        {this.renderPredispatch (data)}
       </DragCab>
     );
   }
@@ -220,7 +265,7 @@ export default class Trip extends React.Component {
     const ticket   = this.read ('ticket');
     const data     = this.read ('data');
     const noDrag   = (ticket.Status === 'dispatched' || ticket.Status === 'delivered') ? 'true' : null;
-    const selected = this.getShowCombo () || this.getShowModify () || this.getShowDeliver () ? 'true' : 'false';
+    const selected = this.getShowSomethink () ? 'true' : 'false';
 
     if (kind === 'trip-box') {
       const m = Unit.parse (this.props.theme.shapes.tripBoxBottomMargin).value;
