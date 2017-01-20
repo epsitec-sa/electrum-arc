@@ -53,7 +53,8 @@ export default class TextField extends React.Component {
     const autofocus = this.read ('autofocus');
     if (autofocus) {
       const node = ReactDOM.findDOMNode (this);
-      node.focus ();  // TODO: this action has not effect !!!
+      // node.focus ();  // TODO: this action has not effect !!!
+      // node.children[0].focus ();
     }
   }
 
@@ -182,8 +183,8 @@ export default class TextField extends React.Component {
 
     return (
      <span
-       disabled={disabled}
-       style={boxStyle}
+       disabled = {disabled}
+       style    = {boxStyle}
        >
        {this.renderInput ()}
        {this.renderFlyingBalloon ()}
