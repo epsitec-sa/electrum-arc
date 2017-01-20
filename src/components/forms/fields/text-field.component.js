@@ -177,30 +177,8 @@ export default class TextField extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const messageWarning      = this.read ('message-warning');
-    const messageInfo         = this.read ('message-info');
-    const flyingBalloonAnchor = this.read ('flying-balloon-anchor');
 
     const boxStyle = this.mergeStyles ('box');
-
-    // Conversion from flying-balloon-anchor to triangle-position.
-    const trianglePosition = {
-      bottom: 'top',
-      top:    'bottom',
-      left:   'right',
-      right:  'left',
-    } [flyingBalloonAnchor];
-
-    let htmlFlyingBalloon = null;
-    if (messageWarning || messageInfo) {
-      htmlFlyingBalloon = (
-        <FlyingBalloon
-          primary-text      = {messageWarning}
-          secondary-text    = {messageInfo}
-          triangle-position = {trianglePosition}
-          {...this.link ()} />
-      );
-    }
 
     return (
      <span
