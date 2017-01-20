@@ -103,12 +103,12 @@ export default class Trip extends React.Component {
       this.reduce ('SWAP_EXTENDED', event.shiftKey);
     } else {  // pre-dispatched/dispatched/delivered ?
       const ticket = this.read ('ticket');
-      if (ticket.Status === 'dispatched') {
-        this.showDeliver ();
-      } else if (ticket.Status === 'delivered') {
-        this.showPredispatch ();
+      if (ticket.Status === 'dispatched') {  // dispatched -> delivered ?
+        this.showDeliver ();  // selected realised time...
+      } else if (ticket.Status === 'delivered') {  // delivered -> pre-dispatched ?
+        this.showPredispatch ();  // request confirmation...
       } else {
-        this.reduce ('SWAP_STATUS', event.shiftKey);
+        this.reduce ('SWAP_STATUS', event.shiftKey);  // change directly without dialog
       }
     }
   }
