@@ -119,11 +119,21 @@ export default class TextFieldCombo extends React.Component {
     this.setReadonly (false);
   }
 
-  onMyFocus () {
+  onMyChange (e) {
+    this.onChange (e);
+    const onChange = this.read ('onChange');
+    if (onChange) {
+      onChange (e);
+    }
+  }
+
+  onMyFocus (e) {
+    this.onFocus (e);
     this.setReadonly (false);
   }
 
-  onMyBlur () {
+  onMyBlur (e) {
+    this.onBlur (e);
     this.setReadonly (true);
   }
 
@@ -237,8 +247,9 @@ export default class TextFieldCombo extends React.Component {
           width                 = {width}
           rows                  = {rows}
           readonly              = {visibleReadonly}
-          onFocus               = {() => this.onMyFocus ()}
-          onBlur                = {() => this.onMyBlur ()}
+          onChange              = {e => this.onMyChange (e)}
+          onFocus               = {e => this.onMyFocus (e)}
+          onBlur                = {e => this.onMyBlur (e)}
           {...this.link ()}
           />
         <Button

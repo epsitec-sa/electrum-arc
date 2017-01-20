@@ -44,17 +44,20 @@ export default class LabelTextField extends React.Component {
   }
 
   onMyChange (e) {
+    this.onChange (e);
     const onChange = this.read ('onChange');
     if (onChange) {
       onChange (e);
     }
   }
 
-  onMyFocus () {
+  onMyFocus (e) {
+    this.onFocus (e);
     this.setReadonly (false);
   }
 
-  onMyBlur () {
+  onMyBlur (e) {
+    this.onBlur (e);
     this.setReadonly (true);
   }
 
