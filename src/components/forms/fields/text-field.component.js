@@ -53,8 +53,10 @@ export default class TextField extends React.Component {
     const autofocus = this.read ('autofocus');
     if (autofocus) {
       const node = ReactDOM.findDOMNode (this);
-      // node.focus ();  // TODO: this action has not effect !!!
-      // node.children[0].focus ();
+      setTimeout (() => {
+        node.children[0].focus ();
+        node.children[0].select ();
+      }, 0);
     }
   }
 
