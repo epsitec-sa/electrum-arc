@@ -12,17 +12,17 @@ export default class TextField extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      value: ''
+      _value: ''
     };
   }
 
   getValue () {
-    return this.state.value;
+    return this.state._value;
   }
 
   setValue (value) {
     this.setState ( {
-      value: value
+      _value: value
     });
   }
 
