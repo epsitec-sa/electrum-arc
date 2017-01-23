@@ -30,6 +30,7 @@
     "electrum-style-reload": "^1.2.0",
     "electrum-theme": "^4.4.1",
     "leaflet": "^0.7.7",
+    "linq": "^3.0.6",
     "mousetrap": "^1.6.0",
     "react-dragula": "^1.1.17",
     "react-split-pane": "^0.1.51",

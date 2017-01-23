@@ -1,6 +1,7 @@
 'use strict';
 
 import Electrum from 'electrum';
+import Enumerable from 'linq';
 import reducerTickets from './reducer-tickets.js';
 import {getTime} from './converters';
 
@@ -8,18 +9,28 @@ import {getTime} from './converters';
 
 function searchTicket (root, items, type, id, ownerId) {
   if (id) {
-    for (var i = 0, len = items.length; i < len; i++) {
-      const ticket = items[i];
-      if (ticket.id === id) {
-        return {
-          ownerId: root.id,
-          type:    type,
-          tickets: items,
-          ticket:  ticket,
-          index:   i,
-        };
-      }
+    const item = Enumerable.from (items).where (item => item.id === id).firstOrDefault ();
+    if (item) {
+      return {
+        ownerId: root.id,
+        type:    type,
+        tickets: items,
+        ticket:  item,
+        index:   Enumerable.from (items).indexOf (item => item.id === id),
+      };
     }
+    // for (var i = 0, len = items.length; i < len; i++) {
+    //   const ticket = items[i];
+    //   if (ticket.id === id) {
+    //     return {
+    //       ownerId: root.id,
+    //       type:    type,
+    //       tickets: items,
+    //       ticket:  ticket,
+    //       index:   i,
+    //     };
+    //   }
+    // }
   } else if (root.id === ownerId) {
     // If id is undefined, destination is after the last element.
     const length = items.length;
@@ -202,15 +213,6 @@ function putFlash (state, id, value) {
 
 // ------------------------------------------------------------------------------------------
 
-function getRoadbookTickets (state, roadbookId) {
-  for (var readbook of state.Roadbooks) {
-    if (readbook.id === roadbookId) {
-      return readbook.Tickets;
-    }
-  }
-  throw new Error (`Roadbook ${roadbookId} does not exist`);
-}
-
 function addTicket (tickets, index, ticket) {
   tickets = reducerTickets (tickets, {
     type:   'ADD_TICKET',
@@ -226,18 +228,11 @@ function deleteTicket (tickets, ticket) {
   });
 }
 
-function fillTicketsFromMissionId (tickets, missionId, result) {
-  for (var ticket of tickets) {
-    if (ticket.Trip.MissionId === missionId) {
-      result.push (ticket);
-    }
-  }
-}
-
 function getTicketsFromMissionId (tickets, missionId) {
-  const result = [];
-  fillTicketsFromMissionId (tickets, missionId, result);
-  return result;
+  return Enumerable.from (tickets).where (ticket => ticket.Trip.MissionId === missionId).toArray ();
+  // const result = [];
+  // fillTicketsFromMissionId (tickets, missionId, result);
+  // return result;
 }
 
 // Return a new random guid.
@@ -288,14 +283,24 @@ function normalize (ticket) {
 
 // Search all tickets into Roadbooks and Desk.
 function isTicketIntoTray (state, missionId) {
-  for (var tray of state.Desk) {
-    for (var ticket2 of tray.Tickets) {
-      if (ticket2.Trip.MissionId === missionId) {
-        return true;
-      }
-    }
-  }
-  return false;
+  return Enumerable
+    .from (state.Desk)
+    .selectMany (tray => tray.Tickets)
+    .where (ticket => ticket.Trip.MissionId === missionId)
+    .any ();
+
+  // for (var tray of state.Desk) {
+  //   const here = Enumerable.from (tray.Tickets).where (ticket => ticket.Trip.MissionId === missionId).any ();
+  //   if (here) {
+  //     return true;
+  //   }
+  //    for (var ticket2 of tray.Tickets) {
+  //      if (ticket2.Trip.MissionId === missionId) {
+  //        return true;
+  //      }
+  //    }
+  // }
+  // return false;
 }
 
 // Return new ticket for transit. If it's a pick, create a drop zone for transit, and reverse.
@@ -320,8 +325,7 @@ function getNewTransit (state, ticket) {
 }
 
 // Create a transit if a ticket is alone for a roadbook.
-function createTransit (state, flashes, warnings, roadbookId) {
-  const tickets = getRoadbookTickets (state, roadbookId);
+function createTransit (state, flashes, warnings, tickets) {
   for (var ticket of tickets) {
     const same = getTicketsFromMissionId (tickets, ticket.Trip.MissionId);
     if (same.length === 1 && !isTicketIntoTray (state, ticket.Trip.MissionId)) {
@@ -340,40 +344,39 @@ function createTransit (state, flashes, warnings, roadbookId) {
 
 function createTransits (state, flashes, warnings) {
   for (var readbook of state.Roadbooks) {
-    createTransit (state, flashes, warnings, readbook.id);
+    createTransit (state, flashes, warnings, readbook.Tickets);
   }
 }
 
 // Delete if there are unnecessary transits for a roadbook.
 // By example, if a transit is alone, it's unnecessary.
 // If there are 3 tickets, including 2 unnecessary, delete the 2 unnecessary tickets.
-function deleteTransit (state, flashes, warnings, roadbookId) {
-  const tickets = getRoadbookTickets (state, roadbookId);
+function deleteTransit (state, flashes, warnings, tickets) {
   for (var ticket of tickets) {
     const same = getTicketsFromMissionId (tickets, ticket.Trip.MissionId);
     if (same.length > 0 && same.length % 2 === 1) {  // odd number of tickets ?
-      for (let i = 0; i < same.length; i++) {
-        if (same[i].Type.endsWith ('-transit')) {
-          deleteTicket (tickets, same[i]);
-        }
-      }
+      Enumerable.from (same).where (x => x.Type.endsWith ('-transit')).forEach (x => deleteTicket (tickets, x));
+      // for (let i = 0; i < same.length; i++) {
+      //   if (same[i].Type.endsWith ('-transit')) {
+      //     deleteTicket (tickets, same[i]);
+      //   }
+      // }
     }
   }
 }
 
 function deleteTransits (state, flashes, warnings) {
   for (var readbook of state.Roadbooks) {
-    deleteTransit (state, flashes, warnings, readbook.id);
+    deleteTransit (state, flashes, warnings, readbook.Tickets);
   }
 }
 
 // ------------------------------------------------------------------------------------------
 
 // Check if un pick is under a drop, and set the field 'warning'.
-function checkOrder (list, flashes, warnings) {
-  for (let i = 0; i < list.Tickets.length; i++) {
-    const ticket = list.Tickets[i];
-    const same = getTicketsFromMissionId (list.Tickets, ticket.Trip.MissionId);
+function checkOrder (tickets, flashes, warnings) {
+  for (var ticket of tickets) {
+    const same = getTicketsFromMissionId (tickets, ticket.Trip.MissionId);
     if (same.length === 2 && same[0].Order > same[1].Order) {
       warnings.push ({id: same[0].id, text: 'Drop avant pick'});
       warnings.push ({id: same[1].id, text: 'Pick après drop'});
@@ -383,11 +386,12 @@ function checkOrder (list, flashes, warnings) {
 
 // Check if picks are under drops into all Roadbooks.
 function checkOrders (state, flashes, warnings) {
+  console.log ('checkOrders');
   for (var readbook of state.Roadbooks) {
-    checkOrder (readbook, flashes, warnings);
+    checkOrder (readbook.Tickets, flashes, warnings);
   }
   for (var tray of state.Desk) {
-    checkOrder (tray, flashes, warnings);
+    checkOrder (tray.Tickets, flashes, warnings);
   }
 }
 
@@ -431,14 +435,24 @@ function sortTicket (a, b) {
 // Returns all tickets from the same mission, sorted chronologically.
 // By example: pick, pick-transit, drop-transit and drop.
 function getSorteTicketsFromMissionId (state, missionId) {
-  const result = [];
-  for (var readbook of state.Roadbooks) {
-    fillTicketsFromMissionId (readbook.Tickets, missionId, result);
-  }
-  for (var tray of state.Desk) {
-    fillTicketsFromMissionId (tray.Tickets, missionId, result);
-  }
-  return result.sort (sortTicket);
+  const roadbookTickets = Enumerable
+    .from (state.Roadbooks)
+    .selectMany (roadbook => roadbook.Tickets)
+    .where (ticket => ticket.Trip.MissionId === missionId);
+  const trayTickets = Enumerable
+    .from (state.Desk)
+    .selectMany (tray => tray.Tickets)
+    .where (ticket => ticket.Trip.MissionId === missionId);
+  return roadbookTickets.union (trayTickets).toArray ().sort (sortTicket);
+
+  // const result = [];
+  // for (var readbook of state.Roadbooks) {
+  //   fillTicketsFromMissionId (readbook.Tickets, missionId, result);
+  // }
+  // for (var tray of state.Desk) {
+  //   fillTicketsFromMissionId (tray.Tickets, missionId, result);
+  // }
+  // return result.sort (sortTicket);
 }
 
 function setOrder (state, ticket, order) {
@@ -449,15 +463,22 @@ function setOrder (state, ticket, order) {
 }
 
 function updateListOrders (state, list) {
-  for (var ticket of list) {
-    if (ticket.Type === 'pick') {  // root of pick/pick-transit/drop-transit/drop sequence ?
-      const tickets = getSorteTicketsFromMissionId (state, ticket.Trip.MissionId);
-      for (let i = 0; i < tickets.length; i++) {
-        const t = tickets[i];
-        setOrder (state, t, i);
-      }
+  Enumerable.from (list).where (ticket => ticket.Type === 'pick').forEach (ticket => {
+    const tickets = getSorteTicketsFromMissionId (state, ticket.Trip.MissionId);
+    for (let i = 0; i < tickets.length; i++) {
+      const t = tickets[i];
+      setOrder (state, t, i);
     }
-  }
+  });
+  // for (var ticket of list) {
+  //   if (ticket.Type === 'pick') {  // root of pick/pick-transit/drop-transit/drop sequence ?
+  //     const tickets = getSorteTicketsFromMissionId (state, ticket.Trip.MissionId);
+  //     for (let i = 0; i < tickets.length; i++) {
+  //       const t = tickets[i];
+  //       setOrder (state, t, i);
+  //     }
+  //   }
+  // }
 }
 
 // Update order to all ticket into Roadbooks and Desk.
@@ -473,8 +494,7 @@ function updateOrders (state) {
 
 // ------------------------------------------------------------------------------------------
 
-function checkAlone (state, flashes, warnings, roadbookId) {
-  const tickets = getRoadbookTickets (state, roadbookId);
+function checkAlone (state, flashes, warnings, tickets) {
   for (var ticket of tickets) {
     const same = getTicketsFromMissionId (tickets, ticket.Trip.MissionId);
     if (same.length === 1) {
@@ -494,7 +514,7 @@ function checkAlone (state, flashes, warnings, roadbookId) {
 // Add a warning to all tickets into Roadbooks we are alone.
 function checkAlones (state, flashes, warnings) {
   for (var readbook of state.Roadbooks) {
-    checkAlone (state, flashes, warnings, readbook.id);
+    checkAlone (state, flashes, warnings, readbook.Tickets);
   }
 }
 
@@ -540,12 +560,11 @@ function updateShapes (state) {
 // ------------------------------------------------------------------------------------------
 
 function getTextWarning (warnings, id) {
-  for (var warning of warnings) {
-    if (warning.id === id) {
-      return warning.text;
-    }
-  }
-  return null;
+  return Enumerable
+    .from (warnings)
+    .where (warning => warning.id === id)
+    .select (warning => warning.text)
+    .firstOrDefault ();
 }
 
 function setMisc (state, list, flashes, warnings) {
@@ -606,28 +625,53 @@ function selectZone (state, flashes, result, fromIndex, toIndex, value) {
 
 // Delete all residual tickets into Roadbooks and Desk.
 function deleteMission (state, missionId) {
-  for (var roadbook of state.Roadbooks) {
-    const array1 = [];
-    for (var ticket1 of roadbook.Tickets) {
-      if (ticket1.Trip.MissionId === missionId) {
-        array1.push (ticket1);
-      }
-    }
-    for (ticket1 of array1) {
-      deleteTicket (roadbook.Tickets, ticket1);
-    }
-  }
-  for (var tray of state.Desk) {
-    const array2 = [];
-    for (var ticket2 of tray.Tickets) {
-      if (ticket2.Trip.MissionId === missionId) {
-        array2.push (ticket2);
-      }
-    }
-    for (ticket2 of array2) {
-      deleteTicket (tray.Tickets, ticket2);
-    }
-  }
+  // const roadbooks = Enumerable.from (state.Roadbooks);
+  // const y = roadbooks.forEach (roadbook => Enumerable.from (roadbook.Tickets)).toArray ();
+  // y.forEach (ticket => );
+
+  Enumerable
+    .from (state.Roadbooks)
+    .forEach (
+      roadbook => Enumerable
+        .from (roadbook.Tickets)
+        .where (ticket => ticket.Trip.MissionId === missionId)
+        .toArray ()
+        .forEach (ticket => deleteTicket (roadbook.Tickets, ticket)
+      )
+    );
+  Enumerable
+    .from (state.Desk)
+    .forEach (
+      roadbook => Enumerable
+        .from (roadbook.Tickets)
+        .where (ticket => ticket.Trip.MissionId === missionId)
+        .toArray ()
+        .forEach (ticket => deleteTicket (roadbook.Tickets, ticket)
+      )
+    );
+
+  // for (var roadbook of state.Roadbooks) {
+  //   const array1 = [];
+  //   for (var ticket1 of roadbook.Tickets) {
+  //     if (ticket1.Trip.MissionId === missionId) {
+  //       array1.push (ticket1);
+  //     }
+  //   }
+  //   for (ticket1 of array1) {
+  //     deleteTicket (roadbook.Tickets, ticket1);
+  //   }
+  // }
+  // for (var tray of state.Desk) {
+  //   const array2 = [];
+  //   for (var ticket2 of tray.Tickets) {
+  //     if (ticket2.Trip.MissionId === missionId) {
+  //       array2.push (ticket2);
+  //     }
+  //   }
+  //   for (ticket2 of array2) {
+  //     deleteTicket (tray.Tickets, ticket2);
+  //   }
+  // }
 }
 
 function changeGeneric (state, flashes, warnings, from, to) {
@@ -688,14 +732,14 @@ function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
   if (!to) {
     return;
   }
-  for (let i = fromIds.length - 1; i >= 0; i--) {
-    const fromId = fromIds[i];
-    const from = searchId (state, fromId);
-    if (from) {
-      changeGeneric (state, flashes, warnings, from, to);
+  Enumerable.from (fromIds).reverse ().forEach (fromId => {
+      const from = searchId (state, fromId);
+      if (from) {
+        changeGeneric (state, flashes, warnings, from, to);
+      }
     }
-  }
-  if (to.type === 'roadbook') {
+  );
+  if (to.type === 'roadbook' || to.type === 'tray') {
     deleteTransits (state, flashes, warnings);
     createTransits (state, flashes, warnings);
   }
@@ -894,12 +938,10 @@ function swapRoadbookShowHidden (state, id) {
 }
 
 function setTrayName (state, id, value) {
-  for (var tray of state.Desk) {
-    if (tray.id === id) {
-      tray.Name = value;
-      electrumDispatch (state, 'setTrayName', id, value);
-    }
-  }
+  Enumerable.from (state.Desk).where (tray => tray.id === id).forEach (tray => {
+    tray.Name = value;
+    electrumDispatch (state, 'setTrayName', id, value);
+  });
 }
 
 // ------------------------------------------------------------------------------------------
