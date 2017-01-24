@@ -127,34 +127,13 @@ export default class TextFieldCombo extends React.Component {
     this.setReadonly (true);
   }
 
-  renderCombo () {
-    const list = this.read ('list');
-    if (list && this.getShowCombo ()) {
-      return (
-        <Combo
-          center = {this.comboLocation.center}
-          top    = {this.comboLocation.top}
-          bottom = {this.comboLocation.bottom}
-          list   = {list}
-          close  = {() => this.setShowCombo (false)}
-          {...this.link ()} />
-      );
-    } else {
-      return null;
-    }
-  }
-
-  render () {
-    const {state}  = this.props;
-    const disabled = Action.isDisabled (state);
-    const id                       = this.read ('id');
+  renderTextField () {
+    const id                  = this.read ('id');
     const width               = this.read ('width');
     const shape               = this.read ('shape');
-    const glyph               = this.read ('combo-glyph');
     const value               = this.read ('value');
     const selectedValue       = this.read ('selected-value');
     const hintText            = this.read ('hint-text');
-    const comboType           = this.read ('combo-type');
     const flyingBalloonAnchor = this.read ('flying-balloon-anchor');
     const rows                = this.read ('rows');
     const readonly            = this.read ('readonly');
@@ -165,6 +144,44 @@ export default class TextFieldCombo extends React.Component {
     const displayValue = autoReadonly ? selectedValue : value;
     const visibleReadonly = readonly ? readonly : (autoReadonly ? 'true' : 'false');
 
+    const s = shape ? shape : 'smooth';
+    const textFieldShapes = {
+      smooth:  'left-smooth',
+      rounded: 'left-rounded',
+    };
+    const textFieldShape = textFieldShapes[s];
+
+    return (
+      <TextField
+        id                    = {id}
+        value                 = {displayValue}
+        hint-text             = {hintText}
+        filter-keys           = {filterKeys}
+        spacing               = 'overlap'
+        shape                 = {textFieldShape}
+        flying-balloon-anchor = {flyingBalloonAnchor}
+        tab-index             = {tabIndex}
+        width                 = {width}
+        rows                  = {rows}
+        readonly              = {visibleReadonly}
+        onFocus               = {e => this.onMyFocus (e)}
+        onBlur                = {e => this.onMyBlur (e)}
+        {...this.link ()}
+        />
+    );
+  }
+
+  renderButton () {
+    const shape = this.read ('shape');
+    const glyph = this.read ('combo-glyph');
+
+    const s = shape ? shape : 'smooth';
+    const buttonShapes = {
+      smooth:  'right-smooth',
+      rounded: 'right-rounded',
+    };
+    const buttonShape    = buttonShapes[s];
+
     // Get or create the internalState.
     var internalState = this.getInternalState ();
     if (!internalState.get ('isComboVisible')) {
@@ -173,20 +190,19 @@ export default class TextFieldCombo extends React.Component {
     }
     const isComboVisible = internalState.get ('isComboVisible');
 
-    const boxStyle = this.mergeStyles ('box');
+    return (
+      <Button
+        kind   = 'combo'
+        glyph  = {glyph}
+        shape  = {buttonShape}
+        active = {isComboVisible}
+        action = {() => this.buttonClicked ()}
+        {...this.link ()}
+        />
+    );
+  }
 
-    const s = shape ? shape : 'smooth';
-    const textFieldShapes = {
-      smooth:  'left-smooth',
-      rounded: 'left-rounded',
-    };
-    const buttonShapes = {
-      smooth:  'right-smooth',
-      rounded: 'right-rounded',
-    };
-    const textFieldShape = textFieldShapes[s];
-    const buttonShape    = buttonShapes[s];
-
+  renderCalendar () {
     let htmlCalendar = null;
     //    if (isComboVisible === 'true') {
     //      var htmlCombo = null;
@@ -217,37 +233,40 @@ export default class TextFieldCombo extends React.Component {
     //        </div>
     //      );
     //    }
+    return htmlCalendar;
+  }
+
+  renderCombo () {
+    const list = this.read ('list');
+    if (list && this.getShowCombo ()) {
+      return (
+        <Combo
+          center = {this.comboLocation.center}
+          top    = {this.comboLocation.top}
+          bottom = {this.comboLocation.bottom}
+          list   = {list}
+          close  = {() => this.setShowCombo (false)}
+          {...this.link ()} />
+      );
+    } else {
+      return null;
+    }
+  }
+
+  render () {
+    const {state}  = this.props;
+    const disabled = Action.isDisabled (state);
+
+    const boxStyle = this.mergeStyles ('box');
 
     return (
       <span
         disabled = {disabled}
         style    = {boxStyle}
         >
-        <TextField
-          id                    = {id}
-          value                 = {displayValue}
-          hint-text             = {hintText}
-          filter-keys           = {filterKeys}
-          spacing               = 'overlap'
-          shape                 = {textFieldShape}
-          flying-balloon-anchor = {flyingBalloonAnchor}
-          tab-index             = {tabIndex}
-          width                 = {width}
-          rows                  = {rows}
-          readonly              = {visibleReadonly}
-          onFocus               = {e => this.onMyFocus (e)}
-          onBlur                = {e => this.onMyBlur (e)}
-          {...this.link ()}
-          />
-        <Button
-          kind        = 'combo'
-          glyph       = {glyph}
-          shape       = {buttonShape}
-          active      = {isComboVisible}
-          action      = {() => this.buttonClicked ()}
-          {...this.link ()}
-          />
-        {htmlCalendar}
+        {this.renderTextField ()}
+        {this.renderButton ()}
+        {this.renderCalendar ()}
         {this.renderCombo ()}
       </span>
     );
