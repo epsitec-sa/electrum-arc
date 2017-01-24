@@ -7,6 +7,8 @@ import {FlyingBalloon} from '../../../all-components.js';
 
 /******************************************************************************/
 
+// This component is for use in meta-components (by example TicketsTray).
+// It prevents bad interference with Electrum and Lydia.
 export default class SimpleTextField extends React.Component {
 
   constructor (props) {
@@ -40,7 +42,7 @@ export default class SimpleTextField extends React.Component {
   }
 
   componentWillMount () {
-    console.log ('SimpleTextField.componentWillMount');
+    // console.log ('SimpleTextField.componentWillMount');
     const updateStrategy = this.read ('updateStrategy');
     if (updateStrategy === 'every-time' || updateStrategy === 'when-blur') {
       const value = this.read ('value');
@@ -49,14 +51,14 @@ export default class SimpleTextField extends React.Component {
   }
 
   componentDidMount () {
-    console.log ('SimpleTextField.componentDidMount');
+    // console.log ('SimpleTextField.componentDidMount');
     const autofocus = this.read ('autofocus');
     if (autofocus) {
-      const node = ReactDOM.findDOMNode (this);
+      const node = ReactDOM.findDOMNode (this.refs.inputTag);
       // Set focus to child <input>, asynchronously.
       setTimeout (() => {
-        node.children[0].focus ();
-        node.children[0].select ();
+        node.focus ();
+        node.select ();
       }, 0);
     }
   }
@@ -114,6 +116,7 @@ export default class SimpleTextField extends React.Component {
       const textareaStyle = this.mergeStyles ('textarea');
       return (
         <textarea
+          ref         = 'inputTag'
           id          = {id}
           style       = {textareaStyle}
           onChange    = {e => this.onMyChange (e)}
@@ -132,6 +135,7 @@ export default class SimpleTextField extends React.Component {
       const fieldStyle = this.mergeStyles ('field');
       return (
         <input
+          ref         = 'inputTag'
           id          = {id}
           onChange    = {e => this.onMyChange (e)}
           onFocus     = {e => this.onMyFocus (e)}
