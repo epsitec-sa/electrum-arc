@@ -201,21 +201,31 @@ function putFlash (state, id, value) {
 
 // ------------------------------------------------------------------------------------------
 
-function addTicket (tickets, index, ticket) {
+function addTicket (state, tickets, index, ticket) {
   tickets = reducerTickets (tickets, {
     type:   'ADD_TICKET',
     index:  index,
     ticket: ticket,
   });
+  electrumDispatch (state, 'setTicket', ticket.id, {index: index, ticket: ticket});
 }
 
-function deleteTicket (tickets, ticket) {
+function deleteTicket (state, tickets, ticket) {
   tickets = reducerTickets (tickets, {
     type:   'DELETE_TICKET',
     ticket: ticket,
   });
+  electrumDispatch (state, 'deleteTicket', ticket.id);
 }
 
+// ------------------------------------------------------------------------------------------
+
+// Return all tickets, grouped by MissionId. Example:
+// {
+//    missionId1: [Pick, Drop]
+//    missionId2: [Pick, Drop-transit]
+//    ...
+// }
 function getMissions (tickets) {
   const result = new Map ();
   for (var ticket of tickets) {
@@ -316,9 +326,9 @@ function createTransits (state, flashes, warnings) {
         flashes.push (newTicket.id);
         const index = tickets.indexOf (ticket);
         if (newTicket.Type.startsWith ('pick')) {
-          addTicket (tickets, index, newTicket);
+          addTicket (state, tickets, index, newTicket);
         } else {
-          addTicket (tickets, index + 1, newTicket);
+          addTicket (state, tickets, index + 1, newTicket);
         }
         warnings.push ({id: newTicket.id, text: 'Transit à définir'});
       }
@@ -337,7 +347,7 @@ function deleteTransits (state, flashes, warnings) {
         Enumerable
           .from (list)
           .where (ticket => ticket.Type.endsWith ('-transit'))
-          .forEach (ticket => deleteTicket (tickets, ticket));
+          .forEach (ticket => deleteTicket (state, tickets, ticket));
       }
     });
   }
@@ -580,7 +590,7 @@ function deleteMission (state, missionId) {
         .from (roadbook.Tickets)
         .where (ticket => ticket.Trip.MissionId === missionId)
         .toArray ()
-        .forEach (ticket => deleteTicket (roadbook.Tickets, ticket)
+        .forEach (ticket => deleteTicket (state, roadbook.Tickets, ticket)
       )
     );
   Enumerable
@@ -590,7 +600,7 @@ function deleteMission (state, missionId) {
         .from (roadbook.Tickets)
         .where (ticket => ticket.Trip.MissionId === missionId)
         .toArray ()
-        .forEach (ticket => deleteTicket (roadbook.Tickets, ticket)
+        .forEach (ticket => deleteTicket (state, roadbook.Tickets, ticket)
       )
     );
 }
@@ -606,7 +616,7 @@ function changeGeneric (state, flashes, warnings, from, to) {
   if (to.type === 'backlog' && ticket.Type !== 'both') {
     deleteMission (state, ticket.Trip.MissionId);
   } else {
-    deleteTicket (from.tickets, ticket);
+    deleteTicket (state, from.tickets, ticket);
     if (from.ownerId === to.ownerId && from.index < to.index) {
       to.index--;  // decrease to take account of the deleted item
     }
@@ -621,8 +631,8 @@ function changeGeneric (state, flashes, warnings, from, to) {
     drop.Type = 'drop';
     pick.Status = 'pre-dispatched';
     drop.Status = 'pre-dispatched';
-    addTicket (to.tickets, to.index, drop);  // first drop, for have pick/drop in this order
-    addTicket (to.tickets, to.index, pick);
+    addTicket (state, to.tickets, to.index, drop);  // first drop, for have pick/drop in this order
+    addTicket (state, to.tickets, to.index, pick);
     clearSelected (state, pick.id);
     clearSelected (state, drop.id);
     flashes.push (pick.id);
@@ -630,11 +640,11 @@ function changeGeneric (state, flashes, warnings, from, to) {
   } else if (to.type === 'backlog' && ticket.Type !== 'both') {
     ticket.Type = 'both';
     ticket.Status = 'backlog';
-    addTicket (to.tickets, to.index, ticket);
+    addTicket (state, to.tickets, to.index, ticket);
     clearSelected (state, ticket.id);
     flashes.push (ticket.id);
   } else {
-    addTicket (to.tickets, to.index, ticket);
+    addTicket (state, to.tickets, to.index, ticket);
     clearSelected (state, ticket.id);
     flashes.push (ticket.id);
   }
