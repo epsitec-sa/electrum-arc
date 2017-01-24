@@ -40,12 +40,10 @@ export default class LabelTextField extends React.Component {
   }
 
   onMyFocus (e) {
-    this.onFocus (e);
     this.setReadonly (false);
   }
 
   onMyBlur (e) {
-    this.onBlur (e);
     this.setReadonly (true);
   }
 
