@@ -222,8 +222,10 @@ function deleteTicket (state, tickets, ticket) {
 
 // Return all tickets, grouped by MissionId. Example:
 // {
-//    missionId1: [Pick, Drop]
-//    missionId2: [Pick, Drop-transit]
+//    missionId1: [pick, drop],
+//    missionId2: [pick, drop-transit],
+//    missionId3: [pick],        // miss the drop
+//    missionId4: [drop, pick],  // bad order
 //    ...
 // }
 function getMissions (tickets) {
