@@ -3,6 +3,7 @@
 import React from 'react';
 import {Container, Button, SimpleTextField} from 'electrum-arc';
 import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
+import MouseTrap from 'mousetrap';
 
 /******************************************************************************/
 
@@ -14,6 +15,14 @@ export default class TicketsTray extends React.Component {
       title: null,
       edit:  false,
     };
+  }
+
+  componentWillMount () {
+    console.log ('TicketsTray.componentWillMount');
+  }
+
+  componentWillUnmount () {
+    console.log ('TicketsTray.componentWillUnmount');
   }
 
   get styleProps () {
@@ -44,11 +53,25 @@ export default class TicketsTray extends React.Component {
     this.setState ( {
       edit: value
     });
+    if (value) {
+      MouseTrap.bind ('enter', () => this.enterAction ());
+      MouseTrap.bind ('esc',   () => this.enterAction ());
+    } else {
+      MouseTrap.unbind ('enter');
+      MouseTrap.unbind ('esc');
+    }
   }
 
   componentDidMount () {
     const title = this.read ('title');
     this.setTitle (title);
+  }
+
+  enterAction () {
+    console.log ('TicketsTray.enterAction');
+    if (this.getEdit ()) {
+      this.setEdit (false);
+    }
   }
 
   // The button was clicked, replace Button by SimpleTextField (edit = true).
