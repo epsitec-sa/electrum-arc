@@ -2,10 +2,6 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-
-// Note: to make 'npm test' happy, don't use import from 'electrum-arc':
-
-// import {Button, TextField} from 'electrum-arc';
 import {Button, TextField} from '../../../all-components.js';
 
 /******************************************************************************/
@@ -43,39 +39,33 @@ export default class LabelTextField extends React.Component {
     };
   }
 
-  onMyChange (e) {
-    const onChange = this.read ('onChange');
-    if (onChange) {
-      onChange (e);
-    }
-  }
-
   onMyFocus (e) {
+    this.onFocus (e);
     this.setReadonly (false);
   }
 
   onMyBlur (e) {
+    this.onBlur (e);
     this.setReadonly (true);
   }
 
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const id             = this.read ('id');
-    const type           = this.read ('type');
-    const shape          = this.read ('shape');
-    const labelGlyph     = this.read ('label-glyph');
-    const labelText      = this.read ('label-text');
-    const labelWidth     = this.read ('label-width');
-    const fieldWidth     = this.read ('field-width');
-    const value          = this.read ('value');
-    const updateStrategy = this.read ('updateStrategy');
-    const selectedValue  = this.read ('selected-value');
-    const hintText       = this.read ('hint-text');
-    const rows           = this.read ('rows');
-    const readonly       = this.read ('readonly');
-    const filterKeys     = this.props['filter-keys'];
-    const tabIndex       = this.props['tab-index'];
+    const id            = this.read ('id');
+    const type          = this.read ('type');
+    const shape         = this.read ('shape');
+    const labelGlyph    = this.read ('label-glyph');
+    const labelText     = this.read ('label-text');
+    const labelWidth    = this.read ('label-width');
+    const fieldWidth    = this.read ('field-width');
+    const value         = this.read ('value');
+    const selectedValue = this.read ('selected-value');
+    const hintText      = this.read ('hint-text');
+    const rows          = this.read ('rows');
+    const readonly      = this.read ('readonly');
+    const filterKeys    = this.props['filter-keys'];
+    const tabIndex      = this.props['tab-index'];
 
     const autoReadonly = this.getReadonly () && selectedValue && selectedValue !== '';
     const displayValue = autoReadonly ? selectedValue : value;
@@ -111,20 +101,18 @@ export default class LabelTextField extends React.Component {
           {...this.link ()}
         />
         <TextField
-          id             = {id}
-          type           = {type}
-          width          = {fieldWidth}
-          updateStrategy = {updateStrategy}
-          value          = {displayValue}
-          hint-text      = {hintText}
-          filter-keys    = {filterKeys}
-          shape          = {textFieldShape}
-          tab-index      = {tabIndex}
-          rows           = {rows}
-          readonly       = {visibleReadonly}
-          onChange       = {e => this.onMyChange (e)}
-          onFocus        = {e => this.onMyFocus (e)}
-          onBlur         = {e => this.onMyBlur (e)}
+          id          = {id}
+          type        = {type}
+          width       = {fieldWidth}
+          value       = {displayValue}
+          hint-text   = {hintText}
+          filter-keys = {filterKeys}
+          shape       = {textFieldShape}
+          tab-index   = {tabIndex}
+          rows        = {rows}
+          readonly    = {visibleReadonly}
+          onFocus     = {e => this.onMyFocus (e)}
+          onBlur      = {e => this.onMyBlur (e)}
           {...this.link ()}
         />
       </span>

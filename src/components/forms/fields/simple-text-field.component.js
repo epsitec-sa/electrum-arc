@@ -1,15 +1,29 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {Action} from 'electrum';
 import {FlyingBalloon} from '../../../all-components.js';
 
 /******************************************************************************/
 
-export default class TextField extends React.Component {
+export default class SimpleTextField extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      _value: ''
+    };
+  }
+
+  getValue () {
+    return this.state._value;
+  }
+
+  setValue (value) {
+    this.setState ( {
+      _value: value
+    });
   }
 
   get styleProps () {
@@ -25,6 +39,40 @@ export default class TextField extends React.Component {
     };
   }
 
+  componentWillMount () {
+    console.log ('TextField.componentWillMount');
+    const updateStrategy = this.read ('updateStrategy');
+    if (updateStrategy === 'every-time' || updateStrategy === 'when-blur') {
+      const value = this.read ('value');
+      this.setValue (value);
+    }
+  }
+
+  componentDidMount () {
+    console.log ('TextField.componentDidMount');
+    const autofocus = this.read ('autofocus');
+    if (autofocus) {
+      const node = ReactDOM.findDOMNode (this);
+      setTimeout (() => {
+        node.children[0].focus ();
+        node.children[0].select ();
+      }, 0);
+    }
+  }
+
+  onMyChange (e) {
+    // console.log ('TextField.onMyChange');
+    this.onChange (e);
+    const onChange = this.read ('onChange');
+    if (onChange) {
+      this.setValue (e.target.value);
+      const updateStrategy = this.read ('updateStrategy');
+      if (updateStrategy === 'every-time') {
+        onChange (e);
+      }
+    }
+  }
+
   onMyFocus (e) {
     this.onFocus (e);
     const onFocus = this.read ('onFocus');
@@ -35,6 +83,13 @@ export default class TextField extends React.Component {
 
   onMyBlur (e) {
     this.onBlur (e);
+    const onChange = this.read ('onChange');
+    if (onChange) {
+      const updateStrategy = this.read ('updateStrategy');
+      if (updateStrategy === 'when-blur') {
+        onChange (e);
+      }
+    }
     const onBlur = this.read ('onBlur');
     if (onBlur) {
       onBlur (e);
@@ -44,11 +99,15 @@ export default class TextField extends React.Component {
   renderInput () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const id       = this.read ('id');
-    const value    = this.read ('value');
-    const hintText = this.read ('hint-text');
-    const rows     = this.read ('rows');
-    const tabIndex = this.props['tab-index'];
+    const id             = this.read ('id');
+    const value          = this.read ('value');
+    const updateStrategy = this.read ('updateStrategy');
+    const hintText       = this.read ('hint-text');
+    const rows           = this.read ('rows');
+    const tabIndex       = this.props['tab-index'];
+
+    const editedValue = (updateStrategy === 'every-time' || updateStrategy === 'when-blur') ?
+      this.getValue () : value;
 
     if (rows) {
       const textareaStyle = this.mergeStyles ('textarea');
@@ -56,6 +115,7 @@ export default class TextField extends React.Component {
         <textarea
           id          = {id}
           style       = {textareaStyle}
+          onChange    = {e => this.onMyChange (e)}
           onFocus     = {e => this.onMyFocus (e)}
           onBlur      = {e => this.onMyBlur (e)}
           onKeyDown   = {this.onKeyDown}
@@ -64,7 +124,7 @@ export default class TextField extends React.Component {
           disabled    = {disabled}
           rows        = {rows}
           tabIndex    = {tabIndex}
-          value       = {value}
+          value       = {editedValue}
           />
       );
     } else {
@@ -72,6 +132,7 @@ export default class TextField extends React.Component {
       return (
         <input
           id          = {id}
+          onChange    = {e => this.onMyChange (e)}
           onFocus     = {e => this.onMyFocus (e)}
           onBlur      = {e => this.onMyBlur (e)}
           onKeyDown   = {this.onKeyDown}
@@ -85,7 +146,7 @@ export default class TextField extends React.Component {
           type        = {this.props.type || 'text'}
           key         = 'input'
           tabIndex    = {tabIndex}
-          value       = {value}
+          value       = {editedValue}
           />
       );
     }

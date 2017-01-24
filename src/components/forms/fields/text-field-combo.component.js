@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Action} from 'electrum';
-import {Button, TextField, Combo} from 'electrum-arc';
+import {Button, TextField, Combo} from '../../../all-components.js';
 import {getComboLocation} from '../../combo/combo-helpers.js';
 
 /******************************************************************************/
@@ -119,18 +119,13 @@ export default class TextFieldCombo extends React.Component {
     this.setReadonly (false);
   }
 
-  onMyChange (e) {
-    const onChange = this.read ('onChange');
-    if (onChange) {
-      onChange (e);
-    }
-  }
-
   onMyFocus (e) {
+    this.onFocus (e);
     this.setReadonly (false);
   }
 
   onMyBlur (e) {
+    this.onBlur (e);
     this.setReadonly (true);
   }
 
@@ -159,13 +154,12 @@ export default class TextFieldCombo extends React.Component {
     const shape               = this.read ('shape');
     const glyph               = this.read ('combo-glyph');
     const value               = this.read ('value');
-    const updateStrategy      = this.read ('updateStrategy');
     const selectedValue       = this.read ('selected-value');
     const hintText            = this.read ('hint-text');
     const comboType           = this.read ('combo-type');
     const flyingBalloonAnchor = this.read ('flying-balloon-anchor');
     const rows                = this.read ('rows');
-    const readonly       = this.read ('readonly');
+    const readonly            = this.read ('readonly');
     const filterKeys          = this.props['filter-keys'];
     const tabIndex            = this.props['tab-index'];
 
@@ -233,7 +227,6 @@ export default class TextFieldCombo extends React.Component {
         >
         <TextField
           id                    = {id}
-          updateStrategy        = {updateStrategy}
           value                 = {displayValue}
           hint-text             = {hintText}
           filter-keys           = {filterKeys}
@@ -244,7 +237,6 @@ export default class TextFieldCombo extends React.Component {
           width                 = {width}
           rows                  = {rows}
           readonly              = {visibleReadonly}
-          onChange              = {e => this.onMyChange (e)}
           onFocus               = {e => this.onMyFocus (e)}
           onBlur                = {e => this.onMyBlur (e)}
           {...this.link ()}
