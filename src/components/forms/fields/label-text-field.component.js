@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Action} from 'electrum';
-import {Button, TextField} from '../../../all-components.js';
+import {Button, TextField, SimpleTextField} from '../../../all-components.js';
 
 /******************************************************************************/
 
@@ -37,6 +37,14 @@ export default class LabelTextField extends React.Component {
       grow:       this.read ('grow'),
       spacing:    this.read ('spacing'),
     };
+  }
+
+  onMyChange (e) {
+    this.onChange (e);
+    const onChange = this.read ('onChange');
+    if (onChange) {
+      onChange (e);
+    }
   }
 
   onMyFocus (e) {
@@ -75,17 +83,18 @@ export default class LabelTextField extends React.Component {
   }
 
   renderInput () {
-    const id            = this.read ('id');
-    const type          = this.read ('type');
-    const shape         = this.read ('shape');
-    const fieldWidth    = this.read ('field-width');
-    const value         = this.read ('value');
-    const selectedValue = this.read ('selected-value');
-    const hintText      = this.read ('hint-text');
-    const rows          = this.read ('rows');
-    const readonly      = this.read ('readonly');
-    const filterKeys    = this.props['filter-keys'];
-    const tabIndex      = this.props['tab-index'];
+    const id             = this.read ('id');
+    const type           = this.read ('type');
+    const shape          = this.read ('shape');
+    const fieldWidth     = this.read ('field-width');
+    const value          = this.read ('value');
+    const selectedValue  = this.read ('selected-value');
+    const hintText       = this.read ('hint-text');
+    const rows           = this.read ('rows');
+    const readonly       = this.read ('readonly');
+    const filterKeys     = this.props['filter-keys'];
+    const updateStrategy = this.read ('updateStrategy');
+    const tabIndex       = this.props['tab-index'];
 
     const autoReadonly = this.getReadonly () && selectedValue && selectedValue !== '';
     const displayValue = autoReadonly ? selectedValue : value;
@@ -98,23 +107,45 @@ export default class LabelTextField extends React.Component {
     };
     const textFieldShape = textFieldShapes[s];
 
-    return (
-      <TextField
-        id          = {id}
-        type        = {type}
-        width       = {fieldWidth}
-        value       = {displayValue}
-        hint-text   = {hintText}
-        filter-keys = {filterKeys}
-        shape       = {textFieldShape}
-        tab-index   = {tabIndex}
-        rows        = {rows}
-        readonly    = {visibleReadonly}
-        onFocus     = {e => this.onMyFocus (e)}
-        onBlur      = {e => this.onMyBlur (e)}
-        {...this.link ()}
-      />
-    );
+    if (updateStrategy) {
+      return (
+        <SimpleTextField
+          id             = {id}
+          type           = {type}
+          width          = {fieldWidth}
+          value          = {displayValue}
+          hint-text      = {hintText}
+          filter-keys    = {filterKeys}
+          shape          = {textFieldShape}
+          tab-index      = {tabIndex}
+          rows           = {rows}
+          readonly       = {visibleReadonly}
+          updateStrategy = {updateStrategy}
+          onChange       = {e => this.onMyChange (e)}
+          onFocus        = {e => this.onMyFocus (e)}
+          onBlur         = {e => this.onMyBlur (e)}
+          {...this.link ()}
+        />
+      );
+    } else {
+      return (
+        <TextField
+          id          = {id}
+          type        = {type}
+          width       = {fieldWidth}
+          value       = {displayValue}
+          hint-text   = {hintText}
+          filter-keys = {filterKeys}
+          shape       = {textFieldShape}
+          tab-index   = {tabIndex}
+          rows        = {rows}
+          readonly    = {visibleReadonly}
+          onFocus     = {e => this.onMyFocus (e)}
+          onBlur      = {e => this.onMyBlur (e)}
+          {...this.link ()}
+        />
+      );
+    }
   }
 
   render () {

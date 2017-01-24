@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Action} from 'electrum';
-import {Button, TextField, Combo} from '../../../all-components.js';
+import {Button, TextField, SimpleTextField, Combo} from '../../../all-components.js';
 import {getComboLocation} from '../../combo/combo-helpers.js';
 
 /******************************************************************************/
@@ -119,6 +119,14 @@ export default class TextFieldCombo extends React.Component {
     this.setReadonly (false);
   }
 
+  onMyChange (e) {
+    this.onChange (e);
+    const onChange = this.read ('onChange');
+    if (onChange) {
+      onChange (e);
+    }
+  }
+
   onMyFocus (e) {
     this.setReadonly (false);
   }
@@ -137,6 +145,7 @@ export default class TextFieldCombo extends React.Component {
     const flyingBalloonAnchor = this.read ('flying-balloon-anchor');
     const rows                = this.read ('rows');
     const readonly            = this.read ('readonly');
+    const updateStrategy      = this.read ('updateStrategy');
     const filterKeys          = this.props['filter-keys'];
     const tabIndex            = this.props['tab-index'];
 
@@ -151,24 +160,47 @@ export default class TextFieldCombo extends React.Component {
     };
     const textFieldShape = textFieldShapes[s];
 
-    return (
-      <TextField
-        id                    = {id}
-        value                 = {displayValue}
-        hint-text             = {hintText}
-        filter-keys           = {filterKeys}
-        spacing               = 'overlap'
-        shape                 = {textFieldShape}
-        flying-balloon-anchor = {flyingBalloonAnchor}
-        tab-index             = {tabIndex}
-        width                 = {width}
-        rows                  = {rows}
-        readonly              = {visibleReadonly}
-        onFocus               = {e => this.onMyFocus (e)}
-        onBlur                = {e => this.onMyBlur (e)}
-        {...this.link ()}
-        />
-    );
+    if (updateStrategy) {
+      return (
+        <SimpleTextField
+          id                    = {id}
+          value                 = {displayValue}
+          hint-text             = {hintText}
+          filter-keys           = {filterKeys}
+          spacing               = 'overlap'
+          shape                 = {textFieldShape}
+          flying-balloon-anchor = {flyingBalloonAnchor}
+          tab-index             = {tabIndex}
+          width                 = {width}
+          rows                  = {rows}
+          readonly              = {visibleReadonly}
+          updateStrategy        = {updateStrategy}
+          onChange              = {e => this.onMyChange (e)}
+          onFocus               = {e => this.onMyFocus (e)}
+          onBlur                = {e => this.onMyBlur (e)}
+          {...this.link ()}
+          />
+      );
+    } else {
+      return (
+        <TextField
+          id                    = {id}
+          value                 = {displayValue}
+          hint-text             = {hintText}
+          filter-keys           = {filterKeys}
+          spacing               = 'overlap'
+          shape                 = {textFieldShape}
+          flying-balloon-anchor = {flyingBalloonAnchor}
+          tab-index             = {tabIndex}
+          width                 = {width}
+          rows                  = {rows}
+          readonly              = {visibleReadonly}
+          onFocus               = {e => this.onMyFocus (e)}
+          onBlur                = {e => this.onMyBlur (e)}
+          {...this.link ()}
+          />
+      );
+    }
   }
 
   renderButton () {
