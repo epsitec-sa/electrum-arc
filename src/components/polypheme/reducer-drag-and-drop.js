@@ -319,9 +319,9 @@ function getNewTransit (state, ticket) {
 
 // Create a transit if a ticket is alone for a roadbook.
 function createTransits (state, flashes, warnings) {
-  for (var readbook of state.Roadbooks) {
-    const tickets = readbook.Tickets;
-    getMissions (readbook.Tickets).forEach ((list, missionId) => {
+  for (var roadbook of state.Roadbooks) {
+    const tickets = roadbook.Tickets;
+    getMissions (roadbook.Tickets).forEach ((list, missionId) => {
       if (list.length === 1 && !isTicketIntoTray (state, missionId)) {
         const ticket = list[0];
         const newTicket = getNewTransit (state, ticket);
@@ -342,8 +342,8 @@ function createTransits (state, flashes, warnings) {
 // By example, if a transit is alone, it's unnecessary.
 // If there are 3 tickets, including 2 unnecessary, delete the 2 unnecessary tickets.
 function deleteTransits (state, flashes, warnings) {
-  for (var readbook of state.Roadbooks) {
-    const tickets = readbook.Tickets;
+  for (var roadbook of state.Roadbooks) {
+    const tickets = roadbook.Tickets;
     getMissions (tickets).forEach (list => {
       if (list.length % 2 === 1) {  // odd number of tickets ?
         Enumerable
@@ -369,8 +369,8 @@ function checkOrder (tickets, flashes, warnings) {
 
 // Check if picks are under drops into all Roadbooks.
 function checkOrders (state, flashes, warnings) {
-  for (var readbook of state.Roadbooks) {
-    checkOrder (readbook.Tickets, flashes, warnings);
+  for (var roadbook of state.Roadbooks) {
+    checkOrder (roadbook.Tickets, flashes, warnings);
   }
   for (var tray of state.Desk) {
     checkOrder (tray.Tickets, flashes, warnings);
@@ -448,8 +448,8 @@ function updateListOrders (state, list) {
 // Update order to all ticket into Roadbooks and Desk.
 function updateOrders (state) {
   // console.log ('reducer.updateOrders');
-  for (var readbook of state.Roadbooks) {
-    updateListOrders (state, readbook.Tickets);
+  for (var roadbook of state.Roadbooks) {
+    updateListOrders (state, roadbook.Tickets);
   }
   for (var tray of state.Desk) {
     updateListOrders (state, tray.Tickets);
@@ -460,8 +460,8 @@ function updateOrders (state) {
 
 // Add a warning to all tickets into Roadbooks we are alone.
 function checkAlones (state, flashes, warnings) {
-  for (var readbook of state.Roadbooks) {
-    getMissions (readbook.Tickets).forEach (list => {
+  for (var roadbook of state.Roadbooks) {
+    getMissions (roadbook.Tickets).forEach (list => {
       if (list.length === 1) {
         const ticket = list[0];
         let text;
@@ -509,8 +509,8 @@ function updateShape (state, list) {
 
 // Update shapes to all tickets into Roadbooks and Desk, for showing pick directly following by drop.
 function updateShapes (state) {
-  for (var readbook of state.Roadbooks) {
-    updateShape (state, readbook);
+  for (var roadbook of state.Roadbooks) {
+    updateShape (state, roadbook);
   }
   for (var tray of state.Desk) {
     updateShape (state, tray);
@@ -546,8 +546,8 @@ function setMisc (state, list, flashes, warnings) {
 
 // Set flashes and warnings to all ticket into Roadbooks, Desk and Backlog.
 function setMiscs (state, flashes, warnings) {
-  for (var readbook of state.Roadbooks) {
-    setMisc (state, readbook.Tickets, flashes, warnings);
+  for (var roadbook of state.Roadbooks) {
+    setMisc (state, roadbook.Tickets, flashes, warnings);
   }
   for (var tray of state.Desk) {
     setMisc (state, tray.Tickets, flashes, warnings);
