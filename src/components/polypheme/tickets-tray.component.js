@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import {Container, Button, TextField} from 'electrum-arc';
+import {Container, Button, SimpleTextField} from 'electrum-arc';
 import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 
 /******************************************************************************/
@@ -51,19 +51,19 @@ export default class TicketsTray extends React.Component {
     this.setTitle (title);
   }
 
-  // The button was clicked, replace Button by TextField (edit = true).
+  // The button was clicked, replace Button by SimpleTextField (edit = true).
   mouseDown (e) {
     this.setEdit (true);
   }
 
-  // The TextField has lost focus, replace TextField by Button (edit = false).
+  // The SimpleTextField has lost focus, replace SimpleTextField by Button (edit = false).
   onMyBlur (e) {
     // console.log ('TicketsTray.onMyBlur');
     this.setEdit (false);
   }
 
-  // The title in TextField was changed, update the data.
-  // This method was called only when the TextField lost focus (not at every keys pressed),
+  // The title in SimpleTextField was changed, update the data.
+  // This method was called only when the SimpleTextField lost focus (not at every keys pressed),
   // for minimized the interaction with Lydia (see updateStrategy = 'when-blur').
   onMyChange (e) {
     const value = e.target.value;
@@ -80,11 +80,11 @@ export default class TicketsTray extends React.Component {
   }
 
   // Render the header, that contains a Button (with a look like a Label)
-  // or a TextField.
+  // or a SimpleTextField.
   renderHeader () {
     if (this.getEdit ()) {
       return (
-        <TextField
+        <SimpleTextField
           autofocus      = {true}
           updateStrategy = 'when-blur'
           value          = {this.getTitle ()}

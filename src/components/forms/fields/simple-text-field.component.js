@@ -12,17 +12,17 @@ export default class SimpleTextField extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      _value: ''
+      value: ''
     };
   }
 
   getValue () {
-    return this.state._value;
+    return this.state.value;
   }
 
   setValue (value) {
     this.setState ( {
-      _value: value
+      value: value
     });
   }
 
@@ -40,7 +40,7 @@ export default class SimpleTextField extends React.Component {
   }
 
   componentWillMount () {
-    console.log ('TextField.componentWillMount');
+    console.log ('SimpleTextField.componentWillMount');
     const updateStrategy = this.read ('updateStrategy');
     if (updateStrategy === 'every-time' || updateStrategy === 'when-blur') {
       const value = this.read ('value');
@@ -49,10 +49,11 @@ export default class SimpleTextField extends React.Component {
   }
 
   componentDidMount () {
-    console.log ('TextField.componentDidMount');
+    console.log ('SimpleTextField.componentDidMount');
     const autofocus = this.read ('autofocus');
     if (autofocus) {
       const node = ReactDOM.findDOMNode (this);
+      // Set focus to child <input>, asynchronously.
       setTimeout (() => {
         node.children[0].focus ();
         node.children[0].select ();
@@ -61,7 +62,7 @@ export default class SimpleTextField extends React.Component {
   }
 
   onMyChange (e) {
-    // console.log ('TextField.onMyChange');
+    // console.log ('SimpleTextField.onMyChange');
     this.onChange (e);
     const onChange = this.read ('onChange');
     if (onChange) {
