@@ -775,11 +775,15 @@ function setStatus (state, flashes, id, value, date, time) {
 
 // Returns the index of a status, to determine the direction of the operation (ascending or descending).
 function getStatusIndex (value) {
-  return {
+  const index = {
     ['pre-dispatched']: 1,
     dispatched:         2,
     delivered:          3,
   } [value];
+  if (!index) {
+    throw new Error (`Unknown status ${value}`);
+  }
+  return index;
 }
 
 function changeStatusNecessary (ascending, refTicket, otherTicket, newValue) {
