@@ -39,7 +39,7 @@ export default class DispatchBacklog extends React.Component {
     this.forceUpdate ();
 
     Electrum.bus.dispatch (data, 'dnd', {
-      type: 'changeBacklogSort',
+      type: 'backlogSortChanged',
       value: item.text,
     });
   }
@@ -49,7 +49,7 @@ export default class DispatchBacklog extends React.Component {
     this.forceUpdate ();
 
     Electrum.bus.dispatch (data, 'dnd', {
-      type: 'changeBacklogFilter',
+      type: 'backlogFilterChanged',
       value: item.text,
     });
   }
