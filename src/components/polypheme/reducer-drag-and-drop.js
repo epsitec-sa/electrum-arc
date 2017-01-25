@@ -88,7 +88,7 @@ function electrumDispatch (state, type, id, value) {
   const kind = searchKind (state, id);
   Electrum.bus.dispatch (state, 'dnd', {
     type:  type,
-    key:   id,
+    id:    id,
     kind:  kind,
     value: value,
   });
@@ -683,15 +683,15 @@ function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
   setMiscs (state, flashes, warnings);
   updateShapes (state);
 
-  // Send action to electrum.
-  Electrum.bus.dispatch (state, 'dnd', {
-    type:         'drop',
-    itemKind:     fromKind,
-    itemIds:      fromIds,
-    beforeItemId: toId,
-    toOwnerId:    toOwnerId,
-    toOwnerKind:  toOwnerKind,
-  });
+  // // Send action to electrum.
+  // Electrum.bus.dispatch (state, 'dnd', {
+  //   type:         'drop',
+  //   itemKind:     fromKind,
+  //   itemIds:      fromIds,
+  //   beforeItemId: toId,
+  //   toOwnerId:    toOwnerId,
+  //   toOwnerKind:  toOwnerKind,
+  // });
 
   return state;
 }
@@ -770,7 +770,7 @@ function setStatus (state, flashes, id, value, date, time) {
   }
   tickets[index] = regen (state, ticket);
   flashes.push (tickets[index].id);
-  electrumDispatch (state, 'setStatus', tickets[index].id, value);
+  electrumDispatch (state, 'setStatus', tickets[index].id, {value: value, date: date, time: time});
 }
 
 // Returns the index of a status, to determine the direction of the operation (ascending or descending).
