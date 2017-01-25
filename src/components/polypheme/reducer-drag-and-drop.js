@@ -303,6 +303,7 @@ function getNewTransit (state, ticket) {
     n.Type = 'drop-transit';
     n.Trip.Drop.LongDescription = null;
     n.Trip.Drop.Notes = [];
+    n.Trip.Drop.PlanedDate = ticket.Trip.Pick.PlanedDate;
     n.Trip.Drop.PlanedTime = ticket.Trip.Pick.PlanedTime;
     n.Trip.Drop.ShortDescription = 'Inconnu';
     n.Trip.Drop.Zone = null;
@@ -310,6 +311,7 @@ function getNewTransit (state, ticket) {
     n.Type = 'pick-transit';
     n.Trip.Pick.LongDescription = null;
     n.Trip.Pick.Notes = [];
+    n.Trip.Pick.PlanedDate = ticket.Trip.Drop.PlanedDate;
     n.Trip.Pick.PlanedTime = ticket.Trip.Drop.PlanedTime;
     n.Trip.Pick.ShortDescription = 'Inconnu';
     n.Trip.Pick.Zone = null;
@@ -746,7 +748,7 @@ function swapExtended (state, id) {
 }
 
 // Change the status of a single tickets.
-function setStatus (state, flashes, id, value, time) {
+function setStatus (state, flashes, id, value, date, time) {
   const result = searchId (state, id);
   const ticket  = result.ticket;
   const tickets = result.tickets;
@@ -756,10 +758,14 @@ function setStatus (state, flashes, id, value, time) {
     clearSelected (state, ticket.id);
   }
   if (value === 'delivered') {
+    ticket.Trip.Pick.RealisedDate = date;
     ticket.Trip.Pick.RealisedTime = time;
+    ticket.Trip.Drop.RealisedDate = date;
     ticket.Trip.Drop.RealisedTime = time;
   } else {
+    ticket.Trip.Pick.RealisedDate = null;
     ticket.Trip.Pick.RealisedTime = null;
+    ticket.Trip.Drop.RealisedDate = null;
     ticket.Trip.Drop.RealisedTime = null;
   }
   tickets[index] = regen (state, ticket);
@@ -797,12 +803,12 @@ function changeStatusNecessary (ascending, refTicket, otherTicket, newValue) {
 }
 
 // Change the status of (almost) all tickets, according to subtle business rules.
-function setBothStatus (state, flashes, ticket, currentValue, newValue, time) {
+function setBothStatus (state, flashes, ticket, currentValue, newValue, date, time) {
   const ascending = getStatusIndex (currentValue) < getStatusIndex (newValue);
   const tickets = getSorteTicketsFromMissionId (state, ticket.Trip.MissionId);
   for (var otherTicket of tickets) {
     if (changeStatusNecessary (ascending, ticket, otherTicket, newValue)) {
-      setStatus (state, flashes, otherTicket.id, newValue, time);
+      setStatus (state, flashes, otherTicket.id, newValue, date, time);
     }
   }
 }
@@ -827,13 +833,13 @@ function swapStatus (state, id) {
   return state;
 }
 
-function changeStatus (state, id, newValue, time) {
+function changeStatus (state, id, newValue, date, time) {
   const flashes = [];
   const warnings = [];
   const result = searchId (state, id);
   if (result.type === 'roadbook') {
     const currentValue = result.tickets[result.index].Status;
-    setBothStatus (state, flashes, result.ticket, currentValue, newValue, time);
+    setBothStatus (state, flashes, result.ticket, currentValue, newValue, date, time);
   }
   setMiscs (state, flashes, warnings);
   return state;
@@ -895,7 +901,7 @@ export default function Reducer (state = {}, action = {}) {
       state = swapStatus (state, action.id);
       break;
     case 'CHANGE_STATUS':
-      state = changeStatus (state, action.id, action.value, action.time);
+      state = changeStatus (state, action.id, action.value, action.date, action.time);
       break;
 
     case 'IS_SELECTED':

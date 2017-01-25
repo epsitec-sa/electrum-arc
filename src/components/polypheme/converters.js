@@ -1,5 +1,8 @@
 'use strict';
 
+// value =    5, decimals = 3  -> return '005'
+// value =   12, decimals = 3  -> return '012'
+// value = 1234, decimals = 3  -> return '1234'
 function padding (value, decimals) {
   if (typeof value === 'string') {
     value = parseInt (value);
@@ -15,25 +18,19 @@ function padding (value, decimals) {
   }
 }
 
-function splitDate (date) {
-  if (date && date.length === 33) {
-    // Format '2016-11-30T17:45:03.9052723+01:00'.
-    let year   = date.substring (0, 4);
-    let month  = date.substring (5, 7);
-    let day    = date.substring (8, 10);
-    let hour   = date.substring (11, 13);
-    let minute = date.substring (14, 16);
-    let second = date.substring (17, 19);
+function splitTime (time) {
+  if (time && time.length === 8) {
+    // Format '17:45:03'.
+    let hour   = time.substring (0, 2);
+    let minute = time.substring (3, 5);
+    let second = time.substring (6, 8);
     return {
-      year:   year,
-      month:  month,
-      day:    day,
       hour:   hour,
       minute: minute,
       second: second,
     };
   } else {
-    throw new Error (`Invalid date ${date}`);
+    throw new Error (`Invalid time ${time}`);
   }
 }
 
@@ -49,13 +46,10 @@ function getNow () {
   };
 }
 
-function joinDate (date) {
-  return padding (date.year,   4) + '-' +
-         padding (date.month,  2) + '-' +
-         padding (date.day,    2) + 'T' +
-         padding (date.hour,   2) + ':' +
-         padding (date.minute, 2) + ':' +
-         padding (date.second, 2) + '.0000000+01:00';
+function joinTime (time) {
+  return padding (time.hour,   2) + ':' +
+         padding (time.minute, 2) + ':' +
+         padding (time.second, 2);
 }
 
 function parseTime (time) {
@@ -73,10 +67,10 @@ function parseTime (time) {
   return result;
 }
 
-function getTime (date, useNowByDefault) {
+function getTime (time, useNowByDefault) {
   let d;
-  if (date) {
-    d = splitDate (date);
+  if (time) {
+    d = splitTime (time);
   } else if (useNowByDefault) {
     d = getNow ();
   }
@@ -87,10 +81,10 @@ function getTime (date, useNowByDefault) {
   }
 }
 
-function setTime (date, editedTime) {
+function setTime (time, editedTime) {
   let d;
-  if (date) {
-    d = splitDate (date);
+  if (time) {
+    d = splitTime (time);
   } else {
     d = getNow ();
   }
@@ -107,7 +101,7 @@ function setTime (date, editedTime) {
   if (edited.length > 2) {
     d.second = edited[2];
   }
-  return joinDate (d);
+  return joinTime (d);
 }
 
 function checkTime (editedTime) {

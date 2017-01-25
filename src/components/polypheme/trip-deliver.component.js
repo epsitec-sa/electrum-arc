@@ -53,7 +53,9 @@ export default class TripDeliver extends React.Component {
   closeDeliver (action) {
     const closeDeliver = this.read ('close-deliver');
     if (closeDeliver) {
-      closeDeliver (action, this.getTime ());
+      const ticket = this.read ('ticket');
+      const trip = this.getTrip (ticket);
+      closeDeliver (action, trip.PlanedDate, this.getTime ());
     }
   }
 
