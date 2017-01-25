@@ -885,7 +885,7 @@ function setTrayName (state, id, value) {
 // ------------------------------------------------------------------------------------------
 
 export default function Reducer (state = {}, action = {}) {
-  // console.log (`reducer action.type=${action.type}`);
+  console.log (`reducer action.type=${action.type}`);
   switch (action.type) {
     case 'DROP':
       state = drop (state, action.fromKind, action.fromIds, action.toId, action.toOwnerId, action.toOwnerKind);
