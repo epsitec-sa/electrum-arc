@@ -74,6 +74,11 @@ export default class TicketsTray extends React.Component {
     }
   }
 
+  buttonClicked (e) {
+    this.setEdit (false);
+    this.updateTitleData ();
+  }
+
   // The button was clicked, replace Button by SimpleTextField (edit = true).
   mouseDown (e) {
     this.setEdit (true);
@@ -83,6 +88,7 @@ export default class TicketsTray extends React.Component {
   onMyBlur (e) {
     // console.log ('TicketsTray.onMyBlur');
     this.setEdit (false);
+    this.updateTitleData ();
   }
 
   // The title in SimpleTextField was changed, update the data.
@@ -92,13 +98,15 @@ export default class TicketsTray extends React.Component {
     const value = e.target.value;
     // console.log ('TicketsTray.onMyChange ' + value);
     this.setTitle (value);
+  }
 
+  updateTitleData () {
     const data = this.read ('data');
     const tray = this.read ('tray');
     reducerDragAndDrop (data, {
       type:  'SET_TRAY_NAME',
       id:    tray.id,
-      value: value,
+      value: this.getTitle (),
     });
   }
 
@@ -107,13 +115,19 @@ export default class TicketsTray extends React.Component {
   renderHeader () {
     if (this.getEdit ()) {
       return (
-        <SimpleTextField
-          autofocus      = {true}
-          updateStrategy = 'when-blur'
-          value          = {this.getTitle ()}
-          onBlur         = {e => this.onMyBlur (e)}
-          onChange       = {e => this.onMyChange (e)}
-          {...this.link ()} />
+        <Container kind='row' {...this.link ()} >
+          <SimpleTextField
+            autofocus      = {true}
+            updateStrategy = 'every-time'
+            value          = {this.getTitle ()}
+            onBlur         = {e => this.onMyBlur (e)}
+            onChange       = {e => this.onMyChange (e)}
+            {...this.link ()} />
+          <Button
+            glyph      = 'check'
+            mouse-down = {e => this.buttonClicked (e)}
+            {...this.link ()} />
+        </Container>
       );
     } else {
       return (
