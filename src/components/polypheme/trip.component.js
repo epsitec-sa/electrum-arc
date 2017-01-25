@@ -113,7 +113,7 @@ export default class Trip extends React.Component {
     }
   }
 
-  reduce (action, shiftKey, value, time) {
+  reduce (action, shiftKey, value, date, time) {
     console.log ('Trip.reducer');
     const data   = this.read ('data');
     const ticket = this.read ('ticket');
@@ -127,6 +127,7 @@ export default class Trip extends React.Component {
       id:       id,
       shiftKey: shiftKey,
       value:    value,
+      date:     date,
       time:     time,
     });
     if (window.document.mock) {
@@ -148,10 +149,10 @@ export default class Trip extends React.Component {
     this.setShowDeliver (true);
   }
 
-  closeDeliver (action, time) {
+  closeDeliver (action, date, time) {
     this.setShowDeliver (false);
     if (action === 'accept') {
-      this.reduce ('CHANGE_STATUS', false, 'delivered', time);
+      this.reduce ('CHANGE_STATUS', false, 'delivered', date, time);
     }
   }
 
@@ -159,10 +160,10 @@ export default class Trip extends React.Component {
     this.setShowPredispatch (true);
   }
 
-  closePredispatch (action, time) {
+  closePredispatch (action, date, time) {
     this.setShowPredispatch (false);
     if (action === 'accept') {
-      this.reduce ('CHANGE_STATUS', false, 'pre-dispatched', time);
+      this.reduce ('CHANGE_STATUS', false, 'pre-dispatched', date, time);
     }
   }
 
@@ -188,7 +189,7 @@ export default class Trip extends React.Component {
         <TripDeliver
           data          = {data}
           ticket        = {ticket}
-          close-deliver = {(action, time) => this.closeDeliver (action, time)}
+          close-deliver = {(action, date, time) => this.closeDeliver (action, date, time)}
           {...this.link ()} />
       );
     } else {
@@ -203,7 +204,7 @@ export default class Trip extends React.Component {
         <TripPredispatch
           data              = {data}
           ticket            = {ticket}
-          close-predispatch = {(action, time) => this.closePredispatch (action, time)}
+          close-predispatch = {(action, date, time) => this.closePredispatch (action, date, time)}
           {...this.link ()} />
       );
     } else {
