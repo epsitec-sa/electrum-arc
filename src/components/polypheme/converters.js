@@ -1,8 +1,10 @@
 'use strict';
 
+// value =  '1', decimals = 3  -> return '001'
+// value =  'a', decimals = 3  -> return null
 // value =    5, decimals = 3  -> return '005'
 // value =   12, decimals = 3  -> return '012'
-// value = 1234, decimals = 3  -> return '1234'
+// value = 1234, decimals = 3  -> return null
 function padding (value, decimals) {
   if (typeof value === 'string') {
     value = parseInt (value);
@@ -20,21 +22,20 @@ function padding (value, decimals) {
 
 // With '12:34:56', return {hour: 12, minute: 34, second: 56}.
 function splitTime (time) {
-  if (time && time.length === 8) {
-    // Format '17:45:03'.
-    let hour   = time.substring (0, 2);
-    let minute = time.substring (3, 5);
-    let second = time.substring (6, 8);
-    return {
-      hour:   hour,
-      minute: minute,
-      second: second,
-    };
-  } else {
-    throw new Error (`Invalid time ${time}`);
+  if (!time || time.length !== 8 || time[2] !== ':' || time[5] !== ':') {
+    throw new Error (`Bad formated time '${time}' (must be 'hh:mm:ss')`);
   }
+  let hour   = time.substring (0, 2);
+  let minute = time.substring (3, 5);
+  let second = time.substring (6, 8);
+  return {
+    hour:   hour,
+    minute: minute,
+    second: second,
+  };
 }
 
+// Return actual date and time.
 function getNow () {
   const now = new Date (Date.now ());
   return {
@@ -47,7 +48,7 @@ function getNow () {
   };
 }
 
-// With [12, 3], return '12:03:00'.
+// With {hour: 12, minute: 34, second: 56}, return '12:34:56'.
 function joinTime (time) {
   return padding (time.hour,   2) + ':' +
          padding (time.minute, 2) + ':' +
@@ -87,22 +88,22 @@ function getDisplayedTime (time, useNowByDefault) {
 
 // With editedTime = '12', return '12:00:00'.
 function getFormatedTime (editedTime) {
-  const d = {
+  const time = {
     hour:   0,
     minute: 0,
     second: 0,
   };
   const edited = parseTime (editedTime);
   if (edited.length > 0) {
-    d.hour = edited[0];
+    time.hour = edited[0];
   }
   if (edited.length > 1) {
-    d.minute = edited[1];
+    time.minute = edited[1];
   }
   if (edited.length > 2) {
-    d.second = edited[2];
+    time.second = edited[2];
   }
-  return joinTime (d);
+  return joinTime (time);
 }
 
 // With '12 3', return true;
@@ -113,7 +114,7 @@ function checkTime (editedTime) {
   if (edited.length === 0 || edited.length > 3) {
     return false;
   }
-  const max = [23, 59, 59];
+  const max = [23, 59, 59];  // max for hour, minute and second
   let i = 0;
   for (var part of edited) {
     const n = padding (part, 2);
