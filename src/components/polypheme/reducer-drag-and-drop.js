@@ -748,16 +748,16 @@ function swapExtended (state, id) {
 }
 
 // Change the status of a single tickets.
-function setStatus (state, flashes, id, value, date, time) {
+function setStatus (state, flashes, id, status, date, time) {
   const result = searchId (state, id);
   const ticket  = result.ticket;
   const tickets = result.tickets;
   const index   = result.index;
-  ticket.Status = value;
-  if (value !== 'pre-dispatched') {
+  ticket.Status = status;
+  if (status !== 'pre-dispatched') {
     clearSelected (state, ticket.id);
   }
-  if (value === 'delivered') {
+  if (status === 'delivered') {
     ticket.Trip.Pick.RealisedDate = date;
     ticket.Trip.Pick.RealisedTime = time;
     ticket.Trip.Drop.RealisedDate = date;
@@ -770,31 +770,31 @@ function setStatus (state, flashes, id, value, date, time) {
   }
   tickets[index] = regen (state, ticket);
   flashes.push (tickets[index].id);
-  electrumDispatch (state, 'setStatus', tickets[index].id, {value: value, date: date, time: time});
+  electrumDispatch (state, 'setStatus', tickets[index].id, {status: status, date: date, time: time});
 }
 
 // Returns the index of a status, to determine the direction of the operation (ascending or descending).
-function getStatusIndex (value) {
+function getStatusIndex (status) {
   const index = {
     ['pre-dispatched']: 1,
     dispatched:         2,
     delivered:          3,
-  } [value];
+  } [status];
   if (!index) {
-    throw new Error (`Unknown status ${value}`);
+    throw new Error (`Unknown status ${status}`);
   }
   return index;
 }
 
-function changeStatusNecessary (ascending, refTicket, otherTicket, newValue) {
+function changeStatusNecessary (ascending, refTicket, otherTicket, newStatus) {
   // console.log ('reducer.changeStatusNecessary');
   const refOrder   = refTicket.Order   ? refTicket.Order   : 0;
   const otherOrder = otherTicket.Order ? otherTicket.Order : 0;
-  const refStatusIndex   = getStatusIndex (refTicket.Status);
+  const refStatusIndex   = getStatusIndex (newStatus);
   const otherStatusIndex = getStatusIndex (otherTicket.Status);
   if (ascending) {  // pre-dispatched > dispatched > delivered ?
     // Propage changes to older tickets.
-    if (newValue === 'dispatched') {
+    if (newStatus === 'dispatched') {
       // Restricted change to tickets from the same messenger.
       return otherStatusIndex <= refStatusIndex && otherOrder <= refOrder && refTicket.OwnerId === otherTicket.OwnerId;
     } else {
@@ -807,12 +807,12 @@ function changeStatusNecessary (ascending, refTicket, otherTicket, newValue) {
 }
 
 // Change the status of (almost) all tickets, according to subtle business rules.
-function setBothStatus (state, flashes, ticket, currentValue, newValue, date, time) {
-  const ascending = getStatusIndex (currentValue) < getStatusIndex (newValue);
+function setBothStatus (state, flashes, ticket, currentStatus, newStatus, date, time) {
+  const ascending = getStatusIndex (currentStatus) < getStatusIndex (newStatus);
   const tickets = getSorteTicketsFromMissionId (state, ticket.Trip.MissionId);
   for (var otherTicket of tickets) {
-    if (changeStatusNecessary (ascending, ticket, otherTicket, newValue)) {
-      setStatus (state, flashes, otherTicket.id, newValue, date, time);
+    if (changeStatusNecessary (ascending, ticket, otherTicket, newStatus)) {
+      setStatus (state, flashes, otherTicket.id, newStatus, date, time);
     }
   }
 }
@@ -822,28 +822,28 @@ function swapStatus (state, id) {
   const warnings = [];
   const result = searchId (state, id);
   if (result.type === 'roadbook') {
-    const currentValue = result.tickets[result.index].Status;
-    let newValue;
-    if (currentValue === 'dispatched') {
-      newValue = 'delivered';
-    } else if (currentValue === 'delivered') {
-      newValue = 'pre-dispatched';
+    const currentStatus = result.tickets[result.index].Status;
+    let newStatus;
+    if (currentStatus === 'dispatched') {
+      newStatus = 'delivered';
+    } else if (currentStatus === 'delivered') {
+      newStatus = 'pre-dispatched';
     } else {
-      newValue = 'dispatched';
+      newStatus = 'dispatched';
     }
-    setBothStatus (state, flashes, result.ticket, currentValue, newValue);
+    setBothStatus (state, flashes, result.ticket, currentStatus, newStatus);
   }
   setMiscs (state, flashes, warnings);
   return state;
 }
 
-function changeStatus (state, id, newValue, date, time) {
+function changeStatus (state, id, newStatus, date, time) {
   const flashes = [];
   const warnings = [];
   const result = searchId (state, id);
   if (result.type === 'roadbook') {
-    const currentValue = result.tickets[result.index].Status;
-    setBothStatus (state, flashes, result.ticket, currentValue, newValue, date, time);
+    const currentStatus = result.tickets[result.index].Status;
+    setBothStatus (state, flashes, result.ticket, currentStatus, newStatus, date, time);
   }
   setMiscs (state, flashes, warnings);
   return state;
