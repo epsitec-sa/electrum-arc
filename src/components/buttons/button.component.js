@@ -49,6 +49,15 @@ export default class Button extends React.Component {
     return state.select ('menu-internal');
   }
 
+  clicked (e) {
+    const customOnClick = this.read ('custom-on-click');
+    if (customOnClick) {
+      customOnClick (e);
+    } else {
+      this.onClick (e);
+    }
+  }
+
   // Called when the button is clicked.
   showMenu () {
     // console.log ('>>>> showMenu <<<<');
@@ -223,7 +232,7 @@ export default class Button extends React.Component {
     if (kind === 'container' || kind === 'box') {
       return (
         <div
-          onClick      = {this.onClick}  // voir (*)
+          onClick      = {e => this.clicked (e)}  // voir (*)
           onMouseDown  = {e => this.mouseDown (e)}
           onMouseUp    = {e => this.mouseUp (e)}
           onTouchStart = {e => this.mouseDown (e)}
@@ -255,7 +264,7 @@ export default class Button extends React.Component {
     } else if (toAnchor) {
       return (
         <a
-          onClick      = {this.onClick}  // voir (*)
+          onClick      = {e => this.clicked (e)}  // voir (*)
           onMouseDown  = {e => this.mouseDown (e)}
           onMouseUp    = {e => this.mouseUp (e)}
           onTouchStart = {e => this.mouseDown (e)}
@@ -274,7 +283,7 @@ export default class Button extends React.Component {
     } else {
       return (
         <div
-          onClick      = {this.onClick}  // voir (*)
+          onClick      = {e => this.clicked (e)}  // voir (*)
           onMouseDown  = {e => this.mouseDown (e)}
           onMouseUp    = {e => this.mouseUp (e)}
           onTouchStart = {e => this.mouseDown (e)}
