@@ -15,14 +15,21 @@ export default class TicketsTray extends React.Component {
       title: null,
       edit:  false,
     };
+    this.initialTitle = null;
+  }
+
+  componentDidMount () {
+    // console.log ('TicketsTray.componentDidMount');
+    const title = this.read ('title');
+    this.setTitle (title);
   }
 
   componentWillMount () {
-    console.log ('TicketsTray.componentWillMount');
+    // console.log ('TicketsTray.componentWillMount');
   }
 
   componentWillUnmount () {
-    console.log ('TicketsTray.componentWillUnmount');
+    // console.log ('TicketsTray.componentWillUnmount');
   }
 
   get styleProps () {
@@ -54,17 +61,13 @@ export default class TicketsTray extends React.Component {
       edit: value
     });
     if (value) {
+      this.initialTitle = this.getTitle ();
       MouseTrap.bind ('enter', () => this.enterAction ());
       MouseTrap.bind ('esc',   () => this.enterAction ());
     } else {
       MouseTrap.unbind ('enter');
       MouseTrap.unbind ('esc');
     }
-  }
-
-  componentDidMount () {
-    const title = this.read ('title');
-    this.setTitle (title);
   }
 
   enterAction () {
@@ -74,7 +77,13 @@ export default class TicketsTray extends React.Component {
     }
   }
 
-  buttonClicked (e) {
+  acceptClicked (e) {
+    this.setEdit (false);
+    this.updateTitleData ();
+  }
+
+  cancelClicked (e) {
+    this.setTitle (this.initialTitle);
     this.setEdit (false);
     this.updateTitleData ();
   }
@@ -125,7 +134,11 @@ export default class TicketsTray extends React.Component {
             {...this.link ()} />
           <Button
             glyph      = 'check'
-            mouse-down = {e => this.buttonClicked (e)}
+            mouse-down = {e => this.acceptClicked (e)}
+            {...this.link ()} />
+          <Button
+            glyph      = 'close'
+            mouse-down = {e => this.cancelClicked (e)}
             {...this.link ()} />
         </Container>
       );
