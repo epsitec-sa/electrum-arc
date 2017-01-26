@@ -43,7 +43,9 @@ export default class Splitter extends React.Component {
         maxSize       = {maxSize}
         firstViewId   = {firstViewId}
         lastViewId    = {lastViewId}
-        onSizeChanged = {onSizeChanged} >
+        onSizeChanged = {onSizeChanged}
+        {...this.link ()}
+        >
         {this.props.children}
       </SplitPane>
     );
