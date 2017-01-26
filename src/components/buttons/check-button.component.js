@@ -16,6 +16,7 @@ export default class CheckButton extends React.Component {
     const text    = this.read ('text');
     const checked = this.read ('checked');
     const spacing = this.read ('spacing');
+    const action  = this.read ('action');
 
     let glyph;
     if (kind === 'switch') {
@@ -27,7 +28,7 @@ export default class CheckButton extends React.Component {
     }
 
     return (
-      <Button glyph={glyph} text={text} border='none' spacing={spacing} {...this.link ()} />
+      <Button action={action} glyph={glyph} text={text} border='none' spacing={spacing} {...this.link ()} />
     );
   }
 }
