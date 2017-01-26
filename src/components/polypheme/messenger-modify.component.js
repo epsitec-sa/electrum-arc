@@ -46,9 +46,9 @@ export default class MessengerModify extends React.Component {
   renderFooter () {
     return (
       <Container kind='actions' subkind='no-shadow' {...this.link ()} >
-        <Button action={() => this.modifyAccept ()} glyph='check' text='Modifier' kind='action'
+        <Button mouse-down={() => this.modifyAccept ()} glyph='check' text='Modifier' kind='action'
           grow='1' place='left' {...this.link ()} />
-        <Button action={() => this.modifyCancel ()} glyph='close' text='Annuler' kind='action'
+        <Button mouse-down={() => this.modifyCancel ()} glyph='close' text='Annuler' kind='action'
           grow='1' place='right' {...this.link ()} />
       </Container>
     );

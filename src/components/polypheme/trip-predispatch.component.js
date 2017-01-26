@@ -40,20 +40,20 @@ export default class TripPredispatch extends React.Component {
     return (
       <Container kind='actions' subkind='no-shadow' {...this.link ()} >
         <Button
-          action   = {() => this.doAccept ()}
-          glyph    = 'check'
-          text     = 'Oui'
-          kind     = 'action'
-          grow     = '1'
-          place    = 'left'
+          mouse-down = {() => this.doAccept ()}
+          glyph      = 'check'
+          text       = 'Oui'
+          kind       = 'action'
+          grow       = '1'
+          place      = 'left'
           {...this.link ()} />
         <Button
-          action   = {() => this.doCancel ()}
-          glyph    = 'close'
-          text     = 'Non'
-          kind     = 'action'
-          grow     = '1'
-          place    = 'right'
+          mouse-down = {() => this.doCancel ()}
+          glyph      = 'close'
+          text       = 'Non'
+          kind       = 'action'
+          grow       = '1'
+          place      = 'right'
           {...this.link ()} />
       </Container>
     );

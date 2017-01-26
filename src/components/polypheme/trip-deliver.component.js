@@ -115,21 +115,21 @@ export default class TripDeliver extends React.Component {
     return (
       <Container kind='actions' subkind='no-shadow' {...this.link ()} >
         <Button
-          action   = {() => this.doAccept ()}
-          disabled = {this.getOk () ? 'false' : 'true'}
-          glyph    = 'check'
-          text     = 'C´est livré'
-          kind     = 'action'
-          grow     = '1'
-          place    = 'left'
+          mouse-down = {() => this.doAccept ()}
+          disabled   = {this.getOk () ? 'false' : 'true'}
+          glyph      = 'check'
+          text       = 'C´est livré'
+          kind       = 'action'
+          grow       = '1'
+          place      = 'left'
           {...this.link ()} />
         <Button
-          action   = {() => this.doCancel ()}
-          glyph    = 'close'
-          text     = 'Annuler'
-          kind     = 'action'
-          grow     = '1'
-          place    = 'right'
+          mouse-down = {() => this.doCancel ()}
+          glyph      = 'close'
+          text       = 'Annuler'
+          kind       = 'action'
+          grow       = '1'
+          place      = 'right'
           {...this.link ()} />
       </Container>
     );
