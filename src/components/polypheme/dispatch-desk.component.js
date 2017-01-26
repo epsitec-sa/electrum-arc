@@ -7,7 +7,7 @@ import {Container, Trip, TicketsTray} from '../../all-components.js';
 /******************************************************************************/
 
 function formatValue (value) {
-  if (typeof value === 'string' && value.endsWith ('px')) {
+  if (typeof value === 'string' && !value.endsWith ('px')) {
     return value + 'px';
   } else {
     const p = Unit.parse (value);
