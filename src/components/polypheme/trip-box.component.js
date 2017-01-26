@@ -6,7 +6,7 @@ import {Unit} from 'electrum-theme';
 import {Ticket, Container, Label, Button, Gauge} from '../../all-components.js';
 import {ColorHelpers} from 'electrum-theme';
 import reducerDragAndDrop from './reducer-drag-and-drop.js';
-import {getTime, getPackageCount} from './converters';
+import {getDisplayedTime, getPackageCount} from './converters';
 import {isSelected, isFlash, getDirectionGlyph} from './ticket-helpers.js';
 
 /******************************************************************************/
@@ -88,7 +88,7 @@ export default class TripBox extends React.Component {
           <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
             <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
               <Container kind='thin-row' width='50px' {...this.link ()} >
-                <Label text={getTime (ticket.Trip.Pick.PlanedTime)} font-weight='bold' wrap='no'
+                <Label text={getDisplayedTime (ticket.Trip.Pick.PlanedTime)} font-weight='bold' wrap='no'
                   {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >
@@ -107,7 +107,7 @@ export default class TripBox extends React.Component {
             </Container>
             <Container kind='thin-row' grow='1' {...this.link ()} >
               <Container kind='thin-row' width='50px' {...this.link ()} >
-                <Label text={getTime (ticket.Trip.Drop.PlanedTime)} font-weight='bold' wrap='no'
+                <Label text={getDisplayedTime (ticket.Trip.Drop.PlanedTime)} font-weight='bold' wrap='no'
                   {...this.link ()} />
               </Container>
               <Container kind='thin-row' width='20px' {...this.link ()} >

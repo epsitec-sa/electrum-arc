@@ -1,16 +1,16 @@
 'use strict';
 
-import {getTime} from './converters';
+import {getFormatedTime} from './converters';
 
 function sortTimePick (a, b) {
-  const ta = getTime (a.Trip.Pick.PlanedTime);
-  const tb = getTime (b.Trip.Pick.PlanedTime);
+  const ta = getFormatedTime (a.Trip.Pick.PlanedTime);
+  const tb = getFormatedTime (b.Trip.Pick.PlanedTime);
   return ta.localeCompare (tb);
 }
 
 function sortTimeDrop (a, b) {
-  const ta = getTime (a.Trip.Drop.PlanedTime);
-  const tb = getTime (b.Trip.Drop.PlanedTime);
+  const ta = getFormatedTime (a.Trip.Drop.PlanedTime);
+  const tb = getFormatedTime (b.Trip.Drop.PlanedTime);
   return ta.localeCompare (tb);
 }
 
