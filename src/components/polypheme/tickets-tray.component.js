@@ -20,8 +20,8 @@ export default class TicketsTray extends React.Component {
 
   componentDidMount () {
     // console.log ('TicketsTray.componentDidMount');
-    const title = this.read ('title');
-    this.setTitle (title);
+    const tray = this.read ('tray');
+    this.setTitle (tray.Name);
   }
 
   componentWillMount () {
@@ -120,7 +120,7 @@ export default class TicketsTray extends React.Component {
   }
 
   // Render the header, that contains a Button (with a look like a Label)
-  // or a SimpleTextField.
+  // or a SimpleTextField followed by [v] [x].
   renderHeader () {
     if (this.getEdit ()) {
       return (
