@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {DialogModal, Container, Button, Label, LabelTextField, Separator} from '../../all-components.js';
-import {getTime, setTime, checkTime} from './converters';
+import {getDisplayedTime, getFormatedTime, checkTime} from './converters';
 
 /******************************************************************************/
 
@@ -40,14 +40,11 @@ export default class TripDeliver extends React.Component {
     console.log ('TripDeliver.componentWillMount');
     const ticket = this.read ('ticket');
     const trip = this.getTrip (ticket);
-    const time = getTime (trip.RealisedTime, true);
-    this.setRealisedTime (time);
+    this.setRealisedTime (getDisplayedTime (trip.RealisedTime, true));
   }
 
   getTime () {
-    const ticket = this.read ('ticket');
-    const trip = this.getTrip (ticket);
-    return setTime (trip.RealisedTime, this.getRealisedTime ());
+    return getFormatedTime (this.getRealisedTime ());
   }
 
   closeDeliver (action) {
@@ -97,7 +94,7 @@ export default class TripDeliver extends React.Component {
           label-text  = 'Heure planifiée'
           label-width = '200px'
           hint-text   = 'Heure'
-          value       = {getTime (trip.PlanedTime)}
+          value       = {getDisplayedTime (trip.PlanedTime)}
           {...this.link ()} />
         <LabelTextField
           grow           = '1'

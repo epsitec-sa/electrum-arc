@@ -2,17 +2,6 @@
 
 import React from 'react';
 import {DialogModal, Container, Button, Label, LabelTextField, Separator} from '../../all-components.js';
-import {getTime} from './converters';
-import {getDirectionGlyph} from './ticket-helpers.js';
-
-/******************************************************************************/
-
-function prepareLines (text) {
-  if (text) {
-    text = text.replace (/\\n/g, '\n');  // replace all \\n by \n
-  }
-  return text;
-}
 
 /******************************************************************************/
 

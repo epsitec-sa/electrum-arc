@@ -6,7 +6,7 @@ import {Ticket, Container, Label, Separator, Badge} from '../../all-components.j
 import {ColorHelpers} from 'electrum-theme';
 import {Unit} from 'electrum-theme';
 import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
-import {getTime, getPackageCount} from './converters';
+import {getDisplayedTime, getPackageCount} from './converters';
 import {isSelected, isExtended, isFlash, getDirectionGlyph, getPackageDescription, getStatusDescription} from './ticket-helpers.js';
 
 /******************************************************************************/
@@ -181,12 +181,12 @@ export default class TripTicket extends React.Component {
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           {this.renderWarning (ticket.Warning)}
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
-            <Label text={getTime (planedTime)} font-weight='bold' width='50px' {...this.link ()} />
+            <Label text={getDisplayedTime (planedTime)} font-weight='bold' width='50px' {...this.link ()} />
             <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
             <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
           </Container>
           <Container kind='ticket-row' {...this.link ()} >
-            <Label text={getTime (realisedTime)} font-weight='normal' width='50px' {...this.link ()} />
+            <Label text={getDisplayedTime (realisedTime)} font-weight='normal' width='50px' {...this.link ()} />
             <Label text='' width='25px' {...this.link ()} />
             <Label glyph='cube' spacing='compact' {...this.link ()} />
             <Label text={getPackageCount (ticket.Trip.Packages.length)} grow='1' {...this.link ()} />
@@ -235,7 +235,7 @@ export default class TripTicket extends React.Component {
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           {this.renderWarning (ticket.Warning)}
           <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
-            <Label text={getTime (planedTime)} font-weight='bold' width='50px' {...this.link ()} />
+            <Label text={getDisplayedTime (planedTime)} font-weight='bold' width='50px' {...this.link ()} />
             <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
             <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
           </Container>

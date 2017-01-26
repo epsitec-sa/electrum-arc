@@ -3,7 +3,7 @@
 import Electrum from 'electrum';
 import Enumerable from 'linq';
 import reducerTickets from './reducer-tickets.js';
-import {getTime} from './converters';
+import {getFormatedTime, getEmptyTime, getEmptyDate} from './converters';
 
 // ------------------------------------------------------------------------------------------
 
@@ -408,8 +408,8 @@ function sortTicket (a, b) {
   const sb = getSortingTicketOrder (b).toString ();
   if (sa === sb) {
     // If they have the same type, sort chronologically.
-    const ta = getTime (a.Trip.Drop.PlanedTime);
-    const tb = getTime (b.Trip.Drop.PlanedTime);
+    const ta = getFormatedTime (a.Trip.Drop.PlanedTime);
+    const tb = getFormatedTime (b.Trip.Drop.PlanedTime);
     return ta.localeCompare (tb);
   } else {
     return sa.localeCompare (sb);
@@ -763,10 +763,10 @@ function setStatus (state, flashes, id, value, date, time) {
     ticket.Trip.Drop.RealisedDate = date;
     ticket.Trip.Drop.RealisedTime = time;
   } else {
-    ticket.Trip.Pick.RealisedDate = null;
-    ticket.Trip.Pick.RealisedTime = null;
-    ticket.Trip.Drop.RealisedDate = null;
-    ticket.Trip.Drop.RealisedTime = null;
+    ticket.Trip.Pick.RealisedDate = getEmptyDate ();
+    ticket.Trip.Pick.RealisedTime = getEmptyTime ();
+    ticket.Trip.Drop.RealisedDate = getEmptyDate ();
+    ticket.Trip.Drop.RealisedTime = getEmptyTime ();
   }
   tickets[index] = regen (state, ticket);
   flashes.push (tickets[index].id);
