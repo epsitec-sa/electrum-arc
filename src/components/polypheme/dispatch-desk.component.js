@@ -1,12 +1,17 @@
 'use strict';
 
 import React from 'react';
+import {Unit} from 'electrum-theme';
+import {Container, Trip, TicketsTray} from '../../all-components.js';
 
-import {
-  Container,
-  Trip,
-  TicketsTray
-} from '../../all-components.js';
+/******************************************************************************/
+
+function formatValue (value) {
+  const p = Unit.parse (value);
+  return p.value + p.unit;  // by example '30px'
+}
+
+/******************************************************************************/
 
 export default class DispatchDesk extends React.Component {
 
@@ -45,13 +50,13 @@ export default class DispatchDesk extends React.Component {
   }
 
   renderTray (tray, data, index) {
-    const left = tray.Left ? tray.Left : (30 + 280 * index) + 'px';
-    const top  = tray.Top ? tray.Top : '30px';
+    const left = tray.Left ? tray.Left : 30 + 280 * index;
+    const top  = tray.Top ? tray.Top : 30;
     return (
       <TicketsTray
         key    = {index}
-        left   = {left}
-        top    = {top}
+        left   = {formatValue (left)}
+        top    = {formatValue (top)}
         rotate = {tray.Rotation}
         tray   = {tray}
         data   = {data}
