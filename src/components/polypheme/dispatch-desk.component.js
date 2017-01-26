@@ -7,8 +7,12 @@ import {Container, Trip, TicketsTray} from '../../all-components.js';
 /******************************************************************************/
 
 function formatValue (value) {
-  const p = Unit.parse (value);
-  return p.value + p.unit;  // by example '30px'
+  if (typeof value === 'string' && value.endsWith ('px')) {
+    return value + 'px';
+  } else {
+    const p = Unit.parse (value);
+    return p.value + p.unit;  // by example '30px'
+  }
 }
 
 /******************************************************************************/
