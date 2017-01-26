@@ -683,15 +683,15 @@ function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
   setMiscs (state, flashes, warnings);
   updateShapes (state);
 
-  // // Send action to electrum.
-  // Electrum.bus.dispatch (state, 'dnd', {
-  //   type:         'drop',
-  //   itemKind:     fromKind,
-  //   itemIds:      fromIds,
-  //   beforeItemId: toId,
-  //   toOwnerId:    toOwnerId,
-  //   toOwnerKind:  toOwnerKind,
-  // });
+  // Send action to electrum.
+  Electrum.bus.dispatch (state, 'dnd', {
+    type:         'drop',
+    itemKind:     fromKind,
+    itemIds:      fromIds,
+    beforeItemId: toId,
+    toOwnerId:    toOwnerId,
+    toOwnerKind:  toOwnerKind,
+  });
 
   return state;
 }
