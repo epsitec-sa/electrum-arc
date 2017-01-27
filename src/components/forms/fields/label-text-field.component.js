@@ -55,6 +55,19 @@ export default class LabelTextField extends React.Component {
     this.setReadonly (true);
   }
 
+  actionClicked (e) {
+    this.onClick (e);
+  }
+
+  hasActionButton () {
+    const actionGlyph = this.read ('action-glyph');
+    if (actionGlyph) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   renderButton () {
     const shape      = this.read ('shape');
     const labelGlyph = this.read ('label-glyph');
@@ -110,41 +123,61 @@ export default class LabelTextField extends React.Component {
     if (updateStrategy) {
       return (
         <SimpleTextField
-          id             = {id}
-          type           = {type}
-          width          = {fieldWidth}
-          value          = {displayValue}
-          hint-text      = {hintText}
-          filter-keys    = {filterKeys}
-          shape          = {textFieldShape}
-          tab-index      = {tabIndex}
-          rows           = {rows}
-          readonly       = {visibleReadonly}
-          updateStrategy = {updateStrategy}
-          onChange       = {e => this.onMyChange (e)}
-          onFocus        = {e => this.onMyFocus (e)}
-          onBlur         = {e => this.onMyBlur (e)}
+          id                  = {id}
+          type                = {type}
+          width               = {fieldWidth}
+          value               = {displayValue}
+          hint-text           = {hintText}
+          filter-keys         = {filterKeys}
+          spacing             = {this.hasActionButton () ? 'overlap' : null}
+          shape               = {textFieldShape}
+          tab-index           = {tabIndex}
+          rows                = {rows}
+          readonly            = {visibleReadonly}
+          select-all-on-focus = {visibleReadonly}
+          updateStrategy      = {updateStrategy}
+          onChange            = {e => this.onMyChange (e)}
+          onFocus             = {e => this.onMyFocus (e)}
+          onBlur              = {e => this.onMyBlur (e)}
           {...this.link ()}
         />
       );
     } else {
       return (
         <TextField
-          id          = {id}
-          type        = {type}
-          width       = {fieldWidth}
-          value       = {displayValue}
-          hint-text   = {hintText}
-          filter-keys = {filterKeys}
-          shape       = {textFieldShape}
-          tab-index   = {tabIndex}
-          rows        = {rows}
-          readonly    = {visibleReadonly}
-          onFocus     = {e => this.onMyFocus (e)}
-          onBlur      = {e => this.onMyBlur (e)}
+          id                  = {id}
+          type                = {type}
+          width               = {fieldWidth}
+          value               = {displayValue}
+          hint-text           = {hintText}
+          filter-keys         = {filterKeys}
+          spacing             = {this.hasActionButton () ? 'overlap' : null}
+          shape               = {textFieldShape}
+          tab-index           = {tabIndex}
+          rows                = {rows}
+          readonly            = {visibleReadonly}
+          select-all-on-focus = {visibleReadonly}
+          onFocus             = {e => this.onMyFocus (e)}
+          onBlur              = {e => this.onMyBlur (e)}
           {...this.link ()}
         />
       );
+    }
+  }
+
+  renderAction () {
+    if (this.hasActionButton ()) {
+      const actionGlyph = this.read ('action-glyph');
+      return (
+        <Button
+          kind            = 'combo'
+          glyph           = {actionGlyph}
+          custom-on-click = {e => this.actionClicked (e)}
+          {...this.link ()}
+        />
+      );
+    } else {
+      return null;
     }
   }
 
@@ -161,6 +194,7 @@ export default class LabelTextField extends React.Component {
         >
         {this.renderButton ()}
         {this.renderInput ()}
+        {this.renderAction ()}
       </span>
     );
   }
