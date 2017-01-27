@@ -8,6 +8,8 @@ import _Combo from './components/combo/combo.component.js';
 import _Combo$styles from './components/combo/combo.styles.js';
 import _DialogModal from './components/combo/dialog-modal.component.js';
 import _DialogModal$styles from './components/combo/dialog-modal.styles.js';
+import _AgnosticTicket from './components/containers/agnostic-ticket.component.js';
+import _AgnosticTicket$styles from './components/containers/agnostic-ticket.styles.js';
 import _AppCanvas from './components/containers/app-canvas.component.js';
 import _AppCanvas$styles from './components/containers/app-canvas.styles.js';
 import _Container from './components/containers/container.component.js';
@@ -83,6 +85,7 @@ export const Button = Electrum.wrap ('Button', _Button, {styles: _Button$styles}
 export const CheckButton = Electrum.wrap ('CheckButton', _CheckButton);
 export const Combo = Electrum.wrap ('Combo', _Combo, {styles: _Combo$styles});
 export const DialogModal = Electrum.wrap ('DialogModal', _DialogModal, {styles: _DialogModal$styles});
+export const AgnosticTicket = Electrum.wrap ('AgnosticTicket', _AgnosticTicket, {styles: _AgnosticTicket$styles});
 export const AppCanvas = Electrum.wrap ('AppCanvas', _AppCanvas, {styles: _AppCanvas$styles});
 export const Container = Electrum.wrap ('Container', _Container, {styles: _Container$styles});
 export const Dialog = Electrum.wrap ('Dialog', _Dialog, {styles: _Dialog$styles});

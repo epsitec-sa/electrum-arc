@@ -2,12 +2,15 @@
 
 import React from 'react';
 
-import {Ticket, Container, Label, Separator, Badge} from '../../all-components.js';
+import {Ticket, AgnosticTicket, Container, Label, Separator, Badge} from '../../all-components.js';
+import {ColorManipulator} from 'electrum';
 import {ColorHelpers} from 'electrum-theme';
 import {Unit} from 'electrum-theme';
 import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 import {getDisplayedTime, getPackageCount} from './converters';
 import {isSelected, isExtended, isFlash, getDirectionGlyph, getPackageDescription, getStatusDescription} from './ticket-helpers.js';
+
+const {emphasize} = ColorManipulator;
 
 /******************************************************************************/
 
@@ -16,8 +19,19 @@ export default class TripTicket extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      link: false,
+      hover: false,
+      link:  false,
     };
+  }
+
+  getHover () {
+    return this.state.hover;
+  }
+
+  setHover (value) {
+    this.setState ( {
+      hover: value
+    });
   }
 
   getLink () {
@@ -30,6 +44,20 @@ export default class TripTicket extends React.Component {
     });
   }
 
+  componentDidMount () {
+    if (!window.document.tripTickets) {
+      window.document.tripTickets = [];
+    }
+    window.document.tripTickets.push (this);
+  }
+
+  componentWillUnmount () {
+    const index = window.document.tripTickets.indexOf (this);
+    if (index !== -1) {
+      window.document.tripTickets.splice (index, 1);
+    }
+  }
+
   getBackgroundText (ticket) {
     if (this.getLink ()) {
       return ticket.Order + 1;  // display 1..4 (for pick, drop-transit, pick-transit and drop)
@@ -40,6 +68,33 @@ export default class TripTicket extends React.Component {
 
   getHudGlyph (data, ticket) {
     return isSelected (data, ticket.id) ? 'check' : null;
+  }
+
+  //  Update state.link to all tickets linked.
+  //  By example, pick and drop to a trip, or 4 tickets if has transit.
+  setLinkToAll (link) {
+    const thisTicket = this.read ('ticket');
+    const missionId = thisTicket.Trip.MissionId;
+    if (missionId) {
+      for (var i = 0, len = window.document.tripTickets.length; i < len; i++) {
+        const tripTicket = window.document.tripTickets[i];
+        const otherTicket = tripTicket.read ('ticket');
+        const m = otherTicket.Trip.MissionId;
+        if (missionId === m) {
+          tripTicket.setLink (link);
+        }
+      }
+    }
+  }
+
+  mouseOver () {
+    this.setHover (true);
+    this.setLinkToAll (true);
+  }
+
+  mouseOut () {
+    this.setHover (false);
+    this.setLinkToAll (false);
   }
 
   renderGlyph (glyph) {
@@ -197,6 +252,79 @@ export default class TripTicket extends React.Component {
     );
   }
 
+  renderCompacted2 () {
+    const width    = this.props.theme.shapes.tripTicketWidth;
+    const data     = this.read ('data');
+    const shape    = this.read ('shape');
+    const ticket   = this.read ('ticket');
+    const noDrag   = this.read ('no-drag');
+    const selected = this.read ('selected');
+    const type     = ticket.Type;
+
+    const trip           = type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
+    const planedTime     = trip.PlanedTime;
+    const realisedTime   = trip.RealisedTime;
+    const directionGlyph = getDirectionGlyph (this.props.theme, type);
+    const notes          = trip.Notes;
+    const height         = ticket.Warning ? '90px' : '60px';
+    const marginBottom   = '-10px';
+    const cursor         = (noDrag === 'true') ? 'default' : 'move';
+    const hudGlyph       = this.getHudGlyph (data, ticket);
+    const flash          = isFlash (data, ticket.id) ? 'true' : 'false';
+
+    let color = this.props.theme.palette.ticketBackground;
+    let hoverShape = null;
+
+    if (ticket.Status === 'delivered') {
+      color = this.props.theme.palette.ticketDeliveredBackground;
+    }
+    if (this.getHover ()) {
+      color = emphasize (color, 0.1);
+    }
+    if (this.getLink ()) {
+      if (ticket.Type.startsWith ('pick')) {
+        hoverShape = 'first';
+      } else {
+        hoverShape = 'last';
+      }
+    }
+
+    const hatch = (ticket.Status === 'dispatched' || ticket.Status === 'delivered') ? 'true' : 'false';
+
+    return (
+      <AgnosticTicket
+        width           = {width}
+        height          = {height}
+        color           = {color}
+        background-text = {this.getBackgroundText (ticket)}
+        kind            = 'ticket'
+        shape           = {shape}
+        hatch           = {hatch}
+        hover-shape     = {hoverShape}
+        cursor          = {cursor}
+        hud-glyph       = {hudGlyph}
+        mouse-over      = {() => this.mouseOver ()}
+        mouse-out       = {() => this.mouseOut ()}
+        {...this.link ()} >
+        <Container kind='ticket-column' grow='1' {...this.link ()} >
+          {this.renderWarning (ticket.Warning)}
+          <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
+            <Label text={getDisplayedTime (planedTime)} font-weight='bold' width='50px' {...this.link ()} />
+            <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
+            <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
+          </Container>
+          <Container kind='ticket-row' {...this.link ()} >
+            <Label text={getDisplayedTime (realisedTime)} font-weight='normal' width='50px' {...this.link ()} />
+            <Label text='' width='25px' {...this.link ()} />
+            <Label glyph='cube' spacing='compact' {...this.link ()} />
+            <Label text={getPackageCount (ticket.Trip.Packages.length)} grow='1' {...this.link ()} />
+            {this.renderNoteGlyphs (notes)}
+          </Container>
+        </Container>
+      </AgnosticTicket>
+    );
+  }
+
   renderExtended () {
     const width    = this.props.theme.shapes.tripTicketWidth;
     const data     = this.read ('data');
@@ -257,7 +385,7 @@ export default class TripTicket extends React.Component {
     if (isExtended (data, ticket.id)) {
       return this.renderExtended ();
     } else {
-      return this.renderCompacted ();
+      return this.renderCompacted2 ();
     }
   }
 }
