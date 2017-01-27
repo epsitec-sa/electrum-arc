@@ -31,7 +31,13 @@ export default class CheckButton extends React.Component {
     }
 
     return (
-      <Button custom-on-click={e => this.buttonClicked (e)} glyph={glyph} text={text} border='none' spacing={spacing} {...this.link ()} />
+      <Button
+        custom-on-click = {e => this.buttonClicked (e)}
+        glyph           = {glyph}
+        text            = {text}
+        border          = 'none'
+        spacing         = {spacing}
+        {...this.link ()} />
     );
   }
 }
