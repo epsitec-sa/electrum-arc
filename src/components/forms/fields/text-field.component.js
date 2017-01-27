@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {Action} from 'electrum';
 import {FlyingBalloon} from '../../../all-components.js';
 
@@ -25,8 +26,21 @@ export default class TextField extends React.Component {
     };
   }
 
+  selectAll () {
+    const selectAllOnFocus = this.read ('select-all-on-focus');
+    if (selectAllOnFocus === 'true') {
+      const node = ReactDOM.findDOMNode (this.refs.inputTag);
+      // Set focus to child <input>, asynchronously.
+      setTimeout (() => {
+        node.focus ();
+        node.select ();
+      }, 0);
+    }
+  }
+
   onMyFocus (e) {
     this.onFocus (e);
+    this.selectAll ();
     const onFocus = this.read ('onFocus');
     if (onFocus) {
       onFocus (e);
@@ -54,6 +68,7 @@ export default class TextField extends React.Component {
       const textareaStyle = this.mergeStyles ('textarea');
       return (
         <textarea
+          ref         = 'inputTag'
           id          = {id}
           style       = {textareaStyle}
           onChange    = {this.onChange}
@@ -72,6 +87,7 @@ export default class TextField extends React.Component {
       const fieldStyle = this.mergeStyles ('field');
       return (
         <input
+          ref         = 'inputTag'
           id          = {id}
           onChange    = {this.onChange}
           onFocus     = {e => this.onMyFocus (e)}
