@@ -140,29 +140,30 @@ function getHoverPath (theme, shape, hoverShape, width, height) {
 
 
 export default function styles (theme, props) {
-  const width      = props.width;
-  const height     = props.height;
-  const kind       = props.kind;
-  const shape      = props.shape;
-  const hoverShape = props.hoverShape;
-  const color      = props.color;
-  const cursor     = props.cursor;
+  const width       = props.width;
+  const height      = props.height;
+  const kind        = props.kind;
+  const shape       = props.shape;
+  const hoverShape  = props.hoverShape;
+  const color       = props.color;
+  const cursor      = props.cursor;
+  const hideContent = props.hideContent;
 
   const r = (kind === 'thin') ? theme.shapes.ticketRectRadius : theme.shapes.ticketCornerRadius;
   let radius;
-  if (hoverShape === 'first') {
+  if (shape === 'first') {
     radius = r + ' ' + r + ' 0px 0px';
-  } else if (hoverShape === 'last') {
+  } else if (shape === 'last') {
     radius = '0px 0px ' + r + ' ' + r;
   } else {
     radius = r;
   }
 
-  const v = (shape === 'first') ? '1px' : theme.shapes.ticketVerticalSpacing;
+  const vm = (shape === 'first') ? '1px' : theme.shapes.ticketVerticalSpacing;
   const boxStyle = {
     width:      width,
     height:     height,
-    margin:     '0px 0px ' + v + ' 0px',
+    margin:     '0px 0px ' + vm + ' 0px',
     position:   'relative',
     cursor:     cursor,
     transition: theme.transitions.easeOut (),
@@ -209,12 +210,12 @@ export default function styles (theme, props) {
     flexDirection: 'row',
     transition:    theme.transitions.easeOut (),
     userSelect:    'none',
+    visibility:    (hideContent === 'true') ? 'hidden' : 'visible',
   };
 
-  const bm = (kind === 'thin') ? theme.shapes.tripBoxBottomMargin : '5px';
   const rectShadowStyle = {
     width:           width,
-    margin:          `0px 0px ${bm} 0px`,
+    margin:          '0px 0px ' + vm + ' 0px',
     position:        'relative',
     top:             theme.shapes.ticketShadowShift,
     cursor:          cursor,
