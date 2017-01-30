@@ -346,7 +346,7 @@ export default class TripTicket extends React.Component {
   render () {
     const width           = this.props.theme.shapes.tripTicketWidth;
     const data            = this.read ('data');
-    const kind            = this.read ('kind');
+    const parentKind      = this.read ('kind');
     const shape           = this.read ('shape');
     const ticket          = this.read ('ticket');
     const noDrag          = this.read ('no-drag');
@@ -359,7 +359,7 @@ export default class TripTicket extends React.Component {
     const cursor   = (noDrag === 'true') ? 'default' : 'move';
     const hatch    = (ticket.Status === 'dispatched' || ticket.Status === 'delivered') ? 'true' : 'false';
     const extended = isExtended (data, ticket.id);
-    const kind     = (kind === 'trip-box') ? 'thin' : (extended ? 'rect' : 'ticket');
+    const kind     = (parentKind === 'trip-box') ? 'thin' : (extended ? 'rect' : 'ticket');
     const height   = extended ? null : (ticket.Warning ? '90px' : '60px');
 
     let color = this.props.theme.palette.ticketBackground;
