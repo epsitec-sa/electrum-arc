@@ -2,8 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {TripBox, TripTicket, DragCab, TripCombo, TripModify, TripDeliver, TripPredispatch} from '../../all-components.js';
-import {Unit} from 'electrum-theme';
+import {TripTicket, DragCab, TripCombo, TripModify, TripDeliver, TripPredispatch} from '../../all-components.js';
 import reducerDragAndDrop from './reducer-drag-and-drop.js';
 import {setDragCabHasCombo, getComboLocation} from '../combo/combo-helpers.js';
 

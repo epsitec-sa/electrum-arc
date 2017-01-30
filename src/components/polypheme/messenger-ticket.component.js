@@ -2,8 +2,11 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Ticket, Container, Label, Button, MessengerModify, MessengerCombo} from '../../all-components.js';
+import {AgnosticTicket, Container, Label, Button, MessengerModify, MessengerCombo} from '../../all-components.js';
 import {setDragCabHasCombo, getComboLocation} from '../combo/combo-helpers.js';
+import {ColorManipulator} from 'electrum';
+
+const {darken} = ColorManipulator;
 
 /******************************************************************************/
 
@@ -12,10 +15,21 @@ export default class MessengerTicket extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
+      hover:      false,
       showCombo:  false,
       showModify: false,
     };
     this.comboLocation = null;
+  }
+
+  getHover () {
+    return this.state.hover;
+  }
+
+  setHover (value) {
+    this.setState ( {
+      hover: value
+    });
   }
 
   getShowCombo () {
@@ -41,11 +55,23 @@ export default class MessengerTicket extends React.Component {
     });
   }
 
+  getShowSomethink () {
+    return this.getShowCombo () || this.getShowModify ();
+  }
+
   showCombo (x, y) {
     // console.log ('MessengerTicket.showCombo');
     const node = ReactDOM.findDOMNode (this);
     this.comboLocation = getComboLocation (node, this.props.theme, x);
     this.setShowCombo (true);
+  }
+
+  mouseOver () {
+    this.setHover (true);
+  }
+
+  mouseOut () {
+    this.setHover (false);
   }
 
   mouseDown (event) {
@@ -138,8 +164,6 @@ export default class MessengerTicket extends React.Component {
   renderExtended () {
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
-    const selected = this.getShowCombo () || this.getShowModify ();
-    const color    = selected ? 'selectedMessenger' : 'messenger';
 
     const width  = this.props.theme.shapes.tripTicketWidth;
     const height = this.props.theme.shapes.messengerHeight;
@@ -151,11 +175,29 @@ export default class MessengerTicket extends React.Component {
       roadbook.Messenger.Name :
       'A définir';
 
+    let color = this.props.theme.palette.ticketMessengerBackground;
+    if (this.getHover ()) {
+      color = darken (color, 0.1);
+    }
+    if (this.getShowSomethink ()) {
+      color = this.props.theme.palette.ticketSelectedMessengerBackground;
+    }
+
     return (
-      <Ticket kind='ticket' shape='header' width={width} height={height} color={color}
-        mouse-down = {event => this.mouseDown (event)}
-        mouse-up   = {event => this.mouseUp (event)}
-        no-drag='false' cursor='ew-resize' {...this.link ()} >
+      <AgnosticTicket
+        kind             = 'ticket'
+        shape            = 'last'
+        width            = {width}
+        height           = {height}
+        vertical-spacing = {this.props.theme.shapes.ticketVerticalSpacing}
+        color            = {color}
+        no-drag          = 'false'
+        cursor           = 'ew-resize'
+        mouse-over       = {() => this.mouseOver ()}
+        mouse-out        = {() => this.mouseOut ()}
+        mouse-down       = {event => this.mouseDown (event)}
+        mouse-up         = {event => this.mouseUp (event)}
+        {...this.link ()} >
         <Container kind='column' grow='2' {...this.link ()} >
           <Button glyph={photo} kind='identity' {...this.link ()} />
         </Container>
@@ -169,28 +211,42 @@ export default class MessengerTicket extends React.Component {
         {this.renderMode (roadbook)}
         {this.renderCombo (data)}
         {this.renderModify (data)}
-      </Ticket>
+      </AgnosticTicket>
     );
   }
 
   renderCompacted () {
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
-    const selected = this.getShowCombo () || this.getShowModify ();
-    const color    = selected ? 'selectedMessenger' : 'messenger';
 
     const width = this.props.theme.shapes.tripTicketCompactedWidth;
 
+    let color = this.props.theme.palette.ticketMessengerBackground;
+    if (this.getHover ()) {
+      color = darken (color, 0.1);
+    }
+    if (this.getShowSomethink ()) {
+      color = this.props.theme.palette.ticketSelectedMessengerBackground;
+    }
+
     return (
       <Container kind='column' {...this.link ()}>
-        <Ticket kind='cover' shape='header' width={width} color={color}
+        <AgnosticTicket
+          kind       = 'cover'
+          shape      = 'header'
+          width      = {width}
+          color      = {color}
+          no-drag    = 'false'
+          cursor     = 'ew-resize'
+          mouse-over = {() => this.mouseOver ()}
+          mouse-out  = {() => this.mouseOut ()}
           mouse-down = {event => this.mouseDown (event)}
           mouse-up   = {event => this.mouseUp (event)}
-          no-drag='false' cursor='ew-resize' {...this.link ()} >
+          {...this.link ()} >
           <Container kind='column' grow='1' {...this.link ()} >
             <Label text={this.getCompactedName (roadbook)} text-color='#fff' {...this.link ()} />
           </Container>
-        </Ticket>
+        </AgnosticTicket>
         {this.renderCombo (data)}
         {this.renderModify (data)}
       </Container>
