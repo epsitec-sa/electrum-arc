@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {AgnosticTicket, Container, Label, Separator, Badge} from '../../all-components.js';
+import {AgnosticTicket, Container, Label, Separator, Badge, Gauge} from '../../all-components.js';
 import {ColorManipulator} from 'electrum';
 import {ColorHelpers} from 'electrum-theme';
 import {Unit} from 'electrum-theme';
@@ -180,6 +180,32 @@ export default class TripTicket extends React.Component {
     }
   }
 
+  renderShortNote (note) {
+    if (!note || !note.Glyphs) {
+      return null;
+    } else {
+      let line = [];
+      for (var glyph of note.Glyphs) {
+        if (glyph.Glyph) {
+          line.push (this.renderGlyph (glyph.Glyph));
+        }
+      }
+      return line;
+    }
+  }
+
+  renderShortNotes (notes) {
+    if (!notes) {
+      return null;
+    } else {
+      let line = [];
+      for (var note of notes) {
+        line.push (this.renderShortNote (note));
+      }
+      return line;
+    }
+  }
+
   renderNote (note, index) {
     let glyph = null;
     if (note.Glyphs.length >= 1) {
@@ -208,7 +234,7 @@ export default class TripTicket extends React.Component {
     const dimmedSize         = this.props.theme.shapes.ticketDimmedSize;
 
     return (
-      <Container kind='row' {...this.link ()} >
+      <Container kind='row' grow='1' {...this.link ()} >
         <Container kind='thin-column' border='right' width='10px' {...this.link ()} >
           <Gauge value={ticket.Trip.Urgency} {...this.link ()} />
         </Container>
@@ -229,7 +255,7 @@ export default class TripTicket extends React.Component {
             </Container>
             <Container kind='thin-row' width='80px' {...this.link ()} >
               <Label grow='1' {...this.link ()} />
-              {this.renderNotes (ticket.Trip.Pick.Notes)}
+              {this.renderShortNotes (ticket.Trip.Pick.Notes)}
             </Container>
           </Container>
           <Container kind='thin-row' grow='1' {...this.link ()} >
@@ -248,7 +274,7 @@ export default class TripTicket extends React.Component {
             </Container>
             <Container kind='thin-row' width='80px' {...this.link ()} >
               <Label grow='1' {...this.link ()} />
-              {this.renderNotes (ticket.Trip.Drop.Notes)}
+              {this.renderShortNotes (ticket.Trip.Drop.Notes)}
             </Container>
           </Container>
         </Container>
@@ -279,7 +305,7 @@ export default class TripTicket extends React.Component {
             </Container>
             <Container kind='thin-row' grow='3' {...this.link ()} >
               <Label grow='1' {...this.link ()} />
-              {this.renderNotes (ticket.Trip.Notes)}
+              {this.renderShortNotes (ticket.Trip.Notes)}
             </Container>
           </Container>
         </Container>
@@ -344,7 +370,6 @@ export default class TripTicket extends React.Component {
   }
 
   render () {
-    const width           = this.props.theme.shapes.tripTicketWidth;
     const data            = this.read ('data');
     const parentKind      = this.read ('kind');
     const shape           = this.read ('shape');
@@ -359,8 +384,16 @@ export default class TripTicket extends React.Component {
     const cursor   = (noDrag === 'true') ? 'default' : 'move';
     const hatch    = (ticket.Status === 'dispatched' || ticket.Status === 'delivered') ? 'true' : 'false';
     const extended = isExtended (data, ticket.id);
-    const kind     = (parentKind === 'trip-box') ? 'thin' : (extended ? 'rect' : 'ticket');
-    const height   = extended ? null : (ticket.Warning ? '90px' : '60px');
+    let kind, width, height;
+    if (parentKind === 'trip-box') {
+      kind   = 'thin';
+      width  = null;
+      height = this.props.theme.shapes.tripBoxHeight;
+    } else {
+      kind   = extended ? 'rect' : 'ticket';
+      width  = this.props.theme.shapes.tripTicketWidth;
+      height = extended ? null : (ticket.Warning ? '90px' : '60px');
+    }
 
     let color = this.props.theme.palette.ticketBackground;
     if (ticket.Flash === 'true' && !isDragged) {
@@ -386,8 +419,10 @@ export default class TripTicket extends React.Component {
     if (this.getLink () && !isDragged && !hasHeLeft) {
       if (ticket.Type.startsWith ('pick')) {
         hoverShape = 'first';
-      } else {
+      } else if (ticket.Type.startsWith ('drop')) {
         hoverShape = 'last';
+      } else {
+        hoverShape = 'normal';
       }
     }
 
@@ -400,8 +435,8 @@ export default class TripTicket extends React.Component {
         background-text  = {this.getBackgroundText (ticket)}
         kind             = {kind}
         shape            = {shape}
-        hatch            = {hatch}
         hover-shape      = {hoverShape}
+        hatch            = {hatch}
         cursor           = {cursor}
         hud-glyph        = {this.getHudGlyph (data, ticket)}
         hide-content     = {hasHeLeft && !isDragged ? 'true' : 'false'}

@@ -294,7 +294,7 @@ export default class Trip extends React.Component {
         mouse-down       = {event => this.mouseDown (event)}
         mouse-up         = {event => this.mouseUp (event)}
         do-click-action  = {(event) => this.doClickAction (event)}
-        {...this.link ()}>
+        {...this.link ()} >
         <TripTicket
           kind             = {kind}
           ticket           = {ticket}

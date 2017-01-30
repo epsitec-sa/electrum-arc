@@ -159,6 +159,14 @@ export default function styles (theme, props) {
   } else {
     radius = r;
   }
+  let hoverRadius;
+  if (hoverShape === 'first') {
+    hoverRadius = r + ' ' + r + ' 0px 0px';
+  } else if (hoverShape === 'last') {
+    hoverRadius = '0px 0px ' + r + ' ' + r;
+  } else {
+    hoverRadius = r;
+  }
 
   const boxStyle = {
     width:      width,
@@ -265,7 +273,7 @@ export default function styles (theme, props) {
       height:          'calc(100% - ' + t1 + ')',
       top:             '0px',
       left:            '0px',
-      borderRadius:    radius,
+      borderRadius:    hoverRadius,
       borderWidth:     t1,
       borderStyle:     'solid solid none solid',
       borderColor:     theme.palette.ticketHover,
@@ -278,7 +286,7 @@ export default function styles (theme, props) {
       height:          'calc(100% - ' + t1 + ')',
       top:             '1px',
       left:            '0px',
-      borderRadius:    radius,
+      borderRadius:    hoverRadius,
       borderWidth:     t1,
       borderStyle:     'none solid solid solid',
       borderColor:     theme.palette.ticketHover,
@@ -290,7 +298,7 @@ export default function styles (theme, props) {
       height:          'calc(100% - ' + t2 + ' + 1px)',
       top:             '0px',
       left:            '0px',
-      borderRadius:    radius,
+      borderRadius:    hoverRadius,
       borderWidth:     t1,
       borderStyle:     'solid',
       borderColor:     theme.palette.ticketHover,
