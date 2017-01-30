@@ -67,7 +67,10 @@ export default class TripTicket extends React.Component {
   }
 
   getHudGlyph (data, ticket) {
-    return isSelected (data, ticket.id) ? 'check' : null;
+    if (!this.props.hasHeLeft || this.props.isDragged) {
+      return (isSelected (data, ticket.id)) ? 'check' : null;
+    }
+    return null;
   }
 
   //  Update state.link to all tickets linked.
@@ -88,8 +91,10 @@ export default class TripTicket extends React.Component {
   }
 
   mouseOver () {
-    this.setHover (true);
-    this.setLinkToAll (true);
+    if (!this.props.isDragged) {
+      this.setHover (true);
+      this.setLinkToAll (true);
+    }
   }
 
   mouseOut () {
@@ -194,7 +199,7 @@ export default class TripTicket extends React.Component {
     }
   }
 
-  renderCompacted () {
+  renderCompactedOld () {
     const width    = this.props.theme.shapes.tripTicketWidth;
     const data     = this.read ('data');
     const shape    = this.read ('shape');
@@ -252,36 +257,68 @@ export default class TripTicket extends React.Component {
     );
   }
 
-  renderCompacted2 () {
-    const width    = this.props.theme.shapes.tripTicketWidth;
-    const data     = this.read ('data');
-    const shape    = this.read ('shape');
-    const ticket   = this.read ('ticket');
-    const noDrag   = this.read ('no-drag');
-    const selected = this.read ('selected');
-    const type     = ticket.Type;
-
-    const trip           = type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
-    const planedTime     = trip.PlanedTime;
-    const realisedTime   = trip.RealisedTime;
-    const directionGlyph = getDirectionGlyph (this.props.theme, type);
-    const notes          = trip.Notes;
-    const height         = ticket.Warning ? '90px' : '60px';
+  renderCompactedContent (ticket) {
+    const trip           = ticket.Type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
+    const directionGlyph = getDirectionGlyph (this.props.theme, ticket.Type);
     const marginBottom   = '-10px';
+
+    if (this.props.hasHeLeft && !this.props.isDragged) {
+      return null;
+    } else {
+      return (
+        <Container kind='ticket-column' grow='1' {...this.link ()} >
+          {this.renderWarning (ticket.Warning)}
+          <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
+            <Label text={getDisplayedTime (trip.PlanedTime)} font-weight='bold' width='50px' {...this.link ()} />
+            <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
+            <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
+          </Container>
+          <Container kind='ticket-row' {...this.link ()} >
+            <Label text={getDisplayedTime (trip.RealisedTime)} font-weight='normal' width='50px' {...this.link ()} />
+            <Label text='' width='25px' {...this.link ()} />
+            <Label glyph='cube' spacing='compact' {...this.link ()} />
+            <Label text={getPackageCount (ticket.Trip.Packages.length)} grow='1' {...this.link ()} />
+            {this.renderNoteGlyphs (trip.Notes)}
+          </Container>
+        </Container>
+      );
+    }
+  }
+
+  renderCompacted () {
+    const width     = this.props.theme.shapes.tripTicketWidth;
+    const data      = this.read ('data');
+    const shape     = this.read ('shape');
+    const ticket    = this.read ('ticket');
+    const noDrag    = this.read ('no-drag');
+    const selected  = this.read ('selected');
+    const isDragged = this.props.isDragged;
+    const hasHeLeft = this.props.hasHeLeft;
+
+    const trip           = ticket.Type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
+    const height         = ticket.Warning ? '90px' : '60px';
     const cursor         = (noDrag === 'true') ? 'default' : 'move';
     const hudGlyph       = this.getHudGlyph (data, ticket);
-    const flash          = isFlash (data, ticket.id) ? 'true' : 'false';
 
     let color = this.props.theme.palette.ticketBackground;
-    let hoverShape = null;
-
+    if (ticket.Flash === 'true' && !isDragged) {
+      color = this.props.theme.palette.ticketFlashBackground;
+    }
     if (ticket.Status === 'delivered') {
       color = this.props.theme.palette.ticketDeliveredBackground;
     }
-    if (this.getHover ()) {
+    if (ticket.Warning && !isDragged) {
+      color = this.props.theme.palette.ticketWarningBackground;
+    }
+    if (this.getHover () && !isDragged) {
       color = emphasize (color, 0.1);
     }
-    if (this.getLink ()) {
+    if (hasHeLeft && !isDragged) {
+      color = this.props.theme.palette.ticketDragAndDropShadow;
+    }
+
+    let hoverShape = null;
+    if (this.getLink () && !isDragged && !hasHeLeft) {
       if (ticket.Type.startsWith ('pick')) {
         hoverShape = 'first';
       } else {
@@ -306,21 +343,7 @@ export default class TripTicket extends React.Component {
         mouse-over      = {() => this.mouseOver ()}
         mouse-out       = {() => this.mouseOut ()}
         {...this.link ()} >
-        <Container kind='ticket-column' grow='1' {...this.link ()} >
-          {this.renderWarning (ticket.Warning)}
-          <Container kind='ticket-row' margin-bottom={marginBottom} {...this.link ()} >
-            <Label text={getDisplayedTime (planedTime)} font-weight='bold' width='50px' {...this.link ()} />
-            <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
-            <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
-          </Container>
-          <Container kind='ticket-row' {...this.link ()} >
-            <Label text={getDisplayedTime (realisedTime)} font-weight='normal' width='50px' {...this.link ()} />
-            <Label text='' width='25px' {...this.link ()} />
-            <Label glyph='cube' spacing='compact' {...this.link ()} />
-            <Label text={getPackageCount (ticket.Trip.Packages.length)} grow='1' {...this.link ()} />
-            {this.renderNoteGlyphs (notes)}
-          </Container>
-        </Container>
+        {this.renderCompactedContent (ticket)}
       </AgnosticTicket>
     );
   }
@@ -385,7 +408,7 @@ export default class TripTicket extends React.Component {
     if (isExtended (data, ticket.id)) {
       return this.renderExtended ();
     } else {
-      return this.renderCompacted2 ();
+      return this.renderCompacted ();
     }
   }
 }
