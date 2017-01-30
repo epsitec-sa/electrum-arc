@@ -13,16 +13,17 @@ export default class AgnosticTicket extends React.Component {
 
   get styleProps () {
     return {
-      width:       this.read ('width'),
-      height:      this.read ('height'),
-      kind:        this.read ('kind'),
-      shape:       this.read ('shape'),
-      hoverShape:  this.read ('hover-shape'),
-      type:        this.read ('type'),
-      selected:    this.read ('selected'),
-      color:       this.read ('color'),
-      cursor:      this.read ('cursor'),
-      hideContent: this.read ('hide-content'),
+      width:           this.read ('width'),
+      height:          this.read ('height'),
+      kind:            this.read ('kind'),
+      shape:           this.read ('shape'),
+      hoverShape:      this.read ('hover-shape'),
+      type:            this.read ('type'),
+      selected:        this.read ('selected'),
+      color:           this.read ('color'),
+      cursor:          this.read ('cursor'),
+      verticalSpacing: this.read ('vertical-spacing'),
+      hideContent:     this.read ('hide-content'),
     };
   }
 

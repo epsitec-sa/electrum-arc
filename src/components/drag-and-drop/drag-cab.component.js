@@ -180,11 +180,11 @@ export default class DragCab extends React.Component {
   }
 
   renderForDrag (isDragged, index) {
-    const id            = this.read ('item-id');
-    const direction     = this.read ('direction');
-    const marginBottom  = this.read ('margin-bottom');
-    const dragInProcess = this.getDragInProcess ();
-    const dragStarting  = this.getDragStarting ();
+    const id              = this.read ('item-id');
+    const direction       = this.read ('direction');
+    const verticalSpacing = this.read ('vertical-spacing');
+    const dragInProcess   = this.getDragInProcess ();
+    const dragStarting    = this.getDragStarting ();
 
     const htmlDragCarrier = (dragInProcess && !isDragged) ? this.renderDragCarrier () : null;
 
@@ -199,14 +199,14 @@ export default class DragCab extends React.Component {
 
     return (
       <div
-        key                = {index}
-        style              = {boxStyle}
-        data-id            = {id}
-        data-margin-bottom = {marginBottom}
-        onMouseDown        = {event => this.mouseDown (event)}
-        onMouseUp          = {event => this.mouseUp (event)}
-        onTouchStart       = {event => this.mouseDown (event)}
-        onTouchEnd         = {event => this.mouseUp (event)}
+        key                   = {index}
+        style                 = {boxStyle}
+        data-id               = {id}
+        data-vertical-spacing = {verticalSpacing}
+        onMouseDown           = {event => this.mouseDown (event)}
+        onMouseUp             = {event => this.mouseUp (event)}
+        onTouchStart          = {event => this.mouseDown (event)}
+        onTouchEnd            = {event => this.mouseUp (event)}
         >
         {this.renderChildren (isDragged, dragStarting)}
         {htmlDragCarrier}

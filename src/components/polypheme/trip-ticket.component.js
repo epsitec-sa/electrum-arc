@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {Ticket, AgnosticTicket, Container, Label, Separator, Badge} from '../../all-components.js';
+import {AgnosticTicket, Container, Label, Separator, Badge} from '../../all-components.js';
 import {ColorManipulator} from 'electrum';
 import {ColorHelpers} from 'electrum-theme';
 import {Unit} from 'electrum-theme';
@@ -201,6 +201,90 @@ export default class TripTicket extends React.Component {
     }
   }
 
+  renderTripBoxContent (ticket) {
+    const directionGlyphPick = getDirectionGlyph (this.props.theme, 'pick');
+    const directionGlyphDrop = getDirectionGlyph (this.props.theme, 'drop');
+    const dimmedColor        = this.props.theme.palette.ticketDimmed;
+    const dimmedSize         = this.props.theme.shapes.ticketDimmedSize;
+
+    return (
+      <Container kind='thin-column' border='right' width='10px' {...this.link ()} >
+        <Gauge value={ticket.Trip.Urgency} {...this.link ()} />
+      </Container>
+      <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
+        <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
+          <Container kind='thin-row' width='50px' {...this.link ()} >
+            <Label text={getDisplayedTime (ticket.Trip.Pick.PlanedTime)} font-weight='bold' wrap='no'
+              {...this.link ()} />
+          </Container>
+          <Container kind='thin-row' width='20px' {...this.link ()} >
+            <Label glyph={directionGlyphPick.glyph} glyph-color={directionGlyphPick.color} {...this.link ()} />
+          </Container>
+          <Container kind='thin-row' grow='1' {...this.link ()} >
+            <Label text={ticket.Trip.Pick.ShortDescription} wrap='no' {...this.link ()} />
+          </Container>
+          <Container kind='thin-row' width='50px' {...this.link ()} >
+            <Label text={ticket.Trip.Pick.Zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
+          </Container>
+          <Container kind='thin-row' width='80px' {...this.link ()} >
+            <Label grow='1' {...this.link ()} />
+            {this.renderNotes (ticket.Trip.Pick.Notes)}
+          </Container>
+        </Container>
+        <Container kind='thin-row' grow='1' {...this.link ()} >
+          <Container kind='thin-row' width='50px' {...this.link ()} >
+            <Label text={getDisplayedTime (ticket.Trip.Drop.PlanedTime)} font-weight='bold' wrap='no'
+              {...this.link ()} />
+          </Container>
+          <Container kind='thin-row' width='20px' {...this.link ()} >
+            <Label glyph={directionGlyphDrop.glyph} glyph-color={directionGlyphDrop.color} {...this.link ()} />
+          </Container>
+          <Container kind='thin-row' grow='1' {...this.link ()} >
+            <Label text={ticket.Trip.Drop.ShortDescription} wrap='no' {...this.link ()} />
+          </Container>
+          <Container kind='thin-row' width='50px' {...this.link ()} >
+            <Label text={ticket.Trip.Drop.Zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
+          </Container>
+          <Container kind='thin-row' width='80px' {...this.link ()} >
+            <Label grow='1' {...this.link ()} />
+            {this.renderNotes (ticket.Trip.Drop.Notes)}
+          </Container>
+        </Container>
+      </Container>
+      <Container kind='thin-column' border='right' width='110px' {...this.link ()} >
+        <Container kind='thin-row' grow='1' {...this.link ()} >
+          <Container kind='thin-row' grow='1' {...this.link ()} >
+            <Label glyph='cube' glyph-color={dimmedColor} {...this.link ()} />
+          </Container>
+          <Container kind='thin-row' grow='3' {...this.link ()} >
+            <Label text={getPackageCount (ticket.Trip.Packages.length)} justify='right' grow='1' wrap='no' {...this.link ()} />
+          </Container>
+        </Container>
+        <Container kind='thin-row' grow='1' {...this.link ()} >
+          <Container kind='thin-row' grow='1' {...this.link ()} >
+            <Label text='total' font-size={dimmedSize} text-color={dimmedColor} {...this.link ()} />
+          </Container>
+          <Container kind='thin-row' grow='3' {...this.link ()} >
+            <Label text={ticket.Trip.Weight} justify='right' grow='1' wrap='no' {...this.link ()} />
+          </Container>
+        </Container>
+      </Container>
+      <Container kind='thin-column' width='90px' {...this.link ()} >
+        <Container kind='thin-row' grow='1' {...this.link ()} >
+          <Label text={ticket.Trip.Price} justify='right' grow='1' wrap='no' {...this.link ()} />
+        </Container>
+        <Container kind='thin-row' grow='1' {...this.link ()} >
+          <Container kind='thin-row' grow='2' {...this.link ()} >
+          </Container>
+          <Container kind='thin-row' grow='3' {...this.link ()} >
+            <Label grow='1' {...this.link ()} />
+            {this.renderNotes (ticket.Trip.Notes)}
+          </Container>
+        </Container>
+      </Container>
+    );
+  }
+
   renderCompactedContent (ticket, trip, directionGlyph) {
     return (
       <Container kind='ticket-column' grow='1' {...this.link ()} >
@@ -242,32 +326,37 @@ export default class TripTicket extends React.Component {
   }
 
   renderContent (ticket, extended) {
-    const trip           = ticket.Type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
-    const directionGlyph = getDirectionGlyph (this.props.theme, ticket.Type);
-
-    if (extended) {
-      return this.renderExtendedContent (ticket, trip, directionGlyph);
+    const kind = this.read ('kind');
+    if (kind === 'trip-box') {
+      return this.renderTripBoxContent (ticket);
     } else {
-      return this.renderCompactedContent (ticket, trip, directionGlyph);
+      const trip           = ticket.Type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
+      const directionGlyph = getDirectionGlyph (this.props.theme, ticket.Type);
+
+      if (extended) {
+        return this.renderExtendedContent (ticket, trip, directionGlyph);
+      } else {
+        return this.renderCompactedContent (ticket, trip, directionGlyph);
+      }
     }
   }
 
   render () {
-    const width     = this.props.theme.shapes.tripTicketWidth;
-    const data      = this.read ('data');
-    const shape     = this.read ('shape');
-    const ticket    = this.read ('ticket');
-    const noDrag    = this.read ('no-drag');
-    const selected  = this.read ('selected');
-    const isDragged = this.props.isDragged;
-    const hasHeLeft = this.props.hasHeLeft;
+    const width           = this.props.theme.shapes.tripTicketWidth;
+    const data            = this.read ('data');
+    const shape           = this.read ('shape');
+    const ticket          = this.read ('ticket');
+    const noDrag          = this.read ('no-drag');
+    const verticalSpacing = this.read ('vertical-spacing');
+    const selected        = this.read ('selected');
+    const isDragged       = this.props.isDragged;
+    const hasHeLeft       = this.props.hasHeLeft;
 
     const trip     = ticket.Type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
     const cursor   = (noDrag === 'true') ? 'default' : 'move';
-    const hudGlyph = this.getHudGlyph (data, ticket);
     const hatch    = (ticket.Status === 'dispatched' || ticket.Status === 'delivered') ? 'true' : 'false';
     const extended = isExtended (data, ticket.id);
-    const kind     = extended ? 'rect' : 'ticket';
+    const kind     = extended ? 'rect' : 'ticket';  // TODO 'thin' ???
     const height   = extended ? null : (ticket.Warning ? '90px' : '60px');
 
     let color = this.props.theme.palette.ticketBackground;
@@ -301,19 +390,20 @@ export default class TripTicket extends React.Component {
 
     return (
       <AgnosticTicket
-        width           = {width}
-        height          = {height}
-        color           = {color}
-        background-text = {this.getBackgroundText (ticket)}
-        kind            = {kind}
-        shape           = {shape}
-        hatch           = {hatch}
-        hover-shape     = {hoverShape}
-        cursor          = {cursor}
-        hud-glyph       = {hudGlyph}
-        hide-content    = {hasHeLeft && !isDragged ? 'true' : 'false'}
-        mouse-over      = {() => this.mouseOver ()}
-        mouse-out       = {() => this.mouseOut ()}
+        width            = {width}
+        height           = {height}
+        vertical-spacing = {verticalSpacing}
+        color            = {color}
+        background-text  = {this.getBackgroundText (ticket)}
+        kind             = {kind}
+        shape            = {shape}
+        hatch            = {hatch}
+        hover-shape      = {hoverShape}
+        cursor           = {cursor}
+        hud-glyph        = {this.getHudGlyph (data, ticket)}
+        hide-content     = {hasHeLeft && !isDragged ? 'true' : 'false'}
+        mouse-over       = {() => this.mouseOver ()}
+        mouse-out        = {() => this.mouseOut ()}
         {...this.link ()} >
         {this.renderContent (ticket, extended)}
       </AgnosticTicket>

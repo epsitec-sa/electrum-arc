@@ -56,8 +56,9 @@ function subBottomMargin (rect, bm) {
 
 function getBoundingRect (node) {
   const rect = node.getBoundingClientRect ();
-  if (node.dataset.marginBottom) {
-    return subBottomMargin (rect, node.dataset.marginBottom);
+  if (node.dataset.verticalSpacing) {
+    const vs = Unit.parse (node.dataset.verticalSpacing).value;
+    return subBottomMargin (rect, vs);
   } else {
     return rect;
   }

@@ -268,28 +268,48 @@ export default class Trip extends React.Component {
     const noDrag   = (ticket.Status === 'dispatched' || ticket.Status === 'delivered') ? 'true' : null;
     const selected = this.getShowSomethink () ? 'true' : 'false';
 
+    let verticalSpacing;
     if (kind === 'trip-box') {
-      const m = Unit.parse (this.props.theme.shapes.tripBoxBottomMargin).value;
-      return this.renderTrip (ticket, data, noDrag, m, () => (
-        <TripBox
-          ticket   = {ticket}
-          data     = {data}
-          selected = {selected}
-          {...this.link ()} />
-      ));
-    } else if (kind === 'trip-ticket') {
-      return this.renderTrip (ticket, data, noDrag, 2, () => (
-        <TripTicket
-          ticket   = {ticket}
-          data     = {data}
-          selected = {selected}
-          no-drag  = {noDrag}
-          shape    = {ticket.Shape}
-          {...this.link ()} />
-      ));
+      verticalSpacing = this.props.theme.shapes.tripBoxVerticalSpacing;
     } else {
-      throw new Error (`Trip component contains invalid kind: ${kind}`);
+      if (ticket.Shape === 'first') {
+        verticalSpacing = this.props.theme.shapes.ticketVerticalSpacingFirst;
+      } else {
+        verticalSpacing = this.props.theme.shapes.ticketVerticalSpacing;
+      }
     }
+
+    return (
+      <DragCab
+        drag-controller  = 'ticket'
+        direction        = 'vertical'
+        color            = {this.props.theme.palette.dragAndDropHover}
+        thickness        = {this.props.theme.shapes.dragAndDropTicketThickness}
+        radius           = {this.props.theme.shapes.dragAndDropTicketThickness}
+        mode             = 'corner-top-left'
+        data             = {data}
+        item-id          = {ticket.id}
+        no-drag          = {noDrag}
+        vertical-spacing = {verticalSpacing}
+        mouse-down       = {event => this.mouseDown (event)}
+        mouse-up         = {event => this.mouseUp (event)}
+        do-click-action  = {(event) => this.doClickAction (event)}
+        {...this.link ()}>
+        <TripTicket
+          kind             = {kind}
+          ticket           = {ticket}
+          data             = {data}
+          selected         = {selected}
+          no-drag          = {noDrag}
+          shape            = {ticket.Shape}
+          vertical-spacing = {verticalSpacing}
+          {...this.link ()} />
+        {this.renderCombo (data)}
+        {this.renderModify (data)}
+        {this.renderDeliver (data)}
+        {this.renderPredispatch (data)}
+      </DragCab>
+    );
   }
 }
 
