@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import {AgnosticTicket, Container, Label, Separator, Badge, Gauge} from '../../all-components.js';
+import {Ticket, Container, Label, Separator, Badge, Gauge} from '../../all-components.js';
 import {ColorManipulator} from 'electrum';
 import {ColorHelpers} from 'electrum-theme';
 import {Unit} from 'electrum-theme';
@@ -427,7 +427,7 @@ export default class TripTicket extends React.Component {
     }
 
     return (
-      <AgnosticTicket
+      <Ticket
         width            = {width}
         height           = {height}
         vertical-spacing = {verticalSpacing}
@@ -444,7 +444,7 @@ export default class TripTicket extends React.Component {
         mouse-out        = {() => this.mouseOut ()}
         {...this.link ()} >
         {this.renderContent (ticket, extended)}
-      </AgnosticTicket>
+      </Ticket>
     );
   }
 }

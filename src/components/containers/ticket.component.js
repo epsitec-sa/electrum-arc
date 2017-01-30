@@ -5,7 +5,7 @@ import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
-export default class AgnosticTicket extends React.Component {
+export default class Ticket extends React.Component {
 
   constructor (props) {
     super (props);

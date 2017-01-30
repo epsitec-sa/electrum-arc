@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {AgnosticTicket, Container, Label, Button, MessengerModify, MessengerCombo} from '../../all-components.js';
+import {Ticket, Container, Label, Button, MessengerModify, MessengerCombo} from '../../all-components.js';
 import {setDragCabHasCombo, getComboLocation} from '../combo/combo-helpers.js';
 import {ColorManipulator} from 'electrum';
 
@@ -184,7 +184,7 @@ export default class MessengerTicket extends React.Component {
     }
 
     return (
-      <AgnosticTicket
+      <Ticket
         kind             = 'ticket'
         shape            = 'last'
         width            = {width}
@@ -211,7 +211,7 @@ export default class MessengerTicket extends React.Component {
         {this.renderMode (roadbook)}
         {this.renderCombo (data)}
         {this.renderModify (data)}
-      </AgnosticTicket>
+      </Ticket>
     );
   }
 
@@ -231,7 +231,7 @@ export default class MessengerTicket extends React.Component {
 
     return (
       <Container kind='column' {...this.link ()}>
-        <AgnosticTicket
+        <Ticket
           kind       = 'cover'
           shape      = 'header'
           width      = {width}
@@ -246,7 +246,7 @@ export default class MessengerTicket extends React.Component {
           <Container kind='column' grow='1' {...this.link ()} >
             <Label text={this.getCompactedName (roadbook)} text-color='#fff' {...this.link ()} />
           </Container>
-        </AgnosticTicket>
+        </Ticket>
         {this.renderCombo (data)}
         {this.renderModify (data)}
       </Container>
