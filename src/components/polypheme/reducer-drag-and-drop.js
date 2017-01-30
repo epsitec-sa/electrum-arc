@@ -5,6 +5,12 @@ import Enumerable from 'linq';
 import reducerTickets from './reducer-tickets.js';
 import {getFormatedTime, getEmptyTime, getEmptyDate} from './converters';
 
+import {
+  isSelected, setSelected, clearSelected, putSelected,
+  isExtended, setExtended, clearExtended, putExtended,
+  getShape, setShape
+} from './state-manager.js';
+
 // ------------------------------------------------------------------------------------------
 
 function searchTicket (root, items, type, id, ownerId) {
@@ -96,76 +102,6 @@ function electrumDispatch (state, type, id, value) {
 
 // ------------------------------------------------------------------------------------------
 
-function isSelected (state, id) {
-  if (!state.Selections) {
-    state.Selections = [];
-  }
-  return state.Selections.indexOf (id) !== -1;
-}
-
-function setSelected (state, id) {
-  const i = state.Selections.indexOf (id);
-  if (i === -1) {
-    state.Selections.push (id);
-    electrumDispatch (state, 'setSelected', id);
-  }
-  return state;
-}
-
-function clearSelected (state, id) {
-  const i = state.Selections.indexOf (id);
-  if (i !== -1) {
-    state.Selections.splice (i, 1);
-    electrumDispatch (state, 'clearSelected', id);
-  }
-  return state;
-}
-
-function putSelected (state, id, value) {
-  if (value) {
-    return setSelected (state, id);
-  } else {
-    return clearSelected (state, id);
-  }
-}
-
-// ------------------------------------------------------------------------------------------
-
-function isExtended (state, id) {
-  if (!state.Extendeds) {
-    state.Extendeds = [];
-  }
-  return state.Extendeds.indexOf (id) !== -1;
-}
-
-function setExtended (state, id) {
-  const i = state.Extendeds.indexOf (id);
-  if (i === -1) {
-    state.Extendeds.push (id);
-    electrumDispatch (state, 'setExtended', id);
-  }
-  return state;
-}
-
-function clearExtended (state, id) {
-  const i = state.Extendeds.indexOf (id);
-  if (i !== -1) {
-    state.Extendeds.splice (i, 1);
-    electrumDispatch (state, 'clearExtended', id);
-  }
-  return state;
-}
-
-function putExtended (state, id, value) {
-  if (value) {
-    return setExtended (state, id);
-  } else {
-    return clearExtended (state, id);
-  }
-}
-
-// ------------------------------------------------------------------------------------------
-
 function isFlash (state, id) {
   if (!state.Flashes) {
     state.Flashes = [];
@@ -251,13 +187,13 @@ function getNewId () {
 }
 
 function updateId (state, oldId, newId) {
-  if (isSelected (state, oldId)) {
-    clearSelected (state, oldId);
-    setSelected (state, newId);
+  if (isSelected (oldId)) {
+    clearSelected (oldId);
+    setSelected (newId);
   }
-  if (isExtended (state, oldId)) {
-    clearExtended (state, oldId);
-    setExtended (state, newId);
+  if (isExtended (oldId)) {
+    clearExtended (oldId);
+    setExtended (newId);
   }
   if (isFlash (state, oldId)) {
     clearFlash (state, oldId);
@@ -534,13 +470,13 @@ function setMisc (state, list, flashes, warnings) {
     const ticket = normalize (list[i]);
     const w = getTextWarning (warnings, ticket.id);
     const f = (flashes.indexOf (ticket.id) !== -1);
-    let s = isSelected (state, ticket.id);
+    let s = isSelected (ticket.id);
     if (ticket.Warning !== w ||
         isFlash (state, ticket.id) !== f ||
-        isSelected (state, ticket.id) !== s) {  // changing ?
+        isSelected (ticket.id) !== s) {  // changing ?
       ticket.Warning  = w;  // set or clear warning message
       putFlash (state, ticket.id, f);  // set or clear flash mode
-      putSelected (state, ticket.id, s);  // select or deselect ticket
+      putSelected (ticket.id, s);  // select or deselect ticket
       list[i] = regen (state, ticket);
     }
   }
@@ -563,7 +499,7 @@ function setMiscs (state, flashes, warnings) {
 function firstSelectedIndex (state, result) {
   for (let i = 0; i < result.tickets.length; i++) {
     const ticket = result.tickets[i];
-    if (isSelected (state, ticket.id)) {
+    if (isSelected (ticket.id)) {
       return i;
     }
   }
@@ -574,8 +510,8 @@ function selectZone (state, flashes, result, fromIndex, toIndex, value) {
   for (let i = 0; i < result.tickets.length; i++) {
     const ticket = result.tickets[i];
     if ((ticket.Status === 'backlog' || ticket.Status === 'pre-dispatched') && i >= fromIndex && i <= toIndex) {
-      if (isSelected (state, ticket.id) !== value) {
-        putSelected (state, ticket.id, value);
+      if (isSelected (ticket.id) !== value) {
+        putSelected (ticket.id, value);
         result.tickets[i] = regen (state, ticket);
         flashes.push (result.tickets[i].id);
       }
@@ -637,19 +573,19 @@ function changeGeneric (state, flashes, warnings, from, to) {
     drop.Status = 'pre-dispatched';
     addTicket (state, to.tickets, to.index, drop);  // first drop, for have pick/drop in this order
     addTicket (state, to.tickets, to.index, pick);
-    clearSelected (state, pick.id);
-    clearSelected (state, drop.id);
+    clearSelected (pick.id);
+    clearSelected (drop.id);
     flashes.push (pick.id);
     flashes.push (drop.id);
   } else if (to.type === 'backlog' && ticket.Type !== 'both') {
     ticket.Type = 'both';
     ticket.Status = 'backlog';
     addTicket (state, to.tickets, to.index, ticket);
-    clearSelected (state, ticket.id);
+    clearSelected (ticket.id);
     flashes.push (ticket.id);
   } else {
     addTicket (state, to.tickets, to.index, ticket);
-    clearSelected (state, ticket.id);
+    clearSelected (ticket.id);
     flashes.push (ticket.id);
   }
 }
@@ -701,7 +637,7 @@ function swapSelected (state, id, shiftKey) {
   const warnings = [];
   const result = searchId (state, id);
   if (shiftKey) {
-    if (isSelected (state, result.tickets[result.index].id)) {
+    if (isSelected (result.tickets[result.index].id)) {
       // Deselect all items.
       selectZone (state, flashes, result, 0, 9999, false);
     } else {
@@ -719,7 +655,7 @@ function swapSelected (state, id, shiftKey) {
     // Select or deselect pointed item.
     const ticket = result.tickets[result.index];
     if (ticket.Status === 'backlog' || ticket.Status === 'pre-dispatched') {
-      putSelected (state, ticket.id, !isSelected (state, ticket.id));
+      putSelected (ticket.id, !isSelected (ticket.id));
       result.tickets[result.index] = regen (state, ticket);
       flashes.push (result.tickets[result.index].id);
     }
@@ -735,10 +671,10 @@ function swapExtended (state, id) {
   const result = searchId (state, id);
   if (result.type !== 'backlog') {
     const ticket = result.tickets[result.index];
-    if (isExtended (state, ticket.id)) {
-      clearExtended (state, ticket.id);
+    if (isExtended (ticket.id)) {
+      clearExtended (ticket.id);
     } else {
-      setExtended (state, ticket.id);
+      setExtended (ticket.id);
     }
     result.tickets[result.index] = regen (state, ticket);
     flashes.push (result.tickets[result.index].id);
@@ -909,23 +845,23 @@ export default function Reducer (state = {}, action = {}) {
       break;
 
     case 'IS_SELECTED':
-      state._isSelected = isSelected (state, action.id);
+      state._isSelected = isSelected (action.id);
       break;
     case 'SET_SELECTED':
-      state = setSelected (state, action.id);
+      state = setSelected (action.id);
       break;
     case 'CLEAR_SELECTED':
-      state = clearSelected (state, action.id);
+      state = clearSelected (action.id);
       break;
 
     case 'IS_EXTENDED':
-      state._isExtended = isExtended (state, action.id);
+      state._isExtended = isExtended (action.id);
       break;
     case 'SET_EXTENDED':
-      state = setExtended (state, action.id);
+      state = setExtended (action.id);
       break;
     case 'CLEAR_EXTENDED':
-      state = clearExtended (state, action.id);
+      state = clearExtended (action.id);
       break;
 
     case 'IS_FLASH':
