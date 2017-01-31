@@ -7,15 +7,17 @@ import StateManager from './state-manager.js';
 
 /******************************************************************************/
 
-export default class MessengerCombo extends React.Component {
-
-  update () {
-    if (window.document.mock) {
-      for (var c of window.document.toUpdate) {
-        c.forceUpdate ();
-      }
+function update () {
+  if (window.document.mock) {
+    for (var c of window.document.toUpdate) {
+      c.forceUpdate ();
     }
   }
+}
+
+/******************************************************************************/
+
+export default class MessengerCombo extends React.Component {
 
   reduce (action, id) {
     const data = this.read ('data');
@@ -23,7 +25,7 @@ export default class MessengerCombo extends React.Component {
       type: action,
       id:   id,
     });
-    this.update ();
+    update ();
   }
 
   swapCompacted () {
@@ -34,44 +36,26 @@ export default class MessengerCombo extends React.Component {
 
   swapCompactedAndShift () {
     // console.log ('MessengerCombo.swapCompactedAndShift');
+    const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
     if (StateManager.isMessengerCompacted (roadbook.id)) {
-      this.shiftToBegin ();
-      this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.id);
+      this.shift (data, roadbook, data.Roadbooks[0].id);  // shift |<-
     } else {
-      this.shiftToEnd ();
-      this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.id);
+      this.shift (data, roadbook, null);  // shift ->|
     }
+    this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.id);
   }
 
-  shiftToBegin () {
-    // console.log ('MessengerCombo.shiftToBegin');
-    const data     = this.read ('data');
-    const roadbook = this.read ('roadbook');
+  shift (data, roadbook, toId) {
     ReducerDragAndDrop.reducer (data, {
       type:        'DROP',
       fromKind:    'roadbook',
       fromIds:     [roadbook.id],
-      toId:        data.Roadbooks[0].id,
+      toId:        toId,
       toOwnerId:   data.id,
       toOwnerKind: 'roadbook',
     });
-    this.update ();
-  }
-
-  shiftToEnd () {
-    // console.log ('MessengerCombo.shiftToEnd');
-    const data     = this.read ('data');
-    const roadbook = this.read ('roadbook');
-    ReducerDragAndDrop.reducer (data, {
-      type:        'DROP',
-      fromKind:    'roadbook',
-      fromIds:     [roadbook.id],
-      toId:        null,
-      toOwnerId:   data.id,
-      toOwnerKind: 'roadbook',
-    });
-    this.update ();
+    update ();
   }
 
   swapShowHidden () {
@@ -140,14 +124,14 @@ export default class MessengerCombo extends React.Component {
         {
           text:   'Pousser à gauche',
           glyph:  'step-backward',
-          action: () => this.shiftToBegin (),
+          action: () => this.shift (data, roadbook, data.Roadbooks[0].id),
         }
       );
       list.push (
         {
           text:   'Pousser à droite',
           glyph:  'step-forward',
-          action: () => this.shiftToEnd (),
+          action: () => this.shift (data, roadbook, null),
         }
       );
     }
