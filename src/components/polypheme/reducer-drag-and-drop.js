@@ -97,41 +97,6 @@ function electrumDispatch (state, type, id, value) {
 
 // ------------------------------------------------------------------------------------------
 
-function isFlash (state, id) {
-  if (!state.Flashes) {
-    state.Flashes = [];
-  }
-  return state.Flashes.indexOf (id) !== -1;
-}
-
-function setFlash (state, id) {
-  const i = state.Flashes.indexOf (id);
-  if (i === -1) {
-    state.Flashes.push (id);
-    electrumDispatch (state, 'setFlash', id);
-  }
-  return state;
-}
-
-function clearFlash (state, id) {
-  const i = state.Flashes.indexOf (id);
-  if (i !== -1) {
-    state.Flashes.splice (i, 1);
-    electrumDispatch (state, 'clearFlash', id);
-  }
-  return state;
-}
-
-function putFlash (state, id, value) {
-  if (value) {
-    return setFlash (state, id);
-  } else {
-    return clearFlash (state, id);
-  }
-}
-
-// ------------------------------------------------------------------------------------------
-
 function addTicket (state, tickets, index, ticket) {
   tickets = reducerTickets (tickets, {
     type:   'ADD_TICKET',
@@ -189,10 +154,6 @@ function updateId (state, oldId, newId) {
   if (StateManager.isExtended (oldId)) {
     StateManager.clearExtended (oldId);
     StateManager.setExtended (newId);
-  }
-  if (isFlash (state, oldId)) {
-    clearFlash (state, oldId);
-    setFlash (state, newId);
   }
 }
 
@@ -464,13 +425,13 @@ function setMisc (state, list, flashes, warnings) {
   for (let i = 0; i < list.length; i++) {
     const ticket = normalize (list[i]);
     const w = getTextWarning (warnings, ticket.id);
-    const f = (flashes.indexOf (ticket.id) !== -1);
+    const f = (flashes.indexOf (ticket.id) !== -1) ? 'true' : 'false';
     let s = StateManager.isSelected (ticket.id);
     if (ticket.Warning !== w ||
-        isFlash (state, ticket.id) !== f ||
+        ticket.Flash !== f ||
         StateManager.isSelected (ticket.id) !== s) {  // changing ?
       ticket.Warning  = w;  // set or clear warning message
-      putFlash (state, ticket.id, f);  // set or clear flash mode
+      ticket.Flash = f;  // set or clear flash mode
       StateManager.putSelected (ticket.id, s);  // select or deselect ticket
       list[i] = regen (state, ticket);
     }
@@ -837,36 +798,6 @@ function reducer (state = {}, action = {}) {
       break;
     case 'CHANGE_STATUS':
       state = changeStatus (state, action.id, action.value, action.date, action.time);
-      break;
-
-    case 'IS_SELECTED':
-      state._isSelected = StateManager.isSelected (action.id);
-      break;
-    case 'SET_SELECTED':
-      state = StateManager.setSelected (action.id);
-      break;
-    case 'CLEAR_SELECTED':
-      state = StateManager.clearSelected (action.id);
-      break;
-
-    case 'IS_EXTENDED':
-      state._isExtended = StateManager.isExtended (action.id);
-      break;
-    case 'SET_EXTENDED':
-      state = StateManager.setExtended (action.id);
-      break;
-    case 'CLEAR_EXTENDED':
-      state = StateManager.clearExtended (action.id);
-      break;
-
-    case 'IS_FLASH':
-      state._isFlash = isFlash (state, action.id);
-      break;
-    case 'SET_FLASH':
-      state = setFlash (state, action.id);
-      break;
-    case 'CLEAR_FLASH':
-      state = clearFlash (state, action.id);
       break;
 
     case 'SWAP_ROADBOOK_COMPACTED':
