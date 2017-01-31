@@ -7,40 +7,51 @@ function getState () {
   return window.document.stateManager;
 }
 
-function getStateShapes () {
+function getStateTicketSelecteds () {
   const state = getState ();
-  if (!state.Shapes) {
-    state.Shapes = new Map ();
+  if (!state.TicketSelecteds) {
+    state.TicketSelecteds = [];
   }
-  return state.Shapes;
+  return state.TicketSelecteds;
+}
+
+function getStateTicketExtendeds () {
+  const state = getState ();
+  if (!state.TicketExtendeds) {
+    state.TicketExtendeds = [];
+  }
+  return state.TicketExtendeds;
+}
+
+function getStateTicketShapes () {
+  const state = getState ();
+  if (!state.TicketShapes) {
+    state.TicketShapes = new Map ();
+  }
+  return state.TicketShapes;
 }
 
 // ------------------------------------------------------------------------------------------
 
 function isTicketSelected (id) {
-  const state = getState ();
-  if (!state.Selections) {
-    state.Selections = [];
-  }
-  return state.Selections.indexOf (id) !== -1;
+  const state = getStateTicketSelecteds ();
+  return state.indexOf (id) !== -1;
 }
 
 function setTicketSelected (id) {
-  const state = getState ();
-  const i = state.Selections.indexOf (id);
+  const state = getStateTicketSelecteds ();
+  const i = state.indexOf (id);
   if (i === -1) {
-    state.Selections.push (id);
+    state.push (id);
   }
-  return state;
 }
 
 function clearTicketSelected (id) {
-  const state = getState ();
-  const i = state.Selections.indexOf (id);
+  const state = getStateTicketSelecteds ();
+  const i = state.indexOf (id);
   if (i !== -1) {
-    state.Selections.splice (i, 1);
+    state.splice (i, 1);
   }
-  return state;
 }
 
 function putTicketSelected (id, value) {
@@ -54,27 +65,24 @@ function putTicketSelected (id, value) {
 // ------------------------------------------------------------------------------------------
 
 function isTicketExtended (id) {
-  const state = getState ();
-  if (!state.Extendeds) {
-    state.Extendeds = [];
-  }
-  return state.Extendeds.indexOf (id) !== -1;
+  const state = getStateTicketExtendeds ();
+  return state.indexOf (id) !== -1;
 }
 
 function setTicketExtended (id) {
-  const state = getState ();
-  const i = state.Extendeds.indexOf (id);
+  const state = getStateTicketExtendeds ();
+  const i = state.indexOf (id);
   if (i === -1) {
-    state.Extendeds.push (id);
+    state.push (id);
   }
   return state;
 }
 
 function clearTicketExtended (id) {
-  const state = getState ();
-  const i = state.Extendeds.indexOf (id);
+  const state = getStateTicketExtendeds ();
+  const i = state.indexOf (id);
   if (i !== -1) {
-    state.Extendeds.splice (i, 1);
+    state.splice (i, 1);
   }
   return state;
 }
@@ -90,17 +98,17 @@ function putTicketExtended (id, value) {
 // ------------------------------------------------------------------------------------------
 
 function getTicketShape (id) {
-  const shapes = getStateShapes ();
-  if (shapes.has (id)) {
-    return shapes.get (id);
+  const state = getStateTicketShapes ();
+  if (state.has (id)) {
+    return state.get (id);
   } else {
     return null;
   }
 }
 
 function setTicketShape (id, value) {
-  const shapes = getStateShapes ();
-  shapes.set (id, value);
+  const state = getStateTicketShapes ();
+  state.set (id, value);
 }
 
 // ------------------------------------------------------------------------------------------
