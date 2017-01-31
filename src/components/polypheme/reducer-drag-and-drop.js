@@ -103,7 +103,6 @@ function addTicket (state, tickets, index, ticket) {
     index:  index,
     ticket: ticket,
   });
-  electrumDispatch (state, 'addTicket', ticket.id, {index: index, ticket: ticket});
 }
 
 function deleteTicket (state, tickets, ticket) {
@@ -111,7 +110,6 @@ function deleteTicket (state, tickets, ticket) {
     type:   'DELETE_TICKET',
     ticket: ticket,
   });
-  electrumDispatch (state, 'deleteTicket', ticket.id);
 }
 
 // ------------------------------------------------------------------------------------------
@@ -325,7 +323,6 @@ function getSorteTicketsFromMissionId (state, missionId) {
 function setOrder (state, ticket, order) {
   if (ticket.Order !== order) {
     ticket.Order = order;
-    electrumDispatch (state, 'setOrder', ticket.id, order);
   }
 }
 

@@ -193,10 +193,42 @@ function setTicketShape (id, value) {
 
 // ------------------------------------------------------------------------------------------
 
+function getSplitterRoadbooksHeight () {
+  const state = getState ();
+  if (state.SplitterRoadbooksHeight) {
+    return state.SplitterRoadbooksHeight;
+  } else {
+    return '60%';  // default value
+  }
+}
+
+function setSplitterRoadbooksHeight (value) {
+  const state = getState ();
+  state.SplitterRoadbooksHeight = value;
+}
+
+function getSplitterBacklogWidth () {
+  const state = getState ();
+  if (state.SplitterBacklogWidth) {
+    return state.SplitterBacklogWidth;
+  } else {
+    return '750px';  // default value
+  }
+}
+
+function setSplitterBacklogWidth (value) {
+  const state = getState ();
+  state.SplitterBacklogWidth = value;
+}
+
+// ------------------------------------------------------------------------------------------
+
 module.exports = {
   isMessengerShowHidden, setMessengerShowHidden, clearMessengerShowHidden, putMessengerShowHidden,
   isMessengerCompacted, setMessengerCompacted, clearMessengerCompacted, putMessengerCompacted,
   isTicketSelected, setTicketSelected, clearTicketSelected, putTicketSelected,
   isTicketExtended, setTicketExtended, clearTicketExtended, putTicketExtended,
-  getTicketShape, setTicketShape
+  getTicketShape, setTicketShape,
+  getSplitterRoadbooksHeight, setSplitterRoadbooksHeight,
+  getSplitterBacklogWidth, setSplitterBacklogWidth,
 };

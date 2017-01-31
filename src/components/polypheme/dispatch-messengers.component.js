@@ -1,8 +1,8 @@
 'use strict';
 
 import React from 'react';
-import Electrum from 'electrum';
 import ReducerDragAndDrop from './reducer-drag-and-drop.js';
+import StateManager from './state-manager.js';
 
 import {
   Container,
@@ -33,40 +33,6 @@ export default class DispatchMessengers extends React.Component {
     }
   }
 
-  onSplitterRoadbooksChanged (data, size) {
-    data.SplitterRoadbooksHeight = size;
-
-    Electrum.bus.dispatch (data, 'dnd', {
-      type: 'splitterRoadbooksChanged',
-      value: size,
-    });
-  }
-
-  onSplitterBacklogChanged (data, size) {
-    data.SplitterBacklogWidth = size;
-
-    Electrum.bus.dispatch (data, 'dnd', {
-      type: 'splitterBacklogChanged',
-      value: size,
-    });
-  }
-
-  getSplitterRoadbooksHeight (data) {
-    if (data.SplitterRoadbooksHeight) {
-      return data.SplitterRoadbooksHeight;
-    } else {
-      return '60%';  // default value
-    }
-  }
-
-  getSplitterBacklogWidth (data) {
-    if (data.SplitterBacklogWidth) {
-      return data.SplitterBacklogWidth;
-    } else {
-      return '750px';  // default value
-    }
-  }
-
   initialise (data) {
     // inject electrum state (needed for electrumDispatch)
     data.state = this.props.state;
@@ -85,13 +51,13 @@ export default class DispatchMessengers extends React.Component {
     return (
       <Container kind='tickets-root' {...this.link ()} >
         <Splitter kind='horizontal' first-view-id='view-roadbook'
-          default-size={this.getSplitterRoadbooksHeight (data)}
-          onSizeChanged={size => this.onSplitterRoadbooksChanged (data, size)}
+          default-size={StateManager.getSplitterRoadbooksHeight ()}
+          onSizeChanged={size => StateManager.setSplitterRoadbooksHeight (size)}
           {...this.link ()} >
           <DispatchRoadbooks data={data} {...this.link ()} />
           <Splitter kind='vertical' first-view-id='view-backlog' last-view-id='view-desk'
-            default-size={this.getSplitterBacklogWidth (data)} min-size='0px'
-            onSizeChanged={size => this.onSplitterBacklogChanged (data, size)}
+            default-size={StateManager.getSplitterBacklogWidth ()} min-size='0px'
+            onSizeChanged={size => StateManager.setSplitterBacklogWidth (size)}
             {...this.link ()} >
             <DispatchBacklog data={data} {...this.link ()} />
             <DispatchDesk data={data} {...this.link ()} />
