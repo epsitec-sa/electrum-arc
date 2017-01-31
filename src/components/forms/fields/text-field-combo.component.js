@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Action} from 'electrum';
 import {Button, TextField, SimpleTextField, Combo} from '../../../all-components.js';
-import {getComboLocation} from '../../combo/combo-helpers.js';
+import ComboHelpers from '../../combo/combo-helpers.js';
 
 /******************************************************************************/
 
@@ -59,7 +59,7 @@ export default class TextFieldCombo extends React.Component {
 
   showCombo () {
     const node = ReactDOM.findDOMNode (this);
-    this.comboLocation = getComboLocation (node, this.props.theme);
+    this.comboLocation = ComboHelpers.getComboLocation (node, this.props.theme);
     this.setShowCombo (true);
   }
 

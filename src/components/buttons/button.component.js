@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Badge, Menu} from '../../all-components.js';
-import {getShortcut} from './shortcut-helpers.js';
+import ShortcutHelpers from './shortcut-helpers.js';
 
 /******************************************************************************/
 
@@ -198,7 +198,7 @@ export default class Button extends React.Component {
       const shortcutStyle = this.mergeStyles ('shortcut');
       return (
         <label key='shortcut' style={shortcutStyle}>
-          {getShortcut (shortcut)}
+          {ShortcutHelpers.getShortcut (shortcut)}
         </label>
       );
     } else {

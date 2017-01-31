@@ -145,8 +145,7 @@ function isEmptyDate (date) {
   return !date || date === getEmptyDate ();
 }
 
-function getPackageCount (length) {
-  return length + 'x';
-}
-
-export {getDisplayedTime, getFormatedTime, checkTime, getEmptyTime, getEmptyDate, isEmptyTime, isEmptyDate, getPackageCount};
+module.exports = {
+  getDisplayedTime, getFormatedTime, checkTime, getEmptyTime, getEmptyDate,
+  isEmptyTime, isEmptyDate
+};

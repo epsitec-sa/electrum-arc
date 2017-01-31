@@ -3,10 +3,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Ticket, Container, Label, Button, MessengerModify, MessengerCombo} from '../../all-components.js';
-import {setDragCabHasCombo, getComboLocation} from '../combo/combo-helpers.js';
+import ComboHelpers from '../combo/combo-helpers.js';
 import {ColorManipulator} from 'electrum';
-
-const {darken} = ColorManipulator;
 
 /******************************************************************************/
 
@@ -42,7 +40,7 @@ export default class MessengerTicket extends React.Component {
     });
     const roadbook = this.read ('roadbook');
     const id = roadbook.id;
-    setDragCabHasCombo (id, value);
+    ComboHelpers.setDragCabHasCombo (id, value);
   }
 
   getShowModify () {
@@ -62,7 +60,7 @@ export default class MessengerTicket extends React.Component {
   showCombo (x, y) {
     // console.log ('MessengerTicket.showCombo');
     const node = ReactDOM.findDOMNode (this);
-    this.comboLocation = getComboLocation (node, this.props.theme, x);
+    this.comboLocation = ComboHelpers.getComboLocation (node, this.props.theme, x);
     this.setShowCombo (true);
   }
 
@@ -177,7 +175,7 @@ export default class MessengerTicket extends React.Component {
 
     let color = this.props.theme.palette.ticketMessengerBackground;
     if (this.getHover ()) {
-      color = darken (color, 0.1);
+      color = ColorManipulator.darken (color, 0.1);
     }
     if (this.getShowSomethink ()) {
       color = this.props.theme.palette.ticketSelectedMessengerBackground;
@@ -223,7 +221,7 @@ export default class MessengerTicket extends React.Component {
 
     let color = this.props.theme.palette.ticketMessengerBackground;
     if (this.getHover ()) {
-      color = darken (color, 0.1);
+      color = ColorManipulator.darken (color, 0.1);
     }
     if (this.getShowSomethink ()) {
       color = this.props.theme.palette.ticketSelectedMessengerBackground;

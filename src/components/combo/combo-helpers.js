@@ -45,7 +45,7 @@ function getComboLocation (node, theme, x, y) {
   };
 }
 
-export {
+module.exports = {
   setDragCabHasCombo,
   getComboLocation
 };

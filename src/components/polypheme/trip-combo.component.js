@@ -2,8 +2,8 @@
 
 import React from 'react';
 import {Combo} from '../../all-components.js';
-import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
-import {isSelected, isExtended} from './ticket-helpers.js';
+import ReducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
+import StateManager from './state-manager.js';
 
 /******************************************************************************/
 
@@ -41,11 +41,10 @@ export default class TripCombo extends React.Component {
   }
 
   getList () {
-    const data   = this.read ('data');
     const ticket = this.read ('ticket');
     const source = this.read ('source');
-    const selected = isSelected (data, ticket.id);
-    const extended = isExtended (data, ticket.id);
+    const selected = StateManager.isSelected (ticket.id);
+    const extended = StateManager.isExtended (ticket.id);
     const list = [];
     list.push (
       {
@@ -127,7 +126,7 @@ export default class TripCombo extends React.Component {
   reduce (action, ticket, value, shiftKey) {
     const id   = ticket.id;
     const data = this.read ('data');
-    reducerDragAndDrop (data, {
+    ReducerDragAndDrop.reducer (data, {
       type:     action,
       id:       id,
       value:    value,

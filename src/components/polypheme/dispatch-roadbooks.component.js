@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import reducerDragAndDrop from './reducer-drag-and-drop.js';
+import ReducerDragAndDrop from './reducer-drag-and-drop.js';
 
 import {
   Container,
@@ -46,7 +46,7 @@ export default class DispatchRoadbooks extends React.Component {
     // inject electrum state (needed for electrumDispatch)
     data.state = this.props.state;
 
-    reducerDragAndDrop (data, {
+    ReducerDragAndDrop.reducer (data, {
       type: action,
       id:   id,
     });

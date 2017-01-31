@@ -6,11 +6,9 @@ import {Ticket, Container, Label, Separator, Badge, Gauge} from '../../all-compo
 import {ColorManipulator} from 'electrum';
 import {ColorHelpers} from 'electrum-theme';
 import {Unit} from 'electrum-theme';
-import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
-import {getDisplayedTime, getPackageCount} from './converters';
-import {isSelected, isExtended, isFlash, getDirectionGlyph, getPackageDescription, getStatusDescription} from './ticket-helpers.js';
-
-const {emphasize} = ColorManipulator;
+import Converters from './converters';
+import StateManager from './state-manager.js';
+import TicketHelpers from './ticket-helpers.js';
 
 /******************************************************************************/
 
@@ -70,7 +68,7 @@ export default class TripTicket extends React.Component {
   // If the ticket is selected, displays a large "v" on a blue background.
   getHudGlyph (data, ticket) {
     if (!this.props.hasHeLeft || this.props.isDragged) {
-      return (isSelected (data, ticket.id)) ? 'check' : null;
+      return (StateManager.isSelected (ticket.id)) ? 'check' : null;
     }
     return null;
   }
@@ -228,8 +226,8 @@ export default class TripTicket extends React.Component {
   }
 
   renderTripBoxContent (ticket) {
-    const directionGlyphPick = getDirectionGlyph (this.props.theme, 'pick');
-    const directionGlyphDrop = getDirectionGlyph (this.props.theme, 'drop');
+    const directionGlyphPick = TicketHelpers.getDirectionGlyph (this.props.theme, 'pick');
+    const directionGlyphDrop = TicketHelpers.getDirectionGlyph (this.props.theme, 'drop');
     const dimmedColor        = this.props.theme.palette.ticketDimmed;
     const dimmedSize         = this.props.theme.shapes.ticketDimmedSize;
 
@@ -241,7 +239,7 @@ export default class TripTicket extends React.Component {
         <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
           <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
             <Container kind='thin-row' width='50px' {...this.link ()} >
-              <Label text={getDisplayedTime (ticket.Trip.Pick.PlanedTime)} font-weight='bold' wrap='no'
+              <Label text={Converters.getDisplayedTime (ticket.Trip.Pick.PlanedTime)} font-weight='bold' wrap='no'
                 {...this.link ()} />
             </Container>
             <Container kind='thin-row' width='20px' {...this.link ()} >
@@ -260,7 +258,7 @@ export default class TripTicket extends React.Component {
           </Container>
           <Container kind='thin-row' grow='1' {...this.link ()} >
             <Container kind='thin-row' width='50px' {...this.link ()} >
-              <Label text={getDisplayedTime (ticket.Trip.Drop.PlanedTime)} font-weight='bold' wrap='no'
+              <Label text={Converters.getDisplayedTime (ticket.Trip.Drop.PlanedTime)} font-weight='bold' wrap='no'
                 {...this.link ()} />
             </Container>
             <Container kind='thin-row' width='20px' {...this.link ()} >
@@ -284,7 +282,7 @@ export default class TripTicket extends React.Component {
               <Label glyph='cube' glyph-color={dimmedColor} {...this.link ()} />
             </Container>
             <Container kind='thin-row' grow='3' {...this.link ()} >
-              <Label text={getPackageCount (ticket.Trip.Packages.length)} justify='right' grow='1' wrap='no' {...this.link ()} />
+              <Label text={TicketHelpers.getPackageCount (ticket.Trip.Packages.length)} justify='right' grow='1' wrap='no' {...this.link ()} />
             </Container>
           </Container>
           <Container kind='thin-row' grow='1' {...this.link ()} >
@@ -318,15 +316,15 @@ export default class TripTicket extends React.Component {
       <Container kind='ticket-column' grow='1' {...this.link ()} >
         {this.renderWarning (ticket.Warning)}
         <Container kind='ticket-row' margin-bottom='-10px' {...this.link ()} >
-          <Label text={getDisplayedTime (trip.PlanedTime)} font-weight='bold' width='50px' {...this.link ()} />
+          <Label text={Converters.getDisplayedTime (trip.PlanedTime)} font-weight='bold' width='50px' {...this.link ()} />
           <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
           <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
         </Container>
         <Container kind='ticket-row' {...this.link ()} >
-          <Label text={getDisplayedTime (trip.RealisedTime)} font-weight='normal' width='50px' {...this.link ()} />
+          <Label text={Converters.getDisplayedTime (trip.RealisedTime)} font-weight='normal' width='50px' {...this.link ()} />
           <Label text='' width='25px' {...this.link ()} />
           <Label glyph='cube' spacing='compact' {...this.link ()} />
-          <Label text={getPackageCount (ticket.Trip.Packages.length)} grow='1' {...this.link ()} />
+          <Label text={TicketHelpers.getPackageCount (ticket.Trip.Packages.length)} grow='1' {...this.link ()} />
           {this.renderNoteGlyphs (trip.Notes)}
         </Container>
       </Container>
@@ -338,16 +336,16 @@ export default class TripTicket extends React.Component {
       <Container kind='ticket-column' grow='1' {...this.link ()} >
         {this.renderWarning (ticket.Warning)}
         <Container kind='ticket-row' {...this.link ()} >
-          <Label text={getDisplayedTime (trip.PlanedTime)} font-weight='bold' width='50px' {...this.link ()} />
+          <Label text={Converters.getDisplayedTime (trip.PlanedTime)} font-weight='bold' width='50px' {...this.link ()} />
           <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
           <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
         </Container>
         {this.renderLine ('building', trip.LongDescription)}
         {this.renderLine ('map-marker', trip.Zone)}
         {this.renderNotes (trip.Notes)}
-        {this.renderLine ('cube', getPackageDescription (ticket))}
+        {this.renderLine ('cube', TicketHelpers.getPackageDescription (ticket))}
         {this.renderLine ('money', ticket.Trip.Price)}
-        {this.renderLine ('info-circle', getStatusDescription (ticket))}
+        {this.renderLine ('info-circle', TicketHelpers.getStatusDescription (ticket))}
         {this.renderNotes (ticket.Trip.Notes)}
       </Container>
     );
@@ -359,7 +357,7 @@ export default class TripTicket extends React.Component {
       return this.renderTripBoxContent (ticket);
     } else {
       const trip           = ticket.Type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
-      const directionGlyph = getDirectionGlyph (this.props.theme, ticket.Type);
+      const directionGlyph = TicketHelpers.getDirectionGlyph (this.props.theme, ticket.Type);
 
       if (extended) {
         return this.renderExtendedContent (ticket, trip, directionGlyph);
@@ -383,7 +381,7 @@ export default class TripTicket extends React.Component {
     const trip     = ticket.Type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
     const cursor   = (noDrag === 'true') ? 'default' : 'move';
     const hatch    = (ticket.Status === 'dispatched' || ticket.Status === 'delivered') ? 'true' : 'false';
-    const extended = isExtended (data, ticket.id);
+    const extended = StateManager.isExtended (ticket.id);
     let kind, width, height;
     if (parentKind === 'trip-box') {
       kind   = 'thin';
@@ -406,10 +404,10 @@ export default class TripTicket extends React.Component {
       color = this.props.theme.palette.ticketWarningBackground;
     }
     if (this.getHover () && !isDragged) {
-      color = emphasize (color, 0.1);
+      color = ColorManipulator.emphasize (color, 0.1);
     }
     if (selected === 'true' && !isDragged) {
-      color = emphasize (color, 0.3);
+      color = ColorManipulator.emphasize (color, 0.3);
     }
     if (hasHeLeft && !isDragged) {
       color = this.props.theme.palette.ticketDragAndDropShadow;

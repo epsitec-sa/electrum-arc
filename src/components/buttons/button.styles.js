@@ -1,9 +1,7 @@
 'use strict';
 
-import {Action, ColorManipulator} from 'electrum';
+import {ColorManipulator} from 'electrum';
 import {Unit} from 'electrum-theme';
-
-const {emphasize} = ColorManipulator;
 
 /******************************************************************************/
 
@@ -528,13 +526,13 @@ export default function styles (theme, props) {
     buttonBackgroundColor = theme.palette.buttonBackground;
   }
   if (!backgroundHoverColor) {
-    backgroundHoverColor = emphasize (buttonBackgroundColor, 0.2);
+    backgroundHoverColor = ColorManipulator.emphasize (buttonBackgroundColor, 0.2);
   }
   if (!glyphColor) {
-    glyphColor = emphasize (buttonBackgroundColor, 0.8);
+    glyphColor = ColorManipulator.emphasize (buttonBackgroundColor, 0.8);
   }
   if (!textColor) {
-    textColor = emphasize (buttonBackgroundColor, 0.9);
+    textColor = ColorManipulator.emphasize (buttonBackgroundColor, 0.9);
   }
 
   // Alter colors if component is disable.

@@ -3,8 +3,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Unit} from 'electrum-theme';
-import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
-import {isSelected} from '../polypheme/ticket-helpers.js';
+import ReducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
+import StateManager from '../polypheme/state-manager.js';
 
 import {
   Container,
@@ -425,13 +425,12 @@ export default class DragCarrier extends React.Component {
   selectMulti (value) {
     console.log ('DragCarrier.selectMulti');
     if (this.rectOrigin) {
-      const data = this.read ('data');
       const origin = this.searchChildren (this.rectOrigin.id);
-      if (origin && origin.props.ticket && isSelected (data, origin.props.ticket.id)) {
+      if (origin && origin.props.ticket && StateManager.isSelected (origin.props.ticket.id)) {
         // Drag all selected items.
         const container = this.rectOrigin.container;
         for (let child of container.props.children) {
-          if (isSelected (data, child.props.ticket.id)) {
+          if (StateManager.isSelected (child.props.ticket.id)) {
             this.selectOne (child.props.ticket.id, value);
           }
         }
@@ -512,7 +511,7 @@ export default class DragCarrier extends React.Component {
     // inject electrum state (needed for electrumDispatch)
     data.state = this.read ('state');
 
-    reducerDragAndDrop (data, {
+    ReducerDragAndDrop.reducer (data, {
       type:        'DROP',
       fromKind:    (ownerKind === 'roadbooks') ? 'roadbook' : 'ticket',
       fromIds:     this.selectedIds,

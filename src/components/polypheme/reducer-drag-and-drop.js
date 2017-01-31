@@ -3,13 +3,8 @@
 import Electrum from 'electrum';
 import Enumerable from 'linq';
 import reducerTickets from './reducer-tickets.js';
-import {getFormatedTime, getEmptyTime, getEmptyDate} from './converters';
-
-import {
-  isSelected, setSelected, clearSelected, putSelected,
-  isExtended, setExtended, clearExtended, putExtended,
-  getShape, setShape
-} from './state-manager.js';
+import Converters from './converters';
+import StateManager from './state-manager.js';
 
 // ------------------------------------------------------------------------------------------
 
@@ -187,13 +182,13 @@ function getNewId () {
 }
 
 function updateId (state, oldId, newId) {
-  if (isSelected (oldId)) {
-    clearSelected (oldId);
-    setSelected (newId);
+  if (StateManager.isSelected (oldId)) {
+    StateManager.clearSelected (oldId);
+    StateManager.setSelected (newId);
   }
-  if (isExtended (oldId)) {
-    clearExtended (oldId);
-    setExtended (newId);
+  if (StateManager.isExtended (oldId)) {
+    StateManager.clearExtended (oldId);
+    StateManager.setExtended (newId);
   }
   if (isFlash (state, oldId)) {
     clearFlash (state, oldId);
@@ -344,8 +339,8 @@ function sortTicket (a, b) {
   const sb = getSortingTicketOrder (b).toString ();
   if (sa === sb) {
     // If they have the same type, sort chronologically.
-    const ta = getFormatedTime (a.Trip.Drop.PlanedTime);
-    const tb = getFormatedTime (b.Trip.Drop.PlanedTime);
+    const ta = Converters.getFormatedTime (a.Trip.Drop.PlanedTime);
+    const tb = Converters.getFormatedTime (b.Trip.Drop.PlanedTime);
     return ta.localeCompare (tb);
   } else {
     return sa.localeCompare (sb);
@@ -470,13 +465,13 @@ function setMisc (state, list, flashes, warnings) {
     const ticket = normalize (list[i]);
     const w = getTextWarning (warnings, ticket.id);
     const f = (flashes.indexOf (ticket.id) !== -1);
-    let s = isSelected (ticket.id);
+    let s = StateManager.isSelected (ticket.id);
     if (ticket.Warning !== w ||
         isFlash (state, ticket.id) !== f ||
-        isSelected (ticket.id) !== s) {  // changing ?
+        StateManager.isSelected (ticket.id) !== s) {  // changing ?
       ticket.Warning  = w;  // set or clear warning message
       putFlash (state, ticket.id, f);  // set or clear flash mode
-      putSelected (ticket.id, s);  // select or deselect ticket
+      StateManager.putSelected (ticket.id, s);  // select or deselect ticket
       list[i] = regen (state, ticket);
     }
   }
@@ -499,7 +494,7 @@ function setMiscs (state, flashes, warnings) {
 function firstSelectedIndex (state, result) {
   for (let i = 0; i < result.tickets.length; i++) {
     const ticket = result.tickets[i];
-    if (isSelected (ticket.id)) {
+    if (StateManager.isSelected (ticket.id)) {
       return i;
     }
   }
@@ -510,8 +505,8 @@ function selectZone (state, flashes, result, fromIndex, toIndex, value) {
   for (let i = 0; i < result.tickets.length; i++) {
     const ticket = result.tickets[i];
     if ((ticket.Status === 'backlog' || ticket.Status === 'pre-dispatched') && i >= fromIndex && i <= toIndex) {
-      if (isSelected (ticket.id) !== value) {
-        putSelected (ticket.id, value);
+      if (StateManager.isSelected (ticket.id) !== value) {
+        StateManager.putSelected (ticket.id, value);
         result.tickets[i] = regen (state, ticket);
         flashes.push (result.tickets[i].id);
       }
@@ -573,19 +568,19 @@ function changeGeneric (state, flashes, warnings, from, to) {
     drop.Status = 'pre-dispatched';
     addTicket (state, to.tickets, to.index, drop);  // first drop, for have pick/drop in this order
     addTicket (state, to.tickets, to.index, pick);
-    clearSelected (pick.id);
-    clearSelected (drop.id);
+    StateManager.clearSelected (pick.id);
+    StateManager.clearSelected (drop.id);
     flashes.push (pick.id);
     flashes.push (drop.id);
   } else if (to.type === 'backlog' && ticket.Type !== 'both') {
     ticket.Type = 'both';
     ticket.Status = 'backlog';
     addTicket (state, to.tickets, to.index, ticket);
-    clearSelected (ticket.id);
+    StateManager.clearSelected (ticket.id);
     flashes.push (ticket.id);
   } else {
     addTicket (state, to.tickets, to.index, ticket);
-    clearSelected (ticket.id);
+    StateManager.clearSelected (ticket.id);
     flashes.push (ticket.id);
   }
 }
@@ -637,7 +632,7 @@ function swapSelected (state, id, shiftKey) {
   const warnings = [];
   const result = searchId (state, id);
   if (shiftKey) {
-    if (isSelected (result.tickets[result.index].id)) {
+    if (StateManager.isSelected (result.tickets[result.index].id)) {
       // Deselect all items.
       selectZone (state, flashes, result, 0, 9999, false);
     } else {
@@ -655,7 +650,7 @@ function swapSelected (state, id, shiftKey) {
     // Select or deselect pointed item.
     const ticket = result.tickets[result.index];
     if (ticket.Status === 'backlog' || ticket.Status === 'pre-dispatched') {
-      putSelected (ticket.id, !isSelected (ticket.id));
+      StateManager.putSelected (ticket.id, !StateManager.isSelected (ticket.id));
       result.tickets[result.index] = regen (state, ticket);
       flashes.push (result.tickets[result.index].id);
     }
@@ -671,10 +666,10 @@ function swapExtended (state, id) {
   const result = searchId (state, id);
   if (result.type !== 'backlog') {
     const ticket = result.tickets[result.index];
-    if (isExtended (ticket.id)) {
-      clearExtended (ticket.id);
+    if (StateManager.isExtended (ticket.id)) {
+      StateManager.clearExtended (ticket.id);
     } else {
-      setExtended (ticket.id);
+      StateManager.setExtended (ticket.id);
     }
     result.tickets[result.index] = regen (state, ticket);
     flashes.push (result.tickets[result.index].id);
@@ -691,7 +686,7 @@ function setStatus (state, flashes, id, status, date, time) {
   const index   = result.index;
   ticket.Status = status;
   if (status !== 'pre-dispatched') {
-    clearSelected (state, ticket.id);
+    StateManager.clearSelected (state, ticket.id);
   }
   if (status === 'delivered') {
     ticket.Trip.Pick.RealisedDate = date;
@@ -699,10 +694,10 @@ function setStatus (state, flashes, id, status, date, time) {
     ticket.Trip.Drop.RealisedDate = date;
     ticket.Trip.Drop.RealisedTime = time;
   } else {
-    ticket.Trip.Pick.RealisedDate = getEmptyDate ();
-    ticket.Trip.Pick.RealisedTime = getEmptyTime ();
-    ticket.Trip.Drop.RealisedDate = getEmptyDate ();
-    ticket.Trip.Drop.RealisedTime = getEmptyTime ();
+    ticket.Trip.Pick.RealisedDate = Converters.getEmptyDate ();
+    ticket.Trip.Pick.RealisedTime = Converters.getEmptyTime ();
+    ticket.Trip.Drop.RealisedDate = Converters.getEmptyDate ();
+    ticket.Trip.Drop.RealisedTime = Converters.getEmptyTime ();
   }
   tickets[index] = regen (state, ticket);
   flashes.push (tickets[index].id);
@@ -824,7 +819,7 @@ function setTrayName (state, id, value) {
 
 // ------------------------------------------------------------------------------------------
 
-export default function Reducer (state = {}, action = {}) {
+function reducer (state = {}, action = {}) {
   console.log (`reducer action.type=${action.type}`);
   switch (action.type) {
     case 'DROP':
@@ -845,23 +840,23 @@ export default function Reducer (state = {}, action = {}) {
       break;
 
     case 'IS_SELECTED':
-      state._isSelected = isSelected (action.id);
+      state._isSelected = StateManager.isSelected (action.id);
       break;
     case 'SET_SELECTED':
-      state = setSelected (action.id);
+      state = StateManager.setSelected (action.id);
       break;
     case 'CLEAR_SELECTED':
-      state = clearSelected (action.id);
+      state = StateManager.clearSelected (action.id);
       break;
 
     case 'IS_EXTENDED':
-      state._isExtended = isExtended (action.id);
+      state._isExtended = StateManager.isExtended (action.id);
       break;
     case 'SET_EXTENDED':
-      state = setExtended (action.id);
+      state = StateManager.setExtended (action.id);
       break;
     case 'CLEAR_EXTENDED':
-      state = clearExtended (action.id);
+      state = StateManager.clearExtended (action.id);
       break;
 
     case 'IS_FLASH':
@@ -887,3 +882,7 @@ export default function Reducer (state = {}, action = {}) {
   }
   return state;
 }
+
+// ------------------------------------------------------------------------------------------
+
+module.exports = {reducer};

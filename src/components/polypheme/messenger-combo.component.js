@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Combo} from '../../all-components.js';
-import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
+import ReducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
 
 /******************************************************************************/
 
@@ -18,7 +18,7 @@ export default class MessengerCombo extends React.Component {
 
   reduce (action, id) {
     const data = this.read ('data');
-    reducerDragAndDrop (data, {
+    ReducerDragAndDrop.reducer (data, {
       type: action,
       id:   id,
     });
@@ -49,7 +49,7 @@ export default class MessengerCombo extends React.Component {
     console.log ('MessengerCombo.shiftToBegin');
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
-    reducerDragAndDrop (data, {
+    ReducerDragAndDrop.reducer (data, {
       type:        'DROP',
       fromKind:    'roadbook',
       fromIds:     [roadbook.id],
@@ -64,7 +64,7 @@ export default class MessengerCombo extends React.Component {
     console.log ('MessengerCombo.shiftToEnd');
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
-    reducerDragAndDrop (data, {
+    ReducerDragAndDrop.reducer (data, {
       type:        'DROP',
       fromKind:    'roadbook',
       fromIds:     [roadbook.id],

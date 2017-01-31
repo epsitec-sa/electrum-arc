@@ -3,8 +3,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {TripTicket, DragCab, TripCombo, TripModify, TripDeliver, TripPredispatch} from '../../all-components.js';
-import reducerDragAndDrop from './reducer-drag-and-drop.js';
-import {setDragCabHasCombo, getComboLocation} from '../combo/combo-helpers.js';
+import ReducerDragAndDrop from './reducer-drag-and-drop.js';
+import ComboHelpers from '../combo/combo-helpers.js';
 
 /******************************************************************************/
 
@@ -31,7 +31,7 @@ export default class Trip extends React.Component {
     });
     const ticket = this.read ('ticket');
     const id = ticket.id;
-    setDragCabHasCombo (id, value);
+    ComboHelpers.setDragCabHasCombo (id, value);
   }
 
   getShowModify () {
@@ -70,7 +70,7 @@ export default class Trip extends React.Component {
 
   showCombo (x, y) {
     const node = ReactDOM.findDOMNode (this);
-    this.comboLocation = getComboLocation (node, this.props.theme, x);
+    this.comboLocation = ComboHelpers.getComboLocation (node, this.props.theme, x);
     this.setShowCombo (true);
   }
 
@@ -121,7 +121,7 @@ export default class Trip extends React.Component {
     // inject electrum state (needed for electrumDispatch)
     data.state = this.props.state;
 
-    reducerDragAndDrop (data, {
+    ReducerDragAndDrop.reducer (data, {
       type:     action,
       id:       id,
       shiftKey: shiftKey,

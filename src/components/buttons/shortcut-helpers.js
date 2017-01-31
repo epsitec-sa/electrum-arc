@@ -56,6 +56,6 @@ function getShortcut (text) {
   }
 }
 
-export {
+module.exports = {
   getShortcut
 };

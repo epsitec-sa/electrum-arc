@@ -1,32 +1,7 @@
 'use strict';
 
 import {ColorHelpers} from 'electrum-theme';
-import reducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
-import {getPackageCount} from './converters';
-
-function isSelected (data, id) {
-  reducerDragAndDrop (data, {
-    type: 'IS_SELECTED',
-    id:   id,
-  });
-  return data._isSelected;
-}
-
-function isExtended (data, id) {
-  reducerDragAndDrop (data, {
-    type: 'IS_EXTENDED',
-    id:   id,
-  });
-  return data._isExtended;
-}
-
-function isFlash (data, id) {
-  reducerDragAndDrop (data, {
-    type: 'IS_FLASH',
-    id:   id,
-  });
-  return data._isFlash;
-}
+import Converters from './converters';
 
 function getDirectionGlyph (theme, type) {
   const transit = type.endsWith ('-transit');
@@ -60,6 +35,10 @@ function getDirectionGlyph (theme, type) {
   }
 }
 
+function getPackageCount (length) {
+  return length + 'x';
+}
+
 function getPackageDescription (ticket) {
   let desc = getPackageCount (ticket.Trip.Packages.length);
   if (ticket.Trip.Weight) {
@@ -83,11 +62,9 @@ function getStatusDescription (ticket) {
   }
 }
 
-export {
-  isSelected,
-  isExtended,
-  isFlash,
+module.exports = {
   getDirectionGlyph,
   getPackageDescription,
+  getPackageCount,
   getStatusDescription
 };
