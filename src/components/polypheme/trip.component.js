@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import {TripTicket, DragCab, TripCombo, TripModify, TripDeliver, TripPredispatch} from '../../all-components.js';
 import ReducerDragAndDrop from './reducer-drag-and-drop.js';
 import ComboHelpers from '../combo/combo-helpers.js';
+import StateManager from './state-manager.js';
 
 /******************************************************************************/
 
@@ -266,12 +267,13 @@ export default class Trip extends React.Component {
     const data     = this.read ('data');
     const noDrag   = (ticket.Status === 'dispatched' || ticket.Status === 'delivered') ? 'true' : null;
     const selected = this.getShowSomethink () ? 'true' : 'false';
+    const shape    = StateManager.getShape (ticket.id);
 
     let verticalSpacing;
     if (kind === 'trip-box') {
       verticalSpacing = this.props.theme.shapes.tripBoxVerticalSpacing;
     } else {
-      if (ticket.Shape === 'first') {
+      if (shape === 'first') {
         verticalSpacing = this.props.theme.shapes.ticketVerticalSpacingFirst;
       } else {
         verticalSpacing = this.props.theme.shapes.ticketVerticalSpacing;
@@ -300,7 +302,7 @@ export default class Trip extends React.Component {
           data             = {data}
           selected         = {selected}
           no-drag          = {noDrag}
-          shape            = {ticket.Shape}
+          shape            = {shape}
           vertical-spacing = {verticalSpacing}
           {...this.link ()} />
         {this.renderCombo (data)}

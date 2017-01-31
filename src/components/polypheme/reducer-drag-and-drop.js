@@ -394,8 +394,8 @@ function updateShape (state, list) {
         shape = 'last';
       }
     }
-    if (ticket.Shape !== shape) {  // changing ?
-      ticket.Shape = shape;
+    if (StateManager.getShape (ticket.id) !== shape) {  // changing ?
+      StateManager.setShape (ticket.id, shape);
       list.Tickets[i] = regen (state, ticket);
     }
   }
