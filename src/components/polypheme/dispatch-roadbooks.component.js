@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReducerDragAndDrop from './reducer-drag-and-drop.js';
 import StateManager from './state-manager.js';
 
 import {
@@ -34,8 +35,26 @@ export default class DispatchRoadbooks extends React.Component {
 
   doClickAction (roadbook, event) {
     if (event.altKey) {  // compected/extended ?
-      const x = StateManager.isMessengerCompacted (roadbook.id);
-      StateManager.putMessengerCompacted (roadbook.id, !x);
+      this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook);
+    }
+  }
+
+  reduce (action, roadbook) {
+    // console.log ('DispatchRoadbooks.reducer');
+    const data = this.read ('data');
+    const id   = roadbook.id;
+
+    // inject electrum state (needed for electrumDispatch)
+    data.state = this.props.state;
+
+    ReducerDragAndDrop.reducer (data, {
+      type: action,
+      id:   id,
+    });
+    if (window.document.mock) {
+      for (var c of window.document.toUpdate) {
+        c.forceUpdate ();
+      }
     }
   }
 

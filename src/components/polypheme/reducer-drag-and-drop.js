@@ -647,7 +647,7 @@ function setStatus (state, flashes, id, status, date, time) {
   const index   = result.index;
   ticket.Status = status;
   if (status !== 'pre-dispatched') {
-    StateManager.clearTicketSelected (state, ticket.id);
+    StateManager.clearTicketSelected (ticket.id);
   }
   if (status === 'delivered') {
     ticket.Trip.Pick.RealisedDate = date;
@@ -747,11 +747,8 @@ function swapRoadbookCompacted (state, id) {
     throw new Error (`Invalid type ${result.type}`);
   }
   const roadbook = result.tickets[result.index];
-  if (roadbook.Compacted === 'true') {
-    roadbook.Compacted = 'false';
-  } else {
-    roadbook.Compacted = 'true';
-  }
+  const x = StateManager.isMessengerCompacted (roadbook.id);
+  StateManager.putMessengerCompacted (roadbook.id, !x);
   result.tickets[result.index] = regen (state, roadbook);
   return state;
 }
@@ -762,11 +759,8 @@ function swapRoadbookShowHidden (state, id) {
     throw new Error (`Invalid type ${result.type}`);
   }
   const roadbook = result.tickets[result.index];
-  if (roadbook.ShowHidden === 'true') {
-    roadbook.ShowHidden = 'false';
-  } else {
-    roadbook.ShowHidden = 'true';
-  }
+  const x = StateManager.isMessengerShowHidden (roadbook.id);
+  StateManager.putMessengerShowHidden (roadbook.id, !x);
   result.tickets[result.index] = regen (state, roadbook);
   return state;
 }

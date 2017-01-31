@@ -29,20 +29,18 @@ export default class MessengerCombo extends React.Component {
   swapCompacted () {
     // console.log ('MessengerCombo.swapCompacted');
     const roadbook = this.read ('roadbook');
-    const x = StateManager.isMessengerCompacted (roadbook.id);
-    StateManager.putMessengerCompacted (roadbook.id, !x);
+    this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.id);
   }
 
   swapCompactedAndShift () {
     // console.log ('MessengerCombo.swapCompactedAndShift');
-    const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
     if (StateManager.isMessengerCompacted (roadbook.id)) {
       this.shiftToBegin ();
-      StateManager.clearMessengerCompacted (data.Roadbooks[0].id);
+      this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.id);
     } else {
       this.shiftToEnd ();
-      StateManager.setMessengerCompacted (data.Roadbooks[data.Roadbooks.length - 1].id);
+      this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.id);
     }
   }
 
@@ -79,8 +77,7 @@ export default class MessengerCombo extends React.Component {
   swapShowHidden () {
     // console.log ('MessengerCombo.swapShowHidden');
     const roadbook = this.read ('roadbook');
-    const x = StateManager.isMessengerShowHidden (roadbook.id);
-    StateManager.putMessengerShowHidden (roadbook.id, !x);
+    this.reduce ('SWAP_ROADBOOK_SHOWHIDDEN', roadbook.id);
   }
 
   closeCombo () {
