@@ -267,7 +267,7 @@ export default class Trip extends React.Component {
     const data     = this.read ('data');
     const noDrag   = (ticket.Status === 'dispatched' || ticket.Status === 'delivered') ? 'true' : null;
     const selected = this.getShowSomethink () ? 'true' : 'false';
-    const shape    = StateManager.getShape (ticket.id);
+    const shape    = StateManager.getTicketShape (ticket.id);
 
     let verticalSpacing;
     if (kind === 'trip-box') {

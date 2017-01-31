@@ -43,8 +43,8 @@ export default class TripCombo extends React.Component {
   getList () {
     const ticket = this.read ('ticket');
     const source = this.read ('source');
-    const selected = StateManager.isSelected (ticket.id);
-    const extended = StateManager.isExtended (ticket.id);
+    const selected = StateManager.isTicketSelected (ticket.id);
+    const extended = StateManager.isTicketExtended (ticket.id);
     const list = [];
     list.push (
       {

@@ -147,13 +147,13 @@ function getNewId () {
 }
 
 function updateId (state, oldId, newId) {
-  if (StateManager.isSelected (oldId)) {
-    StateManager.clearSelected (oldId);
-    StateManager.setSelected (newId);
+  if (StateManager.isTicketSelected (oldId)) {
+    StateManager.clearTicketSelected (oldId);
+    StateManager.setTicketSelected (newId);
   }
-  if (StateManager.isExtended (oldId)) {
-    StateManager.clearExtended (oldId);
-    StateManager.setExtended (newId);
+  if (StateManager.isTicketExtended (oldId)) {
+    StateManager.clearTicketExtended (oldId);
+    StateManager.setTicketExtended (newId);
   }
 }
 
@@ -394,8 +394,8 @@ function updateShape (state, list) {
         shape = 'last';
       }
     }
-    if (StateManager.getShape (ticket.id) !== shape) {  // changing ?
-      StateManager.setShape (ticket.id, shape);
+    if (StateManager.getTicketShape (ticket.id) !== shape) {  // changing ?
+      StateManager.setTicketShape (ticket.id, shape);
       list.Tickets[i] = regen (state, ticket);
     }
   }
@@ -426,13 +426,13 @@ function setMisc (state, list, flashes, warnings) {
     const ticket = normalize (list[i]);
     const w = getTextWarning (warnings, ticket.id);
     const f = (flashes.indexOf (ticket.id) !== -1) ? 'true' : 'false';
-    let s = StateManager.isSelected (ticket.id);
+    let s = StateManager.isTicketSelected (ticket.id);
     if (ticket.Warning !== w ||
         ticket.Flash !== f ||
-        StateManager.isSelected (ticket.id) !== s) {  // changing ?
+        StateManager.isTicketSelected (ticket.id) !== s) {  // changing ?
       ticket.Warning  = w;  // set or clear warning message
       ticket.Flash = f;  // set or clear flash mode
-      StateManager.putSelected (ticket.id, s);  // select or deselect ticket
+      StateManager.putTicketSelected (ticket.id, s);  // select or deselect ticket
       list[i] = regen (state, ticket);
     }
   }
@@ -455,7 +455,7 @@ function setMiscs (state, flashes, warnings) {
 function firstSelectedIndex (state, result) {
   for (let i = 0; i < result.tickets.length; i++) {
     const ticket = result.tickets[i];
-    if (StateManager.isSelected (ticket.id)) {
+    if (StateManager.isTicketSelected (ticket.id)) {
       return i;
     }
   }
@@ -466,8 +466,8 @@ function selectZone (state, flashes, result, fromIndex, toIndex, value) {
   for (let i = 0; i < result.tickets.length; i++) {
     const ticket = result.tickets[i];
     if ((ticket.Status === 'backlog' || ticket.Status === 'pre-dispatched') && i >= fromIndex && i <= toIndex) {
-      if (StateManager.isSelected (ticket.id) !== value) {
-        StateManager.putSelected (ticket.id, value);
+      if (StateManager.isTicketSelected (ticket.id) !== value) {
+        StateManager.putTicketSelected (ticket.id, value);
         result.tickets[i] = regen (state, ticket);
         flashes.push (result.tickets[i].id);
       }
@@ -529,19 +529,19 @@ function changeGeneric (state, flashes, warnings, from, to) {
     drop.Status = 'pre-dispatched';
     addTicket (state, to.tickets, to.index, drop);  // first drop, for have pick/drop in this order
     addTicket (state, to.tickets, to.index, pick);
-    StateManager.clearSelected (pick.id);
-    StateManager.clearSelected (drop.id);
+    StateManager.clearTicketSelected (pick.id);
+    StateManager.clearTicketSelected (drop.id);
     flashes.push (pick.id);
     flashes.push (drop.id);
   } else if (to.type === 'backlog' && ticket.Type !== 'both') {
     ticket.Type = 'both';
     ticket.Status = 'backlog';
     addTicket (state, to.tickets, to.index, ticket);
-    StateManager.clearSelected (ticket.id);
+    StateManager.clearTicketSelected (ticket.id);
     flashes.push (ticket.id);
   } else {
     addTicket (state, to.tickets, to.index, ticket);
-    StateManager.clearSelected (ticket.id);
+    StateManager.clearTicketSelected (ticket.id);
     flashes.push (ticket.id);
   }
 }
@@ -593,7 +593,7 @@ function swapSelected (state, id, shiftKey) {
   const warnings = [];
   const result = searchId (state, id);
   if (shiftKey) {
-    if (StateManager.isSelected (result.tickets[result.index].id)) {
+    if (StateManager.isTicketSelected (result.tickets[result.index].id)) {
       // Deselect all items.
       selectZone (state, flashes, result, 0, 9999, false);
     } else {
@@ -611,7 +611,7 @@ function swapSelected (state, id, shiftKey) {
     // Select or deselect pointed item.
     const ticket = result.tickets[result.index];
     if (ticket.Status === 'backlog' || ticket.Status === 'pre-dispatched') {
-      StateManager.putSelected (ticket.id, !StateManager.isSelected (ticket.id));
+      StateManager.putTicketSelected (ticket.id, !StateManager.isTicketSelected (ticket.id));
       result.tickets[result.index] = regen (state, ticket);
       flashes.push (result.tickets[result.index].id);
     }
@@ -627,10 +627,10 @@ function swapExtended (state, id) {
   const result = searchId (state, id);
   if (result.type !== 'backlog') {
     const ticket = result.tickets[result.index];
-    if (StateManager.isExtended (ticket.id)) {
-      StateManager.clearExtended (ticket.id);
+    if (StateManager.isTicketExtended (ticket.id)) {
+      StateManager.clearTicketExtended (ticket.id);
     } else {
-      StateManager.setExtended (ticket.id);
+      StateManager.setTicketExtended (ticket.id);
     }
     result.tickets[result.index] = regen (state, ticket);
     flashes.push (result.tickets[result.index].id);
@@ -647,7 +647,7 @@ function setStatus (state, flashes, id, status, date, time) {
   const index   = result.index;
   ticket.Status = status;
   if (status !== 'pre-dispatched') {
-    StateManager.clearSelected (state, ticket.id);
+    StateManager.clearTicketSelected (state, ticket.id);
   }
   if (status === 'delivered') {
     ticket.Trip.Pick.RealisedDate = date;

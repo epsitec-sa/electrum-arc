@@ -68,7 +68,7 @@ export default class TripTicket extends React.Component {
   // If the ticket is selected, displays a large "v" on a blue background.
   getHudGlyph (data, ticket) {
     if (!this.props.hasHeLeft || this.props.isDragged) {
-      return (StateManager.isSelected (ticket.id)) ? 'check' : null;
+      return (StateManager.isTicketSelected (ticket.id)) ? 'check' : null;
     }
     return null;
   }
@@ -380,7 +380,7 @@ export default class TripTicket extends React.Component {
     const trip     = ticket.Type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
     const cursor   = (noDrag === 'true') ? 'default' : 'move';
     const hatch    = (ticket.Status === 'dispatched' || ticket.Status === 'delivered') ? 'true' : 'false';
-    const extended = StateManager.isExtended (ticket.id);
+    const extended = StateManager.isTicketExtended (ticket.id);
     let kind, width, height;
     if (parentKind === 'trip-box') {
       kind   = 'thin';
