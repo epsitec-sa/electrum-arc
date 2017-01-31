@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import StateManager from './state-manager.js';
 
 /******************************************************************************/
 
@@ -24,7 +25,7 @@ export default class Roadbook extends React.Component {
 
     const boxStyle = this.mergeStyles ('box');
 
-    if (roadbook.Compacted === 'true') {
+    if (StateManager.isMessengerCompacted (roadbook.id)) {
       if (boxStyle.minWidth) {
         boxStyle.minWidth = this.props.theme.shapes.tripTicketCompactedWidth;
       }

@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import {Ticket, Container, Label, Button, MessengerModify, MessengerCombo} from '../../all-components.js';
 import ComboHelpers from '../combo/combo-helpers.js';
 import {ColorManipulator} from 'electrum';
+import StateManager from './state-manager.js';
 
 /******************************************************************************/
 
@@ -148,7 +149,7 @@ export default class MessengerTicket extends React.Component {
   }
 
   renderMode (roadbook) {
-    if (roadbook.ShowHidden === 'true') {
+    if (StateManager.isMessengerShowHidden (roadbook.id)) {
       return (
         <Container kind='ticket-mode' grow='1' {...this.link ()} >
           <Label glyph='eye' glyph-size='150%' {...this.link ()} />
@@ -253,8 +254,7 @@ export default class MessengerTicket extends React.Component {
 
   render () {
     const roadbook = this.read ('roadbook');
-    const compacted  = roadbook.Compacted  === 'true';
-    if (compacted) {
+    if (StateManager.isMessengerCompacted (roadbook.id)) {
       return this.renderCompacted ();
     } else {
       return this.renderExtended ();

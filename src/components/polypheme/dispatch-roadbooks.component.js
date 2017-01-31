@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import ReducerDragAndDrop from './reducer-drag-and-drop.js';
+import StateManager from './state-manager.js';
 
 import {
   Container,
@@ -34,26 +34,8 @@ export default class DispatchRoadbooks extends React.Component {
 
   doClickAction (roadbook, event) {
     if (event.altKey) {  // compected/extended ?
-      this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook);
-    }
-  }
-
-  reduce (action, roadbook) {
-    console.log ('DispatchRoadbooks.reducer');
-    const data = this.read ('data');
-    const id   = roadbook.id;
-
-    // inject electrum state (needed for electrumDispatch)
-    data.state = this.props.state;
-
-    ReducerDragAndDrop.reducer (data, {
-      type: action,
-      id:   id,
-    });
-    if (window.document.mock) {
-      for (var c of window.document.toUpdate) {
-        c.forceUpdate ();
-      }
+      const x = StateManager.isMessengerCompacted (roadbook.id);
+      StateManager.putMessengerCompacted (roadbook.id, !x);
     }
   }
 
@@ -71,7 +53,7 @@ export default class DispatchRoadbooks extends React.Component {
 
   renderTickets (roadbook, data) {
     const result = [];
-    const showHidden = roadbook.ShowHidden === 'true';
+    const showHidden = StateManager.isMessengerShowHidden (roadbook.id);
     let index = 0;
     for (var ticket of roadbook.Tickets) {
       if (showHidden || ticket.Status !== 'delivered') {
@@ -82,8 +64,7 @@ export default class DispatchRoadbooks extends React.Component {
   }
 
   renderTicketsContainer (roadbook, data) {
-    const compacted  = roadbook.Compacted  === 'true';
-    if (compacted) {
+    if (StateManager.isMessengerCompacted (roadbook.id)) {
       return null;
     } else {
       return (

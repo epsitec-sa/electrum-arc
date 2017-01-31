@@ -3,6 +3,7 @@
 import React from 'react';
 import {Combo} from '../../all-components.js';
 import ReducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
+import StateManager from './state-manager.js';
 
 /******************************************************************************/
 
@@ -26,27 +27,27 @@ export default class MessengerCombo extends React.Component {
   }
 
   swapCompacted () {
-    console.log ('MessengerCombo.swapCompacted');
+    // console.log ('MessengerCombo.swapCompacted');
     const roadbook = this.read ('roadbook');
-    this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.id);
+    const x = StateManager.isMessengerCompacted (roadbook.id);
+    StateManager.putMessengerCompacted (roadbook.id, !x);
   }
 
   swapCompactedAndShift () {
-    console.log ('MessengerCombo.swapCompactedAndShift');
+    // console.log ('MessengerCombo.swapCompactedAndShift');
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
-    const compacted = roadbook.Compacted  === 'true';
-    if (compacted) {
+    if (StateManager.isMessengerCompacted (roadbook.id)) {
       this.shiftToBegin ();
-      this.reduce ('SWAP_ROADBOOK_COMPACTED', data.Roadbooks[0].id);
+      StateManager.clearMessengerCompacted (data.Roadbooks[0].id);
     } else {
       this.shiftToEnd ();
-      this.reduce ('SWAP_ROADBOOK_COMPACTED', data.Roadbooks[data.Roadbooks.length - 1].id);
+      StateManager.setMessengerCompacted (data.Roadbooks[data.Roadbooks.length - 1].id);
     }
   }
 
   shiftToBegin () {
-    console.log ('MessengerCombo.shiftToBegin');
+    // console.log ('MessengerCombo.shiftToBegin');
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
     ReducerDragAndDrop.reducer (data, {
@@ -61,7 +62,7 @@ export default class MessengerCombo extends React.Component {
   }
 
   shiftToEnd () {
-    console.log ('MessengerCombo.shiftToEnd');
+    // console.log ('MessengerCombo.shiftToEnd');
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
     ReducerDragAndDrop.reducer (data, {
@@ -76,13 +77,14 @@ export default class MessengerCombo extends React.Component {
   }
 
   swapShowHidden () {
-    console.log ('MessengerCombo.swapShowHidden');
+    // console.log ('MessengerCombo.swapShowHidden');
     const roadbook = this.read ('roadbook');
-    this.reduce ('SWAP_ROADBOOK_SHOWHIDDEN', roadbook.id);
+    const x = StateManager.isMessengerShowHidden (roadbook.id);
+    StateManager.putMessengerShowHidden (roadbook.id, !x);
   }
 
   closeCombo () {
-    console.log ('MessengerCombo.closeCombo');
+    // console.log ('MessengerCombo.closeCombo');
     const closeCombo = this.read ('close-combo');
     if (closeCombo) {
       closeCombo ();
@@ -90,7 +92,7 @@ export default class MessengerCombo extends React.Component {
   }
 
   showModify () {
-    console.log ('MessengerCombo.showModify');
+    // console.log ('MessengerCombo.showModify');
     const showModify = this.read ('show-modify');
     if (showModify) {
       showModify ();
@@ -98,14 +100,14 @@ export default class MessengerCombo extends React.Component {
   }
 
   showMission () {
-    console.log ('MessengerCombo.showMission');
+    // console.log ('MessengerCombo.showMission');
   }
 
   getList () {
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
-    const compacted  = roadbook.Compacted  === 'true';
-    const showHidden = roadbook.ShowHidden === 'true';
+    const compacted  = StateManager.isMessengerCompacted (roadbook.id);
+    const showHidden = StateManager.isMessengerShowHidden (roadbook.id);
     const list = [];
     list.push (
       {
