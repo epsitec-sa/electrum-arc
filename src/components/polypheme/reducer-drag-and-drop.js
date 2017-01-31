@@ -693,7 +693,7 @@ function changeStatusNecessary (ascending, refTicket, otherTicket, newStatus) {
       return otherStatusIndex <= refStatusIndex && otherOrder <= refOrder;
     }
   } else {  // delivered > dispatched > pre-dispatched ?
-    // Propage change the tickets more resent.
+    // Propage changes to newer tickets.
     return otherStatusIndex >= refStatusIndex && otherOrder >= refOrder;
   }
 }

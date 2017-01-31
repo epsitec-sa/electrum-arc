@@ -76,13 +76,12 @@ export default class TripTicket extends React.Component {
   //  Update state.link to all tickets linked.
   //  By example, pick and drop to a trip, or 4 tickets if has transit.
   setLinkToAll (link) {
-    const thisTicket = this.read ('ticket');
-    const missionId = thisTicket.Trip.MissionId;
+    const ticket = this.read ('ticket');
+    const missionId = ticket.Trip.MissionId;
     if (missionId) {
-      for (var i = 0, len = window.document.tripTickets.length; i < len; i++) {
-        const tripTicket = window.document.tripTickets[i];
-        const otherTicket = tripTicket.read ('ticket');
-        const m = otherTicket.Trip.MissionId;
+      for (var tripTicket of window.document.tripTickets) {
+        const t = tripTicket.read ('ticket');
+        const m = t.Trip.MissionId;
         if (missionId === m) {
           tripTicket.setLink (link);
         }
