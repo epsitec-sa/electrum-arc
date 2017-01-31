@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Electrum from 'electrum';
+import ReducerDragAndDrop from './reducer-drag-and-drop.js';
 
 import {
   Container,
@@ -66,6 +67,12 @@ export default class DispatchMessengers extends React.Component {
     }
   }
 
+  initialise (data) {
+    // inject electrum state (needed for electrumDispatch)
+    data.state = this.props.state;
+    ReducerDragAndDrop.reducer (data, {type: 'INITIALISE'});
+  }
+
   render () {
     let data = this.read ('data');
     if (data) {
@@ -73,6 +80,7 @@ export default class DispatchMessengers extends React.Component {
     } else {
       data = window.document.data;
     }
+    this.initialise (data);
 
     return (
       <Container kind='tickets-root' {...this.link ()} >

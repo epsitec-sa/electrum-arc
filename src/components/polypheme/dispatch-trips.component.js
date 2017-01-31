@@ -1,6 +1,8 @@
 'use strict';
 
 import React from 'react';
+import ReducerDragAndDrop from './reducer-drag-and-drop.js';
+
 import {
   Container,
   Trip,
@@ -29,6 +31,12 @@ export default class DispatchTrips extends React.Component {
     }
   }
 
+  initialise (data) {
+    // inject electrum state (needed for electrumDispatch)
+    data.state = this.props.state;
+    ReducerDragAndDrop.reducer (data, {type: 'INITIALISE'});
+  }
+
   renderTicket (ticket, data, index) {
     return (
       <Trip key={index} kind='trip-box' source='backlog' ticket={ticket} data={data} {...this.link ()} />
@@ -51,6 +59,7 @@ export default class DispatchTrips extends React.Component {
     } else {
       data = window.document.data;
     }
+    this.initialise (data);
 
     return (
       <Container kind='views' {...this.link ()} >

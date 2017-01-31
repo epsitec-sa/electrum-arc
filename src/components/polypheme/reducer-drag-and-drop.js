@@ -548,6 +548,11 @@ function changeGeneric (state, flashes, warnings, from, to) {
 
 // ------------------------------------------------------------------------------------------
 
+function initialise (state) {
+  updateShapes (state);
+  return state;
+}
+
 // fromId    -> id to item to move.
 // toId      -> id before which it is necessary to insert. If it was null, insert after the last item.
 // toOwnerId -> owner where it is necessary to insert. Useful when toId is null.
@@ -777,6 +782,10 @@ function setTrayName (state, id, value) {
 function reducer (state = {}, action = {}) {
   console.log (`reducer action.type=${action.type}`);
   switch (action.type) {
+    case 'INITIALISE':
+      state = initialise (state);
+      break;
+
     case 'DROP':
       state = drop (state, action.fromKind, action.fromIds, action.toId, action.toOwnerId, action.toOwnerKind);
       break;
