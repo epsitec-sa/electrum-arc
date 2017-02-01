@@ -100,26 +100,30 @@ export default class Trip extends React.Component {
     if (event.ctrlKey || event.shiftKey || event.metaKey) {  // select/deselect ?
       this.reduce ('SWAP_SELECTED', event.shiftKey);
     } else if (event.altKey) {  // compected/extended ?
-      this.reduce ('SWAP_EXTENDED', event.shiftKey);
+      this.reduce ('SWAP_EXTENDED');
     } else {  // pre-dispatched/dispatched/delivered ?
-      const ticket = this.read ('ticket');
-      if (ticket.Status === 'dispatched') {  // dispatched -> delivered ?
-        this.showDeliver ();  // selected realised time...
-      } else if (ticket.Status === 'delivered') {  // delivered -> pre-dispatched ?
-        this.showPredispatch ();  // request confirmation...
+      if (window.document.mock) {
+        const ticket = this.read ('ticket');
+        if (ticket.Status === 'dispatched') {  // dispatched -> delivered ?
+          this.showDeliver ();  // selected realised time...
+        } else if (ticket.Status === 'delivered') {  // delivered -> pre-dispatched ?
+          this.showPredispatch ();  // request confirmation...
+        } else {
+          this.reduce ('SWAP_STATUS');  // change directly without dialog
+        }
       } else {
-        this.reduce ('SWAP_STATUS', event.shiftKey);  // change directly without dialog
+        this.reduce ('SWAP_STATUS');
       }
     }
   }
 
   reduce (action, shiftKey, value, date, time) {
-    console.log ('Trip.reducer');
+    // console.log ('Trip.reducer');
     const data   = this.read ('data');
     const ticket = this.read ('ticket');
     const id     = ticket.id;
 
-    // inject electrum state (needed for electrumDispatch)
+    // Inject electrum state (needed for electrumDispatch).
     data.state = this.props.state;
 
     ReducerDragAndDrop.reducer (data, {
@@ -138,7 +142,11 @@ export default class Trip extends React.Component {
   }
 
   showModify () {
-    this.setShowModify (true);
+    if (window.document.mock) {
+      this.setShowModify (true);
+    } else {
+      throw new Error ('Direct call to showModify is impossible in mock=false mode');
+    }
   }
 
   closeModify (action) {
@@ -146,7 +154,11 @@ export default class Trip extends React.Component {
   }
 
   showDeliver () {
-    this.setShowDeliver (true);
+    if (window.document.mock) {
+      this.setShowDeliver (true);
+    } else {
+      throw new Error ('Direct call to showDeliver is impossible in mock=false mode');
+    }
   }
 
   closeDeliver (action, date, time) {
@@ -157,7 +169,11 @@ export default class Trip extends React.Component {
   }
 
   showPredispatch () {
-    this.setShowPredispatch (true);
+    if (window.document.mock) {
+      this.setShowPredispatch (true);
+    } else {
+      throw new Error ('Direct call to showPredispatch is impossible in mock=false mode');
+    }
   }
 
   closePredispatch (action, date, time) {

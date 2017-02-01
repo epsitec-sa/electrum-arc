@@ -44,7 +44,7 @@ export default class DispatchRoadbooks extends React.Component {
     const data = this.read ('data');
     const id   = roadbook.id;
 
-    // inject electrum state (needed for electrumDispatch)
+    // Inject electrum state (needed for electrumDispatch).
     data.state = this.props.state;
 
     ReducerDragAndDrop.reducer (data, {

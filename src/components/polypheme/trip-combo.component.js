@@ -7,6 +7,16 @@ import StateManager from './state-manager.js';
 
 /******************************************************************************/
 
+function update () {
+  if (window.document.mock) {
+    for (var c of window.document.toUpdate) {
+      c.forceUpdate ();
+    }
+  }
+}
+
+/******************************************************************************/
+
 export default class TripCombo extends React.Component {
 
   closeCombo () {
@@ -17,29 +27,105 @@ export default class TripCombo extends React.Component {
   }
 
   showModify () {
-    const showModify = this.read ('show-modify');
-    if (showModify) {
-      showModify ();
-    }
-  }
-
-  showDeliver () {
-    const showDeliver = this.read ('show-deliver');
-    if (showDeliver) {
-      showDeliver ();
-    }
-  }
-
-  showPredispatch () {
-    const showPredispatch = this.read ('show-predispatch');
-    if (showPredispatch) {
-      showPredispatch ();
+    if (window.document.mock) {
+      const showModify = this.read ('show-modify');
+      if (showModify) {
+        showModify ();
+      }
+    } else {
+      const data   = this.read ('data');
+      const ticket = this.read ('ticket');
+      ReducerDragAndDrop.reducer (data, {
+        type:    'ELECTRUM-DISPATCH',
+        payload: {
+          type: 'showModifyTicket',
+          id:   ticket.id,
+        }
+      });
     }
   }
 
   showMission () {
+    if (window.document.mock) {
+      console.log ('showMission is possible only with Lydia');
+    } else {
+      const data   = this.read ('data');
+      const ticket = this.read ('ticket');
+      ReducerDragAndDrop.reducer (data, {
+        type:    'ELECTRUM-DISPATCH',
+        payload: {
+          type: 'showMission',
+          id:   ticket.id,
+        }
+      });
+    }
   }
 
+  showDeliver () {
+    if (window.document.mock) {
+      const showDeliver = this.read ('show-deliver');
+      if (showDeliver) {
+        showDeliver ();
+      }
+    } else {
+      throw new Error ('Direct call to showDeliver is impossible in mock=false mode');
+    }
+  }
+
+  showPredispatch () {
+    if (window.document.mock) {
+      const showPredispatch = this.read ('show-predispatch');
+      if (showPredispatch) {
+        showPredispatch ();
+      }
+    } else {
+      throw new Error ('Direct call to showPredispatch is impossible in mock=false mode');
+    }
+  }
+
+  reduce (action, id, value, shiftKey) {
+    const data = this.read ('data');
+    ReducerDragAndDrop.reducer (data, {
+      type:     action,
+      id:       id,
+      value:    value,
+      shiftKey: shiftKey,
+    });
+    update ();
+  }
+
+  dispatch (value) {
+    if (window.document.mock) {
+      if (value === 'delivered') {
+        this.showDeliver ();
+      } else if (value === 'pre-dispatch') {
+        this.showPredispatch ();
+      } else {
+        const ticket = this.read ('ticket');
+        this.reduce ('CHANGE_STATUS', ticket.id, value);
+      }
+    } else {
+      const ticket = this.read ('ticket');
+      this.reduce ('CHANGE_STATUS', ticket.id, value);
+    }
+  }
+
+  extend () {
+    const ticket = this.read ('ticket');
+    this.reduce ('SWAP_EXTENDED', ticket.id);
+  }
+
+  select () {
+    const ticket = this.read ('ticket');
+    this.reduce ('SWAP_SELECTED', ticket.id);
+  }
+
+  selectMany () {
+    const ticket = this.read ('ticket');
+    this.reduce ('SWAP_SELECTED', ticket.id, null, true);
+  }
+
+  // Return the combo-menu content.
   getList () {
     const ticket = this.read ('ticket');
     const source = this.read ('source');
@@ -121,48 +207,6 @@ export default class TripCombo extends React.Component {
       }
     }
     return list;
-  }
-
-  reduce (action, ticket, value, shiftKey) {
-    const id   = ticket.id;
-    const data = this.read ('data');
-    ReducerDragAndDrop.reducer (data, {
-      type:     action,
-      id:       id,
-      value:    value,
-      shiftKey: shiftKey,
-    });
-    if (window.document.mock) {
-      for (var c of window.document.toUpdate) {
-        c.forceUpdate ();
-      }
-    }
-  }
-
-  dispatch (value) {
-    if (value === 'delivered') {
-      this.showDeliver ();
-    } else if (value === 'pre-dispatch') {
-      this.showPredispatch ();
-    } else {
-      const ticket = this.read ('ticket');
-      this.reduce ('CHANGE_STATUS', ticket, value);
-    }
-  }
-
-  extend () {
-    const ticket = this.read ('ticket');
-    this.reduce ('SWAP_EXTENDED', ticket);
-  }
-
-  select () {
-    const ticket = this.read ('ticket');
-    this.reduce ('SWAP_SELECTED', ticket);
-  }
-
-  selectMany () {
-    const ticket = this.read ('ticket');
-    this.reduce ('SWAP_SELECTED', ticket, null, true);
   }
 
   render () {

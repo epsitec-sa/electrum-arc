@@ -8,13 +8,13 @@ import StateManager from './state-manager.js';
 
 // ------------------------------------------------------------------------------------------
 
-function searchTicket (root, items, type, id, ownerId) {
+function searchTicket (root, items, kind, id, ownerId) {
   if (id) {
     const item = Enumerable.from (items).where (item => item.id === id).firstOrDefault ();
     if (item) {
       return {
         ownerId: root.id,
-        type:    type,
+        kind:    kind,
         tickets: items,
         ticket:  item,
         index:   Enumerable.from (items).indexOf (item => item.id === id),
@@ -26,7 +26,7 @@ function searchTicket (root, items, type, id, ownerId) {
     const ticket = (length === 0) ? null : items[length - 1];
     return {
       ownerId: root.id,
-      type:    type,
+      kind:    kind,
       tickets: items,
       ticket:  ticket,
       index:   items.length,
@@ -59,40 +59,15 @@ function searchId (state, id, ownerId) {
   return null;
 }
 
-function searchKind (state, id) {
-  const r = searchTicket (state.Backlog, state.Backlog.Tickets, 'backlog', id, null);
-  if (r) {
-    return r.type;
-  }
-  const m = searchTicket (state, state.Roadbooks, 'roadbooks', id, null);
-  if (m) {
-    return m.type;
-  }
-  for (var roadbook of state.Roadbooks) {
-    const result = searchTicket (roadbook, roadbook.Tickets, 'roadbook', id, null);
-    if (result) {
-      return result.type;
-    }
-  }
-  for (var tray of state.Desk) {
-    const result = searchTicket (tray, tray.Tickets, 'tray', id, null);
-    if (result) {
-      return result.type;
-    }
-  }
-  return null;
-}
-
 // ------------------------------------------------------------------------------------------
 
-function electrumDispatch (state, type, id, value) {
-  const kind = searchKind (state, id);
-  Electrum.bus.dispatch (state, 'dnd', {
-    type:  type,
-    id:    id,
-    kind:  kind,
-    value: value,
-  });
+function electrumDispatch (state, payload) {
+  if (payload.id) {
+    // If payload contains a 'id', inject 'kind'.
+    const result = searchId (state, payload.id);
+    payload.kind = result.kind;
+  }
+  Electrum.bus.dispatch (state, 'dnd', payload);
 }
 
 // ------------------------------------------------------------------------------------------
@@ -500,13 +475,13 @@ function deleteMission (state, missionId) {
 
 function changeGeneric (state, flashes, warnings, from, to) {
   const ticket = from.ticket;
-  if ((to.type === 'backlog' || to.type === 'tray') && ticket.Type.endsWith ('-transit')) {
+  if ((to.kind === 'backlog' || to.kind === 'tray') && ticket.Type.endsWith ('-transit')) {
     // Transit ticket does not move into backlog or desk.
     return;
   }
 
   // Delete the source.
-  if (to.type === 'backlog' && ticket.Type !== 'both') {
+  if (to.kind === 'backlog' && ticket.Type !== 'both') {
     deleteMission (state, ticket.Trip.MissionId);
   } else {
     deleteTicket (state, from.tickets, ticket);
@@ -517,7 +492,7 @@ function changeGeneric (state, flashes, warnings, from, to) {
 
   // Set the destination.
   ticket.OwnerId = to.ownerId;
-  if ((to.type === 'roadbook' || to.type === 'tray') && ticket.Type === 'both') {
+  if ((to.kind === 'roadbook' || to.kind === 'tray') && ticket.Type === 'both') {
     const pick = clone (state, ticket);
     const drop = clone (state, ticket);
     pick.Type = 'pick';
@@ -530,7 +505,7 @@ function changeGeneric (state, flashes, warnings, from, to) {
     StateManager.clearTicketSelected (drop.id);
     flashes.push (pick.id);
     flashes.push (drop.id);
-  } else if (to.type === 'backlog' && ticket.Type !== 'both') {
+  } else if (to.kind === 'backlog' && ticket.Type !== 'both') {
     ticket.Type = 'both';
     ticket.Status = 'backlog';
     addTicket (state, to.tickets, to.index, ticket);
@@ -567,7 +542,7 @@ function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
       changeGeneric (state, flashes, warnings, from, to);
     }
   });
-  if (to.type === 'roadbook' || to.type === 'tray') {
+  if (to.kind === 'roadbook' || to.kind === 'tray') {
     deleteTransits (state, flashes, warnings);
     createTransits (state, flashes, warnings);
   }
@@ -577,15 +552,16 @@ function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
   setMiscs (state, flashes, warnings);
   updateShapes (state);
 
-  // Send action to electrum.
-  Electrum.bus.dispatch (state, 'dnd', {
-    type:         'drop',
-    itemKind:     fromKind,
-    itemIds:      fromIds,
-    beforeItemId: toId,
-    toOwnerId:    toOwnerId,
-    toOwnerKind:  toOwnerKind,
-  });
+  if (!window.document.mock) {
+    electrumDispatch (state, {
+      type:         'drop',
+      itemKind:     fromKind,
+      itemIds:      fromIds,
+      beforeItemId: toId,
+      toOwnerId:    toOwnerId,
+      toOwnerKind:  toOwnerKind,
+    });
+  }
 
   return state;
 }
@@ -627,7 +603,7 @@ function swapExtended (state, id) {
   const flashes = [];
   const warnings = [];
   const result = searchId (state, id);
-  if (result.type !== 'backlog') {
+  if (result.kind !== 'backlog') {
     const ticket = result.tickets[result.index];
     if (StateManager.isTicketExtended (ticket.id)) {
       StateManager.clearTicketExtended (ticket.id);
@@ -664,7 +640,6 @@ function setStatus (state, flashes, id, status, date, time) {
   }
   tickets[index] = regen (state, ticket);
   flashes.push (tickets[index].id);
-  electrumDispatch (state, 'setStatus', tickets[index].id, {status: status, date: date, time: time});
 }
 
 // Returns the index of a status, to determine the direction of the operation (ascending or descending).
@@ -712,41 +687,56 @@ function setBothStatus (state, flashes, ticket, currentStatus, newStatus, date, 
 }
 
 function swapStatus (state, id) {
-  const flashes = [];
-  const warnings = [];
-  const result = searchId (state, id);
-  if (result.type === 'roadbook') {
-    const currentStatus = result.tickets[result.index].Status;
-    let newStatus;
-    if (currentStatus === 'dispatched') {
-      newStatus = 'delivered';
-    } else if (currentStatus === 'delivered') {
-      newStatus = 'pre-dispatched';
-    } else {
-      newStatus = 'dispatched';
+  if (window.document.mock) {
+    const flashes = [];
+    const warnings = [];
+    const result = searchId (state, id);
+    if (result.kind === 'roadbook') {
+      const currentStatus = result.tickets[result.index].Status;
+      let newStatus;
+      if (currentStatus === 'dispatched') {
+        newStatus = 'delivered';
+      } else if (currentStatus === 'delivered') {
+        newStatus = 'pre-dispatched';
+      } else {
+        newStatus = 'dispatched';
+      }
+      setBothStatus (state, flashes, result.ticket, currentStatus, newStatus);
     }
-    setBothStatus (state, flashes, result.ticket, currentStatus, newStatus);
+    setMiscs (state, flashes, warnings);
+  } else {
+    electrumDispatch (state, {
+      type: 'swapStatus',
+      id:   id,
+    });
   }
-  setMiscs (state, flashes, warnings);
   return state;
 }
 
 function changeStatus (state, id, newStatus, date, time) {
-  const flashes = [];
-  const warnings = [];
-  const result = searchId (state, id);
-  if (result.type === 'roadbook') {
-    const currentStatus = result.tickets[result.index].Status;
-    setBothStatus (state, flashes, result.ticket, currentStatus, newStatus, date, time);
+  if (window.document.mock) {
+    const flashes = [];
+    const warnings = [];
+    const result = searchId (state, id);
+    if (result.kind === 'roadbook') {
+      const currentStatus = result.tickets[result.index].Status;
+      setBothStatus (state, flashes, result.ticket, currentStatus, newStatus, date, time);
+    }
+    setMiscs (state, flashes, warnings);
+  } else {
+    electrumDispatch (state, {
+      type:   'changeStatus',
+      id:     id,
+      status: newStatus,
+    });
   }
-  setMiscs (state, flashes, warnings);
   return state;
 }
 
 function swapRoadbookCompacted (state, id) {
   const result = searchId (state, id);
-  if (result.type !== 'roadbooks') {
-    throw new Error (`Invalid type ${result.type}`);
+  if (result.kind !== 'roadbooks') {
+    throw new Error (`Invalid kind ${result.kind}`);
   }
   const roadbook = result.tickets[result.index];
   const x = StateManager.isMessengerCompacted (roadbook.id);
@@ -757,8 +747,8 @@ function swapRoadbookCompacted (state, id) {
 
 function swapRoadbookShowHidden (state, id) {
   const result = searchId (state, id);
-  if (result.type !== 'roadbooks') {
-    throw new Error (`Invalid type ${result.type}`);
+  if (result.kind !== 'roadbooks') {
+    throw new Error (`Invalid kind ${result.kind}`);
   }
   const roadbook = result.tickets[result.index];
   const x = StateManager.isMessengerShowHidden (roadbook.id);
@@ -768,10 +758,17 @@ function swapRoadbookShowHidden (state, id) {
 }
 
 function setTrayName (state, id, value) {
-  Enumerable.from (state.Desk).where (tray => tray.id === id).forEach (tray => {
-    tray.Name = value;
-    electrumDispatch (state, 'setTrayName', id, value);
-  });
+  if (window.document.mock) {
+    Enumerable.from (state.Desk).where (tray => tray.id === id).forEach (tray => {
+      tray.Name = value;
+    });
+  } else {
+    electrumDispatch (state, {
+      type: 'setTrayName',
+      id:   id,
+      name: value,
+    });
+  }
 }
 
 // ------------------------------------------------------------------------------------------
@@ -809,6 +806,10 @@ function reducer (state = {}, action = {}) {
 
     case 'SET_TRAY_NAME':
       state = setTrayName (state, action.id, action.value);
+      break;
+
+    case 'ELECTRUM-DISPATCH':
+      electrumDispatch (state, action.payload);
       break;
   }
   return state;

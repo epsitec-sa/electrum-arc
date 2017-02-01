@@ -19,6 +19,48 @@ function update () {
 
 export default class MessengerCombo extends React.Component {
 
+  closeCombo () {
+    const closeCombo = this.read ('close-combo');
+    if (closeCombo) {
+      closeCombo ();
+    }
+  }
+
+  showModify () {
+    if (window.document.mock) {
+      const showModify = this.read ('show-modify');
+      if (showModify) {
+        showModify ();
+      }
+    } else {
+      const data   = this.read ('data');
+      const ticket = this.read ('ticket');
+      ReducerDragAndDrop.reducer (data, {
+        type:    'ELECTRUM-DISPATCH',
+        payload: {
+          type: 'showModifyMessenger',
+          id:   ticket.id,
+        }
+      });
+    }
+  }
+
+  showMessenger () {
+    if (window.document.mock) {
+      console.log ('showMessenger is possible only with Lydia');
+    } else {
+      const data   = this.read ('data');
+      const ticket = this.read ('ticket');
+      ReducerDragAndDrop.reducer (data, {
+        type:    'ELECTRUM-DISPATCH',
+        payload: {
+          type: 'showMessenger',
+          id:   ticket.id,
+        }
+      });
+    }
+  }
+
   reduce (action, id) {
     const data = this.read ('data');
     ReducerDragAndDrop.reducer (data, {
@@ -29,13 +71,11 @@ export default class MessengerCombo extends React.Component {
   }
 
   swapCompacted () {
-    // console.log ('MessengerCombo.swapCompacted');
     const roadbook = this.read ('roadbook');
     this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.id);
   }
 
   swapCompactedAndShift () {
-    // console.log ('MessengerCombo.swapCompactedAndShift');
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
     if (StateManager.isMessengerCompacted (roadbook.id)) {
@@ -59,31 +99,11 @@ export default class MessengerCombo extends React.Component {
   }
 
   swapShowHidden () {
-    // console.log ('MessengerCombo.swapShowHidden');
     const roadbook = this.read ('roadbook');
     this.reduce ('SWAP_ROADBOOK_SHOWHIDDEN', roadbook.id);
   }
 
-  closeCombo () {
-    // console.log ('MessengerCombo.closeCombo');
-    const closeCombo = this.read ('close-combo');
-    if (closeCombo) {
-      closeCombo ();
-    }
-  }
-
-  showModify () {
-    // console.log ('MessengerCombo.showModify');
-    const showModify = this.read ('show-modify');
-    if (showModify) {
-      showModify ();
-    }
-  }
-
-  showMission () {
-    // console.log ('MessengerCombo.showMission');
-  }
-
+  // Return the combo-menu content.
   getList () {
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
@@ -101,7 +121,7 @@ export default class MessengerCombo extends React.Component {
       {
         text:   'Voir le coursier...',
         glyph:  'user',
-        action: () => this.showMission (),
+        action: () => this.showMessenger (),
       }
     );
     list.push (

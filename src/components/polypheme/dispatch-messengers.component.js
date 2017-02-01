@@ -34,7 +34,7 @@ export default class DispatchMessengers extends React.Component {
   }
 
   initialise (data) {
-    // inject electrum state (needed for electrumDispatch)
+    // Inject electrum state (needed for electrumDispatch).
     data.state = this.props.state;
     ReducerDragAndDrop.reducer (data, {type: 'INITIALISE'});
   }

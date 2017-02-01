@@ -508,7 +508,7 @@ export default class DragCarrier extends React.Component {
     // console.log ('reduce >>>>>>>>>>>>>>>>>>>>');
     const data = this.read ('data');
 
-    // inject electrum state (needed for electrumDispatch)
+    // Inject electrum state (needed for electrumDispatch).
     data.state = this.read ('state');
 
     ReducerDragAndDrop.reducer (data, {
