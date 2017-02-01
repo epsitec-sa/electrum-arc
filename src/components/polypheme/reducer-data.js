@@ -8,7 +8,7 @@ import StateManager from './state-manager.js';
 
 // ------------------------------------------------------------------------------------------
 
-function searchTicket (root, items, kind, id, ownerId) {
+function partialSearchFromId (root, items, kind, id, ownerId) {
   if (id) {
     const item = Enumerable.from (items).where (item => item.id === id).firstOrDefault ();
     if (item) {
@@ -35,25 +35,29 @@ function searchTicket (root, items, kind, id, ownerId) {
   return null;
 }
 
-function searchId (state, id, ownerId) {
-  const r = searchTicket (state.Backlog, state.Backlog.Tickets, 'backlog', id, ownerId);
+// Performs a depth search from a id, in the known data set (backlog, roadbooks, roadbook and tray).
+// The result can be:
+//   - a ticket in backlog, a roadbook or a tray of desk.
+//   - a roadbook in roadbooks.
+function deepSearchFromId (state, id, ownerId) {
+  const r = partialSearchFromId (state.Backlog, state.Backlog.Tickets, 'backlog', id, ownerId);
   if (r) {
-    return r;
+    return r;  // ticket in backlog
   }
-  const m = searchTicket (state, state.Roadbooks, 'roadbooks', id, ownerId);
+  const m = partialSearchFromId (state, state.Roadbooks, 'roadbooks', id, ownerId);
   if (m) {
-    return m;
+    return m;  // roadbook in a roadbooks
   }
   for (var roadbook of state.Roadbooks) {
-    const result = searchTicket (roadbook, roadbook.Tickets, 'roadbook', id, ownerId);
+    const result = partialSearchFromId (roadbook, roadbook.Tickets, 'roadbook', id, ownerId);
     if (result) {
-      return result;
+      return result;  // ticket in roadbook
     }
   }
   for (var tray of state.Desk) {
-    const result = searchTicket (tray, tray.Tickets, 'tray', id, ownerId);
+    const result = partialSearchFromId (tray, tray.Tickets, 'tray', id, ownerId);
     if (result) {
-      return result;
+      return result;  // ticket in a tray of desk
     }
   }
   return null;
@@ -64,7 +68,7 @@ function searchId (state, id, ownerId) {
 function electrumDispatch (state, payload) {
   if (payload.id) {
     // If payload contains a 'id', inject 'kind'.
-    const result = searchId (state, payload.id);
+    const result = deepSearchFromId (state, payload.id);
     payload.kind = result.kind;
   }
   Electrum.bus.dispatch (state, 'dnd', payload);
@@ -532,12 +536,12 @@ function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
   // console.log ('Reducer.drop');
   const flashes = [];
   const warnings = [];
-  const to = searchId (state, toId, toOwnerId);
+  const to = deepSearchFromId (state, toId, toOwnerId);
   if (!to) {
     return;
   }
   Enumerable.from (fromIds).reverse ().forEach (fromId => {
-    const from = searchId (state, fromId);
+    const from = deepSearchFromId (state, fromId);
     if (from) {
       changeGeneric (state, flashes, warnings, from, to);
     }
@@ -569,7 +573,7 @@ function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
 function swapSelected (state, id, shiftKey) {
   const flashes = [];
   const warnings = [];
-  const result = searchId (state, id);
+  const result = deepSearchFromId (state, id);
   if (shiftKey) {
     if (StateManager.isTicketSelected (result.tickets[result.index].id)) {
       // Deselect all items.
@@ -602,7 +606,7 @@ function swapExtended (state, id) {
   // console.log ('reducer.swapExtended');
   const flashes = [];
   const warnings = [];
-  const result = searchId (state, id);
+  const result = deepSearchFromId (state, id);
   if (result.kind !== 'backlog') {
     const ticket = result.tickets[result.index];
     if (StateManager.isTicketExtended (ticket.id)) {
@@ -619,7 +623,7 @@ function swapExtended (state, id) {
 
 // Change the status of a single tickets.
 function setStatus (state, flashes, id, status, date, time) {
-  const result = searchId (state, id);
+  const result = deepSearchFromId (state, id);
   const ticket  = result.ticket;
   const tickets = result.tickets;
   const index   = result.index;
@@ -690,7 +694,7 @@ function swapStatus (state, id) {
   if (window.document.mock) {
     const flashes = [];
     const warnings = [];
-    const result = searchId (state, id);
+    const result = deepSearchFromId (state, id);
     if (result.kind === 'roadbook') {
       const currentStatus = result.tickets[result.index].Status;
       let newStatus;
@@ -717,7 +721,7 @@ function changeStatus (state, id, newStatus, date, time) {
   if (window.document.mock) {
     const flashes = [];
     const warnings = [];
-    const result = searchId (state, id);
+    const result = deepSearchFromId (state, id);
     if (result.kind === 'roadbook') {
       const currentStatus = result.tickets[result.index].Status;
       setBothStatus (state, flashes, result.ticket, currentStatus, newStatus, date, time);
@@ -734,7 +738,7 @@ function changeStatus (state, id, newStatus, date, time) {
 }
 
 function swapRoadbookCompacted (state, id) {
-  const result = searchId (state, id);
+  const result = deepSearchFromId (state, id);
   if (result.kind !== 'roadbooks') {
     throw new Error (`Invalid kind ${result.kind}`);
   }
@@ -746,7 +750,7 @@ function swapRoadbookCompacted (state, id) {
 }
 
 function swapRoadbookShowHidden (state, id) {
-  const result = searchId (state, id);
+  const result = deepSearchFromId (state, id);
   if (result.kind !== 'roadbooks') {
     throw new Error (`Invalid kind ${result.kind}`);
   }
