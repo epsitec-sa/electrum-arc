@@ -2,7 +2,7 @@
 
 import Electrum from 'electrum';
 import Enumerable from 'linq';
-import reducerTickets from './reducer-tickets.js';
+import ReducerTickets from './reducer-tickets.js';
 import Converters from './converters';
 import StateManager from './state-manager.js';
 
@@ -73,7 +73,7 @@ function electrumDispatch (state, payload) {
 // ------------------------------------------------------------------------------------------
 
 function addTicket (state, tickets, index, ticket) {
-  tickets = reducerTickets (tickets, {
+  tickets = ReducerTickets.reducer (tickets, {
     type:   'ADD_TICKET',
     index:  index,
     ticket: ticket,
@@ -81,7 +81,7 @@ function addTicket (state, tickets, index, ticket) {
 }
 
 function deleteTicket (state, tickets, ticket) {
-  tickets = reducerTickets (tickets, {
+  tickets = ReducerTickets.reducer (tickets, {
     type:   'DELETE_TICKET',
     ticket: ticket,
   });

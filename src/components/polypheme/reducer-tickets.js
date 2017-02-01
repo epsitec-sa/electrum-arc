@@ -18,7 +18,7 @@ function deleteTicket (state, ticket) {
   return state;
 }
 
-export default function Polypheme (state = {}, action = {}) {
+function reducer (state = {}, action = {}) {
   switch (action.type) {
     case 'REPLACE_TICKET':
       state = replaceTicket (state, action.index, action.ticket);
@@ -32,3 +32,7 @@ export default function Polypheme (state = {}, action = {}) {
   }
   return state;
 }
+
+// ------------------------------------------------------------------------------------------
+
+module.exports = {reducer};
