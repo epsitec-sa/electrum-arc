@@ -36,7 +36,7 @@ export default class TripCombo extends React.Component {
       const data   = this.read ('data');
       const ticket = this.read ('ticket');
       ReducerData.reducer (data, {
-        type:    'ELECTRUM-DISPATCH',
+        type:    'ELECTRUM_DISPATCH',
         payload: {
           type: 'showModifyTicket',
           id:   ticket.id,
@@ -52,7 +52,7 @@ export default class TripCombo extends React.Component {
       const data   = this.read ('data');
       const ticket = this.read ('ticket');
       ReducerData.reducer (data, {
-        type:    'ELECTRUM-DISPATCH',
+        type:    'ELECTRUM_DISPATCH',
         payload: {
           type: 'showMission',
           id:   ticket.id,
@@ -102,27 +102,27 @@ export default class TripCombo extends React.Component {
         this.showPredispatch ();
       } else {
         const ticket = this.read ('ticket');
-        this.reduce ('CHANGE_STATUS', ticket.id, value);
+        this.reduce ('CHANGE_TICKET_STATUS', ticket.id, value);
       }
     } else {
       const ticket = this.read ('ticket');
-      this.reduce ('CHANGE_STATUS', ticket.id, value);
+      this.reduce ('CHANGE_TICKET_STATUS', ticket.id, value);
     }
   }
 
   extend () {
     const ticket = this.read ('ticket');
-    this.reduce ('SWAP_EXTENDED', ticket.id);
+    this.reduce ('SWAP_TICKET_EXTENDED', ticket.id);
   }
 
   select () {
     const ticket = this.read ('ticket');
-    this.reduce ('SWAP_SELECTED', ticket.id);
+    this.reduce ('SWAP_TICKET_SELECTED', ticket.id);
   }
 
   selectMany () {
     const ticket = this.read ('ticket');
-    this.reduce ('SWAP_SELECTED', ticket.id, null, true);
+    this.reduce ('SWAP_TICKET_SELECTED', ticket.id, null, true);
   }
 
   // Return the combo-menu content.

@@ -577,7 +577,7 @@ function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
   return state;
 }
 
-function swapSelected (state, id, shiftKey) {
+function swapTicketSelected (state, id, shiftKey) {
   const flashes = [];
   const warnings = [];
   const result = deepSearchFromId (state, id);
@@ -609,8 +609,8 @@ function swapSelected (state, id, shiftKey) {
   return state;
 }
 
-function swapExtended (state, id) {
-  // console.log ('reducer.swapExtended');
+function swapTicketExtended (state, id) {
+  // console.log ('reducer.swapTicketExtended');
   const flashes = [];
   const warnings = [];
   const result = deepSearchFromId (state, id);
@@ -697,7 +697,7 @@ function setBothStatus (state, flashes, ticket, currentStatus, newStatus, date, 
   }
 }
 
-function swapStatus (state, id) {
+function swapTicketStatus (state, id) {
   if (window.document.mock) {
     const flashes = [];
     const warnings = [];
@@ -717,14 +717,14 @@ function swapStatus (state, id) {
     setMiscs (state, flashes, warnings);
   } else {
     electrumDispatch (state, {
-      type: 'swapStatus',
+      type: 'swapTicketStatus',
       id:   id,
     });
   }
   return state;
 }
 
-function changeStatus (state, id, newStatus, date, time) {
+function changeTicketStatus (state, id, newStatus, date, time) {
   if (window.document.mock) {
     const flashes = [];
     const warnings = [];
@@ -736,7 +736,7 @@ function changeStatus (state, id, newStatus, date, time) {
     setMiscs (state, flashes, warnings);
   } else {
     electrumDispatch (state, {
-      type:   'changeStatus',
+      type:   'changeTicketStatus',
       id:     id,
       status: newStatus,
     });
@@ -803,17 +803,17 @@ function reducer (state = {}, action = {}) {
       state = drop (state, action.fromKind, action.fromIds, action.toId, action.toOwnerId, action.toOwnerKind);
       break;
 
-    case 'SWAP_SELECTED':
-      state = swapSelected (state, action.id, action.shiftKey);
+    case 'SWAP_TICKET_SELECTED':
+      state = swapTicketSelected (state, action.id, action.shiftKey);
       break;
-    case 'SWAP_EXTENDED':
-      state = swapExtended (state, action.id);
+    case 'SWAP_TICKET_EXTENDED':
+      state = swapTicketExtended (state, action.id);
       break;
-    case 'SWAP_STATUS':
-      state = swapStatus (state, action.id);
+    case 'SWAP_TICKET_STATUS':
+      state = swapTicketStatus (state, action.id);
       break;
-    case 'CHANGE_STATUS':
-      state = changeStatus (state, action.id, action.value, action.date, action.time);
+    case 'CHANGE_TICKET_STATUS':
+      state = changeTicketStatus (state, action.id, action.value, action.date, action.time);
       break;
 
     case 'SWAP_ROADBOOK_COMPACTED':
@@ -827,7 +827,7 @@ function reducer (state = {}, action = {}) {
       state = setTrayName (state, action.id, action.value, action.accepted);
       break;
 
-    case 'ELECTRUM-DISPATCH':
+    case 'ELECTRUM_DISPATCH':
       electrumDispatch (state, action.payload);
       break;
   }

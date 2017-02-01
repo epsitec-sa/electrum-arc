@@ -98,9 +98,9 @@ export default class Trip extends React.Component {
 
   doClickAction (event) {
     if (event.ctrlKey || event.shiftKey || event.metaKey) {  // select/deselect ?
-      this.reduce ('SWAP_SELECTED', event.shiftKey);
+      this.reduce ('SWAP_TICKET_SELECTED', event.shiftKey);
     } else if (event.altKey) {  // compected/extended ?
-      this.reduce ('SWAP_EXTENDED');
+      this.reduce ('SWAP_TICKET_EXTENDED');
     } else {  // pre-dispatched/dispatched/delivered ?
       if (window.document.mock) {
         const ticket = this.read ('ticket');
@@ -109,10 +109,10 @@ export default class Trip extends React.Component {
         } else if (ticket.Status === 'delivered') {  // delivered -> pre-dispatched ?
           this.showPredispatch ();  // request confirmation...
         } else {
-          this.reduce ('SWAP_STATUS');  // change directly without dialog
+          this.reduce ('SWAP_TICKET_STATUS');  // change directly without dialog
         }
       } else {
-        this.reduce ('SWAP_STATUS');
+        this.reduce ('SWAP_TICKET_STATUS');
       }
     }
   }
@@ -164,7 +164,7 @@ export default class Trip extends React.Component {
   closeDeliver (action, date, time) {
     this.setShowDeliver (false);
     if (action === 'accept') {
-      this.reduce ('CHANGE_STATUS', false, 'delivered', date, time);
+      this.reduce ('CHANGE_TICKET_STATUS', false, 'delivered', date, time);
     }
   }
 
@@ -179,7 +179,7 @@ export default class Trip extends React.Component {
   closePredispatch (action, date, time) {
     this.setShowPredispatch (false);
     if (action === 'accept') {
-      this.reduce ('CHANGE_STATUS', false, 'pre-dispatched', date, time);
+      this.reduce ('CHANGE_TICKET_STATUS', false, 'pre-dispatched', date, time);
     }
   }
 
