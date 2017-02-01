@@ -19,23 +19,13 @@ export default class DispatchRoadbooks extends React.Component {
   }
 
   componentDidMount () {
-    if (window.document.mock) {
-      window.document.toUpdate.push (this);
-    }
+    window.document.toUpdate.push (this);
   }
 
   componentWillUnmount () {
-    if (window.document.mock) {
-      const index = window.document.toUpdate.indexOf (this);
-      if (index !== -1) {
-        window.document.toUpdate.splice (index, 1);
-      }
-    }
-  }
-
-  doClickAction (roadbook, event) {
-    if (event.altKey) {  // compected/extended ?
-      this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook);
+    const index = window.document.toUpdate.indexOf (this);
+    if (index !== -1) {
+      window.document.toUpdate.splice (index, 1);
     }
   }
 
@@ -51,10 +41,14 @@ export default class DispatchRoadbooks extends React.Component {
       type: action,
       id:   id,
     });
-    if (window.document.mock) {
-      for (var c of window.document.toUpdate) {
-        c.forceUpdate ();
-      }
+    for (var c of window.document.toUpdate) {
+      c.forceUpdate ();
+    }
+  }
+
+  doClickAction (roadbook, event) {
+    if (event.altKey) {  // compected/extended ?
+      this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook);
     }
   }
 

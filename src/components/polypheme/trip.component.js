@@ -134,10 +134,8 @@ export default class Trip extends React.Component {
       date:     date,
       time:     time,
     });
-    if (window.document.mock) {
-      for (var c of window.document.toUpdate) {
-        c.forceUpdate ();
-      }
+    for (var c of window.document.toUpdate) {
+      c.forceUpdate ();
     }
   }
 

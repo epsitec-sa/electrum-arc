@@ -8,10 +8,8 @@ import StateManager from './state-manager.js';
 /******************************************************************************/
 
 function update () {
-  if (window.document.mock) {
-    for (var c of window.document.toUpdate) {
-      c.forceUpdate ();
-    }
+  for (var c of window.document.toUpdate) {
+    c.forceUpdate ();
   }
 }
 

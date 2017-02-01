@@ -24,17 +24,13 @@ export default class DispatchDesk extends React.Component {
   }
 
   componentDidMount () {
-    if (window.document.mock) {
-      window.document.toUpdate.push (this);
-    }
+    window.document.toUpdate.push (this);
   }
 
   componentWillUnmount () {
-    if (window.document.mock) {
-      const index = window.document.toUpdate.indexOf (this);
-      if (index !== -1) {
-        window.document.toUpdate.splice (index, 1);
-      }
+    const index = window.document.toUpdate.indexOf (this);
+    if (index !== -1) {
+      window.document.toUpdate.splice (index, 1);
     }
   }
 
