@@ -60,28 +60,32 @@ function isFiltered (data, ticket) {
 }
 
 function getSortedBacklog (data) {
-  const result = [];
-  for (var ticket of data.Backlog.Tickets) {
-    if (!isFiltered (data, ticket)) {
-      result.push (ticket);
+  if (window.document.mock) {
+    const result = [];
+    for (var ticket of data.Backlog.Tickets) {
+      if (!isFiltered (data, ticket)) {
+        result.push (ticket);
+      }
     }
+    if (data.BacklogSort.indexOf ('heure pick') !== -1) {
+      return result.sort (sortTimePick);
+    } else if (data.BacklogSort.indexOf ('heure drop') !== -1) {
+      return result.sort (sortTimeDrop);
+    } else if (data.BacklogSort.indexOf ('zone pick') !== -1) {
+      return result.sort (sortZonePick);
+    } else if (data.BacklogSort.indexOf ('zone drop') !== -1) {
+      return result.sort (sortZoneDrop);
+    } else if (data.BacklogSort.indexOf ('produit') !== -1) {
+      return result.sort (sortProduct);
+    } else if (data.BacklogSort.indexOf ('prix') !== -1) {
+      return result.sort (sortPrice);
+    } else if (data.BacklogSort.indexOf ('poids') !== -1) {
+      return result.sort (sortWeight);
+    }
+    return result;
+  } else {
+    return data;  // bypass
   }
-  if (data.BacklogSort.indexOf ('heure pick') !== -1) {
-    return result.sort (sortTimePick);
-  } else if (data.BacklogSort.indexOf ('heure drop') !== -1) {
-    return result.sort (sortTimeDrop);
-  } else if (data.BacklogSort.indexOf ('zone pick') !== -1) {
-    return result.sort (sortZonePick);
-  } else if (data.BacklogSort.indexOf ('zone drop') !== -1) {
-    return result.sort (sortZoneDrop);
-  } else if (data.BacklogSort.indexOf ('produit') !== -1) {
-    return result.sort (sortProduct);
-  } else if (data.BacklogSort.indexOf ('prix') !== -1) {
-    return result.sort (sortPrice);
-  } else if (data.BacklogSort.indexOf ('poids') !== -1) {
-    return result.sort (sortWeight);
-  }
-  return result;
 }
 
 module.exports = {getSortedBacklog};
