@@ -1,5 +1,21 @@
 'use strict';
 
+function getEmptyTime () {
+  return '00:00:00';
+}
+
+function getEmptyDate () {
+  return '0001-01-01';
+}
+
+function isEmptyTime (time) {
+  return !time || time === getEmptyTime ();
+}
+
+function isEmptyDate (date) {
+  return !date || date === getEmptyDate ();
+}
+
 // value =  '1', decimals = 3  -> return '001'
 // value =  'a', decimals = 3  -> return null
 // value =    5, decimals = 3  -> return '005'
@@ -129,23 +145,8 @@ function checkTime (editedTime) {
   return true;
 }
 
-function getEmptyTime () {
-  return '00:00:00';
-}
-
-function getEmptyDate () {
-  return '0001-01-01';
-}
-
-function isEmptyTime (time) {
-  return !time || time === getEmptyTime ();
-}
-
-function isEmptyDate (date) {
-  return !date || date === getEmptyDate ();
-}
-
 module.exports = {
-  getDisplayedTime, getFormatedTime, checkTime, getEmptyTime, getEmptyDate,
-  isEmptyTime, isEmptyDate
+  getEmptyTime, getEmptyDate,
+  isEmptyTime, isEmptyDate,
+  getDisplayedTime, getFormatedTime, checkTime,
 };
