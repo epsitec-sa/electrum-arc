@@ -59,7 +59,7 @@ function isFiltered (data, ticket) {
   }
 }
 
-function getTickets (data) {
+function getSortedBacklog (data) {
   const result = [];
   for (var ticket of data.Backlog.Tickets) {
     if (!isFiltered (data, ticket)) {
@@ -84,4 +84,4 @@ function getTickets (data) {
   return result;
 }
 
-export {getTickets};
+module.exports = {getSortedBacklog};

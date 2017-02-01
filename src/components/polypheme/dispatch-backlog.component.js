@@ -1,8 +1,8 @@
 'use strict';
 
 import React from 'react';
-import Electrum from 'electrum';
-import {getTickets} from './backlog-data';
+import BacklogData from './backlog-data';
+import ReducerData from '../polypheme/reducer-data.js';
 
 import {
   Container,
@@ -35,23 +35,33 @@ export default class DispatchBacklog extends React.Component {
   }
 
   changeSort (data, item) {
-    data.BacklogSort = item.text;
-    this.forceUpdate ();
-
-    Electrum.bus.dispatch (data, 'dnd', {
-      type: 'backlogSortChanged',
-      value: item.text,
-    });
+    if (window.document.mock) {
+      data.BacklogSort = item.text;
+      this.forceUpdate ();
+    } else {
+      ReducerData.reducer (data, {
+        type:    'ELECTRUM-DISPATCH',
+        payload: {
+          type:  'changeBacklogSort',
+          value: item.text,
+        }
+      });
+    }
   }
 
   changeFilter (data, item) {
-    data.BacklogFilter = item.text;
-    this.forceUpdate ();
-
-    Electrum.bus.dispatch (data, 'dnd', {
-      type: 'backlogFilterChanged',
-      value: item.text,
-    });
+    if (window.document.mock) {
+      data.BacklogFilter = item.text;
+      this.forceUpdate ();
+    } else {
+      ReducerData.reducer (data, {
+        type:    'ELECTRUM-DISPATCH',
+        payload: {
+          type:  'changeBacklogFilter',
+          value: item.text,
+        }
+      });
+    }
   }
 
   getItem (text, current, glyph, action) {
@@ -100,7 +110,7 @@ export default class DispatchBacklog extends React.Component {
   renderTickets (data) {
     const result = [];
     let index = 0;
-    const sortedTickets = getTickets (data);
+    const sortedTickets = BacklogData.getSortedBacklog (data);
     for (var ticket of sortedTickets) {
       result.push (this.renderTicket (ticket, data, index++));
     }
