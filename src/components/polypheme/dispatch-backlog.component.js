@@ -83,7 +83,6 @@ export default class DispatchBacklog extends React.Component {
   }
 
   getSortList (data) {
-    console.log ('DispatchBacklog.getSortList');
     return Enumerable
       .from (BacklogData.getSortItems ())
       .select (item => this.getSortItem (data, item))
@@ -97,7 +96,7 @@ export default class DispatchBacklog extends React.Component {
       .toArray ();
   }
 
-  getSortDescription (data) {
+  getCurrentSortDescription (data) {
     return Enumerable
       .from (BacklogData.getSortItems ())
       .where (item => item.key === data.BacklogSort)
@@ -105,7 +104,7 @@ export default class DispatchBacklog extends React.Component {
       .firstOrDefault ();
   }
 
-  getFilterDescription (data) {
+  getCurrentFilterDescription (data) {
     return Enumerable
       .from (BacklogData.getFilterItems ())
       .where (item => item.key === data.BacklogFilter)
@@ -143,12 +142,12 @@ export default class DispatchBacklog extends React.Component {
       <Container kind='view-stretch' {...this.link ()} >
         <Container kind='pane-top' {...this.link ()} >
           <TextFieldCombo hint-text='Trier' combo-glyph='sort' width='300px'
-            value={this.getSortDescription (data)}
+            value={this.getCurrentSortDescription (data)}
             grow='1' spacing='large' list={this.getSortList (data)}
             {...this.link ()} />
           <TextFieldCombo hint-text='Filtrer' combo-glyph='filter' width='300px'
             grow='1' spacing='large' list={this.getFilterList (data)}
-            value={this.getFilterDescription (data)}
+            value={this.getCurrentFilterDescription (data)}
             {...this.link ()} />
           <LabelTextField shape='rounded' hint-text='Chercher'
             grow='2' label-glyph='Search' {...this.link ()} />
