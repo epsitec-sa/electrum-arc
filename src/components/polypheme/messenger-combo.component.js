@@ -33,13 +33,13 @@ export default class MessengerCombo extends React.Component {
         showModify ();
       }
     } else {
-      const data   = this.read ('data');
-      const ticket = this.read ('ticket');
+      const data     = this.read ('data');
+      const roadbook = this.read ('roadbook');
       ReducerData.reducer (data, {
         type:    'ELECTRUM-DISPATCH',
         payload: {
           type: 'showModifyMessenger',
-          id:   ticket.id,
+          id:   roadbook.id,
         }
       });
     }
@@ -49,13 +49,13 @@ export default class MessengerCombo extends React.Component {
     if (window.document.mock) {
       console.log ('showMessenger is possible only with Lydia');
     } else {
-      const data   = this.read ('data');
-      const ticket = this.read ('ticket');
+      const data     = this.read ('data');
+      const roadbook = this.read ('roadbook');
       ReducerData.reducer (data, {
         type:    'ELECTRUM-DISPATCH',
         payload: {
           type: 'showMessenger',
-          id:   ticket.id,
+          id:   roadbook.id,
         }
       });
     }

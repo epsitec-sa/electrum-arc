@@ -37,8 +37,9 @@ function partialSearchFromId (root, items, kind, id, ownerId) {
 
 // Performs a depth search from a id, in the known data set (backlog, roadbooks, roadbook and tray).
 // The result can be:
-//   - a ticket in backlog, a roadbook or a tray of desk.
-//   - a roadbook in roadbooks.
+//   - a ticket in backlog, a roadbook or a tray of desk
+//   - a roadbook in roadbooks
+//   - a tray in desk
 function deepSearchFromId (state, id, ownerId) {
   const r = partialSearchFromId (state.Backlog, state.Backlog.Tickets, 'backlog', id, ownerId);
   if (r) {
@@ -47,6 +48,10 @@ function deepSearchFromId (state, id, ownerId) {
   const m = partialSearchFromId (state, state.Roadbooks, 'roadbooks', id, ownerId);
   if (m) {
     return m;  // roadbook in a roadbooks
+  }
+  const d = partialSearchFromId (state, state.Desk, 'desk', id, ownerId);
+  if (d) {
+    return d;  // tray in desk
   }
   for (var roadbook of state.Roadbooks) {
     const result = partialSearchFromId (roadbook, roadbook.Tickets, 'roadbook', id, ownerId);
@@ -71,6 +76,8 @@ function electrumDispatch (state, payload) {
     const result = deepSearchFromId (state, payload.id);
     payload.kind = result.kind;
   }
+  console.log ('ReducerData.electrumDispatch ' + payload.type);
+  console.dir (payload);
   Electrum.bus.dispatch (state, 'dnd', payload);
 }
 
@@ -761,17 +768,25 @@ function swapRoadbookShowHidden (state, id) {
   return state;
 }
 
-function setTrayName (state, id, value) {
+function setTrayName (state, id, value, accepted) {
   if (window.document.mock) {
     Enumerable.from (state.Desk).where (tray => tray.id === id).forEach (tray => {
       tray.Name = value;
     });
   } else {
-    electrumDispatch (state, {
-      type: 'setTrayName',
-      id:   id,
-      name: value,
-    });
+    if (accepted) {
+      // If tray name changing has accepted, send changing to electrum.
+      electrumDispatch (state, {
+        type: 'setTrayName',
+        id:   id,
+        name: value,
+      });
+    } else {
+      // If tray name changing has canceled, simply changed data.
+      Enumerable.from (state.Desk).where (tray => tray.id === id).forEach (tray => {
+        tray.Name = value;
+      });
+    }
   }
 }
 
@@ -809,7 +824,7 @@ function reducer (state = {}, action = {}) {
       break;
 
     case 'SET_TRAY_NAME':
-      state = setTrayName (state, action.id, action.value);
+      state = setTrayName (state, action.id, action.value, action.accepted);
       break;
 
     case 'ELECTRUM-DISPATCH':

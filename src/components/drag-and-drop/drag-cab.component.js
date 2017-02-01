@@ -128,7 +128,7 @@ export default class DragCab extends React.Component {
   }
 
   dragEnding (event, isDragDoing) {
-    console.log ('DragCab.dragEnding');
+    // console.log ('DragCab.dragEnding');
     this.setDragInProcess (false);
     this.setDragStarting (false);
     if (!isDragDoing) {  // simple click done ?

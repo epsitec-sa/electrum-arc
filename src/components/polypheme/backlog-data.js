@@ -146,7 +146,7 @@ function getSortedBacklog (data) {
     }
     return result;
   } else {
-    return data;  // bypass
+    return data.Backlog.Tickets;  // bypass
   }
 }
 

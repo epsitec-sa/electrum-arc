@@ -423,7 +423,7 @@ export default class DragCarrier extends React.Component {
   }
 
   selectMulti (value) {
-    console.log ('DragCarrier.selectMulti');
+    // console.log ('DragCarrier.selectMulti');
     if (this.rectOrigin) {
       const origin = this.searchChildren (this.rectOrigin.id);
       if (origin && origin.props.ticket && StateManager.isTicketSelected (origin.props.ticket.id)) {

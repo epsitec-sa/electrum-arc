@@ -79,13 +79,13 @@ export default class TicketsTray extends React.Component {
 
   acceptClicked (e) {
     this.setEdit (false);
-    this.updateTitleData ();
+    this.updateTitleData (this.getTitle (), true);
   }
 
   cancelClicked (e) {
     this.setTitle (this.initialTitle);
     this.setEdit (false);
-    this.updateTitleData ();
+    this.updateTitleData (this.initialTitle, false);
   }
 
   // The button was clicked, replace Button by SimpleTextField (edit = true).
@@ -97,7 +97,7 @@ export default class TicketsTray extends React.Component {
   onMyBlur (e) {
     // console.log ('TicketsTray.onMyBlur');
     this.setEdit (false);
-    this.updateTitleData ();
+    this.updateTitleData (this.getTitle (), true);
   }
 
   // The title in SimpleTextField was changed, update the data.
@@ -109,13 +109,14 @@ export default class TicketsTray extends React.Component {
     this.setTitle (value);
   }
 
-  updateTitleData () {
+  updateTitleData (title, accepted) {
     const data = this.read ('data');
     const tray = this.read ('tray');
     ReducerData.reducer (data, {
-      type:  'SET_TRAY_NAME',
-      id:    tray.id,
-      value: this.getTitle (),
+      type:     'SET_TRAY_NAME',
+      id:       tray.id,
+      value:    title,
+      accepted: accepted,
     });
   }
 
