@@ -134,9 +134,6 @@ export default class Trip extends React.Component {
       date:     date,
       time:     time,
     });
-    for (var c of window.document.toUpdate) {
-      c.forceUpdate ();
-    }
   }
 
   showModify () {

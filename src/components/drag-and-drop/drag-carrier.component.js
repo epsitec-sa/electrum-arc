@@ -519,11 +519,6 @@ export default class DragCarrier extends React.Component {
       toOwnerId:   ownerId,
       toOwnerKind: ownerKind,
     });
-    if (window.document.mock) {
-      for (var c of window.document.toUpdate) {
-        c.forceUpdate ();
-      }
-    }
   }
 
   renderTooMany (n, index) {

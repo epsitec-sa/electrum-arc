@@ -6,6 +6,12 @@ import ReducerTickets from './reducer-tickets.js';
 import Converters from './converters';
 import StateManager from './state-manager.js';
 
+function updateUI () {
+  for (var c of window.document.toUpdate) {
+    c.forceUpdate ();
+  }
+}
+
 // ------------------------------------------------------------------------------------------
 
 function partialSearchFromId (root, items, kind, id, ownerId) {
@@ -541,29 +547,30 @@ function initialise (state) {
 // toOwnerId -> owner where it is necessary to insert. Useful when toId is null.
 function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
   // console.log ('Reducer.drop');
-  const flashes = [];
-  const warnings = [];
-  const to = deepSearchFromId (state, toId, toOwnerId);
-  if (!to) {
-    return;
-  }
-  Enumerable.from (fromIds).reverse ().forEach (fromId => {
-    const from = deepSearchFromId (state, fromId);
-    if (from) {
-      changeGeneric (state, flashes, warnings, from, to);
+  if (window.document.mock) {
+    const flashes = [];
+    const warnings = [];
+    const to = deepSearchFromId (state, toId, toOwnerId);
+    if (!to) {
+      return;
     }
-  });
-  if (to.kind === 'roadbook' || to.kind === 'tray') {
-    deleteTransits (state, flashes, warnings);
-    createTransits (state, flashes, warnings);
-  }
-  updateOrders (state);
-  checkOrders (state, flashes, warnings);
-  checkAlones (state, flashes, warnings);
-  setMiscs (state, flashes, warnings);
-  updateShapes (state);
-
-  if (!window.document.mock) {
+    Enumerable.from (fromIds).reverse ().forEach (fromId => {
+      const from = deepSearchFromId (state, fromId);
+      if (from) {
+        changeGeneric (state, flashes, warnings, from, to);
+      }
+    });
+    if (to.kind === 'roadbook' || to.kind === 'tray') {
+      deleteTransits (state, flashes, warnings);
+      createTransits (state, flashes, warnings);
+    }
+    updateOrders (state);
+    checkOrders (state, flashes, warnings);
+    checkAlones (state, flashes, warnings);
+    setMiscs (state, flashes, warnings);
+    updateShapes (state);
+    updateUI ();
+  } else {
     electrumDispatch (state, {
       type:         'drop',
       itemKind:     fromKind,
@@ -573,7 +580,6 @@ function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
       toOwnerKind:  toOwnerKind,
     });
   }
-
   return state;
 }
 
@@ -616,11 +622,8 @@ function swapTicketExtended (state, id) {
   const result = deepSearchFromId (state, id);
   if (result.kind !== 'backlog') {
     const ticket = result.tickets[result.index];
-    if (StateManager.isTicketExtended (ticket.id)) {
-      StateManager.clearTicketExtended (ticket.id);
-    } else {
-      StateManager.setTicketExtended (ticket.id);
-    }
+    const x = StateManager.isTicketExtended (ticket.id);
+    StateManager.putTicketExtended (ticket.id, !x);
     result.tickets[result.index] = regen (state, ticket);
     flashes.push (result.tickets[result.index].id);
   }
@@ -753,6 +756,7 @@ function swapRoadbookCompacted (state, id) {
   const x = StateManager.isMessengerCompacted (roadbook.id);
   StateManager.putMessengerCompacted (roadbook.id, !x);
   result.tickets[result.index] = regen (state, roadbook);
+  updateUI ();
   return state;
 }
 

@@ -7,14 +7,6 @@ import StateManager from './state-manager.js';
 
 /******************************************************************************/
 
-function update () {
-  for (var c of window.document.toUpdate) {
-    c.forceUpdate ();
-  }
-}
-
-/******************************************************************************/
-
 export default class TripCombo extends React.Component {
 
   closeCombo () {
@@ -89,7 +81,6 @@ export default class TripCombo extends React.Component {
       value:    value,
       shiftKey: shiftKey,
     });
-    update ();
   }
 
   dispatch (value) {

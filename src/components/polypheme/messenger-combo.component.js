@@ -7,14 +7,6 @@ import StateManager from './state-manager.js';
 
 /******************************************************************************/
 
-function update () {
-  for (var c of window.document.toUpdate) {
-    c.forceUpdate ();
-  }
-}
-
-/******************************************************************************/
-
 export default class MessengerCombo extends React.Component {
 
   closeCombo () {
@@ -61,11 +53,14 @@ export default class MessengerCombo extends React.Component {
 
   reduce (action, id) {
     const data = this.read ('data');
+
+    // Inject electrum state (needed for electrumDispatch).
+    data.state = this.props.state;
+
     ReducerData.reducer (data, {
       type: action,
       id:   id,
     });
-    update ();
   }
 
   swapCompacted () {
@@ -93,7 +88,6 @@ export default class MessengerCombo extends React.Component {
       toOwnerId:   data.id,
       toOwnerKind: 'roadbook',
     });
-    update ();
   }
 
   swapShowHidden () {

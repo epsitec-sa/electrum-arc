@@ -29,10 +29,9 @@ export default class DispatchRoadbooks extends React.Component {
     }
   }
 
-  reduce (action, roadbook) {
+  reduce (action, id) {
     // console.log ('DispatchRoadbooks.reducer');
     const data = this.read ('data');
-    const id   = roadbook.id;
 
     // Inject electrum state (needed for electrumDispatch).
     data.state = this.props.state;
@@ -41,14 +40,11 @@ export default class DispatchRoadbooks extends React.Component {
       type: action,
       id:   id,
     });
-    for (var c of window.document.toUpdate) {
-      c.forceUpdate ();
-    }
   }
 
   doClickAction (roadbook, event) {
     if (event.altKey) {  // compected/extended ?
-      this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook);
+      this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.id);
     }
   }
 
