@@ -3,6 +3,7 @@
 import React from 'react';
 import BacklogData from './backlog-data';
 import ReducerData from '../polypheme/reducer-data.js';
+import Enumerable from 'linq';
 
 import {
   Container,
@@ -36,14 +37,14 @@ export default class DispatchBacklog extends React.Component {
 
   changeSort (data, item) {
     if (window.document.mock) {
-      data.BacklogSort = item.text;
+      data.BacklogSort = item.key;
       this.forceUpdate ();
     } else {
       ReducerData.reducer (data, {
         type:    'ELECTRUM-DISPATCH',
         payload: {
           type:  'changeBacklogSort',
-          value: item.text,
+          value: item.key,
         }
       });
     }
@@ -51,54 +52,65 @@ export default class DispatchBacklog extends React.Component {
 
   changeFilter (data, item) {
     if (window.document.mock) {
-      data.BacklogFilter = item.text;
+      data.BacklogFilter = item.key;
       this.forceUpdate ();
     } else {
       ReducerData.reducer (data, {
         type:    'ELECTRUM-DISPATCH',
         payload: {
           type:  'changeBacklogFilter',
-          value: item.text,
+          value: item.key,
         }
       });
     }
   }
 
-  getItem (text, current, glyph, action) {
+  getItem (item, current, action) {
     return {
-      text:   text,
-      glyph:  glyph,
-      active: text === current ? 'true' : 'false',
+      text:   item.value.description,
+      glyph:  item.value.glyph,
+      active: item.key === current ? 'true' : 'false',
       action: action,
     };
   }
 
-  getSortItem (data, text, glyph) {
-    return this.getItem (text, data.BacklogSort, glyph, item => this.changeSort (data, item));
+  getSortItem (data, item) {
+    return this.getItem (item, data.BacklogSort, () => this.changeSort (data, item));
   }
 
-  getFilterItem (data, text, glyph) {
-    return this.getItem (text, data.BacklogFilter, glyph, item => this.changeFilter (data, item));
+  getFilterItem (data, item) {
+    return this.getItem (item, data.BacklogFilter, () => this.changeFilter (data, item));
   }
 
   getSortList (data) {
-    return [
-      this.getSortItem (data, 'Par heure pick', 'clock-o'),
-      this.getSortItem (data, 'Par heure drop', 'clock-o'),
-      this.getSortItem (data, 'Par zone pick',  'map-marker'),
-      this.getSortItem (data, 'Par zone drop',  'map-marker'),
-      this.getSortItem (data, 'Par produits',   'cube'),
-      this.getSortItem (data, 'Par prix',       'dollar'),
-      this.getSortItem (data, 'Par poids',      'balance-scale'),
-    ];
+    console.log ('DispatchBacklog.getSortList');
+    return Enumerable
+      .from (BacklogData.getSortItems ())
+      .select (item => this.getSortItem (data, item))
+      .toArray ();
   }
 
   getFilterList (data) {
-    return [
-      this.getFilterItem (data, 'Tous',                      'square'),
-      this.getFilterItem (data, 'Seulement les dring-dring', 'bell'),
-      this.getFilterItem (data, 'Seulement les urgents',     'fighter-jet'),
-    ];
+    return Enumerable
+      .from (BacklogData.getFilterItems ())
+      .select (item => this.getFilterItem (data, item))
+      .toArray ();
+  }
+
+  getSortDescription (data) {
+    return Enumerable
+      .from (BacklogData.getSortItems ())
+      .where (item => item.key === data.BacklogSort)
+      .select (item => item.value.description)
+      .firstOrDefault ();
+  }
+
+  getFilterDescription (data) {
+    return Enumerable
+      .from (BacklogData.getFilterItems ())
+      .where (item => item.key === data.BacklogFilter)
+      .select (item => item.value.description)
+      .firstOrDefault ();
   }
 
   renderTicket (ticket, data, index) {
@@ -131,12 +143,12 @@ export default class DispatchBacklog extends React.Component {
       <Container kind='view-stretch' {...this.link ()} >
         <Container kind='pane-top' {...this.link ()} >
           <TextFieldCombo hint-text='Trier' combo-glyph='sort' width='300px'
-            value={data.BacklogSort}
+            value={this.getSortDescription (data)}
             grow='1' spacing='large' list={this.getSortList (data)}
             {...this.link ()} />
           <TextFieldCombo hint-text='Filtrer' combo-glyph='filter' width='300px'
             grow='1' spacing='large' list={this.getFilterList (data)}
-            value={data.BacklogFilter}
+            value={this.getFilterDescription (data)}
             {...this.link ()} />
           <LabelTextField shape='rounded' hint-text='Chercher'
             grow='2' label-glyph='Search' {...this.link ()} />

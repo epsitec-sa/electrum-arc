@@ -2,6 +2,60 @@
 
 import Converters from './converters';
 
+// --------------------------------------------------------------------------------------------------------------------
+
+function getSortItems () {
+  return {
+    byPickTime: {
+      description: 'Par heure pick',
+      glyph:       'clock-o',
+    },
+    byDropTime: {
+      description: 'Par heure drop',
+      glyph:       'clock-o',
+    },
+    byPickZone: {
+      description: 'Par zone pick',
+      glyph:       'map-marker',
+    },
+    byDropZone: {
+      description: 'Par zone drop',
+      glyph:       'map-marker',
+    },
+    byProduct: {
+      description: 'Par produits',
+      glyph:       'cube',
+    },
+    byPrice: {
+      description: 'Par prix',
+      glyph:       'dollar',
+    },
+    byWeight: {
+      description: 'Par poids',
+      glyph:       'balance-scale',
+    },
+  };
+}
+
+function getFilterItems () {
+  return {
+    all: {
+      description: 'Tous',
+      glyph:       'square',
+    },
+    dringDring: {
+      description: 'Seulement les dring-dring',
+      glyph:       'bell',
+    },
+    urgent: {
+      description: 'Seulement les urgents',
+      glyph:       'fighter-jet',
+    },
+  };
+}
+
+// --------------------------------------------------------------------------------------------------------------------
+
 function sortTimePick (a, b) {
   const ta = Converters.getFormatedTime (a.Trip.Pick.PlanedTime);
   const tb = Converters.getFormatedTime (b.Trip.Pick.PlanedTime);
@@ -45,14 +99,14 @@ function sortWeight (a, b) {
 }
 
 function isFiltered (data, ticket) {
-  if (data.BacklogFilter === 'Tous') {
+  if (data.BacklogFilter === 'all') {
     return false;
   } else {
     if (!ticket.Trip || !ticket.Trip.Product) {
       return true;
-    } else if (data.BacklogFilter.indexOf ('dring') !== -1) {
+    } else if (data.BacklogFilter === 'dringDring') {
       return ticket.Trip.Product.indexOf ('dring') === -1;
-    } else if (data.BacklogFilter.indexOf ('urgent') !== -1) {
+    } else if (data.BacklogFilter === 'urgent') {
       return ticket.Trip.Product !== 'Urgent';
     }
     return false;
@@ -67,19 +121,19 @@ function getSortedBacklog (data) {
         result.push (ticket);
       }
     }
-    if (data.BacklogSort.indexOf ('heure pick') !== -1) {
+    if (data.BacklogSort === 'byPickTime') {
       return result.sort (sortTimePick);
-    } else if (data.BacklogSort.indexOf ('heure drop') !== -1) {
+    } else if (data.BacklogSort === 'byDropTime') {
       return result.sort (sortTimeDrop);
-    } else if (data.BacklogSort.indexOf ('zone pick') !== -1) {
+    } else if (data.BacklogSort === 'byPickZone') {
       return result.sort (sortZonePick);
-    } else if (data.BacklogSort.indexOf ('zone drop') !== -1) {
+    } else if (data.BacklogSort === 'byDropZone') {
       return result.sort (sortZoneDrop);
-    } else if (data.BacklogSort.indexOf ('produit') !== -1) {
+    } else if (data.BacklogSort === 'byProduct') {
       return result.sort (sortProduct);
-    } else if (data.BacklogSort.indexOf ('prix') !== -1) {
+    } else if (data.BacklogSort === 'byPrice') {
       return result.sort (sortPrice);
-    } else if (data.BacklogSort.indexOf ('poids') !== -1) {
+    } else if (data.BacklogSort === 'byWeight') {
       return result.sort (sortWeight);
     }
     return result;
@@ -88,4 +142,9 @@ function getSortedBacklog (data) {
   }
 }
 
-module.exports = {getSortedBacklog};
+// --------------------------------------------------------------------------------------------------------------------
+
+module.exports = {
+  getSortItems, getFilterItems,
+  getSortedBacklog,
+};
