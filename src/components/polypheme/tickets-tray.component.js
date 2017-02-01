@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Container, Button, SimpleTextField} from 'electrum-arc';
-import ReducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
+import ReducerData from '../polypheme/reducer-data.js';
 import MouseTrap from 'mousetrap';
 
 /******************************************************************************/
@@ -112,7 +112,7 @@ export default class TicketsTray extends React.Component {
   updateTitleData () {
     const data = this.read ('data');
     const tray = this.read ('tray');
-    ReducerDragAndDrop.reducer (data, {
+    ReducerData.reducer (data, {
       type:  'SET_TRAY_NAME',
       id:    tray.id,
       value: this.getTitle (),

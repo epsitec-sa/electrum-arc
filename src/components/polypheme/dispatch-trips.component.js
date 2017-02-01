@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import ReducerDragAndDrop from './reducer-drag-and-drop.js';
+import ReducerData from './reducer-data.js';
 
 import {
   Container,
@@ -34,7 +34,7 @@ export default class DispatchTrips extends React.Component {
   initialise (data) {
     // Inject electrum state (needed for electrumDispatch).
     data.state = this.props.state;
-    ReducerDragAndDrop.reducer (data, {type: 'INITIALISE'});
+    ReducerData.reducer (data, {type: 'INITIALISE'});
   }
 
   renderTicket (ticket, data, index) {

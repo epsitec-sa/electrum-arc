@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Combo} from '../../all-components.js';
-import ReducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
+import ReducerData from '../polypheme/reducer-data.js';
 import StateManager from './state-manager.js';
 
 /******************************************************************************/
@@ -35,7 +35,7 @@ export default class MessengerCombo extends React.Component {
     } else {
       const data   = this.read ('data');
       const ticket = this.read ('ticket');
-      ReducerDragAndDrop.reducer (data, {
+      ReducerData.reducer (data, {
         type:    'ELECTRUM-DISPATCH',
         payload: {
           type: 'showModifyMessenger',
@@ -51,7 +51,7 @@ export default class MessengerCombo extends React.Component {
     } else {
       const data   = this.read ('data');
       const ticket = this.read ('ticket');
-      ReducerDragAndDrop.reducer (data, {
+      ReducerData.reducer (data, {
         type:    'ELECTRUM-DISPATCH',
         payload: {
           type: 'showMessenger',
@@ -63,7 +63,7 @@ export default class MessengerCombo extends React.Component {
 
   reduce (action, id) {
     const data = this.read ('data');
-    ReducerDragAndDrop.reducer (data, {
+    ReducerData.reducer (data, {
       type: action,
       id:   id,
     });
@@ -87,7 +87,7 @@ export default class MessengerCombo extends React.Component {
   }
 
   shift (data, roadbook, toId) {
-    ReducerDragAndDrop.reducer (data, {
+    ReducerData.reducer (data, {
       type:        'DROP',
       fromKind:    'roadbook',
       fromIds:     [roadbook.id],

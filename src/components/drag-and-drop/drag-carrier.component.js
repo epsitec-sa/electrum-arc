@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Unit} from 'electrum-theme';
-import ReducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
+import ReducerData from '../polypheme/reducer-data.js';
 import StateManager from '../polypheme/state-manager.js';
 
 import {
@@ -511,7 +511,7 @@ export default class DragCarrier extends React.Component {
     // Inject electrum state (needed for electrumDispatch).
     data.state = this.read ('state');
 
-    ReducerDragAndDrop.reducer (data, {
+    ReducerData.reducer (data, {
       type:        'DROP',
       fromKind:    (ownerKind === 'roadbooks') ? 'roadbook' : 'ticket',
       fromIds:     this.selectedIds,

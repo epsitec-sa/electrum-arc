@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Combo} from '../../all-components.js';
-import ReducerDragAndDrop from '../polypheme/reducer-drag-and-drop.js';
+import ReducerData from '../polypheme/reducer-data.js';
 import StateManager from './state-manager.js';
 
 /******************************************************************************/
@@ -35,7 +35,7 @@ export default class TripCombo extends React.Component {
     } else {
       const data   = this.read ('data');
       const ticket = this.read ('ticket');
-      ReducerDragAndDrop.reducer (data, {
+      ReducerData.reducer (data, {
         type:    'ELECTRUM-DISPATCH',
         payload: {
           type: 'showModifyTicket',
@@ -51,7 +51,7 @@ export default class TripCombo extends React.Component {
     } else {
       const data   = this.read ('data');
       const ticket = this.read ('ticket');
-      ReducerDragAndDrop.reducer (data, {
+      ReducerData.reducer (data, {
         type:    'ELECTRUM-DISPATCH',
         payload: {
           type: 'showMission',
@@ -85,7 +85,7 @@ export default class TripCombo extends React.Component {
 
   reduce (action, id, value, shiftKey) {
     const data = this.read ('data');
-    ReducerDragAndDrop.reducer (data, {
+    ReducerData.reducer (data, {
       type:     action,
       id:       id,
       value:    value,
