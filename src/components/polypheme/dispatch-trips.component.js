@@ -38,7 +38,13 @@ export default class DispatchTrips extends React.Component {
 
   renderTicket (ticket, data, index) {
     return (
-      <Trip key={index} kind='trip-box' source='backlog' ticket={ticket} data={data} {...this.link ()} />
+      <Trip
+        key    = {index}
+        kind   = 'trip-box'
+        source = 'backlog'
+        ticket = {ticket}
+        data   = {data}
+        {...this.link ()} />
     );
   }
 
@@ -65,20 +71,37 @@ export default class DispatchTrips extends React.Component {
         <Container kind='view' width='800px' {...this.link ()} >
 
           <Container kind='pane-top' {...this.link ()} >
-            <TextFieldCombo hint-text='Trier' combo-glyph='sort'
-              grow='1' spacing='large' combo-type='calendar'
-              combo-direction='right' flying-balloon-anchor='bottom'
+            <TextFieldCombo
+              hint-text             = 'Trier'
+              combo-glyph           = 'sort'
+              grow                  = '1'
+              spacing               = 'large'
+              combo-type            = 'calendar'
+              combo-direction       = 'right'
+              flying-balloon-anchor = 'bottom'
               {...this.link ()} />
-            <TextFieldCombo hint-text='Filtrer' combo-glyph='filter'
-              grow='1' spacing='large' combo-type='clock'
-              flying-balloon-anchor='right' {...this.link ()} />
-            <LabelTextField shape='rounded' hint-text='Chercher'
-              grow='2' label-glyph='Search' {...this.link ()} />
+            <TextFieldCombo
+              hint-text             = 'Filtrer'
+              combo-glyph           = 'filter'
+              grow                  = '1'
+              spacing               = 'large'
+              combo-type            = 'clock'
+              flying-balloon-anchor = 'right'
+              {...this.link ()} />
+            <LabelTextField
+              shape       = 'rounded'
+              hint-text   = 'Chercher'
+              grow        = '2'
+              label-glyph = 'Search'
+              {...this.link ()} />
           </Container>
 
           <Container kind='panes' {...this.link ()} >
-            <Container kind='column'
-              drag-controller='ticket' drag-source='backlog' item-id={data.Backlog.id}
+            <Container
+              kind            = 'column'
+              drag-controller = 'ticket'
+              drag-source     = 'backlog'
+              item-id         = {data.Backlog.id}
               {...this.link ()} >
               {this.renderTickets (data.Backlog.Tickets, data)}
             </Container>

@@ -53,13 +53,23 @@ export default class DispatchRoadbooks extends React.Component {
 
   renderMessenger (data, roadbook) {
     return (
-      <MessengerTicket data={data} roadbook={roadbook} {...this.link ()} />
+      <MessengerTicket
+        data     = {data}
+        roadbook = {roadbook}
+        {...this.link ()} />
     );
   }
 
   renderTicket (ticket, data, index) {
     return (
-      <Trip key={index} kind='trip-ticket' source='roadbook' item-id={ticket.id} ticket={ticket} data={data} {...this.link ()} />
+      <Trip
+        key={index}
+        kind    = 'trip-ticket'
+        source  = 'roadbook'
+        item-id = {ticket.id}
+        ticket  = {ticket}
+        data    = {data}
+        {...this.link ()} />
     );
   }
 
@@ -80,8 +90,11 @@ export default class DispatchRoadbooks extends React.Component {
       return null;
     } else {
       return (
-        <Container kind='tickets-trips'
-          drag-controller='ticket' drag-source='roadbook' item-id={roadbook.id}
+        <Container
+          kind            = 'tickets-trips'
+          drag-controller = 'ticket'
+          drag-source     = 'roadbook'
+          item-id         = {roadbook.id}
           {...this.link ()} >
           {this.renderTickets (roadbook, data)}
         </Container>
@@ -103,7 +116,11 @@ export default class DispatchRoadbooks extends React.Component {
         do-click-action = {(event) => this.doClickAction (roadbook, event)}
         item-id         = {roadbook.id}
         {...this.link ()}>
-        <Roadbook key={index} data={data} roadbook={roadbook} {...this.link ()} >
+        <Roadbook
+          key      = {index}
+          data     = {data}
+          roadbook = {roadbook}
+          {...this.link ()} >
           {this.renderMessenger (data, roadbook)}
           {this.renderTicketsContainer (roadbook, data)}
         </Roadbook>
@@ -124,8 +141,11 @@ export default class DispatchRoadbooks extends React.Component {
     let data = this.read ('data');
 
     return (
-      <Container kind='tickets-messengers'
-        drag-controller='roadbook' drag-source='roadbooks' item-id={data.id}
+      <Container
+        kind            = 'tickets-messengers'
+        drag-controller = 'roadbook'
+        drag-source     = 'roadbooks'
+        item-id         = {data.id}
         {...this.link ()} >
         {this.renderRoadbooks (data.Roadbooks, data)}
       </Container>

@@ -140,21 +140,40 @@ export default class DispatchBacklog extends React.Component {
     return (
       <Container kind='view-stretch' {...this.link ()} >
         <Container kind='pane-top' {...this.link ()} >
-          <TextFieldCombo hint-text='Trier' combo-glyph='sort' width='300px'
-            value={this.getCurrentSortDescription (data)}
-            grow='1' spacing='large' list={this.getSortList (data)}
+          <TextFieldCombo
+            hint-text   = 'Trier'
+            combo-glyph = 'sort'
+            width       = '300px'
+            value       = {this.getCurrentSortDescription (data)}
+            grow        = '1'
+            spacing     = 'large'
+            list        = {this.getSortList (data)}
             {...this.link ()} />
-          <TextFieldCombo hint-text='Filtrer' combo-glyph='filter' width='300px'
-            grow='1' spacing='large' list={this.getFilterList (data)}
-            value={this.getCurrentFilterDescription (data)}
+          <TextFieldCombo
+            hint-text   = 'Filtrer'
+            combo-glyph = 'filter'
+            width       = '300px'
+            grow        = '1'
+            spacing     = 'large'
+            list        = {this.getFilterList (data)}
+            value       = {this.getCurrentFilterDescription (data)}
             {...this.link ()} />
-          <LabelTextField shape='rounded' hint-text='Chercher'
-            grow='2' label-glyph='Search' {...this.link ()} />
+          <LabelTextField
+            shape       = 'rounded'
+            hint-text   = 'Chercher'
+            grow        = '2'
+            label-glyph = 'Search'
+            {...this.link ()} />
         </Container>
         <Container kind='panes' drag-parent={data.Backlog.id} {...this.link ()} >
-          <Container kind='column'
-            drag-controller='ticket' drag-source='backlog' drag-mode='all' item-id={data.Backlog.id}
-            view-parent-id='view-backlog' {...this.link ()} >
+          <Container
+            kind            = 'column'
+            drag-controller = 'ticket'
+            drag-source     = 'backlog'
+            drag-mode       = 'all'
+            item-id         = {data.Backlog.id}
+            view-parent-id  = 'view-backlog'
+            {...this.link ()} >
             {this.renderTickets (data)}
           </Container>
         </Container>
