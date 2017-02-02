@@ -19,6 +19,9 @@ export default class DispatchRoadbooks extends React.Component {
   }
 
   componentDidMount () {
+    if (!window.document.toUpdate) {
+      window.document.toUpdate = [];
+    }
     window.document.toUpdate.push (this);
   }
 
