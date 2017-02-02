@@ -19,7 +19,7 @@ export default function styles (theme, props) {
   const borderRight = border;
   const borderOther = isDragged ? border : 'none';
 
-  const boxStyle = {
+  const extendedBoxStyle = {
     padding:         '0px ' + mm + ' 0px ' + mm,
     display:         'flex',
     flexDirection:   'column',
@@ -32,8 +32,22 @@ export default function styles (theme, props) {
     minWidth:        mw,
   };
 
+  const compactedBoxStyle = {
+    padding:         '0px',
+    display:         'flex',
+    flexDirection:   'column',
+    flexGrow:        1,
+    backgroundColor: bc,
+    borderRight:     borderRight,
+    borderLeft:      borderOther,
+    borderTop:       borderOther,
+    borderBottom:    borderOther,
+    minWidth:        mw ? theme.shapes.tripTicketCompactedWidth : null,
+  };
+
   return {
-    box: boxStyle,
+    extendedBox:  extendedBoxStyle,
+    compactedBox: compactedBoxStyle,
   };
 }
 

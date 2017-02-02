@@ -23,20 +23,16 @@ export default class Roadbook extends React.Component {
     const hasHeLeft = this.read ('hasHeLeft');
     const isDragged = this.read ('isDragged');
 
-    const boxStyle = this.mergeStyles ('box');
+    const extendedBoxStyle  = this.mergeStyles ('extendedBox');
+    const compactedBoxStyle = this.mergeStyles ('compactedBox');
 
-    if (StateManager.isMessengerCompacted (roadbook.id)) {
-      if (boxStyle.minWidth) {
-        boxStyle.minWidth = this.props.theme.shapes.tripTicketCompactedWidth;
-      }
-      boxStyle.padding  = '0px';
-    }
+    const compacted = StateManager.isMessengerCompacted (roadbook.id);
 
     // When dragging, show a source component empty.
     const children = (hasHeLeft && !isDragged) ? null : this.props.children;
 
     return (
-      <div style = {boxStyle}>
+      <div style = {compacted ? compactedBoxStyle : extendedBoxStyle}>
         {children}
       </div>
     );
