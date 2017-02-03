@@ -492,10 +492,12 @@ export default class DragCarrier extends React.Component {
     const dragEnding = this.read ('drag-ending');
     if (dragEnding) {
       dragEnding (e, this.isDragStarted ());
-      this.selectMulti (false);
-      const dest = this.getDest ();
-      if (dest) {
-        this.reduce (dest.id, dest.ownerId, dest.ownerKind);
+      if (this.isDragStarted ()) {
+        this.selectMulti (false);
+        const dest = this.getDest ();
+        if (dest) {
+          this.reduce (dest.id, dest.ownerId, dest.ownerKind);
+        }
       }
     }
   }
