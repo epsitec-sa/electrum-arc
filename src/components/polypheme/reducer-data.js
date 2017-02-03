@@ -571,6 +571,9 @@ function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
     updateShapes (state);
     updateUI ();
   } else {
+    Enumerable.from (fromIds).forEach (fromId => {
+      StateManager.clearTicketSelected (fromId);
+    });
     electrumDispatch (state, {
       type:         'drop',
       itemKind:     fromKind,
