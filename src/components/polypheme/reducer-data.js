@@ -136,23 +136,11 @@ function getNewId () {
     });
 }
 
-function updateId (state, oldId, newId) {
-  if (StateManager.isTicketSelected (oldId)) {
-    StateManager.clearTicketSelected (oldId);
-    StateManager.setTicketSelected (newId);
-  }
-  if (StateManager.isTicketExtended (oldId)) {
-    StateManager.clearTicketExtended (oldId);
-    StateManager.setTicketExtended (newId);
-  }
-}
-
 // Return a deep copy of ticket, with new ids.
 function clone (state, ticket) {
   const n = JSON.parse (JSON.stringify (ticket));
   const oldId = n.id;
   n.id = getNewId ();
-  updateId (state, oldId, n.id);
   return n;
 }
 
@@ -415,13 +403,13 @@ function setMisc (state, list, flashes, warnings) {
     const ticket = normalize (list[i]);
     const w = getTextWarning (warnings, ticket.id);
     const f = (flashes.indexOf (ticket.id) !== -1) ? 'true' : 'false';
-    let s = StateManager.isTicketSelected (ticket.id);
+    let s = ticket.Selected === 'true';
     if (ticket.Warning !== w ||
         ticket.Flash !== f ||
-        StateManager.isTicketSelected (ticket.id) !== s) {  // changing ?
+        ticket.Selected !== s) {  // changing ?
       ticket.Warning  = w;  // set or clear warning message
       ticket.Flash = f;  // set or clear flash mode
-      StateManager.putTicketSelected (ticket.id, s);  // select or deselect ticket
+      ticket.Selected = s ? 'true' : 'false';  // select or deselect ticket
       list[i] = regen (state, ticket);
     }
   }
@@ -444,7 +432,7 @@ function setMiscs (state, flashes, warnings) {
 function firstSelectedIndex (state, result) {
   for (let i = 0; i < result.tickets.length; i++) {
     const ticket = result.tickets[i];
-    if (StateManager.isTicketSelected (ticket.id)) {
+    if (ticket.Selected === 'true') {
       return i;
     }
   }
@@ -455,8 +443,8 @@ function selectZone (state, flashes, result, fromIndex, toIndex, value) {
   for (let i = 0; i < result.tickets.length; i++) {
     const ticket = result.tickets[i];
     if ((ticket.Status === 'backlog' || ticket.Status === 'pre-dispatched') && i >= fromIndex && i <= toIndex) {
-      if (StateManager.isTicketSelected (ticket.id) !== value) {
-        StateManager.putTicketSelected (ticket.id, value);
+      if ((ticket.Selected === 'true') !== value) {
+        ticket.Selected = value ? 'true' : 'false';
         result.tickets[i] = regen (state, ticket);
         flashes.push (result.tickets[i].id);
       }
@@ -518,19 +506,19 @@ function changeGeneric (state, flashes, warnings, from, to) {
     drop.Status = 'pre-dispatched';
     addTicket (state, to.tickets, to.index, drop);  // first drop, for have pick/drop in this order
     addTicket (state, to.tickets, to.index, pick);
-    StateManager.clearTicketSelected (pick.id);
-    StateManager.clearTicketSelected (drop.id);
+    pick.Selected = 'false';
+    drop.Selected = 'false';
     flashes.push (pick.id);
     flashes.push (drop.id);
   } else if (to.kind === 'backlog' && ticket.Type !== 'both') {
     ticket.Type = 'both';
     ticket.Status = 'backlog';
     addTicket (state, to.tickets, to.index, ticket);
-    StateManager.clearTicketSelected (ticket.id);
+    ticket.Selected = 'false';
     flashes.push (ticket.id);
   } else {
     addTicket (state, to.tickets, to.index, ticket);
-    StateManager.clearTicketSelected (ticket.id);
+    ticket.Selected = 'false';
     flashes.push (ticket.id);
   }
 }
@@ -571,8 +559,9 @@ function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
     updateShapes (state);
     updateUI ();
   } else {
-    Enumerable.from (fromIds).forEach (fromId => {
-      StateManager.clearTicketSelected (fromId);
+    Enumerable.from (fromIds).forEach (id => {
+      const result = deepSearchFromId (state, id);
+      result.ticket.Selection = 'false';
     });
     electrumDispatch (state, {
       type:         'drop',
@@ -591,7 +580,7 @@ function swapTicketSelected (state, id, shiftKey) {
   const warnings = [];
   const result = deepSearchFromId (state, id);
   if (shiftKey) {
-    if (StateManager.isTicketSelected (result.tickets[result.index].id)) {
+    if (result.ticket.Selected === 'true') {
       // Deselect all items.
       selectZone (state, flashes, result, 0, 9999, false);
     } else {
@@ -609,7 +598,7 @@ function swapTicketSelected (state, id, shiftKey) {
     // Select or deselect pointed item.
     const ticket = result.tickets[result.index];
     if (ticket.Status === 'backlog' || ticket.Status === 'pre-dispatched') {
-      StateManager.putTicketSelected (ticket.id, !StateManager.isTicketSelected (ticket.id));
+      ticket.Selected = (ticket.Selected === 'true') ? 'false' : 'true';
       result.tickets[result.index] = regen (state, ticket);
       flashes.push (result.tickets[result.index].id);
     }
@@ -626,8 +615,8 @@ function swapTicketExtended (state, id) {
   const result = deepSearchFromId (state, id);
   if (result.kind !== 'backlog') {
     const ticket = result.tickets[result.index];
-    const x = StateManager.isTicketExtended (ticket.id);
-    StateManager.putTicketExtended (ticket.id, !x);
+    const x = ticket.Extended === 'true';
+    ticket.Extended = x ? 'false' : 'true';
     result.tickets[result.index] = regen (state, ticket);
     flashes.push (result.tickets[result.index].id);
   }
@@ -644,7 +633,7 @@ function setStatus (state, flashes, id, status, date, time) {
   const index   = result.index;
   ticket.Status = status;
   if (status !== 'pre-dispatched') {
-    StateManager.clearTicketSelected (ticket.id);
+    ticket.Selected = 'false';
   }
   if (status === 'delivered') {
     ticket.Trip.Pick.RealisedDate = date;
@@ -760,8 +749,8 @@ function swapRoadbookCompacted (state, id) {
     throw new Error (`Invalid kind ${result.kind}`);
   }
   const roadbook = result.tickets[result.index];
-  const x = StateManager.isMessengerCompacted (roadbook.id);
-  StateManager.putMessengerCompacted (roadbook.id, !x);
+  const x = roadbook.Compacted === 'true';
+  roadbook.Compacted = x ? 'false' : 'true';
   result.tickets[result.index] = regen (state, roadbook);
   updateUI ();
   return state;
@@ -773,8 +762,8 @@ function swapRoadbookShowHidden (state, id) {
     throw new Error (`Invalid kind ${result.kind}`);
   }
   const roadbook = result.tickets[result.index];
-  const x = StateManager.isMessengerShowHidden (roadbook.id);
-  StateManager.putMessengerShowHidden (roadbook.id, !x);
+  const x = roadbook.ShowHidden === 'true';
+  roadbook.ShowHidden = x ? 'false' : 'true';
   result.tickets[result.index] = regen (state, roadbook);
   return state;
 }
@@ -846,18 +835,19 @@ function reducer (state = {}, action = {}) {
 }
 
 function ask (state = {}, action = {}) {
+  const result = deepSearchFromId (state, action.id);
   switch (action.type) {
     case 'IS_MESSENGER_SHOWHIDDEN':
-      return StateManager.isMessengerShowHidden (action.id);
+      return result.ticket.ShowHidden === 'true';
 
     case 'IS_MESSENGER_COMPACTED':
-      return StateManager.isMessengerCompacted (action.id);
+      return result.ticket.Compacted === 'true';
 
     case 'IS_TICKET_SELECTED':
-      return StateManager.isTicketSelected (action.id);
+      return result.ticket.Selected === 'true';
 
     case 'IS_TICKET_EXTENDED':
-      return StateManager.isTicketExtended (action.id);
+      return result.ticket.Extended === 'true';
   }
   return null;
 }
