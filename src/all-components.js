@@ -20,7 +20,6 @@ import _Ticket from './components/containers/ticket.component.js';
 import _Ticket$styles from './components/containers/ticket.styles.js';
 import _DragCab from './components/drag-and-drop/drag-cab.component.js';
 import _DragCarrier from './components/drag-and-drop/drag-carrier.component.js';
-import _DragController from './components/drag-and-drop/drag-controller.component.js';
 import _Badge from './components/extras/badge.component.js';
 import _Badge$styles from './components/extras/badge.styles.js';
 import _Calendar from './components/extras/calendar.component.js';
@@ -89,7 +88,6 @@ export const Footer = Electrum.wrap ('Footer', _Footer, {styles: _Footer$styles}
 export const Ticket = Electrum.wrap ('Ticket', _Ticket, {styles: _Ticket$styles});
 export const DragCab = Electrum.wrap ('DragCab', _DragCab);
 export const DragCarrier = Electrum.wrap ('DragCarrier', _DragCarrier);
-export const DragController = Electrum.wrap ('DragController', _DragController);
 export const Badge = Electrum.wrap ('Badge', _Badge, {styles: _Badge$styles});
 export const Calendar = Electrum.wrap ('Calendar', _Calendar, {styles: _Calendar$styles});
 export const Clock = Electrum.wrap ('Clock', _Clock, {styles: _Clock$styles});
