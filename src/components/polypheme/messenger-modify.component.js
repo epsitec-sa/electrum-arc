@@ -27,7 +27,7 @@ export default class MessengerModify extends React.Component {
   }
 
   renderFields (roadbook) {
-    console.log ('MessengerModify.renderFields');
+    // console.log ('MessengerModify.renderFields');
     return (
       <Container kind='panes' {...this.link ()} >
         <Label glyph={roadbook.Messenger.Photo.Glyph} text={roadbook.Messenger.Name}

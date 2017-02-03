@@ -42,7 +42,7 @@ export default class Combo extends React.Component {
   }
 
   componentWillMount () {
-    console.log ('Combo.componentWillMount');
+    // console.log ('Combo.componentWillMount');
     MouseTrap.bind ('esc',   () => this.closeCombo ());
     MouseTrap.bind ('up',    () => this.prevIndex ());
     MouseTrap.bind ('down',  () => this.nextIndex ());
@@ -50,7 +50,7 @@ export default class Combo extends React.Component {
   }
 
   componentWillUnmount () {
-    console.log ('Combo.componentWillUnmount');
+    // console.log ('Combo.componentWillUnmount');
     MouseTrap.unbind ('esc');
     MouseTrap.unbind ('up');
     MouseTrap.unbind ('down');
@@ -77,7 +77,7 @@ export default class Combo extends React.Component {
       }
     }
     this.setFocusedIndex (index);
-    console.log ('Combo.nextIndex index=' + index);
+    // console.log ('Combo.nextIndex index=' + index);
   }
 
   prevIndex () {
@@ -93,7 +93,7 @@ export default class Combo extends React.Component {
       }
     }
     this.setFocusedIndex (index);
-    console.log ('Combo.prevIndex index=' + index);
+    // console.log ('Combo.prevIndex index=' + index);
   }
 
   enterAction () {
@@ -113,7 +113,7 @@ export default class Combo extends React.Component {
   }
 
   mouseDown (event) {
-    console.log ('Combo.mouseDown');
+    // console.log ('Combo.mouseDown');
     const node = ReactDOM.findDOMNode (this);
     const rect = node.children[0].getBoundingClientRect ();
     if (!isInside (rect, event.clientX, event.clientY)) {

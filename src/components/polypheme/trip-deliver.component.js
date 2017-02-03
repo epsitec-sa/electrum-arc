@@ -37,7 +37,7 @@ export default class TripDeliver extends React.Component {
   }
 
   componentWillMount () {
-    console.log ('TripDeliver.componentWillMount');
+    // console.log ('TripDeliver.componentWillMount');
     const ticket = this.read ('ticket');
     const trip = this.getTrip (ticket);
     this.setRealisedTime (Converters.getDisplayedTime (trip.RealisedTime, true));
