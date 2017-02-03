@@ -615,6 +615,7 @@ function swapTicketSelected (state, id, shiftKey) {
     }
   }
   setMiscs (state, flashes, warnings);
+  updateUI ();
   return state;
 }
 
@@ -631,6 +632,7 @@ function swapTicketExtended (state, id) {
     flashes.push (result.tickets[result.index].id);
   }
   setMiscs (state, flashes, warnings);
+  updateUI ();
   return state;
 }
 
