@@ -109,10 +109,10 @@ export default class Trip extends React.Component {
         } else if (ticket.Status === 'delivered') {  // delivered -> pre-dispatched ?
           this.showPredispatch ();  // request confirmation...
         } else {
-          this.reduce ('SWAP_TICKET_STATUS');  // change directly without dialog
+          this.reduce ('CYCLE_TICKET_STATUS');  // change directly without dialog
         }
       } else {
-        this.reduce ('SWAP_TICKET_STATUS');
+        this.reduce ('CYCLE_TICKET_STATUS');
       }
     }
   }

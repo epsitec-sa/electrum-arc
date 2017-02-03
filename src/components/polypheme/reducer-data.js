@@ -700,7 +700,7 @@ function setBothStatus (state, flashes, ticket, currentStatus, newStatus, date, 
   }
 }
 
-function swapTicketStatus (state, id) {
+function cycleTicketStatus (state, id) {
   if (window.document.mock) {
     const flashes = [];
     const warnings = [];
@@ -720,7 +720,7 @@ function swapTicketStatus (state, id) {
     setMiscs (state, flashes, warnings);
   } else {
     electrumDispatch (state, {
-      type: 'swapTicketStatus',
+      type: 'cycleTicketStatus',
       id:   id,
     });
   }
@@ -813,8 +813,8 @@ function reducer (state = {}, action = {}) {
     case 'SWAP_TICKET_EXTENDED':
       state = swapTicketExtended (state, action.id);
       break;
-    case 'SWAP_TICKET_STATUS':
-      state = swapTicketStatus (state, action.id);
+    case 'CYCLE_TICKET_STATUS':
+      state = cycleTicketStatus (state, action.id);
       break;
     case 'CHANGE_TICKET_STATUS':
       state = changeTicketStatus (state, action.id, action.value, action.date, action.time);
