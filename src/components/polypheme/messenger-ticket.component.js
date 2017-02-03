@@ -73,20 +73,20 @@ export default class MessengerTicket extends React.Component {
     this.setHover (false);
   }
 
-  mouseDown (event) {
+  mouseDown (e) {
     // console.log ('MessengerTicket.mouseDown');
     if (this.getShowCombo () || this.getShowModify ()) {
       return true;
     }
-    // if (event.button === 2)  // right-click ?
-    if (event.button === 2 || (event.ctrlKey && event.shiftKey)) {  // right-click ?
-      this.showCombo (event.clientX, event.clientY);
+    // if (e.button === 2)  // right-click ?
+    if (e.button === 2 || (e.ctrlKey && e.shiftKey)) {  // right-click ?
+      this.showCombo (e.clientX, e.clientY);
       return true;
     }
     return false;
   }
 
-  mouseUp (event) {
+  mouseUp (e) {
     // console.log ('MessengerTicket.mouseUp');
     if (this.getShowCombo () || this.getShowModify ()) {
       return true;
@@ -194,8 +194,8 @@ export default class MessengerTicket extends React.Component {
         cursor           = 'ew-resize'
         mouse-over       = {() => this.mouseOver ()}
         mouse-out        = {() => this.mouseOut ()}
-        mouse-down       = {event => this.mouseDown (event)}
-        mouse-up         = {event => this.mouseUp (event)}
+        mouse-down       = {e => this.mouseDown (e)}
+        mouse-up         = {e => this.mouseUp (e)}
         {...this.link ()} >
         <Container kind='column' grow='2' {...this.link ()} >
           <Button glyph={photo} kind='identity' {...this.link ()} />
@@ -239,8 +239,8 @@ export default class MessengerTicket extends React.Component {
           cursor     = 'ew-resize'
           mouse-over = {() => this.mouseOver ()}
           mouse-out  = {() => this.mouseOut ()}
-          mouse-down = {event => this.mouseDown (event)}
-          mouse-up   = {event => this.mouseUp (event)}
+          mouse-down = {e => this.mouseDown (e)}
+          mouse-up   = {e => this.mouseUp (e)}
           {...this.link ()} >
           <Container kind='column' grow='1' {...this.link ()} >
             <Label text={this.getCompactedName (roadbook)} text-color='#fff' {...this.link ()} />

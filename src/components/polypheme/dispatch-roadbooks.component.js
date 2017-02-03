@@ -45,8 +45,8 @@ export default class DispatchRoadbooks extends React.Component {
     });
   }
 
-  doClickAction (roadbook, event) {
-    if (event.altKey) {  // compected/extended ?
+  doClickAction (roadbook, e) {
+    if (e.altKey) {  // compected/extended ?
       this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.id);
     }
   }
@@ -113,7 +113,7 @@ export default class DispatchRoadbooks extends React.Component {
         over-spacing    = {this.props.theme.shapes.viewSpacing}
         radius          = '0px'
         data            = {data}
-        do-click-action = {(event) => this.doClickAction (roadbook, event)}
+        do-click-action = {e => this.doClickAction (roadbook, e)}
         item-id         = {roadbook.id}
         {...this.link ()}>
         <Roadbook

@@ -85,20 +85,20 @@ export default class DragCab extends React.Component {
     }
   }
 
-  mouseDown (event) {
+  mouseDown (e) {
     // console.log ('DragCab.mouseDown');
     if (this.hasCombo) {  // does a child have an open combo-menu ?
       return;
     }
     const mouseDown = this.read ('mouse-down');
-    if (mouseDown && mouseDown (event)) {
+    if (mouseDown && mouseDown (e)) {
       return;
     }
     const noDrag = this.read ('no-drag');
     if (noDrag === 'true') {
       return;  // if drag prohibited, don't initiate drag & drop ?
     }
-    const dc = findDragController (event.clientX, event.clientY);
+    const dc = findDragController (e.clientX, e.clientY);
     if (!dc || dc !== this.props['drag-controller']) {
       // When clicking in a ticket of a messenger, 2 different drags try to start.
       // The first to move the ticket (drag-controller = 'ticket') and the second
@@ -112,34 +112,34 @@ export default class DragCab extends React.Component {
     this.setDragInProcess (true);
   }
 
-  mouseUp (event) {
+  mouseUp (e) {
     // console.log ('DragCab.mouseUp');
     if (this.hasCombo) {  // does a child have an open combo-menu ?
       return;
     }
     const mouseUp = this.read ('mouse-up');
-    if (mouseUp && mouseUp (event)) {
+    if (mouseUp && mouseUp (e)) {
       return;
     }
     const noDrag = this.read ('no-drag');
     if (noDrag === 'true') {  // simple click when drag prohibited ?
-      this.doClickAction (event);
+      this.doClickAction (e);
     }
   }
 
-  dragEnding (event, isDragDoing) {
+  dragEnding (e, isDragDoing) {
     // console.log ('DragCab.dragEnding');
     this.setDragInProcess (false);
     this.setDragStarting (false);
     if (!isDragDoing) {  // simple click done ?
-      this.doClickAction (event);
+      this.doClickAction (e);
     }
   }
 
-  doClickAction (event) {
+  doClickAction (e) {
     const action = this.read ('do-click-action');
     if (action) {
-      action (event);
+      action (e);
     }
   }
 
@@ -203,10 +203,10 @@ export default class DragCab extends React.Component {
         style                 = {boxStyle}
         data-id               = {id}
         data-vertical-spacing = {verticalSpacing}
-        onMouseDown           = {event => this.mouseDown (event)}
-        onMouseUp             = {event => this.mouseUp (event)}
-        onTouchStart          = {event => this.mouseDown (event)}
-        onTouchEnd            = {event => this.mouseUp (event)}
+        onMouseDown           = {e => this.mouseDown (e)}
+        onMouseUp             = {e => this.mouseUp (e)}
+        onTouchStart          = {e => this.mouseDown (e)}
+        onTouchEnd            = {e => this.mouseUp (e)}
         >
         {this.renderChildren (isDragged, dragStarting)}
         {htmlDragCarrier}

@@ -18,7 +18,7 @@ export default class DialogModal extends React.Component {
     };
   }
 
-  mouseDown (event) {
+  mouseDown (e) {
   }
 
   render () {
@@ -29,7 +29,7 @@ export default class DialogModal extends React.Component {
     const comboStyle      = this.mergeStyles ('combo');
 
     return (
-      <div style = {fullScreenStyle} onMouseDown = {(event) => this.mouseDown (event)}>
+      <div style = {fullScreenStyle} onMouseDown = {e => this.mouseDown (e)}>
         <div style = {comboStyle}>
           <Container
             kind   = 'floating'

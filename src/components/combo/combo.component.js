@@ -112,11 +112,11 @@ export default class Combo extends React.Component {
     }
   }
 
-  mouseDown (event) {
+  mouseDown (e) {
     // console.log ('Combo.mouseDown');
     const node = ReactDOM.findDOMNode (this);
     const rect = node.children[0].getBoundingClientRect ();
-    if (!isInside (rect, event.clientX, event.clientY)) {
+    if (!isInside (rect, e.clientX, e.clientY)) {
       // If the mouse is outside the menu combo, close it.
       this.closeCombo ();
     }
@@ -170,8 +170,8 @@ export default class Combo extends React.Component {
     return (
       <div
         style        = {fullScreenStyle}
-        onMouseDown  = {(event) => this.mouseDown (event)}
-        onTouchStart = {(event) => this.mouseDown (event)}
+        onMouseDown  = {e => this.mouseDown (e)}
+        onTouchStart = {e => this.mouseDown (e)}
         >
         <div style = {comboStyle}>
           <Container

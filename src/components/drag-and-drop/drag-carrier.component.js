@@ -441,12 +441,12 @@ export default class DragCarrier extends React.Component {
     }
   }
 
-  mouseMove (event) {
-    let x = event.clientX;
-    let y = event.clientY;
-    if (!x && event.touches.length > 0) {
-      x = event.touches[0].clientX;
-      y = event.touches[0].clientY;
+  mouseMove (e) {
+    let x = e.clientX;
+    let y = e.clientY;
+    if (!x && e.touches.length > 0) {
+      x = e.touches[0].clientX;
+      y = e.touches[0].clientY;
     }
     if (!x || !y) {
       return;
@@ -487,11 +487,11 @@ export default class DragCarrier extends React.Component {
     }
   }
 
-  mouseUp (event) {
+  mouseUp (e) {
     // console.log ('DragCarrier.mouseUp');
     const dragEnding = this.read ('drag-ending');
     if (dragEnding) {
-      dragEnding (event, this.isDragStarted ());
+      dragEnding (e, this.isDragStarted ());
       this.selectMulti (false);
       const dest = this.getDest ();
       if (dest) {
@@ -619,10 +619,10 @@ export default class DragCarrier extends React.Component {
 
     return (
       <div style = {fullScreenStyle}
-        onMouseMove = {event => this.mouseMove (event)}
-        onMouseUp   = {event => this.mouseUp (event)}
-        onTouchMove = {event => this.mouseMove (event)}
-        onTouchEnd  = {event => this.mouseUp (event)}
+        onMouseMove = {e => this.mouseMove (e)}
+        onMouseUp   = {e => this.mouseUp (e)}
+        onTouchMove = {e => this.mouseMove (e)}
+        onTouchEnd  = {e => this.mouseUp (e)}
         >
         <div style = {hilitedStyle} />
         <div style = {draggedStyle}>

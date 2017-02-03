@@ -75,20 +75,20 @@ export default class Trip extends React.Component {
     this.setShowCombo (true);
   }
 
-  mouseDown (event) {
+  mouseDown (e) {
     // console.log ('Trip.mouseDown');
     if (this.getShowSomethink ()) {
       return true;
     }
-    // if (event.button === 2)  // right-click ?
-    if (event.button === 2 || (event.ctrlKey && event.shiftKey)) {
-      this.showCombo (event.clientX, event.clientY);
+    // if (e.button === 2)  // right-click ?
+    if (e.button === 2 || (e.ctrlKey && e.shiftKey)) {
+      this.showCombo (e.clientX, e.clientY);
       return true;
     }
     return false;
   }
 
-  mouseUp (event) {
+  mouseUp (e) {
     // console.log ('Trip.mouseUp');
     if (this.getShowSomethink ()) {
       return true;
@@ -96,10 +96,10 @@ export default class Trip extends React.Component {
     return false;
   }
 
-  doClickAction (event) {
-    if (event.ctrlKey || event.shiftKey || event.metaKey) {  // select/deselect ?
-      this.reduce ('SWAP_TICKET_SELECTED', event.shiftKey);
-    } else if (event.altKey) {  // compected/extended ?
+  doClickAction (e) {
+    if (e.ctrlKey || e.shiftKey || e.metaKey) {  // select/deselect ?
+      this.reduce ('SWAP_TICKET_SELECTED', e.shiftKey);
+    } else if (e.altKey) {  // compected/extended ?
       this.reduce ('SWAP_TICKET_EXTENDED');
     } else {  // pre-dispatched/dispatched/delivered ?
       if (window.document.mock) {
@@ -259,9 +259,9 @@ export default class Trip extends React.Component {
         item-id         = {ticket.id}
         no-drag         = {noDrag}
         margin-bottom   = {margin}
-        mouse-down      = {event => this.mouseDown (event)}
-        mouse-up        = {event => this.mouseUp (event)}
-        do-click-action = {(event) => this.doClickAction (event)}
+        mouse-down      = {e => this.mouseDown (e)}
+        mouse-up        = {e => this.mouseUp (e)}
+        do-click-action = {(e) => this.doClickAction (e)}
         {...this.link ()}>
         {content ()}
         {this.renderCombo (data)}
@@ -303,9 +303,9 @@ export default class Trip extends React.Component {
         item-id          = {ticket.id}
         no-drag          = {noDrag}
         vertical-spacing = {verticalSpacing}
-        mouse-down       = {event => this.mouseDown (event)}
-        mouse-up         = {event => this.mouseUp (event)}
-        do-click-action  = {(event) => this.doClickAction (event)}
+        mouse-down       = {e => this.mouseDown (e)}
+        mouse-up         = {e => this.mouseUp (e)}
+        do-click-action  = {(e) => this.doClickAction (e)}
         {...this.link ()} >
         <TripTicket
           kind             = {kind}
