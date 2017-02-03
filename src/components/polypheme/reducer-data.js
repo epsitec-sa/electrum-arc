@@ -1,7 +1,6 @@
 'use strict';
 
 import Electrum from 'electrum';
-import ReactDOM from 'react-dom';
 import Enumerable from 'linq';
 import ReducerTickets from './reducer-tickets.js';
 import Converters from './converters';
@@ -748,27 +747,6 @@ function changeTicketStatus (state, id, newStatus, date, time) {
   return state;
 }
 
-function titi (roadbook) {
-  for (var r of window.document.roadbooks) {
-    const rr = r.read ('roadbook');
-    if (rr.id === roadbook.id) {
-      return r;
-    }
-  }
-  return null;
-}
-
-function toto (roadbook) {
-  console.log ('toto');
-  // const node = ReactDOM.findDOMNode (roadbook);
-  const r = titi (roadbook);
-  r.setGen (r.getGen () + 1);
-  if (!roadbook.gen) {
-    roadbook.gen = 0;
-  }
-  roadbook.gen++;
-}
-
 function swapRoadbookCompacted (state, id) {
   const result = deepSearchFromId (state, id);
   if (result.kind !== 'roadbooks') {
@@ -777,9 +755,8 @@ function swapRoadbookCompacted (state, id) {
   const roadbook = result.tickets[result.index];
   const x = StateManager.isMessengerCompacted (roadbook.id);
   StateManager.putMessengerCompacted (roadbook.id, !x);
-  toto (roadbook);
   result.tickets[result.index] = regen (state, roadbook);
-  // updateUI ();
+  updateUI ();
   return state;
 }
 

@@ -9,33 +9,6 @@ export default class Roadbook extends React.Component {
 
   constructor (props) {
     super (props);
-    this.state = {
-      gen: 0,
-    };
-  }
-
-  getGen () {
-    return this.state.gen;
-  }
-
-  setGen (value) {
-    this.setState ( {
-      gen: value
-    });
-  }
-
-  componentDidMount () {
-    if (!window.document.roadbooks) {
-      window.document.roadbooks = [];
-    }
-    window.document.roadbooks.push (this);
-  }
-
-  componentWillUnmount () {
-    const index = window.document.roadbooks.indexOf (this);
-    if (index !== -1) {
-      window.document.roadbooks.splice (index, 1);
-    }
   }
 
   get styleProps () {
@@ -60,7 +33,6 @@ export default class Roadbook extends React.Component {
 
     return (
       <div style = {compacted ? compactedBoxStyle : extendedBoxStyle}>
-        {roadbook.gen} toto {this.getGen ()}
         {children}
       </div>
     );
