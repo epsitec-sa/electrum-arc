@@ -718,6 +718,7 @@ function cycleTicketStatus (state, id) {
       setBothStatus (state, flashes, result.ticket, currentStatus, newStatus);
     }
     setMiscs (state, flashes, warnings);
+    updateUI ();
   } else {
     electrumDispatch (state, {
       type: 'cycleTicketStatus',
@@ -737,6 +738,7 @@ function changeTicketStatus (state, id, newStatus, date, time) {
       setBothStatus (state, flashes, result.ticket, currentStatus, newStatus, date, time);
     }
     setMiscs (state, flashes, warnings);
+    updateUI ();
   } else {
     electrumDispatch (state, {
       type:   'changeTicketStatus',
