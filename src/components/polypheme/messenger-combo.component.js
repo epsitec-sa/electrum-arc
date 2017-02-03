@@ -3,7 +3,6 @@
 import React from 'react';
 import {Combo} from '../../all-components.js';
 import ReducerData from '../polypheme/reducer-data.js';
-import StateManager from './state-manager.js';
 
 /******************************************************************************/
 
@@ -69,9 +68,10 @@ export default class MessengerCombo extends React.Component {
   }
 
   swapCompactedAndShift () {
-    const data     = this.read ('data');
-    const roadbook = this.read ('roadbook');
-    if (StateManager.isMessengerCompacted (roadbook.id)) {
+    const data      = this.read ('data');
+    const roadbook  = this.read ('roadbook');
+    const compacted = ReducerData.ask (data, {type: 'IS_MESSENGER_COMPACTED', id: roadbook.id});
+    if (compacted) {
       this.shift (data, roadbook, data.Roadbooks[0].id);  // shift |<-
     } else {
       this.shift (data, roadbook, null);  // shift ->|
@@ -97,10 +97,10 @@ export default class MessengerCombo extends React.Component {
 
   // Return the combo-menu content.
   getList () {
-    const data     = this.read ('data');
-    const roadbook = this.read ('roadbook');
-    const compacted  = StateManager.isMessengerCompacted (roadbook.id);
-    const showHidden = StateManager.isMessengerShowHidden (roadbook.id);
+    const data       = this.read ('data');
+    const roadbook   = this.read ('roadbook');
+    const compacted  = ReducerData.ask (data, {type: 'IS_MESSENGER_COMPACTED',  id: roadbook.id});
+    const showHidden = ReducerData.ask (data, {type: 'IS_MESSENGER_SHOWHIDDEN', id: roadbook.id});
     const list = [];
     list.push (
       {

@@ -843,6 +843,23 @@ function reducer (state = {}, action = {}) {
   return state;
 }
 
+function ask (state = {}, action = {}) {
+  switch (action.type) {
+    case 'IS_MESSENGER_SHOWHIDDEN':
+      return StateManager.isMessengerShowHidden (action.id);
+
+    case 'IS_MESSENGER_COMPACTED':
+      return StateManager.isMessengerCompacted (action.id);
+
+    case 'IS_TICKET_SELECTED':
+      return StateManager.isTicketSelected (action.id);
+
+    case 'IS_TICKET_EXTENDED':
+      return StateManager.isTicketExtended (action.id);
+  }
+  return null;
+}
+
 // ------------------------------------------------------------------------------------------
 
-module.exports = {reducer};
+module.exports = {reducer, ask};

@@ -2,7 +2,6 @@
 
 import React from 'react';
 import ReducerData from './reducer-data.js';
-import StateManager from './state-manager.js';
 
 import {
   Container,
@@ -75,7 +74,7 @@ export default class DispatchRoadbooks extends React.Component {
 
   renderTickets (roadbook, data) {
     const result = [];
-    const showHidden = StateManager.isMessengerShowHidden (roadbook.id);
+    const showHidden = ReducerData.ask (data, {type: 'IS_MESSENGER_SHOWHIDDEN', id: roadbook.id});
     let index = 0;
     for (var ticket of roadbook.Tickets) {
       if (showHidden || ticket.Status !== 'delivered') {
@@ -86,7 +85,8 @@ export default class DispatchRoadbooks extends React.Component {
   }
 
   renderTicketsContainer (roadbook, data) {
-    if (StateManager.isMessengerCompacted (roadbook.id)) {
+    const compacted = ReducerData.ask (data, {type: 'IS_MESSENGER_COMPACTED', id: roadbook.id});
+    if (compacted) {
       return null;
     } else {
       return (

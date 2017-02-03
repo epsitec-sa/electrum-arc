@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import StateManager from './state-manager.js';
+import ReducerData from './reducer-data.js';
 
 /******************************************************************************/
 
@@ -19,6 +19,7 @@ export default class Roadbook extends React.Component {
   }
 
   render () {
+    const data      = this.read ('data');
     const roadbook  = this.read ('roadbook');
     const hasHeLeft = this.read ('hasHeLeft');
     const isDragged = this.read ('isDragged');
@@ -26,7 +27,7 @@ export default class Roadbook extends React.Component {
     const extendedBoxStyle  = this.mergeStyles ('extendedBox');
     const compactedBoxStyle = this.mergeStyles ('compactedBox');
 
-    const compacted = StateManager.isMessengerCompacted (roadbook.id);
+    const compacted = ReducerData.ask (data, {type: 'IS_MESSENGER_COMPACTED', id: roadbook.id});
 
     // When dragging, show a source component empty.
     const children = (hasHeLeft && !isDragged) ? null : this.props.children;

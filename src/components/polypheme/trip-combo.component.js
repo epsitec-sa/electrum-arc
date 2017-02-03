@@ -3,7 +3,6 @@
 import React from 'react';
 import {Combo} from '../../all-components.js';
 import ReducerData from '../polypheme/reducer-data.js';
-import StateManager from './state-manager.js';
 
 /******************************************************************************/
 
@@ -116,10 +115,11 @@ export default class TripCombo extends React.Component {
 
   // Return the combo-menu content.
   getList () {
-    const ticket = this.read ('ticket');
-    const source = this.read ('source');
-    const selected = StateManager.isTicketSelected (ticket.id);
-    const extended = StateManager.isTicketExtended (ticket.id);
+    const data     = this.read ('data');
+    const ticket   = this.read ('ticket');
+    const source   = this.read ('source');
+    const selected = ReducerData.ask (data, {type: 'IS_TICKET_SELECTED', id: ticket.id});
+    const extended = ReducerData.ask (data, {type: 'IS_TICKET_EXTENDED', id: ticket.id});
     const list = [];
     list.push (
       {

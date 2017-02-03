@@ -4,7 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Unit} from 'electrum-theme';
 import ReducerData from '../polypheme/reducer-data.js';
-import StateManager from '../polypheme/state-manager.js';
 
 import {
   Container,
@@ -422,15 +421,20 @@ export default class DragCarrier extends React.Component {
     }
   }
 
+  isSelected (data, id) {
+    return ReducerData.ask (data, {type: 'IS_TICKET_SELECTED', id: id});
+  }
+
   selectMulti (value) {
     // console.log ('DragCarrier.selectMulti');
     if (this.rectOrigin) {
+      const data = this.read ('data');
       const origin = this.searchChildren (this.rectOrigin.id);
-      if (origin && origin.props.ticket && StateManager.isTicketSelected (origin.props.ticket.id)) {
+      if (origin && origin.props.ticket && this.isSelected (data, origin.props.ticket.id)) {
         // Drag all selected items.
         const container = this.rectOrigin.container;
         for (let child of container.props.children) {
-          if (StateManager.isTicketSelected (child.props.ticket.id)) {
+          if (this.isSelected (data, child.props.ticket.id)) {
             this.selectOne (child.props.ticket.id, value);
           }
         }
@@ -507,7 +511,6 @@ export default class DragCarrier extends React.Component {
   // toId      -> id before which it is necessary to insert. If it was null, insert after the last item.
   // toOwnerId -> owner where it is necessary to insert. Useful when toId is null.
   reduce (toId, ownerId, ownerKind) {
-    // console.log ('reduce >>>>>>>>>>>>>>>>>>>>');
     const data = this.read ('data');
 
     // Inject electrum state (needed for electrumDispatch).

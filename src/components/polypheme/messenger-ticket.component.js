@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import {Ticket, Container, Label, Button, MessengerModify, MessengerCombo} from '../../all-components.js';
 import ComboHelpers from '../combo/combo-helpers.js';
 import {ColorManipulator} from 'electrum';
-import StateManager from './state-manager.js';
+import ReducerData from './reducer-data.js';
 
 /******************************************************************************/
 
@@ -148,8 +148,9 @@ export default class MessengerTicket extends React.Component {
     }
   }
 
-  renderMode (roadbook) {
-    if (StateManager.isMessengerShowHidden (roadbook.id)) {
+  renderMode (data, roadbook) {
+    const showHidden = ReducerData.ask (data, {type: 'IS_MESSENGER_SHOWHIDDEN', id: roadbook.id});
+    if (showHidden) {
       return (
         <Container kind='ticket-mode' grow='1' {...this.link ()} >
           <Label glyph='eye' glyph-size='150%' {...this.link ()} />
@@ -207,7 +208,7 @@ export default class MessengerTicket extends React.Component {
           <Label text={name} text-color='#fff' {...this.link ()} />
           <Label text={roadbook.Revenue} font-weight='bold' text-color='#fff' {...this.link ()} />
         </Container>
-        {this.renderMode (roadbook)}
+        {this.renderMode (data, roadbook)}
         {this.renderCombo (data)}
         {this.renderModify (data)}
       </Ticket>
@@ -253,8 +254,10 @@ export default class MessengerTicket extends React.Component {
   }
 
   render () {
-    const roadbook = this.read ('roadbook');
-    if (StateManager.isMessengerCompacted (roadbook.id)) {
+    const data      = this.read ('data');
+    const roadbook  = this.read ('roadbook');
+    const compacted = ReducerData.ask (data, {type: 'IS_MESSENGER_COMPACTED', id: roadbook.id});
+    if (compacted) {
       return this.renderCompacted ();
     } else {
       return this.renderExtended ();

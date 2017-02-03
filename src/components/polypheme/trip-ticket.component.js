@@ -7,8 +7,8 @@ import {ColorManipulator} from 'electrum';
 import {ColorHelpers} from 'electrum-theme';
 import {Unit} from 'electrum-theme';
 import Converters from './converters';
-import StateManager from './state-manager.js';
 import TicketHelpers from './ticket-helpers.js';
+import ReducerData from '../polypheme/reducer-data.js';
 
 /******************************************************************************/
 
@@ -68,7 +68,8 @@ export default class TripTicket extends React.Component {
   // If the ticket is selected, displays a large "v" on a blue background.
   getHudGlyph (data, ticket) {
     if (!this.props.hasHeLeft || this.props.isDragged) {
-      return (StateManager.isTicketSelected (ticket.id)) ? 'check' : null;
+      const selected = ReducerData.ask (data, {type: 'IS_TICKET_SELECTED', id: ticket.id});
+      return selected ? 'check' : null;
     }
     return null;
   }
@@ -380,7 +381,7 @@ export default class TripTicket extends React.Component {
     const trip     = ticket.Type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
     const cursor   = (noDrag === 'true') ? 'default' : 'move';
     const hatch    = (ticket.Status === 'dispatched' || ticket.Status === 'delivered') ? 'true' : 'false';
-    const extended = StateManager.isTicketExtended (ticket.id);
+    const extended = ReducerData.ask (data, {type: 'IS_TICKET_EXTENDED', id: ticket.id});
     let kind, width, height;
     if (parentKind === 'trip-box') {
       kind   = 'thin';
