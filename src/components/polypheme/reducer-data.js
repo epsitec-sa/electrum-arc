@@ -458,27 +458,23 @@ function selectZone (state, flashes, result, fromIndex, toIndex, value) {
 function deleteMission (state, missionId) {
   Enumerable
     .from (state.Roadbooks)
-    .forEach (
-      roadbook => Enumerable
-        .from (roadbook.Tickets)
-        .where (ticket => ticket.Trip.MissionId === missionId)
-        .toArray ()
-        .forEach (ticket => deleteTicket (state, roadbook.Tickets, ticket)
-      )
+    .forEach (roadbook => Enumerable
+      .from (roadbook.Tickets)
+      .where (ticket => ticket.Trip.MissionId === missionId)
+      .toArray ()
+      .forEach (ticket => deleteTicket (state, roadbook.Tickets, ticket))
     );
   Enumerable
     .from (state.Desk)
-    .forEach (
-      roadbook => Enumerable
-        .from (roadbook.Tickets)
-        .where (ticket => ticket.Trip.MissionId === missionId)
-        .toArray ()
-        .forEach (ticket => deleteTicket (state, roadbook.Tickets, ticket)
-      )
+    .forEach (roadbook => Enumerable
+      .from (roadbook.Tickets)
+      .where (ticket => ticket.Trip.MissionId === missionId)
+      .toArray ()
+      .forEach (ticket => deleteTicket (state, roadbook.Tickets, ticket))
     );
 }
 
-function changeGeneric (state, flashes, warnings, from, to) {
+function dropGeneric (state, flashes, warnings, from, to) {
   const ticket = from.ticket;
   if ((to.kind === 'backlog' || to.kind === 'tray') && ticket.Type.endsWith ('-transit')) {
     // Transit ticket does not move into backlog or desk.
@@ -534,7 +530,7 @@ function initialise (state) {
 // toId      -> id before which it is necessary to insert. If it was null, insert after the last item.
 // toOwnerId -> owner where it is necessary to insert. Useful when toId is null.
 function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
-  // console.log ('Reducer.drop');
+  console.log ('Reducer.drop');
   if (window.document.mock) {
     const flashes = [];
     const warnings = [];
@@ -545,7 +541,7 @@ function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
     Enumerable.from (fromIds).reverse ().forEach (fromId => {
       const from = deepSearchFromId (state, fromId);
       if (from) {
-        changeGeneric (state, flashes, warnings, from, to);
+        dropGeneric (state, flashes, warnings, from, to);
       }
     });
     if (to.kind === 'roadbook' || to.kind === 'tray') {
@@ -559,10 +555,14 @@ function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
     updateShapes (state);
     updateUI ();
   } else {
-    Enumerable.from (fromIds).forEach (id => {
-      const result = deepSearchFromId (state, id);
-      result.ticket.Selection = 'false';
+    Enumerable.from (fromIds).forEach (fromId => {
+      const from = deepSearchFromId (state, fromId);
+      if (from) {
+        from.ticket.Selection = 'false';
+        deleteTicket (state, from.tickets, from.ticket);
+      }
     });
+    updateUI ();
     electrumDispatch (state, {
       type:         'drop',
       itemKind:     fromKind,
