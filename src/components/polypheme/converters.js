@@ -36,6 +36,21 @@ function padding (value, decimals) {
   }
 }
 
+// With '2017-03-31', return {year: 2017, month: 03, day: 31}.
+function splitDate (date) {
+  if (!date || date.length !== 10 || date[4] !== '-' || date[7] !== '-') {
+    throw new Error (`Bad formated date '${date}' (must be 'yyyy-mm-dd')`);
+  }
+  let year  = date.substring (0, 4);
+  let month = date.substring (5, 7);
+  let day   = date.substring (8, 10);
+  return {
+    year:  year,
+    month: month,
+    day:   day,
+  };
+}
+
 // With '12:34:56', return {hour: 12, minute: 34, second: 56}.
 function splitTime (time) {
   if (!time || time.length !== 8 || time[2] !== ':' || time[5] !== ':') {
@@ -62,6 +77,13 @@ function getNow () {
     minute: now.getMinutes (),
     second: now.getSeconds (),
   };
+}
+
+// With {year: 2017, month: 03, day: 31}, return '2017-03-31'.
+function joinDate (date) {
+  return padding (date.year,  4) + '-' +
+         padding (date.month, 2) + '-' +
+         padding (date.day,   2);
 }
 
 // With {hour: 12, minute: 34, second: 56}, return '12:34:56'.

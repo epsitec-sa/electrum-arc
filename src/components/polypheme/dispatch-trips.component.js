@@ -62,7 +62,7 @@ export default class DispatchTrips extends React.Component {
     if (data) {
       data = JSON.parse (data);
     } else {
-      data = window.document.data;
+      data = window.document.dataDispatch;
     }
     this.initialise (data);
 
