@@ -3,6 +3,7 @@
 import React from 'react';
 import {Action} from 'electrum';
 import {Button} from 'electrum-arc';
+import Converters from '../polypheme/converters';
 
 /******************************************************************************/
 
@@ -21,43 +22,8 @@ export default class Calendar extends React.Component {
     };
   }
 
-  // TODO: Move to helpers class, or ?
-  // month is zero based (0 = january).
-  getMonthDescription (month) {
-    const array = [
-      'Janvier',
-      'Février',
-      'Mars',
-      'Avril',
-      'Mai',
-      'Juin',
-      'Juillet',
-      'Août',
-      'Septembre',
-      'Octobre',
-      'Novembre',
-      'Décembre',
-    ];
-    return array[month];
-  }
-
-  // TODO: Move to helpers class, or ?
-  // dow is zero based (0 = monday).
-  getDOWDescription (dow) {
-    const array = [
-      'lundi',
-      'mardi',
-      'mercredi',
-      'jeudi',
-      'vendredi',
-      'samedi',
-      'dimanche',
-    ];
-    return array[dow];
-  }
-
   getDOW3Letters (dow) {
-    return this.getDOWDescription (dow).substring (0, 3);
+    return Converters.getDOWDescription (dow).substring (0, 3);
   }
 
   // If the input date is undefine, set to now.
@@ -229,7 +195,7 @@ export default class Calendar extends React.Component {
     const dotw          = new Date (visibleYear, visibleMonth, 1).getDay ();  // 0..6 (0 = Sunday)
     const first         = -((dotw + 5) % 7);
     const firstDate     = new Date (visibleYear, visibleMonth, first);
-    const header        = this.getMonthDescription (visibleMonth) + ' ' + visibleYear;  // 'mai 2016' by example
+    const header        = Converters.getMonthDescription (visibleMonth) + ' ' + visibleYear;  // 'mai 2016' by example
 
     const style = this.mergeStyles ('column');
     return (

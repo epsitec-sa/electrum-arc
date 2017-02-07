@@ -2,11 +2,11 @@
 
 import React from 'react';
 import Enumerable from 'linq';
+import Converters from '../polypheme/converters';
 
 import {
-  Container,
-  Ticket,
-  Label
+  Label,
+  Button
 } from '../../all-components.js';
 
 /******************************************************************************/
@@ -51,37 +51,132 @@ export default class Events extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      range:    'week',
+      fromDate: null,
+    };
+  }
+
+  getRange () {
+    return this.state.range;
+  }
+
+  setRange (value) {
+    this.setState ( {
+      range: value
+    });
+  }
+
+  getFromDate () {
+    return this.state.fromDate;
+  }
+
+  setFromDate (value) {
+    this.setState ( {
+      fromDate: value
+    });
   }
 
   getDays (data) {
     const result = new Map ();
     let currentDate = data.FromDate;
+    const toDate = nextDay (data.ToDate);
     let i = 0;
     while (true) {
-      const events = Enumerable.from (data.Events).where (e => e.FromDate === currentDate).select (e => e.Note).toArray ();
+      const events = Enumerable
+        .from (data.Events)
+        .where (e => e.FromDate === currentDate)
+        .toArray ();
       result.set (currentDate, events);
       currentDate = nextDay (currentDate);
-      if (currentDate === data.ToDate || i++ > 100) {
+      if (currentDate === toDate || i++ > 100) {
         break;
       }
     }
     return result;
   }
 
-  renderContent (event) {
+  actionPrev () {
+  }
+
+  actionNext () {
+  }
+
+  actionRange (range) {
+    this.setRange (range);
+  }
+
+  renderHeaderButton (glyph, tooltip, active, action) {
     return (
-      <Label text={event.Content} {...this.link ()} />
+      <Button
+        glyph   = {glyph}
+        tooltip = {tooltip}
+        border  = 'none'
+        active  = {active ? 'true' : 'false'}
+        action  = {() => action ()}
+        {...this.link ()} />
+    );
+  }
+
+  renderHeader (header) {
+    const style     = this.mergeStyles ('header');
+    const textStyle = this.mergeStyles ('headerText');
+
+    const range = this.getRange ();
+
+    return (
+      <div style = {style}>
+        {this.renderHeaderButton ('chevron-left',  null, false, () => this.actionPrev ())}
+        {this.renderHeaderButton ('chevron-right', null, false, () => this.actionNext ())}
+        <div style = {textStyle}>
+          {header}
+        </div>
+        {this.renderHeaderButton ('square-o',   'Jour',    range === 'day',   () => this.actionRange ('day'))}
+        {this.renderHeaderButton ('bars',       'Semaine', range === 'week',  () => this.actionRange ('week'))}
+        {this.renderHeaderButton ('calendar-o', 'Mois',    range === 'month', () => this.actionRange ('month'))}
+        {this.renderHeaderButton ('calendar',   'Année',   range === 'year',  () => this.actionRange ('year'))}
+      </div>
+    );
+  }
+
+  renderTime (time) {
+    return (
+      <Label
+        kind   = 'one-line-height'
+        width  = '50px'
+        vpos   = 'top'
+        text   = {Converters.getDisplayedTime (time)}
+        {...this.link ()} />
+    );
+  }
+
+  renderNote (note) {
+    let glyph = 'caret-right';
+    if (note.Glyphs && note.Glyphs.length > 0) {
+      glyph = note.Glyphs[0].Glyph;
+    }
+    return (
+      <Label
+        vpos  = 'top'
+        glyph = {glyph}
+        text  = {note.Content}
+        {...this.link ()} />
     );
   }
 
   renderEvent (event, index) {
+    const eventBoxStyle     = this.mergeStyles ('eventBox');
+    const eventContentStyle = this.mergeStyles ('eventContent');
+
     return (
-      <Ticket
-        key  = {index}
-        kind = 'rect'
-        {...this.link ()} >
-        {this.renderContent (event)}
-      </Ticket>
+      <div style = {eventBoxStyle} key = {index}>
+        <Button kind='container-start' grow='1' {...this.link ()} >
+          <div style = {eventContentStyle} key = {index}>
+            {this.renderTime (event.FromTime)}
+            {this.renderNote (event.Note)}
+          </div>
+        </Button>
+      </div>
     );
   }
 
@@ -94,36 +189,116 @@ export default class Events extends React.Component {
     return result;
   }
 
-  renderDay (day, index) {
+  renderDOW (date) {
+    const dowTextStyle = this.mergeStyles ('dowText');
+
+    const d = StringToDate (date).getDay ();  // 0..6 (0 = Sunday)
+    const h = Converters.getDOWDescription ((d + 6) % 7).substring (0, 3);
+
     return (
-      <Container
-        kind = 'column'
-        {...this.link ()} >
-        <Label text={day[0]} {...this.link ()} />
-        {this.renderEvents (day[1])}
-      </Container>
+      <div style = {dowTextStyle}>
+        {h}
+      </div>
     );
   }
 
-  renderDays (data) {
+  renderWeekDay (day, index) {
+    const columnStyle = this.mergeStyles ('column');
+
+    return (
+      <div style = {columnStyle} key = {index}>
+        {this.renderDOW (day[0])}
+        {this.renderEvents (day[1])}
+      </div>
+    );
+  }
+
+  renderWeekDays (data) {
     const result = [];
     let index = 0;
     const days = this.getDays (data);
     for (var day of days) {
-      result.push (this.renderDay (day, index++));
+      result.push (this.renderWeekDay (day, index++));
     }
     return result;
   }
 
+  renderDay (data) {
+    const boxStyle = this.mergeStyles ('box');
+    const rowStyle = this.mergeStyles ('row');
+
+    const d = StringToDate (data.FromDate).getDay ();  // 0..6 (0 = Sunday)
+    const h = Converters.getDOWDescription ((d + 6) % 7) + ' ' + Converters.getDisplayedDate (data.FromDate);
+
+    return (
+      <div style = {boxStyle}>
+        {this.renderHeader (h)}
+        <div style = {rowStyle}>
+        </div>
+      </div>
+    );
+  }
+
+  renderWeek (data) {
+    const boxStyle = this.mergeStyles ('box');
+    const rowStyle = this.mergeStyles ('row');
+
+    const f = Converters.getDisplayedDate (data.FromDate);
+    const t = Converters.getDisplayedDate (data.ToDate);
+    const h = f + ' — ' + t;
+
+    return (
+      <div style = {boxStyle}>
+        {this.renderHeader (h)}
+        <div style = {rowStyle}>
+          {this.renderWeekDays (data)}
+        </div>
+      </div>
+    );
+  }
+
+  renderMonth (data) {
+    const boxStyle = this.mergeStyles ('box');
+    const rowStyle = this.mergeStyles ('row');
+
+    const h = Converters.getDisplayedDate (data.FromDate, false, 'My');
+
+    return (
+      <div style = {boxStyle}>
+        {this.renderHeader (h)}
+        <div style = {rowStyle}>
+        </div>
+      </div>
+    );
+  }
+
+  renderYear (data) {
+    const boxStyle = this.mergeStyles ('box');
+    const rowStyle = this.mergeStyles ('row');
+
+    const h = Converters.getDisplayedDate (data.FromDate, false, 'y');
+
+    return (
+      <div style = {boxStyle}>
+        {this.renderHeader (h)}
+        <div style = {rowStyle}>
+        </div>
+      </div>
+    );
+  }
+
   render () {
     const data = this.read ('data');
-    return (
-      <Container
-        kind = 'tickets-messengers'
-        {...this.link ()} >
-        {this.renderDays (data)}
-      </Container>
-    );
+    const range = this.getRange ();
+    if (range === 'day') {
+      return this.renderDay (data);
+    } else if (range === 'week') {
+      return this.renderWeek (data);
+    } else if (range === 'month') {
+      return this.renderMonth (data);
+    } else {
+      return this.renderYear (data);
+    }
   }
 }
 

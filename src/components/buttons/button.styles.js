@@ -487,6 +487,15 @@ export default function styles (theme, props) {
     backgroundColor = null;
   }
 
+  if (inputKind  === 'container-start') {
+    boxHeight         = null;
+    boxJustifyContent = 'flex-start';
+    boxAlignItems     = 'stretch';
+    borderStyle       = 'none';
+    boxPadding        = Unit.multiply (theme.shapes.lineSpacing, 0.5) + ' 0px';
+    backgroundColor   = null;
+  }
+
   if (inputKind  === 'box') {
     boxAlignItems   = 'stretch';
     borderStyle     = 'none';
@@ -500,6 +509,9 @@ export default function styles (theme, props) {
 
   if (!inputKind) {
     borderRadius = theme.shapes.smoothRadius;
+    if (inputActive === 'true') {
+      backgroundColor = theme.palette.boxActiveBackground;
+    }
   }
 
   if (inputShape) {

@@ -23,7 +23,8 @@ export default function styles (theme, props) {
   const inputBottomSpacing = props.bottomSpacing;
   const inputZIndex        = props.zIndex;
 
-  let boxWidth           = null;
+  let boxWidth           = inputWidth;
+  let boxHeight          = null;
   let textHeight         = null;
   let backgroundColor    = null;
   let padding            = null;
@@ -67,10 +68,6 @@ export default function styles (theme, props) {
     glyphMinWidth = null;
   } else {
     margin = '0px 0px ' + bottomMargin + ' 0px';
-  }
-
-  if (inputWidth) {
-    boxWidth = inputWidth;
   }
 
   if (inputKind === 'pane-header') {
@@ -173,6 +170,10 @@ export default function styles (theme, props) {
     margin = '5px 0px 0px 0px';
   }
 
+  if (inputKind === 'one-line-height') {
+    boxHeight = theme.shapes.lineHeight;
+  }
+
   if (inputVpos === 'top') {
     boxAlignSelf = 'flex-start';
   }
@@ -215,6 +216,7 @@ export default function styles (theme, props) {
   const boxStyle = {
     width:           boxWidth,
     minWidth:        boxWidth ? boxWidth : '0px',
+    height:          boxHeight,
     padding:         padding,
     margin:          margin,
     display:         'flex',

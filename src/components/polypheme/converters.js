@@ -1,5 +1,38 @@
 'use strict';
 
+// month is zero based (0 = january).
+function getMonthDescription (month) {
+  const array = [
+    'Janvier',
+    'Février',
+    'Mars',
+    'Avril',
+    'Mai',
+    'Juin',
+    'Juillet',
+    'Août',
+    'Septembre',
+    'Octobre',
+    'Novembre',
+    'Décembre',
+  ];
+  return array[month];
+}
+
+// dow is zero based (0 = monday).
+function getDOWDescription (dow) {
+  const array = [
+    'lundi',
+    'mardi',
+    'mercredi',
+    'jeudi',
+    'vendredi',
+    'samedi',
+    'dimanche',
+  ];
+  return array[dow];
+}
+
 function getEmptyTime () {
   return '00:00:00';
 }
@@ -109,8 +142,29 @@ function parseTime (editedTime) {
   return result;
 }
 
+// With date = '2017-03-31', return '31.03.2017'.
+function getDisplayedDate (date, useNowByDefault, format) {
+  let d;
+  if (date && !isEmptyDate (date)) {
+    d = splitDate (date);
+  } else if (useNowByDefault) {
+    d = getNow ();
+  }
+  if (d) {
+    if (format === 'y') {
+      return padding (d.year, 4);
+    } else if (format === 'My') {
+      return getMonthDescription (d.month - 1) + ' ' + padding (d.year, 4);
+    } else {
+      return padding (d.day, 2) + '.' + padding (d.month, 2) + '.' + padding (d.year, 4);
+    }
+  } else {
+    return null;
+  }
+}
+
 // With time = '12:34:56', return '12:34'.
-function getDisplayedTime (time, useNowByDefault) {
+function getDisplayedTime (time, useNowByDefault, format) {
   let d;
   if (time && !isEmptyTime (time)) {
     d = splitTime (time);
@@ -118,7 +172,11 @@ function getDisplayedTime (time, useNowByDefault) {
     d = getNow ();
   }
   if (d) {
-    return padding (d.hour, 2) + ':' + padding (d.minute, 2);
+    if (format === 'hms') {
+      return padding (d.hour, 2) + ':' + padding (d.minute, 2) + ':' + padding (d.second, 2);
+    } else {
+      return padding (d.hour, 2) + ':' + padding (d.minute, 2);
+    }
   } else {
     return null;
   }
@@ -168,7 +226,9 @@ function checkTime (editedTime) {
 }
 
 module.exports = {
+  getMonthDescription, getDOWDescription,
   getEmptyTime, getEmptyDate,
   isEmptyTime, isEmptyDate,
   getDisplayedTime, getFormatedTime, checkTime,
+  getDisplayedDate,
 };
