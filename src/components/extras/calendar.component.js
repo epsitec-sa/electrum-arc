@@ -78,11 +78,11 @@ export default class Calendar extends React.Component {
   }
 
   // Return the html for a [1]..[31] button.
-  getButton (firstDate, active, nature) {
+  getButton (firstDate, active, nature, index) {
     const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
     return (
       <Button
-        key     = {firstDate}
+        key     = {index}
         text    = {firstDate.getDate ()}  // 1..31
         tooltip = {firstDate.toLocaleDateString ('fr-CH', options)}
         kind    = 'calendar'
@@ -110,7 +110,7 @@ export default class Calendar extends React.Component {
         active = 'true';
       }
       const nature = (i < 5) ? 'default' : 'weekend';
-      const button = this.getButton (firstDate, active, nature);
+      const button = this.getButton (firstDate, active, nature, i);
       line.push (button);
       firstDate = new Date (firstDate.getFullYear (), firstDate.getMonth (), firstDate.getDate () + 1);
     }
@@ -118,10 +118,10 @@ export default class Calendar extends React.Component {
   }
 
   // Return the html for a line of 7 buttons (for a week).
-  getLineOfButtons (firstDate, visibleDate, selectedDate) {
+  getLineOfButtons (firstDate, visibleDate, selectedDate, index) {
     const style = this.mergeStyles ('line');
     return (
-      <div style={style}>
+      <div style={style} key={index}>
         {this.getButtons (firstDate, visibleDate, selectedDate)}
       </div>
     );
@@ -133,7 +133,7 @@ export default class Calendar extends React.Component {
     const style     = this.mergeStyles ('header');
     const textStyle = this.mergeStyles ('headerText');
     return (
-      <div style={style}>
+      <div style={style} key='header'>
         <Button glyph='chevron-left' kind='calendar-navigation' key='prevMonth'
           action={() => this.prevMonth ()}
           {...this.link ()} />
@@ -148,10 +148,10 @@ export default class Calendar extends React.Component {
   }
 
   // Return the html for a [lun]..[dim] labels.
-  getDOW (text) {
+  getDOW (text, index) {
     const textStyle = this.mergeStyles ('dowText');
     return (
-      <div style={textStyle}>
+      <div style={textStyle} key={index}>
         {text}
       </div>
     );
@@ -163,7 +163,7 @@ export default class Calendar extends React.Component {
     let i = 0;
     for (i = 0; i < 7; ++i) {
       const dow = this.getDOW3Letters (i);
-      const x = this.getDOW (dow);
+      const x = this.getDOW (dow, i);
       line.push (x);
     }
     return line;
@@ -173,7 +173,7 @@ export default class Calendar extends React.Component {
   getLineOfDOWs () {
     const style = this.mergeStyles ('dowLine');
     return (
-      <div style={style}>
+      <div style={style} key='dows'>
         {this.getDOWs ()}
       </div>
     );
@@ -187,7 +187,7 @@ export default class Calendar extends React.Component {
     column.push (this.getLineOfDOWs ());
     let i = 0;
     for (i = 0; i < 6; ++i) {
-      const line = this.getLineOfButtons (firstDate, visibleDate, selectedDate);
+      const line = this.getLineOfButtons (firstDate, visibleDate, selectedDate, i);
       column.push (line);
       firstDate = new Date (firstDate.getFullYear (), firstDate.getMonth (), firstDate.getDate () + 7);
     }
