@@ -214,7 +214,7 @@ export default function styles (theme, props) {
 
   const boxStyle = {
     width:           boxWidth,
-    minWidth:        '0px',
+    minWidth:        boxWidth ? boxWidth : '0px',
     padding:         padding,
     margin:          margin,
     display:         'flex',
