@@ -13,6 +13,7 @@ export default function styles (theme, props) {
   };
 
   const headerStyle = {
+    width:           Unit.multiply (theme.shapes.calendarButtonWidth, 7),
     display:         'flex',
     flexDirection:   'row',
     justifyContent:  'center',
@@ -30,7 +31,7 @@ export default function styles (theme, props) {
   };
 
   const dowTextStyle = {
-    flexGrow:        1,
+    width:           theme.shapes.calendarButtonWidth,
     textAlign:       'center',
     lineHeight:      theme.shapes.calendarButtonSize,
     color:           theme.palette.calendarHeaderText,
