@@ -6,8 +6,10 @@ import {Unit} from 'electrum-theme';
 
 export default function styles (theme, props) {
   const boxStyle = {
+    display:         'flex',
     flexDirection:   'column',
     padding:         theme.shapes.eventMargin,
+    overflowY:       'hidden',
     backgroundColor: theme.palette.eventBackground,
   };
 
@@ -31,6 +33,7 @@ export default function styles (theme, props) {
   const rowStyle = {
     display:         'flex',
     flexDirection:   'row',
+    overflowY:       'auto',
   };
 
   const columnStyle = {
