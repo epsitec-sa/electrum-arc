@@ -54,7 +54,7 @@ export default class Event extends React.Component {
 
     return (
       <Ticket
-        kind             = 'rect'
+        kind             = 'event'
         vertical-spacing = {this.props.theme.shapes.eventSeparator}
         color            = {color}
         mouse-over       = {() => this.mouseOver ()}
@@ -63,8 +63,8 @@ export default class Event extends React.Component {
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           <Container kind='ticket-row' {...this.link ()} >
             <Label text={Converters.getDisplayedTime (event.FromTime)} width='50px' {...this.link ()} />
-            <Label glyph={glyph} width='35px' {...this.link ()} />
-            <Label text={note.Content} wrap='yes' grow='1' {...this.link ()} />
+            <Label glyph={glyph} width='30px' {...this.link ()} />
+            <Label text={note.Content} wrap='break-word' grow='1' {...this.link ()} />
           </Container>
         </Container>
       </Ticket>

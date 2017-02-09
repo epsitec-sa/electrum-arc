@@ -2,52 +2,13 @@
 
 import React from 'react';
 import Enumerable from 'linq';
-import {ColorManipulator} from 'electrum';
 import Converters from '../polypheme/converters';
 
 import {
-  Ticket,
-  Container,
   Event,
   Label,
   Button
 } from '../../all-components.js';
-
-/******************************************************************************/
-
-// value =  '1', decimals = 3  -> return '001'
-// value =  'a', decimals = 3  -> return null
-// value =    5, decimals = 3  -> return '005'
-// value =   12, decimals = 3  -> return '012'
-// value = 1234, decimals = 3  -> return null
-function padding (value, decimals) {
-  if (typeof value === 'string') {
-    value = parseInt (value);
-    if (isNaN (value)) {
-      return null;
-    }
-  }
-  const result = value.toLocaleString ('en-US', {minimumIntegerDigits: decimals, useGrouping: false});
-  if (result.length > decimals) {
-    return null;
-  } else {
-    return result;
-  }
-}
-
-function DateToString (date) {
-  return padding (date.getFullYear (), 4) + '-' + padding (date.getMonth () + 1, 2) + '-' + padding (date.getDate (), 2);
-}
-
-function StringToDate (date) {
-  return new Date (date);
-}
-
-function nextDay (date) {
-  const d = StringToDate (date);
-  const nd = new Date (d.getFullYear (), d.getMonth (), d.getDate () + 1);
-  return DateToString (nd);
-}
 
 /******************************************************************************/
 
@@ -57,6 +18,7 @@ export default class Events extends React.Component {
     super (props);
     this.state = {
       range:    'week',
+      perHour:  false,
       fromDate: null,
       hover:    false,
     };
@@ -69,6 +31,16 @@ export default class Events extends React.Component {
   setRange (value) {
     this.setState ( {
       range: value
+    });
+  }
+
+  getPerHour () {
+    return this.state.perHour;
+  }
+
+  setPerHour (value) {
+    this.setState ( {
+      perHour: value
     });
   }
 
@@ -92,24 +64,50 @@ export default class Events extends React.Component {
     });
   }
 
-  getDays (data) {
+  /******************************************************************************/
+
+  componentWillMount () {
+    const data = this.read ('data');
+    this.setFromDate (data.FromDate);
+  }
+
+  /******************************************************************************/
+
+  getToDate (direction) {
+    const date = this.getFromDate ();
+    const range = this.getRange ();
+    const m = (direction === 'back') ? -1 : 1;
+    if (range === 'day') {
+      return Converters.addDays (date, 1 * m);
+    } else if (range === 'week') {
+      return Converters.addDays (date, 7 * m);
+    } else if (range === 'month') {
+      return Converters.addMonths (date, 1 * m);
+    } else {
+      return Converters.addYears (date, 1 * m);
+    }
+  }
+
+  getGroupedByDays (data, hour) {
     const result = new Map ();
-    let currentDate = data.FromDate;
-    const toDate = nextDay (data.ToDate);
-    let i = 0;
+    let currentDate = this.getFromDate ();
+    const toDate = this.getToDate ();
     while (true) {
       const events = Enumerable
         .from (data.Events)
         .where (e => e.FromDate === currentDate)
+        .where (e => hour === -1 || Converters.splitTime (e.FromTime).hour === hour)
         .toArray ();
       result.set (currentDate, events);
-      currentDate = nextDay (currentDate);
-      if (currentDate === toDate || i++ > 100) {
+      currentDate = Converters.addDays (currentDate, 1);
+      if (currentDate === toDate) {
         break;
       }
     }
     return result;
   }
+
+  /******************************************************************************/
 
   mouseOver () {
     this.setHover (true);
@@ -119,20 +117,31 @@ export default class Events extends React.Component {
     this.setHover (false);
   }
 
+  /******************************************************************************/
+
   actionPrev () {
+    this.setFromDate (this.getToDate ('back'));
   }
 
   actionNext () {
+    this.setFromDate (this.getToDate ('next'));
   }
 
   actionRange (range) {
     this.setRange (range);
   }
 
-  renderHeaderButton (glyph, tooltip, active, action) {
+  actionPerHour () {
+    this.setPerHour (!this.getPerHour ());
+  }
+
+  /******************************************************************************/
+
+  renderHeaderButton (glyph, text, tooltip, active, action) {
     return (
       <Button
         glyph   = {glyph}
+        text    = {text}
         tooltip = {tooltip}
         border  = 'none'
         active  = {active ? 'true' : 'false'}
@@ -142,22 +151,74 @@ export default class Events extends React.Component {
   }
 
   renderHeader (header) {
-    const style     = this.mergeStyles ('header');
-    const textStyle = this.mergeStyles ('headerText');
+    const headerStyle = this.mergeStyles ('header');
+    const textStyle   = this.mergeStyles ('headerText');
 
     const range = this.getRange ();
 
     return (
-      <div style = {style}>
-        {this.renderHeaderButton ('chevron-left',  null, false, () => this.actionPrev ())}
-        {this.renderHeaderButton ('chevron-right', null, false, () => this.actionNext ())}
+      <div style = {headerStyle}>
+        {this.renderHeaderButton ('chevron-left',  null, null, false, () => this.actionPrev ())}
+        {this.renderHeaderButton ('chevron-right', null, null, false, () => this.actionNext ())}
         <div style = {textStyle}>
           {header}
         </div>
-        {this.renderHeaderButton ('square-o',   'Jour',    range === 'day',   () => this.actionRange ('day'))}
-        {this.renderHeaderButton ('bars',       'Semaine', range === 'week',  () => this.actionRange ('week'))}
-        {this.renderHeaderButton ('calendar-o', 'Mois',    range === 'month', () => this.actionRange ('month'))}
-        {this.renderHeaderButton ('calendar',   'Année',   range === 'year',  () => this.actionRange ('year'))}
+        {this.renderHeaderButton (null, '1',   'Jour',    range === 'day',   () => this.actionRange ('day'))}
+        {this.renderHeaderButton (null, '7',   'Semaine', range === 'week',  () => this.actionRange ('week'))}
+        {this.renderHeaderButton (null, '31',  'Mois',    range === 'month', () => this.actionRange ('month'))}
+        {this.renderHeaderButton (null, '365', 'Année',   range === 'year',  () => this.actionRange ('year'))}
+        {this.renderHeaderButton ('clock-o', null, 'Groupé par heures', this.getPerHour (),  () => this.actionPerHour ())}
+      </div>
+    );
+  }
+
+  renderText (text, index) {
+    const dowStyle = this.mergeStyles ('dow');
+    return (
+      <div style = {dowStyle} key = {index}>
+        <Label text={text} grow='1' {...this.link ()} />
+      </div>
+    );
+  }
+
+  renderHour (hour, index) {
+    const hourStyle = this.mergeStyles ('hour');
+    const text = hour + ':00';
+    return (
+      <div style = {hourStyle} key = {index}>
+        <Label text={text} justify='center' grow='1' {...this.link ()} />
+      </div>
+    );
+  }
+
+  renderDow (date, index) {
+    const dowStyle = this.mergeStyles ('dow');
+    const h = Converters.getDisplayedDate (date, false, 'Wd');
+
+    return (
+      <div style = {dowStyle} key = {index}>
+        <Label text={h} justify='center' grow='1' {...this.link ()} />
+      </div>
+    );
+  }
+
+  renderWeekDows (days, perHour) {
+    const result = [];
+    let index = 0;
+    if (perHour) {
+      result.push (this.renderText ('', index++));
+    }
+    for (var day of days) {
+      result.push (this.renderDow (day[0], index++));
+    }
+    return result;
+  }
+
+  renderHeaderWeekDows (days, perHour) {
+    const dowsStyle = this.mergeStyles ('dows');
+    return (
+      <div style = {dowsStyle}>
+        {this.renderWeekDows (days, perHour)}
       </div>
     );
   }
@@ -177,46 +238,71 @@ export default class Events extends React.Component {
     return result;
   }
 
-  renderDOW (date) {
-    const dowTextStyle = this.mergeStyles ('dowText');
-
-    const d = StringToDate (date).getDay ();  // 0..6 (0 = Sunday)
-    const h = Converters.getDOWDescription ((d + 6) % 7).substring (0, 3);
-
-    return (
-      <div style = {dowTextStyle}>
-        {h}
-      </div>
-    );
-  }
-
   renderWeekDay (day, index) {
     const columnStyle = this.mergeStyles ('column');
-
     return (
       <div style = {columnStyle} key = {index}>
-        {this.renderDOW (day[0])}
         {this.renderEvents (day[1])}
       </div>
     );
   }
 
-  renderWeekDays (data) {
+  renderWeekDaysList (days, hour) {
     const result = [];
     let index = 0;
-    const days = this.getDays (data);
+    if (hour !== -1) {
+      result.push (this.renderHour (hour, index++));
+    }
     for (var day of days) {
       result.push (this.renderWeekDay (day, index++));
     }
     return result;
   }
 
+  renderWeekDays (days, hour, index) {
+    if (hour === -1) {
+      const style = this.mergeStyles ('row');
+      return (
+        <div style = {style} ref = {index}>
+          {this.renderWeekDaysList (days, hour)}
+        </div>
+      );
+    } else {
+      const style1 = this.mergeStyles ('part1');
+      const style2 = this.mergeStyles (index % 2 === 0 ? 'part2' : 'part3');
+      return (
+        <div style = {style1} ref = {index}>
+          <div style = {style2}>
+            {this.renderWeekDaysList (days, hour)}
+          </div>
+        </div>
+      );
+    }
+  }
+
+  renderWeekPerHourDays (data) {
+    const result = [];
+    let index = 0;
+    for (var hour = 0; hour < 24; hour++) {
+      const days = this.getGroupedByDays (data, hour);
+      var count = 0;
+      for (var day of days) {
+        count += day[1].length;
+      }
+      if (count > 0) {
+        result.push (this.renderWeekDays (days, hour, index++));
+      }
+    }
+    return result;
+  }
+
+  /******************************************************************************/
+
   renderDay (data) {
     const boxStyle = this.mergeStyles ('box');
     const rowStyle = this.mergeStyles ('row');
 
-    const d = StringToDate (data.FromDate).getDay ();  // 0..6 (0 = Sunday)
-    const h = Converters.getDOWDescription ((d + 6) % 7) + ' ' + Converters.getDisplayedDate (data.FromDate);
+    const h = Converters.getDisplayedDate (this.getFromDate (), false, 'W');
 
     return (
       <div style = {boxStyle}>
@@ -229,17 +315,32 @@ export default class Events extends React.Component {
 
   renderWeek (data) {
     const boxStyle = this.mergeStyles ('box');
-    const rowStyle = this.mergeStyles ('row');
 
-    const f = Converters.getDisplayedDate (data.FromDate);
-    const t = Converters.getDisplayedDate (data.ToDate);
-    const h = f + ' — ' + t;
+    const h = Converters.getDisplayedDate (this.getFromDate (), false, 'My');
+    const days = this.getGroupedByDays (data, -1);
 
     return (
       <div style = {boxStyle}>
         {this.renderHeader (h)}
-        <div style = {rowStyle}>
-          {this.renderWeekDays (data)}
+        {this.renderHeaderWeekDows (days, false)}
+        {this.renderWeekDays (days, -1, 0)}
+      </div>
+    );
+  }
+
+  renderWeekPerHour (data) {
+    const boxStyle   = this.mergeStyles ('box');
+    const partsStyle = this.mergeStyles ('parts');
+
+    const h = Converters.getDisplayedDate (this.getFromDate (), false, 'My');
+    const days = this.getGroupedByDays (data, -1);
+
+    return (
+      <div style = {boxStyle}>
+        {this.renderHeader (h)}
+        {this.renderHeaderWeekDows (days, true)}
+        <div style = {partsStyle}>
+          {this.renderWeekPerHourDays (data)}
         </div>
       </div>
     );
@@ -249,7 +350,7 @@ export default class Events extends React.Component {
     const boxStyle = this.mergeStyles ('box');
     const rowStyle = this.mergeStyles ('row');
 
-    const h = Converters.getDisplayedDate (data.FromDate, false, 'My');
+    const h = Converters.getDisplayedDate (this.getFromDate (), false, 'My');
 
     return (
       <div style = {boxStyle}>
@@ -264,7 +365,7 @@ export default class Events extends React.Component {
     const boxStyle = this.mergeStyles ('box');
     const rowStyle = this.mergeStyles ('row');
 
-    const h = Converters.getDisplayedDate (data.FromDate, false, 'y');
+    const h = Converters.getDisplayedDate (this.getFromDate (), false, 'y');
 
     return (
       <div style = {boxStyle}>
@@ -278,10 +379,16 @@ export default class Events extends React.Component {
   render () {
     const data = this.read ('data');
     const range = this.getRange ();
+    const perHour = this.getPerHour ();
+
     if (range === 'day') {
       return this.renderDay (data);
     } else if (range === 'week') {
-      return this.renderWeek (data);
+      if (perHour) {
+        return this.renderWeekPerHour (data);
+      } else {
+        return this.renderWeek (data);
+      }
     } else if (range === 'month') {
       return this.renderMonth (data);
     } else {

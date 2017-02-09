@@ -45,6 +45,7 @@ export default function styles (theme, props) {
   let textOverflow       = null;
   let textTextOverflow   = null;
   let textWhiteSpace     = null;
+  let textWordBreak      = null;
   let flexGrow           = inputGrow;
   let flexShrink         = null;
   let flexBasis          = null;
@@ -184,6 +185,8 @@ export default function styles (theme, props) {
     textOverflow     = 'hidden';
     textTextOverflow = 'ellipsis';
     textWhiteSpace   = 'nowrap';
+  } else if (inputWrap === 'break-word') {
+    textWordBreak = 'break-word';
   }
 
   if (inputGlyphColor) {
@@ -263,6 +266,7 @@ export default function styles (theme, props) {
     textOverflow:    textTextOverflow,
     whiteSpace:      textWhiteSpace,
     wordWrap:        'break-word',
+    wordBreak:       textWordBreak,
     userSelect:      'none',
   };
 

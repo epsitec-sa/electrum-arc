@@ -150,7 +150,7 @@ export default function styles (theme, props) {
   const verticalSpacing = props.verticalSpacing;
   const hideContent     = props.hideContent;
 
-  const r = (kind === 'thin') ? theme.shapes.ticketRectRadius : theme.shapes.ticketCornerRadius;
+  const r = (kind === 'thin' || kind === 'event') ? theme.shapes.ticketRectRadius : theme.shapes.ticketCornerRadius;
   let radius;
   if (shape === 'first') {
     radius = r + ' ' + r + ' 0px 0px';

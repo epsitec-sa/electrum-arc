@@ -216,7 +216,7 @@ export default class Ticket extends React.Component {
       return this.renderTicket ();
     } else if (kind === 'cover') {
       return this.renderCover ();
-    } else {
+    } else {  // 'rect' 'thin' 'event' ... ?
       return this.renderRect ();
     }
   }
