@@ -2,9 +2,13 @@
 
 import React from 'react';
 import Enumerable from 'linq';
+import {ColorManipulator} from 'electrum';
 import Converters from '../polypheme/converters';
 
 import {
+  Ticket,
+  Container,
+  Event,
   Label,
   Button
 } from '../../all-components.js';
@@ -54,6 +58,7 @@ export default class Events extends React.Component {
     this.state = {
       range:    'week',
       fromDate: null,
+      hover:    false,
     };
   }
 
@@ -77,6 +82,16 @@ export default class Events extends React.Component {
     });
   }
 
+  getHover () {
+    return this.state.hover;
+  }
+
+  setHover (value) {
+    this.setState ( {
+      hover: value
+    });
+  }
+
   getDays (data) {
     const result = new Map ();
     let currentDate = data.FromDate;
@@ -94,6 +109,14 @@ export default class Events extends React.Component {
       }
     }
     return result;
+  }
+
+  mouseOver () {
+    this.setHover (true);
+  }
+
+  mouseOut () {
+    this.setHover (false);
   }
 
   actionPrev () {
@@ -139,44 +162,9 @@ export default class Events extends React.Component {
     );
   }
 
-  renderTime (time) {
-    return (
-      <Label
-        kind   = 'one-line-height'
-        width  = '50px'
-        vpos   = 'top'
-        text   = {Converters.getDisplayedTime (time)}
-        {...this.link ()} />
-    );
-  }
-
-  renderNote (note) {
-    let glyph = 'caret-right';
-    if (note.Glyphs && note.Glyphs.length > 0) {
-      glyph = note.Glyphs[0].Glyph;
-    }
-    return (
-      <Label
-        vpos  = 'top'
-        glyph = {glyph}
-        text  = {note.Content}
-        {...this.link ()} />
-    );
-  }
-
   renderEvent (event, index) {
-    const eventBoxStyle     = this.mergeStyles ('eventBox');
-    const eventContentStyle = this.mergeStyles ('eventContent');
-
     return (
-      <div style = {eventBoxStyle} key = {index}>
-        <Button kind='container-start' grow='1' {...this.link ()} >
-          <div style = {eventContentStyle} key = {index}>
-            {this.renderTime (event.FromTime)}
-            {this.renderNote (event.Note)}
-          </div>
-        </Button>
-      </div>
+      <Event key={index} event={event} {...this.link ()} />
     );
   }
 
