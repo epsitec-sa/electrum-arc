@@ -79,11 +79,19 @@ export default function styles (theme, props) {
     backgroundColor: theme.palette.eventDowsBackground,
   };
 
-  const hourStyle = {
+  const leftHeaderStyle = {
+    width:           '70px',
     display:         'flex',
     flexDirection:   'column',
-    flexGrow:        1,
-    flexBasis:       0,
+    margin:          '0px ' + theme.shapes.eventSeparator + ' 0px 0px',
+    color:           theme.palette.eventHeaderText,
+    backgroundColor: theme.palette.eventDowsBackground,
+  };
+
+  const leftStyle = {
+    width:           '70px',
+    display:         'flex',
+    flexDirection:   'column',
     margin:          '0px ' + theme.shapes.eventSeparator + ' ' + theme.shapes.eventSeparator + ' 0px',
     color:           theme.palette.eventHeaderText,
     backgroundColor: theme.palette.eventDowsBackground,
@@ -104,17 +112,17 @@ export default function styles (theme, props) {
     overflowY:       'scroll',
   };
 
-  const part1Style = {
+  const partStyle = {
     display:         'table',
     width:           '100%',
   };
 
-  const part2Style = {
+  const partEvenStyle = {
     display:         'flex',
     flexDirection:   'row',
   };
 
-  const part3Style = {
+  const partOddStyle = {
     display:         'flex',
     flexDirection:   'row',
     backgroundColor: theme.palette.eventOddBackground,
@@ -134,12 +142,13 @@ export default function styles (theme, props) {
     headerText: headerTextStyle,
     dows:       dowsStyle,
     dow:        dowStyle,
-    hour:       hourStyle,
+    leftHeader: leftHeaderStyle,
+    left:       leftStyle,
     row:        rowStyle,
     parts:      partsStyle,
-    part1:      part1Style,
-    part2:      part2Style,
-    part3:      part3Style,
+    part:       partStyle,
+    partEven:   partEvenStyle,
+    partOdd:    partOddStyle,
     column:     columnStyle,
   };
 }

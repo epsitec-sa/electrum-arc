@@ -173,19 +173,19 @@ export default class Events extends React.Component {
   }
 
   renderText (text, index) {
-    const dowStyle = this.mergeStyles ('dow');
+    const style = this.mergeStyles ('leftHeader');
     return (
-      <div style = {dowStyle} key = {index}>
+      <div style = {style} key = {index}>
         <Label text={text} grow='1' {...this.link ()} />
       </div>
     );
   }
 
   renderHour (hour, index) {
-    const hourStyle = this.mergeStyles ('hour');
+    const style = this.mergeStyles ('left');
     const text = hour + ':00';
     return (
-      <div style = {hourStyle} key = {index}>
+      <div style = {style} key = {index}>
         <Label text={text} justify='center' grow='1' {...this.link ()} />
       </div>
     );
@@ -268,8 +268,8 @@ export default class Events extends React.Component {
         </div>
       );
     } else {
-      const style1 = this.mergeStyles ('part1');
-      const style2 = this.mergeStyles (index % 2 === 0 ? 'part2' : 'part3');
+      const style1 = this.mergeStyles ('part');
+      const style2 = this.mergeStyles (index % 2 === 0 ? 'partEven' : 'partOdd');
       return (
         <div style = {style1} ref = {index}>
           <div style = {style2}>
