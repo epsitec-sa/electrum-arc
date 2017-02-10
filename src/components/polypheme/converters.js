@@ -73,30 +73,58 @@ function padding (value, decimals) {
   }
 }
 
-function JsToFormated (date) {
+function JsToFormatedTime (time) {
+  return padding (time.getHours (), 2) + ':' + padding (time.getMinutes (), 2) + ':' + padding (time.getSeconds (), 2);
+}
+
+function FormatedTimeToJs (time) {
+  const s = splitTime (time);
+  return new Date (2000, 1, 1, s.hour, s.minute, s.second);
+}
+
+function JsToFormatedDate (date) {
   return padding (date.getFullYear (), 4) + '-' + padding (date.getMonth () + 1, 2) + '-' + padding (date.getDate (), 2);
 }
 
-function FormatedToJs (date) {
-  return new Date (date);
+function FormatedDateToJs (date) {
+  const s = splitDate (date);
+  return new Date (s.year, s.month - 1, s.day);
+}
+
+function addHours (time, n) {
+  const d = FormatedTimeToJs (time);
+  const nd = new Date (2000, 1, 1, d.getHours () + n, d.getMinutes (), d.getSeconds ());
+  return JsToFormatedTime (nd);
+}
+
+function addMinutes (time, n) {
+  const d = FormatedTimeToJs (time);
+  const nd = new Date (2000, 1, 1, d.getHours (), d.getMinutes () + n, d.getSeconds ());
+  return JsToFormatedTime (nd);
+}
+
+function addSeconds (time, n) {
+  const d = FormatedTimeToJs (time);
+  const nd = new Date (2000, 1, 1, d.getHours (), d.getMinutes (), d.getSeconds () + n);
+  return JsToFormatedTime (nd);
 }
 
 function addDays (date, n) {
-  const d = FormatedToJs (date);
+  const d = FormatedDateToJs (date);
   const nd = new Date (d.getFullYear (), d.getMonth (), d.getDate () + n);
-  return JsToFormated (nd);
+  return JsToFormatedDate (nd);
 }
 
 function addMonths (date, n) {
-  const d = FormatedToJs (date);
+  const d = FormatedDateToJs (date);
   const nd = new Date (d.getFullYear (), d.getMonth () + n, d.getDate ());
-  return JsToFormated (nd);
+  return JsToFormatedDate (nd);
 }
 
 function addYears (date, n) {
-  const d = FormatedToJs (date);
+  const d = FormatedDateToJs (date);
   const nd = new Date (d.getFullYear () + n, d.getMonth (), d.getDate ());
-  return JsToFormated (nd);
+  return JsToFormatedDate (nd);
 }
 
 // With '2017-03-31', return {year: 2017, month: 03, day: 31}.
@@ -172,6 +200,12 @@ function parseTime (editedTime) {
   return result;
 }
 
+function getTimeFromMinutes (minutes) {
+  const hour = Math.floor (minutes / 60);
+  const minute = minutes % 60;
+  return joinTime ({hour: hour, minute: minute, second: 0});
+}
+
 // With date = '2017-03-31', return '31.03.2017'.
 function getDisplayedDate (date, useNowByDefault, format) {
   let d;
@@ -186,13 +220,13 @@ function getDisplayedDate (date, useNowByDefault, format) {
     } else if (format === 'My') {
       return getMonthDescription (d.month - 1) + ' ' + padding (d.year, 4);
     } else if (format === 'W') {
-      const w = FormatedToJs (date).getDay ();  // 0..6 (0 = Sunday)
+      const w = FormatedDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
       return getDOWDescription ((w + 6) % 7);
     } else if (format === 'Wd') {
-      const w = FormatedToJs (date).getDay ();  // 0..6 (0 = Sunday)
+      const w = FormatedDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
       return getDOWDescription ((w + 6) % 7, '3') + ' ' + padding (d.day, 2);
     } else if (format === 'Wdm') {
-      const w = FormatedToJs (date).getDay ();  // 0..6 (0 = Sunday)
+      const w = FormatedDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
       return getDOWDescription ((w + 6) % 7, '3') + ' ' + padding (d.day, 2) + '.' + padding (d.month, 2);
     } else {
       return padding (d.day, 2) + '.' + padding (d.month, 2) + '.' + padding (d.year, 4);
@@ -268,7 +302,8 @@ module.exports = {
   getMonthDescription, getDOWDescription,
   getEmptyTime, getEmptyDate,
   isEmptyTime, isEmptyDate,
-  getDisplayedTime, getFormatedTime, checkTime, splitTime,
+  getDisplayedTime, getFormatedTime, checkTime, splitTime, getTimeFromMinutes,
   getDisplayedDate,
+  addHours, addMinutes, addSeconds,
   addDays, addMonths, addYears,
 };
