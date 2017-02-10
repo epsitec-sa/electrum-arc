@@ -5,19 +5,24 @@ import {ColorManipulator} from 'electrum';
 import Converters from '../polypheme/converters';
 
 import {
-  Ticket,
   Container,
   Label
 } from '../../all-components.js';
 
 /******************************************************************************/
 
-export default class Event extends React.Component {
+export default class Chrono extends React.Component {
 
   constructor (props) {
     super (props);
     this.state = {
       hover: false,
+    };
+  }
+
+  get styleProps () {
+    return {
+      height: this.read ('height'),
     };
   }
 
@@ -40,8 +45,7 @@ export default class Event extends React.Component {
   }
 
   render () {
-    const event  = this.read ('event');
-    const height = this.read ('height');
+    const event = this.read ('event');
 
     const note = event.Note;
     let glyph = null;
@@ -49,19 +53,14 @@ export default class Event extends React.Component {
       glyph = note.Glyphs[0].Glyph;
     }
 
-    let color = this.props.theme.palette.eventColumnBackground;
-    if (this.getHover ()) {
-      color = ColorManipulator.emphasize (color, 0.1);
-    }
+    const style = this.mergeStyles (this.getHover () ? 'hover' : 'base');
 
     return (
-      <Ticket
-        kind             = 'event'
-        vertical-spacing = {this.props.theme.shapes.eventSeparator}
-        color            = {color}
-        height           = {height}
-        mouse-over       = {() => this.mouseOver ()}
-        mouse-out        = {() => this.mouseOut ()}
+      <div
+        style       = {style}
+        title       = {note.Content}
+        onMouseOver = {() => this.mouseOver ()}
+        onMouseOut  = {() => this.mouseOut ()}
         {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           <Container kind='ticket-row' {...this.link ()} >
@@ -69,8 +68,11 @@ export default class Event extends React.Component {
             <Label glyph={glyph} width='30px' {...this.link ()} />
             <Label text={note.Content} wrap='break-word' grow='1' {...this.link ()} />
           </Container>
+          <Container kind='ticket-row' {...this.link ()} >
+            <Label text={Converters.getDisplayedTime (event.ToTime)} width='50px' {...this.link ()} />
+          </Container>
         </Container>
-      </Ticket>
+      </div>
     );
   }
 }

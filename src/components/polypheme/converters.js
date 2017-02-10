@@ -206,6 +206,11 @@ function getTimeFromMinutes (minutes) {
   return joinTime ({hour: hour, minute: minute, second: 0});
 }
 
+function getMinutes (time) {
+  const s = splitTime (time);
+  return (s.hour * 60) + s.minute;
+}
+
 // With date = '2017-03-31', return '31.03.2017'.
 function getDisplayedDate (date, useNowByDefault, format) {
   let d;
@@ -302,7 +307,7 @@ module.exports = {
   getMonthDescription, getDOWDescription,
   getEmptyTime, getEmptyDate,
   isEmptyTime, isEmptyDate,
-  getDisplayedTime, getFormatedTime, checkTime, splitTime, getTimeFromMinutes,
+  getDisplayedTime, getFormatedTime, checkTime, splitTime, getTimeFromMinutes, getMinutes,
   getDisplayedDate,
   addHours, addMinutes, addSeconds,
   addDays, addMonths, addYears,
