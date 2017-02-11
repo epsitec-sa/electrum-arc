@@ -66,6 +66,8 @@ export default class Chrono extends React.Component {
           <Container kind='ticket-row' {...this.link ()} >
             <Label text={Converters.getDisplayedTime (event.FromTime)} width='50px' {...this.link ()} />
             <Label glyph={glyph} width='30px' {...this.link ()} />
+          </Container>
+          <Container kind='ticket-row' {...this.link ()} >
             <Label text={note.Content} wrap='break-word' grow='1' {...this.link ()} />
           </Container>
           <Container kind='ticket-row' {...this.link ()} >

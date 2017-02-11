@@ -3,6 +3,7 @@
 import React from 'react';
 import Enumerable from 'linq';
 import Converters from '../polypheme/converters';
+import {Unit} from 'electrum-theme';
 
 import {
   Chrono,
@@ -18,7 +19,7 @@ export default class Chronos extends React.Component {
     super (props);
     this.state = {
       range:    'week',
-      scale:    2,
+      scale:    1,
       fromDate: null,
     };
   }
@@ -172,6 +173,15 @@ export default class Chronos extends React.Component {
     );
   }
 
+  renderText (text, index) {
+    const style = this.mergeStyles ('leftHeader');
+    return (
+      <div style = {style} key = {index}>
+        <Label text={text} grow='1' {...this.link ()} />
+      </div>
+    );
+  }
+
   renderDow (date, index) {
     const dowStyle = this.mergeStyles ('dow');
     const h = Converters.getDisplayedDate (date, false, 'Wd');
@@ -186,6 +196,7 @@ export default class Chronos extends React.Component {
   renderWeekDows (days) {
     const result = [];
     let index = 0;
+    result.push (this.renderText ('', index++));
     for (var day of days) {
       result.push (this.renderDow (day[0], index++));
     }
@@ -201,13 +212,71 @@ export default class Chronos extends React.Component {
     );
   }
 
+  renderZone (start, end) {
+    const height = Unit.sub (end, start);
+    const anchorStyle = {
+      position:        'relative',
+      left:            '0px',
+      width:           '100%',
+      top:             start,
+      height:          '0px',
+    };
+    const surfaceStyle = {
+      height:          height,
+      backgroundColor: this.props.theme.palette.eventOddBackground,
+    };
+
+    return (
+      <div style={anchorStyle}>
+        <div style={surfaceStyle} />
+      </div>
+    );
+  }
+
+  renderGrid () {
+    const result = [];
+    const scale = this.getScale ();
+    for (var h = 0; h < 24 ; h++) {
+      if (h % 2 === 1) {
+        const start = ((h + 0) * 60 * scale) + 'px';
+        const end   = ((h + 1) * 60 * scale) + 'px';
+        result.push (this.renderZone (start, end));
+      }
+    }
+    return result;
+  }
+
+  renderTime (start, end, time, index) {
+    const height = Unit.sub (end, start);
+    const anchorStyle = {
+      position:        'relative',
+      left:            '0px',
+      width:           '100%',
+      top:             start,
+      height:          '0px',
+    };
+    const surfaceStyle = {
+      height:          height,
+      backgroundColor: this.props.theme.palette.eventOddBackground,
+    };
+    const text = Converters.getDisplayedTime (Converters.addSeconds (time, 1));
+
+    return (
+      <div style={anchorStyle} ref={index}>
+        <div style={surfaceStyle}>
+          <Label text={text} justify='center' grow='1' {...this.link ()} />
+        </div>
+      </div>
+    );
+  }
+
   renderEvent (event, index) {
     const scale = this.getScale ();
     const from = Converters.getMinutes (event.FromTime) * scale;
     const   to = Converters.getMinutes (event.ToTime)   * scale;
 
-    const top    = from;
-    const height = Math.max ((to - from) - 1, 2);
+    const top    = from + 'px';
+    const height = Math.max ((to - from) - 1, 2) + 'px';
 
     const style = {
       position: 'relative',
@@ -241,7 +310,30 @@ export default class Chronos extends React.Component {
     const columnStyle = this.mergeStyles ('column');
     return (
       <div style = {columnStyle} key = {index}>
+        {this.renderGrid ()}
         {this.renderEvents (day[1])}
+      </div>
+    );
+  }
+
+  renderTimesList () {
+    const result = [];
+    let index = 0;
+    const scale = this.getScale ();
+    for (var h = 0 ; h < 24; h++) {
+      const start = ((h + 0) * 60 * scale) + 'px';
+      const end   = ((h + 1) * 60 * scale) + 'px';
+      const time = Converters.getTimeFromMinutes (h * 60);
+      result.push (this.renderTime (start, end, time, index++));
+    }
+    return result;
+  }
+
+  renderTimes (index) {
+    const style = this.mergeStyles ('leftColumn');
+    return (
+      <div style = {style} ref = {index}>
+        {this.renderTimesList ()}
       </div>
     );
   }
@@ -249,6 +341,7 @@ export default class Chronos extends React.Component {
   renderWeekDaysList (days) {
     const result = [];
     let index = 0;
+    result.push (this.renderTimes (index++));
     for (var day of days) {
       result.push (this.renderWeekDay (day, index++));
     }

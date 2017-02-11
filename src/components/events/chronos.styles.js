@@ -128,6 +128,11 @@ export default function styles (theme, props) {
     backgroundColor: theme.palette.eventOddBackground,
   };
 
+  const leftColumnStyle = {
+    width:           '70px',
+    margin:          '0px ' + theme.shapes.eventSeparator + ' 0px 0px',
+  };
+
   const columnStyle = {
     position:        'relative',
     display:         'flex',
@@ -151,6 +156,7 @@ export default function styles (theme, props) {
     partEven:   partEvenStyle,
     partOdd:    partOddStyle,
     column:     columnStyle,
+    leftColumn: leftColumnStyle,
   };
 }
 

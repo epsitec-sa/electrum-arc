@@ -1,26 +1,29 @@
 'use strict';
 
 import {ColorManipulator} from 'electrum';
+import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
 export default function styles (theme, props) {
   const inputHeight = props.height;
+  const padding = '5px';
+  const height = Unit.sub (inputHeight, Unit.multiply (padding, 2));
 
   const baseStyle = {
-    height:          inputHeight,
+    height:          height,
     overflow:        'hidden',
     border:          '1px solid ' + theme.palette.eventBorder,
-    padding:         '5px',
+    padding:         padding,
     backgroundColor: theme.palette.eventColumnBackground,
     textDecoration:  'none',
     cursor:          'default',
   };
 
   const hoverStyle = {
-    minHeight:       inputHeight,
+    minHeight:       height,
     border:          '1px solid ' + theme.palette.eventBorder,
-    padding:         '5px',
+    padding:         padding,
     backgroundColor: ColorManipulator.emphasize (theme.palette.eventColumnBackground, 0.1),
     textDecoration:  'none',
     cursor:          'default',
