@@ -38,7 +38,7 @@ export default function styles (theme, props) {
     flexDirection:   'column',
     flexGrow:        1,
     padding:         theme.shapes.eventMargin,
-    overflowY:       'hidden',
+    overflowX:       'hidden',
     backgroundColor: theme.palette.eventBackground,
   };
 
@@ -60,13 +60,30 @@ export default function styles (theme, props) {
     alignSelf:       'center',
   };
 
-  const sw = getScrollBarWidth ();
-  const dowsStyle = {
-    minHeight:       theme.shapes.lineHeight,
-    margin:          '0px ' + sw + ' ' + theme.shapes.eventSeparator + ' 0px',
+  const contentStyle = {
     display:         'flex',
     flexDirection:   'row',
+    flexGrow:        1,
+    overflowX:       'hidden',
+  };
+
+  const sw = getScrollBarWidth ();
+  const dowsStyle = {
+    minWidth:        '100px',
+    margin:          '0px ' + theme.shapes.eventSeparator + ' ' + sw + ' 0px',
+    display:         'flex',
+    flexDirection:   'column',
     justifyContent:  'center',
+  };
+
+  const topDowStyle = {
+    width:           '100px',
+    height:          '30px',
+    display:         'flex',
+    flexDirection:   'column',
+    margin:          '0px 0px ' + theme.shapes.eventSeparator + ' 0px',
+    color:           theme.palette.eventHeaderText,
+    backgroundColor: theme.palette.eventDowsBackground,
   };
 
   const dowStyle = {
@@ -74,89 +91,44 @@ export default function styles (theme, props) {
     flexDirection:   'column',
     flexGrow:        1,
     flexBasis:       0,
-    margin:          '0px ' + theme.shapes.eventSeparator + ' 0px 0px',
+    margin:          '0px 0px ' + theme.shapes.eventSeparator + ' 0px',
     color:           theme.palette.eventHeaderText,
     backgroundColor: theme.palette.eventDowsBackground,
-  };
-
-  const leftHeaderStyle = {
-    width:           '70px',
-    display:         'flex',
-    flexDirection:   'column',
-    margin:          '0px ' + theme.shapes.eventSeparator + ' 0px 0px',
-    color:           theme.palette.eventHeaderText,
-    backgroundColor: theme.palette.eventDowsBackground,
-  };
-
-  const leftStyle = {
-    width:           '70px',
-    display:         'flex',
-    flexDirection:   'column',
-    margin:          '0px ' + theme.shapes.eventSeparator + ' ' + theme.shapes.eventSeparator + ' 0px',
-    color:           theme.palette.eventHeaderText,
-    backgroundColor: theme.palette.eventDowsBackground,
-  };
-
-  const rowStyle = {
-    display:         'flex',
-    flexDirection:   'row',
-    flexGrow:        1,
-    overflowY:       'scroll',
-  };
-
-  const partsStyle = {
-    display:         'flex',
-    flexDirection:   'column',
-    flexGrow:        1,
-    alignItems:      'stretch',
-    overflowY:       'scroll',
-  };
-
-  const partStyle = {
-    display:         'table',
-    width:           '100%',
-  };
-
-  const partEvenStyle = {
-    display:         'flex',
-    flexDirection:   'row',
-  };
-
-  const partOddStyle = {
-    display:         'flex',
-    flexDirection:   'row',
-    backgroundColor: theme.palette.eventOddBackground,
-  };
-
-  const leftColumnStyle = {
-    width:           '70px',
-    margin:          '0px ' + theme.shapes.eventSeparator + ' 0px 0px',
   };
 
   const columnStyle = {
-    position:        'relative',
     display:         'flex',
     flexDirection:   'column',
     flexGrow:        1,
+    overflowX:       'scroll',
+  };
+
+  const topRowStyle = {
+    position:        'relative',
+    height:          '30px',
+    margin:          '0px 0px ' + theme.shapes.eventSeparator + ' 0px',
+  };
+
+  const rowStyle = {
+    position:        'relative',
+    display:         'flex',
+    flexDirection:   'row',
+    flexGrow:        1,
     flexBasis:       0,
-    margin:          '0px ' + theme.shapes.eventSeparator + ' 0px 0px',
+    margin:          '0px 0px ' + theme.shapes.eventSeparator + ' 0px',
   };
 
   return {
     box:        boxStyle,
     header:     headerStyle,
     headerText: headerTextStyle,
+    content:    contentStyle,
     dows:       dowsStyle,
+    topDow:     topDowStyle,
     dow:        dowStyle,
-    leftHeader: leftHeaderStyle,
-    left:       leftStyle,
-    row:        rowStyle,
-    parts:      partsStyle,
-    part:       partStyle,
-    partEven:   partEvenStyle,
-    partOdd:    partOddStyle,
     column:     columnStyle,
-    leftColumn: leftColumnStyle,
+    row:        rowStyle,
+    topRow:     topRowStyle,
   };
 }
 

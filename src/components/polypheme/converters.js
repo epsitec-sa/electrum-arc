@@ -252,6 +252,8 @@ function getDisplayedTime (time, useNowByDefault, format) {
   if (d) {
     if (format === 'hms') {
       return padding (d.hour, 2) + ':' + padding (d.minute, 2) + ':' + padding (d.second, 2);
+    } else if (format === 'h') {
+      return padding (d.hour, 2);
     } else {
       return padding (d.hour, 2) + ':' + padding (d.minute, 2);
     }

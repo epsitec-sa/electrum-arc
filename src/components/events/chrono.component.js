@@ -22,6 +22,9 @@ export default class Chrono extends React.Component {
 
   get styleProps () {
     return {
+      left:   this.read ('left'),
+      width:  this.read ('width'),
+      top:    this.read ('top'),
       height: this.read ('height'),
     };
   }
@@ -44,11 +47,17 @@ export default class Chrono extends React.Component {
     this.setHover (false);
   }
 
+  getTimes (event) {
+    const f = Converters.getDisplayedTime (event.FromTime);
+    const t = Converters.getDisplayedTime (event.ToTime);
+    return f + ' — ' + t;
+  }
+
   getTooltip (event) {
     const f = Converters.getDisplayedTime (event.FromTime);
     const t = Converters.getDisplayedTime (event.ToTime);
-    const n = event.Note.Content ? event.Note.Content : '-';
-    return f + ' ' + t + ' ' + n;
+    const n = event.Note.Content ? event.Note.Content : '(vide)';
+    return f + ' — ' + t + ' : ' + n;
   }
 
   render () {
@@ -61,6 +70,7 @@ export default class Chrono extends React.Component {
     }
 
     const style = this.mergeStyles (this.getHover () ? 'hover' : 'base');
+    // const style = this.mergeStyles ('base');
 
     return (
       <div
@@ -71,14 +81,11 @@ export default class Chrono extends React.Component {
         {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           <Container kind='ticket-row' {...this.link ()} >
-            <Label text={Converters.getDisplayedTime (event.FromTime)} width='50px' {...this.link ()} />
+            <Label text={this.getTimes (event)} width='120px' {...this.link ()} />
             <Label glyph={glyph} width='30px' {...this.link ()} />
           </Container>
           <Container kind='ticket-row' {...this.link ()} >
-            <Label text={note.Content} wrap='break-word' grow='1' {...this.link ()} />
-          </Container>
-          <Container kind='ticket-row' {...this.link ()} >
-            <Label text={Converters.getDisplayedTime (event.ToTime)} width='50px' {...this.link ()} />
+            <Label text={note.Content} wrap='no' grow='1' {...this.link ()} />
           </Container>
         </Container>
       </div>

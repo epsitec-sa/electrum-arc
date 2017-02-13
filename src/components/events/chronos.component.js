@@ -224,7 +224,7 @@ export default class Chronos extends React.Component {
   }
 
   renderText (text, index) {
-    const style = this.mergeStyles ('leftHeader');
+    const style = this.mergeStyles ('topDow');
     return (
       <div style = {style} key = {index}>
         <Label text={text} grow='1' {...this.link ()} />
@@ -243,7 +243,7 @@ export default class Chronos extends React.Component {
     );
   }
 
-  renderWeekDows (days) {
+  renderWeekDowsList (days) {
     const result = [];
     let index = 0;
     result.push (this.renderText ('', index++));
@@ -253,33 +253,27 @@ export default class Chronos extends React.Component {
     return result;
   }
 
-  renderHeaderWeekDows (days) {
+  renderWeekDows (days) {
     const dowsStyle = this.mergeStyles ('dows');
     return (
       <div style = {dowsStyle}>
-        {this.renderWeekDows (days)}
+        {this.renderWeekDowsList (days)}
       </div>
     );
   }
 
   renderZone (start, end) {
-    const height = Unit.sub (end, start);
-    const anchorStyle = {
-      position:        'relative',
-      left:            '0px',
-      width:           '100%',
-      top:             start,
-      height:          '0px',
-    };
-    const surfaceStyle = {
-      height:          height,
+    const width = Unit.sub (end, start);
+    const style = {
+      position:        'absolute',
+      top:             '0px',
+      height:          '100%',
+      left:            start,
+      width:           width,
       backgroundColor: this.props.theme.palette.eventOddBackground,
     };
-
     return (
-      <div style={anchorStyle}>
-        <div style={surfaceStyle} />
-      </div>
+      <div style={style} />
     );
   }
 
@@ -297,25 +291,20 @@ export default class Chronos extends React.Component {
   }
 
   renderTime (start, end, time, index) {
-    const height = Unit.sub (end, start);
-    const anchorStyle = {
-      position:        'relative',
-      left:            '0px',
-      width:           '100%',
-      top:             start,
-      height:          '0px',
-    };
-    const surfaceStyle = {
-      height:          height,
+    const width = Unit.sub (end, start);
+    const style = {
+      position:        'absolute',
+      top:             '0px',
+      height:          '100%',
+      left:            start,
+      width:           width,
       backgroundColor: this.props.theme.palette.eventOddBackground,
     };
-    const text = Converters.getDisplayedTime (Converters.addSeconds (time, 1));
+    const text = Converters.getDisplayedTime (Converters.addSeconds (time, 1), false, 'h');
 
     return (
-      <div style={anchorStyle} ref={index}>
-        <div style={surfaceStyle}>
-          <Label text={text} justify='center' grow='1' {...this.link ()} />
-        </div>
+      <div style={style} ref={index}>
+        <Label text={text} justify='center' grow='1' {...this.link ()} />
       </div>
     );
   }
@@ -325,25 +314,20 @@ export default class Chronos extends React.Component {
     const from = Converters.getMinutes (event.FromTime) * scale;
     const   to = Converters.getMinutes (event.ToTime)   * scale;
 
-    const top    = from + 'px';
-    const height = Math.max ((to - from) - 1, 2) + 'px';
-
-    const style = {
-      position: 'relative',
-      left:     (event.start) + '%',
-      width:    (event.end - event.start) + '%',
-      top:      top,
-      height:   '0px',
-    };
+    const left   = from + 'px';
+    const width  = Math.max ((to - from) - 1, 2) + 'px';
+    const top    = (event.start) + '%';
+    const height = (event.end - event.start) + '%';
 
     return (
-      <div style = {style}>
-        <Chrono
-          key    = {index}
-          event  = {event}
-          height = {height}
-          {...this.link ()} />
-      </div>
+      <Chrono
+        key    = {index}
+        event  = {event}
+        left   = {left}
+        width  = {width}
+        top    = {top}
+        height = {height}
+        {...this.link ()} />
     );
   }
 
@@ -357,9 +341,9 @@ export default class Chronos extends React.Component {
   }
 
   renderWeekDay (day, index) {
-    const columnStyle = this.mergeStyles ('column');
+    const rowStyle = this.mergeStyles ('row');
     return (
-      <div style = {columnStyle} key = {index}>
+      <div style = {rowStyle} key = {index}>
         {this.renderGrid ()}
         {this.renderEvents (day[1])}
       </div>
@@ -380,7 +364,7 @@ export default class Chronos extends React.Component {
   }
 
   renderTimes (index) {
-    const style = this.mergeStyles ('leftColumn');
+    const style = this.mergeStyles ('topRow');
     return (
       <div style = {style} ref = {index}>
         {this.renderTimesList ()}
@@ -399,7 +383,7 @@ export default class Chronos extends React.Component {
   }
 
   renderWeekDays (days) {
-    const style = this.mergeStyles ('row');
+    const style = this.mergeStyles ('column');
     return (
       <div style = {style}>
         {this.renderWeekDaysList (days)}
@@ -410,7 +394,8 @@ export default class Chronos extends React.Component {
   /******************************************************************************/
 
   renderDay (data) {
-    const boxStyle = this.mergeStyles ('box');
+    const boxStyle     = this.mergeStyles ('box');
+    const contentStyle = this.mergeStyles ('content');
 
     const h = Converters.getDisplayedDate (this.getFromDate (), false, 'My');
     const days = addShiftInfos (this.getGroupedByDays (data));
@@ -418,14 +403,17 @@ export default class Chronos extends React.Component {
     return (
       <div style = {boxStyle}>
         {this.renderHeader (h)}
-        {this.renderHeaderWeekDows (days)}
-        {this.renderWeekDays (days)}
+        <div style = {contentStyle}>
+          {this.renderWeekDows (days)}
+          {this.renderWeekDays (days)}
+        </div>
       </div>
     );
   }
 
   renderWeek (data) {
-    const boxStyle = this.mergeStyles ('box');
+    const boxStyle     = this.mergeStyles ('box');
+    const contentStyle = this.mergeStyles ('content');
 
     const h = Converters.getDisplayedDate (this.getFromDate (), false, 'My');
     const days = addShiftInfos (this.getGroupedByDays (data));
@@ -433,8 +421,10 @@ export default class Chronos extends React.Component {
     return (
       <div style = {boxStyle}>
         {this.renderHeader (h)}
-        {this.renderHeaderWeekDows (days)}
-        {this.renderWeekDays (days)}
+        <div style = {contentStyle}>
+          {this.renderWeekDows (days)}
+          {this.renderWeekDays (days)}
+        </div>
       </div>
     );
   }
