@@ -19,6 +19,7 @@ export default class Label extends React.Component {
       kind:          this.read ('kind'),
       justify:       this.read ('justify'),
       width:         this.read ('width'),
+      height:        this.read ('height'),
       spacing:       this.read ('spacing'),
       wrap:          this.read ('wrap'),
       vpos:          this.read ('vpos'),

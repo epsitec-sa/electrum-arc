@@ -71,6 +71,7 @@ export default class Chrono extends React.Component {
 
     const style = this.mergeStyles (this.getHover () ? 'hover' : 'base');
     // const style = this.mergeStyles ('base');
+    const contentStyle = this.mergeStyles ('content');
 
     return (
       <div
@@ -79,15 +80,17 @@ export default class Chrono extends React.Component {
         onMouseOver = {() => this.mouseOver ()}
         onMouseOut  = {() => this.mouseOut ()}
         {...this.link ()} >
-        <Container kind='ticket-column' grow='1' {...this.link ()} >
-          <Container kind='ticket-row' {...this.link ()} >
-            <Label text={this.getTimes (event)} width='120px' {...this.link ()} />
-            <Label glyph={glyph} width='30px' {...this.link ()} />
+        <div style={contentStyle}>
+          <Container kind='ticket-column' grow='1' {...this.link ()} >
+            <Container kind='ticket-row' {...this.link ()} >
+              <Label text={this.getTimes (event)} width='120px' {...this.link ()} />
+              <Label glyph={glyph} width='30px' {...this.link ()} />
+            </Container>
+            <Container kind='ticket-row' {...this.link ()} >
+              <Label text={note.Content} wrap='no' grow='1' {...this.link ()} />
+            </Container>
           </Container>
-          <Container kind='ticket-row' {...this.link ()} >
-            <Label text={note.Content} wrap='no' grow='1' {...this.link ()} />
-          </Container>
-        </Container>
+        </div>
       </div>
     );
   }

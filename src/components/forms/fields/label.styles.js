@@ -10,6 +10,7 @@ export default function styles (theme, props) {
   const inputKind          = props.kind;
   const inputJustify       = props.justify;
   const inputWidth         = props.width;
+  const inputHeight        = props.height;
   const inputSpacing       = props.spacing;
   const inputWrap          = props.wrap;
   const inputVpos          = props.vpos;
@@ -24,7 +25,7 @@ export default function styles (theme, props) {
   const inputZIndex        = props.zIndex;
 
   let boxWidth           = inputWidth;
-  let boxHeight          = null;
+  let boxHeight          = inputHeight;
   let textHeight         = null;
   let backgroundColor    = null;
   let padding            = null;

@@ -304,7 +304,7 @@ export default class Chronos extends React.Component {
 
     return (
       <div style={style} ref={index}>
-        <Label text={text} justify='center' grow='1' {...this.link ()} />
+        <Label text={text} justify='center' grow='1' height='100%' {...this.link ()} />
       </div>
     );
   }

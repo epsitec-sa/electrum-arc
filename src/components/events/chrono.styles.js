@@ -10,23 +10,19 @@ export default function styles (theme, props) {
   const inputWidth  = props.width;
   const inputTop    = props.top;
   const inputHeight = props.height;
+
   const padding = '5px';
-  // const width  = Unit.sub (inputWidth,  Unit.multiply (padding, 2));
-  // const height = Unit.sub (inputHeight, Unit.multiply (padding, 2));
-  const width  = Unit.sub (inputWidth,  Unit.multiply (padding, 2));
-  const height = 'calc(' + inputHeight + ' - ' + Unit.multiply (padding, 2) + ')';
+  const width  = inputWidth;
+  const height = inputHeight;
 
   const baseStyle = {
     position:        'absolute',
     left:            inputLeft,
-    minWidth:        width,
-    maxWidth:        width,
+    width:           width,
     top:             inputTop,
-    minHeight:       height,
-    maxHeight:       height,
+    height:          height,
     overflow:        'hidden',
     border:          '1px solid ' + theme.palette.eventBorder,
-    padding:         padding,
     backgroundColor: theme.palette.eventColumnBackground,
     textDecoration:  'none',
     cursor:          'default',
@@ -36,20 +32,25 @@ export default function styles (theme, props) {
   const hoverStyle = {
     position:        'absolute',
     left:            inputLeft,
-    minWidth:        width,
+    width:           width,
     top:             inputTop,
-    minHeight:       height,
+    height:          height,
+    overflow:        'hidden',
     border:          '1px solid ' + theme.palette.eventBorder,
-    padding:         padding,
     backgroundColor: ColorManipulator.emphasize (theme.palette.eventColumnBackground, 0.1),
     textDecoration:  'none',
     cursor:          'default',
-    zIndex:          '10',
+    zIndex:          '2',
+  };
+
+  const contentStyle = {
+    padding:         padding,
   };
 
   return {
-    base:  baseStyle,
-    hover: hoverStyle,
+    base:    baseStyle,
+    hover:   hoverStyle,
+    content: contentStyle,
   };
 }
 
