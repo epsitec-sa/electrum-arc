@@ -21,12 +21,7 @@ export default function styles (theme, props) {
     width:           width,
     top:             inputTop,
     height:          height,
-    overflow:        'hidden',
-    border:          '1px solid ' + theme.palette.eventBorder,
-    backgroundColor: theme.palette.eventColumnBackground,
-    textDecoration:  'none',
-    cursor:          'default',
-    zIndex:          '1',
+    backgroundColor: theme.palette.chronoEventBackground,
   };
 
   const hoverStyle = {
@@ -35,12 +30,7 @@ export default function styles (theme, props) {
     width:           width,
     top:             inputTop,
     height:          height,
-    overflow:        'hidden',
-    border:          '1px solid ' + theme.palette.eventBorder,
-    backgroundColor: ColorManipulator.emphasize (theme.palette.eventColumnBackground, 0.1),
-    textDecoration:  'none',
-    cursor:          'default',
-    zIndex:          '2',
+    backgroundColor: ColorManipulator.emphasize (theme.palette.chronoEventBackground, 0.2),
   };
 
   const contentStyle = {

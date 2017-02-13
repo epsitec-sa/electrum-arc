@@ -8,73 +8,9 @@ import {Unit} from 'electrum-theme';
 import {
   Chrono,
   Label,
-  Button
+  Button,
+  Splitter
 } from '../../all-components.js';
-
-/******************************************************************************/
-
-function shareShiftInfo (events, first, last) {
-  const count = last - first + 1;
-  for (var i = 0; i < count; i++) {
-    const event = events[first + i];
-    const n = i % count;
-    event.start = ((n + 0) / count) * 100;
-    event.end   = ((n + 1) / count) * 100;
-    event.group = first;
-  }
-}
-
-function getGroupShiftInfo (events, i) {
-  var count    = 1;
-  var fromTime = events[i].FromTime;
-  var toTime   = events[i].ToTime;
-  var group    = events[i].group;
-  if (group) {
-    while (--i >= 0) {
-      if (events[i].group === group) {
-        count++;
-        if (fromTime > events[i].FromTime) {
-          fromTime = events[i].FromTime;
-        }
-        if (toTime < events[i].ToTime) {
-          toTime = events[i].ToTime;
-        }
-      } else {
-        break;
-      }
-    }
-  }
-  return {count: count, fromTime: fromTime, toTime: toTime};
-}
-
-function countBackShiftInfo (events, i) {
-  var count = 1;
-  const time = events[i--].FromTime;
-  while (i >= 0) {
-    const group = getGroupShiftInfo (events, i);
-    if (time >= group.fromTime && time < group.toTime) {
-      count += group.count;
-      i -= group.count;
-    } else {
-      break;
-    }
-  }
-  return count;
-}
-
-function addShiftInfo (events) {
-  for (var i = 0; i < events.length; i++) {
-    const count = countBackShiftInfo (events, i);
-    shareShiftInfo (events, i - count + 1, i);
-  }
-}
-
-function addShiftInfos (days) {
-  for (var day of days) {
-    addShiftInfo (day[1]);
-  }
-  return days;
-}
 
 /******************************************************************************/
 
@@ -86,6 +22,7 @@ export default class Chronos extends React.Component {
       range:    'week',
       scale:    1,
       fromDate: null,
+      splitterWidth: '25%',
     };
   }
 
@@ -116,6 +53,16 @@ export default class Chronos extends React.Component {
   setFromDate (value) {
     this.setState ( {
       fromDate: value
+    });
+  }
+
+  getSplitterWidth () {
+    return this.state.splitterWidth;
+  }
+
+  setSplitterWidth (value) {
+    this.setState ( {
+      splitterWidth: value
     });
   }
 
@@ -223,45 +170,6 @@ export default class Chronos extends React.Component {
     );
   }
 
-  renderText (text, index) {
-    const style = this.mergeStyles ('topDow');
-    return (
-      <div style = {style} key = {index}>
-        <Label text={text} grow='1' {...this.link ()} />
-      </div>
-    );
-  }
-
-  renderDow (date, index) {
-    const dowStyle = this.mergeStyles ('dow');
-    const h = Converters.getDisplayedDate (date, false, 'Wd');
-
-    return (
-      <div style = {dowStyle} key = {index}>
-        <Label text={h} justify='center' grow='1' {...this.link ()} />
-      </div>
-    );
-  }
-
-  renderWeekDowsList (days) {
-    const result = [];
-    let index = 0;
-    result.push (this.renderText ('', index++));
-    for (var day of days) {
-      result.push (this.renderDow (day[0], index++));
-    }
-    return result;
-  }
-
-  renderWeekDows (days) {
-    const dowsStyle = this.mergeStyles ('dows');
-    return (
-      <div style = {dowsStyle}>
-        {this.renderWeekDowsList (days)}
-      </div>
-    );
-  }
-
   renderZone (start, end) {
     const width = Unit.sub (end, start);
     const style = {
@@ -273,7 +181,7 @@ export default class Chronos extends React.Component {
       backgroundColor: this.props.theme.palette.eventOddBackground,
     };
     return (
-      <div style={style} />
+      <div style={style} ref={start} />
     );
   }
 
@@ -298,7 +206,7 @@ export default class Chronos extends React.Component {
       height:          '100%',
       left:            start,
       width:           width,
-      backgroundColor: this.props.theme.palette.eventOddBackground,
+      backgroundColor: this.props.theme.palette.chronoDayBackground,
     };
     const text = Converters.getDisplayedTime (Converters.addSeconds (time, 1), false, 'h');
 
@@ -316,8 +224,8 @@ export default class Chronos extends React.Component {
 
     const left   = from + 'px';
     const width  = Math.max ((to - from) - 1, 2) + 'px';
-    const top    = (event.start) + '%';
-    const height = (event.end - event.start) + '%';
+    const top    = '0%';
+    const height = '100%';
 
     return (
       <Chrono
@@ -331,26 +239,57 @@ export default class Chronos extends React.Component {
     );
   }
 
-  renderEvents (events) {
-    const result = [];
-    let index = 0;
-    for (var event of events) {
-      result.push (this.renderEvent (event, index++));
-    }
-    return result;
-  }
+  /******************************************************************************/
 
-  renderWeekDay (day, index) {
-    const rowStyle = this.mergeStyles ('row');
+  renderLabelsContentDay (day, index) {
+    const lineStyle = this.mergeStyles ('top');
+    const text = Converters.getDisplayedDate (day[0], false, 'Wdm');
+
     return (
-      <div style = {rowStyle} key = {index}>
-        {this.renderGrid ()}
-        {this.renderEvents (day[1])}
+      <div style={lineStyle} ref={index}>
+        <Label text={text} grow='1' {...this.link ()} />
       </div>
     );
   }
 
-  renderTimesList () {
+  renderLabelsContentEvent (event, index) {
+    const lineStyle = this.mergeStyles ('line');
+    const text = event.Note.Content;
+
+    return (
+      <div style={lineStyle} ref={index}>
+        <Label text={text} grow='1' wrap='no' {...this.link ()} />
+      </div>
+    );
+  }
+
+  renderLabelsContent (days) {
+    const result = [];
+    let index = 0;
+    for (var day of days) {
+      if (day[1].length > 0) {
+        result.push (this.renderLabelsContentDay (day, index++));
+        for (var event of day[1]) {
+          result.push (this.renderLabelsContentEvent (event, index++));
+        }
+      }
+    }
+    return result;
+  }
+
+  renderLabels (data, days) {
+    const labelsStyle = this.mergeStyles ('labels');
+
+    return (
+      <div style = {labelsStyle}>
+        {this.renderLabelsContent (days)}
+      </div>
+    );
+  }
+
+  /******************************************************************************/
+
+  renderEventsContentDayLine (day) {
     const result = [];
     let index = 0;
     const scale = this.getScale ();
@@ -363,115 +302,78 @@ export default class Chronos extends React.Component {
     return result;
   }
 
-  renderTimes (index) {
-    const style = this.mergeStyles ('topRow');
+  renderEventsContentDay (day, index) {
+    const lineStyle = this.mergeStyles ('top');
+
     return (
-      <div style = {style} ref = {index}>
-        {this.renderTimesList ()}
+      <div style={lineStyle} ref={index}>
+        {this.renderEventsContentDayLine (day)}
       </div>
     );
   }
 
-  renderWeekDaysList (days) {
+  renderEventsContentEvents (event, index) {
+    const lineStyle = this.mergeStyles ('line');
+
+    return (
+      <div style={lineStyle} ref={index}>
+        {this.renderEvent (event, index++)}
+      </div>
+    );
+  }
+
+  renderEventsContent (days) {
     const result = [];
     let index = 0;
-    result.push (this.renderTimes (index++));
     for (var day of days) {
-      result.push (this.renderWeekDay (day, index++));
+      if (day[1].length > 0) {
+        result.push (this.renderEventsContentDay (day, index++));
+        for (var event of day[1]) {
+          result.push (this.renderEventsContentEvents (event, index++));
+        }
+      }
     }
     return result;
   }
 
-  renderWeekDays (days) {
-    const style = this.mergeStyles ('column');
+  renderEvents (data, days) {
+    const eventsStyle = this.mergeStyles ('events');
+
     return (
-      <div style = {style}>
-        {this.renderWeekDaysList (days)}
+      <div style = {eventsStyle}>
+        {this.renderGrid ()}
+        {this.renderEventsContent (days)}
       </div>
     );
   }
 
   /******************************************************************************/
 
-  renderDay (data) {
-    const boxStyle     = this.mergeStyles ('box');
-    const contentStyle = this.mergeStyles ('content');
-
-    const h = Converters.getDisplayedDate (this.getFromDate (), false, 'My');
-    const days = addShiftInfos (this.getGroupedByDays (data));
-
-    return (
-      <div style = {boxStyle}>
-        {this.renderHeader (h)}
-        <div style = {contentStyle}>
-          {this.renderWeekDows (days)}
-          {this.renderWeekDays (days)}
-        </div>
-      </div>
-    );
-  }
-
-  renderWeek (data) {
-    const boxStyle     = this.mergeStyles ('box');
-    const contentStyle = this.mergeStyles ('content');
-
-    const h = Converters.getDisplayedDate (this.getFromDate (), false, 'My');
-    const days = addShiftInfos (this.getGroupedByDays (data));
-
-    return (
-      <div style = {boxStyle}>
-        {this.renderHeader (h)}
-        <div style = {contentStyle}>
-          {this.renderWeekDows (days)}
-          {this.renderWeekDays (days)}
-        </div>
-      </div>
-    );
-  }
-
-  renderMonth (data) {
-    const boxStyle = this.mergeStyles ('box');
-    const rowStyle = this.mergeStyles ('row');
-
-    const h = Converters.getDisplayedDate (this.getFromDate (), false, 'My');
-
-    return (
-      <div style = {boxStyle}>
-        {this.renderHeader (h)}
-        <div style = {rowStyle}>
-        </div>
-      </div>
-    );
-  }
-
-  renderYear (data) {
-    const boxStyle = this.mergeStyles ('box');
-    const rowStyle = this.mergeStyles ('row');
-
-    const h = Converters.getDisplayedDate (this.getFromDate (), false, 'y');
-
-    return (
-      <div style = {boxStyle}>
-        {this.renderHeader (h)}
-        <div style = {rowStyle}>
-        </div>
-      </div>
-    );
-  }
-
   render () {
     const data = this.read ('data');
-    const range = this.getRange ();
+    const days = this.getGroupedByDays (data);
+    const h = Converters.getDisplayedDate (this.getFromDate (), false, 'My');
 
-    if (range === 'day') {
-      return this.renderDay (data);
-    } else if (range === 'week') {
-      return this.renderWeek (data);
-    } else if (range === 'month') {
-      return this.renderMonth (data);
-    } else {
-      return this.renderYear (data);
-    }
+    const boxStyle     = this.mergeStyles ('box');
+    const contentStyle = this.mergeStyles ('content');
+
+    return (
+      <div style = {boxStyle}>
+        {this.renderHeader (h)}
+        <div style = {contentStyle}>
+          <Splitter
+            kind          = 'vertical'
+            first-view-id = 'view-backlog'
+            last-view-id  = 'view-desk'
+            default-size  = {this.getSplitterWidth ()} min-size='0px'
+            onSizeChanged = {size => this.setSplitterWidth (size)}
+            {...this.link ()} >
+            {this.renderLabels (data, days)}
+            {this.renderEvents (data, days)}
+          </Splitter>
+        </div>
+      </div>
+    );
   }
 }
 

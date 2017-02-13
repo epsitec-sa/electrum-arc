@@ -67,55 +67,37 @@ export default function styles (theme, props) {
     overflowX:       'hidden',
   };
 
-  const sw = getScrollBarWidth ();
-  const dowsStyle = {
-    minWidth:        '100px',
-    margin:          '0px ' + theme.shapes.eventSeparator + ' ' + sw + ' 0px',
-    display:         'flex',
-    flexDirection:   'column',
-    justifyContent:  'center',
-  };
-
-  const topDowStyle = {
-    width:           '100px',
-    height:          '30px',
-    display:         'flex',
-    flexDirection:   'column',
-    margin:          '0px 0px ' + theme.shapes.eventSeparator + ' 0px',
-    color:           theme.palette.eventHeaderText,
-    backgroundColor: theme.palette.eventDowsBackground,
-  };
-
-  const dowStyle = {
+  const labelsStyle = {
     display:         'flex',
     flexDirection:   'column',
     flexGrow:        1,
-    flexBasis:       0,
-    margin:          '0px 0px ' + theme.shapes.eventSeparator + ' 0px',
-    color:           theme.palette.eventHeaderText,
-    backgroundColor: theme.palette.eventDowsBackground,
+    overflowX:       'hidden',
   };
 
-  const columnStyle = {
+  const eventsStyle = {
     display:         'flex',
     flexDirection:   'column',
     flexGrow:        1,
     overflowX:       'scroll',
   };
 
-  const topRowStyle = {
+  const topStyle = {
     position:        'relative',
     height:          '30px',
     margin:          '0px 0px ' + theme.shapes.eventSeparator + ' 0px',
-  };
-
-  const rowStyle = {
-    position:        'relative',
     display:         'flex',
     flexDirection:   'row',
-    flexGrow:        1,
-    flexBasis:       0,
+    justifyContent:  'center',
+    backgroundColor: theme.palette.chronoDayBackground,
+  };
+
+  const lineStyle = {
+    position:        'relative',
+    height:          '20px',
     margin:          '0px 0px ' + theme.shapes.eventSeparator + ' 0px',
+    display:         'flex',
+    flexDirection:   'row',
+    justifyContent:  'flex-start',
   };
 
   return {
@@ -123,12 +105,10 @@ export default function styles (theme, props) {
     header:     headerStyle,
     headerText: headerTextStyle,
     content:    contentStyle,
-    dows:       dowsStyle,
-    topDow:     topDowStyle,
-    dow:        dowStyle,
-    column:     columnStyle,
-    row:        rowStyle,
-    topRow:     topRowStyle,
+    labels:     labelsStyle,
+    events:     eventsStyle,
+    top:        topStyle,
+    line:       lineStyle,
   };
 }
 
