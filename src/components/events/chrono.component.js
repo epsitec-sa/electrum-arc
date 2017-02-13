@@ -44,6 +44,13 @@ export default class Chrono extends React.Component {
     this.setHover (false);
   }
 
+  getTooltip (event) {
+    const f = Converters.getDisplayedTime (event.FromTime);
+    const t = Converters.getDisplayedTime (event.ToTime);
+    const n = event.Note.Content ? event.Note.Content : '-';
+    return f + ' ' + t + ' ' + n;
+  }
+
   render () {
     const event = this.read ('event');
 
@@ -58,7 +65,7 @@ export default class Chrono extends React.Component {
     return (
       <div
         style       = {style}
-        title       = {note.Content}
+        title       = {this.getTooltip (event)}
         onMouseOver = {() => this.mouseOver ()}
         onMouseOut  = {() => this.mouseOut ()}
         {...this.link ()} >

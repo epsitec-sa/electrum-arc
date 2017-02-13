@@ -13,6 +13,71 @@ import {
 
 /******************************************************************************/
 
+function shareShiftInfo (events, first, last) {
+  const count = last - first + 1;
+  for (var i = 0; i < count; i++) {
+    const event = events[first + i];
+    const n = i % count;
+    event.start = ((n + 0) / count) * 100;
+    event.end   = ((n + 1) / count) * 100;
+    event.group = first;
+  }
+}
+
+function getGroupShiftInfo (events, i) {
+  var count    = 1;
+  var fromTime = events[i].FromTime;
+  var toTime   = events[i].ToTime;
+  var group    = events[i].group;
+  if (group) {
+    while (--i >= 0) {
+      if (events[i].group === group) {
+        count++;
+        if (fromTime > events[i].FromTime) {
+          fromTime = events[i].FromTime;
+        }
+        if (toTime < events[i].ToTime) {
+          toTime = events[i].ToTime;
+        }
+      } else {
+        break;
+      }
+    }
+  }
+  return {count: count, fromTime: fromTime, toTime: toTime};
+}
+
+function countBackShiftInfo (events, i) {
+  var count = 1;
+  const time = events[i--].FromTime;
+  while (i >= 0) {
+    const group = getGroupShiftInfo (events, i);
+    if (time >= group.fromTime && time < group.toTime) {
+      count += group.count;
+      i -= group.count;
+    } else {
+      break;
+    }
+  }
+  return count;
+}
+
+function addShiftInfo (events) {
+  for (var i = 0; i < events.length; i++) {
+    const count = countBackShiftInfo (events, i);
+    shareShiftInfo (events, i - count + 1, i);
+  }
+}
+
+function addShiftInfos (days) {
+  for (var day of days) {
+    addShiftInfo (day[1]);
+  }
+  return days;
+}
+
+/******************************************************************************/
+
 export default class Chronos extends React.Component {
 
   constructor (props) {
@@ -94,21 +159,6 @@ export default class Chronos extends React.Component {
       }
     }
     return result;
-  }
-
-  addShiftInfo (events) {
-    for (var i = 0; i < events.length; i++) {
-      const event = events[i];
-      event.position = i % 3;
-      event.count = 3;
-    }
-  }
-
-  addShiftInfos (days) {
-    for (var day of days) {
-      this.addShiftInfo (day[1]);
-    }
-    return days;
   }
 
   /******************************************************************************/
@@ -280,8 +330,8 @@ export default class Chronos extends React.Component {
 
     const style = {
       position: 'relative',
-      left:     ((100 / event.count) * event.position) + '%',
-      width:    (100 / event.count) + '%',
+      left:     (event.start) + '%',
+      width:    (event.end - event.start) + '%',
       top:      top,
       height:   '0px',
     };
@@ -361,15 +411,15 @@ export default class Chronos extends React.Component {
 
   renderDay (data) {
     const boxStyle = this.mergeStyles ('box');
-    const rowStyle = this.mergeStyles ('row');
 
-    const h = Converters.getDisplayedDate (this.getFromDate (), false, 'W');
+    const h = Converters.getDisplayedDate (this.getFromDate (), false, 'My');
+    const days = addShiftInfos (this.getGroupedByDays (data));
 
     return (
       <div style = {boxStyle}>
         {this.renderHeader (h)}
-        <div style = {rowStyle}>
-        </div>
+        {this.renderHeaderWeekDows (days)}
+        {this.renderWeekDays (days)}
       </div>
     );
   }
@@ -378,12 +428,12 @@ export default class Chronos extends React.Component {
     const boxStyle = this.mergeStyles ('box');
 
     const h = Converters.getDisplayedDate (this.getFromDate (), false, 'My');
-    const days = this.addShiftInfos (this.getGroupedByDays (data));
+    const days = addShiftInfos (this.getGroupedByDays (data));
 
     return (
       <div style = {boxStyle}>
         {this.renderHeader (h)}
-        {this.renderHeaderWeekDows (days, false)}
+        {this.renderHeaderWeekDows (days)}
         {this.renderWeekDays (days)}
       </div>
     );
