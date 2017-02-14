@@ -46,7 +46,11 @@ export default class ChronoBar extends React.Component {
     const f = Converters.getDisplayedTime (event.FromTime);
     const t = Converters.getDisplayedTime (event.ToTime);
     const n = event.Note.Content;
-    return `${f} — ${t} : ${n}`;
+    if (n) {
+      return `${f} — ${t} : ${n}`;
+    } else {
+      return `${f} — ${t}`;
+    }
   }
 
   renderContent (event) {

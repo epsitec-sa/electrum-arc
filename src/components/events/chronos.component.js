@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Enumerable from 'linq';
+import ReactDOM from 'react-dom';
 import Converters from '../polypheme/converters';
 import {Unit} from 'electrum-theme';
 
@@ -13,6 +13,42 @@ import {
   Button,
   Splitter
 } from '../../all-components.js';
+
+/******************************************************************************/
+
+function getGroupedByDays (data) {
+  const result = new Map ();
+  for (var event of data.Events) {
+    var key = event.FromDate;
+    if (!result.has (key)) {
+      result.set (key, []);
+    }
+    result.get (key).push (event);
+  }
+  return result;
+}
+
+function getDateIndex (days, date) {
+  var index = 0;
+  for (var day of days) {
+    if (day[0] === date) {
+      return index;
+    }
+    index++;
+  }
+  return -1;
+}
+
+function getDateFromIndex (days, index) {
+  var i = 0;
+  for (var day of days) {
+    if (i === index) {
+      return day[0];
+    }
+    i++;
+  }
+  return null;
+}
 
 /******************************************************************************/
 
@@ -36,22 +72,11 @@ export default class Chronos extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      range:         'week',
       scale:         1,
       fromDate:      null,
       splitterWidth: '10%',
       eventHover:    null,
     };
-  }
-
-  getRange () {
-    return this.state.range;
-  }
-
-  setRange (value) {
-    this.setState ( {
-      range: value
-    });
   }
 
   getScale () {
@@ -98,7 +123,11 @@ export default class Chronos extends React.Component {
 
   componentWillMount () {
     const data = this.read ('data');
-    this.setFromDate (data.FromDate);
+    this.days = getGroupedByDays (data);
+    this.setFromDate (getDateFromIndex (this.days, 0));
+    // const node = ReactDOM.findDOMNode (this);
+    // console.dir (node);
+
   }
 
   mouseOver (event) {
@@ -111,66 +140,26 @@ export default class Chronos extends React.Component {
 
   /******************************************************************************/
 
-  getToDate (direction) {
-    const date = this.getFromDate ();
-    const range = this.getRange ();
-    const m = (direction === 'back') ? -1 : 1;
-    if (range === 'day') {
-      return Converters.addDays (date, 1 * m);
-    } else if (range === 'week') {
-      return Converters.addDays (date, 7 * m);
-    } else if (range === 'month') {
-      return Converters.addMonths (date, 1 * m);
-    } else {
-      return Converters.addYears (date, 1 * m);
-    }
-  }
-
-  getGroupedByDays (data) {
-    const result = new Map ();
-    let currentDate = this.getFromDate ();
-    const toDate = this.getToDate ();
-    while (true) {
-      const events = Enumerable
-        .from (data.Events)
-        .where (e => e.FromDate === currentDate)
-        .toArray ();
-      result.set (currentDate, events);
-      currentDate = Converters.addDays (currentDate, 1);
-      if (currentDate === toDate) {
-        break;
-      }
-    }
-    return result;
-  }
-
   getHeaderTitle () {
-    const f = this.getFromDate ();
-    const t = Converters.addDays (this.getToDate (), -1);
-    const range = this.getRange ();
-    if (range === 'day') {
-      return Converters.getDisplayedDate (f, false, 'Wdmy');
-    } else if (range === 'week') {
-      return Converters.getDisplayedDate (f) + ' — ' + Converters.getDisplayedDate (t);
-    } else if (range === 'month') {
-      return Converters.getDisplayedDate (f, false, 'My');
-    } else {
-      return Converters.getDisplayedDate (f, false, 'y');
-    }
+    return Converters.getDisplayedDate (this.getFromDate (), false, 'Wdmy');
   }
 
   /******************************************************************************/
 
   actionPrev () {
-    this.setFromDate (this.getToDate ('back'));
+    var index = getDateIndex (this.days, this.getFromDate ());
+    var date = getDateFromIndex (this.days, index - 1);
+    if (date) {
+      this.setFromDate (date);
+    }
   }
 
   actionNext () {
-    this.setFromDate (this.getToDate ('next'));
-  }
-
-  actionRange (range) {
-    this.setRange (range);
+    var index = getDateIndex (this.days, this.getFromDate ());
+    var date = getDateFromIndex (this.days, index + 1);
+    if (date) {
+      this.setFromDate (date);
+    }
   }
 
   actionScale (scale) {
@@ -196,7 +185,6 @@ export default class Chronos extends React.Component {
     const headerStyle = this.mergeStyles ('header');
     const textStyle   = this.mergeStyles ('headerText');
 
-    const range = this.getRange ();
     const scale = this.getScale ();
 
     return (
@@ -206,10 +194,6 @@ export default class Chronos extends React.Component {
         <div style = {textStyle}>
           {header}
         </div>
-        {this.renderHeaderButton (null, '1',   'Jour',    range === 'day',   () => this.actionRange ('day'))}
-        {this.renderHeaderButton (null, '7',   'Semaine', range === 'week',  () => this.actionRange ('week'))}
-        {this.renderHeaderButton (null, '31',  'Mois',    range === 'month', () => this.actionRange ('month'))}
-        {this.renderHeaderButton (null, '365', 'Année',   range === 'year',  () => this.actionRange ('year'))}
         {this.renderHeaderButton (null, '÷2', null, scale === 0.5, () => this.actionScale (0.5))}
         {this.renderHeaderButton (null, '×1', null, scale === 1, () => this.actionScale (1))}
         {this.renderHeaderButton (null, '×2', null, scale === 2, () => this.actionScale (2))}
@@ -306,6 +290,7 @@ export default class Chronos extends React.Component {
   }
 
   renderSeparator (index) {
+    this.posY += Unit.parse (this.props.theme.shapes.chronosSeparatorHeight).value;
     const style = this.mergeStyles ('separator');
     return (
       <div style={style} ref={index} />
@@ -315,6 +300,7 @@ export default class Chronos extends React.Component {
   /******************************************************************************/
 
   renderLabelsContentDay (day, index) {
+    this.posY += Unit.parse (this.props.theme.shapes.chronosTopHeight).value;
     const lineStyle = this.mergeStyles ('labelTop');
     const text = Converters.getDisplayedDate (day[0], false, 'Wdm');
 
@@ -326,6 +312,7 @@ export default class Chronos extends React.Component {
   }
 
   renderLabelsContentEvent (event, index) {
+    this.posY += Unit.parse (this.props.theme.shapes.chronosLineHeight).value;
     return (
       <ChronoLabel
         event     = {event}
@@ -335,29 +322,34 @@ export default class Chronos extends React.Component {
     );
   }
 
-  renderLabelsContent (days) {
+  renderLabelsContent () {
     const result = [];
+    this.posY = 0;
     let index = 0;
-    for (var day of days) {
-      if (day[1].length > 0) {  // is day with events ?
+    const fromDate = this.getFromDate ();
+    for (var day of this.days) {
+      if (day[0] >= fromDate) {
         if (index > 0) {
           result.push (this.renderSeparator (index++));
         }
         result.push (this.renderLabelsContentDay (day, index++));
         for (var event of day[1]) {
           result.push (this.renderLabelsContentEvent (event, index++));
+          if (this.posY > 1000) {  // TODO !!!
+            return result;
+          }
         }
       }
     }
     return result;
   }
 
-  renderLabels (data, days) {
+  renderLabels () {
     const labelsStyle = this.mergeStyles ('labels');
 
     return (
       <div style = {labelsStyle}>
-        {this.renderLabelsContent (days)}
+        {this.renderLabelsContent ()}
       </div>
     );
   }
@@ -378,8 +370,8 @@ export default class Chronos extends React.Component {
   }
 
   renderEventsContentDay (index) {
+    this.posY += Unit.parse (this.props.theme.shapes.chronosTopHeight).value;
     const lineStyle = this.mergeStyles ('eventTop');
-
     return (
       <div style={lineStyle} ref={index}>
         {this.renderEventsContentDayLine ()}
@@ -388,6 +380,7 @@ export default class Chronos extends React.Component {
   }
 
   renderEventsContentEvent (event, index) {
+    this.posY += Unit.parse (this.props.theme.shapes.chronosLineHeight).value;
     const scale = this.getScale ();
     return (
       <ChronoEvent
@@ -400,30 +393,35 @@ export default class Chronos extends React.Component {
     );
   }
 
-  renderEventsContent (days) {
+  renderEventsContent () {
     const result = [];
+    this.posY = 0;
     let index = 0;
-    for (var day of days) {
-      if (day[1].length > 0) {  // is day with events ?
+    const fromDate = this.getFromDate ();
+    for (var day of this.days) {
+      if (day[0] >= fromDate) {
         if (index > 0) {
           result.push (this.renderSeparator (index++));
         }
         result.push (this.renderEventsContentDay (index++));
         for (var event of day[1]) {
           result.push (this.renderEventsContentEvent (event, index++));
+          if (this.posY > 1000) {  // TODO !!!
+            return result;
+          }
         }
       }
     }
     return result;
   }
 
-  renderEvents (data, days) {
+  renderEvents () {
     const eventsStyle = this.mergeStyles ('events');
 
     return (
       <div style = {eventsStyle}>
         {this.renderGrid ()}
-        {this.renderEventsContent (days)}
+        {this.renderEventsContent ()}
       </div>
     );
   }
@@ -431,16 +429,12 @@ export default class Chronos extends React.Component {
   /******************************************************************************/
 
   render () {
-    const data = this.read ('data');
-    const days = this.getGroupedByDays (data);
-    const h = this.getHeaderTitle ();
-
     const boxStyle     = this.mergeStyles ('box');
     const contentStyle = this.mergeStyles ('content');
 
     return (
       <div style = {boxStyle}>
-        {this.renderHeader (h)}
+        {this.renderHeader (this.getHeaderTitle ())}
         <div style = {contentStyle}>
           <Splitter
             kind          = 'vertical'
@@ -449,8 +443,8 @@ export default class Chronos extends React.Component {
             default-size  = {this.getSplitterWidth ()} min-size='0px'
             onSizeChanged = {size => this.setSplitterWidth (size)}
             {...this.link ()} >
-            {this.renderLabels (data, days)}
-            {this.renderEvents (data, days)}
+            {this.renderLabels ()}
+            {this.renderEvents ()}
           </Splitter>
         </div>
       </div>

@@ -83,8 +83,8 @@ export default function styles (theme, props) {
   };
 
   const separatorStyle = {
-    minHeight:       theme.shapes.chronosLineHeight,
-    maxHeight:       theme.shapes.chronosLineHeight,
+    minHeight:       theme.shapes.chronosSeparatorHeight,
+    maxHeight:       theme.shapes.chronosSeparatorHeight,
   };
 
   return {
