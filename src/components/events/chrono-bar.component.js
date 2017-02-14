@@ -1,17 +1,11 @@
 'use strict';
 
 import React from 'react';
-import {ColorManipulator} from 'electrum';
 import Converters from '../polypheme/converters';
-
-import {
-  Container,
-  Label
-} from '../../all-components.js';
 
 /******************************************************************************/
 
-export default class Chrono extends React.Component {
+export default class ChronoBar extends React.Component {
 
   constructor (props) {
     super (props);

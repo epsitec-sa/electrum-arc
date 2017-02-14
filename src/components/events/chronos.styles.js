@@ -82,73 +82,21 @@ export default function styles (theme, props) {
     cursor:          'default',
   };
 
-  const labelLineStyle = {
-    position:        'relative',
-    minHeight:       theme.shapes.chronosLineHeight,
-    maxHeight:       theme.shapes.chronosLineHeight,
-    padding:         '0px 0px 0px 10px',
-    display:         'flex',
-    flexDirection:   'row',
-    justifyContent:  'flex-start',
-    userSelect:      'none',
-    cursor:          'default',
-  };
-
-  const labelLineHoverStyle = {
-    position:        'relative',
-    minHeight:       theme.shapes.chronosLineHeight,
-    maxHeight:       theme.shapes.chronosLineHeight,
-    padding:         '0px 0px 0px 10px',
-    display:         'flex',
-    flexDirection:   'row',
-    justifyContent:  'flex-start',
-    userSelect:      'none',
-    cursor:          'default',
-    backgroundColor: theme.palette.chronoHover,
-  };
-
-  const eventLineStyle = {
-    position:        'relative',
-    minHeight:       theme.shapes.chronosLineHeight,
-    maxHeight:       theme.shapes.chronosLineHeight,
-    display:         'flex',
-    flexDirection:   'row',
-    justifyContent:  'flex-start',
-    userSelect:      'none',
-    cursor:          'default',
-  };
-
-  const eventLineHoverStyle = {
-    position:        'relative',
-    minHeight:       theme.shapes.chronosLineHeight,
-    maxHeight:       theme.shapes.chronosLineHeight,
-    display:         'flex',
-    flexDirection:   'row',
-    justifyContent:  'flex-start',
-    userSelect:      'none',
-    cursor:          'default',
-    backgroundColor: theme.palette.chronoHover,
-  };
-
   const separatorStyle = {
     minHeight:       theme.shapes.chronosLineHeight,
     maxHeight:       theme.shapes.chronosLineHeight,
   };
 
   return {
-    box:            boxStyle,
-    header:         headerStyle,
-    headerText:     headerTextStyle,
-    content:        contentStyle,
-    labels:         labelsStyle,
-    events:         eventsStyle,
-    labelTop:       labelTopStyle,
-    eventTop:       eventTopStyle,
-    labelLine:      labelLineStyle,
-    labelHoverLine: labelLineHoverStyle,
-    eventLine:      eventLineStyle,
-    eventHoverLine: eventLineHoverStyle,
-    separator:      separatorStyle,
+    box:        boxStyle,
+    header:     headerStyle,
+    headerText: headerTextStyle,
+    content:    contentStyle,
+    labels:     labelsStyle,
+    events:     eventsStyle,
+    labelTop:   labelTopStyle,
+    eventTop:   eventTopStyle,
+    separator:  separatorStyle,
   };
 }
 

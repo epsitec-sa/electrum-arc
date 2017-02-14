@@ -1,7 +1,6 @@
 'use strict';
 
 import {ColorManipulator} from 'electrum';
-import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 

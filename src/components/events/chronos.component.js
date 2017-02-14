@@ -7,6 +7,8 @@ import {Unit} from 'electrum-theme';
 
 import {
   Chrono,
+  ChronoLabel,
+  ChronoEvent,
   Label,
   Button,
   Splitter
@@ -14,11 +16,16 @@ import {
 
 /******************************************************************************/
 
-function getGlyph (note) {
-  if (note.Glyphs && note.Glyphs.length > 0) {
-    return note.Glyphs[0].Glyph;
-  } else {
-    return null;
+function UpdateHover (event, state) {
+  for (let c of window.document.chronoLabels) {
+    if (c.props.event === event) {
+      c.setHover (state);
+    }
+  }
+  for (let c of window.document.chronoEvents) {
+    if (c.props.event === event) {
+      c.setHover (state);
+    }
   }
 }
 
@@ -95,11 +102,11 @@ export default class Chronos extends React.Component {
   }
 
   mouseOver (event) {
-    this.setEventHover (event);
+    UpdateHover (event, true);
   }
 
   mouseOut (event) {
-    this.setEventHover (null);
+    UpdateHover (event, false);
   }
 
   /******************************************************************************/
@@ -319,23 +326,12 @@ export default class Chronos extends React.Component {
   }
 
   renderLabelsContentEvent (event, index) {
-    const styleName = event === this.getEventHover () ? 'labelHoverLine' : 'labelLine';
-    const lineStyle = this.mergeStyles (styleName);
-
-    const glyph = getGlyph (event.Note);
-    const text = event.Note.Content;
-
     return (
-      <div
-        style       = {lineStyle}
-        ref         = {index}
-        onMouseOver = {() => this.mouseOver (event)}
-        onMouseOut  = {() => this.mouseOut (event)}
-        >
-        {this.renderLine (this.props.theme.shapes.chronosLineHeight, '100%')}
-        <Label glyph={glyph} width='30px' {...this.link ()} />
-        <Label text={text} grow='1' wrap='no' {...this.link ()} />
-      </div>
+      <ChronoLabel
+        event     = {event}
+        mouseOver = {() => this.mouseOver (event)}
+        mouseOut  = {() => this.mouseOut (event)}
+        {...this.link ()}/>
     );
   }
 
@@ -392,22 +388,15 @@ export default class Chronos extends React.Component {
   }
 
   renderEventsContentEvent (event, index) {
-    const styleName = event === this.getEventHover () ? 'eventHoverLine' : 'eventLine';
-    const lineStyle = this.mergeStyles (styleName);
-
     const scale = this.getScale ();
-    const width = (24 * 60 * scale) + 'px';
-
     return (
-      <div
-        style       = {lineStyle}
-        ref         = {index}
-        onMouseOver = {() => this.mouseOver (event)}
-        onMouseOut  = {() => this.mouseOut (event)}
-        >
-        {this.renderLine (this.props.theme.shapes.chronosLineHeight, width)}
-        {this.renderEvent (event, index++)}
-      </div>
+      <ChronoEvent
+        event     = {event}
+        scale     = {scale}
+        mouseOver = {() => this.mouseOver (event)}
+        mouseOut  = {() => this.mouseOut (event)}
+        {...this.link ()}
+        />
     );
   }
 
