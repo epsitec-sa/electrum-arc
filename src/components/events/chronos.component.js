@@ -4,6 +4,7 @@ import React from 'react';
 import Enumerable from 'linq';
 import Converters from '../polypheme/converters';
 import {Unit} from 'electrum-theme';
+import ScrollerHelpers from './scroller-helpers.js';
 
 import {
   Chrono,
@@ -24,6 +25,7 @@ export default class Chronos extends React.Component {
       fromDate: null,
       splitterWidth: '25%',
     };
+    this.scrollerWidth = ScrollerHelpers.getScrollBarWidth ();
   }
 
   getRange () {
@@ -175,7 +177,7 @@ export default class Chronos extends React.Component {
     const style = {
       position:        'absolute',
       top:             '0px',
-      height:          '100%',
+      height:          `calc(100% - ${this.scrollerWidth}px)`,
       left:            start,
       width:           width,
       backgroundColor: this.props.theme.palette.eventOddBackground,
