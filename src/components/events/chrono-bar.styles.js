@@ -10,7 +10,6 @@ export default function styles (theme, props) {
   const inputTop    = props.top;
   const inputHeight = props.height;
 
-  const padding = '5px';
   const width  = inputWidth;
   const height = inputHeight;
 
@@ -35,7 +34,14 @@ export default function styles (theme, props) {
   };
 
   const contentStyle = {
-    padding:         padding,
+    position:        'absolute',
+    display:         'flex',
+    flexDirection:   'row',
+    left:            '100%',
+    width:           '1000px',
+    height:          '100%',
+    margin:          '0px 0px 0px 10px',
+    zIndex:          2,
   };
 
   return {

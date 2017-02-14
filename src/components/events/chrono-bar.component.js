@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Converters from '../polypheme/converters';
+import {Label} from '../../all-components.js';
 
 /******************************************************************************/
 
@@ -44,8 +45,21 @@ export default class ChronoBar extends React.Component {
   getTooltip (event) {
     const f = Converters.getDisplayedTime (event.FromTime);
     const t = Converters.getDisplayedTime (event.ToTime);
-    const n = event.Note.Content ? event.Note.Content : '(vide)';
-    return f + ' — ' + t + ' : ' + n;
+    const n = event.Note.Content;
+    return `${f} — ${t} : ${n}`;
+  }
+
+  renderContent (event) {
+    if (this.getHover ()) {
+      const style = this.mergeStyles ('content');
+      return (
+        <div style={style}>
+          <Label text={this.getTooltip (event)} wrap='no' {...this.link ()} />
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 
   render () {
@@ -63,10 +77,11 @@ export default class ChronoBar extends React.Component {
     return (
       <div
         style       = {style}
-        title       = {this.getTooltip (event)}
         onMouseOver = {() => this.mouseOver ()}
         onMouseOut  = {() => this.mouseOut ()}
-        {...this.link ()} />
+        {...this.link ()}>
+        {this.renderContent (event)}
+      </div>
     );
   }
 }

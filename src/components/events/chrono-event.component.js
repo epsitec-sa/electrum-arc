@@ -97,7 +97,7 @@ export default class ChronoEvent extends React.Component {
 
     const s = this.props.theme.shapes.eventSeparator;
     const left   = fromPos + 'px';
-    const width  = (toPos - fromPos) + 'px';
+    const width  = Math.max ((toPos - fromPos), 5) + 'px';
     const top    = s;
     const height = `calc(100% - ${Unit.multiply (s, 2)})`;
 
