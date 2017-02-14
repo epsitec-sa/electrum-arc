@@ -53,9 +53,10 @@ export default class ChronoBar extends React.Component {
     }
   }
 
-  renderContent (event) {
+  // If hover. draw a 'tooltip' on the right side of bar.
+  renderTooltip (event) {
     if (this.getHover ()) {
-      const style = this.mergeStyles ('content');
+      const style = this.mergeStyles ('tooltip');
       return (
         <div style={style}>
           <Label text={this.getTooltip (event)} wrap='no' {...this.link ()} />
@@ -69,12 +70,6 @@ export default class ChronoBar extends React.Component {
   render () {
     const event = this.read ('event');
 
-    const note = event.Note;
-    let glyph = null;
-    if (note.Glyphs && note.Glyphs.length > 0) {
-      glyph = note.Glyphs[0].Glyph;
-    }
-
     const style = this.mergeStyles (this.getHover () ? 'hover' : 'base');
     // const style = this.mergeStyles ('base');
 
@@ -84,7 +79,7 @@ export default class ChronoBar extends React.Component {
         onMouseOver = {() => this.mouseOver ()}
         onMouseOut  = {() => this.mouseOut ()}
         {...this.link ()}>
-        {this.renderContent (event)}
+        {this.renderTooltip (event)}
       </div>
     );
   }

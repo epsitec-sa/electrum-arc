@@ -10,15 +10,12 @@ export default function styles (theme, props) {
   const inputTop    = props.top;
   const inputHeight = props.height;
 
-  const width  = inputWidth;
-  const height = inputHeight;
-
   const baseStyle = {
     position:        'absolute',
     left:            inputLeft,
-    width:           width,
+    width:           inputWidth,
     top:             inputTop,
-    height:          height,
+    height:          inputHeight,
     backgroundColor: theme.palette.chronoEventBackground,
     userSelect:      'none',
   };
@@ -26,14 +23,14 @@ export default function styles (theme, props) {
   const hoverStyle = {
     position:        'absolute',
     left:            inputLeft,
-    width:           width,
+    width:           inputWidth,
     top:             inputTop,
-    height:          height,
+    height:          inputHeight,
     backgroundColor: ColorManipulator.emphasize (theme.palette.chronoEventBackground, 0.2),
     userSelect:      'none',
   };
 
-  const contentStyle = {
+  const tooltipStyle = {
     position:        'absolute',
     display:         'flex',
     flexDirection:   'row',
@@ -47,7 +44,7 @@ export default function styles (theme, props) {
   return {
     base:    baseStyle,
     hover:   hoverStyle,
-    content: contentStyle,
+    tooltip: tooltipStyle,
   };
 }
 
