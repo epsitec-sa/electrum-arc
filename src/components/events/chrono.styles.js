@@ -22,6 +22,7 @@ export default function styles (theme, props) {
     top:             inputTop,
     height:          height,
     backgroundColor: theme.palette.chronoEventBackground,
+    userSelect:      'none',
   };
 
   const hoverStyle = {
@@ -31,6 +32,7 @@ export default function styles (theme, props) {
     top:             inputTop,
     height:          height,
     backgroundColor: ColorManipulator.emphasize (theme.palette.chronoEventBackground, 0.2),
+    userSelect:      'none',
   };
 
   const contentStyle = {

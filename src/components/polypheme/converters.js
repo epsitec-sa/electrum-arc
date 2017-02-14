@@ -233,6 +233,9 @@ function getDisplayedDate (date, useNowByDefault, format) {
     } else if (format === 'Wdm') {
       const w = FormatedDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
       return getDOWDescription ((w + 6) % 7, '3') + ' ' + padding (d.day, 2) + '.' + padding (d.month, 2);
+    } else if (format === 'Wdmy') {
+      const w = FormatedDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
+      return getDOWDescription ((w + 6) % 7, '3') + ' ' + padding (d.day, 2) + '.' + padding (d.month, 2) + '.' + padding (d.year, 4);
     } else {
       return padding (d.day, 2) + '.' + padding (d.month, 2) + '.' + padding (d.year, 4);
     }

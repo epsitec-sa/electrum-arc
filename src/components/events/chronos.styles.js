@@ -44,43 +44,111 @@ export default function styles (theme, props) {
     flexDirection:   'column',
     flexGrow:        1,
     overflowX:       'hidden',
+    overflowY:       'hidden',
   };
 
   const eventsStyle = {
+    position:        'relative',
     display:         'flex',
     flexDirection:   'column',
     flexGrow:        1,
-    overflowX:       'scroll',
+    overflowX:       'auto',
+    overflowY:       'hidden',
   };
 
-  const topStyle = {
+  const labelTopStyle = {
     position:        'relative',
-    height:          '30px',
-    margin:          '0px 0px ' + theme.shapes.eventSeparator + ' 0px',
+    minHeight:       theme.shapes.chronosTopHeight,
+    maxHeight:       theme.shapes.chronosTopHeight,
+    padding:         '0px 0px 0px 10px',
     display:         'flex',
     flexDirection:   'row',
     justifyContent:  'center',
     backgroundColor: theme.palette.chronoDayBackground,
+    fontWeight:      'bold',
+    textTransform:   'uppercase',
+    userSelect:      'none',
+    cursor:          'default',
   };
 
-  const lineStyle = {
+  const eventTopStyle = {
     position:        'relative',
-    height:          '20px',
-    margin:          '0px 0px ' + theme.shapes.eventSeparator + ' 0px',
+    minHeight:       theme.shapes.chronosTopHeight,
+    maxHeight:       theme.shapes.chronosTopHeight,
+    display:         'flex',
+    flexDirection:   'row',
+    justifyContent:  'center',
+    userSelect:      'none',
+    cursor:          'default',
+  };
+
+  const labelLineStyle = {
+    position:        'relative',
+    minHeight:       theme.shapes.chronosLineHeight,
+    maxHeight:       theme.shapes.chronosLineHeight,
+    padding:         '0px 0px 0px 10px',
     display:         'flex',
     flexDirection:   'row',
     justifyContent:  'flex-start',
+    userSelect:      'none',
+    cursor:          'default',
+  };
+
+  const labelLineHoverStyle = {
+    position:        'relative',
+    minHeight:       theme.shapes.chronosLineHeight,
+    maxHeight:       theme.shapes.chronosLineHeight,
+    padding:         '0px 0px 0px 10px',
+    display:         'flex',
+    flexDirection:   'row',
+    justifyContent:  'flex-start',
+    userSelect:      'none',
+    cursor:          'default',
+    backgroundColor: theme.palette.chronoHover,
+  };
+
+  const eventLineStyle = {
+    position:        'relative',
+    minHeight:       theme.shapes.chronosLineHeight,
+    maxHeight:       theme.shapes.chronosLineHeight,
+    display:         'flex',
+    flexDirection:   'row',
+    justifyContent:  'flex-start',
+    userSelect:      'none',
+    cursor:          'default',
+  };
+
+  const eventLineHoverStyle = {
+    position:        'relative',
+    minHeight:       theme.shapes.chronosLineHeight,
+    maxHeight:       theme.shapes.chronosLineHeight,
+    display:         'flex',
+    flexDirection:   'row',
+    justifyContent:  'flex-start',
+    userSelect:      'none',
+    cursor:          'default',
+    backgroundColor: theme.palette.chronoHover,
+  };
+
+  const separatorStyle = {
+    minHeight:       theme.shapes.chronosLineHeight,
+    maxHeight:       theme.shapes.chronosLineHeight,
   };
 
   return {
-    box:        boxStyle,
-    header:     headerStyle,
-    headerText: headerTextStyle,
-    content:    contentStyle,
-    labels:     labelsStyle,
-    events:     eventsStyle,
-    top:        topStyle,
-    line:       lineStyle,
+    box:            boxStyle,
+    header:         headerStyle,
+    headerText:     headerTextStyle,
+    content:        contentStyle,
+    labels:         labelsStyle,
+    events:         eventsStyle,
+    labelTop:       labelTopStyle,
+    eventTop:       eventTopStyle,
+    labelLine:      labelLineStyle,
+    labelHoverLine: labelLineHoverStyle,
+    eventLine:      eventLineStyle,
+    eventHoverLine: eventLineHoverStyle,
+    separator:      separatorStyle,
   };
 }
 

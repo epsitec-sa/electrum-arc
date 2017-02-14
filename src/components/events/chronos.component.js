@@ -4,7 +4,6 @@ import React from 'react';
 import Enumerable from 'linq';
 import Converters from '../polypheme/converters';
 import {Unit} from 'electrum-theme';
-import ScrollerHelpers from './scroller-helpers.js';
 
 import {
   Chrono,
@@ -15,17 +14,27 @@ import {
 
 /******************************************************************************/
 
+function getGlyph (note) {
+  if (note.Glyphs && note.Glyphs.length > 0) {
+    return note.Glyphs[0].Glyph;
+  } else {
+    return null;
+  }
+}
+
+/******************************************************************************/
+
 export default class Chronos extends React.Component {
 
   constructor (props) {
     super (props);
     this.state = {
-      range:    'week',
-      scale:    1,
-      fromDate: null,
-      splitterWidth: '25%',
+      range:         'week',
+      scale:         1,
+      fromDate:      null,
+      splitterWidth: '10%',
+      eventHover:    null,
     };
-    this.scrollerWidth = ScrollerHelpers.getScrollBarWidth ();
   }
 
   getRange () {
@@ -68,11 +77,29 @@ export default class Chronos extends React.Component {
     });
   }
 
+  getEventHover () {
+    return this.state.eventHover;
+  }
+
+  setEventHover (value) {
+    this.setState ( {
+      eventHover: value
+    });
+  }
+
   /******************************************************************************/
 
   componentWillMount () {
     const data = this.read ('data');
     this.setFromDate (data.FromDate);
+  }
+
+  mouseOver (event) {
+    this.setEventHover (event);
+  }
+
+  mouseOut (event) {
+    this.setEventHover (null);
   }
 
   /******************************************************************************/
@@ -108,6 +135,21 @@ export default class Chronos extends React.Component {
       }
     }
     return result;
+  }
+
+  getHeaderTitle () {
+    const f = this.getFromDate ();
+    const t = Converters.addDays (this.getToDate (), -1);
+    const range = this.getRange ();
+    if (range === 'day') {
+      return Converters.getDisplayedDate (f, false, 'Wdmy');
+    } else if (range === 'week') {
+      return Converters.getDisplayedDate (f) + ' — ' + Converters.getDisplayedDate (t);
+    } else if (range === 'month') {
+      return Converters.getDisplayedDate (f, false, 'My');
+    } else {
+      return Converters.getDisplayedDate (f, false, 'y');
+    }
   }
 
   /******************************************************************************/
@@ -172,12 +214,26 @@ export default class Chronos extends React.Component {
     );
   }
 
+  renderLine (top, width) {
+    const style = {
+      position:        'absolute',
+      top:             top,
+      height:          '1px',
+      left:            '0px',
+      width:           width,
+      backgroundColor: this.props.theme.palette.chronoLineSeparator,
+    };
+    return (
+      <div style={style} />
+    );
+  }
+
   renderZone (start, end) {
     const width = Unit.sub (end, start);
     const style = {
       position:        'absolute',
       top:             '0px',
-      height:          `calc(100% - ${this.scrollerWidth}px)`,
+      height:          '100%',
       left:            start,
       width:           width,
       backgroundColor: this.props.theme.palette.eventOddBackground,
@@ -224,10 +280,11 @@ export default class Chronos extends React.Component {
     const from = Converters.getMinutes (event.FromTime) * scale;
     const   to = Converters.getMinutes (event.ToTime)   * scale;
 
+    const s = this.props.theme.shapes.eventSeparator;
     const left   = from + 'px';
-    const width  = Math.max ((to - from) - 1, 2) + 'px';
-    const top    = '0%';
-    const height = '100%';
+    const width  = (to - from) + 'px';
+    const top    = s;
+    const height = `calc(100% - ${Unit.multiply (s, 2)})`;
 
     return (
       <Chrono
@@ -241,10 +298,17 @@ export default class Chronos extends React.Component {
     );
   }
 
+  renderSeparator (index) {
+    const style = this.mergeStyles ('separator');
+    return (
+      <div style={style} ref={index} />
+    );
+  }
+
   /******************************************************************************/
 
   renderLabelsContentDay (day, index) {
-    const lineStyle = this.mergeStyles ('top');
+    const lineStyle = this.mergeStyles ('labelTop');
     const text = Converters.getDisplayedDate (day[0], false, 'Wdm');
 
     return (
@@ -255,11 +319,21 @@ export default class Chronos extends React.Component {
   }
 
   renderLabelsContentEvent (event, index) {
-    const lineStyle = this.mergeStyles ('line');
+    const styleName = event === this.getEventHover () ? 'labelHoverLine' : 'labelLine';
+    const lineStyle = this.mergeStyles (styleName);
+
+    const glyph = getGlyph (event.Note);
     const text = event.Note.Content;
 
     return (
-      <div style={lineStyle} ref={index}>
+      <div
+        style       = {lineStyle}
+        ref         = {index}
+        onMouseOver = {() => this.mouseOver (event)}
+        onMouseOut  = {() => this.mouseOut (event)}
+        >
+        {this.renderLine (this.props.theme.shapes.chronosLineHeight, '100%')}
+        <Label glyph={glyph} width='30px' {...this.link ()} />
         <Label text={text} grow='1' wrap='no' {...this.link ()} />
       </div>
     );
@@ -269,7 +343,10 @@ export default class Chronos extends React.Component {
     const result = [];
     let index = 0;
     for (var day of days) {
-      if (day[1].length > 0) {
+      if (day[1].length > 0) {  // is day with events ?
+        if (index > 0) {
+          result.push (this.renderSeparator (index++));
+        }
         result.push (this.renderLabelsContentDay (day, index++));
         for (var event of day[1]) {
           result.push (this.renderLabelsContentEvent (event, index++));
@@ -291,7 +368,7 @@ export default class Chronos extends React.Component {
 
   /******************************************************************************/
 
-  renderEventsContentDayLine (day) {
+  renderEventsContentDayLine () {
     const result = [];
     let index = 0;
     const scale = this.getScale ();
@@ -304,21 +381,31 @@ export default class Chronos extends React.Component {
     return result;
   }
 
-  renderEventsContentDay (day, index) {
-    const lineStyle = this.mergeStyles ('top');
+  renderEventsContentDay (index) {
+    const lineStyle = this.mergeStyles ('eventTop');
 
     return (
       <div style={lineStyle} ref={index}>
-        {this.renderEventsContentDayLine (day)}
+        {this.renderEventsContentDayLine ()}
       </div>
     );
   }
 
-  renderEventsContentEvents (event, index) {
-    const lineStyle = this.mergeStyles ('line');
+  renderEventsContentEvent (event, index) {
+    const styleName = event === this.getEventHover () ? 'eventHoverLine' : 'eventLine';
+    const lineStyle = this.mergeStyles (styleName);
+
+    const scale = this.getScale ();
+    const width = (24 * 60 * scale) + 'px';
 
     return (
-      <div style={lineStyle} ref={index}>
+      <div
+        style       = {lineStyle}
+        ref         = {index}
+        onMouseOver = {() => this.mouseOver (event)}
+        onMouseOut  = {() => this.mouseOut (event)}
+        >
+        {this.renderLine (this.props.theme.shapes.chronosLineHeight, width)}
         {this.renderEvent (event, index++)}
       </div>
     );
@@ -328,10 +415,13 @@ export default class Chronos extends React.Component {
     const result = [];
     let index = 0;
     for (var day of days) {
-      if (day[1].length > 0) {
-        result.push (this.renderEventsContentDay (day, index++));
+      if (day[1].length > 0) {  // is day with events ?
+        if (index > 0) {
+          result.push (this.renderSeparator (index++));
+        }
+        result.push (this.renderEventsContentDay (index++));
         for (var event of day[1]) {
-          result.push (this.renderEventsContentEvents (event, index++));
+          result.push (this.renderEventsContentEvent (event, index++));
         }
       }
     }
@@ -354,7 +444,7 @@ export default class Chronos extends React.Component {
   render () {
     const data = this.read ('data');
     const days = this.getGroupedByDays (data);
-    const h = Converters.getDisplayedDate (this.getFromDate (), false, 'My');
+    const h = this.getHeaderTitle ();
 
     const boxStyle     = this.mergeStyles ('box');
     const contentStyle = this.mergeStyles ('content');
