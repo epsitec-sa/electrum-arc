@@ -40,6 +40,7 @@ export default function styles (theme, props) {
   };
 
   const labelsStyle = {
+    position:        'relative',
     display:         'flex',
     flexDirection:   'column',
     flexGrow:        1,
@@ -57,9 +58,10 @@ export default function styles (theme, props) {
   };
 
   const labelTopStyle = {
-    position:        'relative',
+    position:        'absolute',
     minHeight:       theme.shapes.chronosTopHeight,
     maxHeight:       theme.shapes.chronosTopHeight,
+    width:           '100%',
     padding:         '0px 0px 0px 10px',
     display:         'flex',
     flexDirection:   'row',
@@ -72,7 +74,7 @@ export default function styles (theme, props) {
   };
 
   const eventTopStyle = {
-    position:        'relative',
+    position:        'absolute',
     minHeight:       theme.shapes.chronosTopHeight,
     maxHeight:       theme.shapes.chronosTopHeight,
     display:         'flex',
@@ -80,11 +82,6 @@ export default function styles (theme, props) {
     justifyContent:  'center',
     userSelect:      'none',
     cursor:          'default',
-  };
-
-  const separatorStyle = {
-    minHeight:       theme.shapes.chronosSeparatorHeight,
-    maxHeight:       theme.shapes.chronosSeparatorHeight,
   };
 
   return {
@@ -96,7 +93,6 @@ export default function styles (theme, props) {
     events:     eventsStyle,
     labelTop:   labelTopStyle,
     eventTop:   eventTopStyle,
-    separator:  separatorStyle,
   };
 }
 

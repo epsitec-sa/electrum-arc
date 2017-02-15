@@ -84,9 +84,9 @@ export default class ChronoEvent extends React.Component {
     };
     return (
       <div
-        style       = {style}
-        onMouseOver = {() => this.mouseOver (event)}
-        onMouseOut  = {() => this.mouseOut (event)}
+        style        = {style}
+        onMouseOver  = {() => this.mouseOver (event)}
+        onMouseOut   = {() => this.mouseOut (event)}
         />
     );
   }
@@ -108,24 +108,26 @@ export default class ChronoEvent extends React.Component {
         width  = {width}
         top    = {top}
         height = {height}
+        hover  = {this.getHover () ? 'true' : 'false'}
         {...this.link ()} />
     );
   }
 
   render () {
     const event = this.read ('event');
+    const pos   = this.read ('pos');
     const scale = this.read ('scale');
 
     const lineStyle = this.mergeStyles ('line');
+    lineStyle.top = pos;
+
     const width = (24 * 60 * scale) + 'px';
 
     return (
-      <div
-        style       = {lineStyle}
-        >
-        {this.renderHover (event, width)}
+      <div style={lineStyle}>
         {this.renderLine (this.props.theme.shapes.chronosLineHeight, width)}
         {this.renderBar (event, scale)}
+        {this.renderHover (event, width)}
       </div>
     );
   }

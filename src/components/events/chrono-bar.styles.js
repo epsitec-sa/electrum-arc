@@ -20,16 +20,6 @@ export default function styles (theme, props) {
     userSelect:      'none',
   };
 
-  const hoverStyle = {
-    position:        'absolute',
-    left:            inputLeft,
-    width:           inputWidth,
-    top:             inputTop,
-    height:          inputHeight,
-    backgroundColor: ColorManipulator.emphasize (theme.palette.chronoEventBackground, 0.2),
-    userSelect:      'none',
-  };
-
   const tooltipStyle = {
     position:        'absolute',
     display:         'flex',
@@ -38,12 +28,10 @@ export default function styles (theme, props) {
     width:           '1000px',
     height:          '100%',
     margin:          '0px 0px 0px 10px',
-    zIndex:          2,
   };
 
   return {
     base:    baseStyle,
-    hover:   hoverStyle,
     tooltip: tooltipStyle,
   };
 }

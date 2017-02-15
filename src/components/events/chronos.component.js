@@ -16,38 +16,24 @@ import {
 
 /******************************************************************************/
 
-function getGroupedByDays (data) {
-  const result = new Map ();
+function getFlatData (data, theme) {
+  const result = [];
+  var lastDate = null;
+  var pos = 0;
   for (var event of data.Events) {
-    var key = event.FromDate;
-    if (!result.has (key)) {
-      result.set (key, []);
+    if (!lastDate || lastDate !== event.FromDate) {
+      if (lastDate) {
+        result.push ({type: 'sep', pos: pos});
+        pos += Unit.parse (theme.shapes.chronosSeparatorHeight).value;
+      }
+      result.push ({type: 'top', pos: pos, date: event.FromDate});
+      pos += Unit.parse (theme.shapes.chronosTopHeight).value;
+      lastDate = event.FromDate;
     }
-    result.get (key).push (event);
+    result.push ({type: 'event', pos: pos, event: event});
+    pos += Unit.parse (theme.shapes.chronosLineHeight).value;
   }
   return result;
-}
-
-function getDateIndex (days, date) {
-  var index = 0;
-  for (var day of days) {
-    if (day[0] === date) {
-      return index;
-    }
-    index++;
-  }
-  return -1;
-}
-
-function getDateFromIndex (days, index) {
-  var i = 0;
-  for (var day of days) {
-    if (i === index) {
-      return day[0];
-    }
-    i++;
-  }
-  return null;
 }
 
 /******************************************************************************/
@@ -73,7 +59,7 @@ export default class Chronos extends React.Component {
     super (props);
     this.state = {
       scale:         1,
-      fromDate:      null,
+      shoingPos:     0,
       splitterWidth: '10%',
       eventHover:    null,
     };
@@ -89,13 +75,13 @@ export default class Chronos extends React.Component {
     });
   }
 
-  getFromDate () {
-    return this.state.fromDate;
+  getShoingPos () {
+    return this.state.shoingPos;
   }
 
-  setFromDate (value) {
+  setShoingPos (value) {
     this.setState ( {
-      fromDate: value
+      shoingPos: value
     });
   }
 
@@ -123,15 +109,50 @@ export default class Chronos extends React.Component {
 
   componentWillMount () {
     const data = this.read ('data');
-    this.days = getGroupedByDays (data);
-    this.setFromDate (getDateFromIndex (this.days, 0));
+    this.flatData = getFlatData (data, this.props.theme);
+
     // const node = ReactDOM.findDOMNode (this);
     // console.dir (node);
 
   }
 
+  mouseDown (e) {
+    // console.log ('Chronos.mouseDown');
+    this.isMouseDown = true;
+    this.mouseLastX = null;
+    this.mouseLastY = null;
+  }
+
+  mouseMove (e) {
+    // console.log ('Chronos.mouseMove');
+    if (!this.isMouseDown) {
+      return;
+    }
+    let x = e.clientX;
+    let y = e.clientY;
+    if (!x && e.touches.length > 0) {
+      x = e.touches[0].clientX;
+      y = e.touches[0].clientY;
+    }
+    if (!x || !y) {
+      return;
+    }
+    if (this.mouseLastY) {
+      const delta = y - this.mouseLastY;
+      const pos = Math.max (this.getShoingPos () - delta, 0);
+      this.setShoingPos (pos);
+    }
+    this.mouseLastX = x;
+    this.mouseLastY = y;
+  }
+
+  mouseUp (e) {
+    // console.log ('Chronos.mouseUp');
+    this.isMouseDown = false;
+  }
+
   mouseOver (event) {
-    UpdateHover (event, true);
+    UpdateHover (event, !this.isMouseDown);
   }
 
   mouseOut (event) {
@@ -141,25 +162,20 @@ export default class Chronos extends React.Component {
   /******************************************************************************/
 
   getHeaderTitle () {
-    return Converters.getDisplayedDate (this.getFromDate (), false, 'Wdmy');
+    const data = this.read ('data');
+    const f = Converters.getDisplayedDate (data.FromDate);
+    const t = Converters.getDisplayedDate (data.ToDate);
+    return `${f} — ${t}`;
   }
 
   /******************************************************************************/
 
   actionPrev () {
-    var index = getDateIndex (this.days, this.getFromDate ());
-    var date = getDateFromIndex (this.days, index - 1);
-    if (date) {
-      this.setFromDate (date);
-    }
+    this.setShoingPos (this.getShoingPos () - 32);
   }
 
   actionNext () {
-    var index = getDateIndex (this.days, this.getFromDate ());
-    var date = getDateFromIndex (this.days, index + 1);
-    if (date) {
-      this.setFromDate (date);
-    }
+    this.setShoingPos (this.getShoingPos () + 32);
   }
 
   actionScale (scale) {
@@ -256,6 +272,7 @@ export default class Chronos extends React.Component {
       left:            start,
       width:           width,
       backgroundColor: this.props.theme.palette.chronoDayBackground,
+      userSelect:      'none',
     };
     const text = Converters.getDisplayedTime (Converters.addSeconds (time, 1), false, 'h');
 
@@ -289,20 +306,13 @@ export default class Chronos extends React.Component {
     );
   }
 
-  renderSeparator (index) {
-    this.posY += Unit.parse (this.props.theme.shapes.chronosSeparatorHeight).value;
-    const style = this.mergeStyles ('separator');
-    return (
-      <div style={style} ref={index} />
-    );
-  }
-
   /******************************************************************************/
 
-  renderLabelsContentDay (day, index) {
-    this.posY += Unit.parse (this.props.theme.shapes.chronosTopHeight).value;
+  renderLabelsContentDay (pos, date, index) {
     const lineStyle = this.mergeStyles ('labelTop');
-    const text = Converters.getDisplayedDate (day[0], false, 'Wdm');
+    lineStyle.top = pos;
+
+    const text = Converters.getDisplayedDate (date, false, 'Wdm');
 
     return (
       <div style={lineStyle} ref={index}>
@@ -311,11 +321,11 @@ export default class Chronos extends React.Component {
     );
   }
 
-  renderLabelsContentEvent (event, index) {
-    this.posY += Unit.parse (this.props.theme.shapes.chronosLineHeight).value;
+  renderLabelsContentEvent (pos, event, index) {
     return (
       <ChronoLabel
         event     = {event}
+        pos       = {pos}
         mouseOver = {() => this.mouseOver (event)}
         mouseOut  = {() => this.mouseOut (event)}
         {...this.link ()}/>
@@ -324,20 +334,18 @@ export default class Chronos extends React.Component {
 
   renderLabelsContent () {
     const result = [];
-    this.posY = 0;
+    const shoingPos = this.getShoingPos ();
     let index = 0;
-    const fromDate = this.getFromDate ();
-    for (var day of this.days) {
-      if (day[0] >= fromDate) {
-        if (index > 0) {
-          result.push (this.renderSeparator (index++));
+    for (var item of this.flatData) {
+      if (item.pos >= shoingPos - 50) {
+        const pos = (item.pos - shoingPos) + 'px';
+        if (item.type === 'top') {
+          result.push (this.renderLabelsContentDay (pos, item.date, index++));
+        } else if (item.type === 'event') {
+          result.push (this.renderLabelsContentEvent (pos, item.event, index++));
         }
-        result.push (this.renderLabelsContentDay (day, index++));
-        for (var event of day[1]) {
-          result.push (this.renderLabelsContentEvent (event, index++));
-          if (this.posY > 1000) {  // TODO !!!
-            return result;
-          }
+        if (item.pos - shoingPos > 1000) {  // TODO !!!
+          break;
         }
       }
     }
@@ -369,9 +377,10 @@ export default class Chronos extends React.Component {
     return result;
   }
 
-  renderEventsContentDay (index) {
-    this.posY += Unit.parse (this.props.theme.shapes.chronosTopHeight).value;
+  renderEventsContentDay (pos, index) {
     const lineStyle = this.mergeStyles ('eventTop');
+    lineStyle.top = pos;
+
     return (
       <div style={lineStyle} ref={index}>
         {this.renderEventsContentDayLine ()}
@@ -379,12 +388,12 @@ export default class Chronos extends React.Component {
     );
   }
 
-  renderEventsContentEvent (event, index) {
-    this.posY += Unit.parse (this.props.theme.shapes.chronosLineHeight).value;
+  renderEventsContentEvent (pos, event, index) {
     const scale = this.getScale ();
     return (
       <ChronoEvent
         event     = {event}
+        pos       = {pos}
         scale     = {scale}
         mouseOver = {() => this.mouseOver (event)}
         mouseOut  = {() => this.mouseOut (event)}
@@ -395,20 +404,18 @@ export default class Chronos extends React.Component {
 
   renderEventsContent () {
     const result = [];
-    this.posY = 0;
+    const shoingPos = this.getShoingPos ();
     let index = 0;
-    const fromDate = this.getFromDate ();
-    for (var day of this.days) {
-      if (day[0] >= fromDate) {
-        if (index > 0) {
-          result.push (this.renderSeparator (index++));
+    for (var item of this.flatData) {
+      if (item.pos >= shoingPos - 50) {
+        const pos = (item.pos - shoingPos) + 'px';
+        if (item.type === 'top') {
+          result.push (this.renderEventsContentDay (pos, index++));
+        } else if (item.type === 'event') {
+          result.push (this.renderEventsContentEvent (pos, item.event, index++));
         }
-        result.push (this.renderEventsContentDay (index++));
-        for (var event of day[1]) {
-          result.push (this.renderEventsContentEvent (event, index++));
-          if (this.posY > 1000) {  // TODO !!!
-            return result;
-          }
+        if (item.pos - shoingPos > 1000) {  // TODO !!!
+          break;
         }
       }
     }
@@ -433,7 +440,15 @@ export default class Chronos extends React.Component {
     const contentStyle = this.mergeStyles ('content');
 
     return (
-      <div style = {boxStyle}>
+      <div
+        style        = {boxStyle}
+        onMouseDown  = {e => this.mouseDown (e)}
+        onMouseMove  = {e => this.mouseMove (e)}
+        onMouseUp    = {e => this.mouseUp (e)}
+        onTouchStart = {e => this.mouseDown (e)}
+        onTouchMove  = {e => this.mouseMove (e)}
+        onTouchEnd   = {e => this.mouseUp (e)}
+        >
         {this.renderHeader (this.getHeaderTitle ())}
         <div style = {contentStyle}>
           <Splitter

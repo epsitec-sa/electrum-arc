@@ -4,7 +4,7 @@
 
 export default function styles (theme, props) {
   const lineStyle = {
-    position:        'relative',
+    position:        'absolute',
     minHeight:       theme.shapes.chronosLineHeight,
     maxHeight:       theme.shapes.chronosLineHeight,
     display:         'flex',

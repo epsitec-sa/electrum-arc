@@ -82,12 +82,14 @@ export default class ChronoLabel extends React.Component {
 
   render () {
     const event = this.read ('event');
+    const pos   = this.read ('pos');
 
     const glyph = getGlyph (event.Note);
     const text  = event.Note.Content;
 
     const styleName = this.getHover () ? 'hoverLine' : 'line';
     const lineStyle = this.mergeStyles (styleName);
+    lineStyle.top = pos;
 
     return (
       <div

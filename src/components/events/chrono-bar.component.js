@@ -10,9 +10,6 @@ export default class ChronoBar extends React.Component {
 
   constructor (props) {
     super (props);
-    this.state = {
-      hover: false,
-    };
   }
 
   get styleProps () {
@@ -22,24 +19,6 @@ export default class ChronoBar extends React.Component {
       top:    this.read ('top'),
       height: this.read ('height'),
     };
-  }
-
-  getHover () {
-    return this.state.hover;
-  }
-
-  setHover (value) {
-    this.setState ( {
-      hover: value
-    });
-  }
-
-  mouseOver () {
-    this.setHover (true);
-  }
-
-  mouseOut () {
-    this.setHover (false);
   }
 
   getTooltip (event) {
@@ -54,8 +33,8 @@ export default class ChronoBar extends React.Component {
   }
 
   // If hover. draw a 'tooltip' on the right side of bar.
-  renderTooltip (event) {
-    if (this.getHover ()) {
+  renderTooltip (event, hover) {
+    if (hover) {
       const style = this.mergeStyles ('tooltip');
       return (
         <div style={style}>
@@ -69,17 +48,15 @@ export default class ChronoBar extends React.Component {
 
   render () {
     const event = this.read ('event');
+    const hover = this.read ('hover');
 
-    const style = this.mergeStyles (this.getHover () ? 'hover' : 'base');
-    // const style = this.mergeStyles ('base');
+    const style = this.mergeStyles ('base');
 
     return (
       <div
-        style       = {style}
-        onMouseOver = {() => this.mouseOver ()}
-        onMouseOut  = {() => this.mouseOut ()}
+        style = {style}
         {...this.link ()}>
-        {this.renderTooltip (event)}
+        {this.renderTooltip (event, hover === 'true')}
       </div>
     );
   }
