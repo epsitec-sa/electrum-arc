@@ -59,7 +59,8 @@ export default class Chronos extends React.Component {
     super (props);
     this.state = {
       scale:         1,
-      shoingPos:     0,
+      verticalPos:   0,
+      horizontalPos: 0,
       splitterWidth: '10%',
       eventHover:    null,
     };
@@ -75,13 +76,23 @@ export default class Chronos extends React.Component {
     });
   }
 
-  getShoingPos () {
-    return this.state.shoingPos;
+  getVerticalPos () {
+    return this.state.verticalPos;
   }
 
-  setShoingPos (value) {
+  setVerticalPos (value) {
     this.setState ( {
-      shoingPos: value
+      verticalPos: value
+    });
+  }
+
+  getHorizontalPos () {
+    return this.state.horizontalPos;
+  }
+
+  setHorizontalPos (value) {
+    this.setState ( {
+      horizontalPos: value
     });
   }
 
@@ -137,10 +148,16 @@ export default class Chronos extends React.Component {
     if (!x || !y) {
       return;
     }
+
+    if (this.mouseLastX) {
+      const delta = x - this.mouseLastX;
+      const pos = Math.max (this.getHorizontalPos () - delta, 0);
+      this.setHorizontalPos (pos);
+    }
     if (this.mouseLastY) {
       const delta = y - this.mouseLastY;
-      const pos = Math.max (this.getShoingPos () - delta, 0);
-      this.setShoingPos (pos);
+      const pos = Math.max (this.getVerticalPos () - delta, 0);
+      this.setVerticalPos (pos);
     }
     this.mouseLastX = x;
     this.mouseLastY = y;
@@ -171,11 +188,11 @@ export default class Chronos extends React.Component {
   /******************************************************************************/
 
   actionPrev () {
-    this.setShoingPos (this.getShoingPos () - 32);
+    this.setVerticalPos (this.getVerticalPos () - 32);
   }
 
   actionNext () {
-    this.setShoingPos (this.getShoingPos () + 32);
+    this.setVerticalPos (this.getVerticalPos () + 32);
   }
 
   actionScale (scale) {
@@ -252,11 +269,12 @@ export default class Chronos extends React.Component {
 
   renderGrid () {
     const result = [];
-    const scale = this.getScale ();
+    const scale         = this.getScale ();
+    const horizontalPos = this.getHorizontalPos ();
     for (var h = 0; h < 24 ; h++) {
       if (h % 2 === 1) {
-        const start = ((h + 0) * 60 * scale) + 'px';
-        const end   = ((h + 1) * 60 * scale) + 'px';
+        const start = (((h + 0) * 60 * scale) - horizontalPos) + 'px';
+        const end   = (((h + 1) * 60 * scale) - horizontalPos) + 'px';
         result.push (this.renderZone (start, end));
       }
     }
@@ -321,30 +339,30 @@ export default class Chronos extends React.Component {
     );
   }
 
-  renderLabelsContentEvent (pos, event, index) {
+  renderLabelsContentEvent (verticalPos, event, index) {
     return (
       <ChronoLabel
-        event     = {event}
-        pos       = {pos}
-        mouseOver = {() => this.mouseOver (event)}
-        mouseOut  = {() => this.mouseOut (event)}
+        event       = {event}
+        verticalPos = {verticalPos}
+        mouseOver   = {() => this.mouseOver (event)}
+        mouseOut    = {() => this.mouseOut (event)}
         {...this.link ()}/>
     );
   }
 
   renderLabelsContent () {
     const result = [];
-    const shoingPos = this.getShoingPos ();
+    const verticalPos = this.getVerticalPos ();
     let index = 0;
     for (var item of this.flatData) {
-      if (item.pos >= shoingPos - 50) {
-        const pos = (item.pos - shoingPos) + 'px';
+      if (item.pos >= verticalPos - 50) {
+        const pos = (item.pos - verticalPos) + 'px';
         if (item.type === 'top') {
           result.push (this.renderLabelsContentDay (pos, item.date, index++));
         } else if (item.type === 'event') {
           result.push (this.renderLabelsContentEvent (pos, item.event, index++));
         }
-        if (item.pos - shoingPos > 1000) {  // TODO !!!
+        if (item.pos - verticalPos > 1000) {  // TODO !!!
           break;
         }
       }
@@ -364,39 +382,40 @@ export default class Chronos extends React.Component {
 
   /******************************************************************************/
 
-  renderEventsContentDayLine () {
+  renderEventsContentDayLine (horizontalPos) {
     const result = [];
     let index = 0;
     const scale = this.getScale ();
     for (var h = 0 ; h < 24; h++) {
-      const start = ((h + 0) * 60 * scale) + 'px';
-      const end   = ((h + 1) * 60 * scale) + 'px';
+      const start = (((h + 0) * 60 * scale) - horizontalPos) + 'px';
+      const end   = (((h + 1) * 60 * scale) - horizontalPos) + 'px';
       const time = Converters.getTimeFromMinutes (h * 60);
       result.push (this.renderTime (start, end, time, index++));
     }
     return result;
   }
 
-  renderEventsContentDay (pos, index) {
+  renderEventsContentDay (verticalPos, horizontalPos, index) {
     const lineStyle = this.mergeStyles ('eventTop');
-    lineStyle.top = pos;
+    lineStyle.top = verticalPos;
 
     return (
       <div style={lineStyle} ref={index}>
-        {this.renderEventsContentDayLine ()}
+        {this.renderEventsContentDayLine (horizontalPos)}
       </div>
     );
   }
 
-  renderEventsContentEvent (pos, event, index) {
+  renderEventsContentEvent (verticalPos, horizontalPos, event, index) {
     const scale = this.getScale ();
     return (
       <ChronoEvent
-        event     = {event}
-        pos       = {pos}
-        scale     = {scale}
-        mouseOver = {() => this.mouseOver (event)}
-        mouseOut  = {() => this.mouseOut (event)}
+        event         = {event}
+        verticalPos   = {verticalPos}
+        horizontalPos = {horizontalPos + 'px'}
+        scale         = {scale}
+        mouseOver     = {() => this.mouseOver (event)}
+        mouseOut      = {() => this.mouseOut (event)}
         {...this.link ()}
         />
     );
@@ -404,17 +423,18 @@ export default class Chronos extends React.Component {
 
   renderEventsContent () {
     const result = [];
-    const shoingPos = this.getShoingPos ();
+    const verticalPos   = this.getVerticalPos ();
+    const horizontalPos = this.getHorizontalPos ();
     let index = 0;
     for (var item of this.flatData) {
-      if (item.pos >= shoingPos - 50) {
-        const pos = (item.pos - shoingPos) + 'px';
+      if (item.pos >= verticalPos - 50) {
+        const pos = (item.pos - verticalPos) + 'px';
         if (item.type === 'top') {
-          result.push (this.renderEventsContentDay (pos, index++));
+          result.push (this.renderEventsContentDay (pos, horizontalPos, index++));
         } else if (item.type === 'event') {
-          result.push (this.renderEventsContentEvent (pos, item.event, index++));
+          result.push (this.renderEventsContentEvent (pos, horizontalPos, item.event, index++));
         }
-        if (item.pos - shoingPos > 1000) {  // TODO !!!
+        if (item.pos - verticalPos > 1000) {  // TODO !!!
           break;
         }
       }

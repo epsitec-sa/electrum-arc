@@ -46,6 +46,7 @@ export default function styles (theme, props) {
     flexGrow:        1,
     overflowX:       'hidden',
     overflowY:       'hidden',
+    cursor:          'default',
   };
 
   const eventsStyle = {
@@ -53,8 +54,9 @@ export default function styles (theme, props) {
     display:         'flex',
     flexDirection:   'column',
     flexGrow:        1,
-    overflowX:       'auto',
+    overflowX:       'hidden',
     overflowY:       'hidden',
+    cursor:          'default',
   };
 
   const labelTopStyle = {

@@ -114,12 +114,14 @@ export default class ChronoEvent extends React.Component {
   }
 
   render () {
-    const event = this.read ('event');
-    const pos   = this.read ('pos');
-    const scale = this.read ('scale');
+    const event         = this.read ('event');
+    const verticalPos   = this.read ('verticalPos');
+    const horizontalPos = this.read ('horizontalPos');
+    const scale         = this.read ('scale');
 
     const lineStyle = this.mergeStyles ('line');
-    lineStyle.top = pos;
+    lineStyle.top = verticalPos;
+    lineStyle.left = Unit.multiply (horizontalPos, -1);
 
     const width = (24 * 60 * scale) + 'px';
 
