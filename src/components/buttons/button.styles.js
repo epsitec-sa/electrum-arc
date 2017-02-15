@@ -507,6 +507,16 @@ export default function styles (theme, props) {
     }
   }
 
+  if (inputKind === 'chronos-navigator') {
+    borderRadius = theme.shapes.smoothRadius;
+    if (inputActive === 'true') {
+      backgroundColor = theme.palette.boxActiveBackground;
+    } else {
+      textColor = theme.palette.chronoNavigatorText;
+      backgroundHoverColor = ColorManipulator.fade (theme.palette.buttonBackground, 0.3);
+    }
+  }
+
   if (!inputKind) {
     borderRadius = theme.shapes.smoothRadius;
     if (inputActive === 'true') {

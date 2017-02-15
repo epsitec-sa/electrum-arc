@@ -14,6 +14,7 @@ export default function styles (theme, props) {
     justifyContent:  'flex-start',
     userSelect:      'none',
     cursor:          'default',
+    backgroundColor: theme.palette.eventBackground,
   };
 
   const hoverLineStyle = {

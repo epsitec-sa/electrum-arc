@@ -5,31 +5,19 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  const boxStyle = {
-    display:         'flex',
-    flexDirection:   'column',
-    flexGrow:        1,
-    padding:         theme.shapes.eventMargin,
-    overflowX:       'hidden',
-    backgroundColor: theme.palette.eventBackground,
-  };
-
-  const headerStyle = {
-    minHeight:       theme.shapes.lineHeight,
-    margin:          '0px 0px ' + theme.shapes.eventSeparator + ' 0px',
+  const mainStyle = {
     display:         'flex',
     flexDirection:   'row',
-    justifyContent:  'center',
-    color:           theme.palette.eventHeaderText,
+    flexGrow:        1,
+    overflowX:       'hidden',
+    backgroundColor: theme.palette.chronoNavigatorBackground,
   };
 
-  const headerTextStyle = {
-    flexGrow:        1,
-    textAlign:       'center',
-    color:           theme.palette.eventHeaderText,
-    fontWeight:      'bold',
-    textTransform:   'uppercase',
-    alignSelf:       'center',
+  const navigationStyle = {
+    display:         'flex',
+    flexDirection:   'column',
+    overflowX:       'hidden',
+    margin:          theme.shapes.chronosNavigatorMargin,
   };
 
   const contentStyle = {
@@ -37,6 +25,7 @@ export default function styles (theme, props) {
     flexDirection:   'row',
     flexGrow:        1,
     overflowX:       'hidden',
+    backgroundColor: theme.palette.eventBackground,
   };
 
   const labelsStyle = {
@@ -87,9 +76,8 @@ export default function styles (theme, props) {
   };
 
   return {
-    box:        boxStyle,
-    header:     headerStyle,
-    headerText: headerTextStyle,
+    main:       mainStyle,
+    navigation: navigationStyle,
     content:    contentStyle,
     labels:     labelsStyle,
     events:     eventsStyle,

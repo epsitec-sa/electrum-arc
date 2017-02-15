@@ -66,10 +66,10 @@ export default class ChronoLabel extends React.Component {
 
   /******************************************************************************/
 
-  renderLine (top, width) {
+  renderLine (width) {
     const style = {
       position:        'absolute',
-      top:             top,
+      bottom:          '0px',
       height:          '1px',
       left:            '0px',
       width:           width,
@@ -97,7 +97,7 @@ export default class ChronoLabel extends React.Component {
         onMouseOver = {() => this.mouseOver (event)}
         onMouseOut  = {() => this.mouseOut (event)}
         >
-        {this.renderLine (this.props.theme.shapes.chronosLineHeight, '100%')}
+        {this.renderLine ('100%')}
         <Label glyph={glyph} width='30px' {...this.link ()} />
         <Label text={text} grow='1' wrap='no' {...this.link ()} />
       </div>

@@ -58,10 +58,10 @@ export default class ChronoEvent extends React.Component {
 
   /******************************************************************************/
 
-  renderLine (top, width) {
+  renderLine (width) {
     const style = {
       position:        'absolute',
-      top:             top,
+      bottom:          '0px',
       height:          '1px',
       left:            '0px',
       width:           width,
@@ -120,14 +120,14 @@ export default class ChronoEvent extends React.Component {
     const scale         = this.read ('scale');
 
     const lineStyle = this.mergeStyles ('line');
-    lineStyle.top = verticalPos;
+    lineStyle.top  = verticalPos;
     lineStyle.left = Unit.multiply (horizontalPos, -1);
 
     const width = (24 * 60 * scale) + 'px';
 
     return (
       <div style={lineStyle}>
-        {this.renderLine (this.props.theme.shapes.chronosLineHeight, width)}
+        {this.renderLine (width)}
         {this.renderBar (event, scale)}
         {this.renderHover (event, width)}
       </div>
