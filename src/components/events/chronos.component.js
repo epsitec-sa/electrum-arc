@@ -94,7 +94,7 @@ export default class Chronos extends React.Component {
       verticalPos:   0,
       horizontalPos: 0,
       showingDate:   null,
-      splitterWidth: '10%',
+      splitterWidth: '15%',
       eventHover:    null,
     };
   }
@@ -271,16 +271,41 @@ export default class Chronos extends React.Component {
     }
   }
 
+  actionPrevDate () {
+    const date = this.getShowingDate ();
+    if (date) {
+      const index = this.flatData.dates.indexOf (date);
+      if (index !== -1 && index > 0) {
+        const newDate = this.flatData.dates[index - 1];
+        const pos = getFlatPos (this.flatData, newDate);
+        this.changeVerticalPos (pos);
+      }
+    }
+  }
+
+  actionNextDate () {
+    const date = this.getShowingDate ();
+    if (date) {
+      const index = this.flatData.dates.indexOf (date);
+      if (index !== -1 && index < this.flatData.dates.length - 1) {
+        const newDate = this.flatData.dates[index + 1];
+        const pos = getFlatPos (this.flatData, newDate);
+        this.changeVerticalPos (pos);
+      }
+    }
+  }
+
   actionScale (scale) {
     this.setScale (scale);
   }
 
   /******************************************************************************/
 
-  renderNavigationButton (text, tooltip, active, action) {
+  renderNavigationButton (glyph, text, tooltip, active, action) {
     return (
       <Button
         kind    = 'chronos-navigator'
+        glyph   = {glyph}
         text    = {text}
         tooltip = {tooltip}
         border  = 'none'
@@ -292,13 +317,15 @@ export default class Chronos extends React.Component {
 
   renderNavigationButtons () {
     const result = [];
+    result.push (this.renderNavigationButton ('chevron-up', null, null, false, () => this.actionPrevDate ()));
     const showingDate = this.getShowingDate ();
     for (var date of this.flatData.dates) {
       const x = date;  // necessary, but strange !
       const text    = Converters.getDisplayedDate (date);
       const tooltip = Converters.getDisplayedDate (date, false, 'Wdmy');
-      result.push (this.renderNavigationButton (text, tooltip, showingDate === x, () => this.actionDate (x)));
+      result.push (this.renderNavigationButton (null, text, tooltip, showingDate === x, () => this.actionDate (x)));
     }
+    result.push (this.renderNavigationButton ('chevron-down', null, null, false, () => this.actionNextDate ()));
     return result;
   }
 
@@ -310,48 +337,6 @@ export default class Chronos extends React.Component {
         {this.renderNavigationButtons ()}
       </div>
     );
-  }
-
-  renderLine (top, width) {
-    const style = {
-      position:        'absolute',
-      top:             top,
-      height:          '1px',
-      left:            '0px',
-      width:           width,
-      backgroundColor: this.props.theme.palette.chronoLineSeparator,
-    };
-    return (
-      <div style={style} />
-    );
-  }
-
-  renderZone (start, end, odd) {
-    const width = Unit.sub (end, start);
-    const style = {
-      position:        'absolute',
-      top:             '0px',
-      height:          '100%',
-      left:            start,
-      width:           width,
-      backgroundColor: odd ? this.props.theme.palette.eventOddBackground : this.props.theme.palette.eventBackground,
-    };
-    return (
-      <div style={style} ref={start} />
-    );
-  }
-
-  renderGrid () {
-    const result = [];
-    const scale         = this.getScale ();
-    const horizontalPos = this.getHorizontalPos ();
-    for (var h = 0; h < 24 ; h++) {
-      const odd   = (h % 2 === 1);
-      const start = (((h + 0) * 60 * scale) - horizontalPos) + 'px';
-      const end   = (((h + 1) * 60 * scale) - horizontalPos) + 'px';
-      result.push (this.renderZone (start, end, odd));
-    }
-    return result;
   }
 
   renderTime (start, end, time, index) {
@@ -369,7 +354,7 @@ export default class Chronos extends React.Component {
 
     return (
       <div style={style} ref={index}>
-        <Label text={text} justify='center' grow='1' height='100%' {...this.link ()} />
+        <Label text={text} justify='center' text-color='#fff' grow='1' height='100%' {...this.link ()} />
       </div>
     );
   }
@@ -407,7 +392,7 @@ export default class Chronos extends React.Component {
 
     return (
       <div style={lineStyle} ref={index}>
-        <Label text={text} grow='1' {...this.link ()} />
+        <Label text={text} text-color='#fff' grow='1' {...this.link ()} />
       </div>
     );
   }
@@ -522,7 +507,6 @@ export default class Chronos extends React.Component {
 
     return (
       <div style = {eventsStyle}>
-        {this.renderGrid ()}
         {this.renderEventsContent ()}
       </div>
     );

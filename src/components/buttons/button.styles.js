@@ -512,7 +512,8 @@ export default function styles (theme, props) {
     if (inputActive === 'true') {
       backgroundColor = theme.palette.boxActiveBackground;
     } else {
-      textColor = theme.palette.chronoNavigatorText;
+      glyphColor           = theme.palette.chronoNavigatorText;
+      textColor            = theme.palette.chronoNavigatorText;
       backgroundHoverColor = ColorManipulator.fade (theme.palette.buttonBackground, 0.3);
     }
   }

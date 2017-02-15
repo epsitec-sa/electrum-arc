@@ -58,7 +58,7 @@ export default class ChronoEvent extends React.Component {
 
   /******************************************************************************/
 
-  renderLine (width) {
+  renderHorizontalLine (width) {
     const style = {
       position:        'absolute',
       bottom:          '0px',
@@ -70,6 +70,30 @@ export default class ChronoEvent extends React.Component {
     return (
       <div style={style} />
     );
+  }
+
+  renderVerticalLine (end) {
+    const left = Unit.sub (end, '1px');
+    const style = {
+      position:        'absolute',
+      top:             '0px',
+      height:          '100%',
+      left:            left,
+      width:           '1px',
+      backgroundColor: this.props.theme.palette.chronoLineSeparator,
+    };
+    return (
+      <div style={style} ref={end} />
+    );
+  }
+
+  renderGrid (scale) {
+    const result = [];
+    for (var h = 0; h < 24 ; h++) {
+      const end = ((h + 1) * 60 * scale) + 'px';
+      result.push (this.renderVerticalLine (end));
+    }
+    return result;
   }
 
   renderHover (event, width) {
@@ -127,7 +151,8 @@ export default class ChronoEvent extends React.Component {
 
     return (
       <div style={lineStyle}>
-        {this.renderLine (width)}
+        {this.renderHorizontalLine (width)}
+        {this.renderGrid (scale)}
         {this.renderBar (event, scale)}
         {this.renderHover (event, width)}
       </div>

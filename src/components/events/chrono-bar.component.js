@@ -24,11 +24,17 @@ export default class ChronoBar extends React.Component {
   getTooltip (event) {
     const f = Converters.getDisplayedTime (event.FromTime);
     const t = Converters.getDisplayedTime (event.ToTime);
+    var period;
+    if (f === t) {
+      period = f;
+    } else {
+      period = `${f} — ${t}`;
+    }
     const n = event.Note.Content;
     if (n) {
-      return `${f} — ${t} : ${n}`;
+      return `${period} : ${n}`;
     } else {
-      return `${f} — ${t}`;
+      return period;
     }
   }
 
