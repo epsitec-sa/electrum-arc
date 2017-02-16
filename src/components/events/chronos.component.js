@@ -189,7 +189,7 @@ export default class Chronos extends React.Component {
       var date  = this.flatData.dates[i];
       var count = this.flatData.count[i];
       const text    = Converters.getDisplayedDate (date);
-      const tooltip = Converters.getDisplayedDate (date, false, 'Wdmy');
+      const tooltip = Converters.getDisplayedDate (date, false, 'W');
       const x = date;  // necessary, but strange !
       result.push (this.renderNavigationButton (null, text, count, tooltip, dateFilter === x, () => this.actionDate (x)));
     }
