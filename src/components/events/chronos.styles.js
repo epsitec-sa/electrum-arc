@@ -9,6 +9,7 @@ export default function styles (theme, props) {
     display:         'flex',
     flexDirection:   'row',
     flexGrow:        1,
+    overflowX:       'hidden',
     overflowY:       'hidden',
     backgroundColor: theme.palette.chronoNavigatorBackground,
   };
@@ -17,6 +18,8 @@ export default function styles (theme, props) {
     display:         'flex',
     flexDirection:   'column',
     margin:          theme.shapes.chronosNavigatorMargin,
+    overflowX:       'hidden',
+    overflowY:       'auto',
   };
 
   const contentStyle = {

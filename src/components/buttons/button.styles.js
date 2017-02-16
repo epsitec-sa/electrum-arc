@@ -38,6 +38,7 @@ export default function styles (theme, props) {
   // Initialize all variables for a standard button.
   let boxWidth             = inputWidth;
   let boxHeight            = inputHeight ? inputHeight : theme.shapes.lineHeight;
+  let boxMinHeight         = null;
   let boxGrow              = inputGrow;
   let boxDirection         = 'row';
   let boxJustifyContent    = 'center';
@@ -508,6 +509,7 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'chronos-navigator') {
+    boxMinHeight = boxHeight;
     if (inputSubkind === 'with-badge') {
       boxJustifyContent = 'flex-start';
     }
@@ -582,6 +584,7 @@ export default function styles (theme, props) {
   const boxStyle = {
     width:           boxWidth,
     height:          boxHeight,
+    minHeight:       boxMinHeight,
     left:            inputLeft,
     right:           inputRight,
     top:             inputTop,
