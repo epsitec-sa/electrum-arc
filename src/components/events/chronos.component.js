@@ -157,7 +157,7 @@ export default class Chronos extends React.Component {
 
   /******************************************************************************/
 
-  renderNavigationButton (glyph, text, count, tooltip, active, action) {
+  renderNavigationButton (glyph, text, count, tooltip, disabled, active, action) {
     if (count) {
       return (
         <Button
@@ -167,6 +167,7 @@ export default class Chronos extends React.Component {
           text            = {text}
           tooltip         = {tooltip}
           border          = 'none'
+          disabled        = {disabled ? 'true' : 'false'}
           active          = {active ? 'true' : 'false'}
           custom-on-click = {e => action (e)}
           {...this.link ()}>
@@ -181,6 +182,7 @@ export default class Chronos extends React.Component {
           text            = {text}
           tooltip         = {tooltip}
           border          = 'none'
+          disabled        = {disabled ? 'true' : 'false'}
           active          = {active ? 'true' : 'false'}
           custom-on-click = {e => action (e)}
           {...this.link ()}/>
@@ -191,17 +193,17 @@ export default class Chronos extends React.Component {
   renderNavigationButtons () {
     const result = [];
     const filteredDates = this.getFilteredDates ();
-    result.push (this.renderNavigationButton (null, 'Tout', null, null, filteredDates.length === 0, () => this.actionAll ()));
-    result.push (this.renderNavigationButton ('chevron-up', null, null, null, false, () => this.actionPrevDate ()));
+    result.push (this.renderNavigationButton (null, 'Tout', null, null, false, filteredDates.length === 0, () => this.actionAll ()));
+    result.push (this.renderNavigationButton ('chevron-up', null, null, null, filteredDates.length !== 1, false, () => this.actionPrevDate ()));
     for (var i = 0; i < this.flatData.dates.length; i++) {
       var date  = this.flatData.dates[i];
       var count = this.flatData.count[i];
       const text    = Converters.getDisplayedDate (date);
       const tooltip = Converters.getDisplayedDate (date, false, 'W');
       const x = date;  // necessary, but strange !
-      result.push (this.renderNavigationButton (null, text, count, tooltip, filteredDates.indexOf (x) !== -1, e => this.actionDate (e, x)));
+      result.push (this.renderNavigationButton (null, text, count, tooltip, false, filteredDates.indexOf (x) !== -1, e => this.actionDate (e, x)));
     }
-    result.push (this.renderNavigationButton ('chevron-down', null, null, null, false, () => this.actionNextDate ()));
+    result.push (this.renderNavigationButton ('chevron-down', null, null, null, filteredDates.length !== 1, false, () => this.actionNextDate ()));
     return result;
   }
 
