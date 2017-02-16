@@ -1,7 +1,6 @@
 'use strict';
 
 import {ColorHelpers} from 'electrum-theme';
-import Converters from './converters';
 
 function getDirectionGlyph (theme, type) {
   const transit = type.endsWith ('-transit');

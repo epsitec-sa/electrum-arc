@@ -512,6 +512,7 @@ export default function styles (theme, props) {
     boxMinHeight = boxHeight;
     if (inputSubkind === 'with-badge') {
       boxJustifyContent = 'flex-start';
+      textGrow          = '1';
     }
     borderRadius = theme.shapes.smoothRadius;
     if (inputActive === 'true') {

@@ -31,9 +31,16 @@ export default function styles (theme, props) {
     borderBottom:    '1px solid ' + theme.palette.chronoLineSeparator,
   };
 
+  const glyphsStyle = {
+    width:           '60px',
+    display:         'flex',
+    flexDirection:   'row',
+  };
+
   return {
     line:      lineStyle,
     lineHover: lineHoverStyle,
+    glyphs:    glyphsStyle,
   };
 }
 

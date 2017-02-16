@@ -162,7 +162,7 @@ export default class Chronos extends React.Component {
       return (
         <Button
           kind            = 'chronos-navigator'
-          subKind         = 'with-badge'
+          subkind         = 'with-badge'
           glyph           = {glyph}
           text            = {text}
           tooltip         = {tooltip}

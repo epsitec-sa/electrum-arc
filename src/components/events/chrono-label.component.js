@@ -5,16 +5,6 @@ import {Label} from '../../all-components.js';
 
 /******************************************************************************/
 
-function getGlyph (note) {
-  if (note.Glyphs && note.Glyphs.length > 0) {
-    return note.Glyphs[0].Glyph;
-  } else {
-    return null;
-  }
-}
-
-/******************************************************************************/
-
 export default class ChronoLabel extends React.Component {
 
   constructor (props) {
@@ -52,19 +42,42 @@ export default class ChronoLabel extends React.Component {
 
   /******************************************************************************/
 
+  renderGlyph (glyph) {
+    if (glyph.startsWith ('bookmark-')) {
+      const color = glyph.substring (9);
+      return (
+        <Label glyph='bookmark' glyph-color={color} spacing='compact' {...this.link ()} />
+      );
+    } else {
+      return (
+        <Label glyph={glyph} spacing='compact' {...this.link ()} />
+      );
+    }
+  }
+
+  renderGlyphs (event) {
+    const result = [];
+    for (var glyph of event.Note.Glyphs) {
+      result.push (this.renderGlyph (glyph.Glyph));
+    }
+    return result;
+  }
+
   render () {
     const event = this.read ('event');
 
-    const glyph = getGlyph (event.Note);
-    const text  = event.Note.Content;
+    const text = event.Note.Content;
 
     const styleName = this.getHover () ? 'lineHover' : 'line';
     const lineStyle = this.mergeStyles (styleName);
+    const glyphsStyle = this.mergeStyles ('glyphs');
 
     return (
       <div style={lineStyle}>
         <Label text='' width={this.props.theme.shapes.chronosLabelMargin} {...this.link ()} />
-        <Label glyph={glyph} width='30px' {...this.link ()} />
+          <div style={glyphsStyle}>
+            {this.renderGlyphs (event)}
+          </div>
         <Label text={text} grow='1' wrap='no' {...this.link ()} />
       </div>
     );
