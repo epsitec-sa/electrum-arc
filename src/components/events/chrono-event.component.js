@@ -58,70 +58,36 @@ export default class ChronoEvent extends React.Component {
 
   /******************************************************************************/
 
-  renderHorizontalLine (width) {
-    const style = {
-      position:        'absolute',
-      bottom:          '0px',
-      height:          '1px',
-      left:            '0px',
-      width:           width,
-      backgroundColor: this.props.theme.palette.chronoLineSeparator,
-    };
-    return (
-      <div style={style} />
-    );
-  }
-
-  renderVerticalLine (end) {
-    const left = Unit.sub (end, '1px');
+  renderVerticalLine (x) {
     const style = {
       position:        'absolute',
       top:             '0px',
       height:          '100%',
-      left:            left,
+      left:            x,
       width:           '1px',
       backgroundColor: this.props.theme.palette.chronoLineSeparator,
     };
     return (
-      <div style={style} ref={end} />
+      <div style={style} ref={x} />
     );
   }
 
-  renderGrid (scale) {
+  renderGrid () {
     const result = [];
     for (var h = 0; h < 24 ; h++) {
-      const end = ((h + 1) * 60 * scale) + 'px';
-      result.push (this.renderVerticalLine (end));
+      const x = ((h + 1) * 100 / 24) + '%';
+      result.push (this.renderVerticalLine (x));
     }
     return result;
   }
 
-  renderHover (event, width) {
-    const bc = this.getHover () ? this.props.theme.palette.chronoHover : null;
-    const style = {
-      position:        'absolute',
-      top:             '0px',
-      height:          '100%',
-      left:            '0px',
-      width:           width,
-      backgroundColor: bc,
-    };
-    return (
-      <div
-        style        = {style}
-        onMouseOver  = {() => this.mouseOver (event)}
-        onMouseOut   = {() => this.mouseOut (event)}
-        />
-    );
-  }
-
-  renderBar (event, scale) {
-    const fromPos = Converters.getMinutes (event.FromTime) * scale;
-    const   toPos = Converters.getMinutes (event.ToTime)   * scale;
+  renderBar (event) {
+    const fromPos = Converters.getMinutes (event.FromTime);
+    const   toPos = Converters.getMinutes (event.ToTime);
 
     const s = this.props.theme.shapes.eventSeparator;
-    const left   = fromPos + 'px';
-    const width  = Math.max ((toPos - fromPos), 5) + 'px';
+    const left   = (fromPos * 100 / (24 * 60)) + '%';
+    const width  = (Math.max (toPos - fromPos, 2) * 100 / (24 * 60)) + '%';
     const top    = s;
     const height = `calc(100% - ${Unit.multiply (s, 2)})`;
 
@@ -138,23 +104,21 @@ export default class ChronoEvent extends React.Component {
   }
 
   render () {
-    const event         = this.read ('event');
-    const verticalPos   = this.read ('verticalPos');
-    const horizontalPos = this.read ('horizontalPos');
-    const scale         = this.read ('scale');
+    const event       = this.read ('event');
+    const verticalPos = this.read ('verticalPos');
 
-    const lineStyle = this.mergeStyles ('line');
-    lineStyle.top  = verticalPos;
-    lineStyle.left = Unit.multiply (horizontalPos, -1);
-
-    const width = (24 * 60 * scale) + 'px';
+    const styleName = this.getHover () ? 'lineHover' : 'line';
+    const lineStyle = this.mergeStyles (styleName);
+    lineStyle.top = verticalPos;
 
     return (
-      <div style={lineStyle}>
-        {this.renderHorizontalLine (width)}
-        {this.renderGrid (scale)}
-        {this.renderBar (event, scale)}
-        {this.renderHover (event, width)}
+      <div
+        style       = {lineStyle}
+        onMouseOver = {() => this.mouseOver (event)}
+        onMouseOut  = {() => this.mouseOut (event)}
+        >
+        {this.renderGrid ()}
+        {this.renderBar (event)}
       </div>
     );
   }

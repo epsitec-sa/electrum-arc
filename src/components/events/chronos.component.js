@@ -6,7 +6,6 @@ import Converters from '../polypheme/converters';
 import {Unit} from 'electrum-theme';
 
 import {
-  Chrono,
   ChronoLabel,
   ChronoEvent,
   Label,
@@ -90,23 +89,11 @@ export default class Chronos extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      scale:         1,
       verticalPos:   0,
-      horizontalPos: 0,
       showingDate:   null,
       splitterWidth: '15%',
       eventHover:    null,
     };
-  }
-
-  getScale () {
-    return this.state.scale;
-  }
-
-  setScale (value) {
-    this.setState ( {
-      scale: value
-    });
   }
 
   getVerticalPos () {
@@ -116,16 +103,6 @@ export default class Chronos extends React.Component {
   setVerticalPos (value) {
     this.setState ( {
       verticalPos: value
-    });
-  }
-
-  getHorizontalPos () {
-    return this.state.horizontalPos;
-  }
-
-  setHorizontalPos (value) {
-    this.setState ( {
-      horizontalPos: value
     });
   }
 
@@ -178,14 +155,6 @@ export default class Chronos extends React.Component {
     this.setShowingDate (getFlatDate (this.flatData, pos));
   }
 
-  changeHorizontalPos (pos) {
-    const scale = this.getScale ();
-    const max = (24 * 60 * scale) - 100;
-    pos = Math.max (pos, 0);
-    pos = Math.min (pos, max);
-    this.setHorizontalPos (pos);
-  }
-
   mouseDown (e) {
     // console.log ('Chronos.mouseDown');
     this.isMouseDown = true;
@@ -208,11 +177,6 @@ export default class Chronos extends React.Component {
       return;
     }
 
-    if (this.mouseLastX) {
-      const delta = x - this.mouseLastX;
-      const pos = Math.max (this.getHorizontalPos () - delta, 0);
-      this.changeHorizontalPos (pos);
-    }
     if (this.mouseLastY) {
       const delta = y - this.mouseLastY;
       const pos = this.getVerticalPos () - delta;
@@ -228,28 +192,10 @@ export default class Chronos extends React.Component {
   }
 
   mouseWheel (e) {
-    if (e.shiftKey) {
-      var scale = this.getScale ();
-      if (e.deltaY > 0) {
-        scale *= 1.1;
-      }
-      if (e.deltaY < 0) {
-        scale /= 1.1;
-      }
-      scale = Math.max (scale, 0.5);
-      scale = Math.min (scale, 10);
-      this.setScale (scale);
-    } else {
-      if (e.deltaY !== 0) {
-        const delta = e.deltaY / 5;
-        const pos = this.getVerticalPos () + delta;
-        this.changeVerticalPos (pos);
-      }
-      if (e.deltaX !== 0) {
-        const delta = e.deltaX / 5;
-        const pos = this.getHorizontalPos () + delta;
-        this.changeHorizontalPos (pos);
-      }
+    if (e.deltaY !== 0) {
+      const delta = e.deltaY / 5;
+      const pos = this.getVerticalPos () + delta;
+      this.changeVerticalPos (pos);
     }
   }
 
@@ -295,10 +241,6 @@ export default class Chronos extends React.Component {
     }
   }
 
-  actionScale (scale) {
-    this.setScale (scale);
-  }
-
   /******************************************************************************/
 
   renderNavigationButton (glyph, text, tooltip, active, action) {
@@ -339,16 +281,14 @@ export default class Chronos extends React.Component {
     );
   }
 
-  renderTime (start, end, time, index) {
-    const width = Unit.sub (end, start);
+  renderTime (start, width, time, index) {
     const style = {
-      position:        'absolute',
-      top:             '0px',
-      height:          '100%',
-      left:            start,
-      width:           width,
-      backgroundColor: this.props.theme.palette.chronoDayBackground,
-      userSelect:      'none',
+      position:   'absolute',
+      top:        '0px',
+      height:     '100%',
+      left:       start,
+      width:      width,
+      userSelect: 'none',
     };
     const text = time ? Converters.getDisplayedTime (Converters.addSeconds (time, 1), false, 'h') : '';
 
@@ -356,29 +296,6 @@ export default class Chronos extends React.Component {
       <div style={style} ref={index}>
         <Label text={text} justify='center' text-color='#fff' grow='1' height='100%' {...this.link ()} />
       </div>
-    );
-  }
-
-  renderEvent (event, index) {
-    const scale = this.getScale ();
-    const from = Converters.getMinutes (event.FromTime) * scale;
-    const   to = Converters.getMinutes (event.ToTime)   * scale;
-
-    const s = this.props.theme.shapes.eventSeparator;
-    const left   = from + 'px';
-    const width  = (to - from) + 'px';
-    const top    = s;
-    const height = `calc(100% - ${Unit.multiply (s, 2)})`;
-
-    return (
-      <Chrono
-        key    = {index}
-        event  = {event}
-        left   = {left}
-        width  = {width}
-        top    = {top}
-        height = {height}
-        {...this.link ()} />
     );
   }
 
@@ -440,40 +357,36 @@ export default class Chronos extends React.Component {
 
   /******************************************************************************/
 
-  renderEventsContentDayLine (horizontalPos, firstTop) {
+  renderEventsContentDayLine (firstTop) {
     const result = [];
     let index = 0;
-    const scale = this.getScale ();
     for (var h = 0 ; h < 24; h++) {
-      const start = (((h + 0) * 60 * scale) - horizontalPos) + 'px';
-      const end   = (((h + 1) * 60 * scale) - horizontalPos) + 'px';
+      const start = (h * 100 / 24) + '%';
+      const width = (100 / 24) + '%';
       const time = firstTop ? Converters.getTimeFromMinutes (h * 60) : null;
-      result.push (this.renderTime (start, end, time, index++));
+      result.push (this.renderTime (start, width, time, index++));
     }
     return result;
   }
 
-  renderEventsContentDay (verticalPos, horizontalPos, firstTop, index) {
+  renderEventsContentDay (verticalPos, firstTop, index) {
     const lineStyle = this.mergeStyles ('eventTop');
     lineStyle.top = verticalPos;
 
     return (
       <div style={lineStyle} ref={index}>
-        {this.renderEventsContentDayLine (horizontalPos, firstTop)}
+        {this.renderEventsContentDayLine (firstTop)}
       </div>
     );
   }
 
-  renderEventsContentEvent (verticalPos, horizontalPos, event, index) {
-    const scale = this.getScale ();
+  renderEventsContentEvent (verticalPos, event, index) {
     return (
       <ChronoEvent
-        event         = {event}
-        verticalPos   = {verticalPos}
-        horizontalPos = {horizontalPos + 'px'}
-        scale         = {scale}
-        mouseOver     = {() => this.mouseOver (event)}
-        mouseOut      = {() => this.mouseOut (event)}
+        event       = {event}
+        verticalPos = {verticalPos}
+        mouseOver   = {() => this.mouseOver (event)}
+        mouseOut    = {() => this.mouseOut (event)}
         {...this.link ()}
         />
     );
@@ -481,18 +394,17 @@ export default class Chronos extends React.Component {
 
   renderEventsContent () {
     const result = [];
-    const verticalPos   = this.getVerticalPos ();
-    const horizontalPos = this.getHorizontalPos ();
+    const verticalPos = this.getVerticalPos ();
     let firstTop = true;
     let index = 0;
     for (var item of this.flatData.lines) {
       if (item.pos >= verticalPos - 50) {
         const pos = (item.pos - verticalPos) + 'px';
         if (item.type === 'top') {
-          result.push (this.renderEventsContentDay (pos, horizontalPos, firstTop, index++));
+          result.push (this.renderEventsContentDay (pos, firstTop, index++));
           firstTop = false;
         } else if (item.type === 'event') {
-          result.push (this.renderEventsContentEvent (pos, horizontalPos, item.event, index++));
+          result.push (this.renderEventsContentEvent (pos, item.event, index++));
         }
         if (item.pos - verticalPos > 1000) {  // TODO !!!
           break;

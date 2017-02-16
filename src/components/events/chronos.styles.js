@@ -68,11 +68,10 @@ export default function styles (theme, props) {
     position:        'absolute',
     minHeight:       theme.shapes.chronosTopHeight,
     maxHeight:       theme.shapes.chronosTopHeight,
-    display:         'flex',
-    flexDirection:   'row',
-    justifyContent:  'center',
+    width:           '100%',
     userSelect:      'none',
     cursor:          'default',
+    backgroundColor: theme.palette.chronoDayBackground,
   };
 
   return {
