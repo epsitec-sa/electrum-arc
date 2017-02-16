@@ -19,13 +19,8 @@ export default function styles (theme, props) {
   let labelRadius     = theme.shapes.badgeRadius;
   let backgroundColor = theme.palette.badgeBackground;
 
-  if (kind === 'ticket-order') {
-    boxWidth        = null;
-    boxHeight       = null;
-    boxAlignSelf    = 'flex-start';
-    boxMargin       = '5px 0px 0px 0px';
-    labelRadius     = labelHeight;
-    backgroundColor = theme.palette.ticketBadgeBackground;
+  if (kind === 'chronos-count') {
+    backgroundColor = theme.palette.chronoBadge;
   }
 
   // If badge has layer='over', place it on top-right corner of parent.

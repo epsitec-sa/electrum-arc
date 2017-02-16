@@ -9,7 +9,8 @@ import {
   ChronoLabel,
   ChronoEvent,
   Label,
-  Button
+  Button,
+  Badge
 } from '../../all-components.js';
 
 /******************************************************************************/
@@ -31,15 +32,19 @@ function getFlatData (data, dateFilter) {
       lines.push ({type: 'event', event: event});
 
       if (!dates.has (event.FromDate)) {
-        dates.set (event.FromDate, null);
+        dates.set (event.FromDate, 0);
       }
+      const n = dates.get (event.FromDate);
+      dates.set (event.FromDate, n + 1);
     }
   }
   const d = [];
-  for (var date of dates.keys ()) {
-    d.push (date);
+  const n = [];
+  for (var date of dates) {
+    d.push (date[0]);
+    n.push (date[1]);
   }
-  return {dates: d, lines: lines};
+  return {dates: d, count: n, lines: lines};
 }
 
 /******************************************************************************/
@@ -144,32 +149,51 @@ export default class Chronos extends React.Component {
 
   /******************************************************************************/
 
-  renderNavigationButton (glyph, text, tooltip, active, action) {
-    return (
-      <Button
-        kind    = 'chronos-navigator'
-        glyph   = {glyph}
-        text    = {text}
-        tooltip = {tooltip}
-        border  = 'none'
-        active  = {active ? 'true' : 'false'}
-        action  = {() => action ()}
-        {...this.link ()} />
-    );
+  renderNavigationButton (glyph, text, count, tooltip, active, action) {
+    if (count) {
+      return (
+        <Button
+          kind    = 'chronos-navigator'
+          subKind = 'with-badge'
+          glyph   = {glyph}
+          text    = {text}
+          tooltip = {tooltip}
+          border  = 'none'
+          active  = {active ? 'true' : 'false'}
+          action  = {() => action ()}
+          {...this.link ()}>
+          <Badge value={count} kind='chronos-count' {...this.link ()} />
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          kind    = 'chronos-navigator'
+          glyph   = {glyph}
+          text    = {text}
+          tooltip = {tooltip}
+          border  = 'none'
+          active  = {active ? 'true' : 'false'}
+          action  = {() => action ()}
+          {...this.link ()}/>
+      );
+    }
   }
 
   renderNavigationButtons () {
     const result = [];
     const dateFilter = this.getDateFilter ();
-    result.push (this.renderNavigationButton (null, 'Tout', null, !dateFilter, () => this.actionAll ()));
-    result.push (this.renderNavigationButton ('chevron-up', null, null, false, () => this.actionPrevDate ()));
-    for (var date of this.flatData.dates) {
-      const x = date;  // necessary, but strange !
+    result.push (this.renderNavigationButton (null, 'Tout', null, null, !dateFilter, () => this.actionAll ()));
+    result.push (this.renderNavigationButton ('chevron-up', null, null, null, false, () => this.actionPrevDate ()));
+    for (var i = 0; i < this.flatData.dates.length; i++) {
+      var date  = this.flatData.dates[i];
+      var count = this.flatData.count[i];
       const text    = Converters.getDisplayedDate (date);
       const tooltip = Converters.getDisplayedDate (date, false, 'Wdmy');
-      result.push (this.renderNavigationButton (null, text, tooltip, dateFilter === x, () => this.actionDate (x)));
+      const x = date;  // necessary, but strange !
+      result.push (this.renderNavigationButton (null, text, count, tooltip, dateFilter === x, () => this.actionDate (x)));
     }
-    result.push (this.renderNavigationButton ('chevron-down', null, null, false, () => this.actionNextDate ()));
+    result.push (this.renderNavigationButton ('chevron-down', null, null, null, false, () => this.actionNextDate ()));
     return result;
   }
 

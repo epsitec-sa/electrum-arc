@@ -508,6 +508,9 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'chronos-navigator') {
+    if (inputSubkind === 'with-badge') {
+      boxJustifyContent = 'flex-start';
+    }
     borderRadius = theme.shapes.smoothRadius;
     if (inputActive === 'true') {
       backgroundColor = theme.palette.boxActiveBackground;
