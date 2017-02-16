@@ -1,9 +1,7 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Converters from '../polypheme/converters';
-import {Unit} from 'electrum-theme';
 
 import {
   ChronoLabel,
@@ -15,13 +13,13 @@ import {
 
 /******************************************************************************/
 
-function getFlatData (data, dateFilter) {
+function getFlatData (data, filteredDates) {
   console.log ('Chronos.getFlatData');
   const lines = [];
   const dates = new Map ();
   var lastDate = null;
   for (var event of data.Events) {
-    if (!dateFilter || event.FromDate === dateFilter) {
+    if (filteredDates.length === 0 || filteredDates.indexOf (event.FromDate) !== -1) {
       if (!lastDate || lastDate !== event.FromDate) {
         if (lastDate) {
           lines.push ({type: 'sep'});
@@ -69,17 +67,17 @@ export default class Chronos extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      dateFilter:   null,
+      filteredDates: [],
     };
   }
 
-  getDateFilter () {
-    return this.state.dateFilter;
+  getFilteredDates () {
+    return this.state.filteredDates;
   }
 
-  setDateFilter (value) {
+  setFilteredDates (value) {
     this.setState ( {
-      dateFilter: value
+      filteredDates: value
     });
   }
 
@@ -87,11 +85,9 @@ export default class Chronos extends React.Component {
 
   componentWillMount () {
     const data = this.read ('data');
-    this.flatData = getFlatData (data);
-    this.updateFilter (null);
-
-    // const node = ReactDOM.findDOMNode (this);
-    // console.dir (node);
+    const filteredDates = this.getFilteredDates ();
+    this.flatData = getFlatData (data, filteredDates);
+    this.updateFilter (filteredDates);
   }
 
   mouseOver (event) {
@@ -104,45 +100,57 @@ export default class Chronos extends React.Component {
 
   /******************************************************************************/
 
-  updateFilter (dateFilter) {
-    if (dateFilter) {  // has filter ?
-      const data = this.read ('data');
-      this.flatFilteredData = getFlatData (data, dateFilter);
-    } else {  // show all events ?
+  updateFilter (filteredDates) {
+    if (filteredDates.length === 0) {  // show all events ?
       this.flatFilteredData = this.flatData;
+    } else {  // has filter ?
+      const data = this.read ('data');
+      this.flatFilteredData = getFlatData (data, filteredDates);
     }
   }
 
   actionAll () {
-    this.updateFilter (null);
-    this.setDateFilter (null);
+    this.updateFilter ([]);
+    this.setFilteredDates ([]);
   }
 
-  actionDate (date) {
-    this.updateFilter (date);
-    this.setDateFilter (date);
+  actionDate (e, date) {
+    const filteredDates = this.getFilteredDates ();
+    if (e.ctrlKey) {
+      const i = filteredDates.indexOf (date);
+      if (i === -1) {
+        filteredDates.push (date);  // add date
+      } else {
+        filteredDates.splice (i, 1);  // delete date
+      }
+    } else {
+      filteredDates.splice (0, filteredDates.length);
+      filteredDates.push (date);
+    }
+    this.updateFilter (filteredDates);
+    this.setFilteredDates (filteredDates.slice ());
   }
 
   actionPrevDate () {
-    const date = this.getDateFilter ();
-    if (date) {
-      const index = this.flatData.dates.indexOf (date);
+    const filteredDates = this.getFilteredDates ();
+    if (filteredDates.length === 1) {
+      const index = this.flatData.dates.indexOf (filteredDates[0]);
       if (index !== -1 && index > 0) {
         const newDate = this.flatData.dates[index - 1];
-        this.updateFilter (newDate);
-        this.setDateFilter (newDate);
+        this.updateFilter ([newDate]);
+        this.setFilteredDates ([newDate]);
       }
     }
   }
 
   actionNextDate () {
-    const date = this.getDateFilter ();
-    if (date) {
-      const index = this.flatData.dates.indexOf (date);
+    const filteredDates = this.getFilteredDates ();
+    if (filteredDates.length === 1) {
+      const index = this.flatData.dates.indexOf (filteredDates[0]);
       if (index !== -1 && index < this.flatData.dates.length - 1) {
         const newDate = this.flatData.dates[index + 1];
-        this.updateFilter (newDate);
-        this.setDateFilter (newDate);
+        this.updateFilter ([newDate]);
+        this.setFilteredDates ([newDate]);
       }
     }
   }
@@ -153,14 +161,14 @@ export default class Chronos extends React.Component {
     if (count) {
       return (
         <Button
-          kind    = 'chronos-navigator'
-          subKind = 'with-badge'
-          glyph   = {glyph}
-          text    = {text}
-          tooltip = {tooltip}
-          border  = 'none'
-          active  = {active ? 'true' : 'false'}
-          action  = {() => action ()}
+          kind            = 'chronos-navigator'
+          subKind         = 'with-badge'
+          glyph           = {glyph}
+          text            = {text}
+          tooltip         = {tooltip}
+          border          = 'none'
+          active          = {active ? 'true' : 'false'}
+          custom-on-click = {e => action (e)}
           {...this.link ()}>
           <Badge value={count} kind='chronos-count' {...this.link ()} />
         </Button>
@@ -168,13 +176,13 @@ export default class Chronos extends React.Component {
     } else {
       return (
         <Button
-          kind    = 'chronos-navigator'
-          glyph   = {glyph}
-          text    = {text}
-          tooltip = {tooltip}
-          border  = 'none'
-          active  = {active ? 'true' : 'false'}
-          action  = {() => action ()}
+          kind            = 'chronos-navigator'
+          glyph           = {glyph}
+          text            = {text}
+          tooltip         = {tooltip}
+          border          = 'none'
+          active          = {active ? 'true' : 'false'}
+          custom-on-click = {e => action (e)}
           {...this.link ()}/>
       );
     }
@@ -182,8 +190,8 @@ export default class Chronos extends React.Component {
 
   renderNavigationButtons () {
     const result = [];
-    const dateFilter = this.getDateFilter ();
-    result.push (this.renderNavigationButton (null, 'Tout', null, null, !dateFilter, () => this.actionAll ()));
+    const filteredDates = this.getFilteredDates ();
+    result.push (this.renderNavigationButton (null, 'Tout', null, null, filteredDates.length === 0, () => this.actionAll ()));
     result.push (this.renderNavigationButton ('chevron-up', null, null, null, false, () => this.actionPrevDate ()));
     for (var i = 0; i < this.flatData.dates.length; i++) {
       var date  = this.flatData.dates[i];
@@ -191,7 +199,7 @@ export default class Chronos extends React.Component {
       const text    = Converters.getDisplayedDate (date);
       const tooltip = Converters.getDisplayedDate (date, false, 'W');
       const x = date;  // necessary, but strange !
-      result.push (this.renderNavigationButton (null, text, count, tooltip, dateFilter === x, () => this.actionDate (x)));
+      result.push (this.renderNavigationButton (null, text, count, tooltip, filteredDates.indexOf (x) !== -1, e => this.actionDate (e, x)));
     }
     result.push (this.renderNavigationButton ('chevron-down', null, null, null, false, () => this.actionNextDate ()));
     return result;

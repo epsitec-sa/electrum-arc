@@ -1,7 +1,5 @@
 'use strict';
 
-import {ColorManipulator} from 'electrum';
-
 /******************************************************************************/
 
 export default function styles (theme, props) {
@@ -28,6 +26,7 @@ export default function styles (theme, props) {
     width:           '1000px',
     height:          '100%',
     margin:          '0px 0px 0px 10px',
+    userSelect:      'none',
   };
 
   return {
