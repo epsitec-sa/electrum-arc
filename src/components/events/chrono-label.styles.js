@@ -1,39 +1,39 @@
 'use strict';
 
+import {Unit} from 'electrum-theme';
+
 /******************************************************************************/
 
 export default function styles (theme, props) {
+  const h = Unit.sub (theme.shapes.chronosLineHeight, '1px');
+
   const lineStyle = {
-    position:        'absolute',
-    minHeight:       theme.shapes.chronosLineHeight,
-    maxHeight:       theme.shapes.chronosLineHeight,
     width:           '100%',
-    padding:         '0px 0px 0px 10px',
+    minHeight:       h,
+    maxHeight:       h,
     display:         'flex',
     flexDirection:   'row',
-    justifyContent:  'flex-start',
     userSelect:      'none',
     cursor:          'default',
     backgroundColor: theme.palette.eventBackground,
+    borderBottom:    '1px solid ' + theme.palette.chronoLineSeparator,
   };
 
-  const hoverLineStyle = {
-    position:        'absolute',
-    minHeight:       theme.shapes.chronosLineHeight,
-    maxHeight:       theme.shapes.chronosLineHeight,
+  const lineHoverStyle = {
     width:           '100%',
-    padding:         '0px 0px 0px 10px',
+    minHeight:       h,
+    maxHeight:       h,
     display:         'flex',
     flexDirection:   'row',
-    justifyContent:  'flex-start',
     userSelect:      'none',
     cursor:          'default',
     backgroundColor: theme.palette.chronoHover,
+    borderBottom:    '1px solid ' + theme.palette.chronoLineSeparator,
   };
 
   return {
     line:      lineStyle,
-    hoverLine: hoverLineStyle,
+    lineHover: lineHoverStyle,
   };
 }
 

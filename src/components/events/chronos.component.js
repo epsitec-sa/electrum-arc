@@ -10,7 +10,6 @@ import {
   ChronoEvent,
   Label,
   Button,
-  Splitter
 } from '../../all-components.js';
 
 /******************************************************************************/
@@ -91,8 +90,6 @@ export default class Chronos extends React.Component {
     this.state = {
       verticalPos:   0,
       showingDate:   null,
-      splitterWidth: '15%',
-      eventHover:    null,
     };
   }
 
@@ -116,26 +113,6 @@ export default class Chronos extends React.Component {
     });
   }
 
-  getSplitterWidth () {
-    return this.state.splitterWidth;
-  }
-
-  setSplitterWidth (value) {
-    this.setState ( {
-      splitterWidth: value
-    });
-  }
-
-  getEventHover () {
-    return this.state.eventHover;
-  }
-
-  setEventHover (value) {
-    this.setState ( {
-      eventHover: value
-    });
-  }
-
   /******************************************************************************/
 
   componentWillMount () {
@@ -153,50 +130,6 @@ export default class Chronos extends React.Component {
     pos = Math.min (pos, max);
     this.setVerticalPos (pos);
     this.setShowingDate (getFlatDate (this.flatData, pos));
-  }
-
-  mouseDown (e) {
-    // console.log ('Chronos.mouseDown');
-    this.isMouseDown = true;
-    this.mouseLastX = null;
-    this.mouseLastY = null;
-  }
-
-  mouseMove (e) {
-    // console.log ('Chronos.mouseMove');
-    if (!this.isMouseDown) {
-      return;
-    }
-    let x = e.clientX;
-    let y = e.clientY;
-    if (!x && e.touches.length > 0) {
-      x = e.touches[0].clientX;
-      y = e.touches[0].clientY;
-    }
-    if (!x || !y) {
-      return;
-    }
-
-    if (this.mouseLastY) {
-      const delta = y - this.mouseLastY;
-      const pos = this.getVerticalPos () - delta;
-      this.changeVerticalPos (pos);
-    }
-    this.mouseLastX = x;
-    this.mouseLastY = y;
-  }
-
-  mouseUp (e) {
-    // console.log ('Chronos.mouseUp');
-    this.isMouseDown = false;
-  }
-
-  mouseWheel (e) {
-    if (e.deltaY !== 0) {
-      const delta = e.deltaY / 5;
-      const pos = this.getVerticalPos () + delta;
-      this.changeVerticalPos (pos);
-    }
   }
 
   mouseOver (event) {
@@ -301,114 +234,81 @@ export default class Chronos extends React.Component {
 
   /******************************************************************************/
 
-  renderLabelsContentDay (pos, date, index) {
-    const lineStyle = this.mergeStyles ('labelTop');
-    lineStyle.top = pos;
-
+  renderContentTopDate (date) {
     const text = Converters.getDisplayedDate (date, false, 'Wdmy');
 
     return (
-      <div style={lineStyle} ref={index}>
-        <Label text={text} text-color='#fff' grow='1' {...this.link ()} />
-      </div>
+      <Label text={text} text-color='#fff' grow='1' {...this.link ()} />
     );
   }
 
-  renderLabelsContentEvent (verticalPos, event, index) {
-    return (
-      <ChronoLabel
-        event       = {event}
-        verticalPos = {verticalPos}
-        mouseOver   = {() => this.mouseOver (event)}
-        mouseOut    = {() => this.mouseOut (event)}
-        {...this.link ()}/>
-    );
-  }
-
-  renderLabelsContent () {
-    const result = [];
-    const verticalPos = this.getVerticalPos ();
-    let index = 0;
-    for (var item of this.flatData.lines) {
-      if (item.pos >= verticalPos - 50) {
-        const pos = (item.pos - verticalPos) + 'px';
-        if (item.type === 'top') {
-          result.push (this.renderLabelsContentDay (pos, item.date, index++));
-        } else if (item.type === 'event') {
-          result.push (this.renderLabelsContentEvent (pos, item.event, index++));
-        }
-        if (item.pos - verticalPos > 1000) {  // TODO !!!
-          break;
-        }
-      }
-    }
-    return result;
-  }
-
-  renderLabels () {
-    const labelsStyle = this.mergeStyles ('labels');
-
-    return (
-      <div style = {labelsStyle}>
-        {this.renderLabelsContent ()}
-      </div>
-    );
-  }
-
-  /******************************************************************************/
-
-  renderEventsContentDayLine (firstTop) {
+  renderContentTopTimes () {
     const result = [];
     let index = 0;
     for (var h = 0 ; h < 24; h++) {
       const start = (h * 100 / 24) + '%';
       const width = (100 / 24) + '%';
-      const time = firstTop ? Converters.getTimeFromMinutes (h * 60) : null;
+      const time = Converters.getTimeFromMinutes (h * 60);
       result.push (this.renderTime (start, width, time, index++));
     }
     return result;
   }
 
-  renderEventsContentDay (verticalPos, firstTop, index) {
-    const lineStyle = this.mergeStyles ('eventTop');
-    lineStyle.top = verticalPos;
-
+  renderContentTop (date, index) {
+    const lineStyle      = this.mergeStyles ('top');
+    const lineLabelStyle = this.mergeStyles ('topLabel');
+    const lineEventStyle = this.mergeStyles ('topEvent');
     return (
       <div style={lineStyle} ref={index}>
-        {this.renderEventsContentDayLine (firstTop)}
+        <div style={lineLabelStyle}>
+          <Label text='' width={this.props.theme.shapes.chronosLabelMargin} {...this.link ()} />
+          {this.renderContentTopDate (date)}
+        </div>
+        <div style={lineEventStyle}>
+          {this.renderContentTopTimes ()}
+        </div>
       </div>
     );
   }
 
-  renderEventsContentEvent (verticalPos, event, index) {
+  renderContentEvent (event, index) {
+    const lineStyle      = this.mergeStyles ('line');
+    const lineLabelStyle = this.mergeStyles ('lineLabel');
+    const lineEventStyle = this.mergeStyles ('lineEvent');
     return (
-      <ChronoEvent
-        event       = {event}
-        verticalPos = {verticalPos}
-        mouseOver   = {() => this.mouseOver (event)}
-        mouseOut    = {() => this.mouseOut (event)}
-        {...this.link ()}
-        />
+      <div
+        style       = {lineStyle}
+        ref         = {index}
+        onMouseOver = {() => this.mouseOver (event)}
+        onMouseOut  = {() => this.mouseOut (event)}
+        >
+        <div style={lineLabelStyle}>
+          <ChronoLabel event={event} {...this.link ()}/>
+        </div>
+        <div style={lineEventStyle}>
+          <ChronoEvent event={event} {...this.link ()}/>
+        </div>
+      </div>
     );
   }
 
-  renderEventsContent () {
+  renderContentSep (index) {
+    const lineStyle = this.mergeStyles ('sep');
+    return (
+      <div style={lineStyle} ref={index} />
+    );
+  }
+
+  renderContent () {
     const result = [];
-    const verticalPos = this.getVerticalPos ();
-    let firstTop = true;
     let index = 0;
     for (var item of this.flatData.lines) {
-      if (item.pos >= verticalPos - 50) {
-        const pos = (item.pos - verticalPos) + 'px';
-        if (item.type === 'top') {
-          result.push (this.renderEventsContentDay (pos, firstTop, index++));
-          firstTop = false;
-        } else if (item.type === 'event') {
-          result.push (this.renderEventsContentEvent (pos, item.event, index++));
-        }
-        if (item.pos - verticalPos > 1000) {  // TODO !!!
-          break;
-        }
+      if (item.type === 'top') {
+        result.push (this.renderContentTop (item.date, index++));
+      } else if (item.type === 'event') {
+        result.push (this.renderContentEvent (item.event, index++));
+      } else if (item.type === 'sep') {
+        result.push (this.renderContentSep (index++));
       }
     }
     return result;
@@ -419,7 +319,7 @@ export default class Chronos extends React.Component {
 
     return (
       <div style = {eventsStyle}>
-        {this.renderEventsContent ()}
+        {this.renderContent ()}
       </div>
     );
   }
@@ -433,26 +333,8 @@ export default class Chronos extends React.Component {
     return (
       <div style={mainStyle}>
         {this.renderNavigation ()}
-        <div
-          style        = {contentStyle}
-          onMouseDown  = {e => this.mouseDown (e)}
-          onMouseMove  = {e => this.mouseMove (e)}
-          onMouseUp    = {e => this.mouseUp (e)}
-          onWheel      = {e => this.mouseWheel (e)}
-          onTouchStart = {e => this.mouseDown (e)}
-          onTouchMove  = {e => this.mouseMove (e)}
-          onTouchEnd   = {e => this.mouseUp (e)}
-          >
-          <Splitter
-            kind          = 'vertical'
-            first-view-id = 'view-backlog'
-            last-view-id  = 'view-desk'
-            default-size  = {this.getSplitterWidth ()} min-size='0px'
-            onSizeChanged = {size => this.setSplitterWidth (size)}
-            {...this.link ()} >
-            {this.renderLabels ()}
-            {this.renderEvents ()}
-          </Splitter>
+        <div style={contentStyle}>
+          {this.renderEvents ()}
         </div>
       </div>
     );

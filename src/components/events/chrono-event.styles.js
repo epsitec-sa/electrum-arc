@@ -8,7 +8,6 @@ export default function styles (theme, props) {
   const h = Unit.sub (theme.shapes.chronosLineHeight, '1px');
 
   const lineStyle = {
-    position:        'absolute',
     width:           '100%',
     minHeight:       h,
     maxHeight:       h,
@@ -19,7 +18,6 @@ export default function styles (theme, props) {
   };
 
   const lineHoverStyle = {
-    position:        'absolute',
     width:           '100%',
     minHeight:       h,
     maxHeight:       h,

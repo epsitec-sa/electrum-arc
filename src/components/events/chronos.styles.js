@@ -9,79 +9,115 @@ export default function styles (theme, props) {
     display:         'flex',
     flexDirection:   'row',
     flexGrow:        1,
-    overflowX:       'hidden',
+    overflowY:       'hidden',
     backgroundColor: theme.palette.chronoNavigatorBackground,
   };
 
   const navigationStyle = {
     display:         'flex',
     flexDirection:   'column',
-    overflowX:       'hidden',
     margin:          theme.shapes.chronosNavigatorMargin,
   };
 
   const contentStyle = {
     display:         'flex',
-    flexDirection:   'row',
+    flexDirection:   'column',
     flexGrow:        1,
     overflowX:       'hidden',
+    overflowY:       'auto',
     backgroundColor: theme.palette.eventBackground,
   };
 
-  const labelsStyle = {
-    position:        'relative',
-    display:         'flex',
-    flexDirection:   'column',
-    flexGrow:        1,
-    overflowX:       'hidden',
-    overflowY:       'hidden',
-    cursor:          'default',
-  };
-
-  const eventsStyle = {
-    position:        'relative',
-    display:         'flex',
-    flexDirection:   'column',
-    flexGrow:        1,
-    overflowX:       'hidden',
-    overflowY:       'hidden',
-    cursor:          'default',
-  };
-
-  const labelTopStyle = {
-    position:        'absolute',
+  const topStyle = {
     minHeight:       theme.shapes.chronosTopHeight,
     maxHeight:       theme.shapes.chronosTopHeight,
     width:           '100%',
-    padding:         '0px 0px 0px 10px',
     display:         'flex',
     flexDirection:   'row',
-    justifyContent:  'center',
     backgroundColor: theme.palette.chronoDayBackground,
+    userSelect:      'none',
+    cursor:          'default',
+  };
+
+  const topLabelStyle = {
+    minHeight:       theme.shapes.chronosTopHeight,
+    maxHeight:       theme.shapes.chronosTopHeight,
+    width:           theme.shapes.chronosLabelWidth,
+    borderRight:     '5px solid ' + theme.palette.chronoNavigatorBackground,
+    display:         'flex',
+    flexDirection:   'row',
     fontWeight:      'bold',
     textTransform:   'uppercase',
     userSelect:      'none',
     cursor:          'default',
   };
 
-  const eventTopStyle = {
-    position:        'absolute',
+  const topEventStyle = {
+    position:        'relative',
     minHeight:       theme.shapes.chronosTopHeight,
     maxHeight:       theme.shapes.chronosTopHeight,
-    width:           '100%',
+    flexGrow:        1,
+    display:         'flex',
+    flexDirection:   'row',
+    justifyContent:  'center',
     userSelect:      'none',
     cursor:          'default',
-    backgroundColor: theme.palette.chronoDayBackground,
+  };
+
+  const lineStyle = {
+    minHeight:       theme.shapes.chronosLineHeight,
+    maxHeight:       theme.shapes.chronosLineHeight,
+    width:           '100%',
+    display:         'flex',
+    flexDirection:   'row',
+    userSelect:      'none',
+    cursor:          'default',
+  };
+
+  const lineLabelStyle = {
+    minHeight:       theme.shapes.chronosLineHeight,
+    maxHeight:       theme.shapes.chronosLineHeight,
+    width:           theme.shapes.chronosLabelWidth,
+    borderRight:     '5px solid ' + theme.palette.chronoNavigatorBackground,
+    display:         'flex',
+    flexDirection:   'row',
+    userSelect:      'none',
+    cursor:          'default',
+  };
+
+  const lineEventStyle = {
+    position:        'relative',
+    minHeight:       theme.shapes.chronosLineHeight,
+    maxHeight:       theme.shapes.chronosLineHeight,
+    flexGrow:        1,
+    display:         'flex',
+    flexDirection:   'row',
+    justifyContent:  'center',
+    userSelect:      'none',
+    cursor:          'default',
+  };
+
+  const sepStyle = {
+    minHeight:       theme.shapes.chronosSeparatorHeight,
+    maxHeight:       theme.shapes.chronosSeparatorHeight,
+    width:           '100%',
+    display:         'flex',
+    flexDirection:   'row',
+    userSelect:      'none',
+    cursor:          'default',
   };
 
   return {
     main:       mainStyle,
     navigation: navigationStyle,
     content:    contentStyle,
-    labels:     labelsStyle,
-    events:     eventsStyle,
-    labelTop:   labelTopStyle,
-    eventTop:   eventTopStyle,
+    top:        topStyle,
+    topLabel:   topLabelStyle,
+    topEvent:   topEventStyle,
+    line:       lineStyle,
+    lineLabel:  lineLabelStyle,
+    lineEvent:  lineEventStyle,
+    sep:        sepStyle,
   };
 }
 

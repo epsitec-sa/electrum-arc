@@ -50,54 +50,20 @@ export default class ChronoLabel extends React.Component {
     }
   }
 
-  mouseOver (event) {
-    const mouseOver = this.read ('mouseOver');
-    if (mouseOver) {
-      mouseOver (event);
-    }
-  }
-
-  mouseOut (event) {
-    const mouseOut = this.read ('mouseOut');
-    if (mouseOut) {
-      mouseOut (event);
-    }
-  }
-
   /******************************************************************************/
 
-  renderLine (width) {
-    const style = {
-      position:        'absolute',
-      bottom:          '0px',
-      height:          '1px',
-      left:            '0px',
-      width:           width,
-      backgroundColor: this.props.theme.palette.chronoLineSeparator,
-    };
-    return (
-      <div style={style} />
-    );
-  }
-
   render () {
-    const event       = this.read ('event');
-    const verticalPos = this.read ('verticalPos');
+    const event = this.read ('event');
 
     const glyph = getGlyph (event.Note);
     const text  = event.Note.Content;
 
-    const styleName = this.getHover () ? 'hoverLine' : 'line';
+    const styleName = this.getHover () ? 'lineHover' : 'line';
     const lineStyle = this.mergeStyles (styleName);
-    lineStyle.top = verticalPos;
 
     return (
-      <div
-        style       = {lineStyle}
-        onMouseOver = {() => this.mouseOver (event)}
-        onMouseOut  = {() => this.mouseOut (event)}
-        >
-        {this.renderLine ('100%')}
+      <div style={lineStyle}>
+        <Label text='' width={this.props.theme.shapes.chronosLabelMargin} {...this.link ()} />
         <Label glyph={glyph} width='30px' {...this.link ()} />
         <Label text={text} grow='1' wrap='no' {...this.link ()} />
       </div>

@@ -42,20 +42,6 @@ export default class ChronoEvent extends React.Component {
     }
   }
 
-  mouseOver (event) {
-    const mouseOver = this.read ('mouseOver');
-    if (mouseOver) {
-      mouseOver (event);
-    }
-  }
-
-  mouseOut (event) {
-    const mouseOut = this.read ('mouseOut');
-    if (mouseOut) {
-      mouseOut (event);
-    }
-  }
-
   /******************************************************************************/
 
   renderVerticalLine (x) {
@@ -104,19 +90,13 @@ export default class ChronoEvent extends React.Component {
   }
 
   render () {
-    const event       = this.read ('event');
-    const verticalPos = this.read ('verticalPos');
+    const event = this.read ('event');
 
     const styleName = this.getHover () ? 'lineHover' : 'line';
     const lineStyle = this.mergeStyles (styleName);
-    lineStyle.top = verticalPos;
 
     return (
-      <div
-        style       = {lineStyle}
-        onMouseOver = {() => this.mouseOver (event)}
-        onMouseOut  = {() => this.mouseOut (event)}
-        >
+      <div style={lineStyle}>
         {this.renderGrid ()}
         {this.renderBar (event)}
       </div>
