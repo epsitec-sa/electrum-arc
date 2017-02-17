@@ -5,41 +5,89 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  const startFrom = props.startFrom;
-  const endFrom   = props.endFrom;
-  const startTo   = props.startTo;
-  const endTo     = props.endTo;
-  const top       = props.top;
-  const height    = props.height;
+  const a      = props.startFrom;
+  const b      = props.endFrom;
+  const c      = props.startTo;
+  const d      = props.endTo;
 
-  const startWidth = Unit.sub (endFrom, startFrom);
-  const mainWidth  = Unit.sub (startTo, endFrom);
-  const endWidth   = Unit.sub (endTo, startTo);
+  const abWidth = Unit.sub (b, a);
+  const bcWidth = Unit.sub (c, b);
+  const cdWidth = Unit.sub (d, c);
 
-  const startStyle = {
+  const s      = theme.shapes.eventSeparator;
+  const top    = s;
+  const middle = '50%';
+  const height = `calc(100% - ${Unit.multiply (s, 2)})`;
+  const half   = `calc(50% - ${s})`;
+
+  const startDistinctStyle = {
     position:        'absolute',
-    left:            startFrom,
-    width:           startWidth,
+    left:            a,
+    width:           abWidth,
     top:             top,
     height:          height,
     backgroundColor: theme.palette.chronoEventStartBackground,
     userSelect:      'none',
   };
 
-  const mainStyle = {
+  const mainDistinctStyle = {
     position:        'absolute',
-    left:            endFrom,
-    width:           mainWidth,
+    left:            b,
+    width:           bcWidth,
     top:             top,
     height:          height,
     backgroundColor: theme.palette.chronoEventMainBackground,
     userSelect:      'none',
   };
 
-  const endStyle = {
+  const endDistinctStyle = {
     position:        'absolute',
-    left:            startTo,
-    width:           endWidth,
+    left:            c,
+    width:           cdWidth,
+    top:             top,
+    height:          height,
+    backgroundColor: theme.palette.chronoEventEndBackground,
+    userSelect:      'none',
+  };
+
+  const acWidth = Unit.sub (c, a);
+  const cbWidth = Unit.sub (b, c);
+  const bdWidth = Unit.sub (d, b);
+
+  const startOverlapStyle = {
+    position:        'absolute',
+    left:            a,
+    width:           acWidth,
+    top:             top,
+    height:          height,
+    backgroundColor: theme.palette.chronoEventStartBackground,
+    userSelect:      'none',
+  };
+
+  const topOverlapStyle = {
+    position:        'absolute',
+    left:            c,
+    width:           cbWidth,
+    top:             top,
+    height:          half,
+    backgroundColor: theme.palette.chronoEventStartBackground,
+    userSelect:      'none',
+  };
+
+  const bottomOverlapStyle = {
+    position:        'absolute',
+    left:            c,
+    width:           cbWidth,
+    top:             middle,
+    height:          half,
+    backgroundColor: theme.palette.chronoEventEndBackground,
+    userSelect:      'none',
+  };
+
+  const endOverlapStyle = {
+    position:        'absolute',
+    left:            b,
+    width:           bdWidth,
     top:             top,
     height:          height,
     backgroundColor: theme.palette.chronoEventEndBackground,
@@ -58,10 +106,14 @@ export default function styles (theme, props) {
   };
 
   return {
-    start:   startStyle,
-    main:    mainStyle,
-    end:     endStyle,
-    tooltip: tooltipStyle,
+    startDistinct: startDistinctStyle,
+    mainDistinct:  mainDistinctStyle,
+    endDistinct:   endDistinctStyle,
+    startOverlap:  startOverlapStyle,
+    topOverlap:    topOverlapStyle,
+    bottomOverlap: bottomOverlapStyle,
+    endOverlap:    endOverlapStyle,
+    tooltip:       tooltipStyle,
   };
 }
 

@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Converters from '../polypheme/converters';
+import {Unit} from 'electrum-theme';
 import {Label} from '../../all-components.js';
 
 /******************************************************************************/
@@ -38,12 +38,12 @@ export default class ChronoBar extends React.Component {
     }
   }
 
-  render () {
+  renderDistinct () {
     const hover = this.read ('hover');
 
-    const startStyle = this.mergeStyles ('start');
-    const mainStyle  = this.mergeStyles ('main');
-    const endStyle   = this.mergeStyles ('end');
+    const startStyle = this.mergeStyles ('startDistinct');
+    const mainStyle  = this.mergeStyles ('mainDistinct');
+    const endStyle   = this.mergeStyles ('endDistinct');
 
     return (
       <div>
@@ -54,6 +54,40 @@ export default class ChronoBar extends React.Component {
         </div>
       </div>
     );
+  }
+
+  renderOverlap () {
+    const hover = this.read ('hover');
+
+    const startStyle  = this.mergeStyles ('startOverlap');
+    const topStyle    = this.mergeStyles ('topOverlap');
+    const bottomStyle = this.mergeStyles ('bottomOverlap');
+    const endStyle    = this.mergeStyles ('endOverlap');
+
+    return (
+      <div>
+        <div style = {startStyle} {...this.link ()} />
+        <div style = {topStyle} {...this.link ()} />
+        <div style = {bottomStyle} {...this.link ()} />
+        <div style = {endStyle} {...this.link ()}>
+          {this.renderTooltip (hover === 'true')}
+        </div>
+      </div>
+    );
+  }
+
+  render () {
+    const endFrom = this.read ('endFrom');
+    const startTo = this.read ('startTo');
+
+    const a = Unit.parse (endFrom).value;
+    const b = Unit.parse (startTo).value;
+
+    if (a <= b) {
+      return this.renderDistinct ();
+    } else {
+      return this.renderOverlap ();
+    }
   }
 }
 

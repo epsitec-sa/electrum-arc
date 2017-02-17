@@ -116,9 +116,6 @@ export default class ChronoEvent extends React.Component {
     const endFrom   = (endFromPos   * 100 / (24 * 60)) + '%';
     const startTo   = (startToPos   * 100 / (24 * 60)) + '%';
     const endTo     = (endToPos     * 100 / (24 * 60)) + '%';
-    const s = this.props.theme.shapes.eventSeparator;
-    const top    = s;
-    const height = `calc(100% - ${Unit.multiply (s, 2)})`;
 
     return (
       <ChronoBar
@@ -126,8 +123,6 @@ export default class ChronoEvent extends React.Component {
         endFrom   = {endFrom}
         startTo   = {startTo}
         endTo     = {endTo}
-        top       = {top}
-        height    = {height}
         tooltip   = {this.getTooltip (event)}
         hover     = {this.getHover () ? 'true' : 'false'}
         {...this.link ()} />
