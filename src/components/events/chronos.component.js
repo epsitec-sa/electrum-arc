@@ -13,36 +13,37 @@ import {
 
 /******************************************************************************/
 
-function getFlatData (data, filteredDates) {
+function getFlatData (data, filters) {
   console.log ('Chronos.getFlatData');
   const lines = [];
-  const dates = new Map ();
-  var lastDate = null;
+  const groups = new Map ();
+  var lastGroup = null;
   for (var event of data.Events) {
-    if (filteredDates.length === 0 || filteredDates.indexOf (event.FromDate) !== -1) {
-      if (!lastDate || lastDate !== event.FromDate) {
-        if (lastDate) {
+    const group = event.Group ? event.Group : event.FromDate;
+    if (filters.length === 0 || filters.indexOf (group) !== -1) {
+      if (!lastGroup || lastGroup !== group) {
+        if (lastGroup) {
           lines.push ({type: 'sep'});
         }
-        lines.push ({type: 'top', date: event.FromDate});
-        lastDate = event.FromDate;
+        lines.push ({type: 'top', date: event.FromDate, group: event.Group});
+        lastGroup = group;
       }
       lines.push ({type: 'event', event: event});
 
-      if (!dates.has (event.FromDate)) {
-        dates.set (event.FromDate, 0);
+      if (!groups.has (group)) {
+        groups.set (group, 0);
       }
-      const n = dates.get (event.FromDate);
-      dates.set (event.FromDate, n + 1);
+      const n = groups.get (group);
+      groups.set (group, n + 1);
     }
   }
-  const d = [];
+  const g = [];
   const n = [];
-  for (var date of dates) {
-    d.push (date[0]);
-    n.push (date[1]);
+  for (var group of groups) {
+    g.push (group[0]);
+    n.push (group[1]);
   }
-  return {dates: d, count: n, lines: lines};
+  return {groups: g, count: n, lines: lines};
 }
 
 /******************************************************************************/
@@ -67,17 +68,17 @@ export default class Chronos extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      filteredDates: [],
+      filters: [],
     };
   }
 
-  getFilteredDates () {
-    return this.state.filteredDates;
+  getFilters () {
+    return this.state.filters;
   }
 
-  setFilteredDates (value) {
+  setFilters (value) {
     this.setState ( {
-      filteredDates: value
+      filters: value
     });
   }
 
@@ -85,9 +86,9 @@ export default class Chronos extends React.Component {
 
   componentWillMount () {
     const data = this.read ('data');
-    const filteredDates = this.getFilteredDates ();
-    this.flatData = getFlatData (data, filteredDates);
-    this.updateFilter (filteredDates);
+    const filters = this.getFilters ();
+    this.flatData = getFlatData (data, filters);
+    this.updateFilter (filters);
   }
 
   mouseOver (event) {
@@ -100,57 +101,57 @@ export default class Chronos extends React.Component {
 
   /******************************************************************************/
 
-  updateFilter (filteredDates) {
-    if (filteredDates.length === 0) {  // show all events ?
+  updateFilter (filters) {
+    if (filters.length === 0) {  // show all events ?
       this.flatFilteredData = this.flatData;
     } else {  // has filter ?
       const data = this.read ('data');
-      this.flatFilteredData = getFlatData (data, filteredDates);
+      this.flatFilteredData = getFlatData (data, filters);
     }
   }
 
   actionAll () {
     this.updateFilter ([]);
-    this.setFilteredDates ([]);
+    this.setFilters ([]);
   }
 
-  actionDate (e, date) {
-    const filteredDates = this.getFilteredDates ();
+  actionFilter (e, date) {
+    const filters = this.getFilters ();
     if (e.ctrlKey) {
-      const i = filteredDates.indexOf (date);
+      const i = filters.indexOf (date);
       if (i === -1) {
-        filteredDates.push (date);  // add date
+        filters.push (date);  // add date
       } else {
-        filteredDates.splice (i, 1);  // delete date
+        filters.splice (i, 1);  // delete date
       }
     } else {
-      filteredDates.splice (0, filteredDates.length);
-      filteredDates.push (date);
+      filters.splice (0, filters.length);
+      filters.push (date);
     }
-    this.updateFilter (filteredDates);
-    this.setFilteredDates (filteredDates.slice ());
+    this.updateFilter (filters);
+    this.setFilters (filters.slice ());
   }
 
-  actionPrevDate () {
-    const filteredDates = this.getFilteredDates ();
-    if (filteredDates.length === 1) {
-      const index = this.flatData.dates.indexOf (filteredDates[0]);
+  actionPrevFilter () {
+    const filters = this.getFilters ();
+    if (filters.length === 1) {
+      const index = this.flatData.groups.indexOf (filters[0]);
       if (index !== -1 && index > 0) {
-        const newDate = this.flatData.dates[index - 1];
+        const newDate = this.flatData.groups[index - 1];
         this.updateFilter ([newDate]);
-        this.setFilteredDates ([newDate]);
+        this.setFilters ([newDate]);
       }
     }
   }
 
-  actionNextDate () {
-    const filteredDates = this.getFilteredDates ();
-    if (filteredDates.length === 1) {
-      const index = this.flatData.dates.indexOf (filteredDates[0]);
-      if (index !== -1 && index < this.flatData.dates.length - 1) {
-        const newDate = this.flatData.dates[index + 1];
+  actionNextFilter () {
+    const filters = this.getFilters ();
+    if (filters.length === 1) {
+      const index = this.flatData.groups.indexOf (filters[0]);
+      if (index !== -1 && index < this.flatData.groups.length - 1) {
+        const newDate = this.flatData.groups[index + 1];
         this.updateFilter ([newDate]);
-        this.setFilteredDates ([newDate]);
+        this.setFilters ([newDate]);
       }
     }
   }
@@ -192,18 +193,20 @@ export default class Chronos extends React.Component {
 
   renderNavigationButtons () {
     const result = [];
-    const filteredDates = this.getFilteredDates ();
-    result.push (this.renderNavigationButton (null, 'Tout', null, null, false, filteredDates.length === 0, () => this.actionAll ()));
-    result.push (this.renderNavigationButton ('chevron-up', null, null, null, filteredDates.length !== 1, false, () => this.actionPrevDate ()));
-    for (var i = 0; i < this.flatData.dates.length; i++) {
-      var date  = this.flatData.dates[i];
+    const filters = this.getFilters ();
+    result.push (this.renderNavigationButton (null, 'Tout', null, null, false, filters.length === 0, () => this.actionAll ()));
+    result.push (this.renderNavigationButton ('chevron-up', null, null, null, filters.length !== 1, false, () => this.actionPrevFilter ()));
+    for (var i = 0; i < this.flatData.groups.length; i++) {
+      var group = this.flatData.groups[i];
       var count = this.flatData.count[i];
-      const text    = Converters.getDisplayedDate (date);
-      const tooltip = Converters.getDisplayedDate (date, false, 'W');
-      const x = date;  // necessary, but strange !
-      result.push (this.renderNavigationButton (null, text, count, tooltip, false, filteredDates.indexOf (x) !== -1, e => this.actionDate (e, x)));
+      // const text    = Converters.getDisplayedDate (date);
+      // const tooltip = Converters.getDisplayedDate (date, false, 'W');
+      const text    = group;  // TODO!!!
+      const tooltip = group;
+      const x = group;  // necessary, but strange !
+      result.push (this.renderNavigationButton (null, text, count, tooltip, false, filters.indexOf (x) !== -1, e => this.actionFilter (e, x)));
     }
-    result.push (this.renderNavigationButton ('chevron-down', null, null, null, filteredDates.length !== 1, false, () => this.actionNextDate ()));
+    result.push (this.renderNavigationButton ('chevron-down', null, null, null, filters.length !== 1, false, () => this.actionNextFilter ()));
     return result;
   }
 
@@ -237,9 +240,7 @@ export default class Chronos extends React.Component {
 
   /******************************************************************************/
 
-  renderContentTopDate (date) {
-    const text = Converters.getDisplayedDate (date, false, 'Wdmy');
-
+  renderContentTopGroup (text) {
     return (
       <Label text={text} text-color='#fff' grow='1' {...this.link ()} />
     );
@@ -257,7 +258,7 @@ export default class Chronos extends React.Component {
     return result;
   }
 
-  renderContentTop (date, index) {
+  renderContentTop (text, index) {
     const lineStyle      = this.mergeStyles ('top');
     const lineLabelStyle = this.mergeStyles ('topLabel');
     const lineEventStyle = this.mergeStyles ('topEvent');
@@ -265,7 +266,7 @@ export default class Chronos extends React.Component {
       <div style={lineStyle} ref={index}>
         <div style={lineLabelStyle}>
           <Label text='' width={this.props.theme.shapes.chronosLabelMargin} {...this.link ()} />
-          {this.renderContentTopDate (date)}
+          {this.renderContentTopGroup (text)}
         </div>
         <div style={lineEventStyle}>
           {this.renderContentTopTimes ()}
@@ -307,7 +308,13 @@ export default class Chronos extends React.Component {
     let index = 0;
     for (var item of this.flatFilteredData.lines) {
       if (item.type === 'top') {
-        result.push (this.renderContentTop (item.date, index++));
+        var text;
+        if (item.date) {
+          text = Converters.getDisplayedDate (item.date, false, 'Wdmy');
+        } else {
+          text = item.group;
+        }
+        result.push (this.renderContentTop (text, index++));
       } else if (item.type === 'event') {
         result.push (this.renderContentEvent (item.event, index++));
       } else if (item.type === 'sep') {
