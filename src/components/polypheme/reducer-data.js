@@ -563,12 +563,12 @@ function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
       }
     });
     updateUI ();
-    electrumDispatch (state, 'drop', {
-      itemKind:     fromKind,
-      itemIds:      fromIds,
-      beforeItemId: toId,
-      toOwnerId:    toOwnerId,
-      toOwnerKind:  toOwnerKind,
+    electrumDispatch (state, 'MoveTicketCommand', {
+      ItemKind:     fromKind,
+      ItemIds:      fromIds[0], // TODO: HACK
+      BeforeItemId: toId,
+      ToOwnerId:    toOwnerId,
+      ToOwnerKind:  toOwnerKind,
     });
   }
   return state;
@@ -713,8 +713,8 @@ function cycleTicketStatus (state, id) {
     setMiscs (state, flashes, warnings);
     updateUI ();
   } else {
-    electrumDispatch (state, 'cycleTicketStatus', {
-      id:   id,
+    electrumDispatch (state, 'CycleTicketStatusCommand', {
+      TicketId: id,
     });
   }
   return state;
@@ -732,9 +732,9 @@ function changeTicketStatus (state, id, newStatus, date, time) {
     setMiscs (state, flashes, warnings);
     updateUI ();
   } else {
-    electrumDispatch (state, 'changeTicketStatus', {
-      id:     id,
-      status: newStatus,
+    electrumDispatch (state, 'ChangeTicketStatusCommand', {
+      TicketId: id,
+      Status:   newStatus,
     });
   }
   return state;
@@ -773,9 +773,9 @@ function setTrayName (state, id, value, accepted) {
   } else {
     if (accepted) {
       // If tray name changing has accepted, send changing to electrum.
-      electrumDispatch (state, 'setTrayName', {
-        id:   id,
-        name: value,
+      electrumDispatch (state, 'SetTrayNameCommand', {
+        TrayId: id,
+        Name:   value,
       });
     } else {
       // If tray name changing has canceled, simply changed data.

@@ -26,9 +26,9 @@ export default class MessengerCombo extends React.Component {
       const roadbook = this.read ('roadbook');
       ReducerData.reducer (data, {
         type:  'ELECTRUM_DISPATCH',
-        oper: 'showModifyMessenger',
+        oper: 'ShowModifyMessengerCommand',
         payload: {
-          id:   roadbook.id,
+          TicketId: roadbook.id,
         }
       });
     }
@@ -42,9 +42,9 @@ export default class MessengerCombo extends React.Component {
       const roadbook = this.read ('roadbook');
       ReducerData.reducer (data, {
         type: 'ELECTRUM_DISPATCH',
-        oper: 'showMessenger',
+        oper: 'ShowMessengerCommand',
         payload: {
-          id:   roadbook.id,
+          MessengerId: roadbook.id,
         }
       });
     }

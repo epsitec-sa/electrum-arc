@@ -41,9 +41,9 @@ export default class DispatchBacklog extends React.Component {
     } else {
       ReducerData.reducer (data, {
         type: 'ELECTRUM_DISPATCH',
-        oper: 'changeBacklogSort',
+        oper: 'ChangeBacklogSortCommand',
         payload: {
-          value: item.key,
+          Value: item.key,
         }
       });
     }
@@ -56,9 +56,9 @@ export default class DispatchBacklog extends React.Component {
     } else {
       ReducerData.reducer (data, {
         type: 'ELECTRUM_DISPATCH',
-        oper: 'changeBacklogFilter',
+        oper: 'ChangeBacklogFilterCommand',
         payload: {
-          value: item.key,
+          Value: item.key,
         }
       });
     }
