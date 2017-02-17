@@ -74,6 +74,12 @@ export default class TripTicket extends React.Component {
     return null;
   }
 
+  getPeriod (startTime, endTime) {
+    const s = Converters.getDisplayedTime (startTime);
+    const e = Converters.getDisplayedTime (endTime);
+    return `${s} — ${e}`;
+  }
+
   //  Update state.link to all tickets linked.
   //  By example, pick and drop to a trip, or 4 tickets if has transit.
   setLinkToAll (link) {
@@ -238,9 +244,9 @@ export default class TripTicket extends React.Component {
         </Container>
         <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
           <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
-            <Container kind='thin-row' width='50px' {...this.link ()} >
-              <Label text={Converters.getDisplayedTime (ticket.Trip.Pick.PlanedTime)} font-weight='bold' wrap='no'
-                {...this.link ()} />
+            <Container kind='thin-row' width='120px' {...this.link ()} >
+              <Label text={this.getPeriod (ticket.Trip.Pick.StartPlanedTime, ticket.Trip.Pick.EndPlanedTime)}
+                font-weight='bold' wrap='no' {...this.link ()} />
             </Container>
             <Container kind='thin-row' width='20px' {...this.link ()} >
               <Label glyph={directionGlyphPick.glyph} glyph-color={directionGlyphPick.color} {...this.link ()} />
@@ -257,9 +263,9 @@ export default class TripTicket extends React.Component {
             </Container>
           </Container>
           <Container kind='thin-row' grow='1' {...this.link ()} >
-            <Container kind='thin-row' width='50px' {...this.link ()} >
-              <Label text={Converters.getDisplayedTime (ticket.Trip.Drop.PlanedTime)} font-weight='bold' wrap='no'
-                {...this.link ()} />
+            <Container kind='thin-row' width='120px' {...this.link ()} >
+              <Label text={this.getPeriod (ticket.Trip.Drop.StartPlanedTime, ticket.Trip.Drop.EndPlanedTime)}
+                font-weight='bold' wrap='no' {...this.link ()} />
             </Container>
             <Container kind='thin-row' width='20px' {...this.link ()} >
               <Label glyph={directionGlyphDrop.glyph} glyph-color={directionGlyphDrop.color} {...this.link ()} />
@@ -311,17 +317,25 @@ export default class TripTicket extends React.Component {
     );
   }
 
-  renderCompactedContent (ticket, trip, directionGlyph) {
+  renderCompactedContent (ticket, trip, directionGlyph, delivered) {
+    let topTime, bottomTime;
+    if (delivered) {
+      topTime    = trip.RealisedTime;
+      bottomTime = null;
+    } else {
+      topTime    = trip.StartPlanedTime;
+      bottomTime = trip.EndPlanedTime;
+    }
     return (
       <Container kind='ticket-column' grow='1' {...this.link ()} >
         {this.renderWarning (ticket.Warning)}
         <Container kind='ticket-row' margin-bottom='-10px' {...this.link ()} >
-          <Label text={Converters.getDisplayedTime (trip.PlanedTime)} font-weight='bold' width='50px' {...this.link ()} />
+          <Label text={Converters.getDisplayedTime (topTime)} font-weight='bold' width='50px' {...this.link ()} />
           <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
           <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
         </Container>
         <Container kind='ticket-row' {...this.link ()} >
-          <Label text={Converters.getDisplayedTime (trip.RealisedTime)} font-weight='normal' width='50px' {...this.link ()} />
+          <Label text={Converters.getDisplayedTime (bottomTime)} font-weight='bold' width='50px' {...this.link ()} />
           <Label text='' width='25px' {...this.link ()} />
           <Label glyph='cube' spacing='compact' {...this.link ()} />
           <Label text={TicketHelpers.getPackageCount (ticket.Trip.Packages.length)} grow='1' {...this.link ()} />
@@ -331,12 +345,18 @@ export default class TripTicket extends React.Component {
     );
   }
 
-  renderExtendedContent (ticket, trip, directionGlyph) {
+  renderExtendedContent (ticket, trip, directionGlyph, delivered) {
+    let topTime;
+    if (delivered) {
+      topTime = trip.RealisedTime;
+    } else {
+      topTime = trip.StartPlanedTime;
+    }
     return (
       <Container kind='ticket-column' grow='1' {...this.link ()} >
         {this.renderWarning (ticket.Warning)}
         <Container kind='ticket-row' {...this.link ()} >
-          <Label text={Converters.getDisplayedTime (trip.PlanedTime)} font-weight='bold' width='50px' {...this.link ()} />
+          <Label text={Converters.getDisplayedTime (topTime)} font-weight='bold' width='50px' {...this.link ()} />
           <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
           <Label text={trip.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
         </Container>
@@ -351,7 +371,7 @@ export default class TripTicket extends React.Component {
     );
   }
 
-  renderContent (ticket, extended) {
+  renderContent (ticket, extended, delivered) {
     const kind = this.read ('kind');
     if (kind === 'trip-box') {
       return this.renderTripBoxContent (ticket);
@@ -360,9 +380,9 @@ export default class TripTicket extends React.Component {
       const directionGlyph = TicketHelpers.getDirectionGlyph (this.props.theme, ticket.Type);
 
       if (extended) {
-        return this.renderExtendedContent (ticket, trip, directionGlyph);
+        return this.renderExtendedContent (ticket, trip, directionGlyph, delivered);
       } else {
-        return this.renderCompactedContent (ticket, trip, directionGlyph);
+        return this.renderCompactedContent (ticket, trip, directionGlyph, delivered);
       }
     }
   }
@@ -378,10 +398,11 @@ export default class TripTicket extends React.Component {
     const isDragged       = this.props.isDragged;
     const hasHeLeft       = this.props.hasHeLeft;
 
-    const trip     = ticket.Type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
-    const cursor   = (noDrag === 'true') ? 'default' : 'move';
-    const hatch    = (ticket.Status === 'dispatched' || ticket.Status === 'delivered') ? 'true' : 'false';
-    const extended = ReducerData.ask (data, {type: 'IS_TICKET_EXTENDED', id: ticket.id});
+    const trip      = ticket.Type.startsWith ('pick') ? ticket.Trip.Pick : ticket.Trip.Drop;
+    const cursor    = (noDrag === 'true') ? 'default' : 'move';
+    const delivered = ticket.Status === 'delivered';
+    const hatch     = (ticket.Status === 'dispatched' || delivered) ? 'true' : 'false';
+    const extended  = ReducerData.ask (data, {type: 'IS_TICKET_EXTENDED', id: ticket.id});
     let kind, width, height;
     if (parentKind === 'trip-box') {
       kind   = 'thin';
@@ -397,7 +418,7 @@ export default class TripTicket extends React.Component {
     if (ticket.Flash === 'true' && !isDragged) {
       color = this.props.theme.palette.ticketFlashBackground;
     }
-    if (ticket.Status === 'delivered') {
+    if (delivered) {
       color = this.props.theme.palette.ticketDeliveredBackground;
     }
     if (ticket.Warning && !isDragged) {
@@ -441,7 +462,7 @@ export default class TripTicket extends React.Component {
         mouse-over       = {() => this.mouseOver ()}
         mouse-out        = {() => this.mouseOut ()}
         {...this.link ()} >
-        {this.renderContent (ticket, extended)}
+        {this.renderContent (ticket, extended, delivered)}
       </Ticket>
     );
   }

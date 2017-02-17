@@ -91,10 +91,18 @@ export default class TripDeliver extends React.Component {
         <LabelTextField
           grow        = '1'
           readonly    = 'true'
-          label-text  = 'Heure planifiée'
+          label-text  = 'Début heure planifiée'
           label-width = '200px'
           hint-text   = 'Heure'
-          value       = {Converters.getDisplayedTime (trip.PlanedTime)}
+          value       = {Converters.getDisplayedTime (trip.StartPlanedTime)}
+          {...this.link ()} />
+        <LabelTextField
+          grow        = '1'
+          readonly    = 'true'
+          label-text  = 'Fin heure planifiée'
+          label-width = '200px'
+          hint-text   = 'Heure'
+          value       = {Converters.getDisplayedTime (trip.EndPlanedTime)}
           {...this.link ()} />
         <LabelTextField
           grow           = '1'

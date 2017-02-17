@@ -63,14 +63,14 @@ function getFilterItems () {
 // --------------------------------------------------------------------------------------------------------------------
 
 function sortTimePick (a, b) {
-  const ta = Converters.getFormatedTime (a.Trip.Pick.PlanedTime);
-  const tb = Converters.getFormatedTime (b.Trip.Pick.PlanedTime);
+  const ta = Converters.getFormatedTime (a.Trip.Pick.StartPlanedTime);
+  const tb = Converters.getFormatedTime (b.Trip.Pick.StartPlanedTime);
   return ta.localeCompare (tb);
 }
 
 function sortTimeDrop (a, b) {
-  const ta = Converters.getFormatedTime (a.Trip.Drop.PlanedTime);
-  const tb = Converters.getFormatedTime (b.Trip.Drop.PlanedTime);
+  const ta = Converters.getFormatedTime (a.Trip.Drop.StartPlanedTime);
+  const tb = Converters.getFormatedTime (b.Trip.Drop.StartPlanedTime);
   return ta.localeCompare (tb);
 }
 

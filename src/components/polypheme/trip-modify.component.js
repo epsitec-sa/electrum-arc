@@ -52,8 +52,10 @@ export default class TripModify extends React.Component {
       <Container kind='panes' {...this.link ()} >
         <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} text={title} grow='1' kind='title' {...this.link ()} />
         <Separator kind='space' {...this.link ()} />
-        <LabelTextField label-glyph='clock-o' hint-text='Heure'
-          value={Converters.getDisplayedTime (pd.PlanedTime)} width='100px' {...this.link ()} />
+        <LabelTextField label-glyph='clock-o' hint-text='Heure début'
+          value={Converters.getDisplayedTime (pd.StartPlanedTime)} width='100px' {...this.link ()} />
+        <LabelTextField label-glyph='clock-o' hint-text='Heure fin'
+          value={Converters.getDisplayedTime (pd.EndPlanedTime)} width='100px' {...this.link ()} />
         <LabelTextField label-glyph='tag' hint-text='Description courte'
           value={pd.ShortDescription} grow='1' {...this.link ()} />
         <LabelTextField label-glyph='building' hint-text='Description complète'

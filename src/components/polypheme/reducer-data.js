@@ -174,7 +174,8 @@ function getNewTransit (state, ticket) {
     n.Trip.Drop.LongDescription = null;
     n.Trip.Drop.Notes = [];
     n.Trip.Drop.PlanedDate = ticket.Trip.Pick.PlanedDate;
-    n.Trip.Drop.PlanedTime = ticket.Trip.Pick.PlanedTime;
+    n.Trip.Drop.StartPlanedTime = ticket.Trip.Pick.StartPlanedTime;
+    n.Trip.Drop.EndPlanedTime = ticket.Trip.Pick.EndPlanedTime;
     n.Trip.Drop.ShortDescription = 'Inconnu';
     n.Trip.Drop.Zone = null;
   } else if (n.Type.startsWith ('drop')) {
@@ -182,7 +183,8 @@ function getNewTransit (state, ticket) {
     n.Trip.Pick.LongDescription = null;
     n.Trip.Pick.Notes = [];
     n.Trip.Pick.PlanedDate = ticket.Trip.Drop.PlanedDate;
-    n.Trip.Pick.PlanedTime = ticket.Trip.Drop.PlanedTime;
+    n.Trip.Pick.StartPlanedTime = ticket.Trip.Drop.StartPlanedTime;
+    n.Trip.Pick.EndPlanedTime = ticket.Trip.Drop.EndPlanedTime;
     n.Trip.Pick.ShortDescription = 'Inconnu';
     n.Trip.Pick.Zone = null;
   }
@@ -278,8 +280,8 @@ function sortTicket (a, b) {
   const sb = getSortingTicketOrder (b).toString ();
   if (sa === sb) {
     // If they have the same type, sort chronologically.
-    const ta = Converters.getFormatedTime (a.Trip.Drop.PlanedTime);
-    const tb = Converters.getFormatedTime (b.Trip.Drop.PlanedTime);
+    const ta = Converters.getFormatedTime (a.Trip.Drop.StartPlanedTime);
+    const tb = Converters.getFormatedTime (b.Trip.Drop.StartPlanedTime);
     return ta.localeCompare (tb);
   } else {
     return sa.localeCompare (sb);

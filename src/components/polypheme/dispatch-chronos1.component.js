@@ -31,9 +31,9 @@ function TransformTripToNote (trip) {
 function TransformTicketToEvent (ticket) {
   const event = {};
   event.FromDate = ticket.Trip.Pick.PlanedDate;
-  event.FromTime = ticket.Trip.Pick.PlanedTime;
+  event.FromTime = ticket.Trip.Pick.StartPlanedTime;
   event.ToDate = ticket.Trip.Drop.PlanedDate;
-  event.ToTime = ticket.Trip.Drop.PlanedTime;
+  event.ToTime = ticket.Trip.Drop.EndPlanedTime;
   event.Note = TransformTripToNote (ticket.Trip);
   return event;
 }

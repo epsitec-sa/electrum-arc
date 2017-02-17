@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import Converters from '../polypheme/converters';
 
 import {
   Container,
@@ -33,9 +32,9 @@ function TransformTicketToEvent (name, ticket) {
     mp = ticket.Trip.Drop;
   }
   event.Group    = name;
-  event.FromTime = mp.PlanedTime;
+  event.FromTime = mp.StartPlanedTime;
   event.ToDate   = name;
-  event.ToTime   = Converters.addMinutes (mp.PlanedTime, Math.random () * 60);
+  event.ToTime   = mp.EndPlanedTime;
   event.Note     = TransformMeetingPointToNote (ticket.Type, mp);
   return event;
 }
