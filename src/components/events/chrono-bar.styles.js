@@ -1,20 +1,49 @@
 'use strict';
 
+import {Unit} from 'electrum-theme';
+
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  const inputLeft   = props.left;
-  const inputWidth  = props.width;
-  const inputTop    = props.top;
-  const inputHeight = props.height;
+  const startFrom = props.startFrom;
+  const endFrom   = props.endFrom;
+  const startTo   = props.startTo;
+  const endTo     = props.endTo;
+  const top       = props.top;
+  const height    = props.height;
 
-  const baseStyle = {
+  console.log ('ChronoBar.style');
+  const startWidth = Unit.sub (endFrom, startFrom);
+  const mainWidth  = Unit.sub (startTo, endFrom);
+  const endWidth   = Unit.sub (endTo, startTo);
+
+  const startStyle = {
     position:        'absolute',
-    left:            inputLeft,
-    width:           inputWidth,
-    top:             inputTop,
-    height:          inputHeight,
-    backgroundColor: theme.palette.chronoEventBackground,
+    left:            startFrom,
+    width:           startWidth,
+    top:             top,
+    height:          height,
+    backgroundColor: theme.palette.chronoEventStartBackground,
+    userSelect:      'none',
+  };
+
+  const mainStyle = {
+    position:        'absolute',
+    left:            endFrom,
+    width:           mainWidth,
+    top:             top,
+    height:          height,
+    backgroundColor: theme.palette.chronoEventMainBackground,
+    userSelect:      'none',
+  };
+
+  const endStyle = {
+    position:        'absolute',
+    left:            startTo,
+    width:           endWidth,
+    top:             top,
+    height:          height,
+    backgroundColor: theme.palette.chronoEventEndBackground,
     userSelect:      'none',
   };
 
@@ -30,7 +59,9 @@ export default function styles (theme, props) {
   };
 
   return {
-    base:    baseStyle,
+    start:   startStyle,
+    main:    mainStyle,
+    end:     endStyle,
     tooltip: tooltipStyle,
   };
 }

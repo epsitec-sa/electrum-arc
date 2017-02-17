@@ -44,6 +44,35 @@ export default class ChronoEvent extends React.Component {
 
   /******************************************************************************/
 
+  getPeriod (startTime, endTime) {
+    const s = Converters.getDisplayedTime (startTime);
+    const e = Converters.getDisplayedTime (endTime);
+    if (s === e) {
+      return s;
+    } else {
+      return `${s} — ${e}`;
+    }
+  }
+
+  getTooltip (event) {
+    var period;
+    if (event.StartFromTime) {
+      const s = this.getPeriod (event.StartFromTime, event.EndFromTime);
+      const e = this.getPeriod (event.StartToTime, event.EndToTime);
+      period = `${s} / ${e}`;
+    } else {
+      period = this.getPeriod (event.FromTime, event.ToTime);
+    }
+    const n = event.Note.Content;
+    if (n) {
+      return `${period} : ${n}`;
+    } else {
+      return period;
+    }
+  }
+
+  /******************************************************************************/
+
   renderVerticalLine (x) {
     const style = {
       position:        'absolute',
@@ -68,28 +97,46 @@ export default class ChronoEvent extends React.Component {
   }
 
   renderBar (event) {
-    const fromPos = Converters.getMinutes (event.FromTime);
-    const   toPos = Converters.getMinutes (event.ToTime);
+    console.log ('ChronoEvent.renderBar');
+    var startFromPos, endFromPos, startToPos, endToPos;
+    if (event.StartFromTime) {
+      startFromPos = Converters.getMinutes (event.StartFromTime);
+      endFromPos   = Converters.getMinutes (event.EndFromTime);
+      startToPos   = Converters.getMinutes (event.StartToTime);
+      endToPos     = Converters.getMinutes (event.EndToTime);
+    } else {
+      startFromPos = Converters.getMinutes (event.FromTime);
+      endFromPos   = Converters.getMinutes (event.FromTime);
+      startToPos   = Converters.getMinutes (event.ToTime);
+      endToPos     = Converters.getMinutes (event.ToTime);
+    }
 
+    // const left   = (fromPos * 100 / (24 * 60)) + '%';
+    // const width  = (Math.max (toPos - fromPos, 2) * 100 / (24 * 60)) + '%';
+    const startFrom = (startFromPos * 100 / (24 * 60)) + '%';
+    const endFrom   = (endFromPos   * 100 / (24 * 60)) + '%';
+    const startTo   = (startToPos   * 100 / (24 * 60)) + '%';
+    const endTo     = (endToPos     * 100 / (24 * 60)) + '%';
     const s = this.props.theme.shapes.eventSeparator;
-    const left   = (fromPos * 100 / (24 * 60)) + '%';
-    const width  = (Math.max (toPos - fromPos, 2) * 100 / (24 * 60)) + '%';
     const top    = s;
     const height = `calc(100% - ${Unit.multiply (s, 2)})`;
 
     return (
       <ChronoBar
-        event  = {event}
-        left   = {left}
-        width  = {width}
-        top    = {top}
-        height = {height}
-        hover  = {this.getHover () ? 'true' : 'false'}
+        startFrom = {startFrom}
+        endFrom   = {endFrom}
+        startTo   = {startTo}
+        endTo     = {endTo}
+        top       = {top}
+        height    = {height}
+        tooltip   = {this.getTooltip (event)}
+        hover     = {this.getHover () ? 'true' : 'false'}
         {...this.link ()} />
     );
   }
 
   render () {
+    console.log ('ChronoEvent.render');
     const event = this.read ('event');
 
     const styleName = this.getHover () ? 'lineHover' : 'line';

@@ -77,7 +77,11 @@ export default class TripTicket extends React.Component {
   getPeriod (startTime, endTime) {
     const s = Converters.getDisplayedTime (startTime);
     const e = Converters.getDisplayedTime (endTime);
-    return `${s} — ${e}`;
+    if (s === e) {
+      return s;
+    } else {
+      return `${s} — ${e}`;
+    }
   }
 
   //  Update state.link to all tickets linked.

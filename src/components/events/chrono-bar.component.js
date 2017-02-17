@@ -14,37 +14,23 @@ export default class ChronoBar extends React.Component {
 
   get styleProps () {
     return {
-      left:   this.read ('left'),
-      width:  this.read ('width'),
-      top:    this.read ('top'),
-      height: this.read ('height'),
+      startFrom: this.read ('startFrom'),
+      endFrom:   this.read ('endFrom'),
+      startTo:   this.read ('startTo'),
+      endTo:     this.read ('endTo'),
+      top:       this.read ('top'),
+      height:    this.read ('height'),
     };
   }
 
-  getTooltip (event) {
-    const f = Converters.getDisplayedTime (event.FromTime);
-    const t = Converters.getDisplayedTime (event.ToTime);
-    var period;
-    if (f === t) {
-      period = f;
-    } else {
-      period = `${f} — ${t}`;
-    }
-    const n = event.Note.Content;
-    if (n) {
-      return `${period} : ${n}`;
-    } else {
-      return period;
-    }
-  }
-
   // If hover. draw a 'tooltip' on the right side of bar.
-  renderTooltip (event, hover) {
+  renderTooltip (hover) {
     if (hover) {
+      const tooltip = this.read ('tooltip');
       const style = this.mergeStyles ('tooltip');
       return (
         <div style={style}>
-          <Label text={this.getTooltip (event)} wrap='no' {...this.link ()} />
+          <Label text={tooltip} wrap='no' {...this.link ()} />
         </div>
       );
     } else {
@@ -53,16 +39,20 @@ export default class ChronoBar extends React.Component {
   }
 
   render () {
-    const event = this.read ('event');
+    console.log ('ChronoBar.render');
     const hover = this.read ('hover');
 
-    const style = this.mergeStyles ('base');
+    const startStyle = this.mergeStyles ('start');
+    const mainStyle  = this.mergeStyles ('main');
+    const endStyle   = this.mergeStyles ('end');
 
     return (
-      <div
-        style = {style}
-        {...this.link ()}>
-        {this.renderTooltip (event, hover === 'true')}
+      <div>
+        <div style = {startStyle} {...this.link ()} />
+        <div style = {mainStyle} {...this.link ()} />
+        <div style = {endStyle} {...this.link ()}>
+          {this.renderTooltip (hover === 'true')}
+        </div>
       </div>
     );
   }
