@@ -14,12 +14,23 @@ import {
 /******************************************************************************/
 
 function getFlatData (data, filters) {
-  console.log ('Chronos.getFlatData');
+  // console.log ('Chronos.getFlatData');
   const lines = [];
   const groups = new Map ();
   var lastGroup = null;
+  var hasDates = false;
   for (var event of data.Events) {
-    const group = event.Group ? event.Group : event.FromDate;
+    hasDates = event.FromDate || event.StartFromDate;
+    let group;
+    if (hasDates) {
+      if (event.StartFromDate) {
+        group = event.StartFromDate;
+      } else {
+        group = event.FromDate;
+      }
+    } else {
+      group = event.Group;
+    }
     if (filters.length === 0 || filters.indexOf (group) !== -1) {
       if (!lastGroup || lastGroup !== group) {
         if (lastGroup) {
@@ -43,7 +54,7 @@ function getFlatData (data, filters) {
     g.push (group[0]);
     n.push (group[1]);
   }
-  return {groups: g, count: n, lines: lines};
+  return {hasDates: hasDates, groups: g, count: n, lines: lines};
 }
 
 /******************************************************************************/
@@ -197,12 +208,16 @@ export default class Chronos extends React.Component {
     result.push (this.renderNavigationButton (null, 'Tout', null, null, false, filters.length === 0, () => this.actionAll ()));
     result.push (this.renderNavigationButton ('chevron-up', null, null, null, filters.length !== 1, false, () => this.actionPrevFilter ()));
     for (var i = 0; i < this.flatData.groups.length; i++) {
-      var group = this.flatData.groups[i];
-      var count = this.flatData.count[i];
-      // const text    = Converters.getDisplayedDate (date);
-      // const tooltip = Converters.getDisplayedDate (date, false, 'W');
-      const text    = group;  // TODO!!!
-      const tooltip = group;
+      const group = this.flatData.groups[i];
+      const count = this.flatData.count[i];
+      var text, tooltip;
+      if (this.flatData.hasDates) {
+        text    = Converters.getDisplayedDate (group);
+        tooltip = Converters.getDisplayedDate (group, false, 'W');
+      } else {
+        text    = group;
+        tooltip = null;
+      }
       const x = group;  // necessary, but strange !
       result.push (this.renderNavigationButton (null, text, count, tooltip, false, filters.indexOf (x) !== -1, e => this.actionFilter (e, x)));
     }

@@ -12,7 +12,6 @@ export default function styles (theme, props) {
   const top       = props.top;
   const height    = props.height;
 
-  console.log ('ChronoBar.style');
   const startWidth = Unit.sub (endFrom, startFrom);
   const mainWidth  = Unit.sub (startTo, endFrom);
   const endWidth   = Unit.sub (endTo, startTo);

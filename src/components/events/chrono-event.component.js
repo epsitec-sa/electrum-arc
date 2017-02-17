@@ -97,7 +97,6 @@ export default class ChronoEvent extends React.Component {
   }
 
   renderBar (event) {
-    console.log ('ChronoEvent.renderBar');
     var startFromPos, endFromPos, startToPos, endToPos;
     if (event.StartFromTime) {
       startFromPos = Converters.getMinutes (event.StartFromTime);
@@ -136,7 +135,6 @@ export default class ChronoEvent extends React.Component {
   }
 
   render () {
-    console.log ('ChronoEvent.render');
     const event = this.read ('event');
 
     const styleName = this.getHover () ? 'lineHover' : 'line';

@@ -39,7 +39,6 @@ export default class ChronoBar extends React.Component {
   }
 
   render () {
-    console.log ('ChronoBar.render');
     const hover = this.read ('hover');
 
     const startStyle = this.mergeStyles ('start');
