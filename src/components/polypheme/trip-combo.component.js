@@ -25,9 +25,9 @@ export default class TripCombo extends React.Component {
       const data   = this.read ('data');
       const ticket = this.read ('ticket');
       ReducerData.reducer (data, {
-        type:    'ELECTRUM_DISPATCH',
+        type: 'ELECTRUM_DISPATCH',
+        oper: 'showModifyTicket',
         payload: {
-          type: 'showModifyTicket',
           id:   ticket.id,
         }
       });
@@ -41,9 +41,9 @@ export default class TripCombo extends React.Component {
       const data   = this.read ('data');
       const ticket = this.read ('ticket');
       ReducerData.reducer (data, {
-        type:    'ELECTRUM_DISPATCH',
+        type: 'ELECTRUM_DISPATCH',
+        oper: 'showMission',
         payload: {
-          type: 'showMission',
           id:   ticket.id,
         }
       });

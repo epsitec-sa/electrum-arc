@@ -130,8 +130,7 @@ function addYears (date, n) {
 // With '2017-03-31', return {year: 2017, month: 03, day: 31}.
 function splitDate (date) {
   if (!date || date.length !== 10 || date[4] !== '-' || date[7] !== '-') {
-    // throw new Error (`Bad formated date '${date}' (must be 'yyyy-mm-dd')`);
-    return null;
+    throw new Error (`Bad formated date '${date}' (must be 'yyyy-mm-dd')`);
   }
   let year  = parseInt (date.substring (0, 4));
   let month = parseInt (date.substring (5, 7));

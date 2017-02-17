@@ -32,11 +32,11 @@ function TransformTicketToEvent (name, ticket) {
   } else {
     mp = ticket.Trip.Drop;
   }
-  event.FromDate = name;
+  event.Group    = name;
   event.FromTime = mp.PlanedTime;
   event.ToDate   = name;
   event.ToTime   = Converters.addMinutes (mp.PlanedTime, Math.random () * 60);
-  event.Note = TransformMeetingPointToNote (ticket.Type, mp);
+  event.Note     = TransformMeetingPointToNote (ticket.Type, mp);
   return event;
 }
 

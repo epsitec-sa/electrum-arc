@@ -40,9 +40,9 @@ export default class DispatchBacklog extends React.Component {
       this.forceUpdate ();
     } else {
       ReducerData.reducer (data, {
-        type:    'ELECTRUM_DISPATCH',
+        type: 'ELECTRUM_DISPATCH',
+        oper: 'changeBacklogSort',
         payload: {
-          type:  'changeBacklogSort',
           value: item.key,
         }
       });
@@ -55,9 +55,9 @@ export default class DispatchBacklog extends React.Component {
       this.forceUpdate ();
     } else {
       ReducerData.reducer (data, {
-        type:    'ELECTRUM_DISPATCH',
+        type: 'ELECTRUM_DISPATCH',
+        oper: 'changeBacklogFilter',
         payload: {
-          type:  'changeBacklogFilter',
           value: item.key,
         }
       });

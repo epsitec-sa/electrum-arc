@@ -76,15 +76,15 @@ function deepSearchFromId (state, id, ownerId) {
 
 // ------------------------------------------------------------------------------------------
 
-function electrumDispatch (state, payload) {
+function electrumDispatch (state, oper, payload) {
   if (payload.id) {
     // If payload contains a 'id', inject 'kind'.
     const result = deepSearchFromId (state, payload.id);
     payload.kind = result.kind;
   }
-  console.log ('ReducerData.electrumDispatch ' + payload.type);
+  console.log ('ReducerData.electrumDispatch ' + oper);
   console.dir (payload);
-  Electrum.bus.dispatch (state, 'dnd', payload);
+  Electrum.bus.postEnvelope (oper, payload);
 }
 
 // ------------------------------------------------------------------------------------------
@@ -563,8 +563,7 @@ function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
       }
     });
     updateUI ();
-    electrumDispatch (state, {
-      type:         'drop',
+    electrumDispatch (state, 'drop', {
       itemKind:     fromKind,
       itemIds:      fromIds,
       beforeItemId: toId,
@@ -714,8 +713,7 @@ function cycleTicketStatus (state, id) {
     setMiscs (state, flashes, warnings);
     updateUI ();
   } else {
-    electrumDispatch (state, {
-      type: 'cycleTicketStatus',
+    electrumDispatch (state, 'cycleTicketStatus', {
       id:   id,
     });
   }
@@ -734,8 +732,7 @@ function changeTicketStatus (state, id, newStatus, date, time) {
     setMiscs (state, flashes, warnings);
     updateUI ();
   } else {
-    electrumDispatch (state, {
-      type:   'changeTicketStatus',
+    electrumDispatch (state, 'changeTicketStatus', {
       id:     id,
       status: newStatus,
     });
@@ -776,8 +773,7 @@ function setTrayName (state, id, value, accepted) {
   } else {
     if (accepted) {
       // If tray name changing has accepted, send changing to electrum.
-      electrumDispatch (state, {
-        type: 'setTrayName',
+      electrumDispatch (state, 'setTrayName', {
         id:   id,
         name: value,
       });
@@ -828,7 +824,7 @@ function reducer (state = {}, action = {}) {
       break;
 
     case 'ELECTRUM_DISPATCH':
-      electrumDispatch (state, action.payload);
+      electrumDispatch (state, action.oper, action.payload);
       break;
   }
   return state;
