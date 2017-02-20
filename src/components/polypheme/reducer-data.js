@@ -77,10 +77,18 @@ function deepSearchFromId (state, id, ownerId) {
 // ------------------------------------------------------------------------------------------
 
 function electrumDispatch (state, oper, payload) {
-  if (payload.id) {
-    // If payload contains a 'id', inject 'kind'.
-    const result = deepSearchFromId (state, payload.id);
-    payload.kind = result.kind;
+  if (payload.TicketId) {
+    // If payload contains a 'TicketId', inject 'Kind'.
+    const result = deepSearchFromId (state, payload.TicketId);
+    payload.Kind = result.kind;
+  } else if (payload.TrayId) {
+    // If payload contains a 'TrayId', inject 'Kind'.
+    const result = deepSearchFromId (state, payload.TrayId);
+    payload.Kind = result.kind;
+  } else if (payload.MessengerId) {
+    // If payload contains a 'MessengerId', inject 'Kind'.
+    const result = deepSearchFromId (state, payload.MessengerId);
+    payload.Kind = result.kind;
   }
   console.log ('ReducerData.electrumDispatch ' + oper);
   console.dir (payload);
