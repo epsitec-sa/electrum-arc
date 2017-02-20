@@ -94,7 +94,19 @@ export default function styles (theme, props) {
     userSelect:      'none',
   };
 
-  const tooltipStyle = {
+  const leftTooltipStyle = {
+    position:        'absolute',
+    display:         'flex',
+    flexDirection:   'row',
+    justifyContent:  'flex-end',
+    right:           '100%',
+    width:           '1000px',
+    height:          '100%',
+    margin:          '0px 10px 0px 0px',
+    userSelect:      'none',
+  };
+
+  const rightTooltipStyle = {
     position:        'absolute',
     display:         'flex',
     flexDirection:   'row',
@@ -113,7 +125,8 @@ export default function styles (theme, props) {
     topOverlap:    topOverlapStyle,
     bottomOverlap: bottomOverlapStyle,
     endOverlap:    endOverlapStyle,
-    tooltip:       tooltipStyle,
+    leftTooltip:   leftTooltipStyle,
+    rightTooltip:  rightTooltipStyle,
   };
 }
 

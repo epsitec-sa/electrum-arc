@@ -54,20 +54,49 @@ export default class ChronoEvent extends React.Component {
     }
   }
 
-  getTooltip (event) {
-    var period;
-    if (event.StartFromTime) {
-      const s = this.getPeriod (event.StartFromTime, event.EndFromTime);
-      const e = this.getPeriod (event.StartToTime, event.EndToTime);
-      period = `${s} / ${e}`;
+  getLeftTooltip (event, isTextToLeft) {
+    if (isTextToLeft) {
+      var period;
+      if (event.StartFromTime) {
+        period = this.getPeriod (event.StartFromTime, event.EndFromTime);
+      } else {
+        period = this.getPeriod (event.FromTime, event.ToTime);
+      }
+      const n = event.Note.Content;
+      if (n) {
+        return `${n} : ${period}`;
+      } else {
+        return period;
+      }
     } else {
-      period = this.getPeriod (event.FromTime, event.ToTime);
+      if (event.StartFromTime) {
+        return this.getPeriod (event.StartFromTime, event.EndFromTime);
+      } else {
+        return null;
+      }
     }
-    const n = event.Note.Content;
-    if (n) {
-      return `${period} : ${n}`;
+  }
+
+  getRightTooltip (event, isTextToLeft) {
+    if (!isTextToLeft) {
+      var period;
+      if (event.StartToTime) {
+        period = this.getPeriod (event.StartToTime, event.EndToTime);
+      } else {
+        period = this.getPeriod (event.FromTime, event.ToTime);
+      }
+      const n = event.Note.Content;
+      if (n && !isTextToLeft) {
+        return `${period} : ${n}`;
+      } else {
+        return period;
+      }
     } else {
-      return period;
+      if (event.StartToTime) {
+        return this.getPeriod (event.StartToTime, event.EndToTime);
+      } else {
+        return null;
+      }
     }
   }
 
@@ -109,6 +138,8 @@ export default class ChronoEvent extends React.Component {
       startToPos   = Converters.getMinutes (event.ToTime);
       endToPos     = Converters.getMinutes (event.ToTime);
     }
+    const middle = (startFromPos + endFromPos + startToPos + endToPos) / 4;
+    const isTextToLeft = middle > (24 * 60) / 2;
 
     // const left   = (fromPos * 100 / (24 * 60)) + '%';
     // const width  = (Math.max (toPos - fromPos, 2) * 100 / (24 * 60)) + '%';
@@ -119,12 +150,13 @@ export default class ChronoEvent extends React.Component {
 
     return (
       <ChronoBar
-        startFrom = {startFrom}
-        endFrom   = {endFrom}
-        startTo   = {startTo}
-        endTo     = {endTo}
-        tooltip   = {this.getTooltip (event)}
-        hover     = {this.getHover () ? 'true' : 'false'}
+        startFrom    = {startFrom}
+        endFrom      = {endFrom}
+        startTo      = {startTo}
+        endTo        = {endTo}
+        leftTooltip  = {this.getLeftTooltip  (event, isTextToLeft)}
+        rightTooltip = {this.getRightTooltip (event, isTextToLeft)}
+        hover        = {this.getHover () ? 'true' : 'false'}
         {...this.link ()} />
     );
   }

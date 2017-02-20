@@ -24,10 +24,25 @@ export default class ChronoBar extends React.Component {
   }
 
   // If hover. draw a 'tooltip' on the right side of bar.
-  renderTooltip (hover) {
+  renderLeftTooltip (hover) {
     if (hover) {
-      const tooltip = this.read ('tooltip');
-      const style = this.mergeStyles ('tooltip');
+      const tooltip = this.read ('leftTooltip');
+      const style = this.mergeStyles ('leftTooltip');
+      return (
+        <div style={style}>
+          <Label text={tooltip} wrap='no' {...this.link ()} />
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  // If hover. draw a 'tooltip' on the right side of bar.
+  renderRightTooltip (hover) {
+    if (hover) {
+      const tooltip = this.read ('rightTooltip');
+      const style = this.mergeStyles ('rightTooltip');
       return (
         <div style={style}>
           <Label text={tooltip} wrap='no' {...this.link ()} />
@@ -47,10 +62,12 @@ export default class ChronoBar extends React.Component {
 
     return (
       <div>
-        <div style = {startStyle} {...this.link ()} />
+        <div style = {startStyle} {...this.link ()}>
+          {this.renderLeftTooltip (hover === 'true')}
+        </div>
         <div style = {mainStyle} {...this.link ()} />
         <div style = {endStyle} {...this.link ()}>
-          {this.renderTooltip (hover === 'true')}
+          {this.renderRightTooltip (hover === 'true')}
         </div>
       </div>
     );
@@ -66,11 +83,13 @@ export default class ChronoBar extends React.Component {
 
     return (
       <div>
-        <div style = {startStyle} {...this.link ()} />
+        <div style = {startStyle} {...this.link ()}>
+          {this.renderLeftTooltip (hover === 'true')}
+        </div>
         <div style = {topStyle} {...this.link ()} />
         <div style = {bottomStyle} {...this.link ()} />
         <div style = {endStyle} {...this.link ()}>
-          {this.renderTooltip (hover === 'true')}
+          {this.renderRightTooltip (hover === 'true')}
         </div>
       </div>
     );
