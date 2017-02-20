@@ -23,6 +23,51 @@ export default class ChronoBar extends React.Component {
     };
   }
 
+  renderDot () {
+    const tricolor = this.read ('tricolor');
+    if (tricolor === 'false') {
+      const startFrom = this.read ('startFrom');
+      const endTo     = this.read ('endTo');
+      if (startFrom === endTo) {
+        const style = this.mergeStyles ('dot');
+        return (
+          <div style={style} />
+        );
+      }
+    }
+    return null;
+  }
+
+  renderFromDot () {
+    const tricolor = this.read ('tricolor');
+    if (tricolor === 'true') {
+      const startFrom = this.read ('startFrom');
+      const endFrom   = this.read ('endFrom');
+      if (startFrom === endFrom) {
+        const style = this.mergeStyles ('fromDot');
+        return (
+          <div style={style} />
+        );
+      }
+    }
+    return null;
+  }
+
+  renderToDot () {
+    const tricolor = this.read ('tricolor');
+    if (tricolor === 'true') {
+      const startTo   = this.read ('startTo');
+      const endTo     = this.read ('endTo');
+      if (startTo === endTo) {
+        const style = this.mergeStyles ('toDot');
+        return (
+          <div style={style} />
+        );
+      }
+    }
+    return null;
+  }
+
   // If hover. draw a 'tooltip' on the right side of bar.
   renderLeftTooltip (hover) {
     if (hover) {
@@ -69,6 +114,9 @@ export default class ChronoBar extends React.Component {
         <div style = {endStyle} {...this.link ()}>
           {this.renderRightTooltip (hover === 'true')}
         </div>
+        {this.renderDot ()}
+        {this.renderFromDot ()}
+        {this.renderToDot ()}
       </div>
     );
   }
@@ -91,6 +139,9 @@ export default class ChronoBar extends React.Component {
         <div style = {endStyle} {...this.link ()}>
           {this.renderRightTooltip (hover === 'true')}
         </div>
+        {this.renderDot ()}
+        {this.renderFromDot ()}
+        {this.renderToDot ()}
       </div>
     );
   }

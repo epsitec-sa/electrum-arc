@@ -117,6 +117,38 @@ export default function styles (theme, props) {
     userSelect:      'none',
   };
 
+  const r = '8px';
+
+  const dotStyle = {
+    position:        'absolute',
+    left:            `calc(${a} - ${r})`,
+    width:           Unit.multiply (r, 2),
+    top:             `calc(50% - ${r})`,
+    height:          Unit.multiply (r, 2),
+    borderRadius:    r,
+    backgroundColor: theme.palette.chronoEventMainBackground,
+  };
+
+  const fromDotStyle = {
+    position:        'absolute',
+    left:            `calc(${a} - ${r})`,
+    width:           Unit.multiply (r, 2),
+    top:             `calc(50% - ${r})`,
+    height:          Unit.multiply (r, 2),
+    borderRadius:    r,
+    backgroundColor: theme.palette.chronoEventStartBackground,
+  };
+
+  const toDotStyle = {
+    position:        'absolute',
+    left:            `calc(${c} - ${r})`,
+    width:           Unit.multiply (r, 2),
+    top:             `calc(50% - ${r})`,
+    height:          Unit.multiply (r, 2),
+    borderRadius:    r,
+    backgroundColor: theme.palette.chronoEventEndBackground,
+  };
+
   return {
     startDistinct: startDistinctStyle,
     mainDistinct:  mainDistinctStyle,
@@ -127,6 +159,9 @@ export default function styles (theme, props) {
     endOverlap:    endOverlapStyle,
     leftTooltip:   leftTooltipStyle,
     rightTooltip:  rightTooltipStyle,
+    dot:           dotStyle,
+    fromDot:       fromDotStyle,
+    toDot:         toDotStyle,
   };
 }
 

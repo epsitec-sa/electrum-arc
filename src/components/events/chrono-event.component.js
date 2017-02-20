@@ -126,17 +126,19 @@ export default class ChronoEvent extends React.Component {
   }
 
   renderBar (event) {
-    var startFromPos, endFromPos, startToPos, endToPos;
+    var startFromPos, endFromPos, startToPos, endToPos, tricolor;
     if (event.StartFromTime) {
       startFromPos = Converters.getMinutes (event.StartFromTime);
       endFromPos   = Converters.getMinutes (event.EndFromTime);
       startToPos   = Converters.getMinutes (event.StartToTime);
       endToPos     = Converters.getMinutes (event.EndToTime);
+      tricolor     = 'true';
     } else {
       startFromPos = Converters.getMinutes (event.FromTime);
       endFromPos   = Converters.getMinutes (event.FromTime);
       startToPos   = Converters.getMinutes (event.ToTime);
       endToPos     = Converters.getMinutes (event.ToTime);
+      tricolor     = 'false';
     }
     const middle = (startFromPos + endFromPos + startToPos + endToPos) / 4;
     const isTextToLeft = middle > (24 * 60) / 2;
@@ -154,6 +156,7 @@ export default class ChronoEvent extends React.Component {
         endFrom      = {endFrom}
         startTo      = {startTo}
         endTo        = {endTo}
+        tricolor     = {tricolor}
         leftTooltip  = {this.getLeftTooltip  (event, isTextToLeft)}
         rightTooltip = {this.getRightTooltip (event, isTextToLeft)}
         hover        = {this.getHover () ? 'true' : 'false'}
