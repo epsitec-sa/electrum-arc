@@ -102,7 +102,7 @@ export default function styles (theme, props) {
     right:           '100%',
     width:           '1000px',
     height:          '100%',
-    margin:          '0px 10px 0px 0px',
+    margin:          '0px 20px 0px 0px',
     userSelect:      'none',
   };
 
@@ -113,7 +113,7 @@ export default function styles (theme, props) {
     left:            '100%',
     width:           '1000px',
     height:          '100%',
-    margin:          '0px 0px 0px 10px',
+    margin:          '0px 0px 0px 20px',
     userSelect:      'none',
   };
 

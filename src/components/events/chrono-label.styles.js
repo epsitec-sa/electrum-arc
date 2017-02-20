@@ -15,19 +15,6 @@ export default function styles (theme, props) {
     flexDirection:   'row',
     userSelect:      'none',
     cursor:          'default',
-    backgroundColor: theme.palette.eventBackground,
-    borderBottom:    '1px solid ' + theme.palette.chronoLineSeparator,
-  };
-
-  const lineHoverStyle = {
-    width:           '100%',
-    minHeight:       h,
-    maxHeight:       h,
-    display:         'flex',
-    flexDirection:   'row',
-    userSelect:      'none',
-    cursor:          'default',
-    backgroundColor: theme.palette.chronoHover,
     borderBottom:    '1px solid ' + theme.palette.chronoLineSeparator,
   };
 
@@ -38,9 +25,8 @@ export default function styles (theme, props) {
   };
 
   return {
-    line:      lineStyle,
-    lineHover: lineHoverStyle,
-    glyphs:    glyphsStyle,
+    line:   lineStyle,
+    glyphs: glyphsStyle,
   };
 }
 

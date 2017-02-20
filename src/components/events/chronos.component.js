@@ -4,8 +4,7 @@ import React from 'react';
 import Converters from '../polypheme/converters';
 
 import {
-  ChronoLabel,
-  ChronoEvent,
+  ChronoLine,
   Label,
   Button,
   Badge
@@ -60,14 +59,9 @@ function getFlatData (data, filters) {
 /******************************************************************************/
 
 function UpdateHover (event, state) {
-  for (let c of window.document.chronoLabels) {
-    if (c.props.event === event) {
-      c.setHover (state);
-    }
-  }
-  for (let c of window.document.chronoEvents) {
-    if (c.props.event === event) {
-      c.setHover (state);
+  for (let line of window.document.chronoLines) {
+    if (line.props.event === event) {
+      line.setHover (state);
     }
   }
 }
@@ -103,7 +97,7 @@ export default class Chronos extends React.Component {
   }
 
   mouseOver (event) {
-    UpdateHover (event, !this.isMouseDown);
+    UpdateHover (event, true);
   }
 
   mouseOut (event) {
@@ -291,23 +285,13 @@ export default class Chronos extends React.Component {
   }
 
   renderContentEvent (event, index) {
-    const lineStyle      = this.mergeStyles ('line');
-    const lineLabelStyle = this.mergeStyles ('lineLabel');
-    const lineEventStyle = this.mergeStyles ('lineEvent');
     return (
-      <div
-        style       = {lineStyle}
-        ref         = {index}
-        onMouseOver = {() => this.mouseOver (event)}
-        onMouseOut  = {() => this.mouseOut (event)}
-        >
-        <div style={lineLabelStyle}>
-          <ChronoLabel event={event} {...this.link ()}/>
-        </div>
-        <div style={lineEventStyle}>
-          <ChronoEvent event={event} {...this.link ()}/>
-        </div>
-      </div>
+      <ChronoLine
+        event     = {event}
+        mouseOver = {e => this.mouseOver (e)}
+        mouseOut  = {e => this.mouseOut  (e)}
+        {...this.link ()}>
+      </ChronoLine>
     );
   }
 

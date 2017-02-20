@@ -11,35 +11,6 @@ export default class ChronoEvent extends React.Component {
 
   constructor (props) {
     super (props);
-    this.state = {
-      hover: false,
-    };
-  }
-
-  getHover () {
-    return this.state.hover;
-  }
-
-  setHover (value) {
-    this.setState ( {
-      hover: value
-    });
-  }
-
-  /******************************************************************************/
-
-  componentDidMount () {
-    if (!window.document.chronoEvents) {
-      window.document.chronoEvents = [];
-    }
-    window.document.chronoEvents.push (this);
-  }
-
-  componentWillUnmount () {
-    const index = window.document.chronoEvents.indexOf (this);
-    if (index !== -1) {
-      window.document.chronoEvents.splice (index, 1);
-    }
   }
 
   /******************************************************************************/
@@ -125,7 +96,7 @@ export default class ChronoEvent extends React.Component {
     return result;
   }
 
-  renderBar (event) {
+  renderBar (event, hover) {
     var startFromPos, endFromPos, startToPos, endToPos, tricolor;
     if (event.StartFromTime) {
       startFromPos = Converters.getMinutes (event.StartFromTime);
@@ -159,21 +130,21 @@ export default class ChronoEvent extends React.Component {
         tricolor     = {tricolor}
         leftTooltip  = {this.getLeftTooltip  (event, isTextToLeft)}
         rightTooltip = {this.getRightTooltip (event, isTextToLeft)}
-        hover        = {this.getHover () ? 'true' : 'false'}
+        hover        = {hover}
         {...this.link ()} />
     );
   }
 
   render () {
     const event = this.read ('event');
+    const hover = this.read ('hover');
 
-    const styleName = this.getHover () ? 'lineHover' : 'line';
-    const lineStyle = this.mergeStyles (styleName);
+    const lineStyle = this.mergeStyles ('line');
 
     return (
       <div style={lineStyle}>
         {this.renderGrid ()}
-        {this.renderBar (event)}
+        {this.renderBar (event, hover)}
       </div>
     );
   }

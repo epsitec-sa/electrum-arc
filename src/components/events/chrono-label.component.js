@@ -9,35 +9,6 @@ export default class ChronoLabel extends React.Component {
 
   constructor (props) {
     super (props);
-    this.state = {
-      hover: false,
-    };
-  }
-
-  getHover () {
-    return this.state.hover;
-  }
-
-  setHover (value) {
-    this.setState ( {
-      hover: value
-    });
-  }
-
-  /******************************************************************************/
-
-  componentDidMount () {
-    if (!window.document.chronoLabels) {
-      window.document.chronoLabels = [];
-    }
-    window.document.chronoLabels.push (this);
-  }
-
-  componentWillUnmount () {
-    const index = window.document.chronoLabels.indexOf (this);
-    if (index !== -1) {
-      window.document.chronoLabels.splice (index, 1);
-    }
   }
 
   /******************************************************************************/
@@ -68,8 +39,7 @@ export default class ChronoLabel extends React.Component {
 
     const text = event.Note.Content;
 
-    const styleName = this.getHover () ? 'lineHover' : 'line';
-    const lineStyle = this.mergeStyles (styleName);
+    const lineStyle = this.mergeStyles ('line');
     const glyphsStyle = this.mergeStyles ('glyphs');
 
     return (
