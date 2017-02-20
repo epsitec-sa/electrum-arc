@@ -117,7 +117,7 @@ export default function styles (theme, props) {
     userSelect:      'none',
   };
 
-  const r = '8px';
+  const r = theme.shapes.chronosBarRadius;
 
   const dotStyle = {
     position:        'absolute',
