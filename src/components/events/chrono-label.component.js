@@ -26,28 +26,27 @@ export default class ChronoLabel extends React.Component {
     }
   }
 
-  renderGlyphs (event) {
+  renderGlyphs (note) {
     const result = [];
-    for (var glyph of event.Note.Glyphs) {
+    for (var glyph of note.Glyphs) {
       result.push (this.renderGlyph (glyph.Glyph));
     }
     return result;
   }
 
   render () {
-    const event = this.read ('event');
+    const note = this.read ('note');
 
-    const text = event.Note.Content;
+    const text = note.Content;
 
-    const lineStyle = this.mergeStyles ('line');
+    const lineStyle   = this.mergeStyles ('line');
     const glyphsStyle = this.mergeStyles ('glyphs');
 
     return (
       <div style={lineStyle}>
-        <Label text='' width={this.props.theme.shapes.chronosLabelMargin} {...this.link ()} />
-          <div style={glyphsStyle}>
-            {this.renderGlyphs (event)}
-          </div>
+        <div style={glyphsStyle}>
+          {this.renderGlyphs (note)}
+        </div>
         <Label text={text} grow='1' wrap='no' {...this.link ()} />
       </div>
     );

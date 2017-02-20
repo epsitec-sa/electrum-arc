@@ -46,7 +46,7 @@ export default function styles (theme, props) {
     minHeight:       theme.shapes.chronosTopHeight,
     maxHeight:       theme.shapes.chronosTopHeight,
     width:           theme.shapes.chronosLabelWidth,
-    borderRight:     theme.shapes.chronosSeparatorWidth + ' solid ' + theme.palette.chronoNavigatorBackground,
+    // borderRight:     theme.shapes.chronosSeparatorWidth + ' solid ' + theme.palette.chronoNavigatorBackground,
     display:         'flex',
     flexDirection:   'row',
     fontWeight:      'bold',
@@ -59,39 +59,6 @@ export default function styles (theme, props) {
     position:        'relative',
     minHeight:       theme.shapes.chronosTopHeight,
     maxHeight:       theme.shapes.chronosTopHeight,
-    flexGrow:        1,
-    display:         'flex',
-    flexDirection:   'row',
-    justifyContent:  'center',
-    userSelect:      'none',
-    cursor:          'default',
-  };
-
-  const lineStyle = {
-    minHeight:       theme.shapes.chronosLineHeight,
-    maxHeight:       theme.shapes.chronosLineHeight,
-    width:           '100%',
-    display:         'flex',
-    flexDirection:   'row',
-    userSelect:      'none',
-    cursor:          'default',
-  };
-
-  const lineLabelStyle = {
-    minHeight:       theme.shapes.chronosLineHeight,
-    maxHeight:       theme.shapes.chronosLineHeight,
-    width:           theme.shapes.chronosLabelWidth,
-    borderRight:     theme.shapes.chronosSeparatorWidth + ' solid ' + theme.palette.chronoNavigatorBackground,
-    display:         'flex',
-    flexDirection:   'row',
-    userSelect:      'none',
-    cursor:          'default',
-  };
-
-  const lineEventStyle = {
-    position:        'relative',
-    minHeight:       theme.shapes.chronosLineHeight,
-    maxHeight:       theme.shapes.chronosLineHeight,
     flexGrow:        1,
     display:         'flex',
     flexDirection:   'row',
@@ -117,9 +84,6 @@ export default function styles (theme, props) {
     top:        topStyle,
     topLabel:   topLabelStyle,
     topEvent:   topEventStyle,
-    line:       lineStyle,
-    lineLabel:  lineLabelStyle,
-    lineEvent:  lineEventStyle,
     sep:        sepStyle,
   };
 }

@@ -58,6 +58,27 @@ export default class ChronoLine extends React.Component {
 
   /******************************************************************************/
 
+  renderLabel (note, hover) {
+    return (
+      <ChronoLabel
+        note  = {note}
+        hover = {hover ? 'true' : 'false'}
+        {...this.link ()}/>
+    );
+  }
+
+  renderLabels (event, hover) {
+    const result = [];
+    if (event.Note) {
+      result.push (this.renderLabel (event.Note, hover));
+    } else if (event.Notes) {
+      for (var note of event.Notes) {
+        result.push (this.renderLabel (note, hover));
+      }
+    }
+    return result;
+  }
+
   render () {
     const event = this.read ('event');
 
@@ -71,10 +92,7 @@ export default class ChronoLine extends React.Component {
     return (
       <div style={lineStyle}>
         <div style={lineLabelStyle}>
-          <ChronoLabel
-            event = {event}
-            hover = {hover ? 'true' : 'false'}
-            {...this.link ()}/>
+          {this.renderLabels (event, hover)}
         </div>
         <div style={lineEventStyle}>
           <ChronoEvent

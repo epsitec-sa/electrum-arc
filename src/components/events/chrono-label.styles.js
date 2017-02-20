@@ -1,24 +1,24 @@
 'use strict';
 
-import {Unit} from 'electrum-theme';
-
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  const h = Unit.sub (theme.shapes.chronosLineHeight, '1px');
 
   const lineStyle = {
-    width:           '100%',
-    minHeight:       h,
-    maxHeight:       h,
+    minHeight:       theme.shapes.chronosLineHeight,
+    maxHeight:       theme.shapes.chronosLineHeight,
+    width:           theme.shapes.chronosLabelWidth,
+    paddingLeft:     theme.shapes.chronosLabelMargin,
+    borderRight:     theme.shapes.chronosSeparatorWidth + ' solid ' + theme.palette.chronoNavigatorBackground,
     display:         'flex',
     flexDirection:   'row',
     userSelect:      'none',
     cursor:          'default',
-    borderBottom:    '1px solid ' + theme.palette.chronoLineSeparator,
   };
 
   const glyphsStyle = {
+    minHeight:       theme.shapes.chronosLineHeight,
+    maxHeight:       theme.shapes.chronosLineHeight,
     width:           '60px',
     display:         'flex',
     flexDirection:   'row',

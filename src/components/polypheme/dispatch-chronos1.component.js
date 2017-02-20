@@ -7,14 +7,9 @@ import {
   Chronos
 } from '../../all-components.js';
 
-function TransformTripToGlyphs (trip) {
+function TransformPickToGlyphs (pick) {
   const glyphs = [];
-  for (let note of trip.Pick.Notes) {
-    for (let glyph of note.Glyphs) {
-      glyphs.push (glyph);
-    }
-  }
-  for (let note of trip.Drop.Notes) {
+  for (let note of pick.Notes) {
     for (let glyph of note.Glyphs) {
       glyphs.push (glyph);
     }
@@ -22,12 +17,36 @@ function TransformTripToGlyphs (trip) {
   return glyphs;
 }
 
-function TransformTripToNote (trip) {
+function TransformDropToGlyphs (drop) {
+  const glyphs = [];
+  for (let note of drop.Notes) {
+    for (let glyph of note.Glyphs) {
+      glyphs.push (glyph);
+    }
+  }
+  return glyphs;
+}
+
+function TransformPickToNote (pick) {
   const note = {};
-  note.Content = trip.Pick.ShortDescription + ' / ' + trip.Drop.ShortDescription;
-  note.Glyphs = TransformTripToGlyphs (trip);
+  note.Content = pick.ShortDescription;
+  note.Glyphs = TransformPickToGlyphs (pick);
   return note;
 }
+
+function TransformDropToNote (drop) {
+  const note = {};
+  note.Content = drop.ShortDescription;
+  note.Glyphs = TransformDropToGlyphs (drop);
+  return note;
+}
+
+function TransformTripToNotes (trip) {
+  const n1 = TransformPickToNote (trip.Pick);
+  const n2 = TransformDropToNote (trip.Drop);
+  return [n1, n2];
+}
+
 function TransformTicketToEvent (ticket) {
   const event = {};
   event.FromDate = ticket.Trip.Pick.PlanedDate;
@@ -36,7 +55,7 @@ function TransformTicketToEvent (ticket) {
   event.ToDate = ticket.Trip.Drop.PlanedDate;
   event.StartToTime = ticket.Trip.Drop.StartPlanedTime;
   event.EndToTime = ticket.Trip.Drop.EndPlanedTime;
-  event.Note = TransformTripToNote (ticket.Trip);
+  event.Notes = TransformTripToNotes (ticket.Trip);
   return event;
 }
 

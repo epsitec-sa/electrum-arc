@@ -15,6 +15,23 @@ export default class ChronoEvent extends React.Component {
 
   /******************************************************************************/
 
+  getNote (event) {
+    if (event.Note) {
+      return event.Note.Content;
+    } else if (event.Notes) {
+      var result = '';
+      for (var note of event.Notes) {
+        if (result) {
+          result += ' / ';
+        }
+        result += note.Content;
+      }
+      return result;
+    } else {
+      return null;
+    }
+  }
+
   getPeriod (startTime, endTime) {
     const s = Converters.getDisplayedTime (startTime);
     const e = Converters.getDisplayedTime (endTime);
@@ -33,7 +50,7 @@ export default class ChronoEvent extends React.Component {
       } else {
         period = this.getPeriod (event.FromTime, event.ToTime);
       }
-      const n = event.Note.Content;
+      const n = this.getNote (event);
       if (n) {
         return `${n} : ${period}`;
       } else {
@@ -56,7 +73,7 @@ export default class ChronoEvent extends React.Component {
       } else {
         period = this.getPeriod (event.FromTime, event.ToTime);
       }
-      const n = event.Note.Content;
+      const n = this.getNote (event);
       if (n && !isTextToLeft) {
         return `${period} : ${n}`;
       } else {
