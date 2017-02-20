@@ -1,7 +1,5 @@
 'use strict';
 
-import {Unit} from 'electrum-theme';
-
 /******************************************************************************/
 
 export default function styles (theme, props) {
@@ -45,8 +43,7 @@ export default function styles (theme, props) {
   const topLabelStyle = {
     minHeight:       theme.shapes.chronosTopHeight,
     maxHeight:       theme.shapes.chronosTopHeight,
-    width:           theme.shapes.chronosLabelWidth,
-    // borderRight:     theme.shapes.chronosSeparatorWidth + ' solid ' + theme.palette.chronoNavigatorBackground,
+    paddingLeft:     theme.shapes.chronosLabelMargin,
     display:         'flex',
     flexDirection:   'row',
     fontWeight:      'bold',

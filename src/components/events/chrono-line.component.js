@@ -59,19 +59,23 @@ export default class ChronoLine extends React.Component {
   /******************************************************************************/
 
   renderLabel (note, hover) {
+    const lineWidth  = this.read ('lineWidth');
+    const glyphWidth = this.read ('glyphWidth');
     return (
       <ChronoLabel
-        note  = {note}
-        hover = {hover ? 'true' : 'false'}
+        note       = {note}
+        lineWidth  = {lineWidth}
+        glyphWidth = {glyphWidth}
+        hover      = {hover ? 'true' : 'false'}
         {...this.link ()}/>
     );
   }
 
   renderLabels (event, hover) {
     const result = [];
-    if (event.Note) {
+    if (event.Note) {  // only one note ?
       result.push (this.renderLabel (event.Note, hover));
-    } else if (event.Notes) {
+    } else if (event.Notes) {  // collection of notes ?
       for (var note of event.Notes) {
         result.push (this.renderLabel (note, hover));
       }

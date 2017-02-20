@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Converters from '../polypheme/converters';
+import {Unit} from 'electrum-theme';
 
 import {
   ChronoLine,
@@ -18,6 +19,7 @@ function getFlatData (data, filters) {
   const groups = new Map ();
   var lastGroup = null;
   var hasDates = false;
+  var notesCount = 0;
   for (var event of data.Events) {
     hasDates = event.FromDate || event.StartFromDate;
     let group;
@@ -40,6 +42,14 @@ function getFlatData (data, filters) {
       }
       lines.push ({type: 'event', event: event});
 
+      var noteCount = 0;
+      if (event.Note) {
+        noteCount = 1;
+      } else if (event.Notes) {
+        noteCount = event.Notes.length;
+      }
+      notesCount = Math.max (notesCount, noteCount);
+
       if (!groups.has (group)) {
         groups.set (group, 0);
       }
@@ -53,7 +63,13 @@ function getFlatData (data, filters) {
     g.push (group[0]);
     n.push (group[1]);
   }
-  return {hasDates: hasDates, groups: g, count: n, lines: lines};
+  return {
+    hasDates:   hasDates,
+    groups:     g,
+    count:      n,
+    lines:      lines,
+    notesCount: notesCount,
+  };
 }
 
 /******************************************************************************/
@@ -249,12 +265,6 @@ export default class Chronos extends React.Component {
 
   /******************************************************************************/
 
-  renderContentTopGroup (text) {
-    return (
-      <Label text={text} text-color='#fff' grow='1' {...this.link ()} />
-    );
-  }
-
   renderContentTopTimes () {
     const result = [];
     let index = 0;
@@ -271,11 +281,15 @@ export default class Chronos extends React.Component {
     const lineStyle      = this.mergeStyles ('top');
     const lineLabelStyle = this.mergeStyles ('topLabel');
     const lineEventStyle = this.mergeStyles ('topEvent');
+
+    const lineWidth  = this.read ('lineWidth');
+    const width = Unit.add (lineWidth, this.props.theme.shapes.chronosSeparatorWidth);
+    lineLabelStyle.width = Unit.sub (Unit.multiply (width, this.flatFilteredData.notesCount), this.props.theme.shapes.chronosLabelMargin);
+
     return (
       <div style={lineStyle} ref={index}>
         <div style={lineLabelStyle}>
-          <Label text='' width={this.props.theme.shapes.chronosLabelMargin} {...this.link ()} />
-          {this.renderContentTopGroup (text)}
+          <Label text={text} text-color='#fff' grow='1' {...this.link ()} />
         </div>
         <div style={lineEventStyle}>
           {this.renderContentTopTimes ()}
@@ -285,11 +299,15 @@ export default class Chronos extends React.Component {
   }
 
   renderContentEvent (event, index) {
+    const lineWidth  = this.read ('lineWidth');
+    const glyphWidth = this.read ('glyphWidth');
     return (
       <ChronoLine
-        event     = {event}
-        mouseOver = {e => this.mouseOver (e)}
-        mouseOut  = {e => this.mouseOut  (e)}
+        event      = {event}
+        lineWidth  = {lineWidth}
+        glyphWidth = {glyphWidth}
+        mouseOver  = {e => this.mouseOver (e)}
+        mouseOut   = {e => this.mouseOut  (e)}
         {...this.link ()}>
       </ChronoLine>
     );

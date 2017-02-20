@@ -11,6 +11,13 @@ export default class ChronoLabel extends React.Component {
     super (props);
   }
 
+  get styleProps () {
+    return {
+      lineWidth:  this.read ('lineWidth'),
+      glyphWidth: this.read ('glyphWidth'),
+    };
+  }
+
   /******************************************************************************/
 
   renderGlyph (glyph) {
