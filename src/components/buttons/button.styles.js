@@ -510,6 +510,7 @@ export default function styles (theme, props) {
 
   if (inputKind === 'chronos-navigator') {
     boxMinHeight = boxHeight;
+    boxMargin    = '0px 0px 1px 0px';
     if (inputSubkind === 'with-badge') {
       boxJustifyContent = 'flex-start';
       textGrow          = '1';

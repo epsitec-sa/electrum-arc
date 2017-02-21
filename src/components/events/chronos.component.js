@@ -74,7 +74,7 @@ function getFlatData (data, filters) {
 
 /******************************************************************************/
 
-function UpdateHover (event, state) {
+function updateHover (event, state) {
   for (let line of window.document.chronoLines) {
     if (line.props.event === event) {
       line.setHover (state);
@@ -82,6 +82,29 @@ function UpdateHover (event, state) {
       line.setHover (state);
     }
   }
+}
+
+/******************************************************************************/
+
+function filtersGet (filters, key) {
+  if (filters.length === 0) {
+    return true;
+  } else {
+    return filters.indexOf (key) !== -1;
+  }
+}
+
+function filtersSet (filters, key, state) {
+  if (state) {
+    filters.push (key);  // add key
+  } else {
+    const i = filters.indexOf (key);
+    filters.splice (i, 1);  // delete key
+  }
+}
+
+function filtersFlush (filters) {
+  filters.splice (0, filters.length);
 }
 
 /******************************************************************************/
@@ -115,11 +138,11 @@ export default class Chronos extends React.Component {
   }
 
   mouseOver (event) {
-    UpdateHover (event, true);
+    updateHover (event, true);
   }
 
   mouseOut (event) {
-    UpdateHover (event, false);
+    updateHover (event, false);
   }
 
   /******************************************************************************/
@@ -141,15 +164,20 @@ export default class Chronos extends React.Component {
   actionFilter (e, date) {
     const filters = this.getFilters ();
     if (e.ctrlKey) {
-      const i = filters.indexOf (date);
-      if (i === -1) {
-        filters.push (date);  // add date
+      if (filtersGet (filters, date)) {
+        if (filters.length === 0) {
+          for (var i = 0; i < this.flatData.groups.length; i++) {
+            const group = this.flatData.groups[i];
+            filtersSet (filters, group, true);
+          }
+        }
+        filtersSet (filters, date, false);
       } else {
-        filters.splice (i, 1);  // delete date
+        filtersSet (filters, date, true);
       }
     } else {
-      filters.splice (0, filters.length);
-      filters.push (date);
+      filtersFlush (filters);
+      filtersSet (filters, date, true);
     }
     this.updateFilter (filters);
     this.setFilters (filters.slice ());
@@ -231,7 +259,7 @@ export default class Chronos extends React.Component {
         tooltip = null;
       }
       const x = group;  // necessary, but strange !
-      result.push (this.renderNavigationButton (null, text, count, tooltip, false, filters.indexOf (x) !== -1, e => this.actionFilter (e, x)));
+      result.push (this.renderNavigationButton (null, text, count, tooltip, false, filtersGet (filters, x), e => this.actionFilter (e, x)));
     }
     result.push (this.renderNavigationButton ('chevron-down', null, null, null, filters.length !== 1, false, () => this.actionNextFilter ()));
     return result;
