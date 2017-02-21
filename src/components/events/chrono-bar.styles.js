@@ -160,6 +160,33 @@ export default function styles (theme, props) {
     backgroundColor: theme.palette.chronoEventEndBackground,
   };
 
+  const lineStyle = {
+    position:        'absolute',
+    left:            `calc(${a} - 1px)`,
+    width:           '2px',
+    top:             top,
+    height:          height,
+    backgroundColor: theme.palette.chronoEventMainBackground,
+  };
+
+  const fromLineStyle = {
+    position:        'absolute',
+    left:            `calc(${a} - 1px)`,
+    width:           '2px',
+    top:             top,
+    height:          height,
+    backgroundColor: theme.palette.chronoEventStartBackground,
+  };
+
+  const toLineStyle = {
+    position:        'absolute',
+    left:            `calc(${c} - 1px)`,
+    width:           '2px',
+    top:             top,
+    height:          height,
+    backgroundColor: theme.palette.chronoEventEndBackground,
+  };
+
   return {
     startDistinct:  startDistinctStyle,
     mainDistinct:   mainDistinctStyle,
@@ -174,6 +201,9 @@ export default function styles (theme, props) {
     dot:            dotStyle,
     fromDot:        fromDotStyle,
     toDot:          toDotStyle,
+    line:           lineStyle,
+    fromLine:       fromLineStyle,
+    toLine:         toLineStyle,
   };
 }
 

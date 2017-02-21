@@ -23,22 +23,12 @@ export default class ChronoBar extends React.Component {
     };
   }
 
-  renderVerticalLine (x, color) {
-    const style = this.mergeStyles ('mainDistinct');
-    style.left            = `calc(${x} - 1px)`;
-    style.width           = '2px';
-    style.backgroundColor = color;
-
-    return (
-      <div style={style} />
-    );
-  }
-
-  renderThin (dotStyle, x, color) {
+  renderThin (dotStyleName, lineStyleName) {
     const result = [];
-    const style = this.mergeStyles (dotStyle);
-    result.push ((<div style={style} />));
-    result.push (this.renderVerticalLine (x, color));
+    const dotStyle  = this.mergeStyles (dotStyleName);
+    const lineStyle = this.mergeStyles (lineStyleName);
+    result.push ((<div style={dotStyle}  />));
+    result.push ((<div style={lineStyle} />));
     return result;
   }
 
@@ -48,7 +38,7 @@ export default class ChronoBar extends React.Component {
       const startFrom = this.read ('startFrom');
       const endTo     = this.read ('endTo');
       if (startFrom === endTo) {
-        return this.renderThin ('dot', startFrom, this.props.theme.palette.chronoEventMainBackground);
+        return this.renderThin ('dot', 'line');
       }
     }
     return null;
@@ -60,7 +50,7 @@ export default class ChronoBar extends React.Component {
       const startFrom = this.read ('startFrom');
       const endFrom   = this.read ('endFrom');
       if (startFrom === endFrom) {
-        return this.renderThin ('fromDot', startFrom, this.props.theme.palette.chronoEventStartBackground);
+        return this.renderThin ('fromDot', 'fromLine');
       }
     }
     return null;
@@ -72,7 +62,7 @@ export default class ChronoBar extends React.Component {
       const startTo   = this.read ('startTo');
       const endTo     = this.read ('endTo');
       if (startTo === endTo) {
-        return this.renderThin ('toDot', startTo, this.props.theme.palette.chronoEventEndBackground);
+        return this.renderThin ('toDot', 'toLine');
       }
     }
     return null;
