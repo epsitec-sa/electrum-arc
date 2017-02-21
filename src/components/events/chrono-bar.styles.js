@@ -5,14 +5,15 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  const a      = props.startFrom;
-  const b      = props.endFrom;
-  const c      = props.startTo;
-  const d      = props.endTo;
+  const a = props.startFrom;
+  const b = props.endFrom;
+  const c = props.startTo;
+  const d = props.endTo;
 
   const abWidth = Unit.sub (b, a);
   const bcWidth = Unit.sub (c, b);
   const cdWidth = Unit.sub (d, c);
+  const adWidth = Unit.sub (d, a);
 
   const s      = theme.shapes.eventSeparator;
   const top    = s;
@@ -32,11 +33,21 @@ export default function styles (theme, props) {
 
   const mainDistinctStyle = {
     position:        'absolute',
+    left:            a,
+    width:           adWidth,
+    top:             top,
+    height:          height,
+    backgroundColor: theme.palette.chronoEventMainBackground,
+    userSelect:      'none',
+  };
+
+  const middleDistinctStyle = {
+    position:        'absolute',
     left:            b,
     width:           bcWidth,
     top:             top,
     height:          height,
-    backgroundColor: theme.palette.chronoEventMainBackground,
+    backgroundColor: theme.palette.chronoEventMiddleBackground,
     userSelect:      'none',
   };
 
@@ -102,7 +113,7 @@ export default function styles (theme, props) {
     right:           '100%',
     width:           '1000px',
     height:          '100%',
-    margin:          '0px 20px 0px 0px',
+    margin:          '0px 10px 0px 0px',
     userSelect:      'none',
   };
 
@@ -113,7 +124,7 @@ export default function styles (theme, props) {
     left:            '100%',
     width:           '1000px',
     height:          '100%',
-    margin:          '0px 0px 0px 20px',
+    margin:          '0px 0px 0px 10px',
     userSelect:      'none',
   };
 
@@ -150,18 +161,19 @@ export default function styles (theme, props) {
   };
 
   return {
-    startDistinct: startDistinctStyle,
-    mainDistinct:  mainDistinctStyle,
-    endDistinct:   endDistinctStyle,
-    startOverlap:  startOverlapStyle,
-    topOverlap:    topOverlapStyle,
-    bottomOverlap: bottomOverlapStyle,
-    endOverlap:    endOverlapStyle,
-    leftTooltip:   leftTooltipStyle,
-    rightTooltip:  rightTooltipStyle,
-    dot:           dotStyle,
-    fromDot:       fromDotStyle,
-    toDot:         toDotStyle,
+    startDistinct:  startDistinctStyle,
+    mainDistinct:   mainDistinctStyle,
+    middleDistinct: middleDistinctStyle,
+    endDistinct:    endDistinctStyle,
+    startOverlap:   startOverlapStyle,
+    topOverlap:     topOverlapStyle,
+    bottomOverlap:  bottomOverlapStyle,
+    endOverlap:     endOverlapStyle,
+    leftTooltip:    leftTooltipStyle,
+    rightTooltip:   rightTooltipStyle,
+    dot:            dotStyle,
+    fromDot:        fromDotStyle,
+    toDot:          toDotStyle,
   };
 }
 

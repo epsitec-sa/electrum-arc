@@ -108,22 +108,39 @@ export default class ChronoBar extends React.Component {
     }
   }
 
+  renderStart (styleName, hover) {
+    const style = this.mergeStyles (styleName);
+    return (
+      <div style = {style} {...this.link ()}>
+        {this.renderLeftTooltip (hover === 'true')}
+      </div>
+    );
+  }
+
+  renderMain () {
+    const tricolor = this.read ('tricolor');
+    const style = this.mergeStyles (tricolor === 'true' ? 'middleDistinct' : 'mainDistinct');
+    return (
+      <div style = {style} {...this.link ()} />
+    );
+  }
+
+  renderEnd (styleName, hover) {
+    const style = this.mergeStyles (styleName);
+    return (
+      <div style = {style} {...this.link ()}>
+        {this.renderRightTooltip (hover === 'true')}
+      </div>
+    );
+  }
+
   renderDistinct () {
     const hover = this.read ('hover');
-
-    const startStyle = this.mergeStyles ('startDistinct');
-    const mainStyle  = this.mergeStyles ('mainDistinct');
-    const endStyle   = this.mergeStyles ('endDistinct');
-
     return (
       <div>
-        <div style = {startStyle} {...this.link ()}>
-          {this.renderLeftTooltip (hover === 'true')}
-        </div>
-        <div style = {mainStyle} {...this.link ()} />
-        <div style = {endStyle} {...this.link ()}>
-          {this.renderRightTooltip (hover === 'true')}
-        </div>
+        {this.renderMain ()}
+        {this.renderStart ('startDistinct', hover)}
+        {this.renderEnd ('endDistinct', hover)}
         {this.renderDot ()}
         {this.renderFromDot ()}
         {this.renderToDot ()}
@@ -134,21 +151,15 @@ export default class ChronoBar extends React.Component {
   renderOverlap () {
     const hover = this.read ('hover');
 
-    const startStyle  = this.mergeStyles ('startOverlap');
     const topStyle    = this.mergeStyles ('topOverlap');
     const bottomStyle = this.mergeStyles ('bottomOverlap');
-    const endStyle    = this.mergeStyles ('endOverlap');
 
     return (
       <div>
-        <div style = {startStyle} {...this.link ()}>
-          {this.renderLeftTooltip (hover === 'true')}
-        </div>
-        <div style = {topStyle} {...this.link ()} />
+        {this.renderStart ('startOverlap', hover)}
+        <div style = {topStyle}    {...this.link ()} />
         <div style = {bottomStyle} {...this.link ()} />
-        <div style = {endStyle} {...this.link ()}>
-          {this.renderRightTooltip (hover === 'true')}
-        </div>
+        {this.renderEnd ('endOverlap', hover)}
         {this.renderDot ()}
         {this.renderFromDot ()}
         {this.renderToDot ()}
