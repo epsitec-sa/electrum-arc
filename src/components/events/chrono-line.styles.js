@@ -18,6 +18,7 @@ export default function styles (theme, props) {
     cursor:          'default',
     borderBottom:    '1px solid ' + theme.palette.chronoLineSeparator,
     backgroundColor: theme.palette.eventBackground,
+    transition:      theme.transitions.easeOut (),
   };
 
   const lineHoverStyle = {
@@ -31,6 +32,7 @@ export default function styles (theme, props) {
     cursor:          'default',
     borderBottom:    '1px solid ' + theme.palette.chronoLineSeparator,
     backgroundColor: theme.palette.chronoHover,
+    transition:      theme.transitions.easeOut (),
   };
 
   const lineLabelStyle = {
