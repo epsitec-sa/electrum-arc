@@ -65,14 +65,14 @@ export default class ChronoLabel extends React.Component {
   }
 
   renderGlyph (glyph) {
-    if (glyph.startsWith ('bookmark-')) {
-      const color = glyph.substring (9);
+    if (glyph.Glyph.startsWith ('bookmark-')) {
+      const color = glyph.Glyph.substring (9);
       return (
         <Label glyph='bookmark' glyph-color={color} spacing='compact' {...this.link ()} />
       );
     } else {
       return (
-        <Label glyph={glyph} spacing='compact' {...this.link ()} />
+        <Label glyph={glyph.Glyph} glyph-color={glyph.Color} spacing='compact' {...this.link ()} />
       );
     }
   }
@@ -80,7 +80,7 @@ export default class ChronoLabel extends React.Component {
   renderGlyphs (note) {
     const result = [];
     for (var glyph of note.Glyphs) {
-      result.push (this.renderGlyph (glyph.Glyph));
+      result.push (this.renderGlyph (glyph));
     }
     return result;
   }

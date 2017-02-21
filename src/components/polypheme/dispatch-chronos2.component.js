@@ -1,14 +1,17 @@
 'use strict';
 
 import React from 'react';
+import TicketHelpers from './ticket-helpers.js';
 
 import {
   Container,
   Chronos
 } from '../../all-components.js';
 
-function TransformMeetingPointToGlyphs (type, mp) {
+function TransformMeetingPointToGlyphs (type, mp, theme) {
   const glyphs = [];
+  const direction = TicketHelpers.getDirectionGlyph (theme, type);
+  glyphs.push ({Glyph: direction.glyph, Color: direction.color});
   for (let note of mp.Notes) {
     for (let glyph of note.Glyphs) {
       glyphs.push (glyph);
@@ -17,13 +20,13 @@ function TransformMeetingPointToGlyphs (type, mp) {
   return glyphs;
 }
 
-function TransformMeetingPointToNote (type, mp) {
+function TransformMeetingPointToNote (type, mp, theme) {
   const note = {};
-  note.Content = type + ': ' + mp.ShortDescription;
-  note.Glyphs = TransformMeetingPointToGlyphs (type, mp);
+  note.Content = mp.ShortDescription;
+  note.Glyphs = TransformMeetingPointToGlyphs (type, mp, theme);
   return note;
 }
-function TransformTicketToEvent (name, ticket) {
+function TransformTicketToEvent (name, ticket, theme) {
   const event = {};
   var mp;
   if (ticket.Type.startsWith ('pick')) {
@@ -35,27 +38,27 @@ function TransformTicketToEvent (name, ticket) {
   event.FromTime = mp.StartPlanedTime;
   event.ToDate   = name;
   event.ToTime   = mp.EndPlanedTime;
-  event.Note     = TransformMeetingPointToNote (ticket.Type, mp);
+  event.Note     = TransformMeetingPointToNote (ticket.Type, mp, theme);
   event.Link     = ticket.Trip.MissionId;
   return event;
 }
 
-function TransformRoadbookToEvents (events, roadbook) {
+function TransformRoadbookToEvents (events, roadbook, theme) {
   const name = roadbook.Messenger.Name;
   for (var ticket of roadbook.Tickets) {
-    const event = TransformTicketToEvent (name, ticket);
+    const event = TransformTicketToEvent (name, ticket, theme);
     events.Events.push (event);
   }
 }
 
-function Transform (data) {
+function Transform (data, theme) {
   console.log ('DispatchChronos2.Transform');
   const events = {};
   events.FromDate = '2017-01-01';
   events.ToDate = '2017-12-31';
   events.Events = [];
   for (var roadbook of data.Roadbooks) {
-    TransformRoadbookToEvents (events, roadbook);
+    TransformRoadbookToEvents (events, roadbook, theme);
   }
   return events;
 }
@@ -71,7 +74,7 @@ export default class DispatchChronos2 extends React.Component {
     if (data) {
       data = JSON.parse (data);
     } else {
-      data = Transform (window.document.dataDispatch);
+      data = Transform (window.document.dataDispatch, this.props.theme);
     }
 
     return (
@@ -79,7 +82,7 @@ export default class DispatchChronos2 extends React.Component {
         <Chronos
           data       = {data}
           lineWidth  = '250px'
-          glyphWidth = '60px'
+          glyphWidth = '80px'
           {...this.link ()} />
       </Container>
     );
