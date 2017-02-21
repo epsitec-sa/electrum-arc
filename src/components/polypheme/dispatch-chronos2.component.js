@@ -36,6 +36,7 @@ function TransformTicketToEvent (name, ticket) {
   event.ToDate   = name;
   event.ToTime   = mp.EndPlanedTime;
   event.Note     = TransformMeetingPointToNote (ticket.Type, mp);
+  event.Link     = ticket.Trip.MissionId;
   return event;
 }
 

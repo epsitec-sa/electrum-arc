@@ -36,8 +36,6 @@ export default function styles (theme, props) {
   const lineLabelStyle = {
     minHeight:       theme.shapes.chronosLineHeight,
     maxHeight:       theme.shapes.chronosLineHeight,
-    // width:           theme.shapes.chronosLabelWidth,
-    // borderRight:     theme.shapes.chronosSeparatorWidth + ' solid ' + theme.palette.chronoNavigatorBackground,
     display:         'flex',
     flexDirection:   'row',
     userSelect:      'none',

@@ -26,12 +26,36 @@ export default class ChronoLine extends React.Component {
 
   /******************************************************************************/
 
+  componentDidMount () {
+    if (!window.document.chronoLines) {
+      window.document.chronoLines = [];
+    }
+    window.document.chronoLines.push (this);
+  }
+
+  componentWillUnmount () {
+    const index = window.document.chronoLines.indexOf (this);
+    if (index !== -1) {
+      window.document.chronoLines.splice (index, 1);
+    }
+  }
+
   mouseOver () {
-    this.setHover (true);
+    // this.setHover (true);
+    const mouseOver = this.read ('mouseOver');
+    if (mouseOver) {
+      const event = this.read ('event');
+      mouseOver (event);
+    }
   }
 
   mouseOut () {
-    this.setHover (false);
+    // this.setHover (false);
+    const mouseOut = this.read ('mouseOut');
+    if (mouseOut) {
+      const event = this.read ('event');
+      mouseOut (event);
+    }
   }
 
   /******************************************************************************/

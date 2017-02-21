@@ -74,6 +74,18 @@ function getFlatData (data, filters) {
 
 /******************************************************************************/
 
+function UpdateHover (event, state) {
+  for (let line of window.document.chronoLines) {
+    if (line.props.event === event) {
+      line.setHover (state);
+    } else if (event.Link === line.props.event.Link) {
+      line.setHover (state);
+    }
+  }
+}
+
+/******************************************************************************/
+
 export default class Chronos extends React.Component {
 
   constructor (props) {
@@ -100,6 +112,14 @@ export default class Chronos extends React.Component {
     const filters = this.getFilters ();
     this.flatData = getFlatData (data, filters);
     this.updateFilter (filters);
+  }
+
+  mouseOver (event) {
+    UpdateHover (event, true);
+  }
+
+  mouseOut (event) {
+    UpdateHover (event, false);
   }
 
   /******************************************************************************/
@@ -288,6 +308,8 @@ export default class Chronos extends React.Component {
         event      = {event}
         lineWidth  = {lineWidth}
         glyphWidth = {glyphWidth}
+        mouseOver  = {e => this.mouseOver (e)}
+        mouseOut   = {e => this.mouseOut  (e)}
         {...this.link ()}>
       </ChronoLine>
     );
