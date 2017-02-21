@@ -78,7 +78,7 @@ function UpdateHover (event, state) {
   for (let line of window.document.chronoLines) {
     if (line.props.event === event) {
       line.setHover (state);
-    } else if (event.Link === line.props.event.Link) {
+    } else if (event.Link && line.props.event.Link && event.Link === line.props.event.Link) {
       line.setHover (state);
     }
   }
