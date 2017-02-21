@@ -320,11 +320,11 @@ export default class Chronos extends React.Component {
     const minHour = this.flatFilteredData.minHour;
     const maxHour = this.flatFilteredData.maxHour;
     const lenHour = maxHour - minHour;
-    for (var h = minHour; h < maxHour; h++) {
-      const start = ((h - minHour) * 100 / lenHour) + '%';
-      const width = (100 / lenHour) + '%';
+    for (var h = minHour + 1; h < maxHour; h++) {
+      const width = 100 / lenHour;
+      const start = ((h - minHour) * 100 / lenHour) - width / 2;
       const time = Converters.getTimeFromMinutes (h * 60);
-      result.push (this.renderTime (start, width, time, index++));
+      result.push (this.renderTime (start + '%', width + '%', time, index++));
     }
     return result;
   }
