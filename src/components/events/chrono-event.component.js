@@ -97,14 +97,22 @@ export default class ChronoEvent extends React.Component {
 
   renderGrid () {
     const result = [];
-    for (var h = 0; h < 24 ; h++) {
-      const x = ((h + 1) * 100 / 24) + '%';
+    const minHour = this.read ('minHour');
+    const maxHour = this.read ('maxHour');
+    const lenHour = maxHour - minHour;
+    for (var h = minHour; h < maxHour ; h++) {
+      const x = ((h - minHour + 1) * 100 / lenHour) + '%';
       result.push (this.renderVerticalLine (x));
     }
     return result;
   }
 
   renderBar (event) {
+    const minHour = this.read ('minHour');
+    const maxHour = this.read ('maxHour');
+    const minMinute = minHour * 60;
+    const lenMinute = (maxHour - minHour) * 60;
+
     var startFromPos, endFromPos, startToPos, endToPos, tricolor;
     if (event.StartFromTime) {
       startFromPos = Converters.getMinutes (event.StartFromTime);
@@ -120,14 +128,14 @@ export default class ChronoEvent extends React.Component {
       tricolor     = false;
     }
     const middle = (startFromPos + endFromPos + startToPos + endToPos) / 4;
-    const isTextToLeft = middle > (24 * 60) / 2;
+    const isTextToLeft = middle > minMinute + lenMinute / 2;
 
     // const left   = (fromPos * 100 / (24 * 60)) + '%';
     // const width  = (Math.max (toPos - fromPos, 2) * 100 / (24 * 60)) + '%';
-    const startFrom = (startFromPos * 100 / (24 * 60)) + '%';
-    const endFrom   = (endFromPos   * 100 / (24 * 60)) + '%';
-    const startTo   = (startToPos   * 100 / (24 * 60)) + '%';
-    const endTo     = (endToPos     * 100 / (24 * 60)) + '%';
+    const startFrom = ((startFromPos - minMinute) * 100 / lenMinute) + '%';
+    const endFrom   = ((endFromPos   - minMinute) * 100 / lenMinute) + '%';
+    const startTo   = ((startToPos   - minMinute) * 100 / lenMinute) + '%';
+    const endTo     = ((endToPos     - minMinute) * 100 / lenMinute) + '%';
 
     return (
       <ChronoBar

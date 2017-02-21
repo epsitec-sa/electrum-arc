@@ -20,6 +20,8 @@ function getFlatData (data, filters) {
   var lastGroup = null;
   var hasDates = false;
   var notesCount = 0;
+  var minHour = 8;
+  var maxHour = 18;
   for (var event of data.Events) {
     hasDates = event.FromDate || event.StartFromDate;
     let group;
@@ -42,6 +44,19 @@ function getFlatData (data, filters) {
       }
       lines.push ({type: 'event', event: event});
 
+      if (event.FromTime) {
+        minHour = Math.min (minHour, Converters.splitTime (event.FromTime).hour - 1);
+      }
+      if (event.startFromTime) {
+        minHour = Math.min (minHour, Converters.splitTime (event.startFromTime).hour - 1);
+      }
+      if (event.ToTime) {
+        maxHour = Math.max (maxHour, Converters.splitTime (event.ToTime).hour + 1);
+      }
+      if (event.EndToTime) {
+        maxHour = Math.max (maxHour, Converters.splitTime (event.EndToTime).hour + 1);
+      }
+
       var noteCount = 0;
       if (event.Note) {
         noteCount = 1;
@@ -57,18 +72,22 @@ function getFlatData (data, filters) {
       groups.set (group, n + 1);
     }
   }
+
   const g = [];
   const n = [];
   for (var group of groups) {
     g.push (group[0]);
     n.push (group[1]);
   }
+
   return {
     hasDates:   hasDates,
     groups:     g,
     count:      n,
     lines:      lines,
     notesCount: notesCount,
+    minHour:    Math.max (minHour, 0),
+    maxHour:    Math.min (maxHour + 1, 24),
   };
 }
 
@@ -298,9 +317,12 @@ export default class Chronos extends React.Component {
   renderContentTopTimes () {
     const result = [];
     let index = 0;
-    for (var h = 0 ; h < 24; h++) {
-      const start = (h * 100 / 24) + '%';
-      const width = (100 / 24) + '%';
+    const minHour = this.flatFilteredData.minHour;
+    const maxHour = this.flatFilteredData.maxHour;
+    const lenHour = maxHour - minHour;
+    for (var h = minHour; h < maxHour; h++) {
+      const start = ((h - minHour) * 100 / lenHour) + '%';
+      const width = (100 / lenHour) + '%';
       const time = Converters.getTimeFromMinutes (h * 60);
       result.push (this.renderTime (start, width, time, index++));
     }
@@ -336,6 +358,8 @@ export default class Chronos extends React.Component {
         event      = {event}
         lineWidth  = {lineWidth}
         glyphWidth = {glyphWidth}
+        minHour    = {this.flatFilteredData.minHour}
+        maxHour    = {this.flatFilteredData.maxHour}
         mouseOver  = {e => this.mouseOver (e)}
         mouseOut   = {e => this.mouseOut  (e)}
         {...this.link ()}>

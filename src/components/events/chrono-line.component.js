@@ -87,7 +87,9 @@ export default class ChronoLine extends React.Component {
   }
 
   render () {
-    const event = this.read ('event');
+    const event   = this.read ('event');
+    const minHour = this.read ('minHour');
+    const maxHour = this.read ('maxHour');
 
     const hover = this.getHover ();
 
@@ -103,6 +105,8 @@ export default class ChronoLine extends React.Component {
         <div style={lineEventStyle}>
           <ChronoEvent
             event     = {event}
+            minHour   = {minHour}
+            maxHour   = {maxHour}
             mouseOver = {() => this.mouseOver ()}
             mouseOut  = {() => this.mouseOut ()}
             {...this.link ()}/>
