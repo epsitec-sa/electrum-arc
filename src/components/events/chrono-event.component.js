@@ -42,50 +42,36 @@ export default class ChronoEvent extends React.Component {
     }
   }
 
-  getLeftTooltip (event, isTextToLeft) {
+  getLeftTooltip (event, tricolor, isTextToLeft) {
+    var period;
+    if (event.StartFromTime) {
+      period = this.getPeriod (event.StartFromTime, event.EndFromTime);
+    } else {
+      period = this.getPeriod (event.FromTime, event.FromTime);
+    }
     if (isTextToLeft) {
-      var period;
-      if (event.StartFromTime) {
-        period = this.getPeriod (event.StartFromTime, event.EndFromTime);
-      } else {
-        period = this.getPeriod (event.FromTime, event.ToTime);
-      }
       const n = this.getNote (event);
       if (n) {
         return `${n} : ${period}`;
-      } else {
-        return period;
-      }
-    } else {
-      if (event.StartFromTime) {
-        return this.getPeriod (event.StartFromTime, event.EndFromTime);
-      } else {
-        return null;
       }
     }
+    return period;
   }
 
-  getRightTooltip (event, isTextToLeft) {
-    if (!isTextToLeft) {
-      var period;
-      if (event.StartToTime) {
-        period = this.getPeriod (event.StartToTime, event.EndToTime);
-      } else {
-        period = this.getPeriod (event.FromTime, event.ToTime);
-      }
-      const n = this.getNote (event);
-      if (n && !isTextToLeft) {
-        return `${period} : ${n}`;
-      } else {
-        return period;
-      }
+  getRightTooltip (event, tricolor, isTextToLeft) {
+    var period;
+    if (event.StartToTime) {
+      period = this.getPeriod (event.StartToTime, event.EndToTime);
     } else {
-      if (event.StartToTime) {
-        return this.getPeriod (event.StartToTime, event.EndToTime);
-      } else {
-        return null;
+      period = this.getPeriod (event.ToTime, event.ToTime);
+    }
+    if (!isTextToLeft) {
+      const n = this.getNote (event);
+      if (n) {
+        return `${period} : ${n}`;
       }
     }
+    return period;
   }
 
   /******************************************************************************/
@@ -120,13 +106,13 @@ export default class ChronoEvent extends React.Component {
       endFromPos   = Converters.getMinutes (event.EndFromTime);
       startToPos   = Converters.getMinutes (event.StartToTime);
       endToPos     = Converters.getMinutes (event.EndToTime);
-      tricolor     = 'true';
+      tricolor     = true;
     } else {
       startFromPos = Converters.getMinutes (event.FromTime);
       endFromPos   = Converters.getMinutes (event.FromTime);
       startToPos   = Converters.getMinutes (event.ToTime);
       endToPos     = Converters.getMinutes (event.ToTime);
-      tricolor     = 'false';
+      tricolor     = false;
     }
     const middle = (startFromPos + endFromPos + startToPos + endToPos) / 4;
     const isTextToLeft = middle > (24 * 60) / 2;
@@ -144,9 +130,9 @@ export default class ChronoEvent extends React.Component {
         endFrom      = {endFrom}
         startTo      = {startTo}
         endTo        = {endTo}
-        tricolor     = {tricolor}
-        leftTooltip  = {this.getLeftTooltip  (event, isTextToLeft)}
-        rightTooltip = {this.getRightTooltip (event, isTextToLeft)}
+        tricolor     = {tricolor ? 'true' : 'false'}
+        leftTooltip  = {this.getLeftTooltip  (event, tricolor, isTextToLeft)}
+        rightTooltip = {this.getRightTooltip (event, tricolor, isTextToLeft)}
         hover        = {hover}
         {...this.link ()} />
     );
