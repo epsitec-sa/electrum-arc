@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Converters from '../polypheme/converters';
-import {Unit} from 'electrum-theme';
 import {ChronoBar} from '../../all-components.js';
 
 /******************************************************************************/
@@ -11,26 +10,40 @@ export default class ChronoEvent extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      hover: false,
+    };
+  }
+
+  getHover () {
+    return this.state.hover;
+  }
+
+  setHover (value) {
+    this.setState ( {
+      hover: value
+    });
+  }
+
+  mouseOver () {
+    this.setHover (true);
+    const mouseOver = this.read ('mouseOver');
+    if (mouseOver) {
+      const event = this.read ('event');
+      mouseOver (event);
+    }
+  }
+
+  mouseOut () {
+    this.setHover (false);
+    const mouseOut = this.read ('mouseOut');
+    if (mouseOut) {
+      const event = this.read ('event');
+      mouseOut (event);
+    }
   }
 
   /******************************************************************************/
-
-  getNote (event) {
-    if (event.Note) {
-      return event.Note.Content;
-    } else if (event.Notes) {
-      var result = '';
-      for (var note of event.Notes) {
-        if (result) {
-          result += ' / ';
-        }
-        result += note.Content;
-      }
-      return result;
-    } else {
-      return null;
-    }
-  }
 
   getPeriod (startTime, endTime) {
     const s = Converters.getDisplayedTime (startTime);
@@ -43,35 +56,27 @@ export default class ChronoEvent extends React.Component {
   }
 
   getLeftTooltip (event, tricolor, isTextToLeft) {
-    var period;
-    if (event.StartFromTime) {
-      period = this.getPeriod (event.StartFromTime, event.EndFromTime);
+    if (tricolor) {
+      return this.getPeriod (event.StartFromTime, event.EndFromTime);
     } else {
-      period = this.getPeriod (event.FromTime, event.FromTime);
-    }
-    if (isTextToLeft) {
-      const n = this.getNote (event);
-      if (n) {
-        return `${n} : ${period}`;
+      if (event.FromTime === event.ToTime && !isTextToLeft) {
+        return null;
+      } else {
+        return this.getPeriod (event.FromTime, event.FromTime);
       }
     }
-    return period;
   }
 
   getRightTooltip (event, tricolor, isTextToLeft) {
-    var period;
-    if (event.StartToTime) {
-      period = this.getPeriod (event.StartToTime, event.EndToTime);
+    if (tricolor) {
+      return this.getPeriod (event.StartToTime, event.EndToTime);
     } else {
-      period = this.getPeriod (event.ToTime, event.ToTime);
-    }
-    if (!isTextToLeft) {
-      const n = this.getNote (event);
-      if (n) {
-        return `${period} : ${n}`;
+      if (event.FromTime === event.ToTime && isTextToLeft) {
+        return null;
+      } else {
+        return this.getPeriod (event.ToTime, event.ToTime);
       }
     }
-    return period;
   }
 
   /******************************************************************************/
@@ -99,7 +104,7 @@ export default class ChronoEvent extends React.Component {
     return result;
   }
 
-  renderBar (event, hover) {
+  renderBar (event) {
     var startFromPos, endFromPos, startToPos, endToPos, tricolor;
     if (event.StartFromTime) {
       startFromPos = Converters.getMinutes (event.StartFromTime);
@@ -133,21 +138,26 @@ export default class ChronoEvent extends React.Component {
         tricolor     = {tricolor ? 'true' : 'false'}
         leftTooltip  = {this.getLeftTooltip  (event, tricolor, isTextToLeft)}
         rightTooltip = {this.getRightTooltip (event, tricolor, isTextToLeft)}
-        hover        = {hover}
+        hover        = {this.getHover () ? 'true' : 'false'}
         {...this.link ()} />
     );
   }
 
   render () {
     const event = this.read ('event');
-    const hover = this.read ('hover');
 
-    const lineStyle = this.mergeStyles ('line');
+    const lineStyle  = this.mergeStyles ('line');
+    const frontStyle = this.mergeStyles ('front');
 
     return (
       <div style={lineStyle}>
         {this.renderGrid ()}
-        {this.renderBar (event, hover)}
+        {this.renderBar (event)}
+        <div
+          style       = {frontStyle}
+          onMouseOver = {() => this.mouseOver ()}
+          onMouseOut  = {() => this.mouseOut ()}
+          />
       </div>
     );
   }

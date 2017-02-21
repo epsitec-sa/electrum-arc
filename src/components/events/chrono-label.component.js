@@ -9,6 +9,19 @@ export default class ChronoLabel extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      hover: false,
+    };
+  }
+
+  getHover () {
+    return this.state.hover;
+  }
+
+  setHover (value) {
+    this.setState ( {
+      hover: value
+    });
   }
 
   get styleProps () {
@@ -18,7 +31,38 @@ export default class ChronoLabel extends React.Component {
     };
   }
 
+  mouseOver () {
+    this.setHover (true);
+    const mouseOver = this.read ('mouseOver');
+    if (mouseOver) {
+      const event = this.read ('event');
+      mouseOver (event);
+    }
+  }
+
+  mouseOut () {
+    this.setHover (false);
+    const mouseOut = this.read ('mouseOut');
+    if (mouseOut) {
+      const event = this.read ('event');
+      mouseOut (event);
+    }
+  }
+
   /******************************************************************************/
+
+  renderTooltip (text) {
+    if (this.getHover () && text) {
+      const style = this.mergeStyles ('tooltip');
+      return (
+        <div style={style}>
+          <Label text={text} grow='1' wrap='no' {...this.link ()} />
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
 
   renderGlyph (glyph) {
     if (glyph.startsWith ('bookmark-')) {
@@ -48,6 +92,7 @@ export default class ChronoLabel extends React.Component {
 
     const lineStyle   = this.mergeStyles ('line');
     const glyphsStyle = this.mergeStyles ('glyphs');
+    const frontStyle  = this.mergeStyles ('front');
 
     return (
       <div style={lineStyle}>
@@ -55,6 +100,12 @@ export default class ChronoLabel extends React.Component {
           {this.renderGlyphs (note)}
         </div>
         <Label text={text} grow='1' wrap='no' {...this.link ()} />
+        {this.renderTooltip (text)}
+        <div
+          style       = {frontStyle}
+          onMouseOver = {() => this.mouseOver ()}
+          onMouseOut  = {() => this.mouseOut ()}
+          />
       </div>
     );
   }

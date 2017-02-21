@@ -26,39 +26,17 @@ export default class ChronoLine extends React.Component {
 
   /******************************************************************************/
 
-  componentDidMount () {
-    if (!window.document.chronoLines) {
-      window.document.chronoLines = [];
-    }
-    window.document.chronoLines.push (this);
-  }
-
-  componentWillUnmount () {
-    const index = window.document.chronoLines.indexOf (this);
-    if (index !== -1) {
-      window.document.chronoLines.splice (index, 1);
-    }
-  }
-
   mouseOver () {
-    const mouseOver = this.read ('mouseOver');
-    if (mouseOver) {
-      const event = this.read ('event');
-      mouseOver (event);
-    }
+    this.setHover (true);
   }
 
   mouseOut () {
-    const mouseOut = this.read ('mouseOut');
-    if (mouseOut) {
-      const event = this.read ('event');
-      mouseOut (event);
-    }
+    this.setHover (false);
   }
 
   /******************************************************************************/
 
-  renderLabel (note, hover) {
+  renderLabel (note) {
     const lineWidth  = this.read ('lineWidth');
     const glyphWidth = this.read ('glyphWidth');
     return (
@@ -66,18 +44,19 @@ export default class ChronoLine extends React.Component {
         note       = {note}
         lineWidth  = {lineWidth}
         glyphWidth = {glyphWidth}
-        hover      = {hover ? 'true' : 'false'}
+        mouseOver  = {() => this.mouseOver ()}
+        mouseOut   = {() => this.mouseOut ()}
         {...this.link ()}/>
     );
   }
 
-  renderLabels (event, hover) {
+  renderLabels (event) {
     const result = [];
     if (event.Note) {  // only one note ?
-      result.push (this.renderLabel (event.Note, hover));
+      result.push (this.renderLabel (event.Note));
     } else if (event.Notes) {  // collection of notes ?
       for (var note of event.Notes) {
-        result.push (this.renderLabel (note, hover));
+        result.push (this.renderLabel (note));
       }
     }
     return result;
@@ -91,24 +70,19 @@ export default class ChronoLine extends React.Component {
     const lineStyle      = this.mergeStyles (hover ? 'lineHover' : 'line');
     const lineLabelStyle = this.mergeStyles ('lineLabel');
     const lineEventStyle = this.mergeStyles ('lineEvent');
-    const frontStyle     = this.mergeStyles ('front');
 
     return (
       <div style={lineStyle}>
         <div style={lineLabelStyle}>
-          {this.renderLabels (event, hover)}
+          {this.renderLabels (event)}
         </div>
         <div style={lineEventStyle}>
           <ChronoEvent
-            event = {event}
-            hover = {hover ? 'true' : 'false'}
+            event     = {event}
+            mouseOver = {() => this.mouseOver ()}
+            mouseOut  = {() => this.mouseOut ()}
             {...this.link ()}/>
         </div>
-        <div
-          style       = {frontStyle}
-          onMouseOver = {() => this.mouseOver ()}
-          onMouseOut  = {() => this.mouseOut ()}
-          />
       </div>
     );
   }

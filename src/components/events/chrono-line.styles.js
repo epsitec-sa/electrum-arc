@@ -56,25 +56,11 @@ export default function styles (theme, props) {
     cursor:          'default',
   };
 
-  const frontStyle = {
-    position:        'absolute',
-    minHeight:       theme.shapes.chronosLineHeight,
-    maxHeight:       theme.shapes.chronosLineHeight,
-    left:            '0px',
-    width:           '100%',
-    top:             '0px',
-    height:          '100px',
-    userSelect:      'none',
-    cursor:          'default',
-    // backgroundColor: 'rgba(100, 0, 0, 0.2)',
-  };
-
   return {
     line:       lineStyle,
     lineHover:  lineHoverStyle,
     lineLabel:  lineLabelStyle,
     lineEvent:  lineEventStyle,
-    front:      frontStyle,
   };
 }
 
