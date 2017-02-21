@@ -23,16 +23,32 @@ export default class ChronoBar extends React.Component {
     };
   }
 
+  renderVerticalLine (x, color) {
+    const style = this.mergeStyles ('mainDistinct');
+    style.left            = `calc(${x} - 1px)`;
+    style.width           = '2px';
+    style.backgroundColor = color;
+
+    return (
+      <div style={style} />
+    );
+  }
+
+  renderThin (dotStyle, x, color) {
+    const result = [];
+    const style = this.mergeStyles (dotStyle);
+    result.push ((<div style={style} />));
+    result.push (this.renderVerticalLine (x, color));
+    return result;
+  }
+
   renderDot () {
     const tricolor = this.read ('tricolor');
     if (tricolor === 'false') {
       const startFrom = this.read ('startFrom');
       const endTo     = this.read ('endTo');
       if (startFrom === endTo) {
-        const style = this.mergeStyles ('dot');
-        return (
-          <div style={style} />
-        );
+        return this.renderThin ('dot', startFrom, this.props.theme.palette.chronoEventMainBackground);
       }
     }
     return null;
@@ -44,10 +60,7 @@ export default class ChronoBar extends React.Component {
       const startFrom = this.read ('startFrom');
       const endFrom   = this.read ('endFrom');
       if (startFrom === endFrom) {
-        const style = this.mergeStyles ('fromDot');
-        return (
-          <div style={style} />
-        );
+        return this.renderThin ('fromDot', startFrom, this.props.theme.palette.chronoEventStartBackground);
       }
     }
     return null;
@@ -59,10 +72,7 @@ export default class ChronoBar extends React.Component {
       const startTo   = this.read ('startTo');
       const endTo     = this.read ('endTo');
       if (startTo === endTo) {
-        const style = this.mergeStyles ('toDot');
-        return (
-          <div style={style} />
-        );
+        return this.renderThin ('toDot', startTo, this.props.theme.palette.chronoEventEndBackground);
       }
     }
     return null;
