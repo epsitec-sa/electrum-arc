@@ -14,6 +14,17 @@ import {
 
 /******************************************************************************/
 
+function mergeTickets (pick, drop) {
+  const common = (pick === null) ? drop : pick;
+  const result = JSON.parse (JSON.stringify (common));
+  result.Trip.Pick = (pick === null) ? null : pick.Trip.Pick;
+  result.Trip.Drop = (drop === null) ? null : drop.Trip.Drop;
+  result.Type = 'both';
+  return result;
+}
+
+/******************************************************************************/
+
 export default class DispatchBacklog extends React.Component {
 
   constructor (props) {
@@ -128,8 +139,26 @@ export default class DispatchBacklog extends React.Component {
     const result = [];
     let index = 0;
     const sortedTickets = BacklogData.getSortedBacklog (data);
-    for (var ticket of sortedTickets) {
-      result.push (this.renderTicket (ticket, data, index++));
+    var i = 0;
+    while (i < sortedTickets.length) {
+      const ticket = sortedTickets[i];
+      if (ticket.Type !== 'pick' && ticket.Type !== 'drop') {
+        throw new Error (`Invalid type of ticket ${ticket.Type}`);
+      }
+      if (i < sortedTickets.length - 1 && ticket.Trip.MissionId === sortedTickets[i + 1].Trip.MissionId) {
+        const m = mergeTickets (ticket, sortedTickets[i + 1]);
+        result.push (this.renderTicket (m, data, index++));
+        i += 2;
+      } else {
+        if (ticket.Type === 'pick') {
+          const m = mergeTickets (ticket, null);
+          result.push (this.renderTicket (m, data, index++));
+        } else {
+          const m = mergeTickets (null, ticket);
+          result.push (this.renderTicket (m, data, index++));
+        }
+        i++;
+      }
     }
     return result;
   }

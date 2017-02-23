@@ -60,11 +60,12 @@ export default class ChronoLine extends React.Component {
 
   /******************************************************************************/
 
-  renderLabel (note) {
+  renderLabel (note, index) {
     const lineWidth  = this.read ('lineWidth');
     const glyphWidth = this.read ('glyphWidth');
     return (
       <ChronoLabel
+        index      = {index}
         note       = {note}
         lineWidth  = {lineWidth}
         glyphWidth = {glyphWidth}
@@ -76,17 +77,19 @@ export default class ChronoLine extends React.Component {
 
   renderLabels (event) {
     const result = [];
+    let index = 0;
     if (event.Note) {  // only one note ?
       result.push (this.renderLabel (event.Note));
     } else if (event.Notes) {  // collection of notes ?
       for (var note of event.Notes) {
-        result.push (this.renderLabel (note));
+        result.push (this.renderLabel (note, index++));
       }
     }
     return result;
   }
 
   render () {
+    const index   = this.read ('index');
     const event   = this.read ('event');
     const minHour = this.read ('minHour');
     const maxHour = this.read ('maxHour');
@@ -98,11 +101,11 @@ export default class ChronoLine extends React.Component {
     const lineEventStyle = this.mergeStyles ('lineEvent');
 
     return (
-      <div style={lineStyle}>
-        <div style={lineLabelStyle}>
+      <div style={lineStyle} key={index}>
+        <div style={lineLabelStyle} key='label'>
           {this.renderLabels (event)}
         </div>
-        <div style={lineEventStyle}>
+        <div style={lineEventStyle} key='event'>
           <ChronoEvent
             event     = {event}
             minHour   = {minHour}

@@ -228,10 +228,11 @@ export default class Chronos extends React.Component {
 
   /******************************************************************************/
 
-  renderNavigationButton (glyph, text, count, tooltip, disabled, active, action) {
+  renderNavigationButton (glyph, text, count, tooltip, disabled, active, action, index) {
     if (count) {
       return (
         <Button
+          index           = {index}
           kind            = 'chronos-navigator'
           subkind         = 'with-badge'
           glyph           = {glyph}
@@ -248,6 +249,7 @@ export default class Chronos extends React.Component {
     } else {
       return (
         <Button
+          index           = {index}
           kind            = 'chronos-navigator'
           glyph           = {glyph}
           text            = {text}
@@ -264,8 +266,9 @@ export default class Chronos extends React.Component {
   renderNavigationButtons () {
     const result = [];
     const filters = this.getFilters ();
-    result.push (this.renderNavigationButton (null, 'Tout', null, null, false, filters.length === 0, () => this.actionAll ()));
-    result.push (this.renderNavigationButton ('chevron-up', null, null, null, filters.length !== 1, false, () => this.actionPrevFilter ()));
+    let index = 0;
+    result.push (this.renderNavigationButton (null, 'Tout', null, null, false, filters.length === 0, () => this.actionAll (), index++));
+    result.push (this.renderNavigationButton ('chevron-up', null, null, null, filters.length !== 1, false, () => this.actionPrevFilter (), index++));
     for (var i = 0; i < this.flatData.groups.length; i++) {
       const group = this.flatData.groups[i];
       const count = this.flatData.count[i];
@@ -278,17 +281,16 @@ export default class Chronos extends React.Component {
         tooltip = null;
       }
       const x = group;  // necessary, but strange !
-      result.push (this.renderNavigationButton (null, text, count, tooltip, false, filtersGet (filters, x), e => this.actionFilter (e, x)));
+      result.push (this.renderNavigationButton (null, text, count, tooltip, false, filtersGet (filters, x), e => this.actionFilter (e, x), index++));
     }
-    result.push (this.renderNavigationButton ('chevron-down', null, null, null, filters.length !== 1, false, () => this.actionNextFilter ()));
+    result.push (this.renderNavigationButton ('chevron-down', null, null, null, filters.length !== 1, false, () => this.actionNextFilter (), index++));
     return result;
   }
 
   renderNavigation () {
-    const navigationStyle = this.mergeStyles ('navigation');
-
+    const style = this.mergeStyles ('navigation');
     return (
-      <div style = {navigationStyle}>
+      <div style={style} key='navigation'>
         {this.renderNavigationButtons ()}
       </div>
     );
@@ -306,7 +308,7 @@ export default class Chronos extends React.Component {
     const text = time ? Converters.getDisplayedTime (Converters.addSeconds (time, 1), false, 'h') : '';
 
     return (
-      <div style={style} ref={index}>
+      <div style={style} key={index}>
         <Label text={text} justify='center' text-color='#fff' grow='1' height='100%' {...this.link ()} />
       </div>
     );
@@ -339,11 +341,11 @@ export default class Chronos extends React.Component {
     lineLabelStyle.width = Unit.sub (Unit.multiply (width, this.flatFilteredData.notesCount), this.props.theme.shapes.chronosLabelMargin);
 
     return (
-      <div style={lineStyle} ref={index}>
-        <div style={lineLabelStyle}>
+      <div style={lineStyle} key={index}>
+        <div style={lineLabelStyle} key='label'>
           <Label text={text} text-color='#fff' grow='1' {...this.link ()} />
         </div>
-        <div style={lineEventStyle}>
+        <div style={lineEventStyle} key='event'>
           {this.renderContentTopTimes ()}
         </div>
       </div>
@@ -355,6 +357,7 @@ export default class Chronos extends React.Component {
     const glyphWidth = this.read ('glyphWidth');
     return (
       <ChronoLine
+        index      = {index}
         event      = {event}
         lineWidth  = {lineWidth}
         glyphWidth = {glyphWidth}
@@ -368,13 +371,13 @@ export default class Chronos extends React.Component {
   }
 
   renderContentSep (index) {
-    const lineStyle = this.mergeStyles ('sep');
+    const style = this.mergeStyles ('sep');
     return (
-      <div style={lineStyle} ref={index} />
+      <div style={style} key={index} />
     );
   }
 
-  renderContent () {
+  renderEventsList () {
     const result = [];
     let index = 0;
     for (var item of this.flatFilteredData.lines) {
@@ -396,11 +399,10 @@ export default class Chronos extends React.Component {
   }
 
   renderEvents () {
-    const eventsStyle = this.mergeStyles ('events');
-
+    const style = this.mergeStyles ('events');
     return (
-      <div style = {eventsStyle}>
-        {this.renderContent ()}
+      <div style={style} key='events'>
+        {this.renderEventsList ()}
       </div>
     );
   }
@@ -408,15 +410,12 @@ export default class Chronos extends React.Component {
   /******************************************************************************/
 
   render () {
-    const mainStyle    = this.mergeStyles ('main');
-    const contentStyle = this.mergeStyles ('content');
+    const mainStyle = this.mergeStyles ('main');
 
     return (
       <div style={mainStyle}>
         {this.renderNavigation ()}
-        <div style={contentStyle}>
-          {this.renderEvents ()}
-        </div>
+        {this.renderEvents ()}
       </div>
     );
   }

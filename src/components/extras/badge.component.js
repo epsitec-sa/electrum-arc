@@ -34,6 +34,7 @@ export default class Badge extends React.Component {
 
     return (
       <div
+        key      = 'badge'
         disabled = {disabled}
         style    = {boxStyle}
         >

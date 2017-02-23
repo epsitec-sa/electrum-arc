@@ -130,7 +130,7 @@ export default class Button extends React.Component {
     if (kind === 'main-tab' && active === 'true') {
       const triangleStyle = this.mergeStyles ('triangle');
       return (
-        <div style={triangleStyle} />
+        <div style={triangleStyle} key='triangle' />
       );
     } else {
       return null;
@@ -142,7 +142,7 @@ export default class Button extends React.Component {
       const menu = this.read ('menu');
       const menuBoxStyle = this.mergeStyles ('menuBox');
       return (
-        <div style={menuBoxStyle}>
+        <div style={menuBoxStyle} key='menu' >
           <Menu items={menu} {...this.link ()} />
         </div>
       );
@@ -222,6 +222,7 @@ export default class Button extends React.Component {
   }
 
   render () {
+    const index    = this.read ('index');
     const kind     = this.read ('kind');
     const tooltip  = this.read ('tooltip');
     const menu     = this.read ('menu');
@@ -232,6 +233,7 @@ export default class Button extends React.Component {
     if (kind === 'container' || kind === 'box') {
       return (
         <div
+          key          = {index}
           onClick      = {e => this.clicked (e)}  // voir (*)
           onMouseDown  = {e => this.mouseDown (e)}
           onMouseUp    = {e => this.mouseUp (e)}
@@ -246,6 +248,7 @@ export default class Button extends React.Component {
     } else if (menu) {
       return (
         <div
+          key          = {index}
           onClick      = {() => this.showMenu ()}  // voir (*)
           onMouseDown  = {e => this.mouseDown (e)}
           onMouseUp    = {e => this.mouseUp (e)}
@@ -264,6 +267,7 @@ export default class Button extends React.Component {
     } else if (toAnchor) {
       return (
         <a
+          key          = {index}
           onClick      = {e => this.clicked (e)}  // voir (*)
           onMouseDown  = {e => this.mouseDown (e)}
           onMouseUp    = {e => this.mouseUp (e)}
@@ -283,6 +287,7 @@ export default class Button extends React.Component {
     } else {
       return (
         <div
+          key          = {index}
           onClick      = {e => this.clicked (e)}  // voir (*)
           onMouseDown  = {e => this.mouseDown (e)}
           onMouseUp    = {e => this.mouseUp (e)}

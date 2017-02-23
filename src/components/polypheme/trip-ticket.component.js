@@ -235,11 +235,43 @@ export default class TripTicket extends React.Component {
     }
   }
 
+  renderMeetingPoint (type, meetingPoint, border) {
+    if (meetingPoint) {
+      const directionGlyph = TicketHelpers.getDirectionGlyph (this.props.theme, type);
+      const dimmedSize     = this.props.theme.shapes.ticketDimmedSize;
+
+      return (
+        <Container kind='thin-row' border={border} grow='1' {...this.link ()} >
+          <Container kind='thin-row' width='120px' {...this.link ()} >
+            <Label text={this.getPeriod (meetingPoint.StartPlanedTime, meetingPoint.EndPlanedTime)}
+              font-weight='bold' wrap='no' {...this.link ()} />
+          </Container>
+          <Container kind='thin-row' width='20px' {...this.link ()} >
+            <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} {...this.link ()} />
+          </Container>
+          <Container kind='thin-row' grow='1' {...this.link ()} >
+            <Label text={meetingPoint.ShortDescription} wrap='no' {...this.link ()} />
+          </Container>
+          <Container kind='thin-row' width='50px' {...this.link ()} >
+            <Label text={meetingPoint.Zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
+          </Container>
+          <Container kind='thin-row' width='80px' {...this.link ()} >
+            <Label grow='1' {...this.link ()} />
+            {this.renderShortNotes (meetingPoint.Notes)}
+          </Container>
+        </Container>
+      );
+    } else {
+      return (
+        <Container kind='thin-row' border={border} grow='1' {...this.link ()} >
+        </Container>
+      );
+    }
+  }
+
   renderTripBoxContent (ticket) {
-    const directionGlyphPick = TicketHelpers.getDirectionGlyph (this.props.theme, 'pick');
-    const directionGlyphDrop = TicketHelpers.getDirectionGlyph (this.props.theme, 'drop');
-    const dimmedColor        = this.props.theme.palette.ticketDimmed;
-    const dimmedSize         = this.props.theme.shapes.ticketDimmedSize;
+    const dimmedColor = this.props.theme.palette.ticketDimmed;
+    const dimmedSize  = this.props.theme.shapes.ticketDimmedSize;
 
     return (
       <Container kind='row' grow='1' {...this.link ()} >
@@ -247,44 +279,8 @@ export default class TripTicket extends React.Component {
           <Gauge value={ticket.Trip.Urgency} {...this.link ()} />
         </Container>
         <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
-          <Container kind='thin-row' border='bottom' grow='1' {...this.link ()} >
-            <Container kind='thin-row' width='120px' {...this.link ()} >
-              <Label text={this.getPeriod (ticket.Trip.Pick.StartPlanedTime, ticket.Trip.Pick.EndPlanedTime)}
-                font-weight='bold' wrap='no' {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' width='20px' {...this.link ()} >
-              <Label glyph={directionGlyphPick.glyph} glyph-color={directionGlyphPick.color} {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' grow='1' {...this.link ()} >
-              <Label text={ticket.Trip.Pick.ShortDescription} wrap='no' {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' width='50px' {...this.link ()} >
-              <Label text={ticket.Trip.Pick.Zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' width='80px' {...this.link ()} >
-              <Label grow='1' {...this.link ()} />
-              {this.renderShortNotes (ticket.Trip.Pick.Notes)}
-            </Container>
-          </Container>
-          <Container kind='thin-row' grow='1' {...this.link ()} >
-            <Container kind='thin-row' width='120px' {...this.link ()} >
-              <Label text={this.getPeriod (ticket.Trip.Drop.StartPlanedTime, ticket.Trip.Drop.EndPlanedTime)}
-                font-weight='bold' wrap='no' {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' width='20px' {...this.link ()} >
-              <Label glyph={directionGlyphDrop.glyph} glyph-color={directionGlyphDrop.color} {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' grow='1' {...this.link ()} >
-              <Label text={ticket.Trip.Drop.ShortDescription} wrap='no' {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' width='50px' {...this.link ()} >
-              <Label text={ticket.Trip.Drop.Zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' width='80px' {...this.link ()} >
-              <Label grow='1' {...this.link ()} />
-              {this.renderShortNotes (ticket.Trip.Drop.Notes)}
-            </Container>
-          </Container>
+          {this.renderMeetingPoint ('pick', ticket.Trip.Pick, 'bottom')}
+          {this.renderMeetingPoint ('drop', ticket.Trip.Drop, null)}
         </Container>
         <Container kind='thin-column' border='right' width='110px' {...this.link ()} >
           <Container kind='thin-row' grow='1' {...this.link ()} >

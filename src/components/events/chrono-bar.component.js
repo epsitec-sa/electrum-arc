@@ -28,8 +28,8 @@ export default class ChronoBar extends React.Component {
     const result = [];
     const dotStyle  = this.mergeStyles (dotStyleName);
     const lineStyle = this.mergeStyles (lineStyleName);
-    result.push ((<div style={dotStyle}  />));
-    result.push ((<div style={lineStyle} />));
+    result.push ((<div style={dotStyle}  key='dot'  />));
+    result.push ((<div style={lineStyle} key='line' />));
     return result;
   }
 
@@ -75,7 +75,7 @@ export default class ChronoBar extends React.Component {
       const tooltip = this.read ('leftTooltip');
       const style = this.mergeStyles ('leftTooltip');
       return (
-        <div style={style}>
+        <div style={style} key='leftTooltip'>
           <Label text={tooltip} wrap='no' {...this.link ()} />
         </div>
       );
@@ -90,7 +90,7 @@ export default class ChronoBar extends React.Component {
       const tooltip = this.read ('rightTooltip');
       const style = this.mergeStyles ('rightTooltip');
       return (
-        <div style={style}>
+        <div style={style} key='rightTooltip'>
           <Label text={tooltip} wrap='no' {...this.link ()} />
         </div>
       );
@@ -102,7 +102,7 @@ export default class ChronoBar extends React.Component {
   renderStart (styleName, hover) {
     const style = this.mergeStyles (styleName);
     return (
-      <div style = {style} {...this.link ()}>
+      <div style={style} key='start'>
         {this.renderLeftTooltip (hover === 'true')}
       </div>
     );
@@ -112,14 +112,14 @@ export default class ChronoBar extends React.Component {
     const tricolor = this.read ('tricolor');
     const style = this.mergeStyles (tricolor === 'true' ? 'middleDistinct' : 'mainDistinct');
     return (
-      <div style = {style} {...this.link ()} />
+      <div style={style} key='main'/>
     );
   }
 
   renderEnd (styleName, hover) {
     const style = this.mergeStyles (styleName);
     return (
-      <div style = {style} {...this.link ()}>
+      <div style={style} key='end'>
         {this.renderRightTooltip (hover === 'true')}
       </div>
     );
@@ -128,7 +128,7 @@ export default class ChronoBar extends React.Component {
   renderDistinct () {
     const hover = this.read ('hover');
     return (
-      <div>
+      <div key='bar'>
         {this.renderMain ()}
         {this.renderStart ('startDistinct', hover)}
         {this.renderEnd ('endDistinct', hover)}
@@ -146,10 +146,10 @@ export default class ChronoBar extends React.Component {
     const bottomStyle = this.mergeStyles ('bottomOverlap');
 
     return (
-      <div>
+      <div key='bar'>
         {this.renderStart ('startOverlap', hover)}
-        <div style = {topStyle}    {...this.link ()} />
-        <div style = {bottomStyle} {...this.link ()} />
+        <div style={topStyle}    key='top'    />
+        <div style={bottomStyle} key='bottom' />
         {this.renderEnd ('endOverlap', hover)}
         {this.renderDot ()}
         {this.renderFromDot ()}

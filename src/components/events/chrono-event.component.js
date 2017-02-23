@@ -91,7 +91,7 @@ export default class ChronoEvent extends React.Component {
       backgroundColor: this.props.theme.palette.chronoLineSeparator,
     };
     return (
-      <div style={style} ref={x} />
+      <div style={style} key={'vl' + x} />
     );
   }
 
@@ -163,6 +163,7 @@ export default class ChronoEvent extends React.Component {
         {this.renderGrid ()}
         {this.renderBar (event)}
         <div
+          key         = 'front'
           style       = {frontStyle}
           onMouseOver = {() => this.mouseOver ()}
           onMouseOut  = {() => this.mouseOut ()}

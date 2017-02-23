@@ -20,7 +20,7 @@ export default function styles (theme, props) {
     overflowY:       'auto',
   };
 
-  const contentStyle = {
+  const eventsStyle = {
     display:         'flex',
     flexDirection:   'column',
     flexGrow:        1,
@@ -77,7 +77,7 @@ export default function styles (theme, props) {
   return {
     main:       mainStyle,
     navigation: navigationStyle,
-    content:    contentStyle,
+    events:     eventsStyle,
     top:        topStyle,
     topLabel:   topLabelStyle,
     topEvent:   topEventStyle,

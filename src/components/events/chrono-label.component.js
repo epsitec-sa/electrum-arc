@@ -55,8 +55,8 @@ export default class ChronoLabel extends React.Component {
     if (this.getHover () && text) {
       const style = this.mergeStyles ('tooltip');
       return (
-        <div style={style}>
-          <Label text={text} grow='1' wrap='no' {...this.link ()} />
+        <div style={style} key='tooltip'>
+          <Label index='2' text={text} grow='1' wrap='no' {...this.link ()} />
         </div>
       );
     } else {
@@ -64,29 +64,31 @@ export default class ChronoLabel extends React.Component {
     }
   }
 
-  renderGlyph (glyph) {
+  renderGlyph (glyph, index) {
     if (glyph.Glyph.startsWith ('bookmark-')) {
       const color = glyph.Glyph.substring (9);
       return (
-        <Label glyph='bookmark' glyph-color={color} spacing='compact' {...this.link ()} />
+        <Label index={index} glyph='bookmark' glyph-color={color} spacing='compact' {...this.link ()} />
       );
     } else {
       return (
-        <Label glyph={glyph.Glyph} glyph-color={glyph.Color} spacing='compact' {...this.link ()} />
+        <Label index={index} glyph={glyph.Glyph} glyph-color={glyph.Color} spacing='compact' {...this.link ()} />
       );
     }
   }
 
   renderGlyphs (note) {
     const result = [];
+    let index = 0;
     for (var glyph of note.Glyphs) {
-      result.push (this.renderGlyph (glyph));
+      result.push (this.renderGlyph (glyph, index++));
     }
     return result;
   }
 
   render () {
-    const note = this.read ('note');
+    const index = this.read ('index');
+    const note  = this.read ('note');
 
     const text = note.Content;
 
@@ -95,13 +97,14 @@ export default class ChronoLabel extends React.Component {
     const frontStyle  = this.mergeStyles ('front');
 
     return (
-      <div style={lineStyle}>
-        <div style={glyphsStyle}>
+      <div style={lineStyle} key={index}>
+        <div style={glyphsStyle} key='glyphs'>
           {this.renderGlyphs (note)}
         </div>
-        <Label text={text} grow='1' wrap='no' {...this.link ()} />
+        <Label index='1' text={text} grow='1' wrap='no' {...this.link ()} />
         {this.renderTooltip (text)}
         <div
+          key         = 'front'
           style       = {frontStyle}
           onMouseOver = {() => this.mouseOver ()}
           onMouseOut  = {() => this.mouseOut ()}

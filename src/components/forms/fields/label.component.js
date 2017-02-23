@@ -62,6 +62,7 @@ export default class Label extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
+    const inputIndex   = this.read ('index');
     const inputText    = this.read ('text');
     const inputGlyph   = this.read ('glyph');
     const inputRotate  = this.read ('rotate');
@@ -123,6 +124,7 @@ export default class Label extends React.Component {
     if (inputMarquee === 'true') {
       return (
         <marquee
+          key      = {inputIndex}
           onClick  = {this.onClick}
           disabled = {disabled}
           style    = {boxStyle}
@@ -135,6 +137,7 @@ export default class Label extends React.Component {
     } else {
       return (
         <div
+          key      = {inputIndex}
           onClick  = {this.onClick}
           disabled = {disabled}
           style    = {boxStyle}
