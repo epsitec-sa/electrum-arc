@@ -7,9 +7,9 @@ import {
   Chronos
 } from '../../all-components.js';
 
-function TransformPickToGlyphs (pick) {
+function TransformmeetingPointToGlyphs (meetingPoint) {
   const glyphs = [];
-  for (let note of pick.Notes) {
+  for (let note of meetingPoint.Notes) {
     for (let glyph of note.Glyphs) {
       glyphs.push (glyph);
     }
@@ -17,46 +17,39 @@ function TransformPickToGlyphs (pick) {
   return glyphs;
 }
 
-function TransformDropToGlyphs (drop) {
-  const glyphs = [];
-  for (let note of drop.Notes) {
-    for (let glyph of note.Glyphs) {
-      glyphs.push (glyph);
-    }
-  }
-  return glyphs;
-}
-
-function TransformPickToNote (pick) {
+function TransformMeetingPointToNote (meetingPoint) {
   const note = {};
-  note.Content = pick.ShortDescription;
-  note.Glyphs = TransformPickToGlyphs (pick);
+  note.Content = meetingPoint.ShortDescription;
+  note.Glyphs = TransformmeetingPointToGlyphs (meetingPoint);
   return note;
 }
 
-function TransformDropToNote (drop) {
-  const note = {};
-  note.Content = drop.ShortDescription;
-  note.Glyphs = TransformDropToGlyphs (drop);
-  return note;
-}
-
-function TransformTripToNotes (trip) {
-  const n1 = TransformPickToNote (trip.Pick);
-  const n2 = TransformDropToNote (trip.Drop);
+function TransformTripToNotes (pick, drop) {
+  const n1 = TransformMeetingPointToNote (pick.Trip.MeetingPoint);
+  const n2 = TransformMeetingPointToNote (drop.Trip.MeetingPoint);
   return [n1, n2];
 }
 
-function TransformTicketToEvent (ticket) {
+function TransformTicketToEvent (pick, drop) {
   const event = {};
-  event.FromDate = ticket.Trip.Pick.PlanedDate;
-  event.StartFromTime = ticket.Trip.Pick.StartPlanedTime;
-  event.EndFromTime = ticket.Trip.Pick.EndPlanedTime;
-  event.ToDate = ticket.Trip.Drop.PlanedDate;
-  event.StartToTime = ticket.Trip.Drop.StartPlanedTime;
-  event.EndToTime = ticket.Trip.Drop.EndPlanedTime;
-  event.Notes = TransformTripToNotes (ticket.Trip);
+  event.FromDate      = pick.Trip.MeetingPoint.PlanedDate;
+  event.StartFromTime = pick.Trip.MeetingPoint.StartPlanedTime;
+  event.EndFromTime   = pick.Trip.MeetingPoint.EndPlanedTime;
+  event.ToDate        = drop.Trip.MeetingPoint.PlanedDate;
+  event.StartToTime   = drop.Trip.MeetingPoint.StartPlanedTime;
+  event.EndToTime     = drop.Trip.MeetingPoint.EndPlanedTime;
+  event.Notes = TransformTripToNotes (pick, drop);
   return event;
+}
+
+function Search (backlog, missionId) {
+  const result = [];
+  for (var ticket of backlog.Tickets) {
+    if (ticket.Trip.MissionId === missionId) {
+      result.push (ticket);
+    }
+  }
+  return result;
 }
 
 function Transform (data) {
@@ -65,12 +58,15 @@ function Transform (data) {
   events.FromDate = '2017-01-01';
   events.ToDate = '2017-12-31';
   events.Events = [];
-  let lastMissionId = null;
+  const hash = new Map ();
   for (var ticket of data.Backlog.Tickets) {
-    if (lastMissionId !== ticket.Trip.MissionId) {
-      const event = TransformTicketToEvent (ticket);
-      events.Events.push (event);
-      lastMissionId = ticket.Trip.MissionId;
+    if (!hash.has (ticket.Trip.MissionId)) {
+      hash.set (ticket.Trip.MissionId);
+      const s = Search (data.Backlog, ticket.Trip.MissionId);
+      if (s.length === 2) {
+        const event = TransformTicketToEvent (s[0], s[1]);
+        events.Events.push (event);
+      }
     }
   }
   return events;

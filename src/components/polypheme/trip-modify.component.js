@@ -39,14 +39,13 @@ export default class TripModify extends React.Component {
 
   renderHalf (ticket, type) {
     const directionGlyph = TicketHelpers.getDirectionGlyph (this.props.theme, type);
-    let title, pd;
+    let title;
     if (type.startsWith ('pick')) {
       title = 'Pick';
-      pd    = ticket.Trip.Pick;
     } else {
       title = 'Drop';
-      pd    = ticket.Trip.Drop;
     }
+    const pd = ticket.Trip.MeetingPoint;
 
     return (
       <Container kind='panes' {...this.link ()} >

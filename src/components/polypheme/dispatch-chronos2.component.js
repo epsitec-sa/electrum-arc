@@ -8,11 +8,11 @@ import {
   Chronos
 } from '../../all-components.js';
 
-function TransformMeetingPointToGlyphs (type, mp, theme) {
+function TransformMeetingPointToGlyphs (type, meetingPoint, theme) {
   const glyphs = [];
   const direction = TicketHelpers.getDirectionGlyph (theme, type);
   glyphs.push ({Glyph: direction.glyph, Color: direction.color});
-  for (let note of mp.Notes) {
+  for (let note of meetingPoint.Notes) {
     for (let glyph of note.Glyphs) {
       glyphs.push (glyph);
     }
@@ -28,18 +28,12 @@ function TransformMeetingPointToNote (type, mp, theme) {
 }
 function TransformTicketToEvent (name, ticket, theme) {
   const event = {};
-  var mp;
-  if (ticket.Type.startsWith ('pick')) {
-    mp = ticket.Trip.Pick;
-  } else {
-    mp = ticket.Trip.Drop;
-  }
   const direction = TicketHelpers.getDirectionGlyph (theme, ticket.Type);
   event.Group    = name;
-  event.FromTime = mp.StartPlanedTime;
+  event.FromTime = ticket.Trip.MeetingPoint.StartPlanedTime;
   event.ToDate   = name;
-  event.ToTime   = mp.EndPlanedTime;
-  event.Note     = TransformMeetingPointToNote (ticket.Type, mp, theme);
+  event.ToTime   = ticket.Trip.MeetingPoint.EndPlanedTime;
+  event.Note     = TransformMeetingPointToNote (ticket.Type, ticket.Trip.MeetingPoint, theme);
   event.Link     = ticket.Trip.MissionId;
   event.Color    = direction.color;
   return event;

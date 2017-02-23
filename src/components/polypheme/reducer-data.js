@@ -179,22 +179,22 @@ function getNewTransit (state, ticket) {
   const n = clone (state, ticket);
   if (n.Type.startsWith ('pick')) {
     n.Type = 'drop-transit';
-    n.Trip.Drop.LongDescription = null;
-    n.Trip.Drop.Notes = [];
-    n.Trip.Drop.PlanedDate = ticket.Trip.Pick.PlanedDate;
-    n.Trip.Drop.StartPlanedTime = ticket.Trip.Pick.StartPlanedTime;
-    n.Trip.Drop.EndPlanedTime = ticket.Trip.Pick.EndPlanedTime;
-    n.Trip.Drop.ShortDescription = 'Inconnu';
-    n.Trip.Drop.Zone = null;
+    n.Trip.MeetingPoint.LongDescription = null;
+    n.Trip.MeetingPoint.Notes = [];
+    n.Trip.MeetingPoint.PlanedDate      = ticket.Trip.MeetingPoint.PlanedDate;
+    n.Trip.MeetingPoint.StartPlanedTime = ticket.Trip.MeetingPoint.StartPlanedTime;
+    n.Trip.MeetingPoint.EndPlanedTime   = ticket.Trip.MeetingPoint.EndPlanedTime;
+    n.Trip.MeetingPoint.ShortDescription = 'Inconnu';
+    n.Trip.MeetingPoint.Zone = null;
   } else if (n.Type.startsWith ('drop')) {
     n.Type = 'pick-transit';
-    n.Trip.Pick.LongDescription = null;
-    n.Trip.Pick.Notes = [];
-    n.Trip.Pick.PlanedDate = ticket.Trip.Drop.PlanedDate;
-    n.Trip.Pick.StartPlanedTime = ticket.Trip.Drop.StartPlanedTime;
-    n.Trip.Pick.EndPlanedTime = ticket.Trip.Drop.EndPlanedTime;
-    n.Trip.Pick.ShortDescription = 'Inconnu';
-    n.Trip.Pick.Zone = null;
+    n.Trip.MeetingPoint.LongDescription = null;
+    n.Trip.MeetingPoint.Notes = [];
+    n.Trip.MeetingPoint.PlanedDate      = ticket.Trip.MeetingPoint.PlanedDate;
+    n.Trip.MeetingPoint.StartPlanedTime = ticket.Trip.MeetingPoint.StartPlanedTime;
+    n.Trip.MeetingPoint.EndPlanedTime   = ticket.Trip.MeetingPoint.EndPlanedTime;
+    n.Trip.MeetingPoint.ShortDescription = 'Inconnu';
+    n.Trip.MeetingPoint.Zone = null;
   }
   return n;
 }
@@ -288,8 +288,8 @@ function sortTicket (a, b) {
   const sb = getSortingTicketOrder (b).toString ();
   if (sa === sb) {
     // If they have the same type, sort chronologically.
-    const ta = Converters.getFormatedTime (a.Trip.Drop.StartPlanedTime);
-    const tb = Converters.getFormatedTime (b.Trip.Drop.StartPlanedTime);
+    const ta = Converters.getFormatedTime (a.Trip.MeetingPoint.StartPlanedTime);
+    const tb = Converters.getFormatedTime (b.Trip.MeetingPoint.StartPlanedTime);
     return ta.localeCompare (tb);
   } else {
     return sa.localeCompare (sb);
@@ -361,24 +361,26 @@ function checkAlones (state, flashes, warnings) {
 
 // ------------------------------------------------------------------------------------------
 
-function updateShape (state, list) {
+function updateShape (state, list, isBacklog) {
   for (let i = 0; i < list.Tickets.length; i++) {
     const ticket = list.Tickets[i];
     let shape = 'normal';
-    if (i < list.Tickets.length - 1) {
-      const other = list.Tickets[i + 1];
-      if (ticket.Trip.MissionId === other.Trip.MissionId &&
-        ticket.Type.startsWith ('pick') &&
-        other.Type.startsWith ('drop')) {  // pick following by drop ?
-        shape = 'first';
+    if (!isBacklog) {
+      if (i < list.Tickets.length - 1) {
+        const other = list.Tickets[i + 1];
+        if (ticket.Trip.MissionId === other.Trip.MissionId &&
+          ticket.Type.startsWith ('pick') &&
+          other.Type.startsWith ('drop')) {  // pick following by drop ?
+          shape = 'first';
+        }
       }
-    }
-    if (i > 0) {
-      const other = list.Tickets[i - 1];
-      if (ticket.Trip.MissionId === other.Trip.MissionId &&
-        ticket.Type.startsWith ('drop') &&
-        other.Type.startsWith ('pick')) {  // drop preceded by pick ?
-        shape = 'last';
+      if (i > 0) {
+        const other = list.Tickets[i - 1];
+        if (ticket.Trip.MissionId === other.Trip.MissionId &&
+          ticket.Type.startsWith ('drop') &&
+          other.Type.startsWith ('pick')) {  // drop preceded by pick ?
+          shape = 'last';
+        }
       }
     }
     if (StateManager.getTicketShape (ticket.id) !== shape) {  // changing ?
@@ -390,11 +392,13 @@ function updateShape (state, list) {
 
 // Update shapes to all tickets into Roadbooks and Desk, for showing pick directly following by drop.
 function updateShapes (state) {
+  updateShape (state, state.Backlog, true);
+
   for (var roadbook of state.Roadbooks) {
-    updateShape (state, roadbook);
+    updateShape (state, roadbook, false);
   }
   for (var tray of state.Desk) {
-    updateShape (state, tray);
+    updateShape (state, tray, false);
   }
 }
 
@@ -492,14 +496,14 @@ function dropGeneric (state, flashes, warnings, from, to) {
   }
 
   // Delete the source.
-  if (to.kind === 'backlog' && ticket.Type !== 'both') {
-    deleteMission (state, ticket.Trip.MissionId);
-  } else {
-    deleteTicket (state, from.tickets, ticket);
-    if (from.ownerId === to.ownerId && from.index < to.index) {
-      to.index--;  // decrease to take account of the deleted item
-    }
+  // if (to.kind === 'backlog' || from.kind === 'backlog') {
+  //   deleteMission (state, ticket.Trip.MissionId);
+  // } else {
+  deleteTicket (state, from.tickets, ticket);
+  if (from.ownerId === to.ownerId && from.index < to.index) {
+    to.index--;  // decrease to take account of the deleted item
   }
+  // }
 
   // Set the destination.
   ticket.OwnerId = to.ownerId;
@@ -517,7 +521,7 @@ function dropGeneric (state, flashes, warnings, from, to) {
     flashes.push (pick.id);
     flashes.push (drop.id);
   } else if (to.kind === 'backlog' && ticket.Type !== 'both') {
-    ticket.Type = 'both';
+    // ticket.Type = 'both';
     ticket.Status = 'backlog';
     addTicket (state, to.tickets, to.index, ticket);
     ticket.Selected = 'false';
@@ -645,15 +649,11 @@ function setStatus (state, flashes, id, status, date, time) {
     ticket.Selected = 'false';
   }
   if (status === 'delivered') {
-    ticket.Trip.Pick.RealisedDate = date;
-    ticket.Trip.Pick.RealisedTime = time;
-    ticket.Trip.Drop.RealisedDate = date;
-    ticket.Trip.Drop.RealisedTime = time;
+    ticket.Trip.MeetingPoint.RealisedDate = date;
+    ticket.Trip.MeetingPoint.RealisedTime = time;
   } else {
-    ticket.Trip.Pick.RealisedDate = Converters.getEmptyDate ();
-    ticket.Trip.Pick.RealisedTime = Converters.getEmptyTime ();
-    ticket.Trip.Drop.RealisedDate = Converters.getEmptyDate ();
-    ticket.Trip.Drop.RealisedTime = Converters.getEmptyTime ();
+    ticket.Trip.MeetingPoint.RealisedDate = Converters.getEmptyDate ();
+    ticket.Trip.MeetingPoint.RealisedTime = Converters.getEmptyTime ();
   }
   tickets[index] = regen (state, ticket);
   flashes.push (tickets[index].id);

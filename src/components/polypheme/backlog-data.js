@@ -9,20 +9,12 @@ import Converters from './converters';
 // The key (byPickTime, byProduct, usw.) is used to exchange information in data.BacklogSort (JS <-> C#).
 function getSortItems () {
   return {
-    byPickTime: {
-      description: 'Par heure pick',
+    byTime: {
+      description: 'Par heures',
       glyph:       'clock-o',
     },
-    byDropTime: {
-      description: 'Par heure drop',
-      glyph:       'clock-o',
-    },
-    byPickZone: {
-      description: 'Par zone pick',
-      glyph:       'map-marker',
-    },
-    byDropZone: {
-      description: 'Par zone drop',
+    byZone: {
+      description: 'Par zones',
       glyph:       'map-marker',
     },
     byProduct: {
@@ -62,27 +54,15 @@ function getFilterItems () {
 
 // --------------------------------------------------------------------------------------------------------------------
 
-function sortTimePick (a, b) {
-  const ta = Converters.getFormatedTime (a.Trip.Pick.StartPlanedTime);
-  const tb = Converters.getFormatedTime (b.Trip.Pick.StartPlanedTime);
+function sortTime (a, b) {
+  const ta = Converters.getFormatedTime (a.Trip.MeetingPoint.StartPlanedTime);
+  const tb = Converters.getFormatedTime (b.Trip.MeetingPoint.StartPlanedTime);
   return ta.localeCompare (tb);
 }
 
-function sortTimeDrop (a, b) {
-  const ta = Converters.getFormatedTime (a.Trip.Drop.StartPlanedTime);
-  const tb = Converters.getFormatedTime (b.Trip.Drop.StartPlanedTime);
-  return ta.localeCompare (tb);
-}
-
-function sortZonePick (a, b) {
-  const ta = a.Trip.Pick.Zone;
-  const tb = b.Trip.Pick.Zone;
-  return ta.localeCompare (tb);
-}
-
-function sortZoneDrop (a, b) {
-  const ta = a.Trip.Drop.Zone;
-  const tb = b.Trip.Drop.Zone;
+function sortZone (a, b) {
+  const ta = a.Trip.MeetingPoint.Zone;
+  const tb = b.Trip.MeetingPoint.Zone;
   return ta.localeCompare (tb);
 }
 
@@ -129,14 +109,10 @@ function getSortedBacklog (data) {
         result.push (ticket);
       }
     }
-    if (data.BacklogSort === 'byPickTime') {
-      return result.sort (sortTimePick);
-    } else if (data.BacklogSort === 'byDropTime') {
-      return result.sort (sortTimeDrop);
-    } else if (data.BacklogSort === 'byPickZone') {
-      return result.sort (sortZonePick);
-    } else if (data.BacklogSort === 'byDropZone') {
-      return result.sort (sortZoneDrop);
+    if (data.BacklogSort === 'byTime') {
+      return result.sort (sortTime);
+    } else if (data.BacklogSort === 'byZone') {
+      return result.sort (sortZone);
     } else if (data.BacklogSort === 'byProduct') {
       return result.sort (sortProduct);
     } else if (data.BacklogSort === 'byPrice') {

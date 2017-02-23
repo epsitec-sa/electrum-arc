@@ -34,12 +34,16 @@ function getDirectionGlyph (theme, type) {
   }
 }
 
-function getPackageCount (length) {
-  return length + 'x';
+function getPackageCount (ticket) {
+  if (ticket.Trip.Packages) {
+    return ticket.Trip.Packages.length + 'x';
+  } else {
+    return '';
+  }
 }
 
 function getPackageDescription (ticket) {
-  let desc = getPackageCount (ticket.Trip.Packages.length);
+  let desc = getPackageCount (ticket);
   if (ticket.Trip.Weight) {
     desc += ` — ${ticket.Trip.Weight}`;
   }

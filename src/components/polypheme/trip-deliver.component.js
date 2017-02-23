@@ -67,11 +67,7 @@ export default class TripDeliver extends React.Component {
   }
 
   getTrip (ticket) {
-    if (ticket.Type.startsWith ('pick')) {
-      return ticket.Trip.Pick;
-    } else {
-      return ticket.Trip.Drop;
-    }
+    return ticket.Trip.MeetingPoint;
   }
 
   onMyChange (e) {
