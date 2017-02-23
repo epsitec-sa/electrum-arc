@@ -65,9 +65,13 @@ function Transform (data) {
   events.FromDate = '2017-01-01';
   events.ToDate = '2017-12-31';
   events.Events = [];
+  let lastMissionId = null;
   for (var ticket of data.Backlog.Tickets) {
-    const event = TransformTicketToEvent (ticket);
-    events.Events.push (event);
+    if (lastMissionId !== ticket.Trip.MissionId) {
+      const event = TransformTicketToEvent (ticket);
+      events.Events.push (event);
+      lastMissionId = ticket.Trip.MissionId;
+    }
   }
   return events;
 }
