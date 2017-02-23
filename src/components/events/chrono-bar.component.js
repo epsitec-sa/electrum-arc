@@ -20,6 +20,7 @@ export default class ChronoBar extends React.Component {
       endTo:     this.read ('endTo'),
       top:       this.read ('top'),
       height:    this.read ('height'),
+      color:     this.read ('color'),
     };
   }
 

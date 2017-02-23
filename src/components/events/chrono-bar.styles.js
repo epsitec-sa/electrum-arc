@@ -10,6 +10,8 @@ export default function styles (theme, props) {
   const c = props.startTo;
   const d = props.endTo;
 
+  const mainColor = props.color ? props.color : theme.palette.chronoEventMainBackground;
+
   const abWidth = Unit.sub (b, a);
   const bcWidth = Unit.sub (c, b);
   const cdWidth = Unit.sub (d, c);
@@ -37,7 +39,7 @@ export default function styles (theme, props) {
     width:           adWidth,
     top:             top,
     height:          height,
-    backgroundColor: theme.palette.chronoEventMainBackground,
+    backgroundColor: mainColor,
     userSelect:      'none',
   };
 
@@ -137,7 +139,7 @@ export default function styles (theme, props) {
     top:             `calc(50% - ${r})`,
     height:          Unit.multiply (r, 2),
     borderRadius:    r,
-    backgroundColor: theme.palette.chronoEventMainBackground,
+    backgroundColor: mainColor,
   };
 
   const fromDotStyle = {
@@ -166,7 +168,7 @@ export default function styles (theme, props) {
     width:           '2px',
     top:             top,
     height:          height,
-    backgroundColor: theme.palette.chronoEventMainBackground,
+    backgroundColor: mainColor,
   };
 
   const fromLineStyle = {

@@ -34,12 +34,14 @@ function TransformTicketToEvent (name, ticket, theme) {
   } else {
     mp = ticket.Trip.Drop;
   }
+  const direction = TicketHelpers.getDirectionGlyph (theme, ticket.Type);
   event.Group    = name;
   event.FromTime = mp.StartPlanedTime;
   event.ToDate   = name;
   event.ToTime   = mp.EndPlanedTime;
   event.Note     = TransformMeetingPointToNote (ticket.Type, mp, theme);
   event.Link     = ticket.Trip.MissionId;
+  event.Color    = direction.color;
   return event;
 }
 

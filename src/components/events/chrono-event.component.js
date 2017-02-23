@@ -143,6 +143,7 @@ export default class ChronoEvent extends React.Component {
         endFrom      = {endFrom}
         startTo      = {startTo}
         endTo        = {endTo}
+        color        = {event.Color}
         tricolor     = {tricolor ? 'true' : 'false'}
         leftTooltip  = {this.getLeftTooltip  (event, tricolor, isTextToLeft)}
         rightTooltip = {this.getRightTooltip (event, tricolor, isTextToLeft)}
