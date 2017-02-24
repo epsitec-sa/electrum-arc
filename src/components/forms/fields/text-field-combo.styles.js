@@ -6,6 +6,7 @@ import {Unit} from 'electrum-theme';
 
 export default function styles (theme, props) {
   const inputGrow      = props.grow;
+  const inputWidth     = props.width;
   const inputSpacing   = props.spacing;
   const comboDirection = props.comboDirection;
 
@@ -33,6 +34,7 @@ export default function styles (theme, props) {
     flexDirection:  'row',
     justifyContent: 'flex-start',
     alignItems:     'center',
+    maxWidth:       inputWidth,
     flexGrow:       flexGrow,
     flexShrink:     flexShrink,
     flexBasis:      flexBasis,

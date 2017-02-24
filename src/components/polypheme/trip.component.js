@@ -281,8 +281,12 @@ export default class Trip extends React.Component {
     const shape    = StateManager.getTicketShape (ticket.id);
 
     let verticalSpacing;
+    let horizontalSpacing;
     if (kind === 'trip-box') {
       verticalSpacing = this.props.theme.shapes.tripBoxVerticalSpacing;
+    } else if (kind === 'trip-backlog') {
+      verticalSpacing   = this.props.theme.shapes.ticketBacklogSpacing;
+      horizontalSpacing = this.props.theme.shapes.ticketBacklogSpacing;
     } else {
       if (shape === 'first') {
         verticalSpacing = this.props.theme.shapes.ticketVerticalSpacingFirst;
@@ -308,13 +312,14 @@ export default class Trip extends React.Component {
         do-click-action  = {(e) => this.doClickAction (e)}
         {...this.link ()} >
         <TripTicket
-          kind             = {kind}
-          ticket           = {ticket}
-          data             = {data}
-          selected         = {selected}
-          no-drag          = {noDrag}
-          shape            = {shape}
-          vertical-spacing = {verticalSpacing}
+          kind               = {kind}
+          ticket             = {ticket}
+          data               = {data}
+          selected           = {selected}
+          no-drag            = {noDrag}
+          shape              = {shape}
+          vertical-spacing   = {verticalSpacing}
+          horizontal-spacing = {horizontalSpacing}
           {...this.link ()} />
         {this.renderCombo (data)}
         {this.renderModify (data)}

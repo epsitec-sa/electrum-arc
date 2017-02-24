@@ -387,15 +387,16 @@ export default class TripTicket extends React.Component {
   }
 
   render () {
-    const data            = this.read ('data');
-    const parentKind      = this.read ('kind');
-    const shape           = this.read ('shape');
-    const ticket          = this.read ('ticket');
-    const noDrag          = this.read ('no-drag');
-    const verticalSpacing = this.read ('vertical-spacing');
-    const selected        = this.read ('selected');
-    const isDragged       = this.props.isDragged;
-    const hasHeLeft       = this.props.hasHeLeft;
+    const data              = this.read ('data');
+    const parentKind        = this.read ('kind');
+    const shape             = this.read ('shape');
+    const ticket            = this.read ('ticket');
+    const noDrag            = this.read ('no-drag');
+    const verticalSpacing   = this.read ('vertical-spacing');
+    const horizontalSpacing = this.read ('horizontal-spacing');
+    const selected          = this.read ('selected');
+    const isDragged         = this.props.isDragged;
+    const hasHeLeft         = this.props.hasHeLeft;
 
     const cursor    = (noDrag === 'true') ? 'default' : 'move';
     const delivered = ticket.Status === 'delivered';
@@ -408,7 +409,7 @@ export default class TripTicket extends React.Component {
       height = this.props.theme.shapes.tripBoxHeight;
     } else if (parentKind === 'trip-backlog') {
       kind   = 'rect';
-      width  = Unit.multiply (this.props.theme.shapes.tripTicketWidth, 1.5);
+      width  = this.props.theme.shapes.tripTicketWidth;
       height = null;
     } else {
       kind   = extended ? 'rect' : 'ticket';
@@ -449,20 +450,21 @@ export default class TripTicket extends React.Component {
 
     return (
       <Ticket
-        width            = {width}
-        height           = {height}
-        vertical-spacing = {verticalSpacing}
-        color            = {color}
-        background-text  = {this.getBackgroundText (ticket)}
-        kind             = {kind}
-        shape            = {shape}
-        hover-shape      = {hoverShape}
-        hatch            = {hatch}
-        cursor           = {cursor}
-        hud-glyph        = {this.getHudGlyph (data, ticket)}
-        hide-content     = {hasHeLeft && !isDragged ? 'true' : 'false'}
-        mouse-over       = {() => this.mouseOver ()}
-        mouse-out        = {() => this.mouseOut ()}
+        width              = {width}
+        height             = {height}
+        vertical-spacing   = {verticalSpacing}
+        horizontal-spacing = {horizontalSpacing}
+        color              = {color}
+        background-text    = {this.getBackgroundText (ticket)}
+        kind               = {kind}
+        shape              = {shape}
+        hover-shape        = {hoverShape}
+        hatch              = {hatch}
+        cursor             = {cursor}
+        hud-glyph          = {this.getHudGlyph (data, ticket)}
+        hide-content       = {hasHeLeft && !isDragged ? 'true' : 'false'}
+        mouse-over         = {() => this.mouseOver ()}
+        mouse-out          = {() => this.mouseOut ()}
         {...this.link ()} >
         {this.renderContent (ticket, extended, delivered)}
       </Ticket>

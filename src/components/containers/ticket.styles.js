@@ -140,15 +140,16 @@ function getHoverPath (theme, shape, hoverShape, width, height) {
 
 
 export default function styles (theme, props) {
-  const width           = props.width;
-  const height          = props.height;
-  const kind            = props.kind;
-  const shape           = props.shape;
-  const hoverShape      = props.hoverShape;
-  const color           = props.color;
-  const cursor          = props.cursor;
-  const verticalSpacing = props.verticalSpacing;
-  const hideContent     = props.hideContent;
+  const width             = props.width;
+  const height            = props.height;
+  const kind              = props.kind;
+  const shape             = props.shape;
+  const hoverShape        = props.hoverShape;
+  const color             = props.color;
+  const cursor            = props.cursor;
+  const verticalSpacing   = props.verticalSpacing;
+  const horizontalSpacing = props.horizontalSpacing ? props.horizontalSpacing : '0px';
+  const hideContent       = props.hideContent;
 
   const r = (kind === 'thin' || kind === 'event') ? theme.shapes.ticketRectRadius : theme.shapes.ticketCornerRadius;
   let radius;
@@ -171,7 +172,7 @@ export default function styles (theme, props) {
   const boxStyle = {
     width:      width,
     height:     height,
-    margin:     '0px 0px ' + verticalSpacing + ' 0px',
+    margin:     '0px ' + horizontalSpacing + ' ' + verticalSpacing + ' 0px',
     position:   'relative',
     cursor:     cursor,
     transition: theme.transitions.easeOut (),
@@ -223,7 +224,7 @@ export default function styles (theme, props) {
 
   const rectShadowStyle = {
     width:           width,
-    margin:          '0px 0px ' + verticalSpacing + ' 0px',
+    margin:          '0px ' + horizontalSpacing + ' ' + verticalSpacing + ' 0px',
     position:        'relative',
     top:             theme.shapes.ticketShadowShift,
     cursor:          cursor,

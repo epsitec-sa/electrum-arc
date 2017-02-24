@@ -144,13 +144,13 @@ export default class DispatchBacklog extends React.Component {
             hint-text   = 'Trier'
             combo-glyph = 'sort'
             value       = {this.getCurrentSortDescription (data)}
-            grow        = '1'
+            width       = '200px'
             list        = {this.getSortList (data)}
             {...this.link ()} />
         </Container>
         <Container kind='panes' drag-parent={data.Backlog.id} {...this.link ()} >
           <Container
-            kind            = 'column'
+            kind            = 'wrap'
             drag-controller = 'ticket'
             drag-source     = 'backlog'
             drag-mode       = 'all'

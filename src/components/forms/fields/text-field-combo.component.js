@@ -46,6 +46,7 @@ export default class TextFieldCombo extends React.Component {
       value:          this.read ('value'),
       hintText:       this.read ('hint-text'),
       grow:           this.read ('grow'),
+      width:          this.read ('width'),
       spacing:        this.read ('spacing'),
       comboDirection: this.read ('combo-direction'),
     };

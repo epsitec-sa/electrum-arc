@@ -703,6 +703,13 @@ export default function styles (theme, props) {
     flexGrow        = inputGrow;
   }
 
+  if (inputKind === 'wrap') {
+    display         = 'flex';
+    flexDirection   = 'row';
+    flexWrap        = 'wrap';
+    flexGrow        = inputGrow;
+  }
+
   if (inputKind === 'boxes') {
     display         = 'flex';
     flexDirection   = 'row';
