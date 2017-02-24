@@ -626,7 +626,8 @@ function swapTicketExtended (state, id) {
   const flashes = [];
   const warnings = [];
   const result = deepSearchFromId (state, id);
-  if (result.kind !== 'backlog') {
+  // if (result.kind !== 'backlog') {
+  if (true) {
     const ticket = result.tickets[result.index];
     const x = ticket.Extended === 'true';
     ticket.Extended = x ? 'false' : 'true';
