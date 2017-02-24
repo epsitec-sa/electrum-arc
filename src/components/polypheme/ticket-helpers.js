@@ -30,7 +30,10 @@ function getDirectionGlyph (theme, type) {
       };
     }
   } else {
-    throw new Error (`Unknown type ${type}`);
+    return {
+      glyph: 'square',
+      color: color,
+    };
   }
 }
 

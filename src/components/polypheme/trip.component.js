@@ -272,9 +272,46 @@ export default class Trip extends React.Component {
     );
   }
 
-  render () {
+  renderMetaTicket (metaTicket) {
     const kind     = this.read ('kind');
-    const ticket   = this.read ('ticket');
+    const data     = this.read ('data');
+    const noDrag   = null;
+    const selected = this.getShowSomethink () ? 'true' : 'false';
+
+    return (
+      <DragCab
+        drag-controller  = 'ticket'
+        direction        = 'vertical'
+        color            = {this.props.theme.palette.dragAndDropHover}
+        thickness        = {this.props.theme.shapes.dragAndDropTicketThickness}
+        radius           = {this.props.theme.shapes.dragAndDropTicketThickness}
+        mode             = 'corner-top-left'
+        data             = {data}
+        item-id          = {metaTicket.id}
+        no-drag          = {noDrag}
+        vertical-spacing = {this.props.theme.shapes.tripBoxVerticalSpacing}
+        mouse-down       = {e => this.mouseDown (e)}
+        mouse-up         = {e => this.mouseUp (e)}
+        do-click-action  = {(e) => this.doClickAction (e)}
+        {...this.link ()} >
+        <TripTicket
+          kind             = {kind}
+          metaTicket       = {metaTicket}
+          data             = {data}
+          selected         = {selected}
+          no-drag          = {noDrag}
+          vertical-spacing = {this.props.theme.shapes.tripBoxVerticalSpacing}
+          {...this.link ()} />
+        {this.renderCombo (data)}
+        {this.renderModify (data)}
+        {this.renderDeliver (data)}
+        {this.renderPredispatch (data)}
+      </DragCab>
+    );
+  }
+
+  renderTicket (ticket) {
+    const kind     = this.read ('kind');
     const data     = this.read ('data');
     const noDrag   = (ticket.Status === 'dispatched' || ticket.Status === 'delivered') ? 'true' : null;
     const selected = this.getShowSomethink () ? 'true' : 'false';
@@ -327,6 +364,16 @@ export default class Trip extends React.Component {
         {this.renderPredispatch (data)}
       </DragCab>
     );
+  }
+
+  render () {
+    const ticket     = this.read ('ticket');
+    const metaTicket = this.read ('metaTicket');
+    if (ticket) {
+      return this.renderTicket (ticket);
+    } else if (metaTicket) {
+      return this.renderMetaTicket (metaTicket);
+    }
   }
 }
 

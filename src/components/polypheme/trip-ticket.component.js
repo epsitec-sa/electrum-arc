@@ -87,12 +87,14 @@ export default class TripTicket extends React.Component {
   //  Update state.link to all tickets linked.
   //  By example, pick and drop to a trip, or 4 tickets if has transit.
   setLinkToAll (link) {
-    const ticket = this.read ('ticket');
-    const missionId = ticket.MissionId;
+    const ticket     = this.read ('ticket');
+    const metaTicket = this.read ('metaTicket');
+    const missionId  = metaTicket ? metaTicket.MissionId : ticket.MissionId;
     if (missionId) {
       for (var tripTicket of window.document.tripTickets) {
         const t = tripTicket.read ('ticket');
-        const m = t.MissionId;
+        const u = tripTicket.read ('metaTicket');
+        const m = u ? u.MissionId : t.MissionId;
         if (missionId === m) {
           tripTicket.setLink (link);
         }
@@ -235,9 +237,9 @@ export default class TripTicket extends React.Component {
     }
   }
 
-  renderMeetingPoint (type, meetingPoint, border) {
+  renderMeetingPoint (meetingPoint, border, index) {
     if (meetingPoint) {
-      const directionGlyph = TicketHelpers.getDirectionGlyph (this.props.theme, type);
+      const directionGlyph = TicketHelpers.getDirectionGlyph (this.props.theme, meetingPoint.Type);
       const dimmedSize     = this.props.theme.shapes.ticketDimmedSize;
 
       return (
@@ -269,18 +271,26 @@ export default class TripTicket extends React.Component {
     }
   }
 
-  renderTripBoxContent (ticket) {
+  renderMeetingPoints (meetingPoints) {
+    const result = [];
+    let index = 0;
+    for (var meetingPoint of meetingPoints) {
+      result.push (this.renderMeetingPoint (meetingPoint, 'bottom', index++));
+    }
+    return result;
+  }
+
+  renderTripBoxContent (metaTicket) {
     const dimmedColor = this.props.theme.palette.ticketDimmed;
     const dimmedSize  = this.props.theme.shapes.ticketDimmedSize;
 
     return (
       <Container kind='row' grow='1' {...this.link ()} >
         <Container kind='thin-column' border='right' width='10px' {...this.link ()} >
-          <Gauge value={ticket.Urgency} {...this.link ()} />
+          <Gauge value={metaTicket.Urgency} {...this.link ()} />
         </Container>
         <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
-          {this.renderMeetingPoint ('pick', ticket.Type === 'pick' ? ticket.MeetingPoint : null, 'bottom')}
-          {this.renderMeetingPoint ('drop', ticket.Type === 'drop' ? ticket.MeetingPoint : null, null)}
+          {this.renderMeetingPoints (metaTicket.MeetingPoints, 'bottom')}
         </Container>
         <Container kind='thin-column' border='right' width='110px' {...this.link ()} >
           <Container kind='thin-row' grow='1' {...this.link ()} >
@@ -288,7 +298,7 @@ export default class TripTicket extends React.Component {
               <Label glyph='cube' glyph-color={dimmedColor} {...this.link ()} />
             </Container>
             <Container kind='thin-row' grow='3' {...this.link ()} >
-              <Label text={TicketHelpers.getPackageCount (ticket)} justify='right' grow='1' wrap='no' {...this.link ()} />
+              <Label text={TicketHelpers.getPackageCount (metaTicket)} justify='right' grow='1' wrap='no' {...this.link ()} />
             </Container>
           </Container>
           <Container kind='thin-row' grow='1' {...this.link ()} >
@@ -296,20 +306,20 @@ export default class TripTicket extends React.Component {
               <Label text='total' font-size={dimmedSize} text-color={dimmedColor} {...this.link ()} />
             </Container>
             <Container kind='thin-row' grow='3' {...this.link ()} >
-              <Label text={ticket.Weight} justify='right' grow='1' wrap='no' {...this.link ()} />
+              <Label text={metaTicket.Weight} justify='right' grow='1' wrap='no' {...this.link ()} />
             </Container>
           </Container>
         </Container>
         <Container kind='thin-column' width='90px' {...this.link ()} >
           <Container kind='thin-row' grow='1' {...this.link ()} >
-            <Label text={ticket.NetPrice} justify='right' grow='1' wrap='no' {...this.link ()} />
+            <Label text={metaTicket.NetPrice} justify='right' grow='1' wrap='no' {...this.link ()} />
           </Container>
           <Container kind='thin-row' grow='1' {...this.link ()} >
             <Container kind='thin-row' grow='2' {...this.link ()} >
             </Container>
             <Container kind='thin-row' grow='3' {...this.link ()} >
               <Label grow='1' {...this.link ()} />
-              {this.renderShortNotes (ticket.Notes)}
+              {this.renderShortNotes (metaTicket.Notes)}
             </Container>
           </Container>
         </Container>
@@ -371,26 +381,77 @@ export default class TripTicket extends React.Component {
     );
   }
 
-  renderContent (ticket, extended, delivered) {
-    const kind = this.read ('kind');
-    if (kind === 'trip-box') {
-      return this.renderTripBoxContent (ticket);
-    } else {
-      const directionGlyph = TicketHelpers.getDirectionGlyph (this.props.theme, ticket.Type);
+  renderMetaTicket (metaTicket) {
+    const data              = this.read ('data');
+    const parentKind        = this.read ('kind');
+    const noDrag            = this.read ('no-drag');
+    const verticalSpacing   = this.read ('vertical-spacing');
+    const horizontalSpacing = this.read ('horizontal-spacing');
+    const selected          = this.read ('selected');
+    const isDragged         = this.props.isDragged;
+    const hasHeLeft         = this.props.hasHeLeft;
 
-      if (extended) {
-        return this.renderExtendedContent (ticket, directionGlyph, delivered);
-      } else {
-        return this.renderCompactedContent (ticket, directionGlyph, delivered);
-      }
+    const cursor    = (noDrag === 'true') ? 'default' : 'move';
+    const delivered = false;
+    const hatch     = false;
+    const extended  = false;
+    const kind      = 'thin';
+    const width     = null;
+    const height    = Unit.multiply (this.props.theme.shapes.tripBoxHeight, metaTicket.MeetingPoints.length);
+
+    let color = this.props.theme.palette.ticketBackground;
+    if (metaTicket.Flash === 'true' && !isDragged) {
+      color = this.props.theme.palette.ticketFlashBackground;
+    }
+    if (delivered) {
+      color = this.props.theme.palette.ticketDeliveredBackground;
+    }
+    if (metaTicket.Warning && !isDragged) {
+      color = this.props.theme.palette.ticketWarningBackground;
+    }
+    if (this.getHover () && !isDragged) {
+      color = ColorManipulator.emphasize (color, 0.1);
+    }
+    if (selected === 'true' && !isDragged) {
+      color = ColorManipulator.emphasize (color, 0.3);
+    }
+    if (hasHeLeft && !isDragged) {
+      color = this.props.theme.palette.ticketDragAndDropShadow;
+    }
+
+    return (
+      <Ticket
+        width              = {width}
+        height             = {height}
+        vertical-spacing   = {verticalSpacing}
+        horizontal-spacing = {horizontalSpacing}
+        color              = {color}
+        kind               = {kind}
+        hatch              = {hatch}
+        cursor             = {cursor}
+        hide-content       = {hasHeLeft && !isDragged ? 'true' : 'false'}
+        mouse-over         = {() => this.mouseOver ()}
+        mouse-out          = {() => this.mouseOut ()}
+        {...this.link ()} >
+        {this.renderTripBoxContent (metaTicket)}
+      </Ticket>
+    );
+  }
+
+  renderTicketContent (ticket, extended, delivered) {
+    const directionGlyph = TicketHelpers.getDirectionGlyph (this.props.theme, ticket.Type);
+
+    if (extended) {
+      return this.renderExtendedContent (ticket, directionGlyph, delivered);
+    } else {
+      return this.renderCompactedContent (ticket, directionGlyph, delivered);
     }
   }
 
-  render () {
+  renderTicket (ticket) {
     const data              = this.read ('data');
     const parentKind        = this.read ('kind');
     const shape             = this.read ('shape');
-    const ticket            = this.read ('ticket');
     const noDrag            = this.read ('no-drag');
     const verticalSpacing   = this.read ('vertical-spacing');
     const horizontalSpacing = this.read ('horizontal-spacing');
@@ -466,9 +527,19 @@ export default class TripTicket extends React.Component {
         mouse-over         = {() => this.mouseOver ()}
         mouse-out          = {() => this.mouseOut ()}
         {...this.link ()} >
-        {this.renderContent (ticket, extended, delivered)}
+        {this.renderTicketContent (ticket, extended, delivered)}
       </Ticket>
     );
+  }
+
+  render () {
+    const ticket     = this.read ('ticket');
+    const metaTicket = this.read ('metaTicket');
+    if (ticket) {
+      return this.renderTicket (ticket);
+    } else if (metaTicket) {
+      return this.renderMetaTicket (metaTicket);
+    }
   }
 }
 

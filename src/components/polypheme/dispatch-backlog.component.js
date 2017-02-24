@@ -111,7 +111,7 @@ export default class DispatchBacklog extends React.Component {
       .firstOrDefault ();
   }
 
-  renderTicket (ticket, data, index) {
+  renderDistinctTicket (ticket, data, index) {
     return (
       <Trip
         key     = {index}
@@ -124,17 +124,17 @@ export default class DispatchBacklog extends React.Component {
     );
   }
 
-  renderTickets (data) {
+  renderDistinctTickets (data) {
     const result = [];
     let index = 0;
     const sortedTickets = BacklogData.getSortedBacklog (data);
     for (var ticket of sortedTickets) {
-      result.push (this.renderTicket (ticket, data, index++));
+      result.push (this.renderDistinctTicket (ticket, data, index++));
     }
     return result;
   }
 
-  render () {
+  renderDistincts () {
     const data = this.read ('data');
 
     return (
@@ -157,10 +157,87 @@ export default class DispatchBacklog extends React.Component {
             item-id         = {data.Backlog.id}
             view-parent-id  = 'view-backlog'
             {...this.link ()} >
-            {this.renderTickets (data)}
+            {this.renderDistinctTickets (data)}
           </Container>
         </Container>
       </Container>
     );
+  }
+
+  renderGroupedTicket (tickets, data, index) {
+    const metaTicket = JSON.parse (JSON.stringify (tickets[0]));
+    metaTicket.MeetingPoints = [];
+    for (var ticket of tickets) {
+      metaTicket.MeetingPoints.push (ticket.MeetingPoint);
+    }
+    return (
+      <Trip
+        key        = {index}
+        kind       = 'trip-box'
+        source     = 'backlog'
+        metaTicket = {metaTicket}
+        data       = {data}
+        {...this.link ()} />
+    );
+  }
+
+  getTickets (tickets, missionId) {
+    const result = [];
+    for (var ticket of tickets) {
+      if (ticket.MissionId === missionId) {
+        result.push (ticket);
+      }
+    }
+    return result;
+  }
+
+  renderGroupedTickets (data) {
+    const result = [];
+    const missionIds = new Map ();
+    let index = 0;
+    const sortedTickets = BacklogData.getSortedBacklog (data);
+    for (var ticket of sortedTickets) {
+      if (!missionIds.has (ticket.MissionId)) {
+        missionIds.set (ticket.MissionId);
+        const tickets = this.getTickets (sortedTickets, ticket.MissionId);
+        result.push (this.renderGroupedTicket (tickets, data, index++));
+      }
+    }
+    return result;
+  }
+
+  renderGrouped () {
+    const data = this.read ('data');
+
+    return (
+      <Container kind='view-stretch' {...this.link ()} >
+        <Container kind='pane-top' {...this.link ()} >
+          <TextFieldCombo
+            hint-text   = 'Trier'
+            combo-glyph = 'sort'
+            value       = {this.getCurrentSortDescription (data)}
+            width       = '200px'
+            list        = {this.getSortList (data)}
+            {...this.link ()} />
+        </Container>
+        <Container kind='panes' drag-parent={data.Backlog.id} {...this.link ()} >
+          <Container
+            kind            = 'column'
+            drag-controller = 'ticket'
+            drag-source     = 'backlog'
+            drag-mode       = 'all'
+            item-id         = {data.Backlog.id}
+            view-parent-id  = 'view-backlog'
+            {...this.link ()} >
+            {this.renderGroupedTickets (data)}
+          </Container>
+        </Container>
+      </Container>
+    );
+  }
+
+  render () {
+    // return this.renderDistincts ();
+    return this.renderGrouped ();
   }
 }

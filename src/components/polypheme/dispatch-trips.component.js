@@ -36,24 +36,40 @@ export default class DispatchTrips extends React.Component {
     ReducerData.reducer (data, {type: 'INITIALISE'});
   }
 
-  renderTicket (ticket, data, index) {
-    return (
-      <Trip
-        key    = {index}
-        kind   = 'trip-box'
-        source = 'backlog'
-        ticket = {ticket}
-        data   = {data}
-        {...this.link ()} />
-    );
+  renderTicket (metaTicket, meetingPoints, data, index) {
+    if (meetingPoints.length === 0) {
+      return null;
+    } else {
+      metaTicket.MeetingPoints = meetingPoints;
+      const m = JSON.parse (JSON.stringify (metaTicket));
+      return (
+        <Trip
+          key        = {index}
+          kind       = 'trip-box'
+          source     = 'backlog'
+          metaTicket = {m}
+          data       = {data}
+          {...this.link ()} />
+      );
+    }
   }
 
   renderTickets (tickets, data) {
     const result = [];
+    const missionIds = new Map ();
+    const meetingPoints = [];
+    let metaTicket;
     let index = 0;
     for (var ticket of tickets) {
-      result.push (this.renderTicket (ticket, data, index++));
+      if (!missionIds.has (ticket.MissionId)) {
+        result.push (this.renderTicket (metaTicket, meetingPoints, data, index++));
+        meetingPoints.splice (0);  // clear array
+        missionIds.set (ticket.MissionId);
+        metaTicket = JSON.parse (JSON.stringify (ticket));
+      }
+      meetingPoints.push (ticket.MeetingPoint);
     }
+    result.push (this.renderTicket (metaTicket, meetingPoints, data, index++));
     return result;
   }
 
