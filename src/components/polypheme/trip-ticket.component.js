@@ -274,8 +274,10 @@ export default class TripTicket extends React.Component {
   renderMeetingPoints (meetingPoints) {
     const result = [];
     let index = 0;
-    for (var meetingPoint of meetingPoints) {
-      result.push (this.renderMeetingPoint (meetingPoint, 'bottom', index++));
+    for (var i = 0; i < meetingPoints.length; i++) {
+      const meetingPoint = meetingPoints[i];
+      const border = i < meetingPoints.length - 1 ? 'bottom' : null;
+      result.push (this.renderMeetingPoint (meetingPoint, border, index++));
     }
     return result;
   }
