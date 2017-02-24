@@ -8,9 +8,14 @@ import Enumerable from 'linq';
 import {
   Container,
   TextFieldCombo,
-  LabelTextField,
   Trip
 } from '../../all-components.js';
+
+/******************************************************************************/
+
+function getTicketsFromMissionId (tickets, missionId) {
+  return Enumerable.from (tickets).where (t => t.MissionId === missionId).toArray ();
+}
 
 /******************************************************************************/
 
@@ -181,16 +186,6 @@ export default class DispatchBacklog extends React.Component {
     );
   }
 
-  getTickets (tickets, missionId) {
-    const result = [];
-    for (var ticket of tickets) {
-      if (ticket.MissionId === missionId) {
-        result.push (ticket);
-      }
-    }
-    return result;
-  }
-
   renderGroupedTickets (data) {
     const result = [];
     const missionIds = new Map ();
@@ -199,7 +194,7 @@ export default class DispatchBacklog extends React.Component {
     for (var ticket of sortedTickets) {
       if (!missionIds.has (ticket.MissionId)) {
         missionIds.set (ticket.MissionId);
-        const tickets = this.getTickets (sortedTickets, ticket.MissionId);
+        const tickets = getTicketsFromMissionId (sortedTickets, ticket.MissionId);
         result.push (this.renderGroupedTicket (tickets, data, index++));
       }
     }
