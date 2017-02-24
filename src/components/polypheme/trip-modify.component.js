@@ -45,7 +45,7 @@ export default class TripModify extends React.Component {
     } else {
       title = 'Drop';
     }
-    const pd = ticket.Trip.MeetingPoint;
+    const pd = ticket.MeetingPoint;
 
     return (
       <Container kind='panes' {...this.link ()} >

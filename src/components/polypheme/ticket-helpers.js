@@ -35,8 +35,8 @@ function getDirectionGlyph (theme, type) {
 }
 
 function getPackageCount (ticket) {
-  if (ticket.Trip.Packages) {
-    return ticket.Trip.Packages.length + 'x';
+  if (ticket.Packages) {
+    return ticket.Packages.length + 'x';
   } else {
     return '';
   }
@@ -44,11 +44,11 @@ function getPackageCount (ticket) {
 
 function getPackageDescription (ticket) {
   let desc = getPackageCount (ticket);
-  if (ticket.Trip.Weight) {
-    desc += ` — ${ticket.Trip.Weight}`;
+  if (ticket.Weight) {
+    desc += ` — ${ticket.Weight}`;
   }
-  if (ticket.Trip.Product) {
-    desc += ` — ${ticket.Trip.Product}`;
+  if (ticket.Product) {
+    desc += ` — ${ticket.Product}`;
   }
   return desc;
 }

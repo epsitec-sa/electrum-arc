@@ -25,19 +25,19 @@ function TransformMeetingPointToNote (meetingPoint) {
 }
 
 function TransformTripToNotes (pick, drop) {
-  const n1 = TransformMeetingPointToNote (pick.Trip.MeetingPoint);
-  const n2 = TransformMeetingPointToNote (drop.Trip.MeetingPoint);
+  const n1 = TransformMeetingPointToNote (pick.MeetingPoint);
+  const n2 = TransformMeetingPointToNote (drop.MeetingPoint);
   return [n1, n2];
 }
 
 function TransformTicketToEvent (pick, drop) {
   const event = {};
-  event.FromDate      = pick.Trip.MeetingPoint.PlanedDate;
-  event.StartFromTime = pick.Trip.MeetingPoint.StartPlanedTime;
-  event.EndFromTime   = pick.Trip.MeetingPoint.EndPlanedTime;
-  event.ToDate        = drop.Trip.MeetingPoint.PlanedDate;
-  event.StartToTime   = drop.Trip.MeetingPoint.StartPlanedTime;
-  event.EndToTime     = drop.Trip.MeetingPoint.EndPlanedTime;
+  event.FromDate      = pick.MeetingPoint.PlanedDate;
+  event.StartFromTime = pick.MeetingPoint.StartPlanedTime;
+  event.EndFromTime   = pick.MeetingPoint.EndPlanedTime;
+  event.ToDate        = drop.MeetingPoint.PlanedDate;
+  event.StartToTime   = drop.MeetingPoint.StartPlanedTime;
+  event.EndToTime     = drop.MeetingPoint.EndPlanedTime;
   event.Notes = TransformTripToNotes (pick, drop);
   return event;
 }
@@ -45,7 +45,7 @@ function TransformTicketToEvent (pick, drop) {
 function Search (backlog, missionId) {
   const result = [];
   for (var ticket of backlog.Tickets) {
-    if (ticket.Trip.MissionId === missionId) {
+    if (ticket.MissionId === missionId) {
       result.push (ticket);
     }
   }
@@ -60,9 +60,9 @@ function Transform (data) {
   events.Events = [];
   const hash = new Map ();
   for (var ticket of data.Backlog.Tickets) {
-    if (!hash.has (ticket.Trip.MissionId)) {
-      hash.set (ticket.Trip.MissionId);
-      const s = Search (data.Backlog, ticket.Trip.MissionId);
+    if (!hash.has (ticket.MissionId)) {
+      hash.set (ticket.MissionId);
+      const s = Search (data.Backlog, ticket.MissionId);
       if (s.length === 2) {
         const event = TransformTicketToEvent (s[0], s[1]);
         events.Events.push (event);

@@ -30,11 +30,11 @@ function TransformTicketToEvent (name, ticket, theme) {
   const event = {};
   const direction = TicketHelpers.getDirectionGlyph (theme, ticket.Type);
   event.Group    = name;
-  event.FromTime = ticket.Trip.MeetingPoint.StartPlanedTime;
+  event.FromTime = ticket.MeetingPoint.StartPlanedTime;
   event.ToDate   = name;
-  event.ToTime   = ticket.Trip.MeetingPoint.EndPlanedTime;
-  event.Note     = TransformMeetingPointToNote (ticket.Type, ticket.Trip.MeetingPoint, theme);
-  event.Link     = ticket.Trip.MissionId;
+  event.ToTime   = ticket.MeetingPoint.EndPlanedTime;
+  event.Note     = TransformMeetingPointToNote (ticket.Type, ticket.MeetingPoint, theme);
+  event.Link     = ticket.MissionId;
   event.Color    = direction.color;
   return event;
 }

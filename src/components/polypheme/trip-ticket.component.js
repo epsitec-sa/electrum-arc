@@ -88,11 +88,11 @@ export default class TripTicket extends React.Component {
   //  By example, pick and drop to a trip, or 4 tickets if has transit.
   setLinkToAll (link) {
     const ticket = this.read ('ticket');
-    const missionId = ticket.Trip.MissionId;
+    const missionId = ticket.MissionId;
     if (missionId) {
       for (var tripTicket of window.document.tripTickets) {
         const t = tripTicket.read ('ticket');
-        const m = t.Trip.MissionId;
+        const m = t.MissionId;
         if (missionId === m) {
           tripTicket.setLink (link);
         }
@@ -276,11 +276,11 @@ export default class TripTicket extends React.Component {
     return (
       <Container kind='row' grow='1' {...this.link ()} >
         <Container kind='thin-column' border='right' width='10px' {...this.link ()} >
-          <Gauge value={ticket.Trip.Urgency} {...this.link ()} />
+          <Gauge value={ticket.Urgency} {...this.link ()} />
         </Container>
         <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
-          {this.renderMeetingPoint ('pick', ticket.Type === 'pick' ? ticket.Trip.MeetingPoint : null, 'bottom')}
-          {this.renderMeetingPoint ('drop', ticket.Type === 'drop' ? ticket.Trip.MeetingPoint : null, null)}
+          {this.renderMeetingPoint ('pick', ticket.Type === 'pick' ? ticket.MeetingPoint : null, 'bottom')}
+          {this.renderMeetingPoint ('drop', ticket.Type === 'drop' ? ticket.MeetingPoint : null, null)}
         </Container>
         <Container kind='thin-column' border='right' width='110px' {...this.link ()} >
           <Container kind='thin-row' grow='1' {...this.link ()} >
@@ -296,20 +296,20 @@ export default class TripTicket extends React.Component {
               <Label text='total' font-size={dimmedSize} text-color={dimmedColor} {...this.link ()} />
             </Container>
             <Container kind='thin-row' grow='3' {...this.link ()} >
-              <Label text={ticket.Trip.Weight} justify='right' grow='1' wrap='no' {...this.link ()} />
+              <Label text={ticket.Weight} justify='right' grow='1' wrap='no' {...this.link ()} />
             </Container>
           </Container>
         </Container>
         <Container kind='thin-column' width='90px' {...this.link ()} >
           <Container kind='thin-row' grow='1' {...this.link ()} >
-            <Label text={ticket.Trip.Price} justify='right' grow='1' wrap='no' {...this.link ()} />
+            <Label text={ticket.NetPrice} justify='right' grow='1' wrap='no' {...this.link ()} />
           </Container>
           <Container kind='thin-row' grow='1' {...this.link ()} >
             <Container kind='thin-row' grow='2' {...this.link ()} >
             </Container>
             <Container kind='thin-row' grow='3' {...this.link ()} >
               <Label grow='1' {...this.link ()} />
-              {this.renderShortNotes (ticket.Trip.Notes)}
+              {this.renderShortNotes (ticket.Notes)}
             </Container>
           </Container>
         </Container>
@@ -320,11 +320,11 @@ export default class TripTicket extends React.Component {
   renderCompactedContent (ticket, directionGlyph, delivered) {
     let topTime, bottomTime;
     if (delivered) {
-      topTime    = ticket.Trip.MeetingPoint.RealisedTime;
+      topTime    = ticket.MeetingPoint.RealisedTime;
       bottomTime = null;
     } else {
-      topTime    = ticket.Trip.MeetingPoint.StartPlanedTime;
-      bottomTime = ticket.Trip.MeetingPoint.EndPlanedTime;
+      topTime    = ticket.MeetingPoint.StartPlanedTime;
+      bottomTime = ticket.MeetingPoint.EndPlanedTime;
     }
     return (
       <Container kind='ticket-column' grow='1' {...this.link ()} >
@@ -332,14 +332,14 @@ export default class TripTicket extends React.Component {
         <Container kind='ticket-row' margin-bottom='-10px' {...this.link ()} >
           <Label text={Converters.getDisplayedTime (topTime)} font-weight='bold' width='50px' {...this.link ()} />
           <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
-          <Label text={ticket.Trip.MeetingPoint.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
+          <Label text={ticket.MeetingPoint.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
         </Container>
         <Container kind='ticket-row' {...this.link ()} >
           <Label text={Converters.getDisplayedTime (bottomTime)} font-weight='bold' width='50px' {...this.link ()} />
           <Label text='' width='25px' {...this.link ()} />
           <Label glyph='cube' spacing='compact' {...this.link ()} />
           <Label text={TicketHelpers.getPackageCount (ticket)} grow='1' {...this.link ()} />
-          {this.renderNoteGlyphs (ticket.Trip.MeetingPoint.Notes)}
+          {this.renderNoteGlyphs (ticket.MeetingPoint.Notes)}
         </Container>
       </Container>
     );
@@ -348,9 +348,9 @@ export default class TripTicket extends React.Component {
   renderExtendedContent (ticket, directionGlyph, delivered) {
     let topTime;
     if (delivered) {
-      topTime = ticket.Trip.MeetingPoint.RealisedTime;
+      topTime = ticket.MeetingPoint.RealisedTime;
     } else {
-      topTime = ticket.Trip.MeetingPoint.StartPlanedTime;
+      topTime = ticket.MeetingPoint.StartPlanedTime;
     }
     return (
       <Container kind='ticket-column' grow='1' {...this.link ()} >
@@ -358,15 +358,15 @@ export default class TripTicket extends React.Component {
         <Container kind='ticket-row' {...this.link ()} >
           <Label text={Converters.getDisplayedTime (topTime)} font-weight='bold' width='50px' {...this.link ()} />
           <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
-          <Label text={ticket.Trip.MeetingPoint.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
+          <Label text={ticket.MeetingPoint.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
         </Container>
-        {this.renderLine ('building', ticket.Trip.MeetingPoint.LongDescription)}
-        {this.renderLine ('map-marker', ticket.Trip.MeetingPoint.Zone)}
-        {this.renderNotes (ticket.Trip.MeetingPoint.Notes)}
+        {this.renderLine ('building', ticket.MeetingPoint.LongDescription)}
+        {this.renderLine ('map-marker', ticket.MeetingPoint.Zone)}
+        {this.renderNotes (ticket.MeetingPoint.Notes)}
         {this.renderLine ('cube', TicketHelpers.getPackageDescription (ticket))}
-        {this.renderLine ('money', ticket.Trip.MeetingPoint.Price)}
+        {this.renderLine ('money', ticket.MeetingPoint.NetPrice)}
         {this.renderLine ('info-circle', TicketHelpers.getStatusDescription (ticket))}
-        {this.renderNotes (ticket.Trip.MeetingPoint.Notes)}
+        {this.renderNotes (ticket.MeetingPoint.Notes)}
       </Container>
     );
   }

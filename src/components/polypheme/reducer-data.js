@@ -125,7 +125,7 @@ function deleteTicket (state, tickets, ticket) {
 function getMissions (tickets) {
   const result = new Map ();
   for (var ticket of tickets) {
-    const missionId = ticket.Trip.MissionId;
+    const missionId = ticket.MissionId;
     if (result.has (missionId)) {
       result.get (missionId).push (ticket);
     } else {
@@ -170,7 +170,7 @@ function isTicketIntoTray (state, missionId) {
   return Enumerable
     .from (state.Desk)
     .selectMany (tray => tray.Tickets)
-    .where (ticket => ticket.Trip.MissionId === missionId)
+    .where (ticket => ticket.MissionId === missionId)
     .any ();
 }
 
@@ -179,22 +179,22 @@ function getNewTransit (state, ticket) {
   const n = clone (state, ticket);
   if (n.Type.startsWith ('pick')) {
     n.Type = 'drop-transit';
-    n.Trip.MeetingPoint.LongDescription = null;
-    n.Trip.MeetingPoint.Notes = [];
-    n.Trip.MeetingPoint.PlanedDate      = ticket.Trip.MeetingPoint.PlanedDate;
-    n.Trip.MeetingPoint.StartPlanedTime = ticket.Trip.MeetingPoint.StartPlanedTime;
-    n.Trip.MeetingPoint.EndPlanedTime   = ticket.Trip.MeetingPoint.EndPlanedTime;
-    n.Trip.MeetingPoint.ShortDescription = 'Inconnu';
-    n.Trip.MeetingPoint.Zone = null;
+    n.MeetingPoint.LongDescription = null;
+    n.MeetingPoint.Notes = [];
+    n.MeetingPoint.PlanedDate      = ticket.MeetingPoint.PlanedDate;
+    n.MeetingPoint.StartPlanedTime = ticket.MeetingPoint.StartPlanedTime;
+    n.MeetingPoint.EndPlanedTime   = ticket.MeetingPoint.EndPlanedTime;
+    n.MeetingPoint.ShortDescription = 'Inconnu';
+    n.MeetingPoint.Zone = null;
   } else if (n.Type.startsWith ('drop')) {
     n.Type = 'pick-transit';
-    n.Trip.MeetingPoint.LongDescription = null;
-    n.Trip.MeetingPoint.Notes = [];
-    n.Trip.MeetingPoint.PlanedDate      = ticket.Trip.MeetingPoint.PlanedDate;
-    n.Trip.MeetingPoint.StartPlanedTime = ticket.Trip.MeetingPoint.StartPlanedTime;
-    n.Trip.MeetingPoint.EndPlanedTime   = ticket.Trip.MeetingPoint.EndPlanedTime;
-    n.Trip.MeetingPoint.ShortDescription = 'Inconnu';
-    n.Trip.MeetingPoint.Zone = null;
+    n.MeetingPoint.LongDescription = null;
+    n.MeetingPoint.Notes = [];
+    n.MeetingPoint.PlanedDate      = ticket.MeetingPoint.PlanedDate;
+    n.MeetingPoint.StartPlanedTime = ticket.MeetingPoint.StartPlanedTime;
+    n.MeetingPoint.EndPlanedTime   = ticket.MeetingPoint.EndPlanedTime;
+    n.MeetingPoint.ShortDescription = 'Inconnu';
+    n.MeetingPoint.Zone = null;
   }
   return n;
 }
@@ -288,8 +288,8 @@ function sortTicket (a, b) {
   const sb = getSortingTicketOrder (b).toString ();
   if (sa === sb) {
     // If they have the same type, sort chronologically.
-    const ta = Converters.getFormatedTime (a.Trip.MeetingPoint.StartPlanedTime);
-    const tb = Converters.getFormatedTime (b.Trip.MeetingPoint.StartPlanedTime);
+    const ta = Converters.getFormatedTime (a.MeetingPoint.StartPlanedTime);
+    const tb = Converters.getFormatedTime (b.MeetingPoint.StartPlanedTime);
     return ta.localeCompare (tb);
   } else {
     return sa.localeCompare (sb);
@@ -302,11 +302,11 @@ function getSorteTicketsFromMissionId (state, missionId) {
   const roadbookTickets = Enumerable
     .from (state.Roadbooks)
     .selectMany (roadbook => roadbook.Tickets)
-    .where (ticket => ticket.Trip.MissionId === missionId);
+    .where (ticket => ticket.MissionId === missionId);
   const trayTickets = Enumerable
     .from (state.Desk)
     .selectMany (tray => tray.Tickets)
-    .where (ticket => ticket.Trip.MissionId === missionId);
+    .where (ticket => ticket.MissionId === missionId);
   return roadbookTickets.union (trayTickets).toArray ().sort (sortTicket);
 }
 
@@ -318,7 +318,7 @@ function setOrder (state, ticket, order) {
 
 function updateListOrders (state, list) {
   Enumerable.from (list).where (ticket => ticket.Type === 'pick').forEach (ticket => {
-    const tickets = getSorteTicketsFromMissionId (state, ticket.Trip.MissionId);
+    const tickets = getSorteTicketsFromMissionId (state, ticket.MissionId);
     for (let i = 0; i < tickets.length; i++) {
       const t = tickets[i];
       setOrder (state, t, i);
@@ -368,7 +368,7 @@ function updateShape (state, list, isBacklog) {
     if (!isBacklog) {
       if (i < list.Tickets.length - 1) {
         const other = list.Tickets[i + 1];
-        if (ticket.Trip.MissionId === other.Trip.MissionId &&
+        if (ticket.MissionId === other.MissionId &&
           ticket.Type.startsWith ('pick') &&
           other.Type.startsWith ('drop')) {  // pick following by drop ?
           shape = 'first';
@@ -376,7 +376,7 @@ function updateShape (state, list, isBacklog) {
       }
       if (i > 0) {
         const other = list.Tickets[i - 1];
-        if (ticket.Trip.MissionId === other.Trip.MissionId &&
+        if (ticket.MissionId === other.MissionId &&
           ticket.Type.startsWith ('drop') &&
           other.Type.startsWith ('pick')) {  // drop preceded by pick ?
           shape = 'last';
@@ -474,7 +474,7 @@ function deleteMission (state, missionId) {
     .from (state.Roadbooks)
     .forEach (roadbook => Enumerable
       .from (roadbook.Tickets)
-      .where (ticket => ticket.Trip.MissionId === missionId)
+      .where (ticket => ticket.MissionId === missionId)
       .toArray ()
       .forEach (ticket => deleteTicket (state, roadbook.Tickets, ticket))
     );
@@ -482,7 +482,7 @@ function deleteMission (state, missionId) {
     .from (state.Desk)
     .forEach (roadbook => Enumerable
       .from (roadbook.Tickets)
-      .where (ticket => ticket.Trip.MissionId === missionId)
+      .where (ticket => ticket.MissionId === missionId)
       .toArray ()
       .forEach (ticket => deleteTicket (state, roadbook.Tickets, ticket))
     );
@@ -497,7 +497,7 @@ function dropGeneric (state, flashes, warnings, from, to) {
 
   // Delete the source.
   // if (to.kind === 'backlog' || from.kind === 'backlog') {
-  //   deleteMission (state, ticket.Trip.MissionId);
+  //   deleteMission (state, ticket.MissionId);
   // } else {
   deleteTicket (state, from.tickets, ticket);
   if (from.ownerId === to.ownerId && from.index < to.index) {
@@ -650,11 +650,11 @@ function setStatus (state, flashes, id, status, date, time) {
     ticket.Selected = 'false';
   }
   if (status === 'delivered') {
-    ticket.Trip.MeetingPoint.RealisedDate = date;
-    ticket.Trip.MeetingPoint.RealisedTime = time;
+    ticket.MeetingPoint.RealisedDate = date;
+    ticket.MeetingPoint.RealisedTime = time;
   } else {
-    ticket.Trip.MeetingPoint.RealisedDate = Converters.getEmptyDate ();
-    ticket.Trip.MeetingPoint.RealisedTime = Converters.getEmptyTime ();
+    ticket.MeetingPoint.RealisedDate = Converters.getEmptyDate ();
+    ticket.MeetingPoint.RealisedTime = Converters.getEmptyTime ();
   }
   tickets[index] = regen (state, ticket);
   flashes.push (tickets[index].id);
@@ -696,7 +696,7 @@ function changeStatusNecessary (ascending, refTicket, otherTicket, newStatus) {
 // Change the status of (almost) all tickets, according to subtle business rules.
 function setBothStatus (state, flashes, ticket, currentStatus, newStatus, date, time) {
   const ascending = getStatusIndex (currentStatus) < getStatusIndex (newStatus);
-  const tickets = getSorteTicketsFromMissionId (state, ticket.Trip.MissionId);
+  const tickets = getSorteTicketsFromMissionId (state, ticket.MissionId);
   for (var otherTicket of tickets) {
     if (changeStatusNecessary (ascending, ticket, otherTicket, newStatus)) {
       setStatus (state, flashes, otherTicket.id, newStatus, date, time);

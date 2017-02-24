@@ -67,7 +67,7 @@ export default class TripDeliver extends React.Component {
   }
 
   getTrip (ticket) {
-    return ticket.Trip.MeetingPoint;
+    return ticket.MeetingPoint;
   }
 
   onMyChange (e) {

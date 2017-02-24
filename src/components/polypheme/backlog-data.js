@@ -55,32 +55,32 @@ function getFilterItems () {
 // --------------------------------------------------------------------------------------------------------------------
 
 function sortTime (a, b) {
-  const ta = Converters.getFormatedTime (a.Trip.MeetingPoint.StartPlanedTime);
-  const tb = Converters.getFormatedTime (b.Trip.MeetingPoint.StartPlanedTime);
+  const ta = Converters.getFormatedTime (a.MeetingPoint.StartPlanedTime);
+  const tb = Converters.getFormatedTime (b.MeetingPoint.StartPlanedTime);
   return ta.localeCompare (tb);
 }
 
 function sortZone (a, b) {
-  const ta = a.Trip.MeetingPoint.Zone;
-  const tb = b.Trip.MeetingPoint.Zone;
+  const ta = a.MeetingPoint.Zone;
+  const tb = b.MeetingPoint.Zone;
   return ta.localeCompare (tb);
 }
 
 function sortProduct (a, b) {
-  const ta = a.Trip.Product;
-  const tb = b.Trip.Product;
+  const ta = a.Product;
+  const tb = b.Product;
   return ta.localeCompare (tb);
 }
 
 function sortPrice (a, b) {
-  const ta = a.Trip.Price;
-  const tb = b.Trip.Price;
+  const ta = a.NetPrice;
+  const tb = b.NetPrice;
   return tb.localeCompare (ta);
 }
 
 function sortWeight (a, b) {
-  const ta = a.Trip.Weight;
-  const tb = b.Trip.Weight;
+  const ta = a.Weight;
+  const tb = b.Weight;
   return tb.localeCompare (ta);
 }
 
@@ -88,12 +88,12 @@ function isFiltered (data, ticket) {
   if (data.BacklogFilter === 'all') {
     return false;
   } else {
-    if (!ticket.Trip || !ticket.Trip.Product) {
+    if (!ticket.Product) {
       return true;
     } else if (data.BacklogFilter === 'dringDring') {
-      return ticket.Trip.Product.indexOf ('dring') === -1;
+      return ticket.Product.indexOf ('dring') === -1;
     } else if (data.BacklogFilter === 'urgent') {
-      return ticket.Trip.Product !== 'Urgent';
+      return ticket.Product !== 'Urgent';
     }
     return false;
   }
