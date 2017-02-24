@@ -15,9 +15,6 @@ export default function styles (theme, props) {
   let flexBasis   = null;
   let marginRight = '0px';
 
-  if (!flexGrow) {
-    flexGrow = 1;
-  }
   if (flexGrow) {
     flexShrink = '1';
     flexBasis  = '0%';
@@ -34,7 +31,7 @@ export default function styles (theme, props) {
     flexDirection:  'row',
     justifyContent: 'flex-start',
     alignItems:     'center',
-    maxWidth:       inputWidth,
+    width:          inputWidth,
     flexGrow:       flexGrow,
     flexShrink:     flexShrink,
     flexBasis:      flexBasis,

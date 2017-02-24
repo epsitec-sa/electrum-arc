@@ -78,19 +78,23 @@ export default class ChronoLabel extends React.Component {
   }
 
   renderGlyphs (note) {
-    const result = [];
-    let index = 0;
-    for (var glyph of note.Glyphs) {
-      result.push (this.renderGlyph (glyph, index++));
+    if (note) {
+      const result = [];
+      let index = 0;
+      for (var glyph of note.Glyphs) {
+        result.push (this.renderGlyph (glyph, index++));
+      }
+      return result;
+    } else {
+      return null;
     }
-    return result;
   }
 
   render () {
     const index = this.read ('index');
     const note  = this.read ('note');
 
-    const text = note.Content;
+    const text = note ? note.Content : null;
 
     const lineStyle   = this.mergeStyles ('line');
     const glyphsStyle = this.mergeStyles ('glyphs');

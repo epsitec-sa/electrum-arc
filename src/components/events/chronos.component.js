@@ -361,6 +361,7 @@ export default class Chronos extends React.Component {
         event      = {event}
         lineWidth  = {lineWidth}
         glyphWidth = {glyphWidth}
+        notesCount = {this.flatFilteredData.notesCount}
         minHour    = {this.flatFilteredData.minHour}
         maxHour    = {this.flatFilteredData.maxHour}
         mouseOver  = {e => this.mouseOver (e)}

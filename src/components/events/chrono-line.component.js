@@ -77,13 +77,18 @@ export default class ChronoLine extends React.Component {
 
   renderLabels (event) {
     const result = [];
+    const notesCount = this.read ('notesCount');
     let index = 0;
     if (event.Note) {  // only one note ?
-      result.push (this.renderLabel (event.Note));
+      result.push (this.renderLabel (event.Note, index++));
     } else if (event.Notes) {  // collection of notes ?
       for (var note of event.Notes) {
         result.push (this.renderLabel (note, index++));
       }
+    }
+    const len = notesCount - index;
+    for (let i = 0; i < len; i++) {
+      result.push (this.renderLabel (null, index++));
     }
     return result;
   }

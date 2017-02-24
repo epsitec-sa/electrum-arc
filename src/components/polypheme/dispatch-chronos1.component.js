@@ -7,7 +7,7 @@ import {
   Chronos
 } from '../../all-components.js';
 
-function TransformmeetingPointToGlyphs (meetingPoint) {
+function TransformMeetingPointToGlyphs (meetingPoint) {
   const glyphs = [];
   for (let note of meetingPoint.Notes) {
     for (let glyph of note.Glyphs) {
@@ -20,17 +20,17 @@ function TransformmeetingPointToGlyphs (meetingPoint) {
 function TransformMeetingPointToNote (meetingPoint) {
   const note = {};
   note.Content = meetingPoint.ShortDescription;
-  note.Glyphs = TransformmeetingPointToGlyphs (meetingPoint);
+  note.Glyphs = TransformMeetingPointToGlyphs (meetingPoint);
   return note;
 }
 
-function TransformTripToNotes (pick, drop) {
+function TransformPickDropToNotes (pick, drop) {
   const n1 = TransformMeetingPointToNote (pick.MeetingPoint);
   const n2 = TransformMeetingPointToNote (drop.MeetingPoint);
   return [n1, n2];
 }
 
-function TransformTicketToEvent (pick, drop) {
+function TransformPickDropToEvent (pick, drop) {
   const event = {};
   event.FromDate      = pick.MeetingPoint.PlanedDate;
   event.StartFromTime = pick.MeetingPoint.StartPlanedTime;
@@ -38,7 +38,19 @@ function TransformTicketToEvent (pick, drop) {
   event.ToDate        = drop.MeetingPoint.PlanedDate;
   event.StartToTime   = drop.MeetingPoint.StartPlanedTime;
   event.EndToTime     = drop.MeetingPoint.EndPlanedTime;
-  event.Notes = TransformTripToNotes (pick, drop);
+  event.Notes         = TransformPickDropToNotes (pick, drop);
+  event.Link          = pick.MissionId;
+  return event;
+}
+
+function TransformTicketToEvent (ticket) {
+  const event = {};
+  event.FromDate      = ticket.MeetingPoint.PlanedDate;
+  event.ToDate        = ticket.MeetingPoint.PlanedDate;
+  event.FromTime      = ticket.MeetingPoint.StartPlanedTime;
+  event.ToTime        = ticket.MeetingPoint.EndPlanedTime;
+  event.Notes         = [TransformMeetingPointToNote (ticket.MeetingPoint)];
+  event.Link          = ticket.MissionId;
   return event;
 }
 
@@ -64,8 +76,13 @@ function Transform (data) {
       hash.set (ticket.MissionId);
       const s = Search (data.Backlog, ticket.MissionId);
       if (s.length === 2) {
-        const event = TransformTicketToEvent (s[0], s[1]);
+        const event = TransformPickDropToEvent (s[0], s[1]);
         events.Events.push (event);
+      } else {
+        for (var t of s) {
+          const event = TransformTicketToEvent (t);
+          events.Events.push (event);
+        }
       }
     }
   }

@@ -195,8 +195,9 @@ export default class DispatchBacklog extends React.Component {
           <TextFieldCombo
             hint-text   = 'Trier'
             combo-glyph = 'sort'
+            width       = '250px'
+            spacing     = 'large'
             value       = {this.getCurrentSortDescription (data)}
-            width       = '200px'
             list        = {this.getSortList (data)}
             {...this.link ()} />
           <CheckButton

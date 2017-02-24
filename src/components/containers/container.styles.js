@@ -331,7 +331,6 @@ export default function styles (theme, props) {
     minHeight       = h;
     display         = 'flex';
     flexDirection   = 'row';
-    justifyContent  = 'space-between';
     alignItems      = 'center';
     padding         = m + ' ' + m + ' 0px ' + m;
     margin          = '0px 0px ' + m + ' 0px';
