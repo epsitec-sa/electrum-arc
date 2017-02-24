@@ -8,6 +8,7 @@ import Enumerable from 'linq';
 import {
   Container,
   TextFieldCombo,
+  CheckButton,
   Trip
 } from '../../all-components.js';
 
@@ -23,6 +24,19 @@ export default class DispatchBacklog extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      distincts: false,
+    };
+  }
+
+  getDistincts () {
+    return this.state.distincts;
+  }
+
+  setDistincts (value) {
+    this.setState ( {
+      distincts: value
+    });
   }
 
   componentDidMount () {
@@ -139,36 +153,6 @@ export default class DispatchBacklog extends React.Component {
     return result;
   }
 
-  renderDistincts () {
-    const data = this.read ('data');
-
-    return (
-      <Container kind='view-stretch' {...this.link ()} >
-        <Container kind='pane-top' {...this.link ()} >
-          <TextFieldCombo
-            hint-text   = 'Trier'
-            combo-glyph = 'sort'
-            value       = {this.getCurrentSortDescription (data)}
-            width       = '200px'
-            list        = {this.getSortList (data)}
-            {...this.link ()} />
-        </Container>
-        <Container kind='panes' drag-parent={data.Backlog.id} {...this.link ()} >
-          <Container
-            kind            = 'wrap'
-            drag-controller = 'ticket'
-            drag-source     = 'backlog'
-            drag-mode       = 'all'
-            item-id         = {data.Backlog.id}
-            view-parent-id  = 'view-backlog'
-            {...this.link ()} >
-            {this.renderDistinctTickets (data)}
-          </Container>
-        </Container>
-      </Container>
-    );
-  }
-
   renderGroupedTicket (tickets, data, index) {
     const metaTicket = JSON.parse (JSON.stringify (tickets[0]));
     metaTicket.MeetingPoints = [];
@@ -201,8 +185,9 @@ export default class DispatchBacklog extends React.Component {
     return result;
   }
 
-  renderGrouped () {
+  render () {
     const data = this.read ('data');
+    const distincts = this.getDistincts ();
 
     return (
       <Container kind='view-stretch' {...this.link ()} >
@@ -214,25 +199,26 @@ export default class DispatchBacklog extends React.Component {
             width       = '200px'
             list        = {this.getSortList (data)}
             {...this.link ()} />
+          <CheckButton
+            kind            = 'switch'
+            checked         = {this.getDistincts () ? 'true' : 'false'}
+            custom-on-click = {() => this.setDistincts (!this.getDistincts ())}
+            text            = 'Séparés'
+            {...this.link ()} />
         </Container>
         <Container kind='panes' drag-parent={data.Backlog.id} {...this.link ()} >
           <Container
-            kind            = 'column'
+            kind            = {distincts ? 'wrap' : 'column'}
             drag-controller = 'ticket'
             drag-source     = 'backlog'
             drag-mode       = 'all'
             item-id         = {data.Backlog.id}
             view-parent-id  = 'view-backlog'
             {...this.link ()} >
-            {this.renderGroupedTickets (data)}
+            {distincts ? this.renderDistinctTickets (data) : this.renderGroupedTickets (data)}
           </Container>
         </Container>
       </Container>
     );
-  }
-
-  render () {
-    // return this.renderDistincts ();
-    return this.renderGrouped ();
   }
 }

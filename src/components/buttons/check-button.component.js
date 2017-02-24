@@ -12,7 +12,12 @@ export default class CheckButton extends React.Component {
   }
 
   buttonClicked (e) {
-    this.onClick (e);
+    const customOnClick = this.read ('custom-on-click');
+    if (customOnClick) {
+      customOnClick (e);
+    } else {
+      this.onClick (e);
+    }
   }
 
   render () {
