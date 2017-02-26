@@ -251,7 +251,7 @@ export default class TripTicket extends React.Component {
           <Container kind='thin-row' width='20px' {...this.link ()} >
             <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} {...this.link ()} />
           </Container>
-          <Container kind='thin-row' grow='1' {...this.link ()} >
+          <Container kind='thin-row' grow='1' width='0px' {...this.link ()} >
             <Label text={meetingPoint.ShortDescription} wrap='no' {...this.link ()} />
           </Container>
           <Container kind='thin-row' width='50px' {...this.link ()} >

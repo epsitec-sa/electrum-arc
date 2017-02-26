@@ -52,8 +52,7 @@ function getSplitterBacklogWidth () {
   if (state.SplitterBacklogWidth) {
     return state.SplitterBacklogWidth;
   } else {
-    // return '750px';  // default value
-    return '580px';  // default value
+    return '750px';  // default value
   }
 }
 
