@@ -1,4 +1,4 @@
-'use strict';
+/* global describe it */
 
 import {expect} from 'mai-chai';
 import Electrum from 'electrum';
@@ -14,7 +14,7 @@ class _Foo extends React.Component {
   }
 }
 
-const _Foo$styles = function (theme) {
+const _Foo$styles = function (/*theme*/) {
   return {
     base: {fontFamily: 'Verdana'},
     nice: {color: 'purple'},

@@ -1,4 +1,4 @@
-'use strict';
+/* global describe it */
 
 import {expect} from 'mai-chai';
 import {React, ReactDOMServer, Store, Theme} from 'electrum';
