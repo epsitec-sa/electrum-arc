@@ -1,21 +1,26 @@
-import {React} from 'electrum';
+import {React, State} from 'electrum';
 
 /******************************************************************************/
 
-function cloneChildren (children, state, theme) {
-  return React.Children.map (children, child => cloneChild (child, state, theme, child.props));
+function cloneChildren (children, state, theme, idMapper) {
+  return React.Children.map (children, child => cloneChild (child, state, theme, child.props, idMapper));
 }
 
-function cloneChild (child, state, theme, props) {
-  const {field, children, ...rest} = props;
+function cloneChild (child, state, theme, props, idMapper) {
+  let {field, children, id, ...rest} = props;
+
+  if (idMapper && id) {
+    id = idMapper (id);
+  }
 
   if (typeof child.type === 'string') {
     // This is a plain HTML element, such as <div> or <h1>. We do not want
     // to inject the state and the theme into plain HTML elementss, as they
     // don't make sense for them.
+    props = {id, ...rest};
     return (
       <child.type {...props}>
-        {cloneChildren (children, state, theme)}
+        {cloneChildren (children, state, theme, idMapper)}
       </child.type>
     );
   }
@@ -28,17 +33,17 @@ function cloneChild (child, state, theme, props) {
     // to inject the matching state here; usually, this is handled by the JSX
     // generator which replaces field='x' with {...this.link ('x')}
     state = state.find (field);
-    props = {state, theme, ...rest};
+    props = {id, state, theme, ...rest};
     return (
       <child.type {...props}>
-        {cloneChildren (children, state, theme)}
+        {cloneChildren (children, state, theme, idMapper)}
       </child.type>
     );
   } else {
-    props = {state, theme, ...rest};
+    props = {id, state, theme, ...rest};
     return (
       <child.type {...props}>
-        {cloneChildren (children, state, theme)}
+        {cloneChildren (children, state, theme, idMapper)}
       </child.type>
     );
   }
@@ -47,8 +52,9 @@ function cloneChild (child, state, theme, props) {
 /******************************************************************************/
 
 function injectChildren (arity, children, state, theme) {
+  const n = State.getArityIndex (arity);
   return React.Children.map (children,
-    child => cloneChild (child, state.find (arity), theme, {key: arity, ...child.props}));
+    child => cloneChild (child, state.find (arity), theme, {key: arity, ...child.props}, id => id + '.' + n));
 }
 
 /******************************************************************************/

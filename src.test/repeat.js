@@ -48,65 +48,116 @@ describe ('<Foo>', () => {
 /******************************************************************************/
 
 describe ('<Repeat>', () => {
-  it ('produces empty <div> from field state where arity=0', () => {
+  it ('produces empty <div> when arity=0', () => {
     const store = Store.create ();
     const state = store.select ('root.f');
-    const html  = ReactDOMServer.renderToStaticMarkup (<Repeat state={state} theme={theme} ><Foo id='i' field='value' bar='42'/></Repeat>);
+
+    const html = ReactDOMServer.renderToStaticMarkup (
+      <Repeat state={state} theme={theme}>
+        <Foo id='i' field='value' bar='42'/>
+      </Repeat>
+    );
+
     expect (html).to.equal ('<div></div>');
   });
-
-  it ('produces collection from field state where arity=2', () => {
+  it ('produces spans inside <div> when arity=2', () => {
     const store = Store.create ();
     store.select ('root.f$0.name').set ('value', 'x');
     store.select ('root.f$1.name').set ('value', 'y');
     const state = store.select ('root.f');
-    const html  = ReactDOMServer.renderToStaticMarkup (<Repeat state={state} theme={theme} ><Foo id='i' field='name' bar='42'/></Repeat>);
+
+    const html = ReactDOMServer.renderToStaticMarkup (
+      <Repeat state={state} theme={theme}>
+        <Foo id='i' field='name' bar='42'/>
+      </Repeat>
+    );
+
     expect (html).to.equal (
       '<div data-radium="true">' +
-      '<span data-radium="true">x/42/i</span>' +
-      '<span data-radium="true">y/42/i</span>' +
+      '<span data-radium="true">x/42/i.0</span>' +
+      '<span data-radium="true">y/42/i.1</span>' +
       '</div>'
     );
   });
-
-  it ('produces collection from field state where arity=2 (nested)', () => {
+  it ('produces spans inside <div> when arity=2 (no id)', () => {
     const store = Store.create ();
     store.select ('root.f$0.name').set ('value', 'x');
     store.select ('root.f$1.name').set ('value', 'y');
     const state = store.select ('root.f');
-    const html = ReactDOMServer.renderToStaticMarkup (<Repeat state={state} theme={theme} ><h1><Foo id='i' field='name' bar='42'/></h1></Repeat>);
+
+    const html = ReactDOMServer.renderToStaticMarkup (
+      <Repeat state={state} theme={theme}>
+        <Foo field='name' bar='42'/>
+      </Repeat>
+    );
+
     expect (html).to.equal (
       '<div data-radium="true">' +
-      '<h1 data-radium="true"><span data-radium="true">x/42/i</span></h1>' +
-      '<h1 data-radium="true"><span data-radium="true">y/42/i</span></h1>' +
+      '<span data-radium="true">x/42/</span>' +
+      '<span data-radium="true">y/42/</span>' +
       '</div>'
     );
   });
-
-  it ('produces collection from field state where arity=2 (nested, <Group>)', () => {
+  it ('produces spans inside <div> when arity=2 (nested state)', () => {
     const store = Store.create ();
     store.select ('root.f$0.name').set ('value', 'x');
     store.select ('root.f$1.name').set ('value', 'y');
     const state = store.select ('root.f');
-    const html  = ReactDOMServer.renderToStaticMarkup (<Repeat state={state} theme={theme} ><Group><Foo id='i' field='name' bar='42'/></Group></Repeat>);
+
+    const html = ReactDOMServer.renderToStaticMarkup (
+      <Repeat state={state} theme={theme}>
+        <h1>
+          <Foo id='i' field='name' bar='42'/>
+        </h1>
+      </Repeat>
+    );
+
     expect (html).to.equal (
       '<div data-radium="true">' +
-      '<h1 data-radium="true"><span data-radium="true">x/42/i</span></h1>' +
-      '<h1 data-radium="true"><span data-radium="true">y/42/i</span></h1>' +
+      '<h1 data-radium="true"><span data-radium="true">x/42/i.0</span></h1>' +
+      '<h1 data-radium="true"><span data-radium="true">y/42/i.1</span></h1>' +
       '</div>'
     );
   });
+  it ('produces spans inside <div> when arity=2 (nested state, <Group>)', () => {
+    const store = Store.create ();
+    store.select ('root.f$0.name').set ('value', 'x');
+    store.select ('root.f$1.name').set ('value', 'y');
+    const state = store.select ('root.f');
 
-  it ('produces collection from field state where arity=2 (nested deeply, <Group>)', () => {
+    const html = ReactDOMServer.renderToStaticMarkup (
+      <Repeat state={state} theme={theme}>
+        <Group>
+          <Foo id='i' field='name' bar='42'/>
+        </Group>
+      </Repeat>
+    );
+
+    expect (html).to.equal (
+      '<div data-radium="true">' +
+      '<h1 data-radium="true"><span data-radium="true">x/42/i.0</span></h1>' +
+      '<h1 data-radium="true"><span data-radium="true">y/42/i.1</span></h1>' +
+      '</div>'
+    );
+  });
+  it ('produces spans inside <div> when arity=2 (nested state, <Group> state-bound)', () => {
     const store = Store.create ();
     store.select ('root.f$0.grp.name').set ('value', 'x');
     store.select ('root.f$1.grp.name').set ('value', 'y');
     const state = store.select ('root.f');
-    const html = ReactDOMServer.renderToStaticMarkup (<Repeat state={state} theme={theme} ><Group field='grp'><Foo id='i' field='name' bar='42'/></Group></Repeat>);
+
+    const html = ReactDOMServer.renderToStaticMarkup (
+      <Repeat state={state} theme={theme}>
+        <Group field='grp'>
+          <Foo id='i' field='name' bar='42'/>
+        </Group>
+      </Repeat>
+    );
+
     expect (html).to.equal (
       '<div data-radium="true">' +
-      '<h1 data-radium="true"><span data-radium="true">x/42/i</span></h1>' +
-      '<h1 data-radium="true"><span data-radium="true">y/42/i</span></h1>' +
+      '<h1 data-radium="true"><span data-radium="true">x/42/i.0</span></h1>' +
+      '<h1 data-radium="true"><span data-radium="true">y/42/i.1</span></h1>' +
       '</div>'
     );
   });
