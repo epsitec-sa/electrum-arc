@@ -18,6 +18,7 @@ import _Footer from './components/containers/footer.component.js';
 import _Footer$styles from './components/containers/footer.styles.js';
 import _Ticket from './components/containers/ticket.component.js';
 import _Ticket$styles from './components/containers/ticket.styles.js';
+import _Repeat from './components/control-flow/repeat.component.js';
 import _DragCab from './components/drag-and-drop/drag-cab.component.js';
 import _DragCarrier from './components/drag-and-drop/drag-carrier.component.js';
 import _ChronoBar from './components/events/chrono-bar.component.js';
@@ -103,6 +104,7 @@ export const Container = Electrum.wrap ('Container', _Container, {styles: _Conta
 export const Dialog = Electrum.wrap ('Dialog', _Dialog, {styles: _Dialog$styles});
 export const Footer = Electrum.wrap ('Footer', _Footer, {styles: _Footer$styles});
 export const Ticket = Electrum.wrap ('Ticket', _Ticket, {styles: _Ticket$styles});
+export const Repeat = Electrum.wrap ('Repeat', _Repeat);
 export const DragCab = Electrum.wrap ('DragCab', _DragCab);
 export const DragCarrier = Electrum.wrap ('DragCarrier', _DragCarrier);
 export const ChronoBar = Electrum.wrap ('ChronoBar', _ChronoBar, {styles: _ChronoBar$styles});
