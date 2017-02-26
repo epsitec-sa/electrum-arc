@@ -264,6 +264,7 @@ function checkOrders (state, flashes, warnings) {
 //  Type = 'drop-transit'  -> 2
 //  Type = 'pick-transit'  -> 3
 //  Type = 'drop'          -> 4
+//  Type = 'task'          -> 5
 function getSortingTicketOrder (ticket) {
   const type = ticket.Type;
   if (type.startsWith ('pick')) {
@@ -279,7 +280,7 @@ function getSortingTicketOrder (ticket) {
       return 4;
     }
   } else {
-    throw new Error (`Unknown sorted type ${type}`);
+    return 5;
   }
 }
 
