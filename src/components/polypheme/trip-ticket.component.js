@@ -243,7 +243,7 @@ export default class TripTicket extends React.Component {
       const dimmedSize     = this.props.theme.shapes.ticketDimmedSize;
 
       return (
-        <Container kind='thin-row' border={border} grow='1' {...this.link ()} >
+        <Container index={index} kind='thin-row' border={border} grow='1' {...this.link ()} >
           <Container kind='thin-row' width='120px' {...this.link ()} >
             <Label text={this.getPeriod (meetingPoint.StartPlanedTime, meetingPoint.EndPlanedTime)}
               font-weight='bold' wrap='no' {...this.link ()} />
@@ -265,7 +265,7 @@ export default class TripTicket extends React.Component {
       );
     } else {
       return (
-        <Container kind='thin-row' border={border} grow='1' {...this.link ()} >
+        <Container index={index} kind='thin-row' border={border} grow='1' {...this.link ()} >
         </Container>
       );
     }

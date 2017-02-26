@@ -163,6 +163,7 @@ export default class Container extends React.Component {
     const navName = this.read ('navigation-name');
     const hidden  = this.read ('hidden');
     const show    = this.read ('show');
+    const index   = this.read ('index');
 
     const boxStyle      = this.mergeStyles ('box');
     const triangleStyle = this.mergeStyles ('triangle');
@@ -182,6 +183,7 @@ export default class Container extends React.Component {
     } else if (kind === 'flying-balloon') {
       return (
         <div
+          key      = {index}
           disabled = {disabled}
           style    = {boxStyle}
           id       = {anchor}
@@ -195,6 +197,7 @@ export default class Container extends React.Component {
     } else {
       return (
         <div
+          key                  = {index}
           disabled             = {disabled}
           style                = {boxStyle}
           id                   = {anchor}
