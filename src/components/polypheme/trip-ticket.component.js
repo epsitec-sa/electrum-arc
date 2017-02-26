@@ -384,6 +384,7 @@ export default class TripTicket extends React.Component {
   renderMetaTicket (ticket) {
     const data              = this.read ('data');
     const parentKind        = this.read ('kind');
+    const shape             = this.read ('shape');
     const noDrag            = this.read ('no-drag');
     const verticalSpacing   = this.read ('vertical-spacing');
     const horizontalSpacing = this.read ('horizontal-spacing');
@@ -419,6 +420,21 @@ export default class TripTicket extends React.Component {
       color = this.props.theme.palette.ticketDragAndDropShadow;
     }
 
+    let hoverShape = null;
+    if (this.getLink () && !isDragged && !hasHeLeft) {
+      if (ticket.MeetingPoints.length === 1) {
+        if (ticket.Type.startsWith ('pick')) {
+          hoverShape = 'first';
+        } else if (ticket.Type.startsWith ('drop')) {
+          hoverShape = 'last';
+        } else {
+          hoverShape = 'normal';
+        }
+      } else {
+        hoverShape = 'normal';
+      }
+    }
+
     return (
       <Ticket
         width              = {width}
@@ -428,6 +444,8 @@ export default class TripTicket extends React.Component {
         color              = {color}
         kind               = {kind}
         hatch              = {hatch}
+        shape              = {shape}
+        hover-shape        = {hoverShape}
         cursor             = {cursor}
         hud-glyph          = {this.getHudGlyph (data, ticket)}
         hide-content       = {hasHeLeft && !isDragged ? 'true' : 'false'}
