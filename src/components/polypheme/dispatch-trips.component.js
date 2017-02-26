@@ -47,7 +47,8 @@ export default class DispatchTrips extends React.Component {
           key        = {index}
           kind       = 'trip-box'
           source     = 'backlog'
-          metaTicket = {m}
+          ticket     = {m}
+          metaTicket = 'true'
           data       = {data}
           {...this.link ()} />
       );

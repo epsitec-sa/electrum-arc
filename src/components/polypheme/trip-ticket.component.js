@@ -87,14 +87,12 @@ export default class TripTicket extends React.Component {
   //  Update state.link to all tickets linked.
   //  By example, pick and drop to a trip, or 4 tickets if has transit.
   setLinkToAll (link) {
-    const ticket     = this.read ('ticket');
-    const metaTicket = this.read ('metaTicket');
-    const missionId  = metaTicket ? metaTicket.MissionId : ticket.MissionId;
+    const ticket    = this.read ('ticket');
+    const missionId = ticket.MissionId;
     if (missionId) {
       for (var tripTicket of window.document.tripTickets) {
         const t = tripTicket.read ('ticket');
-        const u = tripTicket.read ('metaTicket');
-        const m = u ? u.MissionId : t.MissionId;
+        const m = t.MissionId;
         if (missionId === m) {
           tripTicket.setLink (link);
         }
@@ -251,7 +249,7 @@ export default class TripTicket extends React.Component {
           <Container kind='thin-row' width='20px' {...this.link ()} >
             <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} {...this.link ()} />
           </Container>
-          <Container kind='thin-row' grow='1' width='0px' {...this.link ()} >
+          <Container kind='thin-row' grow='1' width='100px' {...this.link ()} >
             <Label text={meetingPoint.ShortDescription} wrap='no' {...this.link ()} />
           </Container>
           <Container kind='thin-row' width='50px' {...this.link ()} >
@@ -282,17 +280,17 @@ export default class TripTicket extends React.Component {
     return result;
   }
 
-  renderTripBoxContent (metaTicket) {
+  renderTripBoxContent (ticket) {
     const dimmedColor = this.props.theme.palette.ticketDimmed;
     const dimmedSize  = this.props.theme.shapes.ticketDimmedSize;
 
     return (
       <Container kind='row' grow='1' {...this.link ()} >
         <Container kind='thin-column' border='right' width='10px' {...this.link ()} >
-          <Gauge value={metaTicket.Urgency} {...this.link ()} />
+          <Gauge value={ticket.Urgency} {...this.link ()} />
         </Container>
         <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
-          {this.renderMeetingPoints (metaTicket.MeetingPoints, 'bottom')}
+          {this.renderMeetingPoints (ticket.MeetingPoints, 'bottom')}
         </Container>
         <Container kind='thin-column' border='right' width='110px' {...this.link ()} >
           <Container kind='thin-row' grow='1' {...this.link ()} >
@@ -300,7 +298,7 @@ export default class TripTicket extends React.Component {
               <Label glyph='cube' glyph-color={dimmedColor} {...this.link ()} />
             </Container>
             <Container kind='thin-row' grow='3' {...this.link ()} >
-              <Label text={TicketHelpers.getPackageCount (metaTicket)} justify='right' grow='1' wrap='no' {...this.link ()} />
+              <Label text={TicketHelpers.getPackageCount (ticket)} justify='right' grow='1' wrap='no' {...this.link ()} />
             </Container>
           </Container>
           <Container kind='thin-row' grow='1' {...this.link ()} >
@@ -308,20 +306,20 @@ export default class TripTicket extends React.Component {
               <Label text='total' font-size={dimmedSize} text-color={dimmedColor} {...this.link ()} />
             </Container>
             <Container kind='thin-row' grow='3' {...this.link ()} >
-              <Label text={metaTicket.Weight} justify='right' grow='1' wrap='no' {...this.link ()} />
+              <Label text={ticket.Weight} justify='right' grow='1' wrap='no' {...this.link ()} />
             </Container>
           </Container>
         </Container>
         <Container kind='thin-column' width='90px' {...this.link ()} >
           <Container kind='thin-row' grow='1' {...this.link ()} >
-            <Label text={metaTicket.NetPrice} justify='right' grow='1' wrap='no' {...this.link ()} />
+            <Label text={ticket.NetPrice} justify='right' grow='1' wrap='no' {...this.link ()} />
           </Container>
           <Container kind='thin-row' grow='1' {...this.link ()} >
             <Container kind='thin-row' grow='2' {...this.link ()} >
             </Container>
             <Container kind='thin-row' grow='3' {...this.link ()} >
               <Label grow='1' {...this.link ()} />
-              {this.renderShortNotes (metaTicket.Notes)}
+              {this.renderShortNotes (ticket.Notes)}
             </Container>
           </Container>
         </Container>
@@ -383,7 +381,7 @@ export default class TripTicket extends React.Component {
     );
   }
 
-  renderMetaTicket (metaTicket) {
+  renderMetaTicket (ticket) {
     const data              = this.read ('data');
     const parentKind        = this.read ('kind');
     const noDrag            = this.read ('no-drag');
@@ -399,16 +397,16 @@ export default class TripTicket extends React.Component {
     const extended  = false;
     const kind      = 'thin';
     const width     = null;
-    const height    = Unit.multiply (this.props.theme.shapes.tripBoxHeight, metaTicket.MeetingPoints.length);
+    const height    = Unit.multiply (this.props.theme.shapes.tripBoxHeight, ticket.MeetingPoints.length);
 
     let color = this.props.theme.palette.ticketBackground;
-    if (metaTicket.Flash === 'true' && !isDragged) {
+    if (ticket.Flash === 'true' && !isDragged) {
       color = this.props.theme.palette.ticketFlashBackground;
     }
     if (delivered) {
       color = this.props.theme.palette.ticketDeliveredBackground;
     }
-    if (metaTicket.Warning && !isDragged) {
+    if (ticket.Warning && !isDragged) {
       color = this.props.theme.palette.ticketWarningBackground;
     }
     if (this.getHover () && !isDragged) {
@@ -431,11 +429,12 @@ export default class TripTicket extends React.Component {
         kind               = {kind}
         hatch              = {hatch}
         cursor             = {cursor}
+        hud-glyph          = {this.getHudGlyph (data, ticket)}
         hide-content       = {hasHeLeft && !isDragged ? 'true' : 'false'}
         mouse-over         = {() => this.mouseOver ()}
         mouse-out          = {() => this.mouseOut ()}
         {...this.link ()} >
-        {this.renderTripBoxContent (metaTicket)}
+        {this.renderTripBoxContent (ticket)}
       </Ticket>
     );
   }
@@ -537,10 +536,10 @@ export default class TripTicket extends React.Component {
   render () {
     const ticket     = this.read ('ticket');
     const metaTicket = this.read ('metaTicket');
-    if (ticket) {
+    if (metaTicket === 'true') {
+      return this.renderMetaTicket (ticket);
+    } else {
       return this.renderTicket (ticket);
-    } else if (metaTicket) {
-      return this.renderMetaTicket (metaTicket);
     }
   }
 }

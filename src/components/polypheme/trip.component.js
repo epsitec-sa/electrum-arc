@@ -272,7 +272,7 @@ export default class Trip extends React.Component {
     );
   }
 
-  renderMetaTicket (metaTicket) {
+  renderMetaTicket (ticket) {
     const kind     = this.read ('kind');
     const data     = this.read ('data');
     const noDrag   = null;
@@ -287,7 +287,7 @@ export default class Trip extends React.Component {
         radius           = {this.props.theme.shapes.dragAndDropTicketThickness}
         mode             = 'corner-top-left'
         data             = {data}
-        item-id          = {metaTicket.id}
+        item-id          = {ticket.id}
         no-drag          = {noDrag}
         vertical-spacing = {this.props.theme.shapes.tripBoxVerticalSpacing}
         mouse-down       = {e => this.mouseDown (e)}
@@ -296,7 +296,8 @@ export default class Trip extends React.Component {
         {...this.link ()} >
         <TripTicket
           kind             = {kind}
-          metaTicket       = {metaTicket}
+          ticket           = {ticket}
+          metaTicket       = 'true'
           data             = {data}
           selected         = {selected}
           no-drag          = {noDrag}
@@ -369,10 +370,10 @@ export default class Trip extends React.Component {
   render () {
     const ticket     = this.read ('ticket');
     const metaTicket = this.read ('metaTicket');
-    if (ticket) {
+    if (metaTicket === 'true') {
+      return this.renderMetaTicket (ticket);
+    } else {
       return this.renderTicket (ticket);
-    } else if (metaTicket) {
-      return this.renderMetaTicket (metaTicket);
     }
   }
 }
