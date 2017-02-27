@@ -288,12 +288,17 @@ export default class Chronos extends React.Component {
   }
 
   renderNavigation () {
-    const style = this.mergeStyles ('navigation');
-    return (
-      <div style={style} key='navigation'>
-        {this.renderNavigationButtons ()}
-      </div>
-    );
+    const navigation  = this.read ('navigation');
+    if (navigation === 'hidden') {
+      return null;
+    } else {
+      const style = this.mergeStyles ('navigation');
+      return (
+        <div style={style} key='navigation'>
+          {this.renderNavigationButtons ()}
+        </div>
+      );
+    }
   }
 
   renderTime (start, width, time, index) {

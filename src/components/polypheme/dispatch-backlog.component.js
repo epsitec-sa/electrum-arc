@@ -4,13 +4,15 @@ import React from 'react';
 import BacklogData from './backlog-data';
 import ReducerData from '../polypheme/reducer-data.js';
 import Enumerable from 'linq';
+import TransformToBacklog from './transform-to-backlog.js';
 
 import {
   Container,
   TextFieldCombo,
   CheckButton,
   Button,
-  Trip
+  Trip,
+  Chronos
 } from '../../all-components.js';
 
 /******************************************************************************/
@@ -284,6 +286,14 @@ export default class DispatchBacklog extends React.Component {
     const data = this.read ('data');
     return (
       <Container kind='view-stretch' {...this.link ()} >
+        <Container kind='tickets-root' {...this.link ()} >
+          <Chronos
+            data       = {TransformToBacklog.transform (data)}
+            navigation = 'hidden'
+            lineWidth  = '200px'
+            glyphWidth = '40px'
+            {...this.link ()} />
+        </Container>
         {this.renderHoverButton ()}
       </Container>
     );
