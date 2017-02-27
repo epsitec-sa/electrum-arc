@@ -46,6 +46,7 @@ export default function styles (theme, props) {
   let boxMargin            = '0px';
   let boxPadding           = '0px';
   let boxZIndex            = inputZIndex;
+  let boxOpacity           = null;
   let borderColor          = theme.palette.buttonBorder;
   let borderStyle          = 'solid';
   let borderRadius         = '0px';
@@ -525,6 +526,10 @@ export default function styles (theme, props) {
     }
   }
 
+  if (inputKind === 'hover') {
+    boxOpacity = 0;
+  }
+
   if (!inputKind) {
     borderRadius = theme.shapes.smoothRadius;
     if (inputActive === 'true') {
@@ -584,6 +589,7 @@ export default function styles (theme, props) {
   }
 
   const boxStyle = {
+    opacity:         boxOpacity,
     width:           boxWidth,
     height:          boxHeight,
     minHeight:       boxMinHeight,
