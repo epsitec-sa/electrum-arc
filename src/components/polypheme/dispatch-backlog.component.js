@@ -9,6 +9,7 @@ import {
   Container,
   TextFieldCombo,
   CheckButton,
+  Button,
   Trip
 } from '../../all-components.js';
 
@@ -26,6 +27,7 @@ export default class DispatchBacklog extends React.Component {
     super (props);
     this.state = {
       distincts: false,
+      viewType:  'tripbox'
     };
   }
 
@@ -36,6 +38,16 @@ export default class DispatchBacklog extends React.Component {
   setDistincts (value) {
     this.setState ( {
       distincts: value
+    });
+  }
+
+  getViewType () {
+    return this.state.viewType;
+  }
+
+  setViewType (value) {
+    this.setState ( {
+      viewType: value
     });
   }
 
@@ -50,6 +62,20 @@ export default class DispatchBacklog extends React.Component {
     const index = window.document.toUpdate.indexOf (this);
     if (index !== -1) {
       window.document.toUpdate.splice (index, 1);
+    }
+  }
+
+  cycleViewType () {
+    switch (this.getViewType ()) {
+      case 'tripbox':
+        this.setViewType ('distincts');
+        break;
+      case 'distincts':
+        this.setViewType ('chronos');
+        break;
+      default:
+        this.setViewType ('tripbox');
+        break;
     }
   }
 
@@ -130,6 +156,23 @@ export default class DispatchBacklog extends React.Component {
       .firstOrDefault ();
   }
 
+  renderHoverButton () {
+    const style = {
+      position: 'absolute',
+      left:     '0px',
+      top:      '0px',
+    };
+    return (
+      <div style={style}>
+        <Button
+          kind            = 'hover'
+          glyph           = 'eye'
+          custom-on-click = {() => this.cycleViewType ()}
+          {...this.link ()} />
+      </div>
+    );
+  }
+
   renderDistinctTicket (ticket, data, index) {
     return (
       <Trip
@@ -186,10 +229,8 @@ export default class DispatchBacklog extends React.Component {
     return result;
   }
 
-  render () {
+  renderTripbox () {
     const data = this.read ('data');
-    const distincts = this.getDistincts ();
-
     return (
       <Container kind='view-stretch' {...this.link ()} >
         <Container kind='pane-top' {...this.link ()} >
@@ -201,26 +242,75 @@ export default class DispatchBacklog extends React.Component {
             value       = {this.getCurrentSortDescription (data)}
             list        = {this.getSortList (data)}
             {...this.link ()} />
-          <CheckButton
-            kind            = 'switch'
-            checked         = {this.getDistincts () ? 'true' : 'false'}
-            custom-on-click = {() => this.setDistincts (!this.getDistincts ())}
-            text            = 'Séparés'
-            {...this.link ()} />
         </Container>
         <Container kind='panes' drag-parent={data.Backlog.id} {...this.link ()} >
           <Container
-            kind            = {distincts ? 'wrap' : 'column'}
+            kind            = {'column'}
             drag-controller = 'ticket'
             drag-source     = 'backlog'
             drag-mode       = 'all'
             item-id         = {data.Backlog.id}
             view-parent-id  = 'view-backlog'
             {...this.link ()} >
-            {distincts ? this.renderDistinctTickets (data) : this.renderGroupedTickets (data)}
+            {this.renderGroupedTickets (data)}
           </Container>
         </Container>
+        {this.renderHoverButton ()}
       </Container>
     );
+  }
+
+  renderDistincts () {
+    const data = this.read ('data');
+    return (
+      <Container kind='view-stretch' {...this.link ()} >
+        <Container kind='pane-top' {...this.link ()} >
+          <TextFieldCombo
+            hint-text   = 'Trier'
+            combo-glyph = 'sort'
+            width       = '250px'
+            spacing     = 'large'
+            value       = {this.getCurrentSortDescription (data)}
+            list        = {this.getSortList (data)}
+            {...this.link ()} />
+        </Container>
+        <Container kind='panes' drag-parent={data.Backlog.id} {...this.link ()} >
+          <Container
+            kind            = {'wrap'}
+            drag-controller = 'ticket'
+            drag-source     = 'backlog'
+            drag-mode       = 'all'
+            item-id         = {data.Backlog.id}
+            view-parent-id  = 'view-backlog'
+            {...this.link ()} >
+            {this.renderDistinctTickets (data)}
+          </Container>
+        </Container>
+        {this.renderHoverButton ()}
+      </Container>
+    );
+  }
+
+  renderChronos () {
+    const data = this.read ('data');
+    return (
+      <Container kind='view-stretch' {...this.link ()} >
+        {this.renderHoverButton ()}
+      </Container>
+    );
+  }
+
+  render () {
+    switch (this.getViewType ()) {
+      case 'tripbox':
+        return this.renderTripbox ();
+        break;
+      case 'distincts':
+        return this.renderDistincts ();
+        break;
+      default:
+        return this.renderChronos ();
+        break;
+    }
   }
 }
