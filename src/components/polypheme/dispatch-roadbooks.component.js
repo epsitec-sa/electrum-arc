@@ -80,9 +80,9 @@ export default class DispatchRoadbooks extends React.Component {
   getViewTypeGlyph () {
     switch (this.getViewType ()) {
       case 'tickets':
-        return 'clock-o';
+        return {glyph: 'clock-o', rotate: '0'};
       default:
-        return 'bars';
+        return {glyph: 'bars', rotate: '90'};
     }
   }
 
@@ -92,11 +92,13 @@ export default class DispatchRoadbooks extends React.Component {
       left:     '0px',
       top:      '0px',
     };
+    const glyph = this.getViewTypeGlyph ();
     return (
       <div style={style}>
         <Button
           kind            = 'hover'
-          glyph           = {this.getViewTypeGlyph ()}
+          glyph           = {glyph.glyph}
+          rotate          = {glyph.rotate}
           custom-on-click = {() => this.cycleViewType ()}
           {...this.link ()} />
       </div>
