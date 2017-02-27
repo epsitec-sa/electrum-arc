@@ -26,19 +26,8 @@ export default class DispatchBacklog extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      distincts: false,
-      viewType:  'tripbox'
+      viewType: 'tripbox'
     };
-  }
-
-  getDistincts () {
-    return this.state.distincts;
-  }
-
-  setDistincts (value) {
-    this.setState ( {
-      distincts: value
-    });
   }
 
   getViewType () {
