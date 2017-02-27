@@ -25,9 +25,9 @@
   },
   "homepage": "https://github.com/epsitec-sa/electrum-arc",
   "dependencies": {
-    "electrum": "^4.15.2",
+    "electrum": "^4.15.3",
     "electrum-style-reload": "^1.2.0",
-    "electrum-theme": "^4.4.1",
+    "electrum-theme": "^4.5.0",
     "inline-style-prefixer": "^3.0.0",
     "leaflet": "^1.0.3",
     "linq": "^3.0.7",
