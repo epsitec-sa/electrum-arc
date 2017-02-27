@@ -5,6 +5,7 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 export default function styles (theme, props) {
+  const lineWidth = props.lineWidth;
   const h = Unit.sub (theme.shapes.chronosLineHeight, '1px');
 
   const lineStyle = {
@@ -35,6 +36,20 @@ export default function styles (theme, props) {
     transition:      theme.transitions.easeOut (),
   };
 
+  const lineDraggedStyle = {
+    position:        'relative',
+    minHeight:       h,
+    maxHeight:       h,
+    width:           Unit.multiply (lineWidth, 3),
+    display:         'flex',
+    flexDirection:   'row',
+    userSelect:      'none',
+    cursor:          'default',
+    border:          theme.shapes.chronosSeparatorWidth + ' solid ' + theme.palette.chronoLabelSeparator,
+    backgroundColor: theme.palette.eventBackground,
+    transition:      theme.transitions.easeOut (),
+  };
+
   const lineLabelStyle = {
     minHeight:       theme.shapes.chronosLineHeight,
     maxHeight:       theme.shapes.chronosLineHeight,
@@ -57,10 +72,11 @@ export default function styles (theme, props) {
   };
 
   return {
-    line:       lineStyle,
-    lineHover:  lineHoverStyle,
-    lineLabel:  lineLabelStyle,
-    lineEvent:  lineEventStyle,
+    line:        lineStyle,
+    lineHover:   lineHoverStyle,
+    lineDragged: lineDraggedStyle,
+    lineLabel:   lineLabelStyle,
+    lineEvent:   lineEventStyle,
   };
 }
 

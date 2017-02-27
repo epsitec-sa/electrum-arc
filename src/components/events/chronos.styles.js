@@ -20,15 +20,6 @@ export default function styles (theme, props) {
     overflowY:       'auto',
   };
 
-  const eventsStyle = {
-    display:         'flex',
-    flexDirection:   'column',
-    flexGrow:        1,
-    overflowX:       'hidden',
-    overflowY:       'auto',
-    backgroundColor: theme.palette.eventBackground,
-  };
-
   const topStyle = {
     minHeight:       theme.shapes.chronosTopHeight,
     maxHeight:       theme.shapes.chronosTopHeight,
@@ -77,7 +68,6 @@ export default function styles (theme, props) {
   return {
     main:       mainStyle,
     navigation: navigationStyle,
-    events:     eventsStyle,
     top:        topStyle,
     topLabel:   topLabelStyle,
     topEvent:   topEventStyle,

@@ -71,7 +71,8 @@ export default class ChronoBar extends React.Component {
 
   // If hover. draw a 'tooltip' on the right side of bar.
   renderLeftTooltip (hover) {
-    if (hover) {
+    const isDragged = this.read ('isDragged');
+    if (!isDragged && hover) {
       const tooltip = this.read ('leftTooltip');
       const style = this.mergeStyles ('leftTooltip');
       return (
@@ -86,7 +87,8 @@ export default class ChronoBar extends React.Component {
 
   // If hover. draw a 'tooltip' on the right side of bar.
   renderRightTooltip (hover) {
-    if (hover) {
+    const isDragged = this.read ('isDragged');
+    if (!isDragged && hover) {
       const tooltip = this.read ('rightTooltip');
       const style = this.mergeStyles ('rightTooltip');
       return (

@@ -218,7 +218,8 @@ export default class DispatchRoadbooks extends React.Component {
         {...this.link ()} >
         <Container kind='tickets-root' {...this.link ()} >
           <Chronos
-            data       = {RoadbooksToChronos.transform (data.Roadbooks, this.props.theme)}
+            data       = {data}
+            events     = {RoadbooksToChronos.transform (data.Roadbooks, this.props.theme)}
             lineWidth  = '250px'
             glyphWidth = '80px'
             {...this.link ()} />

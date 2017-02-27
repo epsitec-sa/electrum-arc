@@ -5,6 +5,8 @@ import Converters from '../polypheme/converters';
 import {Unit} from 'electrum-theme';
 
 import {
+  DragCab,
+  Container,
   ChronoLine,
   Label,
   Button,
@@ -13,8 +15,8 @@ import {
 
 /******************************************************************************/
 
-function getFlatData (data, filters) {
-  // console.log ('Chronos.getFlatData');
+function getFlatEvents (events, filters) {
+  // console.log ('Chronos.getFlatEvents');
   const lines = [];
   const groups = new Map ();
   var lastGroup = null;
@@ -22,7 +24,7 @@ function getFlatData (data, filters) {
   var notesCount = 0;
   var minHour = 8;
   var maxHour = 18;
-  for (var event of data.Events) {
+  for (var event of events.Events) {
     hasDates = event.FromDate || event.StartFromDate;
     let group;
     if (hasDates) {
@@ -150,9 +152,9 @@ export default class Chronos extends React.Component {
   /******************************************************************************/
 
   componentWillMount () {
-    const data = this.read ('data');
+    const events = this.read ('events');
     const filters = this.getFilters ();
-    this.flatData = getFlatData (data, filters);
+    this.flatEvents = getFlatEvents (events, filters);
     this.updateFilter (filters);
   }
 
@@ -164,14 +166,28 @@ export default class Chronos extends React.Component {
     updateHover (event, false);
   }
 
+  mouseDown (e) {
+    console.log ('ChronoLine.mouseDown');
+    return false;
+  }
+
+  mouseUp (e) {
+    console.log ('ChronoLine.mouseUp');
+    return false;
+  }
+
+  doClickAction (e) {
+    console.log ('ChronoLine.doClickAction');
+  }
+
   /******************************************************************************/
 
   updateFilter (filters) {
     if (filters.length === 0) {  // show all events ?
-      this.flatFilteredData = this.flatData;
+      this.flatFilteredEvents = this.flatEvents;
     } else {  // has filter ?
-      const data = this.read ('data');
-      this.flatFilteredData = getFlatData (data, filters);
+      const events = this.read ('events');
+      this.flatFilteredEvents = getFlatEvents (events, filters);
     }
   }
 
@@ -185,8 +201,8 @@ export default class Chronos extends React.Component {
     if (e.ctrlKey) {
       if (filtersGet (filters, date)) {
         if (filters.length === 0) {
-          for (var i = 0; i < this.flatData.groups.length; i++) {
-            const group = this.flatData.groups[i];
+          for (var i = 0; i < this.flatEvents.groups.length; i++) {
+            const group = this.flatEvents.groups[i];
             filtersSet (filters, group, true);
           }
         }
@@ -205,9 +221,9 @@ export default class Chronos extends React.Component {
   actionPrevFilter () {
     const filters = this.getFilters ();
     if (filters.length === 1) {
-      const index = this.flatData.groups.indexOf (filters[0]);
+      const index = this.flatEvents.groups.indexOf (filters[0]);
       if (index !== -1 && index > 0) {
-        const newDate = this.flatData.groups[index - 1];
+        const newDate = this.flatEvents.groups[index - 1];
         this.updateFilter ([newDate]);
         this.setFilters ([newDate]);
       }
@@ -217,9 +233,9 @@ export default class Chronos extends React.Component {
   actionNextFilter () {
     const filters = this.getFilters ();
     if (filters.length === 1) {
-      const index = this.flatData.groups.indexOf (filters[0]);
-      if (index !== -1 && index < this.flatData.groups.length - 1) {
-        const newDate = this.flatData.groups[index + 1];
+      const index = this.flatEvents.groups.indexOf (filters[0]);
+      if (index !== -1 && index < this.flatEvents.groups.length - 1) {
+        const newDate = this.flatEvents.groups[index + 1];
         this.updateFilter ([newDate]);
         this.setFilters ([newDate]);
       }
@@ -269,11 +285,11 @@ export default class Chronos extends React.Component {
     let index = 0;
     result.push (this.renderNavigationButton (null, 'Tout', null, null, false, filters.length === 0, () => this.actionAll (), index++));
     result.push (this.renderNavigationButton ('chevron-up', null, null, null, filters.length !== 1, false, () => this.actionPrevFilter (), index++));
-    for (var i = 0; i < this.flatData.groups.length; i++) {
-      const group = this.flatData.groups[i];
-      const count = this.flatData.count[i];
+    for (var i = 0; i < this.flatEvents.groups.length; i++) {
+      const group = this.flatEvents.groups[i];
+      const count = this.flatEvents.count[i];
       var text, tooltip;
-      if (this.flatData.hasDates) {
+      if (this.flatEvents.hasDates) {
         text    = Converters.getDisplayedDate (group);
         tooltip = Converters.getDisplayedDate (group, false, 'W');
       } else {
@@ -324,8 +340,8 @@ export default class Chronos extends React.Component {
   renderContentTopTimes () {
     const result = [];
     let index = 0;
-    const minHour = this.flatFilteredData.minHour;
-    const maxHour = this.flatFilteredData.maxHour;
+    const minHour = this.flatFilteredEvents.minHour;
+    const maxHour = this.flatFilteredEvents.maxHour;
     const lenHour = maxHour - minHour;
     for (var h = minHour + 1; h < maxHour; h++) {
       const width = 100 / lenHour;
@@ -343,7 +359,7 @@ export default class Chronos extends React.Component {
 
     const lineWidth  = this.read ('lineWidth');
     const width = Unit.add (lineWidth, this.props.theme.shapes.chronosSeparatorWidth);
-    lineLabelStyle.width = Unit.sub (Unit.multiply (width, this.flatFilteredData.notesCount), this.props.theme.shapes.chronosLabelMargin);
+    lineLabelStyle.width = Unit.sub (Unit.multiply (width, this.flatFilteredEvents.notesCount), this.props.theme.shapes.chronosLabelMargin);
 
     return (
       <div style={lineStyle} key={index}>
@@ -358,21 +374,43 @@ export default class Chronos extends React.Component {
   }
 
   renderContentEvent (event, index) {
+    const data       = this.read ('data');
     const lineWidth  = this.read ('lineWidth');
     const glyphWidth = this.read ('glyphWidth');
+
+    const noDrag = null;
+    const verticalSpacing = null;
+
     return (
-      <ChronoLine
-        index      = {index}
-        event      = {event}
-        lineWidth  = {lineWidth}
-        glyphWidth = {glyphWidth}
-        notesCount = {this.flatFilteredData.notesCount}
-        minHour    = {this.flatFilteredData.minHour}
-        maxHour    = {this.flatFilteredData.maxHour}
-        mouseOver  = {e => this.mouseOver (e)}
-        mouseOut   = {e => this.mouseOut  (e)}
-        {...this.link ()}>
-      </ChronoLine>
+      <DragCab
+        drag-controller  = 'ticket'
+        direction        = 'vertical'
+        color            = {this.props.theme.palette.dragAndDropHover}
+        thickness        = {this.props.theme.shapes.dragAndDropTicketThickness}
+        radius           = {this.props.theme.shapes.dragAndDropTicketThickness}
+        mode             = 'corner-top-left'
+        data             = {data}
+        item-id          = {event.id}
+        no-drag          = {noDrag}
+        vertical-spacing = {verticalSpacing}
+        mouse-down       = {e => this.mouseDown (e)}
+        mouse-up         = {e => this.mouseUp (e)}
+        do-click-action  = {e => this.doClickAction (e)}
+        {...this.link ()} >
+        <ChronoLine
+          index      = {index}
+          data       = {data}
+          event      = {event}
+          lineWidth  = {lineWidth}
+          glyphWidth = {glyphWidth}
+          notesCount = {this.flatFilteredEvents.notesCount}
+          minHour    = {this.flatFilteredEvents.minHour}
+          maxHour    = {this.flatFilteredEvents.maxHour}
+          mouseOver  = {e => this.mouseOver (e)}
+          mouseOut   = {e => this.mouseOut  (e)}
+          {...this.link ()}>
+        </ChronoLine>
+      </DragCab>
     );
   }
 
@@ -386,7 +424,7 @@ export default class Chronos extends React.Component {
   renderEventsList () {
     const result = [];
     let index = 0;
-    for (var item of this.flatFilteredData.lines) {
+    for (var item of this.flatFilteredEvents.lines) {
       if (item.type === 'top') {
         var text;
         if (item.date) {
@@ -405,11 +443,17 @@ export default class Chronos extends React.Component {
   }
 
   renderEvents () {
-    const style = this.mergeStyles ('events');
     return (
-      <div style={style} key='events'>
+      <Container
+        kind            = {'chronos-events'}
+        drag-controller = 'ticket'
+        drag-source     = 'backlog'
+        drag-mode       = 'all'
+        item-id         = 'chronos'
+        view-parent-id  = 'view-backlog'
+        {...this.link ()} >
         {this.renderEventsList ()}
-      </div>
+      </Container>
     );
   }
 

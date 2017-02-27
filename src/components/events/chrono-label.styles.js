@@ -21,6 +21,20 @@ export default function styles (theme, props) {
     cursor:          'default',
   };
 
+  const emptyStyle = {
+    position:        'relative',
+    minHeight:       theme.shapes.chronosLineHeight,
+    maxHeight:       theme.shapes.chronosLineHeight,
+    width:           Unit.sub (lineWidth, theme.shapes.chronosLabelMargin),
+    paddingLeft:     theme.shapes.chronosLabelMargin,
+    borderRight:     theme.shapes.chronosSeparatorWidth + ' solid ' + theme.palette.chronoLabelSeparator,
+    display:         'flex',
+    flexDirection:   'row',
+    userSelect:      'none',
+    cursor:          'default',
+    backgroundColor: theme.palette.ticketDragAndDropShadow,
+  };
+
   const glyphsStyle = {
     minHeight:       theme.shapes.chronosLineHeight,
     maxHeight:       theme.shapes.chronosLineHeight,
@@ -55,6 +69,7 @@ export default function styles (theme, props) {
 
   return {
     line:    lineStyle,
+    empty:   emptyStyle,
     glyphs:  glyphsStyle,
     tooltip: tooltipStyle,
     front:   frontStyle,

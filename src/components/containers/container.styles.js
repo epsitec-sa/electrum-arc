@@ -683,6 +683,15 @@ export default function styles (theme, props) {
     padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
   }
 
+  if (inputKind === 'chronos-events') {
+    display         = 'flex';
+    flexDirection   = 'column';
+    flexGrow        = 1;
+    overflowX       = 'hidden';
+    overflowY       = 'auto';
+    backgroundColor = theme.palette.eventBackground;
+  }
+
   if (inputKind === 'column-full') {
     display         = 'flex';
     flexDirection   = 'column';

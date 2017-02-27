@@ -246,32 +246,6 @@ export default class Trip extends React.Component {
     }
   }
 
-  renderTrip (ticket, data, noDrag, margin, content) {
-    return (
-      <DragCab
-        drag-controller = 'ticket'
-        direction       = 'vertical'
-        color           = {this.props.theme.palette.dragAndDropHover}
-        thickness       = {this.props.theme.shapes.dragAndDropTicketThickness}
-        radius          = {this.props.theme.shapes.dragAndDropTicketThickness}
-        mode            = 'corner-top-left'
-        data            = {data}
-        item-id         = {ticket.id}
-        no-drag         = {noDrag}
-        margin-bottom   = {margin}
-        mouse-down      = {e => this.mouseDown (e)}
-        mouse-up        = {e => this.mouseUp (e)}
-        do-click-action = {(e) => this.doClickAction (e)}
-        {...this.link ()}>
-        {content ()}
-        {this.renderCombo (data)}
-        {this.renderModify (data)}
-        {this.renderDeliver (data)}
-        {this.renderPredispatch (data)}
-      </DragCab>
-    );
-  }
-
   renderMetaTicket (ticket) {
     const kind     = this.read ('kind');
     const data     = this.read ('data');
@@ -292,7 +266,7 @@ export default class Trip extends React.Component {
         vertical-spacing = {this.props.theme.shapes.tripBoxVerticalSpacing}
         mouse-down       = {e => this.mouseDown (e)}
         mouse-up         = {e => this.mouseUp (e)}
-        do-click-action  = {(e) => this.doClickAction (e)}
+        do-click-action  = {e => this.doClickAction (e)}
         {...this.link ()} >
         <TripTicket
           kind             = {kind}
@@ -347,7 +321,7 @@ export default class Trip extends React.Component {
         vertical-spacing = {verticalSpacing}
         mouse-down       = {e => this.mouseDown (e)}
         mouse-up         = {e => this.mouseUp (e)}
-        do-click-action  = {(e) => this.doClickAction (e)}
+        do-click-action  = {e => this.doClickAction (e)}
         {...this.link ()} >
         <TripTicket
           kind               = {kind}

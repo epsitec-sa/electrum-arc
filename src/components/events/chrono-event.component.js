@@ -95,19 +95,23 @@ export default class ChronoEvent extends React.Component {
     );
   }
 
-  renderGrid () {
-    const result = [];
-    const minHour = this.read ('minHour');
-    const maxHour = this.read ('maxHour');
-    const lenHour = maxHour - minHour;
-    for (var h = minHour; h < maxHour ; h++) {
-      const x = ((h - minHour + 1) * 100 / lenHour) + '%';
-      result.push (this.renderVerticalLine (x));
+  renderGrid (isDragged) {
+    if (isDragged) {
+      return null;
+    } else {
+      const result = [];
+      const minHour = this.read ('minHour');
+      const maxHour = this.read ('maxHour');
+      const lenHour = maxHour - minHour;
+      for (var h = minHour; h < maxHour ; h++) {
+        const x = ((h - minHour + 1) * 100 / lenHour) + '%';
+        result.push (this.renderVerticalLine (x));
+      }
+      return result;
     }
-    return result;
   }
 
-  renderBar (event) {
+  renderBar (event, isDragged) {
     const minHour = this.read ('minHour');
     const maxHour = this.read ('maxHour');
     const minMinute = minHour * 60;
@@ -147,12 +151,13 @@ export default class ChronoEvent extends React.Component {
         tricolor     = {tricolor ? 'true' : 'false'}
         leftTooltip  = {this.getLeftTooltip  (event, tricolor, isTextToLeft)}
         rightTooltip = {this.getRightTooltip (event, tricolor, isTextToLeft)}
+        isDragged    = {isDragged}
         hover        = {this.getHover () ? 'true' : 'false'}
         {...this.link ()} />
     );
   }
 
-  render () {
+  renderFull (isDragged) {
     const event = this.read ('event');
 
     const lineStyle  = this.mergeStyles ('line');
@@ -160,8 +165,8 @@ export default class ChronoEvent extends React.Component {
 
     return (
       <div style={lineStyle}>
-        {this.renderGrid ()}
-        {this.renderBar (event)}
+        {this.renderGrid (isDragged)}
+        {this.renderBar (event, isDragged)}
         <div
           key         = 'front'
           style       = {frontStyle}
@@ -170,6 +175,24 @@ export default class ChronoEvent extends React.Component {
           />
       </div>
     );
+  }
+
+  renderEmpty () {
+    const lineStyle = this.mergeStyles ('empty');
+    return (
+      <div style={lineStyle} />
+    );
+  }
+
+  render () {
+    const isDragged = this.read ('isDragged');
+    const hasHeLeft = this.read ('hasHeLeft');
+
+    if (hasHeLeft && !isDragged) {
+      return this.renderEmpty ();
+    } else {
+      return this.renderFull (isDragged);
+    }
   }
 }
 

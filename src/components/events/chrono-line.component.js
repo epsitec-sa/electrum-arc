@@ -24,6 +24,12 @@ export default class ChronoLine extends React.Component {
     });
   }
 
+  get styleProps () {
+    return {
+      lineWidth: this.read ('lineWidth'),
+    };
+  }
+
   /******************************************************************************/
 
   componentDidMount () {
@@ -60,12 +66,14 @@ export default class ChronoLine extends React.Component {
 
   /******************************************************************************/
 
-  renderLabel (note, index) {
+  renderLabel (note, isDragged, hasHeLeft, index) {
     const lineWidth  = this.read ('lineWidth');
     const glyphWidth = this.read ('glyphWidth');
     return (
       <ChronoLabel
         index      = {index}
+        isDragged  = {isDragged}
+        hasHeLeft  = {hasHeLeft}
         note       = {note}
         lineWidth  = {lineWidth}
         glyphWidth = {glyphWidth}
@@ -75,44 +83,53 @@ export default class ChronoLine extends React.Component {
     );
   }
 
-  renderLabels (event) {
+  renderLabels (event, isDragged, hasHeLeft) {
     const result = [];
     const notesCount = this.read ('notesCount');
     let index = 0;
     if (event.Note) {  // only one note ?
-      result.push (this.renderLabel (event.Note, index++));
+      result.push (this.renderLabel (event.Note, isDragged, hasHeLeft, index++));
     } else if (event.Notes) {  // collection of notes ?
       for (var note of event.Notes) {
-        result.push (this.renderLabel (note, index++));
+        result.push (this.renderLabel (note, isDragged, hasHeLeft, index++));
       }
     }
     const len = notesCount - index;
     for (let i = 0; i < len; i++) {
-      result.push (this.renderLabel (null, index++));
+      result.push (this.renderLabel (null, isDragged, hasHeLeft, index++));
     }
     return result;
   }
 
   render () {
-    const index   = this.read ('index');
-    const event   = this.read ('event');
-    const minHour = this.read ('minHour');
-    const maxHour = this.read ('maxHour');
+    const index     = this.read ('index');
+    const event     = this.read ('event');
+    const minHour   = this.read ('minHour');
+    const maxHour   = this.read ('maxHour');
+    const isDragged = this.props.isDragged;
+    const hasHeLeft = this.props.hasHeLeft;
+    // console.log ('ChronoLine ' + isDragged + ' ' + hasHeLeft);
 
-    const hover = this.getHover ();
+    const hover = !isDragged && this.getHover ();
 
-    const lineStyle      = this.mergeStyles (hover ? 'lineHover' : 'line');
+    let styleName = hover ? 'lineHover' : 'line';
+    if (isDragged) {
+      styleName = 'lineDragged';
+    }
+    const lineStyle      = this.mergeStyles (styleName);
     const lineLabelStyle = this.mergeStyles ('lineLabel');
     const lineEventStyle = this.mergeStyles ('lineEvent');
 
     return (
       <div style={lineStyle} key={index}>
         <div style={lineLabelStyle} key='label'>
-          {this.renderLabels (event)}
+          {this.renderLabels (event, isDragged, hasHeLeft)}
         </div>
         <div style={lineEventStyle} key='event'>
           <ChronoEvent
             event     = {event}
+            isDragged = {isDragged}
+            hasHeLeft = {hasHeLeft}
             minHour   = {minHour}
             maxHour   = {maxHour}
             mouseOver = {() => this.mouseOver ()}

@@ -28,7 +28,8 @@ export default class DispatchBacklog extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      viewType: 'tripbox'
+      // viewType: 'tripbox'
+      viewType: 'chronos'
     };
   }
 
@@ -178,12 +179,11 @@ export default class DispatchBacklog extends React.Component {
   renderDistinctTicket (ticket, data, index) {
     return (
       <Trip
-        key     = {index}
-        kind    = 'trip-backlog'
-        source  = 'backlog'
-        item-id = {ticket.id}
-        ticket  = {ticket}
-        data    = {data}
+        key    = {index}
+        kind   = 'trip-backlog'
+        source = 'backlog'
+        ticket = {ticket}
+        data   = {data}
         {...this.link ()} />
     );
   }
@@ -297,9 +297,10 @@ export default class DispatchBacklog extends React.Component {
     const data = this.read ('data');
     return (
       <Container kind='view-stretch' {...this.link ()} >
-        <Container kind='tickets-root' {...this.link ()} >
+        <Container kind='tickets-root' drag-parent={data.Backlog.id} {...this.link ()} >
           <Chronos
-            data       = {BacklogToChronos.transform (data.Backlog)}
+            data       = {data}
+            events     = {BacklogToChronos.transform (data.Backlog)}
             navigation = 'hidden'
             lineWidth  = '200px'
             glyphWidth = '40px'

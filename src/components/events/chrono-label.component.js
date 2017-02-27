@@ -51,8 +51,8 @@ export default class ChronoLabel extends React.Component {
 
   /******************************************************************************/
 
-  renderTooltip (text) {
-    if (this.getHover () && text) {
+  renderTooltip (text, isDragged) {
+    if (!isDragged && this.getHover () && text) {
       const style = this.mergeStyles ('tooltip');
       return (
         <div style={style} key='tooltip'>
@@ -90,7 +90,7 @@ export default class ChronoLabel extends React.Component {
     }
   }
 
-  render () {
+  renderFull (isDragged) {
     const index = this.read ('index');
     const note  = this.read ('note');
 
@@ -106,7 +106,7 @@ export default class ChronoLabel extends React.Component {
           {this.renderGlyphs (note)}
         </div>
         <Label index='1' text={text} grow='1' wrap='no' {...this.link ()} />
-        {this.renderTooltip (text)}
+        {this.renderTooltip (text, isDragged)}
         <div
           key         = 'front'
           style       = {frontStyle}
@@ -115,6 +115,25 @@ export default class ChronoLabel extends React.Component {
           />
       </div>
     );
+  }
+
+  renderEmpty () {
+    const index = this.read ('index');
+    const lineStyle = this.mergeStyles ('empty');
+    return (
+      <div style={lineStyle} key={index} />
+    );
+  }
+
+  render () {
+    const isDragged = this.read ('isDragged');
+    const hasHeLeft = this.read ('hasHeLeft');
+
+    if (hasHeLeft && !isDragged) {
+      return this.renderEmpty ();
+    } else {
+      return this.renderFull (isDragged);
+    }
   }
 }
 

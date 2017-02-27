@@ -25,6 +25,7 @@ function transformPickDropToNotes (pick, drop) {
 
 function transformPickDropToEvent (pick, drop) {
   const event = {};
+  event.id            = pick.id;
   event.FromDate      = pick.MeetingPoint.PlanedDate;
   event.StartFromTime = pick.MeetingPoint.StartPlanedTime;
   event.EndFromTime   = pick.MeetingPoint.EndPlanedTime;
@@ -38,6 +39,7 @@ function transformPickDropToEvent (pick, drop) {
 
 function transformTicketToEvent (ticket) {
   const event = {};
+  event.id            = ticket.id;
   event.FromDate      = ticket.MeetingPoint.PlanedDate;
   event.ToDate        = ticket.MeetingPoint.PlanedDate;
   event.FromTime      = ticket.MeetingPoint.StartPlanedTime;
@@ -78,6 +80,7 @@ function transform (backlog) {
       }
     }
   }
+  console.log ('BacklogToChronos, number of events = ' + events.Events.length);
   return events;
 }
 

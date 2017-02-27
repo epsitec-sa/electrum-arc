@@ -24,7 +24,7 @@ export default class DispatchChronos extends React.Component {
     return (
       <Container kind='tickets-root' {...this.link ()} >
         <Chronos
-          data       = {data}
+          events     = {data}
           lineWidth  = '300px'
           glyphWidth = '60px'
           {...this.link ()} />

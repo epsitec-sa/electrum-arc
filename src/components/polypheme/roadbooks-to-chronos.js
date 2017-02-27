@@ -24,6 +24,7 @@ function transformMeetingPointToNote (type, mp, theme) {
 function transformTicketToEvent (name, ticket, theme) {
   const event = {};
   const direction = TicketHelpers.getDirectionGlyph (theme, ticket.Type);
+  event.id       = ticket.id;
   event.Group    = name;
   event.FromTime = ticket.MeetingPoint.StartPlanedTime;
   event.ToDate   = name;
