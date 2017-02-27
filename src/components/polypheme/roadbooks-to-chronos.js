@@ -21,13 +21,14 @@ function transformMeetingPointToNote (type, mp, theme) {
   return note;
 }
 
-function transformTicketToEvent (name, ticket, theme) {
+function transformTicketToEvent (roadbook, ticket, theme) {
   const event = {};
   const direction = TicketHelpers.getDirectionGlyph (theme, ticket.Type);
   event.id       = ticket.id;
-  event.Group    = name;
+  event.Group    = roadbook.Messenger.Name;
+  event.GroupId  = roadbook.id;
   event.FromTime = ticket.MeetingPoint.StartPlanedTime;
-  event.ToDate   = name;
+  event.ToDate   = '';
   event.ToTime   = ticket.MeetingPoint.EndPlanedTime;
   event.Note     = transformMeetingPointToNote (ticket.Type, ticket.MeetingPoint, theme);
   event.Link     = ticket.MissionId;
@@ -36,9 +37,8 @@ function transformTicketToEvent (name, ticket, theme) {
 }
 
 function transformRoadbookToEvents (events, roadbook, theme) {
-  const name = roadbook.Messenger.Name;
   for (var ticket of roadbook.Tickets) {
-    const event = transformTicketToEvent (name, ticket, theme);
+    const event = transformTicketToEvent (roadbook, ticket, theme);
     events.Events.push (event);
   }
 }

@@ -352,7 +352,7 @@ export default class Chronos extends React.Component {
     return result;
   }
 
-  renderContentTop (text, index) {
+  renderContentTop (text, ownerId, index) {
     const lineStyle      = this.mergeStyles ('top');
     const lineLabelStyle = this.mergeStyles ('topLabel');
     const lineEventStyle = this.mergeStyles ('topEvent');
@@ -362,7 +362,7 @@ export default class Chronos extends React.Component {
     lineLabelStyle.width = Unit.sub (Unit.multiply (width, this.flatFilteredEvents.notesCount), this.props.theme.shapes.chronosLabelMargin);
 
     return (
-      <div style={lineStyle} key={index}>
+      <div style={lineStyle} key={index} data-owner-id={ownerId}>
         <div style={lineLabelStyle} key='label'>
           <Label text={text} text-color='#fff' grow='1' {...this.link ()} />
         </div>
@@ -387,7 +387,6 @@ export default class Chronos extends React.Component {
         direction        = 'vertical'
         color            = {this.props.theme.palette.dragAndDropHover}
         thickness        = {this.props.theme.shapes.dragAndDropTicketThickness}
-        radius           = {this.props.theme.shapes.dragAndDropTicketThickness}
         mode             = 'corner-top-left'
         data             = {data}
         item-id          = {event.id}
@@ -414,16 +413,17 @@ export default class Chronos extends React.Component {
     );
   }
 
-  renderContentSep (index) {
+  renderContentSep (ownerId, index) {
     const style = this.mergeStyles ('sep');
     return (
-      <div style={style} key={index} />
+      <div style={style} key={index} data-owner-id={ownerId} />
     );
   }
 
   renderEventsList () {
     const result = [];
     let index = 0;
+    let ownerId = null;
     for (var item of this.flatFilteredEvents.lines) {
       if (item.type === 'top') {
         var text;
@@ -432,11 +432,12 @@ export default class Chronos extends React.Component {
         } else {
           text = item.group;
         }
-        result.push (this.renderContentTop (text, index++));
+        result.push (this.renderContentTop (text, ownerId, index++));
       } else if (item.type === 'event') {
         result.push (this.renderContentEvent (item.event, index++));
+        ownerId = item.event.GroupId;
       } else if (item.type === 'sep') {
-        result.push (this.renderContentSep (index++));
+        result.push (this.renderContentSep (ownerId, index++));
       }
     }
     return result;
@@ -447,6 +448,7 @@ export default class Chronos extends React.Component {
     const dragSource     = this.read ('drag-source');
     const dragMode       = this.read ('drag-mode');
     const itemId         = this.read ('item-id');
+    const viewParentId   = this.read ('view-parent-id');
     return (
       <Container
         kind            = {'chronos-events'}
@@ -454,7 +456,7 @@ export default class Chronos extends React.Component {
         drag-source     = {dragSource}
         drag-mode       = {dragMode}
         item-id         = {itemId}
-        view-parent-id  = 'view-backlog'
+        view-parent-id  = {viewParentId}
         {...this.link ()} >
         {this.renderEventsList ()}
       </Container>

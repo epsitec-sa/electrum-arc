@@ -86,6 +86,16 @@ export default class DispatchRoadbooks extends React.Component {
     }
   }
 
+  getLastRoadbookId (data) {
+    for (let i = data.Roadbooks.length - 1; i >= 0 ; i--) {
+      const roadbook = data.Roadbooks[i];
+      if (roadbook.Tickets.length > 0) {
+        return roadbook.id;
+      }
+    }
+    return null;
+  }
+
   renderHoverButton () {
     const style = {
       position: 'absolute',
@@ -117,12 +127,11 @@ export default class DispatchRoadbooks extends React.Component {
   renderTicket (ticket, data, index) {
     return (
       <Trip
-        key     = {index}
-        kind    = 'trip-ticket'
-        source  = 'roadbook'
-        item-id = {ticket.id}
-        ticket  = {ticket}
-        data    = {data}
+        key    = {index}
+        kind   = 'trip-ticket'
+        source = 'roadbook'
+        ticket = {ticket}
+        data   = {data}
         {...this.link ()} />
     );
   }
@@ -214,8 +223,7 @@ export default class DispatchRoadbooks extends React.Component {
         kind = 'tickets-messengers'
         {...this.link ()} >
         <Container
-          kind        = 'tickets-root'
-          drag-parent = {data.Roadbooks.id}
+          kind = 'tickets-root'
           {...this.link ()} >
           <Chronos
             data            = {data}
@@ -224,7 +232,7 @@ export default class DispatchRoadbooks extends React.Component {
             glyphWidth      = '80px'
             drag-controller = 'ticket'
             drag-source     = 'roadbooks'
-            item-id         = 'chronos-roadbooks'
+            item-id         = {this.getLastRoadbookId (data)}
             {...this.link ()} />
         </Container>
         {this.renderHoverButton ()}

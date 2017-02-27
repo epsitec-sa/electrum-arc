@@ -197,7 +197,7 @@ export default class DragCarrier extends React.Component {
         py -= overSpacing;
         return {
           id:         t.dataset.id,
-          ownerId:    container.props['item-id'],
+          ownerId:    t.dataset.ownerId ? t.dataset.ownerId : container.props['item-id'],
           ownerKind:  container.props['drag-source'],
           rect:       getVRect (rect, py - thickness, py + thickness),
           parentRect: parentRect,
@@ -259,7 +259,7 @@ export default class DragCarrier extends React.Component {
         px -= overSpacing;
         return {
           id:         t.dataset.id,
-          ownerId:    container.props['item-id'],
+          ownerId:    t.dataset.ownerId ? t.dataset.ownerId : container.props['item-id'],
           ownerKind:  container.props['drag-source'],
           rect:       getHRect (rect, px - thickness, px + thickness),
           parentRect: parentRect,

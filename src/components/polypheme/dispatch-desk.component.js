@@ -40,12 +40,11 @@ export default class DispatchDesk extends React.Component {
   renderTicket (ticket, data, index) {
     return (
       <Trip
-        key     = {index}
-        kind    = 'trip-ticket'
-        source  = 'desk'
-        item-id = {ticket.id}
-        ticket  = {ticket}
-        data    = {data}
+        key    = {index}
+        kind   = 'trip-ticket'
+        source = 'desk'
+        ticket = {ticket}
+        data   = {data}
         {...this.link ()} />
     );
   }

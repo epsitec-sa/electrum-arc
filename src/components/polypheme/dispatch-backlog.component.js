@@ -315,7 +315,8 @@ export default class DispatchBacklog extends React.Component {
             drag-controller = 'ticket'
             drag-source     = 'backlog'
             drag-mode       = 'all'
-            item-id         = 'chronos-backlog'
+            item-id         = {data.Backlog.id}
+            view-parent-id  = 'view-backlog'
             {...this.link ()} />
         </Container>
         {this.renderHoverButton ()}
