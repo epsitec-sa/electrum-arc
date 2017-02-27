@@ -57,16 +57,16 @@ function search (backlog, missionId) {
   return result;
 }
 
-function transform (data) {
+function transform (backlog) {
   const events = {};
   events.FromDate = '2017-01-01';
   events.ToDate = '2017-12-31';
   events.Events = [];
   const hash = new Map ();
-  for (var ticket of data.Backlog.Tickets) {
+  for (var ticket of backlog.Tickets) {
     if (!hash.has (ticket.MissionId)) {
       hash.set (ticket.MissionId);
-      const s = search (data.Backlog, ticket.MissionId);
+      const s = search (backlog, ticket.MissionId);
       if (s.length === 2) {
         const event = transformPickDropToEvent (s[0], s[1]);
         events.Events.push (event);

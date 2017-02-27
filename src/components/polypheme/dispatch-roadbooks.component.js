@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReducerData from './reducer-data.js';
-import TransformToRoadbooks from './transform-to-roadbooks.js';
+import RoadbooksToChronos from './roadbooks-to-chronos.js';
 
 import {
   Container,
@@ -216,7 +216,7 @@ export default class DispatchRoadbooks extends React.Component {
         {...this.link ()} >
         <Container kind='tickets-root' {...this.link ()} >
           <Chronos
-            data       = {TransformToRoadbooks.transform (data, this.props.theme)}
+            data       = {RoadbooksToChronos.transform (data.Roadbooks, this.props.theme)}
             lineWidth  = '250px'
             glyphWidth = '80px'
             {...this.link ()} />

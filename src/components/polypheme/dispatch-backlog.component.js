@@ -4,7 +4,7 @@ import React from 'react';
 import BacklogData from './backlog-data';
 import ReducerData from '../polypheme/reducer-data.js';
 import Enumerable from 'linq';
-import TransformToBacklog from './transform-to-backlog.js';
+import BacklogToChronos from './backlog-to-chronos.js';
 
 import {
   Container,
@@ -299,7 +299,7 @@ export default class DispatchBacklog extends React.Component {
       <Container kind='view-stretch' {...this.link ()} >
         <Container kind='tickets-root' {...this.link ()} >
           <Chronos
-            data       = {TransformToBacklog.transform (data)}
+            data       = {BacklogToChronos.transform (data.Backlog)}
             navigation = 'hidden'
             lineWidth  = '200px'
             glyphWidth = '40px'

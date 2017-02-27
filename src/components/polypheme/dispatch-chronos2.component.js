@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import TransformToRoadbooks from './transform-to-roadbooks.js';
+import RoadbooksToChronos from './roadbooks-to-chronos.js';
 
 import {
   Container,
@@ -19,7 +19,7 @@ export default class DispatchChronos2 extends React.Component {
     if (data) {
       data = JSON.parse (data);
     } else {
-      data = TransformToRoadbooks.transform (window.document.dataDispatch, this.props.theme);
+      data = RoadbooksToChronos.transform (window.document.dataDispatch.Roadbooks, this.props.theme);
     }
 
     return (

@@ -42,12 +42,12 @@ function transformRoadbookToEvents (events, roadbook, theme) {
   }
 }
 
-function transform (data, theme) {
+function transform (roadbooks, theme) {
   const events = {};
   events.FromDate = '2017-01-01';
   events.ToDate = '2017-12-31';
   events.Events = [];
-  for (var roadbook of data.Roadbooks) {
+  for (var roadbook of roadbooks) {
     transformRoadbookToEvents (events, roadbook, theme);
   }
   return events;

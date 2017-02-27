@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import TransformToBacklog from './transform-to-backlog.js';
+import BacklogToChronos from './backlog-to-chronos.js';
 
 import {
   Container,
@@ -19,7 +19,7 @@ export default class DispatchChronos1 extends React.Component {
     if (data) {
       data = JSON.parse (data);
     } else {
-      data = TransformToBacklog.transform (window.document.dataDispatch);
+      data = BacklogToChronos.transform (window.document.dataDispatch.Backlog);
     }
 
     return (
