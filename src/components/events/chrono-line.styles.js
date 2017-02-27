@@ -5,7 +5,9 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  const lineWidth = props.lineWidth;
+  const lineWidth  = props.lineWidth;
+  const notesCount = props.notesCount;
+
   const h = Unit.sub (theme.shapes.chronosLineHeight, '1px');
 
   const lineStyle = {
@@ -40,7 +42,7 @@ export default function styles (theme, props) {
     position:        'relative',
     minHeight:       h,
     maxHeight:       h,
-    width:           Unit.multiply (lineWidth, 3),
+    width:           Unit.multiply (lineWidth, notesCount + 1),
     display:         'flex',
     flexDirection:   'row',
     userSelect:      'none',

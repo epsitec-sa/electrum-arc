@@ -443,13 +443,17 @@ export default class Chronos extends React.Component {
   }
 
   renderEvents () {
+    const dragController = this.read ('drag-controller');
+    const dragSource     = this.read ('drag-source');
+    const dragMode       = this.read ('drag-mode');
+    const itemId         = this.read ('item-id');
     return (
       <Container
         kind            = {'chronos-events'}
-        drag-controller = 'ticket'
-        drag-source     = 'backlog'
-        drag-mode       = 'all'
-        item-id         = 'chronos'
+        drag-controller = {dragController}
+        drag-source     = {dragSource}
+        drag-mode       = {dragMode}
+        item-id         = {itemId}
         view-parent-id  = 'view-backlog'
         {...this.link ()} >
         {this.renderEventsList ()}

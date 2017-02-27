@@ -26,7 +26,8 @@ export default class ChronoLine extends React.Component {
 
   get styleProps () {
     return {
-      lineWidth: this.read ('lineWidth'),
+      lineWidth:  this.read ('lineWidth'),
+      notesCount: this.read ('notesCount'),
     };
   }
 
@@ -111,6 +112,7 @@ export default class ChronoLine extends React.Component {
     // console.log ('ChronoLine ' + isDragged + ' ' + hasHeLeft);
 
     const hover = !isDragged && this.getHover ();
+    const cursor = isDragged ? 'move' : 'default';
 
     let styleName = hover ? 'lineHover' : 'line';
     if (isDragged) {
@@ -119,6 +121,8 @@ export default class ChronoLine extends React.Component {
     const lineStyle      = this.mergeStyles (styleName);
     const lineLabelStyle = this.mergeStyles ('lineLabel');
     const lineEventStyle = this.mergeStyles ('lineEvent');
+
+    lineStyle.cursor = cursor;
 
     return (
       <div style={lineStyle} key={index}>

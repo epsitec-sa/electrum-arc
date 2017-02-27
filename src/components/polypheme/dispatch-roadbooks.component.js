@@ -211,17 +211,20 @@ export default class DispatchRoadbooks extends React.Component {
     let data = this.read ('data');
     return (
       <Container
-        kind            = 'tickets-messengers'
-        drag-controller = 'roadbook'
-        drag-source     = 'roadbooks'
-        item-id         = {data.id}
+        kind = 'tickets-messengers'
         {...this.link ()} >
-        <Container kind='tickets-root' {...this.link ()} >
+        <Container
+          kind        = 'tickets-root'
+          drag-parent = {data.Roadbooks.id}
+          {...this.link ()} >
           <Chronos
-            data       = {data}
-            events     = {RoadbooksToChronos.transform (data.Roadbooks, this.props.theme)}
-            lineWidth  = '250px'
-            glyphWidth = '80px'
+            data            = {data}
+            events          = {RoadbooksToChronos.transform (data.Roadbooks, this.props.theme)}
+            lineWidth       = '250px'
+            glyphWidth      = '80px'
+            drag-controller = 'ticket'
+            drag-source     = 'roadbooks'
+            item-id         = 'chronos-roadbooks'
             {...this.link ()} />
         </Container>
         {this.renderHoverButton ()}

@@ -28,8 +28,7 @@ export default class DispatchBacklog extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      // viewType: 'tripbox'
-      viewType: 'chronos'
+      viewType: 'tripbox'
     };
   }
 
@@ -245,7 +244,10 @@ export default class DispatchBacklog extends React.Component {
             list        = {this.getSortList (data)}
             {...this.link ()} />
         </Container>
-        <Container kind='panes' drag-parent={data.Backlog.id} {...this.link ()} >
+        <Container
+          kind        = 'panes'
+          drag-parent = {data.Backlog.id}
+          {...this.link ()} >
           <Container
             kind            = {'column'}
             drag-controller = 'ticket'
@@ -276,7 +278,10 @@ export default class DispatchBacklog extends React.Component {
             list        = {this.getSortList (data)}
             {...this.link ()} />
         </Container>
-        <Container kind='panes' drag-parent={data.Backlog.id} {...this.link ()} >
+        <Container
+          kind        = 'panes'
+          drag-parent = {data.Backlog.id}
+          {...this.link ()} >
           <Container
             kind            = {'wrap'}
             drag-controller = 'ticket'
@@ -297,13 +302,20 @@ export default class DispatchBacklog extends React.Component {
     const data = this.read ('data');
     return (
       <Container kind='view-stretch' {...this.link ()} >
-        <Container kind='tickets-root' drag-parent={data.Backlog.id} {...this.link ()} >
+        <Container
+          kind        = 'tickets-root'
+          drag-parent = {data.Backlog.id}
+          {...this.link ()} >
           <Chronos
-            data       = {data}
-            events     = {BacklogToChronos.transform (data.Backlog)}
-            navigation = 'hidden'
-            lineWidth  = '200px'
-            glyphWidth = '40px'
+            data            = {data}
+            events          = {BacklogToChronos.transform (data.Backlog)}
+            navigation      = 'hidden'
+            lineWidth       = '200px'
+            glyphWidth      = '40px'
+            drag-controller = 'ticket'
+            drag-source     = 'backlog'
+            drag-mode       = 'all'
+            item-id         = 'chronos-backlog'
             {...this.link ()} />
         </Container>
         {this.renderHoverButton ()}
