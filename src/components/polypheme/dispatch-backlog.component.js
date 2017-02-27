@@ -70,6 +70,17 @@ export default class DispatchBacklog extends React.Component {
     }
   }
 
+  getViewTypeGlyph () {
+    switch (this.getViewType ()) {
+      case 'tripbox':
+        return 'th';
+      case 'distincts':
+        return 'clock-o';
+      default:
+        return 'bars';
+    }
+  }
+
   changeSort (data, item) {
     if (window.document.mock) {
       data.BacklogSort = item.key;
@@ -157,7 +168,7 @@ export default class DispatchBacklog extends React.Component {
       <div style={style}>
         <Button
           kind            = 'hover'
-          glyph           = 'eye'
+          glyph           = {this.getViewTypeGlyph ()}
           custom-on-click = {() => this.cycleViewType ()}
           {...this.link ()} />
       </div>
