@@ -303,13 +303,10 @@ export default class DispatchBacklog extends React.Component {
     switch (this.getViewType ()) {
       case 'tripbox':
         return this.renderTripbox ();
-        break;
       case 'distincts':
         return this.renderDistincts ();
-        break;
       default:
         return this.renderChronos ();
-        break;
     }
   }
 }

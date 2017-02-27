@@ -2,19 +2,35 @@
 
 import React from 'react';
 import ReducerData from './reducer-data.js';
+import TransformToRoadbooks from './transform-to-roadbooks.js';
 
 import {
   Container,
   Trip,
   MessengerTicket,
   DragCab,
-  Roadbook
+  Roadbook,
+  Button,
+  Chronos
 } from '../../all-components.js';
 
 export default class DispatchRoadbooks extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      viewType: 'tickets'
+    };
+  }
+
+  getViewType () {
+    return this.state.viewType;
+  }
+
+  setViewType (value) {
+    this.setState ( {
+      viewType: value
+    });
   }
 
   componentDidMount () {
@@ -48,6 +64,34 @@ export default class DispatchRoadbooks extends React.Component {
     if (e.altKey) {  // compected/extended ?
       this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.id);
     }
+  }
+
+  cycleViewType () {
+    switch (this.getViewType ()) {
+      case 'tickets':
+        this.setViewType ('chronos');
+        break;
+      default:
+        this.setViewType ('tickets');
+        break;
+    }
+  }
+
+  renderHoverButton () {
+    const style = {
+      position: 'absolute',
+      left:     '0px',
+      top:      '0px',
+    };
+    return (
+      <div style={style}>
+        <Button
+          kind            = 'hover'
+          glyph           = 'eye'
+          custom-on-click = {() => this.cycleViewType ()}
+          {...this.link ()} />
+      </div>
+    );
   }
 
   renderMessenger (data, roadbook) {
@@ -128,7 +172,7 @@ export default class DispatchRoadbooks extends React.Component {
     );
   }
 
-  renderRoadbooks (roadbooks, data) {
+  renderRoadbooksList (roadbooks, data) {
     const result = [];
     let index = 0;
     for (var roadbook of roadbooks) {
@@ -137,9 +181,8 @@ export default class DispatchRoadbooks extends React.Component {
     return result;
   }
 
-  render () {
+  renderRoadbooks () {
     let data = this.read ('data');
-
     return (
       <Container
         kind            = 'tickets-messengers'
@@ -147,8 +190,39 @@ export default class DispatchRoadbooks extends React.Component {
         drag-source     = 'roadbooks'
         item-id         = {data.id}
         {...this.link ()} >
-        {this.renderRoadbooks (data.Roadbooks, data)}
+        {this.renderRoadbooksList (data.Roadbooks, data)}
+        {this.renderHoverButton ()}
       </Container>
     );
+  }
+
+  renderChronos () {
+    let data = this.read ('data');
+    return (
+      <Container
+        kind            = 'tickets-messengers'
+        drag-controller = 'roadbook'
+        drag-source     = 'roadbooks'
+        item-id         = {data.id}
+        {...this.link ()} >
+        <Container kind='tickets-root' {...this.link ()} >
+          <Chronos
+            data       = {TransformToRoadbooks.transform (data, this.props.theme)}
+            lineWidth  = '250px'
+            glyphWidth = '80px'
+            {...this.link ()} />
+        </Container>
+        {this.renderHoverButton ()}
+      </Container>
+    );
+  }
+
+  render () {
+    switch (this.getViewType ()) {
+      case 'tickets':
+        return this.renderRoadbooks ();
+      default:
+        return this.renderChronos ();
+    }
   }
 }
