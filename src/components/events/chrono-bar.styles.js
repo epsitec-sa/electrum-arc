@@ -113,10 +113,11 @@ export default function styles (theme, props) {
     flexDirection:   'row',
     justifyContent:  'flex-end',
     right:           '100%',
-    width:           '1000px',
     height:          '100%',
-    margin:          '0px 10px 0px 0px',
+    padding:         '0px 10px',
     userSelect:      'none',
+    backgroundColor: theme.palette.chronoLabelTooltipBackground,
+    zIndex:          2,
   };
 
   const rightTooltipStyle = {
@@ -124,10 +125,11 @@ export default function styles (theme, props) {
     display:         'flex',
     flexDirection:   'row',
     left:            '100%',
-    width:           '1000px',
     height:          '100%',
-    margin:          '0px 0px 0px 10px',
+    padding:         '0px 10px',
     userSelect:      'none',
+    backgroundColor: theme.palette.chronoLabelTooltipBackground,
+    zIndex:          2,
   };
 
   const r = theme.shapes.chronosBarRadius;
