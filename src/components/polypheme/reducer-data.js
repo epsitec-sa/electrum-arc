@@ -204,7 +204,7 @@ function createTransits (state, flashes, warnings) {
   for (var roadbook of state.Roadbooks) {
     const tickets = roadbook.Tickets;
     getMissions (roadbook.Tickets).forEach ((list, missionId) => {
-      if (list.length === 1 && !isTicketIntoTray (state, missionId)) {
+      if (list.length === 1 && (list[0].Type === 'pick' || list[0].Type === 'drop') && !isTicketIntoTray (state, missionId)) {
         const ticket = list[0];
         const newTicket = getNewTransit (state, ticket);
         flashes.push (newTicket.id);
@@ -344,7 +344,7 @@ function updateOrders (state) {
 function checkAlones (state, flashes, warnings) {
   for (var roadbook of state.Roadbooks) {
     getMissions (roadbook.Tickets).forEach (list => {
-      if (list.length === 1) {
+      if (list.length === 1 && list[0].Type !== 'task') {
         const ticket = list[0];
         let text;
         if (ticket.Type.startsWith ('pick')) {
