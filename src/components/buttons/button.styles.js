@@ -47,6 +47,7 @@ export default function styles (theme, props) {
   let boxPadding           = '0px';
   let boxZIndex            = inputZIndex;
   let boxOpacity           = null;
+  let borderWidth          = '1px';
   let borderColor          = theme.palette.buttonBorder;
   let borderStyle          = 'solid';
   let borderRadius         = '0px';
@@ -527,7 +528,11 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'hover') {
-    boxOpacity = 0;
+    boxOpacity           = 0;
+    borderWidth          = theme.shapes.lineSpacing;
+    borderColor          = theme.palette.taskBackground;
+    backgroundHoverColor = theme.palette.buttonBackground;
+    boxZIndex            = 3;
   }
 
   if (!inputKind) {
@@ -602,7 +607,7 @@ export default function styles (theme, props) {
     flexGrow:        boxGrow,
     justifyContent:  boxJustifyContent,
     alignItems:      boxAlignItems,
-    borderWidth:     '1px',
+    borderWidth:     borderWidth,
     borderColor:     borderColor,
     borderStyle:     borderStyle,
     borderRadius:    borderRadius,
