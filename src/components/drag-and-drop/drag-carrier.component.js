@@ -163,7 +163,7 @@ export default class DragCarrier extends React.Component {
       const rect = getBoundingRect (node);
       return {
         id:         null,
-        ownerId:    container.props['item-id'],
+        ownerId:    container.props['drag-owner-id'],
         ownerKind:  container.props['drag-source'],
         rect:       rect.height === 0 ? getVRect (rect, rect.top, rect.top + thickness * 2) : rect,
         opacity:    0.8,
@@ -176,7 +176,7 @@ export default class DragCarrier extends React.Component {
       const rect = getBoundingRect (node);
       return {
         id:         null,
-        ownerId:    container.props['item-id'],
+        ownerId:    container.props['drag-owner-id'],
         ownerKind:  container.props['drag-source'],
         rect:       getVRect (rect, rect.top - thickness, rect.top + thickness),
         parentRect: parentRect,
@@ -197,7 +197,7 @@ export default class DragCarrier extends React.Component {
         py -= overSpacing;
         return {
           id:         t.dataset.id,
-          ownerId:    t.dataset.ownerId ? t.dataset.ownerId : container.props['item-id'],
+          ownerId:    t.dataset.ownerId ? t.dataset.ownerId : container.props['drag-owner-id'],
           ownerKind:  container.props['drag-source'],
           rect:       getVRect (rect, py - thickness, py + thickness),
           parentRect: parentRect,
@@ -210,7 +210,7 @@ export default class DragCarrier extends React.Component {
     const rect = last.getBoundingClientRect ();
     return {
       id:         null,  // after last
-      ownerId:    container.props['item-id'],
+      ownerId:    container.props['drag-owner-id'],
       ownerKind:  container.props['drag-source'],
       rect:       getVRect (rect, rect.bottom - overSpacing - thickness, rect.bottom - overSpacing + thickness),
       parentRect: parentRect,
@@ -225,7 +225,7 @@ export default class DragCarrier extends React.Component {
       const rect = getBoundingRect (node);
       return {
         id:         null,
-        ownerId:    container.props['item-id'],
+        ownerId:    container.props['drag-owner-id'],
         ownerKind:  container.props['drag-source'],
         rect:       rect.width === 0 ? getHRect (rect, rect.left, rect.left + thickness * 2) : rect,
         opacity:    0.8,
@@ -238,7 +238,7 @@ export default class DragCarrier extends React.Component {
       const rect = getBoundingRect (node);
       return {
         id:         null,
-        ownerId:    container.props['item-id'],
+        ownerId:    container.props['drag-owner-id'],
         ownerKind:  container.props['drag-source'],
         rect:       getHRect (rect, rect.left - thickness, rect.left + thickness),
         parentRect: parentRect,
@@ -259,7 +259,7 @@ export default class DragCarrier extends React.Component {
         px -= overSpacing;
         return {
           id:         t.dataset.id,
-          ownerId:    t.dataset.ownerId ? t.dataset.ownerId : container.props['item-id'],
+          ownerId:    t.dataset.ownerId ? t.dataset.ownerId : container.props['drag-owner-id'],
           ownerKind:  container.props['drag-source'],
           rect:       getHRect (rect, px - thickness, px + thickness),
           parentRect: parentRect,
@@ -272,7 +272,7 @@ export default class DragCarrier extends React.Component {
     const rect = last.getBoundingClientRect ();
     return {
       id:         null,  // after last
-      ownerId:    container.props['item-id'],
+      ownerId:    container.props['drag-owner-id'],
       ownerKind:  container.props['drag-source'],
       rect:       getHRect (rect, rect.right - overSpacing - thickness, rect.right - overSpacing + thickness),
       parentRect: parentRect,
@@ -293,7 +293,7 @@ export default class DragCarrier extends React.Component {
   }
 
   getParentRect (container) {
-    const dragParentId = container.props['item-id'];
+    const dragParentId = container.props['drag-owner-id'];
     const parent = this.findParentId (dragParentId);
     if (parent) {
       const parentNode = ReactDOM.findDOMNode (parent);
@@ -326,8 +326,8 @@ export default class DragCarrier extends React.Component {
 
   find (x, y) {
     const direction      = this.read ('direction');
-    const dragId         = this.read ('drag-id');
-    const dragCab        = this.searchDragCab (dragId);
+    const dragOwnerId    = this.read ('drag-owner-id');
+    const dragCab        = this.searchDragCab (dragOwnerId);
     const dragController = dragCab.read ('drag-controller');
     for (var container of window.document.dragControllers) {
       const dc = container.props['drag-controller'];
@@ -366,7 +366,7 @@ export default class DragCarrier extends React.Component {
           container:  container,
           ticket:     t,
           id:         t.dataset.id,
-          ownerId:    container.props['item-id'],
+          ownerId:    container.props['drag-owner-id'],
           rect:       rect,
           parentRect: parentRect,
           index:      i,
@@ -379,12 +379,12 @@ export default class DragCarrier extends React.Component {
   // Return the description of origin, whith is the full rectangle of item origin.
   findOrigin () {
     const dragController = this.read ('drag-controller');
-    const dragId         = this.read ('drag-id');
+    const dragOwnerId    = this.read ('drag-owner-id');
     for (var container of window.document.dragControllers) {
       const dc = container.props['drag-controller'];
       if (dc === dragController) {
         const n = ReactDOM.findDOMNode (container);
-        const rect = this.findNodeOrigin (container, n, dragId);
+        const rect = this.findNodeOrigin (container, n, dragOwnerId);
         if (rect) {
           return rect;
         }
@@ -395,7 +395,7 @@ export default class DragCarrier extends React.Component {
 
   searchDragCab (id) {
     for (let dragCab of window.document.dragCabs) {
-      if (dragCab.props['item-id'] === id) {
+      if (dragCab.props['drag-owner-id'] === id) {
         return dragCab;
       }
     }
@@ -405,7 +405,7 @@ export default class DragCarrier extends React.Component {
   searchChildren (id) {
     const container = this.rectOrigin.container;
     for (let child of container.props.children) {
-      if (child.props['item-id'] === id) {
+      if (child.props['drag-owner-id'] === id) {
         return child;
       }
     }
@@ -458,8 +458,8 @@ export default class DragCarrier extends React.Component {
     if (this.moveCount === 0) {  // first move ?
       this.startX = x;
       this.startY = y;
-      const dragId  = this.read ('drag-id');
-      const dragCab = this.searchDragCab (dragId);
+      const dragOwnerId = this.read ('drag-owner-id');
+      const dragCab = this.searchDragCab (dragOwnerId);
       const node = ReactDOM.findDOMNode (dragCab);
       const rect = node.getBoundingClientRect ();
       this.offsetX = x - rect.left;

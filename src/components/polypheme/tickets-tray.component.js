@@ -167,7 +167,7 @@ export default class TicketsTray extends React.Component {
           kind            = 'tickets-tray'
           drag-controller = 'ticket'
           drag-source     = 'tray'
-          item-id         = {tray.id}
+          drag-owner-id   = {tray.id}
           {...this.link ()} >
           {this.props.children}
         </Container>

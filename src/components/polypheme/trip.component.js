@@ -261,7 +261,7 @@ export default class Trip extends React.Component {
         radius           = {this.props.theme.shapes.dragAndDropTicketThickness}
         mode             = 'corner-top-left'
         data             = {data}
-        item-id          = {ticket.id}
+        drag-owner-id    = {ticket.id}
         no-drag          = {noDrag}
         vertical-spacing = {this.props.theme.shapes.tripBoxVerticalSpacing}
         mouse-down       = {e => this.mouseDown (e)}
@@ -316,7 +316,7 @@ export default class Trip extends React.Component {
         radius           = {this.props.theme.shapes.dragAndDropTicketThickness}
         mode             = 'corner-top-left'
         data             = {data}
-        item-id          = {ticket.id}
+        drag-owner-id    = {ticket.id}
         no-drag          = {noDrag}
         vertical-spacing = {verticalSpacing}
         mouse-down       = {e => this.mouseDown (e)}

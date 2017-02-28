@@ -389,7 +389,7 @@ export default class Chronos extends React.Component {
         thickness        = {this.props.theme.shapes.dragAndDropTicketThickness}
         mode             = 'corner-top-left'
         data             = {data}
-        item-id          = {event.id}
+        drag-owner-id    = {event.id}
         no-drag          = {noDrag}
         vertical-spacing = {verticalSpacing}
         mouse-down       = {e => this.mouseDown (e)}
@@ -447,7 +447,7 @@ export default class Chronos extends React.Component {
     const dragController = this.read ('drag-controller');
     const dragSource     = this.read ('drag-source');
     const dragMode       = this.read ('drag-mode');
-    const itemId         = this.read ('item-id');
+    const dragOwnerId    = this.read ('drag-owner-id');
     const viewParentId   = this.read ('view-parent-id');
     return (
       <Container
@@ -455,7 +455,7 @@ export default class Chronos extends React.Component {
         drag-controller = {dragController}
         drag-source     = {dragSource}
         drag-mode       = {dragMode}
-        item-id         = {itemId}
+        drag-owner-id   = {dragOwnerId}
         view-parent-id  = {viewParentId}
         {...this.link ()} >
         {this.renderEventsList ()}

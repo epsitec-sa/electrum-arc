@@ -253,7 +253,7 @@ export default class DispatchBacklog extends React.Component {
             drag-controller = 'ticket'
             drag-source     = 'backlog'
             drag-mode       = 'all'
-            item-id         = {data.Backlog.id}
+            drag-owner-id   = {data.Backlog.id}
             view-parent-id  = 'view-backlog'
             {...this.link ()} >
             {this.renderGroupedTickets (data)}
@@ -287,7 +287,7 @@ export default class DispatchBacklog extends React.Component {
             drag-controller = 'ticket'
             drag-source     = 'backlog'
             drag-mode       = 'all'
-            item-id         = {data.Backlog.id}
+            drag-owner-id   = {data.Backlog.id}
             view-parent-id  = 'view-backlog'
             {...this.link ()} >
             {this.renderDistinctTickets (data)}
@@ -315,7 +315,7 @@ export default class DispatchBacklog extends React.Component {
             drag-controller = 'ticket'
             drag-source     = 'backlog'
             drag-mode       = 'all'
-            item-id         = {data.Backlog.id}
+            drag-owner-id   = {data.Backlog.id}
             view-parent-id  = 'view-backlog'
             {...this.link ()} />
         </Container>

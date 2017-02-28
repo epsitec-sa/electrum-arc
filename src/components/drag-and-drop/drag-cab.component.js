@@ -68,9 +68,9 @@ export default class DragCab extends React.Component {
   }
 
   componentDidMount () {
-    const id = this.read ('item-id');
+    const id = this.read ('drag-owner-id');
     if (!id) {
-      throw new Error ('DragCab has not id');
+      throw new Error ('DragCab has not drag-owner-id');
     }
     if (!window.document.dragCabs) {
       window.document.dragCabs = [];
@@ -151,7 +151,7 @@ export default class DragCab extends React.Component {
     const overSpacing    = this.read ('over-spacing');
     const mode           = this.read ('mode');
     const data           = this.read ('data');
-    const dragId         = this.read ('item-id');
+    const dragOwnerId    = this.read ('drag-owner-id');
     const dragController = this.read ('drag-controller');
     return (
       <DragCarrier
@@ -165,7 +165,7 @@ export default class DragCab extends React.Component {
         drag-ending       = {(e, x) => this.dragEnding (e, x)}
         drag-height       = {this.dragHeight}
         drag-controller   = {dragController}
-        drag-id           = {dragId}
+        drag-owner-id     = {dragOwnerId}
         {...this.link ()} />
     );
   }
@@ -180,7 +180,7 @@ export default class DragCab extends React.Component {
   }
 
   renderForDrag (isDragged, index) {
-    const id              = this.read ('item-id');
+    const dragOwnerId     = this.read ('drag-owner-id');
     const direction       = this.read ('direction');
     const verticalSpacing = this.read ('vertical-spacing');
     const dragInProcess   = this.getDragInProcess ();
@@ -201,7 +201,7 @@ export default class DragCab extends React.Component {
       <div
         key                   = {index}
         style                 = {boxStyle}
-        data-id               = {id}
+        data-id               = {dragOwnerId}
         data-vertical-spacing = {verticalSpacing}
         onMouseDown           = {e => this.mouseDown (e)}
         onMouseUp             = {e => this.mouseUp (e)}

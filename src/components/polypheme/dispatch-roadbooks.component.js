@@ -158,7 +158,7 @@ export default class DispatchRoadbooks extends React.Component {
           kind            = 'tickets-trips'
           drag-controller = 'ticket'
           drag-source     = 'roadbook'
-          item-id         = {roadbook.id}
+          drag-owner-id   = {roadbook.id}
           {...this.link ()} >
           {this.renderTickets (roadbook, data)}
         </Container>
@@ -178,7 +178,7 @@ export default class DispatchRoadbooks extends React.Component {
         radius          = '0px'
         data            = {data}
         do-click-action = {e => this.doClickAction (roadbook, e)}
-        item-id         = {roadbook.id}
+        drag-owner-id   = {roadbook.id}
         {...this.link ()}>
         <Roadbook
           key      = {index}
@@ -208,7 +208,7 @@ export default class DispatchRoadbooks extends React.Component {
         kind            = 'tickets-messengers'
         drag-controller = 'roadbook'
         drag-source     = 'roadbooks'
-        item-id         = {data.id}
+        drag-owner-id   = {data.id}
         {...this.link ()} >
         {this.renderRoadbooksList (data.Roadbooks, data)}
         {this.renderHoverButton ()}
@@ -232,7 +232,7 @@ export default class DispatchRoadbooks extends React.Component {
             glyphWidth      = '80px'
             drag-controller = 'ticket'
             drag-source     = 'roadbooks'
-            item-id         = {this.getLastRoadbookId (data)}
+            drag-owner-id   = {this.getLastRoadbookId (data)}
             {...this.link ()} />
         </Container>
         {this.renderHoverButton ()}
