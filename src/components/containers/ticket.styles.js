@@ -107,15 +107,15 @@ function getHoverPath (theme, shape, hoverShape, width, height) {
     const s = (shape === 'first') ? 0 : r;
     path = moveTo (path, 0, h - s);
     path = lineTo (path, 0, -(h - s - r));
-    path = arcTo (path, r, r, -r, 0);  // bottom-left external corner
+    path = arcTo (path, r, r, -r, 0);  // top-left external corner
     path = lineTo (path, w - r - r, 0);
-    path = arcTo (path, r, r, r, 0); // bottom-right external corner
+    path = arcTo (path, r, r, r, 0); // top-right external corner
     path = lineTo (path, 0, h - s - r);
     path = lineTo (path, -t, 0);
     path = lineTo (path, 0, -(h - t - s - r));
-    path = arcTo (path, i, -r, -r, 1);  // bottom-right internal corner
+    path = arcTo (path, i, -r, -r, 1);  // top-right internal corner
     path = lineTo (path, -(w - r - r - t - t), 0);
-    path = arcTo (path, i, -r, r, 1);  // bottom-left internal corner
+    path = arcTo (path, i, -r, r, 1);  // top-left internal corner
     path = lineTo (path, 0, h - t - s - r);
     path = close (path);
   } else if (hoverShape === 'last') {
@@ -133,6 +133,29 @@ function getHoverPath (theme, shape, hoverShape, width, height) {
     path = lineTo (path, -(w - r - r - t - t), 0);
     path = arcTo (path, i, -r, -r, 0);  // bottom-left internal corner
     path = lineTo (path, 0, -(h - t - s - r));
+    path = close (path);
+  } else {
+    // External CW.
+    path = moveTo (path, 0, h - r);
+    path = lineTo (path, 0, -(h - r - r));
+    path = arcTo (path, r, r, -r, 0);  // top-left external corner
+    path = lineTo (path, w - r - r, 0);
+    path = arcTo (path, r, r, r, 0); // top-right external corner
+    path = lineTo (path, 0, h - r - r);
+    path = arcTo (path, r, -r, r, 0); // bottom-right external corner
+    path = lineTo (path, -(w - r - r), 0);
+    path = arcTo (path, r, -r, -r, 0);  // bottom-left internal corner
+    path = close (path);
+    // Internal CCW.
+    path = moveTo (path, t + r, h - t);
+    path = lineTo (path, w - r - r - t - t, 0);
+    path = arcTo (path, i, r, -r, 1);  // bottom-right internal corner
+    path = lineTo (path, 0, -(h - r - r - t - t));
+    path = arcTo (path, i, -r, -r, 1); // top-right internal corner
+    path = lineTo (path, -(w - r - r - t - t), 0);
+    path = arcTo (path, i, -r, r, 1); // top-left internal corner
+    path = lineTo (path, 0, h - r - r - t - t);
+    path = arcTo (path, i, r, r, 1);  // bottom-left internal corner
     path = close (path);
   }
   return path;
