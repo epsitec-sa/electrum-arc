@@ -7,7 +7,13 @@ function cloneChildren (children, state, theme, idMapper) {
 }
 
 function cloneChild (child, state, theme, props, idMapper) {
-  let {field, children, id, ...rest} = props;
+
+  if (props === undefined) {
+    return child;
+  }
+
+  let {children, id, ...rest} = props;
+  let subField = props['sub-field'];
 
   if (idMapper && id) {
     id = idMapper (id);
@@ -28,11 +34,11 @@ function cloneChild (child, state, theme, props, idMapper) {
   // TODO: rather than manually injecting state and theme into the props,
   // we should rely on the linking middleware provided by electrum...
 
-  if (field) {
-    // This is an electrum element decorated with a field property; we need
+  if (subField) {
+    // This is an electrum element decorated with a sub-field property; we need
     // to inject the matching state here; usually, this is handled by the JSX
     // generator which replaces field='x' with {...this.link ('x')}
-    state = state.find (field);
+    state = state.find (subField);
     props = {id, state, theme, ...rest};
     return (
       <child.type {...props}>
