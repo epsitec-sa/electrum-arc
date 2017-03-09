@@ -68,7 +68,7 @@ describe ('<Repeat>', () => {
 
     const html = ReactDOMServer.renderToStaticMarkup (
       <Repeat state={state} theme={theme}>
-        <Foo id='i' field='name' bar='42'/>
+        <Foo id='i' sub-field='name' bar='42'/>
       </Repeat>
     );
 
@@ -87,7 +87,7 @@ describe ('<Repeat>', () => {
 
     const html = ReactDOMServer.renderToStaticMarkup (
       <Repeat state={state} theme={theme}>
-        <Foo field='name' bar='42'/>
+        <Foo sub-field='name' bar='42'/>
       </Repeat>
     );
 
@@ -107,7 +107,7 @@ describe ('<Repeat>', () => {
     const html = ReactDOMServer.renderToStaticMarkup (
       <Repeat state={state} theme={theme}>
         <h1>
-          <Foo id='i' field='name' bar='42'/>
+          <Foo id='i' sub-field='name' bar='42'/>
         </h1>
       </Repeat>
     );
@@ -128,7 +128,7 @@ describe ('<Repeat>', () => {
     const html = ReactDOMServer.renderToStaticMarkup (
       <Repeat state={state} theme={theme}>
         <Group>
-          <Foo id='i' field='name' bar='42'/>
+          <Foo id='i' sub-field='name' bar='42'/>
         </Group>
       </Repeat>
     );
@@ -148,8 +148,8 @@ describe ('<Repeat>', () => {
 
     const html = ReactDOMServer.renderToStaticMarkup (
       <Repeat state={state} theme={theme}>
-        <Group field='grp'>
-          <Foo id='i' field='name' bar='42'/>
+        <Group sub-field='grp'>
+          <Foo id='i' sub-field='name' bar='42'/>
         </Group>
       </Repeat>
     );
