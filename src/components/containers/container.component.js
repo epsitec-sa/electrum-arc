@@ -156,10 +156,13 @@ export default class Container extends React.Component {
   }
 
   applySelectedToChildren (selected) {
-    return React.Children.map (
-      this.props.children, child => {
-        const props = {active: selected};
-        return React.cloneElement (child, props);
+    return React.Children.map (this.props.children, child => {
+        if (React.isValidElement (child)) {
+          const props = {active: selected};
+          return React.cloneElement (child, props);
+        } else {
+          return child;
+        }
       }
     );
   }

@@ -12,11 +12,11 @@ export default class Router extends React.Component {
     this.state = {
       managedChildren: null,
     };
-    this.active = null;
+    this.view = null;
   }
 
   componentWillMount () {
-    this.active = this.read ('active');
+    this.view = this.read ('view');
     this.setNavigation ();
   }
 
@@ -47,14 +47,14 @@ export default class Router extends React.Component {
     const name = this.read ('name');
     for (let view of window.document.views) {
       if (view.router === name) {
-        view.setVisible (view.route === this.active);
+        view.setVisible (view.route === this.view);
       }
     }
   }
 
   mouseDown (name) {
     console.log ('Router.mouseDown');
-    this.active = name;
+    this.view = name;
     this.setNavigation ();
     this.updateViews ();
   }
@@ -63,7 +63,7 @@ export default class Router extends React.Component {
     const children = React.Children.map (this.props.children, (child, i) => {
       const name = child.props.name;
       const props = {
-        active: name === this.active ? 'true' : 'false',
+        view: name === this.view ? 'true' : 'false',
         ['mouse-down']: () => this.mouseDown (name),
       };
       return React.cloneElement (child, props);

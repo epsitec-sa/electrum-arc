@@ -29,7 +29,7 @@ export default class View extends React.Component {
   isVisible () {
     if (window.document.routers && window.document.routers.has (this.router)) {
       const r = window.document.routers.get (this.router);
-      return r.active === this.route;
+      return r.view === this.route;
     } else {
       return false;
     }
