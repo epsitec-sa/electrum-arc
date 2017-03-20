@@ -155,15 +155,25 @@ export default class Container extends React.Component {
     this.setNavigation (index);
   }
 
+  applySelectedToChildren (selected) {
+    return React.Children.map (
+      this.props.children, child => {
+        const props = {active: selected};
+        return React.cloneElement (child, props);
+      }
+    );
+  }
+
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const kind    = this.read ('kind');
-    const anchor  = this.read ('anchor');
-    const navName = this.read ('navigation-name');
-    const hidden  = this.read ('hidden');
-    const show    = this.read ('show');
-    const index   = this.read ('index');
+    const kind     = this.read ('kind');
+    const anchor   = this.read ('anchor');
+    const navName  = this.read ('navigation-name');
+    const hidden   = this.read ('hidden');
+    const show     = this.read ('show');
+    const index    = this.read ('index');
+    const selected = this.read ('selected');
 
     const boxStyle      = this.mergeStyles ('box');
     const triangleStyle = this.mergeStyles ('triangle');
@@ -190,7 +200,7 @@ export default class Container extends React.Component {
           >
           <div style = {triangleStyle}/>
           <div>
-            {this.props.children}
+            {this.applySelectedToChildren (selected)}
           </div>
         </div>
       );
@@ -203,7 +213,7 @@ export default class Container extends React.Component {
           id                   = {anchor}
           data-navigation-name = {navName}
           >
-          {useManagedChildren.includes (kind) ? this.state.managedChildren : this.props.children}
+          {useManagedChildren.includes (kind) ? this.state.managedChildren : this.applySelectedToChildren (selected)}
         </div>
       );
     }
