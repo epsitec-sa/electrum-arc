@@ -237,10 +237,13 @@ export default class Button extends React.Component {
     const tooltip  = this.read ('tooltip');
     const menu     = this.read ('menu');
     const toAnchor = this.read ('to-anchor');
+    const show     = this.read ('show');
 
     const boxStyle = this.mergeStyles ('box');
 
-    if (kind === 'container' || kind === 'box') {
+    if (show === 'false') {
+      return null;
+    } else if (kind === 'container' || kind === 'box') {
       return (
         <div
           key          = {index}
