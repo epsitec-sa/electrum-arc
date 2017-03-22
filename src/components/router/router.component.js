@@ -63,7 +63,7 @@ export default class Router extends React.Component {
     const children = React.Children.map (this.props.children, (child, i) => {
       const name = child.props.name;
       const props = {
-        view: name === this.view ? 'true' : 'false',
+        active: name === this.view ? 'true' : 'false',
         ['mouse-down']: () => this.mouseDown (name),
       };
       return React.cloneElement (child, props);
