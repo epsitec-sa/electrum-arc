@@ -157,7 +157,7 @@ export default class Container extends React.Component {
 
   applySelectedToChildren (selected) {
     return React.Children.map (this.props.children, child => {
-        if (React.isValidElement (child)) {
+        if (selected && React.isValidElement (child)) {
           const props = {selected: selected};
           return React.cloneElement (child, props);
         } else {
