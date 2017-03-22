@@ -12,6 +12,18 @@ export default class Button extends React.Component {
     super (props);
   }
 
+  readActive () {
+    const text = this.read ('text');
+    const active   = this.read ('active');
+    const selected = this.read ('selected');
+    console.log (`text=${text} active=${active} selected=${selected}`);
+    if (active === 'true' || selected === 'true') {
+      return 'true';
+    } else {
+      return 'false';
+    }
+  }
+
   get styleProps () {
     return {
       glyph:           this.read ('glyph'),
@@ -30,7 +42,7 @@ export default class Button extends React.Component {
       subkind:         this.read ('subkind'),
       nature:          this.read ('nature'),
       place:           this.read ('place'),
-      active:          this.read ('active'),
+      active:          this.readActive (),
       badgeValue:      this.read ('badge-value'),
       shape:           this.read ('shape'),
       menuDirection:   this.read ('menu-direction'),
@@ -126,7 +138,7 @@ export default class Button extends React.Component {
 
   renderTriangle () {
     const kind   = this.read ('kind');
-    const active = this.read ('active');
+    const active = this.readActive ();
     if (kind === 'main-tab' && active === 'true') {
       const triangleStyle = this.mergeStyles ('triangle');
       return (
