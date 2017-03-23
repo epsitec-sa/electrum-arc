@@ -14,9 +14,17 @@ export default class Table extends React.Component {
 
   renderHeaderColumn(column, index) {
     const style = this.mergeStyles ('cell');
-    style.width     = column.Width;
-    style.minWidth  = column.Width;
-    style.maxWidth  = column.Width;
+
+    if (column.Width) {
+      style.minWidth = column.Width;
+      style.maxWidth = column.Width;
+    } else if (column.Grow) {
+      style.flexGrow   = column.Grow;
+      style.flexShrink = '0';
+      style.flexBasis  = '0%';
+      style.minWidth   = '0px';
+      style.overflow   = 'hidden';
+    }
     style.textAlign = column.TextAlign;
 
     return (
