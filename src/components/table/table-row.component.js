@@ -43,7 +43,12 @@ export default class TableRow extends React.Component {
   /******************************************************************************/
 
   renderRowColumn(description, column, index) {
-    const style = this.mergeStyles (this.getHover () ? 'hover' : 'cell');
+    const selected = this.read ('selected');
+    var styleName = selected === 'true' ? 'selected' : 'cell';
+    if (this.getHover ()) {
+      styleName = 'hover';
+    }
+    const style = this.mergeStyles (styleName);
 
     if (column.Width) {
       style.minWidth = column.Width;

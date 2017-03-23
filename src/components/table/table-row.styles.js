@@ -24,10 +24,18 @@ export default function styles (theme, props) {
     cursor:          'default',
   };
 
+  const selectedStyle = {
+    margin:          '0px 1px 1px 0px',
+    padding:         theme.shapes.tablePadding,
+    backgroundColor: theme.palette.tableSelectedBackground,
+    cursor:          'default',
+  };
+
   return {
-    row:   rowStyle,
-    cell:  cellStyle,
-    hover: hoverStyle,
+    row:      rowStyle,
+    cell:     cellStyle,
+    hover:    hoverStyle,
+    selected: selectedStyle,
   };
 }
 

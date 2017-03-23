@@ -72,6 +72,7 @@ export default class Table extends React.Component {
         header           = {header}
         row              = {row}
         index            = {index}
+        selected         = {this.getSelectedRow () === row.id ? 'true' : 'false'}
         selectionChanged = {id => this.setSelectedRow (id)}
         {...this.link ()} />
     );
