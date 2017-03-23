@@ -8,6 +8,20 @@ export default class Table extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      selectedRow: -1,
+    };
+  }
+
+  getSelectedRow () {
+    return this.state.selectedRow;
+  }
+
+  setSelectedRow (value) {
+    console.log ('Table.setSelectedRow ' + value);
+    this.setState ( {
+      selectedRow: value
+    });
   }
 
   /******************************************************************************/
@@ -55,9 +69,10 @@ export default class Table extends React.Component {
   renderRow(header, row, index) {
     return (
       <TableRow
-        header = {header}
-        row    = {row}
-        index  = {index}
+        header           = {header}
+        row              = {row}
+        index            = {index}
+        selectionChanged = {id => this.setSelectedRow (id)}
         {...this.link ()} />
     );
   }

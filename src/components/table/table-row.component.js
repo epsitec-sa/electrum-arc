@@ -32,6 +32,14 @@ export default class TableRow extends React.Component {
     this.setHover (false);
   }
 
+  mouseDown () {
+    const selectionChanged = this.read ('selectionChanged');
+    if (selectionChanged) {
+      const row = this.read ('row');
+      selectionChanged (row.id);
+    }
+  }
+
   /******************************************************************************/
 
   renderRowColumn(description, column, index) {
@@ -55,6 +63,7 @@ export default class TableRow extends React.Component {
         style       = {style}
         onMouseOver = {() => this.mouseOver ()}
         onMouseOut  = {() => this.mouseOut ()}
+        onMouseDown = {() => this.mouseDown ()}
         >
         {description}
       </div>
