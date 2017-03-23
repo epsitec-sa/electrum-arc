@@ -6,8 +6,11 @@ export default function styles (theme, props) {
   const tableStyle = {
     display:         'flex',
     flexDirection:   'column',
+    padding:         '1px 0px 0px 1px',
     backgroundColor: theme.palette.tableBackground,
     cursor:          'default',
+    overflowX:       'auto',
+    overflowY:       'hidden',
   };
 
   const headerStyle = {
