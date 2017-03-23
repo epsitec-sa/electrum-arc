@@ -3,14 +3,8 @@
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  const tableStyle = {
-    display:         'flex',
-    flexDirection:   'column',
-    backgroundColor: theme.palette.tableBackground,
-    cursor:          'default',
-  };
-
-  const headerStyle = {
+  const rowStyle = {
+    position:        'relative',
     display:         'flex',
     flexDirection:   'row',
     cursor:          'default',
@@ -19,16 +13,21 @@ export default function styles (theme, props) {
   const cellStyle = {
     margin:          '0px 1px 1px 0px',
     padding:         theme.shapes.tablePadding,
-    fontWeight:      'bold',
-    textTransform:   'uppercase',
-    backgroundColor: theme.palette.tableHeaderBackground,
+    backgroundColor: theme.palette.tableCellBackground,
+    cursor:          'default',
+  };
+
+  const hoverStyle = {
+    margin:          '0px 1px 1px 0px',
+    padding:         theme.shapes.tablePadding,
+    backgroundColor: theme.palette.tableHoverBackground,
     cursor:          'default',
   };
 
   return {
-    table:  tableStyle,
-    header: headerStyle,
-    cell:   cellStyle,
+    row:   rowStyle,
+    cell:  cellStyle,
+    hover: hoverStyle,
   };
 }
 

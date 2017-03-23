@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import {TableRow} from '../../all-components.js';
 
 /******************************************************************************/
 export default class Table extends React.Component {
@@ -12,8 +13,10 @@ export default class Table extends React.Component {
   /******************************************************************************/
 
   renderHeaderColumn(column, index) {
-    const style = this.mergeStyles ('title');
+    const style = this.mergeStyles ('cell');
     style.width     = column.Width;
+    style.minWidth  = column.Width;
+    style.maxWidth  = column.Width;
     style.textAlign = column.TextAlign;
 
     return (
@@ -41,34 +44,13 @@ export default class Table extends React.Component {
     );
   }
 
-  renderRowColumn(description, column, index) {
-    const style = this.mergeStyles ('cell');
-    style.width     = column.Width;
-    style.textAlign = column.TextAlign;
-
-    return (
-      <div key={index} style={style}>
-        {description}
-      </div>
-    );
-  }
-
-  renderRowColumns(header, row) {
-    const result = [];
-    let index = 0;
-    for (var column of header) {
-      const description = row[column.Name];
-      result.push (this.renderRowColumn (description, column, index++));
-    }
-    return result;
-  }
-
   renderRow(header, row, index) {
-    const style = this.mergeStyles ('row');
     return (
-      <div key={index} style={style}>
-        {this.renderRowColumns (header, row)}
-      </div>
+      <TableRow
+        header = {header}
+        row    = {row}
+        index  = {index}
+        {...this.link ()} />
     );
   }
 
