@@ -33,7 +33,7 @@ export default class Table extends React.Component {
 
   /******************************************************************************/
 
-  renderHeaderColumn(column, index) {
+  renderHeaderColumn(column, last, index) {
     const style = this.mergeStyles ('cell');
 
     if (column.Width) {
@@ -48,6 +48,10 @@ export default class Table extends React.Component {
     }
     style.textAlign = column.TextAlign;
 
+    if (!last) {
+      style.marginRight = this.props.theme.shapes.tablePadding;
+    }
+
     return (
       <div key={index} style={style}>
         {column.Description}
@@ -59,7 +63,8 @@ export default class Table extends React.Component {
     const result = [];
     let index = 0;
     for (var column of header) {
-      result.push (this.renderHeaderColumn (column, index++));
+      const last = index === header.length - 1;
+      result.push (this.renderHeaderColumn (column, last, index++));
     }
     return result;
   }

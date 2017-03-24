@@ -42,10 +42,8 @@ export default class TableRow extends React.Component {
 
   /******************************************************************************/
 
-  renderRowColumn(description, column, index) {
-    const selected = this.read ('selected');
-    var styleName = (selected === 'true') ? 'selected' : (this.getHover () ? 'hover' : 'cell');
-    const style = this.mergeStyles (styleName);
+  renderRowColumn(description, column, last, index) {
+    const style = this.mergeStyles ('cell');
 
     if (column.Width) {
       style.minWidth = column.Width;
@@ -58,6 +56,10 @@ export default class TableRow extends React.Component {
       style.overflow   = 'hidden';
     }
     style.textAlign = column.TextAlign;
+
+    if (!last) {
+      style.marginRight = this.props.theme.shapes.tablePadding;
+    }
 
     return (
       <div
@@ -77,17 +79,20 @@ export default class TableRow extends React.Component {
     let index = 0;
     for (var column of header) {
       const description = row[column.Name];
-      result.push (this.renderRowColumn (description, column, index++));
+      const last = index === header.length - 1;
+      result.push (this.renderRowColumn (description, column, last, index++));
     }
     return result;
   }
 
   render() {
-    const header = this.read ('header');
-    const row    = this.read ('row');
-    const index  = this.read ('index');
+    const header   = this.read ('header');
+    const row      = this.read ('row');
+    const index    = this.read ('index');
+    const selected = this.read ('selected');
 
-    const rowStyle = this.mergeStyles ('row');
+    var styleName = (selected === 'true') ? 'rowSelected' : (this.getHover () ? 'rowHover' : 'row');
+    const rowStyle = this.mergeStyles (styleName);
 
     return (
       <div key={index} style={rowStyle}>

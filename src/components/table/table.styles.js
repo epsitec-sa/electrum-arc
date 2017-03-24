@@ -1,30 +1,35 @@
 'use strict';
 
+import {Unit} from 'electrum-theme';
+
 /******************************************************************************/
 
 export default function styles (theme, props) {
+  const m = theme.shapes.containerMargin;
+
   const tableStyle = {
     display:         'flex',
     flexDirection:   'column',
-    padding:         '1px 0px 0px 1px',
-    backgroundColor: theme.palette.tableBackground,
+    flexGrow:        '1',
+    margin:          '0px ' + Unit.multiply (m, -1) + ' ' + Unit.multiply (m, -1) + ' ' + Unit.multiply (m, -1),
     cursor:          'default',
     overflowX:       'auto',
     overflowY:       'hidden',
   };
 
   const headerStyle = {
+    borderBottom:    '1px solid ' + theme.palette.tableBorder,
     display:         'flex',
     flexDirection:   'row',
+    padding:         '0px ' + m,
     cursor:          'default',
   };
 
   const cellStyle = {
-    margin:          '0px 1px 1px 0px',
-    padding:         theme.shapes.tablePadding,
+    padding:         theme.shapes.tablePadding + ' 0px',
     fontWeight:      'bold',
     textTransform:   'uppercase',
-    backgroundColor: theme.palette.tableHeaderBackground,
+    fontSize:        theme.shapes.tableTextSize,
     cursor:          'default',
   };
 
