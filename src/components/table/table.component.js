@@ -18,7 +18,7 @@ export default class Table extends React.Component {
   }
 
   setSelectedRow (value) {
-    console.log ('Table.setSelectedRow ' + value);
+    // console.log ('Table.setSelectedRow ' + value);
     this.setState ( {
       selectedRow: value
     });

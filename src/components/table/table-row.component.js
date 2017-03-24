@@ -44,10 +44,7 @@ export default class TableRow extends React.Component {
 
   renderRowColumn(description, column, index) {
     const selected = this.read ('selected');
-    var styleName = selected === 'true' ? 'selected' : 'cell';
-    if (this.getHover ()) {
-      styleName = 'hover';
-    }
+    var styleName = (selected === 'true') ? 'selected' : (this.getHover () ? 'hover' : 'cell');
     const style = this.mergeStyles (styleName);
 
     if (column.Width) {

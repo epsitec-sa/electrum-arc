@@ -28,6 +28,7 @@ export default function styles (theme, props) {
     margin:          '0px 1px 1px 0px',
     padding:         theme.shapes.tablePadding,
     backgroundColor: theme.palette.tableSelectedBackground,
+    color:           theme.palette.tableSelectedText,
     cursor:          'default',
   };
 
