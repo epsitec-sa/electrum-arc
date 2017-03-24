@@ -9,7 +9,7 @@ export default class Table extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      selectedRow: -1,
+      selectedRow: null,
     };
   }
 
@@ -18,10 +18,17 @@ export default class Table extends React.Component {
   }
 
   setSelectedRow (value) {
-    // console.log ('Table.setSelectedRow ' + value);
     this.setState ( {
       selectedRow: value
     });
+  }
+
+  selectionChanged (id) {
+    const currentId = this.getSelectedRow ();
+    if (id === currentId) {
+      id = null;
+    }
+    this.setSelectedRow (id);
   }
 
   /******************************************************************************/
@@ -73,7 +80,7 @@ export default class Table extends React.Component {
         row              = {row}
         index            = {index}
         selected         = {this.getSelectedRow () === row.id ? 'true' : 'false'}
-        selectionChanged = {id => this.setSelectedRow (id)}
+        selectionChanged = {id => this.selectionChanged (id)}
         {...this.link ()} />
     );
   }
