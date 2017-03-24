@@ -69,6 +69,20 @@ export default class Calendar extends React.Component {
     }
   }
 
+  isRecurrence (date, recurrence) {
+    if (recurrence) {
+      for (var r of recurrence.Dates) {
+        const d = new Date (r.substring (0, 4), r.substring (5, 7), r.substring (8, 10));
+        if (date.getFullYear () === d.getFullYear () &&
+            date.getMonth    () === d.getMonth    () &&
+            date.getDate     () === d.getDate     ()) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   // Return the html for a [1]..[31] button.
   renderButton (firstDate, active, nature, index) {
     const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
@@ -87,7 +101,7 @@ export default class Calendar extends React.Component {
   }
 
   // Return an array of 7 buttons, for a week.
-  renderButtons (firstDate, visibleDate, selectedDate) {
+  renderButtons (firstDate, visibleDate, selectedDate, recurrence) {
     let line = [];
     let i = 0;
     for (i = 0; i < 7; ++i) {
@@ -98,10 +112,13 @@ export default class Calendar extends React.Component {
       }
       if (firstDate.getFullYear () === selectedDate.getFullYear () &&
           firstDate.getMonth    () === selectedDate.getMonth    () &&
-          firstDate.getDate     () === selectedDate.getDate    ()) {
+          firstDate.getDate     () === selectedDate.getDate     ()) {
         active = 'true';
       }
-      const nature = (i < 5) ? 'default' : 'weekend';
+      let nature = (i < 5) ? 'default' : 'weekend';
+      if (this.isRecurrence (firstDate, recurrence)) {
+        nature = 'recurrence';
+      }
       const button = this.renderButton (firstDate, active, nature, i);
       line.push (button);
       firstDate = new Date (firstDate.getFullYear (), firstDate.getMonth (), firstDate.getDate () + 1);
@@ -110,11 +127,11 @@ export default class Calendar extends React.Component {
   }
 
   // Return the html for a line of 7 buttons (for a week).
-  renderLineOfButtons (firstDate, visibleDate, selectedDate, index) {
+  renderLineOfButtons (firstDate, visibleDate, selectedDate, recurrence, index) {
     const style = this.mergeStyles ('line');
     return (
       <div style={style} key={index}>
-        {this.renderButtons (firstDate, visibleDate, selectedDate)}
+        {this.renderButtons (firstDate, visibleDate, selectedDate, recurrence)}
       </div>
     );
   }
@@ -172,13 +189,13 @@ export default class Calendar extends React.Component {
 
   // Return an array of lines, with header then week's lines.
   // The array must have from 4 to 6 lines.
-  renderColumnOfLines (header, firstDate, visibleDate, selectedDate) {
+  renderColumnOfLines (header, firstDate, visibleDate, selectedDate, recurrence) {
     let column = [];
     column.push (this.renderHeader (header));
     column.push (this.renderLineOfDOWs ());
     let i = 0;
     for (i = 0; i < 6; ++i) {
-      const line = this.renderLineOfButtons (firstDate, visibleDate, selectedDate, i);
+      const line = this.renderLineOfButtons (firstDate, visibleDate, selectedDate, recurrence, i);
       column.push (line);
       firstDate = new Date (firstDate.getFullYear (), firstDate.getMonth (), firstDate.getDate () + 7);
     }
@@ -186,7 +203,7 @@ export default class Calendar extends React.Component {
   }
 
   // Retourne all the html content of the calendar.
-  renderLines () {
+  renderLines (recurrence) {
     const internalState = this.getInternalState ();
     const visibleDate   = this.normalizeDate (internalState.get ('visibleDate'));
     const selectedDate  = this.normalizeDate (this.read ('date'));
@@ -200,7 +217,7 @@ export default class Calendar extends React.Component {
     const style = this.mergeStyles ('column');
     return (
       <div style={style}>
-        {this.renderColumnOfLines (header, firstDate, visibleDate, selectedDate)}
+        {this.renderColumnOfLines (header, firstDate, visibleDate, selectedDate, recurrence)}
       </div>
     );
   }
@@ -208,6 +225,7 @@ export default class Calendar extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
+    const recurrence = this.read ('recurrence');
 
     // Get or create the internalState.
     var internalState = this.getInternalState ();
@@ -222,7 +240,7 @@ export default class Calendar extends React.Component {
       <div
         disabled = {disabled}
         style    = {boxStyle} >
-        {this.renderLines ()}
+        {this.renderLines (recurrence)}
       </div>
     );
   }
