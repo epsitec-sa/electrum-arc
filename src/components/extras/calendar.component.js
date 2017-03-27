@@ -11,7 +11,22 @@ export default class Calendar extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      visibleDate: null,
+    };
   }
+
+  getVisibleDate () {
+    return this.state.visibleDate;
+  }
+
+  setVisibleDate (value) {
+    this.setState ( {
+      visibleDate: value
+    });
+  }
+
+  /******************************************************************************/
 
   get styleProps () {
     return {
@@ -36,27 +51,18 @@ export default class Calendar extends React.Component {
     }
   }
 
-  // Return the internalState with contain the visibleDate.
-  // internalState.visibleDate fix the visible year and month.
-  getInternalState () {
-    const {state} = this.props;
-    return state.select ('calendar-internal');
-  }
-
   // Called when the '<' button is clicked.
   // Modify internalState.visibleDate (fix visible year and month).
   prevMonth () {
-    const internalState = this.getInternalState ();
-    const visibleDate = this.normalizeDate (internalState.get ('visibleDate'));
-    internalState.set ('visibleDate', new Date (visibleDate.getFullYear (), visibleDate.getMonth () - 1, 1));
+    const visibleDate = this.normalizeDate (this.getVisibleDate ());
+    this.setVisibleDate (new Date (visibleDate.getFullYear (), visibleDate.getMonth () - 1, 1));
   }
 
   // Called when the '>' button is clicked.
   // Modify internalState.visibleDate (fix visible year and month).
   nextMonth () {
-    const internalState = this.getInternalState ();
-    const visibleDate = this.normalizeDate (internalState.get ('visibleDate'));
-    internalState.set ('visibleDate', new Date (visibleDate.getFullYear (), visibleDate.getMonth () + 1, 1));
+    const visibleDate = this.normalizeDate (this.getVisibleDate ());
+    this.setVisibleDate (new Date (visibleDate.getFullYear (), visibleDate.getMonth () + 1, 1));
   }
 
   // Called when a [1]..[31] button is clicked.
@@ -82,6 +88,8 @@ export default class Calendar extends React.Component {
     }
     return false;
   }
+
+  /******************************************************************************/
 
   // Return the html for a [1]..[31] button.
   renderButton (firstDate, active, nature, index) {
@@ -204,15 +212,14 @@ export default class Calendar extends React.Component {
 
   // Retourne all the html content of the calendar.
   renderLines (recurrence) {
-    const internalState = this.getInternalState ();
-    const visibleDate   = this.normalizeDate (internalState.get ('visibleDate'));
-    const selectedDate  = this.normalizeDate (this.read ('date'));
-    const visibleYear   = visibleDate.getFullYear ();  // 2016
-    const visibleMonth  = visibleDate.getMonth ();  // 0..11
-    const dotw          = new Date (visibleYear, visibleMonth, 1).getDay ();  // 0..6 (0 = Sunday)
-    const first         = -((dotw + 5) % 7);
-    const firstDate     = new Date (visibleYear, visibleMonth, first);
-    const header        = Converters.getMonthDescription (visibleMonth) + ' ' + visibleYear;  // 'mai 2016' by example
+    const visibleDate  = this.normalizeDate (this.getVisibleDate ());
+    const selectedDate = this.normalizeDate (this.read ('date'));
+    const visibleYear  = visibleDate.getFullYear ();  // 2016
+    const visibleMonth = visibleDate.getMonth ();  // 0..11
+    const dotw         = new Date (visibleYear, visibleMonth, 1).getDay ();  // 0..6 (0 = Sunday)
+    const first        = -((dotw + 5) % 7);
+    const firstDate    = new Date (visibleYear, visibleMonth, first);
+    const header       = Converters.getMonthDescription (visibleMonth) + ' ' + visibleYear;  // 'mai 2016' by example
 
     const style = this.mergeStyles ('column');
     return (
@@ -228,10 +235,9 @@ export default class Calendar extends React.Component {
     const recurrence = this.read ('recurrence');
 
     // Get or create the internalState.
-    var internalState = this.getInternalState ();
-    if (!internalState.get ('visibleDate')) {
+    if (!this.getVisibleDate ()) {
       // At first time, initialize internalState.visibleDate with current date.
-      internalState = internalState.set ('visibleDate', this.read ('date'));
+      this.setVisibleDate (this.read ('date'));
     }
 
     const boxStyle = this.mergeStyles ('box');
