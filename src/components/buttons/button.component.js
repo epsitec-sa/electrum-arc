@@ -234,10 +234,15 @@ export default class Button extends React.Component {
   render () {
     const index    = this.read ('index');
     const kind     = this.read ('kind');
-    const tooltip  = this.read ('tooltip');
     const menu     = this.read ('menu');
     const toAnchor = this.read ('to-anchor');
     const show     = this.read ('show');
+    const text     = this.read ('text');
+    let   tooltip  = this.read ('tooltip');
+
+    if (kind === 'pane-navigator') {
+      tooltip = text;
+    }
 
     const boxStyle = this.mergeStyles ('box');
 
