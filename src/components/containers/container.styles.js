@@ -406,6 +406,19 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.paneBackground;
   }
 
+  if (inputKind === 'subpane') {
+    display         = 'flex';
+    flexDirection   = 'column';
+    flexGrow        = 1;
+    justifyContent  = 'flex-start';
+    alignItems      = 'stretch';
+    margin          = Unit.multiply (m, 0.5) + ' ' + Unit.multiply (m, -1) + ' ' + Unit.multiply (m, -1) + ' ' + Unit.multiply (m, -1);
+    padding         = m + ' ' + m + ' ' + d + ' ' + m;
+    borderWidth     = '5px';
+    borderStyle     = 'dotted none none none';
+    borderColor     = theme.palette.viewBackground;
+  }
+
   if (inputKind === 'row-pane') {
     const halfMargin     = Unit.multiply (m, 0.5);
     display              = 'flex';
