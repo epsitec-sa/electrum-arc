@@ -186,6 +186,8 @@ export default function styles (theme, props) {
     textOverflow     = 'hidden';
     textTextOverflow = 'ellipsis';
     textWhiteSpace   = 'nowrap';
+    boxWidth         = '0px';
+    flexGrow         = '1';
   } else if (inputWrap === 'break-word') {
     textWordBreak = 'break-word';
   }
