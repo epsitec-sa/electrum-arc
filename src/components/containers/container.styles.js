@@ -375,7 +375,7 @@ export default function styles (theme, props) {
     borderTopStyle  = 'solid';
     borderTopColor  = theme.palette.actionBorder;
     boxShadow       = (inputSubkind === 'no-shadow') ? null : theme.shapes.actionShadow;
-    zIndex          = 2;
+    // zIndex          = 2;
   }
 
   if (inputKind === 'panes') {
