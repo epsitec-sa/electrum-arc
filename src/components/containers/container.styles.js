@@ -2,6 +2,7 @@
 
 import {Unit} from 'electrum-theme';
 import {ColorHelpers} from 'electrum-theme';
+import {ColorManipulator} from 'electrum';
 
 /******************************************************************************/
 
@@ -414,9 +415,10 @@ export default function styles (theme, props) {
     alignItems      = 'stretch';
     margin          = Unit.multiply (m, 0.5) + ' ' + Unit.multiply (m, -1) + ' ' + Unit.multiply (m, -1) + ' ' + Unit.multiply (m, -1);
     padding         = m + ' ' + m + ' ' + d + ' ' + m;
-    borderWidth     = '5px';
-    borderStyle     = 'dotted none none none';
+    borderWidth     = '2px';
+    borderStyle     = 'dashed none none none';
     borderColor     = theme.palette.viewBackground;
+    borderColor     = ColorManipulator.darken (theme.palette.viewBackground, 0.2);
   }
 
   if (inputKind === 'row-pane') {
