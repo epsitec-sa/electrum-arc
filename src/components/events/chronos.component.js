@@ -374,16 +374,17 @@ export default class Chronos extends React.Component {
   }
 
   renderContentEvent (event, index) {
-    const data       = this.read ('data');
-    const lineWidth  = this.read ('lineWidth');
-    const glyphWidth = this.read ('glyphWidth');
+    const data           = this.read ('data');
+    const lineWidth      = this.read ('lineWidth');
+    const glyphWidth     = this.read ('glyphWidth');
+    const dragController = this.read ('drag-controller');
 
     const noDrag = null;
     const verticalSpacing = null;
 
     return (
       <DragCab
-        drag-controller  = 'ticket'
+        drag-controller  = {dragController}
         direction        = 'vertical'
         color            = {this.props.theme.palette.dragAndDropHover}
         thickness        = {this.props.theme.shapes.dragAndDropTicketThickness}
