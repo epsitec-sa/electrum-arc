@@ -404,6 +404,10 @@ export default class DragCarrier extends React.Component {
 
   searchChildren (id) {
     const container = this.rectOrigin.container;
+    if (container.props.children.props['drag-owner-id'] === id) {
+      // Manages the case where there is only one child.
+      return container.props.children;
+    }
     for (let child of container.props.children) {
       if (child.props['drag-owner-id'] === id) {
         return child;
@@ -413,7 +417,7 @@ export default class DragCarrier extends React.Component {
   }
 
   selectOne (id, value) {
-    // console.log ('DragCarrier.selectOne');
+    console.log ('DragCarrier.selectOne');
     const dragCab = this.searchDragCab (id);
     dragCab.setDragStarting (value);
     if (value) {
@@ -426,7 +430,7 @@ export default class DragCarrier extends React.Component {
   }
 
   selectMulti (value) {
-    // console.log ('DragCarrier.selectMulti');
+    console.log ('DragCarrier.selectMulti');
     if (this.rectOrigin) {
       const data = this.read ('data');
       const origin = this.searchChildren (this.rectOrigin.id);
@@ -492,7 +496,7 @@ export default class DragCarrier extends React.Component {
   }
 
   mouseUp (e) {
-    // console.log ('DragCarrier.mouseUp');
+    console.log ('DragCarrier.mouseUp');
     const dragEnding = this.read ('drag-ending');
     if (dragEnding) {
       dragEnding (e, this.isDragStarted ());
@@ -512,18 +516,19 @@ export default class DragCarrier extends React.Component {
   // toOwnerId -> owner where it is necessary to insert. Useful when toId is null.
   reduce (toId, ownerId, ownerKind) {
     const data = this.read ('data');
+    if (data) {
+      // Inject electrum state (needed for electrumDispatch).
+      data.state = this.read ('state');
 
-    // Inject electrum state (needed for electrumDispatch).
-    data.state = this.read ('state');
-
-    ReducerData.reducer (data, {
-      type:        'DROP',
-      fromKind:    (ownerKind === 'roadbooks') ? 'roadbook' : 'ticket',
-      fromIds:     this.selectedIds,
-      toId:        toId,
-      toOwnerId:   ownerId,
-      toOwnerKind: ownerKind,
-    });
+      ReducerData.reducer (data, {
+        type:        'DROP',
+        fromKind:    (ownerKind === 'roadbooks') ? 'roadbook' : 'ticket',
+        fromIds:     this.selectedIds,
+        toId:        toId,
+        toOwnerId:   ownerId,
+        toOwnerKind: ownerKind,
+      });
+    }
   }
 
   renderTooMany (n, index) {

@@ -86,7 +86,7 @@ export default class DragCab extends React.Component {
   }
 
   mouseDown (e) {
-    // console.log ('DragCab.mouseDown');
+    console.log ('DragCab.mouseDown');
     if (this.hasCombo) {  // does a child have an open combo-menu ?
       return;
     }
@@ -113,7 +113,7 @@ export default class DragCab extends React.Component {
   }
 
   mouseUp (e) {
-    // console.log ('DragCab.mouseUp');
+    console.log ('DragCab.mouseUp');
     if (this.hasCombo) {  // does a child have an open combo-menu ?
       return;
     }
@@ -128,7 +128,7 @@ export default class DragCab extends React.Component {
   }
 
   dragEnding (e, isDragDoing) {
-    // console.log ('DragCab.dragEnding');
+    console.log ('DragCab.dragEnding');
     this.setDragInProcess (false);
     this.setDragStarting (false);
     if (!isDragDoing) {  // simple click done ?
@@ -188,14 +188,14 @@ export default class DragCab extends React.Component {
 
     const htmlDragCarrier = (dragInProcess && !isDragged) ? this.renderDragCarrier () : null;
 
-    const boxStyle = direction === 'horizontal' ? {
-      display:       'flex',
-      flexDirection: 'column',
-      flexGrow:      isDragged && dragStarting ? 1 : null,
-      userSelect:    'none',
-    } : {
-      userSelect:    'none',
+    const boxStyle = {
+      userSelect: 'none',
     };
+    if (direction === 'horizontal') {
+      boxStyle.display       = 'flex';
+      boxStyle.flexDirection = 'column';
+      boxStyle.flexGrow      = isDragged && dragStarting ? 1 : null;
+    }
 
     return (
       <div
