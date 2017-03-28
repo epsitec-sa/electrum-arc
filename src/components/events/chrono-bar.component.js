@@ -77,7 +77,7 @@ export default class ChronoBar extends React.Component {
       const style = this.mergeStyles ('leftTooltip');
       return (
         <div style={style} key='leftTooltip'>
-          <Label text={tooltip} wrap='no' {...this.link ()} />
+          <Label text={tooltip} wrap='stretch' {...this.link ()} />
         </div>
       );
     } else {
@@ -93,7 +93,7 @@ export default class ChronoBar extends React.Component {
       const style = this.mergeStyles ('rightTooltip');
       return (
         <div style={style} key='rightTooltip'>
-          <Label text={tooltip} wrap='no' {...this.link ()} />
+          <Label text={tooltip} wrap='stretch' {...this.link ()} />
         </div>
       );
     } else {

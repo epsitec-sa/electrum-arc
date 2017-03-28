@@ -56,7 +56,7 @@ export default class ChronoLabel extends React.Component {
       const style = this.mergeStyles ('tooltip');
       return (
         <div style={style} key='tooltip'>
-          <Label index='2' text={text} grow='1' wrap='no' {...this.link ()} />
+          <Label index='2' text={text} grow='1' wrap='stretch' {...this.link ()} />
         </div>
       );
     } else {
