@@ -187,7 +187,9 @@ export default function styles (theme, props) {
     textTextOverflow = 'ellipsis';
     textWhiteSpace   = 'nowrap';
     boxWidth         = '0px';
-    flexGrow         = '1';
+    if (!flexGrow) {
+      flexGrow = '1';
+    }
   } else if (inputWrap === 'break-word') {
     textWordBreak = 'break-word';
   }
@@ -201,7 +203,7 @@ export default function styles (theme, props) {
   }
 
   if (flexGrow) {
-    flexShrink = '1';
+    flexShrink = '0';
     flexBasis  = '0%';
   }
 
