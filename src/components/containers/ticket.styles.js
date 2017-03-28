@@ -1,6 +1,7 @@
 'use strict';
 
 import {Unit} from 'electrum-theme';
+import {ColorManipulator} from 'electrum';
 
 /******************************************************************************/
 
@@ -414,6 +415,33 @@ export default function styles (theme, props) {
     color:      theme.palette.ticketNumberBackground,
   };
 
+  const m = theme.shapes.containerMargin;
+  const subpaneRectStyle = {
+    display:         'flex',
+    flexDirection:   'column',
+    flexGrow:        1,
+    justifyContent:  'flex-start',
+    alignItems:      'stretch',
+    margin:          Unit.multiply (m, 0.5) + ' ' + Unit.multiply (m, -1) + ' ' + Unit.multiply (m, -1) + ' ' + Unit.multiply (m, -1),
+    padding:         m + ' ' + m + ' ' + Unit.multiply (m, 0.5) + ' ' + m,
+    borderWidth:     '2px',
+    borderStyle:     'dashed none none none',
+    borderColor:     theme.palette.ticketSubpaneBorder,
+  };
+  const subpaneHoverRectStyle = {
+    display:         'flex',
+    flexDirection:   'column',
+    flexGrow:        1,
+    justifyContent:  'flex-start',
+    alignItems:      'stretch',
+    margin:          Unit.multiply (m, 0.5) + ' ' + Unit.multiply (m, -1) + ' ' + Unit.multiply (m, -1) + ' ' + Unit.multiply (m, -1),
+    padding:         m + ' ' + m + ' ' + Unit.multiply (m, 0.5) + ' ' + m,
+    borderWidth:     '2px',
+    borderStyle:     'dashed none none none',
+    borderColor:     theme.palette.ticketSubpaneBorder,
+    backgroundColor: theme.palette.ticketSubpaneHover,
+  };
+
   return {
     box:                boxStyle,
     shadow:             shadowStyle,
@@ -434,6 +462,8 @@ export default function styles (theme, props) {
     cover:              coverStyle,
     coverContent:       coverContentStyle,
     backgroundText:     backgroundTextStyle,
+    subpaneRect:        subpaneRectStyle,
+    subpaneHoverRect:   subpaneHoverRectStyle,
   };
 }
 

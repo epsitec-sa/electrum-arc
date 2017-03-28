@@ -9,6 +9,19 @@ export default class Ticket extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      hover: false,
+    };
+  }
+
+  getHover () {
+    return this.state.hover;
+  }
+
+  setHover (value) {
+    this.setState ( {
+      hover: value
+    });
   }
 
   get styleProps () {
@@ -30,6 +43,7 @@ export default class Ticket extends React.Component {
 
   mouseOver () {
     // console.log ('Ticket.mouseOver');
+    this.setHover (true);
     const x = this.read ('mouse-over');
     if (x) {
       x ();
@@ -38,6 +52,7 @@ export default class Ticket extends React.Component {
 
   mouseOut () {
     // console.log ('Ticket.mouseOut');
+    this.setHover (false);
     const x = this.read ('mouse-out');
     if (x) {
       x ();
@@ -190,6 +205,24 @@ export default class Ticket extends React.Component {
     );
   }
 
+  renderSubpane () {
+    const rectStyle = this.mergeStyles (this.getHover () ? 'subpaneHoverRect' : 'subpaneRect');
+
+    return (
+      <div
+        style        = {rectStyle}
+        onMouseOver  = {() => this.mouseOver ()}
+        onMouseOut   = {() => this.mouseOut ()}
+        onMouseDown  = {e => this.mouseDown (e)}
+        onMouseUp    = {e => this.mouseUp (e)}
+        onTouchStart = {e => this.mouseDown (e)}
+        onTouchEnd   = {e => this.mouseUp (e)}
+        >
+        {this.props.children}
+      </div>
+    );
+  }
+
   renderCover () {
     const coverStyle        = this.mergeStyles ('cover');
     const coverContentStyle = this.mergeStyles ('coverContent');
@@ -217,6 +250,8 @@ export default class Ticket extends React.Component {
       return this.renderTicket ();
     } else if (kind === 'cover') {
       return this.renderCover ();
+    } else if (kind === 'subpane') {
+      return this.renderSubpane ();
     } else {  // 'rect' 'thin' 'event' ... ?
       return this.renderRect ();
     }
