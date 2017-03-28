@@ -281,7 +281,7 @@ export default class DragCarrier extends React.Component {
   }
 
   findParentId (id) {
-    if (id) {
+    if (id && window.document.dragParentControllers) {
       for (var c of window.document.dragParentControllers) {
         const parentId = c.props['drag-parent'];
         if (parentId === id) {
