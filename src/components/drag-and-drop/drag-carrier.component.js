@@ -404,7 +404,7 @@ export default class DragCarrier extends React.Component {
 
   searchChildren (id) {
     const container = this.rectOrigin.container;
-    if (container.props.children.props['drag-owner-id'] === id) {
+    if (container.props.children.props && container.props.children.props['drag-owner-id'] === id) {
       // Manages the case where there is only one child.
       return container.props.children;
     }
