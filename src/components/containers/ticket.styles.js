@@ -427,6 +427,8 @@ export default function styles (theme, props) {
     borderWidth:     '2px',
     borderStyle:     'dashed none none none',
     borderColor:     theme.palette.ticketSubpaneBorder,
+    backgroundColor: theme.palette.paneBackground,
+    cursor:          'move',
   };
   const subpaneHoverRectStyle = {
     display:         'flex',
@@ -438,6 +440,8 @@ export default function styles (theme, props) {
     borderWidth:     '2px 0px 0px ' + h,
     borderStyle:     'dashed none none solid',
     borderColor:     theme.palette.ticketSubpaneBorder,
+    backgroundColor: theme.palette.paneBackground,
+    cursor:          'move',
   };
 
   return {
