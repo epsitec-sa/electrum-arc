@@ -8,11 +8,19 @@ import CronParser from 'cron-parser';
 
 /******************************************************************************/
 
-function getCronDates (cron) {
-  const result = [];
+function containsDateTime (list, date, time) {
+  for (var item of list) {
+    if (item.Date === date && (!time || item.Time === time)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function pushCron (result, cron, year, month, deleteList) {
   var options = {
-    currentDate: new Date (2017, 0, 1),
-    endDate:     new Date (2017, 11, 31),
+    currentDate: new Date (year, month - 2, 1),
+    endDate:     new Date (year, month + 1, 1),
     iterator:    true
   };
   const interval = CronParser.parseExpression (cron, options);
@@ -21,66 +29,29 @@ function getCronDates (cron) {
     if (next.done) {
       break;
     }
-    const date = new Date (next.value.getFullYear (), next.value.getMonth (), next.value.getDate ());
-    result.push (date);
+    const date = Converters.jsToFormatedDate (next.value);
+    const time = Converters.jsToFormatedTime (next.value);
+    if (!containsDateTime (deleteList, date, time)) {
+      result.push ({Date: date, Time: time});
+    }
+  }
+}
+
+function initializeRecurrence (recurrence, year, month) {
+  const result = [];
+  if (recurrence) {
+    pushCron (result, recurrence.Cron, year, month, recurrence.Delete);
+
+    for (var item of recurrence.Add) {
+      result.push (item);
+    }
   }
   return result;
 }
 
-function isAddRecurrence (date, recurrence) {
-  if (recurrence) {
-    for (var r of recurrence.Add) {
-      const year  = r.Date.substring (0, 4);
-      const month = r.Date.substring (5, 7);
-      const day   = r.Date.substring (8, 10);
-      const d = new Date (year, month - 1, day);
-      if (date.getFullYear () === d.getFullYear () &&
-          date.getMonth    () === d.getMonth    () &&
-          date.getDate     () === d.getDate     ()) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
-function isDeleteRecurrence (date, recurrence) {
-  if (recurrence) {
-    for (var r of recurrence.Delete) {
-      const year  = r.Date.substring (0, 4);
-      const month = r.Date.substring (5, 7);
-      const day   = r.Date.substring (8, 10);
-      const d = new Date (year, month - 1, day);
-      if (date.getFullYear () === d.getFullYear () &&
-          date.getMonth    () === d.getMonth    () &&
-          date.getDate     () === d.getDate     ()) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
-function isCronRecurrence (date, cronDates) {
-  if (cronDates) {
-    for (var d of cronDates) {
-      if (date.getFullYear () === d.getFullYear () &&
-          date.getMonth    () === d.getMonth    () &&
-          date.getDate     () === d.getDate     ()) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
-function isRecurrence (date, recurrence, cronDates) {
-  if (isAddRecurrence (date, recurrence)) {
-    return true;
-  } else if (isCronRecurrence (date, cronDates) && !isDeleteRecurrence (date, recurrence)) {
-    return true;
-  }
-  return false;
+function isRecurrence (date, recurrenceList) {
+  const d = Converters.jsToFormatedDate (date);
+  return containsDateTime (recurrenceList, d, null);
 }
 
 /******************************************************************************/
@@ -178,7 +149,7 @@ export default class Calendar extends React.Component {
   }
 
   // Return an array of 7 buttons, for a week.
-  renderButtons (firstDate, visibleDate, selectedDate, recurrence, cronDates) {
+  renderButtons (firstDate, visibleDate, selectedDate, recurrenceList) {
     let line = [];
     let i = 0;
     for (i = 0; i < 7; ++i) {
@@ -193,7 +164,7 @@ export default class Calendar extends React.Component {
         active = 'true';
       }
       let nature = (i < 5) ? 'default' : 'weekend';
-      if (isRecurrence (firstDate, recurrence, cronDates)) {
+      if (isRecurrence (firstDate, recurrenceList)) {
         nature = 'recurrence';
       }
       const button = this.renderButton (firstDate, active, nature, i);
@@ -204,11 +175,11 @@ export default class Calendar extends React.Component {
   }
 
   // Return the html for a line of 7 buttons (for a week).
-  renderLineOfButtons (firstDate, visibleDate, selectedDate, recurrence, cronDates, index) {
+  renderLineOfButtons (firstDate, visibleDate, selectedDate, recurrenceList, index) {
     const style = this.mergeStyles ('line');
     return (
       <div style={style} key={index}>
-        {this.renderButtons (firstDate, visibleDate, selectedDate, recurrence, cronDates)}
+        {this.renderButtons (firstDate, visibleDate, selectedDate, recurrenceList)}
       </div>
     );
   }
@@ -266,13 +237,13 @@ export default class Calendar extends React.Component {
 
   // Return an array of lines, with header then week's lines.
   // The array must have from 4 to 6 lines.
-  renderColumnOfLines (header, firstDate, visibleDate, selectedDate, recurrence, cronDates) {
+  renderColumnOfLines (header, firstDate, visibleDate, selectedDate, recurrenceList) {
     let column = [];
     column.push (this.renderHeader (header));
     column.push (this.renderLineOfDOWs ());
     let i = 0;
     for (i = 0; i < 6; ++i) {
-      const line = this.renderLineOfButtons (firstDate, visibleDate, selectedDate, recurrence, cronDates, i);
+      const line = this.renderLineOfButtons (firstDate, visibleDate, selectedDate, recurrenceList, i);
       column.push (line);
       firstDate = new Date (firstDate.getFullYear (), firstDate.getMonth (), firstDate.getDate () + 7);
     }
@@ -290,12 +261,12 @@ export default class Calendar extends React.Component {
     const firstDate    = new Date (visibleYear, visibleMonth, first);
     const header       = Converters.getMonthDescription (visibleMonth) + ' ' + visibleYear;  // 'mai 2016' by example
 
-    const cronDates = recurrence ? getCronDates (recurrence.Cron) : null;
+    const recurrenceList = initializeRecurrence (recurrence, visibleYear, visibleMonth + 1);
 
     const style = this.mergeStyles ('column');
     return (
       <div style={style}>
-        {this.renderColumnOfLines (header, firstDate, visibleDate, selectedDate, recurrence, cronDates)}
+        {this.renderColumnOfLines (header, firstDate, visibleDate, selectedDate, recurrenceList)}
       </div>
     );
   }

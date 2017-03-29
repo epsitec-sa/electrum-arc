@@ -309,6 +309,7 @@ function checkTime (editedTime) {
 }
 
 module.exports = {
+  jsToFormatedTime, jsToFormatedDate,
   getMonthDescription, getDOWDescription,
   getEmptyTime, getEmptyDate,
   isEmptyTime, isEmptyDate,
