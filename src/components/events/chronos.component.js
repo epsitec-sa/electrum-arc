@@ -1,8 +1,7 @@
-'use strict';
-
 import React from 'react';
 import Converters from '../polypheme/converters';
 import {Unit} from 'electrum-theme';
+import {Trace} from 'electrum';
 
 import {
   DragCab,
@@ -16,7 +15,7 @@ import {
 /******************************************************************************/
 
 function getFlatEvents (events, filters) {
-  // console.log ('Chronos.getFlatEvents');
+  // Trace.log ('Chronos.getFlatEvents');
   const lines = [];
   const groups = new Map ();
   var lastGroup = null;
@@ -167,17 +166,17 @@ export default class Chronos extends React.Component {
   }
 
   mouseDown (e) {
-    console.log ('ChronoLine.mouseDown');
+    Trace.log ('ChronoLine.mouseDown');
     return false;
   }
 
   mouseUp (e) {
-    console.log ('ChronoLine.mouseUp');
+    Trace.log ('ChronoLine.mouseUp');
     return false;
   }
 
   doClickAction (e) {
-    console.log ('ChronoLine.doClickAction');
+    Trace.log ('ChronoLine.doClickAction');
   }
 
   /******************************************************************************/

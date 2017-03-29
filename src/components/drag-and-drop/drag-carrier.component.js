@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Unit} from 'electrum-theme';
@@ -413,7 +411,7 @@ export default class DragCarrier extends React.Component {
   }
 
   selectOne (id, value) {
-    // console.log ('DragCarrier.selectOne');
+    // Trace.log ('DragCarrier.selectOne');
     const dragCab = this.searchDragCab (id);
     dragCab.setDragStarting (value);
     if (value) {
@@ -426,7 +424,7 @@ export default class DragCarrier extends React.Component {
   }
 
   selectMulti (value) {
-    // console.log ('DragCarrier.selectMulti');
+    // Trace.log ('DragCarrier.selectMulti');
     if (this.rectOrigin) {
       const data = this.read ('data');
       const origin = this.searchChildren (this.rectOrigin.id);
@@ -492,7 +490,7 @@ export default class DragCarrier extends React.Component {
   }
 
   mouseUp (e) {
-    // console.log ('DragCarrier.mouseUp');
+    // Trace.log ('DragCarrier.mouseUp');
     const dragEnding = this.read ('drag-ending');
     if (dragEnding) {
       dragEnding (e, this.isDragStarted ());

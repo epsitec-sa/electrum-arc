@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {Badge, Menu} from '../../all-components.js';
 import ShortcutHelpers from './shortcut-helpers.js';
@@ -70,7 +68,7 @@ export default class Button extends React.Component {
 
   // Called when the button is clicked.
   showMenu () {
-    // console.log ('>>>> showMenu <<<<');
+    // Trace.log ('>>>> showMenu <<<<');
     const internalState = this.getInternalState ();
     let isMenuVisible = internalState.get ('isMenuVisible');
     if (isMenuVisible === 'true') {
@@ -82,7 +80,7 @@ export default class Button extends React.Component {
   }
 
   mouseDown (e) {
-    // console.log ('Button.mouseDown');
+    // Trace.log ('Button.mouseDown');
     const disabled = this.read ('disabled');
     if (disabled === 'true') {
       return;

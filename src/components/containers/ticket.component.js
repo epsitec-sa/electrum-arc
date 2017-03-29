@@ -42,7 +42,7 @@ export default class Ticket extends React.Component {
   }
 
   mouseOver () {
-    // console.log ('Ticket.mouseOver');
+    // Trace.log ('Ticket.mouseOver');
     this.setHover (true);
     const x = this.read ('mouse-over');
     if (x) {
@@ -51,7 +51,7 @@ export default class Ticket extends React.Component {
   }
 
   mouseOut () {
-    // console.log ('Ticket.mouseOut');
+    // Trace.log ('Ticket.mouseOut');
     this.setHover (false);
     const x = this.read ('mouse-out');
     if (x) {
@@ -60,7 +60,7 @@ export default class Ticket extends React.Component {
   }
 
   mouseDown (e) {
-    // console.log ('Ticket.mouseDown');
+    // Trace.log ('Ticket.mouseDown');
     const x = this.read ('mouse-down');
     if (x) {
       x (e);
@@ -68,7 +68,7 @@ export default class Ticket extends React.Component {
   }
 
   mouseUp (e) {
-    // console.log ('Ticket.mouseUp');
+    // Trace.log ('Ticket.mouseUp');
     const x = this.read ('mouse-up');
     if (x) {
       x (e);

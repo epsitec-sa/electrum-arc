@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {TripTicket, DragCab, TripCombo, TripModify, TripDeliver, TripPredispatch} from '../../all-components.js';
@@ -76,7 +74,7 @@ export default class Trip extends React.Component {
   }
 
   mouseDown (e) {
-    // console.log ('Trip.mouseDown');
+    // Trace.log ('Trip.mouseDown');
     if (this.getShowSomethink ()) {
       return true;
     }
@@ -89,7 +87,7 @@ export default class Trip extends React.Component {
   }
 
   mouseUp (e) {
-    // console.log ('Trip.mouseUp');
+    // Trace.log ('Trip.mouseUp');
     if (this.getShowSomethink ()) {
       return true;
     }
@@ -118,7 +116,7 @@ export default class Trip extends React.Component {
   }
 
   reduce (action, shiftKey, value, date, time) {
-    // console.log ('Trip.reducer');
+    // Trace.log ('Trip.reducer');
     const data   = this.read ('data');
     const ticket = this.read ('ticket');
     const id     = ticket.id;

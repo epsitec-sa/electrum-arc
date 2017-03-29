@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {DialogModal, Container, Button, Label, LabelTextField, Separator} from '../../all-components.js';
 
@@ -27,7 +25,7 @@ export default class MessengerModify extends React.Component {
   }
 
   renderFields (roadbook) {
-    // console.log ('MessengerModify.renderFields');
+    // Trace.log ('MessengerModify.renderFields');
     return (
       <Container kind='panes' {...this.link ()} >
         <Label glyph={roadbook.Messenger.Photo.Glyph} text={roadbook.Messenger.Name}

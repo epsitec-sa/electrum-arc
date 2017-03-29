@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {DragCarrier} from '../../all-components.js';
@@ -86,7 +84,7 @@ export default class DragCab extends React.Component {
   }
 
   mouseDown (e) {
-    // console.log ('DragCab.mouseDown');
+    // Trace.log ('DragCab.mouseDown');
     if (this.hasCombo) {  // does a child have an open combo-menu ?
       return;
     }
@@ -113,7 +111,7 @@ export default class DragCab extends React.Component {
   }
 
   mouseUp (e) {
-    // console.log ('DragCab.mouseUp');
+    // Trace.log ('DragCab.mouseUp');
     if (this.hasCombo) {  // does a child have an open combo-menu ?
       return;
     }
@@ -128,7 +126,7 @@ export default class DragCab extends React.Component {
   }
 
   dragEnding (e, isDragDoing) {
-    // console.log ('DragCab.dragEnding');
+    // Trace.log ('DragCab.dragEnding');
     this.setDragInProcess (false);
     this.setDragStarting (false);
     if (!isDragDoing) {  // simple click done ?

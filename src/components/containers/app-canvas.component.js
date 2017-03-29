@@ -12,7 +12,6 @@ export default class AppCanvas extends React.Component {
 
   render () {
     const appStyle = this.mergeStyles ('app');
-    console.dir (appStyle);
     return (
       <div style={appStyle}>
         {this.props.children}

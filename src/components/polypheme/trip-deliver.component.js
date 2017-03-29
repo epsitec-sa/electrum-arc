@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {DialogModal, Container, Button, Label, LabelTextField, Separator} from '../../all-components.js';
 import Converters from './converters';
@@ -37,7 +35,7 @@ export default class TripDeliver extends React.Component {
   }
 
   componentWillMount () {
-    // console.log ('TripDeliver.componentWillMount');
+    // Trace.log ('TripDeliver.componentWillMount');
     const ticket = this.read ('ticket');
     const trip = this.getTrip (ticket);
     this.setRealisedTime (Converters.getDisplayedTime (trip.RealisedTime, true));
@@ -72,7 +70,7 @@ export default class TripDeliver extends React.Component {
 
   onMyChange (e) {
     const value = e.target.value;
-    // console.log ('TripDeliver.onMyChange ' + value);
+    // Trace.log ('TripDeliver.onMyChange ' + value);
     this.setRealisedTime (value);
     this.setOk (Converters.checkTime (value));
   }

@@ -1,6 +1,5 @@
-'use strict';
-
 import React from 'react';
+import {Trace} from 'electrum';
 import {Combo} from '../../all-components.js';
 import ReducerData from '../polypheme/reducer-data.js';
 
@@ -36,7 +35,7 @@ export default class MessengerCombo extends React.Component {
 
   showMessenger () {
     if (window.document.mock) {
-      console.log ('showMessenger is possible only with Lydia');
+      Trace.log ('showMessenger is possible only with Lydia');
     } else {
       const data     = this.read ('data');
       const roadbook = this.read ('roadbook');

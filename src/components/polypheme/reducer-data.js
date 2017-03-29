@@ -1,6 +1,7 @@
 'use strict';
 
 import Electrum from 'electrum';
+import {Trace} from 'electrum';
 import Enumerable from 'linq';
 import ReducerTickets from './reducer-tickets.js';
 import Converters from './converters';
@@ -90,8 +91,8 @@ function electrumDispatch (state, oper, payload) {
     const result = deepSearchFromId (state, payload.MessengerId);
     payload.Kind = result.kind;
   }
-  console.log ('ReducerData.electrumDispatch ' + oper);
-  console.dir (payload);
+  Trace.log ('ReducerData.electrumDispatch ' + oper);
+  Trace.dir (payload);
   Electrum.bus.postEnvelope (oper, payload);
 }
 
@@ -329,7 +330,7 @@ function updateListOrders (state, list) {
 
 // Update order to all ticket into Roadbooks and Desk.
 function updateOrders (state) {
-  // console.log ('reducer.updateOrders');
+  // Trace.log ('reducer.updateOrders');
   for (var roadbook of state.Roadbooks) {
     updateListOrders (state, roadbook.Tickets);
   }
@@ -545,7 +546,7 @@ function initialise (state) {
 // toId      -> id before which it is necessary to insert. If it was null, insert after the last item.
 // toOwnerId -> owner where it is necessary to insert. Useful when toId is null.
 function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
-  console.log ('Reducer.drop');
+  Trace.log ('Reducer.drop');
   if (window.document.mock) {
     const flashes = [];
     const warnings = [];
@@ -623,7 +624,7 @@ function swapTicketSelected (state, id, shiftKey) {
 }
 
 function swapTicketExtended (state, id) {
-  // console.log ('reducer.swapTicketExtended');
+  // Trace.log ('reducer.swapTicketExtended');
   const flashes = [];
   const warnings = [];
   const result = deepSearchFromId (state, id);
@@ -675,7 +676,7 @@ function getStatusIndex (status) {
 }
 
 function changeStatusNecessary (ascending, refTicket, otherTicket, newStatus) {
-  // console.log ('reducer.changeStatusNecessary');
+  // Trace.log ('reducer.changeStatusNecessary');
   const refOrder   = refTicket.Order   ? refTicket.Order   : 0;
   const otherOrder = otherTicket.Order ? otherTicket.Order : 0;
   const refStatusIndex   = getStatusIndex (newStatus);
@@ -801,7 +802,7 @@ function setTrayName (state, id, value, accepted) {
 // ------------------------------------------------------------------------------------------
 
 function reducer (state = {}, action = {}) {
-  console.log (`reducer action.type=${action.type}`);
+  Trace.log (`reducer action.type=${action.type}`);
   switch (action.type) {
     case 'INITIALISE':
       state = initialise (state);

@@ -1,6 +1,5 @@
-'use strict';
-
 import React from 'react';
+import {Trace} from 'electrum';
 import {Container} from '../../all-components.js';
 
 /******************************************************************************/
@@ -53,7 +52,7 @@ export default class Router extends React.Component {
   }
 
   mouseDown (name) {
-    console.log ('Router.mouseDown');
+    Trace.log ('Router.mouseDown');
     this.view = name;
     this.setNavigation ();
     this.updateViews ();

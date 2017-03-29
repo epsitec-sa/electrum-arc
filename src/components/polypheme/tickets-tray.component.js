@@ -1,6 +1,5 @@
-'use strict';
-
 import React from 'react';
+import {Trace} from 'electrum';
 import {Container, Button, SimpleTextField} from 'electrum-arc';
 import ReducerData from '../polypheme/reducer-data.js';
 import MouseTrap from 'mousetrap';
@@ -19,17 +18,17 @@ export default class TicketsTray extends React.Component {
   }
 
   componentDidMount () {
-    // console.log ('TicketsTray.componentDidMount');
+    // Trace.log ('TicketsTray.componentDidMount');
     const tray = this.read ('tray');
     this.setTitle (tray.Name);
   }
 
   componentWillMount () {
-    // console.log ('TicketsTray.componentWillMount');
+    // Trace.log ('TicketsTray.componentWillMount');
   }
 
   componentWillUnmount () {
-    // console.log ('TicketsTray.componentWillUnmount');
+    // Trace.log ('TicketsTray.componentWillUnmount');
   }
 
   get styleProps () {
@@ -71,7 +70,7 @@ export default class TicketsTray extends React.Component {
   }
 
   enterAction () {
-    console.log ('TicketsTray.enterAction');
+    Trace.log ('TicketsTray.enterAction');
     if (this.getEdit ()) {
       this.setEdit (false);
     }
@@ -95,7 +94,7 @@ export default class TicketsTray extends React.Component {
 
   // The SimpleTextField has lost focus, replace SimpleTextField by Button (edit = false).
   onMyBlur (e) {
-    // console.log ('TicketsTray.onMyBlur');
+    // Trace.log ('TicketsTray.onMyBlur');
     this.setEdit (false);
     this.updateTitleData (this.getTitle (), true);
   }
@@ -105,7 +104,7 @@ export default class TicketsTray extends React.Component {
   // for minimized the interaction with Lydia (see updateStrategy = 'when-blur').
   onMyChange (e) {
     const value = e.target.value;
-    // console.log ('TicketsTray.onMyChange ' + value);
+    // Trace.log ('TicketsTray.onMyChange ' + value);
     this.setTitle (value);
   }
 

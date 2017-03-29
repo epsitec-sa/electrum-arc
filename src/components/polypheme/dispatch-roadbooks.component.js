@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import ReducerData from './reducer-data.js';
 import RoadbooksToChronos from './roadbooks-to-chronos.js';
@@ -48,7 +46,7 @@ export default class DispatchRoadbooks extends React.Component {
   }
 
   reduce (action, id) {
-    // console.log ('DispatchRoadbooks.reducer');
+    // Trace.log ('DispatchRoadbooks.reducer');
     const data = this.read ('data');
 
     // Inject electrum state (needed for electrumDispatch).

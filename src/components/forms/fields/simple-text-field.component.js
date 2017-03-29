@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Action} from 'electrum';
@@ -42,7 +40,7 @@ export default class SimpleTextField extends React.Component {
   }
 
   componentWillMount () {
-    // console.log ('SimpleTextField.componentWillMount');
+    // Trace.log ('SimpleTextField.componentWillMount');
     const updateStrategy = this.read ('updateStrategy');
     if (updateStrategy === 'every-time' || updateStrategy === 'when-blur') {
       const value = this.read ('value');
@@ -51,7 +49,7 @@ export default class SimpleTextField extends React.Component {
   }
 
   componentDidMount () {
-    // console.log ('SimpleTextField.componentDidMount');
+    // Trace.log ('SimpleTextField.componentDidMount');
     const autofocus = this.read ('autofocus');
     if (autofocus) {
       const node = ReactDOM.findDOMNode (this.refs.inputTag);
@@ -64,7 +62,7 @@ export default class SimpleTextField extends React.Component {
   }
 
   onMyChange (e) {
-    // console.log ('SimpleTextField.onMyChange');
+    // Trace.log ('SimpleTextField.onMyChange');
     this.onChange (e);
     const onChange = this.read ('onChange');
     if (onChange) {

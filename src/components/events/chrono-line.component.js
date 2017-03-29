@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {ChronoLabel, ChronoEvent} from '../../all-components.js';
 
@@ -109,7 +107,7 @@ export default class ChronoLine extends React.Component {
     const maxHour   = this.read ('maxHour');
     const isDragged = this.props.isDragged;
     const hasHeLeft = this.props.hasHeLeft;
-    // console.log ('ChronoLine ' + isDragged + ' ' + hasHeLeft);
+    // Trace.log ('ChronoLine ' + isDragged + ' ' + hasHeLeft);
 
     const hover = !isDragged && this.getHover ();
     const cursor = isDragged ? 'move' : 'default';

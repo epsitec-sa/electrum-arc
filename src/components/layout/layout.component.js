@@ -1,7 +1,6 @@
-'use strict';
-
 import React from 'react';
-import {Action} from 'electrum';
+import {Trace} from 'electrum';
+
 /******************************************************************************/
 
 export default class Layout extends React.Component {
@@ -9,7 +8,7 @@ export default class Layout extends React.Component {
     const {state, workspace} = this.props;
     const layout = state.get ('layout');
     if (layout) {
-      console.dir (layout);
+      Trace.dir (layout);
       layout.init ();
     }
     return (

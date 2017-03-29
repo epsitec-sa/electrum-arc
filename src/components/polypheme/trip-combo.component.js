@@ -1,6 +1,5 @@
-'use strict';
-
 import React from 'react';
+import {Trace} from 'electrum';
 import {Combo} from '../../all-components.js';
 import ReducerData from '../polypheme/reducer-data.js';
 
@@ -36,7 +35,7 @@ export default class TripCombo extends React.Component {
 
   showMission () {
     if (window.document.mock) {
-      console.log ('showMission is possible only with Lydia');
+      Trace.error ('showMission is possible only with Lydia');
     } else {
       const data   = this.read ('data');
       const ticket = this.read ('ticket');

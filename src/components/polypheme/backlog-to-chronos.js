@@ -1,4 +1,6 @@
-'use strict';
+import {Trace} from 'electrum';
+
+/******************************************************************************/
 
 function transformMeetingPointToGlyphs (meetingPoint) {
   const glyphs = [];
@@ -59,7 +61,9 @@ function search (backlog, missionId) {
   return result;
 }
 
-function transform (backlog) {
+/******************************************************************************/
+
+export function transform (backlog) {
   const events = {};
   events.FromDate = '2017-01-01';
   events.ToDate = '2017-12-31';
@@ -80,10 +84,8 @@ function transform (backlog) {
       }
     }
   }
-  console.log ('BacklogToChronos, number of events = ' + events.Events.length);
+  Trace.log ('BacklogToChronos, number of events = ' + events.Events.length);
   return events;
 }
 
-module.exports = {
-  transform,
-};
+/******************************************************************************/

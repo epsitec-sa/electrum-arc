@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {Action} from 'electrum';
+import {Trace} from 'electrum';
 
 /******************************************************************************/
 
@@ -48,7 +49,7 @@ export default class Container extends React.Component {
     count += dragOwnerId    ? 1 : 0;
     if (count !== 0 && count !== 3) {
       // These 3 properties must exist all together, or none !
-      console.log (`Container has invalid properties, dragController=${dragController} dragSource=${dragSource} dragOwnerId=${dragOwnerId}`);
+      Trace.error (`Container has invalid properties, dragController=${dragController} dragSource=${dragSource} dragOwnerId=${dragOwnerId}`);
     }
     const navFor = this.read ('navigation-for');
     if (navFor) {

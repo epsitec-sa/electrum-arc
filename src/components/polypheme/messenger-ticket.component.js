@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Ticket, Container, Label, Button, MessengerModify, MessengerCombo} from '../../all-components.js';
@@ -59,7 +57,7 @@ export default class MessengerTicket extends React.Component {
   }
 
   showCombo (x, y) {
-    // console.log ('MessengerTicket.showCombo');
+    // Trace.log ('MessengerTicket.showCombo');
     const node = ReactDOM.findDOMNode (this);
     this.comboLocation = ComboHelpers.getComboLocation (node, this.props.theme, x);
     this.setShowCombo (true);
@@ -74,7 +72,7 @@ export default class MessengerTicket extends React.Component {
   }
 
   mouseDown (e) {
-    // console.log ('MessengerTicket.mouseDown');
+    // Trace.log ('MessengerTicket.mouseDown');
     if (this.getShowCombo () || this.getShowModify ()) {
       return true;
     }
@@ -87,7 +85,7 @@ export default class MessengerTicket extends React.Component {
   }
 
   mouseUp (e) {
-    // console.log ('MessengerTicket.mouseUp');
+    // Trace.log ('MessengerTicket.mouseUp');
     if (this.getShowCombo () || this.getShowModify ()) {
       return true;
     }
@@ -95,7 +93,7 @@ export default class MessengerTicket extends React.Component {
   }
 
   closeModify (action) {
-    // console.log ('MessengerTicket.closeModify ' + action);
+    // Trace.log ('MessengerTicket.closeModify ' + action);
     this.setShowModify (false);
   }
 
