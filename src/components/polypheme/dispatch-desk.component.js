@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Unit} from 'electrum-theme';
-import {Container, Trip, TicketsTray} from '../../all-components.js';
+import {Container, DragTicket, TicketsTray} from '../../all-components.js';
 
 /******************************************************************************/
 
@@ -39,7 +39,7 @@ export default class DispatchDesk extends React.Component {
 
   renderTicket (ticket, data, index) {
     return (
-      <Trip
+      <DragTicket
         key    = {index}
         kind   = 'trip-ticket'
         source = 'desk'
