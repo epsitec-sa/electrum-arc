@@ -4,6 +4,84 @@ import React from 'react';
 import {Action} from 'electrum';
 import {Button} from 'electrum-arc';
 import Converters from '../polypheme/converters';
+import CronParser from 'cron-parser';
+
+/******************************************************************************/
+
+function getCronDates (cron) {
+  const result = [];
+  var options = {
+    currentDate: new Date (2017, 0, 1),
+    endDate:     new Date (2017, 11, 31),
+    iterator:    true
+  };
+  const interval = CronParser.parseExpression (cron, options);
+  while (true) {
+    const next = interval.next ();
+    if (next.done) {
+      break;
+    }
+    const date = new Date (next.value.getFullYear (), next.value.getMonth (), next.value.getDate ());
+    result.push (date);
+  }
+  return result;
+}
+
+function isAddRecurrence (date, recurrence) {
+  if (recurrence) {
+    for (var r of recurrence.Add) {
+      const year  = r.Date.substring (0, 4);
+      const month = r.Date.substring (5, 7);
+      const day   = r.Date.substring (8, 10);
+      const d = new Date (year, month - 1, day);
+      if (date.getFullYear () === d.getFullYear () &&
+          date.getMonth    () === d.getMonth    () &&
+          date.getDate     () === d.getDate     ()) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function isDeleteRecurrence (date, recurrence) {
+  if (recurrence) {
+    for (var r of recurrence.Delete) {
+      const year  = r.Date.substring (0, 4);
+      const month = r.Date.substring (5, 7);
+      const day   = r.Date.substring (8, 10);
+      const d = new Date (year, month - 1, day);
+      if (date.getFullYear () === d.getFullYear () &&
+          date.getMonth    () === d.getMonth    () &&
+          date.getDate     () === d.getDate     ()) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function isCronRecurrence (date, cronDates) {
+  if (cronDates) {
+    for (var d of cronDates) {
+      if (date.getFullYear () === d.getFullYear () &&
+          date.getMonth    () === d.getMonth    () &&
+          date.getDate     () === d.getDate     ()) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function isRecurrence (date, recurrence, cronDates) {
+  if (isAddRecurrence (date, recurrence)) {
+    return true;
+  } else if (isCronRecurrence (date, cronDates) && !isDeleteRecurrence (date, recurrence)) {
+    return true;
+  }
+  return false;
+}
 
 /******************************************************************************/
 
@@ -80,23 +158,6 @@ export default class Calendar extends React.Component {
     }
   }
 
-  isRecurrence (date, recurrence) {
-    if (recurrence) {
-      for (var r of recurrence.Add) {
-        const year  = r.Date.substring (0, 4);
-        const month = r.Date.substring (5, 7);
-        const day   = r.Date.substring (8, 10);
-        const d = new Date (year, month - 1, day);
-        if (date.getFullYear () === d.getFullYear () &&
-            date.getMonth    () === d.getMonth    () &&
-            date.getDate     () === d.getDate     ()) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
   /******************************************************************************/
 
   // Return the html for a [1]..[31] button.
@@ -117,7 +178,7 @@ export default class Calendar extends React.Component {
   }
 
   // Return an array of 7 buttons, for a week.
-  renderButtons (firstDate, visibleDate, selectedDate, recurrence) {
+  renderButtons (firstDate, visibleDate, selectedDate, recurrence, cronDates) {
     let line = [];
     let i = 0;
     for (i = 0; i < 7; ++i) {
@@ -132,7 +193,7 @@ export default class Calendar extends React.Component {
         active = 'true';
       }
       let nature = (i < 5) ? 'default' : 'weekend';
-      if (this.isRecurrence (firstDate, recurrence)) {
+      if (isRecurrence (firstDate, recurrence, cronDates)) {
         nature = 'recurrence';
       }
       const button = this.renderButton (firstDate, active, nature, i);
@@ -143,11 +204,11 @@ export default class Calendar extends React.Component {
   }
 
   // Return the html for a line of 7 buttons (for a week).
-  renderLineOfButtons (firstDate, visibleDate, selectedDate, recurrence, index) {
+  renderLineOfButtons (firstDate, visibleDate, selectedDate, recurrence, cronDates, index) {
     const style = this.mergeStyles ('line');
     return (
       <div style={style} key={index}>
-        {this.renderButtons (firstDate, visibleDate, selectedDate, recurrence)}
+        {this.renderButtons (firstDate, visibleDate, selectedDate, recurrence, cronDates)}
       </div>
     );
   }
@@ -205,13 +266,13 @@ export default class Calendar extends React.Component {
 
   // Return an array of lines, with header then week's lines.
   // The array must have from 4 to 6 lines.
-  renderColumnOfLines (header, firstDate, visibleDate, selectedDate, recurrence) {
+  renderColumnOfLines (header, firstDate, visibleDate, selectedDate, recurrence, cronDates) {
     let column = [];
     column.push (this.renderHeader (header));
     column.push (this.renderLineOfDOWs ());
     let i = 0;
     for (i = 0; i < 6; ++i) {
-      const line = this.renderLineOfButtons (firstDate, visibleDate, selectedDate, recurrence, i);
+      const line = this.renderLineOfButtons (firstDate, visibleDate, selectedDate, recurrence, cronDates, i);
       column.push (line);
       firstDate = new Date (firstDate.getFullYear (), firstDate.getMonth (), firstDate.getDate () + 7);
     }
@@ -229,10 +290,12 @@ export default class Calendar extends React.Component {
     const firstDate    = new Date (visibleYear, visibleMonth, first);
     const header       = Converters.getMonthDescription (visibleMonth) + ' ' + visibleYear;  // 'mai 2016' by example
 
+    const cronDates = recurrence ? getCronDates (recurrence.Cron) : null;
+
     const style = this.mergeStyles ('column');
     return (
       <div style={style}>
-        {this.renderColumnOfLines (header, firstDate, visibleDate, selectedDate, recurrence)}
+        {this.renderColumnOfLines (header, firstDate, visibleDate, selectedDate, recurrence, cronDates)}
       </div>
     );
   }
