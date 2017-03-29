@@ -35,7 +35,7 @@ export default class MessengerCombo extends React.Component {
 
   showMessenger () {
     if (window.document.mock) {
-      Trace.log ('showMessenger is possible only with Lydia');
+      // Trace.log ('showMessenger is possible only with Lydia');
     } else {
       const data     = this.read ('data');
       const roadbook = this.read ('roadbook');

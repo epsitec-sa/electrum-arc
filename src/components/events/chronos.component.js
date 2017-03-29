@@ -166,17 +166,17 @@ export default class Chronos extends React.Component {
   }
 
   mouseDown (e) {
-    Trace.log ('ChronoLine.mouseDown');
+    // Trace.log ('ChronoLine.mouseDown');
     return false;
   }
 
   mouseUp (e) {
-    Trace.log ('ChronoLine.mouseUp');
+    // Trace.log ('ChronoLine.mouseUp');
     return false;
   }
 
   doClickAction (e) {
-    Trace.log ('ChronoLine.doClickAction');
+    // Trace.log ('ChronoLine.doClickAction');
   }
 
   /******************************************************************************/

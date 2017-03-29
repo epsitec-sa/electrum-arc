@@ -52,7 +52,7 @@ export default class Router extends React.Component {
   }
 
   mouseDown (name) {
-    Trace.log ('Router.mouseDown');
+    // Trace.log ('Router.mouseDown');
     this.view = name;
     this.setNavigation ();
     this.updateViews ();
