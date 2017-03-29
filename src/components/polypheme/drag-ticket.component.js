@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {TripTicket, DragCab, TripCombo, TripModify, TripDeliver, TripPredispatch} from '../../all-components.js';
+import {DispatchTicket, DragCab, TripCombo, TripModify, TripDeliver, TripPredispatch} from '../../all-components.js';
 import ReducerData from './reducer-data.js';
 import ComboHelpers from '../combo/combo-helpers.js';
 import StateManager from './state-manager.js';
@@ -268,7 +268,7 @@ export default class Trip extends React.Component {
         mouse-up         = {e => this.mouseUp (e)}
         do-click-action  = {e => this.doClickAction (e)}
         {...this.link ()} >
-        <TripTicket
+        <DispatchTicket
           kind             = {kind}
           ticket           = {ticket}
           metaTicket       = 'true'
@@ -323,7 +323,7 @@ export default class Trip extends React.Component {
         mouse-up         = {e => this.mouseUp (e)}
         do-click-action  = {e => this.doClickAction (e)}
         {...this.link ()} >
-        <TripTicket
+        <DispatchTicket
           kind               = {kind}
           ticket             = {ticket}
           data               = {data}
