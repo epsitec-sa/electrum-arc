@@ -405,16 +405,19 @@ export default class TripTicket extends React.Component {
     const hasHeLeft         = this.props.hasHeLeft;
 
     const cursor    = (noDrag === 'true') ? 'default' : 'move';
-    const delivered = ticket.Status === 'delivered';
-    const hatch     = (ticket.Status === 'dispatched' || delivered) ? 'true' : 'false';
-    const extended  = ReducerData.ask (data, {type: 'IS_TICKET_EXTENDED', id: ticket.id});
 
-    let kind, width, height;
+    let delivered, hatch, extended, kind, width, height;
     if (metaTicket) {
-      kind   = 'thin';
-      width  = null;
-      height = Unit.multiply (this.props.theme.shapes.tripBoxHeight, ticket.MeetingPoints.length);
+      delivered = false;
+      hatch     = false;
+      extended  = false;
+      kind      = 'thin';
+      width     = null;
+      height    = Unit.multiply (this.props.theme.shapes.tripBoxHeight, ticket.MeetingPoints.length);
     } else {
+      delivered = ticket.Status === 'delivered';
+      hatch     = (ticket.Status === 'dispatched' || delivered) ? 'true' : 'false';
+      extended  = ReducerData.ask (data, {type: 'IS_TICKET_EXTENDED', id: ticket.id});
       if (parentKind === 'trip-box') {
         kind   = 'thin';
         width  = null;
