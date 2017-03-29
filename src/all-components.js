@@ -64,6 +64,7 @@ import _Link from './components/links/link.component.js';
 import _Link$styles from './components/links/link.styles.js';
 import _Menu from './components/menus/menu.component.js';
 import _Menu$styles from './components/menus/menu.styles.js';
+import _CodispatchDragTicket from './components/polypheme/codispatch-drag-ticket.component.js';
 import _CodispatchTicket from './components/polypheme/codispatch-ticket.component.js';
 import _DispatchBacklog from './components/polypheme/dispatch-backlog.component.js';
 import _DispatchChronos from './components/polypheme/dispatch-chronos.component.js';
@@ -137,6 +138,7 @@ export const TextField = Electrum.wrap ('TextField', _TextField, {styles: _TextF
 export const Layout = Electrum.wrap ('Layout', _Layout);
 export const Link = Electrum.wrap ('Link', _Link, {styles: _Link$styles});
 export const Menu = Electrum.wrap ('Menu', _Menu, {styles: _Menu$styles});
+export const CodispatchDragTicket = Electrum.wrap ('CodispatchDragTicket', _CodispatchDragTicket);
 export const CodispatchTicket = Electrum.wrap ('CodispatchTicket', _CodispatchTicket);
 export const DispatchBacklog = Electrum.wrap ('DispatchBacklog', _DispatchBacklog);
 export const DispatchChronos = Electrum.wrap ('DispatchChronos', _DispatchChronos);

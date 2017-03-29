@@ -427,6 +427,7 @@ export default function styles (theme, props) {
     borderWidth:     '2px',
     borderStyle:     'dashed none none none',
     borderColor:     theme.palette.ticketSubpaneBorder,
+    backgroundColor: color,
     cursor:          'move',
   };
   const subpaneHoverRectStyle = {
@@ -439,7 +440,24 @@ export default function styles (theme, props) {
     borderWidth:     '2px 0px 0px ' + h,
     borderStyle:     'dashed none none solid',
     borderColor:     theme.palette.ticketSubpaneBorder,
+    backgroundColor: color,
     cursor:          'move',
+  };
+  const subpaneDraggedStyle = {
+    display:         'flex',
+    flexDirection:   'column',
+    flexGrow:        1,
+    justifyContent:  'flex-start',
+    alignItems:      'stretch',
+    padding:         m + ' ' + m + ' ' + Unit.multiply (m, 0.5) + ' ' + m,
+    borderWidth:     '2px',
+    borderStyle:     'solid',
+    borderColor:     theme.palette.ticketSubpaneBorder,
+    backgroundColor: color,
+    cursor:          'move',
+  };
+  const subpaneContentStyle = {
+    visibility:      (hideContent === 'true') ? 'hidden' : 'visible',
   };
 
   return {
@@ -464,6 +482,8 @@ export default function styles (theme, props) {
     backgroundText:     backgroundTextStyle,
     subpaneRect:        subpaneRectStyle,
     subpaneHoverRect:   subpaneHoverRectStyle,
+    subpaneDragged:     subpaneDraggedStyle,
+    subpaneContent:     subpaneContentStyle,
   };
 }
 
