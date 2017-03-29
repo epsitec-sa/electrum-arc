@@ -82,8 +82,11 @@ export default class Calendar extends React.Component {
 
   isRecurrence (date, recurrence) {
     if (recurrence) {
-      for (var r of recurrence.Dates) {
-        const d = new Date (r.substring (0, 4), r.substring (5, 7), r.substring (8, 10));
+      for (var r of recurrence.Add) {
+        const year  = r.Date.substring (0, 4);
+        const month = r.Date.substring (5, 7);
+        const day   = r.Date.substring (8, 10);
+        const d = new Date (year, month - 1, day);
         if (date.getFullYear () === d.getFullYear () &&
             date.getMonth    () === d.getMonth    () &&
             date.getDate     () === d.getDate     ()) {
