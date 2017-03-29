@@ -1,5 +1,4 @@
-import React from 'react';
-import {Trace} from 'electrum';
+import {React, Trace} from 'electrum';
 
 /******************************************************************************/
 

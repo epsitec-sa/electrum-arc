@@ -1,5 +1,3 @@
-'use strict';
-
 import Electrum from 'electrum';
 import {Trace} from 'electrum';
 import Enumerable from 'linq';
