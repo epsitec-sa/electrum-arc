@@ -11,7 +11,7 @@ import {
   TextFieldCombo,
   CheckButton,
   Button,
-  DragTicket,
+  DispatchTicket,
   Chronos
 } from '../../all-components.js';
 
@@ -177,7 +177,7 @@ export default class DispatchBacklog extends React.Component {
 
   renderDistinctTicket (ticket, data, index) {
     return (
-      <DragTicket
+      <DispatchTicket
         key    = {index}
         kind   = 'trip-backlog'
         source = 'backlog'
@@ -204,7 +204,7 @@ export default class DispatchBacklog extends React.Component {
       metaTicket.MeetingPoints.push (ticket.MeetingPoint);
     }
     return (
-      <DragTicket
+      <DispatchTicket
         key        = {index}
         kind       = 'backlog-box'
         source     = 'backlog'

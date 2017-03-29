@@ -6,7 +6,7 @@ import RoadbooksToChronos from './roadbooks-to-chronos.js';
 
 import {
   Container,
-  DragTicket,
+  DispatchTicket,
   MessengerTicket,
   DragCab,
   Roadbook,
@@ -126,7 +126,7 @@ export default class DispatchRoadbooks extends React.Component {
 
   renderTicket (ticket, data, index) {
     return (
-      <DragTicket
+      <DispatchTicket
         key    = {index}
         kind   = 'trip-ticket'
         source = 'roadbook'

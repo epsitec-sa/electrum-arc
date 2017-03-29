@@ -1,14 +1,11 @@
 'use strict';
 
 import React from 'react';
-
-import {Ticket, Container, Label, Separator, Badge, Gauge} from '../../all-components.js';
-import {ColorManipulator} from 'electrum';
-import {ColorHelpers} from 'electrum-theme';
-import {Unit} from 'electrum-theme';
-import Converters from './converters';
-import TicketHelpers from './ticket-helpers.js';
-import ReducerData from '../polypheme/reducer-data.js';
+import ReactDOM from 'react-dom';
+import {DispatchDragTicket, DragCab, TripCombo, TripModify, TripDeliver, TripPredispatch} from '../../all-components.js';
+import ReducerData from './reducer-data.js';
+import ComboHelpers from '../combo/combo-helpers.js';
+import StateManager from './state-manager.js';
 
 /******************************************************************************/
 
@@ -17,480 +14,341 @@ export default class DispatchTicket extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      hover: false,
-      link:  false,
+      showCombo:       false,
+      showModify:      false,
+      showDeliver:     false,
+      showPredispatch: false,
     };
+    this.comboLocation = null;
   }
 
-  getHover () {
-    return this.state.hover;
+  getShowCombo () {
+    return this.state.showCombo;
   }
 
-  setHover (value) {
+  setShowCombo (value) {
     this.setState ( {
-      hover: value
+      showCombo: value
+    });
+    const ticket = this.read ('ticket');
+    const id = ticket.id;
+    ComboHelpers.setDragCabHasCombo (id, value);
+  }
+
+  getShowModify () {
+    return this.state.showModify;
+  }
+
+  setShowModify (value) {
+    this.setState ( {
+      showModify: value
     });
   }
 
-  getLink () {
-    return this.state.link;
+  getShowDeliver () {
+    return this.state.showDeliver;
   }
 
-  setLink (value) {
+  setShowDeliver (value) {
     this.setState ( {
-      link: value
+      showDeliver: value
     });
   }
 
-  componentDidMount () {
-    if (!window.document.dispatchTickets) {
-      window.document.dispatchTickets = [];
-    }
-    window.document.dispatchTickets.push (this);
+  getShowPredispatch () {
+    return this.state.showPredispatch;
   }
 
-  componentWillUnmount () {
-    const index = window.document.dispatchTickets.indexOf (this);
-    if (index !== -1) {
-      window.document.dispatchTickets.splice (index, 1);
-    }
+  setShowPredispatch (value) {
+    this.setState ( {
+      showPredispatch: value
+    });
   }
 
-  getBackgroundText (ticket) {
-    if (this.getLink ()) {
-      return ticket.Order + 1;  // display 1..4 (for pick, drop-transit, pick-transit and drop)
-    } else {
-      return null;
-    }
+  getShowSomethink () {
+    return this.getShowCombo () || this.getShowModify () || this.getShowDeliver () || this.getShowPredispatch ();
   }
 
-  // Return the hud glyph displayed at top right corner.
-  // If the ticket is selected, displays a large "v" on a blue background.
-  getHudGlyph (data, ticket) {
-    if (!this.props.hasHeLeft || this.props.isDragged) {
-      const selected = ReducerData.ask (data, {type: 'IS_TICKET_SELECTED', id: ticket.id});
-      return selected ? 'check' : null;
-    }
-    return null;
+  showCombo (x, y) {
+    const node = ReactDOM.findDOMNode (this);
+    this.comboLocation = ComboHelpers.getComboLocation (node, this.props.theme, x);
+    this.setShowCombo (true);
   }
 
-  getPeriod (startTime, endTime) {
-    const s = Converters.getDisplayedTime (startTime);
-    const e = Converters.getDisplayedTime (endTime);
-    if (s === e) {
-      return s;
-    } else {
-      return `${s} — ${e}`;
+  mouseDown (e) {
+    // Trace.log ('Trip.mouseDown');
+    if (this.getShowSomethink ()) {
+      return true;
     }
+    // if (e.button === 2)  // right-click ?
+    if (e.button === 2 || (e.ctrlKey && e.shiftKey)) {
+      this.showCombo (e.clientX, e.clientY);
+      return true;
+    }
+    return false;
   }
 
-  //  Update state.link to all tickets linked.
-  //  By example, pick and drop to a trip, or 4 tickets if has transit.
-  setLinkToAll (link) {
-    const ticket    = this.read ('ticket');
-    const missionId = ticket.MissionId;
-    if (missionId) {
-      for (var tripTicket of window.document.dispatchTickets) {
-        const t = tripTicket.read ('ticket');
-        const m = t.MissionId;
-        if (missionId === m) {
-          tripTicket.setLink (link);
+  mouseUp (e) {
+    // Trace.log ('Trip.mouseUp');
+    if (this.getShowSomethink ()) {
+      return true;
+    }
+    return false;
+  }
+
+  doClickAction (e) {
+    if (e.ctrlKey || e.shiftKey || e.metaKey) {  // select/deselect ?
+      this.reduce ('SWAP_TICKET_SELECTED', e.shiftKey);
+    } else if (e.altKey) {  // compected/extended ?
+      this.reduce ('SWAP_TICKET_EXTENDED');
+    } else {  // pre-dispatched/dispatched/delivered ?
+      if (window.document.mock) {
+        const ticket = this.read ('ticket');
+        if (ticket.Status === 'dispatched') {  // dispatched -> delivered ?
+          this.showDeliver ();  // selected realised time...
+        } else if (ticket.Status === 'delivered') {  // delivered -> pre-dispatched ?
+          this.showPredispatch ();  // request confirmation...
+        } else {
+          this.reduce ('CYCLE_TICKET_STATUS');  // change directly without dialog
         }
+      } else {
+        this.reduce ('CYCLE_TICKET_STATUS');
       }
     }
   }
 
-  mouseOver () {
-    if (!this.props.isDragged) {
-      this.setHover (true);
-      this.setLinkToAll (true);
+  reduce (action, shiftKey, value, date, time) {
+    // Trace.log ('Trip.reducer');
+    const data   = this.read ('data');
+    const ticket = this.read ('ticket');
+    const id     = ticket.id;
+
+    // Inject electrum state (needed for electrumDispatch).
+    data.state = this.props.state;
+
+    ReducerData.reducer (data, {
+      type:     action,
+      id:       id,
+      shiftKey: shiftKey,
+      value:    value,
+      date:     date,
+      time:     time,
+    });
+  }
+
+  showModify () {
+    if (window.document.mock) {
+      this.setShowModify (true);
+    } else {
+      throw new Error ('Direct call to showModify is impossible in mock=false mode');
     }
   }
 
-  mouseOut () {
-    this.setHover (false);
-    this.setLinkToAll (false);
+  closeModify (action) {
+    this.setShowModify (false);
   }
 
-  renderGlyph (glyph) {
-    if (glyph.startsWith ('bookmark-')) {
-      const color = glyph.substring (9);
+  showDeliver () {
+    if (window.document.mock) {
+      this.setShowDeliver (true);
+    } else {
+      throw new Error ('Direct call to showDeliver is impossible in mock=false mode');
+    }
+  }
+
+  closeDeliver (action, date, time) {
+    this.setShowDeliver (false);
+    if (action === 'accept') {
+      this.reduce ('CHANGE_TICKET_STATUS', false, 'delivered', date, time);
+    }
+  }
+
+  showPredispatch () {
+    if (window.document.mock) {
+      this.setShowPredispatch (true);
+    } else {
+      throw new Error ('Direct call to showPredispatch is impossible in mock=false mode');
+    }
+  }
+
+  closePredispatch (action, date, time) {
+    this.setShowPredispatch (false);
+    if (action === 'accept') {
+      this.reduce ('CHANGE_TICKET_STATUS', false, 'pre-dispatched', date, time);
+    }
+  }
+
+  renderModify (data) {
+    if (this.getShowModify ()) {
+      const ticket = this.read ('ticket');
       return (
-        <Label glyph='bookmark' glyph-color={color} z-index={0}
-          spacing='compact' {...this.link ()} />
+        <TripModify
+          data         = {data}
+          ticket       = {ticket}
+          close-modify = {action => this.closeModify (action)}
+          {...this.link ()} />
       );
     } else {
+      return null;
+    }
+  }
+
+  renderDeliver (data) {
+    if (this.getShowDeliver ()) {
+      const ticket = this.read ('ticket');
       return (
-        <Label glyph={glyph} z-index={0}
-          spacing='compact' {...this.link ()} />
-      );
-    }
-  }
-
-  renderNoteGlyph (note) {
-    if (!note || !note.Glyphs) {
-      return null;
-    } else {
-      let line = [];
-      for (var glyph of note.Glyphs) {
-        if (glyph.Glyph) {
-          line.push (this.renderGlyph (glyph.Glyph));
-        }
-      }
-      return line;
-    }
-  }
-
-  renderNoteGlyphs (notes) {
-    if (!notes) {
-      return null;
-    } else {
-      let line = [];
-      for (var note of notes) {
-        line.push (this.renderNoteGlyph (note));
-      }
-      return line;
-    }
-  }
-
-  renderLine (glyph, text, index) {
-    if (!text) {
-      return null;
-    } else {
-      let color = null;
-      if (glyph.startsWith ('bookmark-')) {
-        color = glyph.substring (9);
-        glyph = 'bookmark';
-      }
-      return (
-        <Container key={index} kind='ticket-row' {...this.link ()} >
-          <Label width='15px' {...this.link ()} />
-          <Label glyph={glyph} glyph-color={color} width='35px' {...this.link ()} />
-          <Label text={text} font-size={this.props.theme.shapes.ticketExtendedTextSize}
-            wrap='yes' grow='1' {...this.link ()} />
-        </Container>
-      );
-    }
-  }
-
-  renderWarning (text) {
-    if (!text) {
-      return null;
-    } else {
-      return (
-        <Container kind='column' {...this.link ()} >
-          <Container kind='row' {...this.link ()} >
-            <Label kind='ticket-warning' text={text} font-style='italic' wrap='no' grow='1' {...this.link ()} />
-          </Container>
-          <Separator kind='ticket-warning' {...this.link ()} />
-        </Container>
-      );
-    }
-  }
-
-  renderShortNote (note) {
-    if (!note || !note.Glyphs) {
-      return null;
-    } else {
-      let line = [];
-      for (var glyph of note.Glyphs) {
-        if (glyph.Glyph) {
-          line.push (this.renderGlyph (glyph.Glyph));
-        }
-      }
-      return line;
-    }
-  }
-
-  renderShortNotes (notes) {
-    if (!notes) {
-      return null;
-    } else {
-      let line = [];
-      for (var note of notes) {
-        line.push (this.renderShortNote (note));
-      }
-      return line;
-    }
-  }
-
-  renderNote (note, index) {
-    let glyph = null;
-    if (note.Glyphs.length >= 1) {
-      glyph = note.Glyphs[0].Glyph;  // only first glyph !
-    }
-    return this.renderLine (glyph, note.Content, index);
-  }
-
-  renderNotes (notes) {
-    if (!notes) {
-      return null;
-    } else {
-      let line = [];
-      let index = 0;
-      for (var note of notes) {
-        line.push (this.renderNote (note, index++));
-      }
-      return line;
-    }
-  }
-
-  renderMeetingPoint (meetingPoint, border, index) {
-    if (meetingPoint) {
-      const directionGlyph = TicketHelpers.getDirectionGlyph (this.props.theme, meetingPoint.Type);
-      const dimmedSize     = this.props.theme.shapes.ticketDimmedSize;
-
-      return (
-        <Container index={index} kind='thin-row' border={border} grow='1' {...this.link ()} >
-          <Container kind='thin-row' width='120px' {...this.link ()} >
-            <Label text={this.getPeriod (meetingPoint.StartPlanedTime, meetingPoint.EndPlanedTime)}
-              font-weight='bold' wrap='no' {...this.link ()} />
-          </Container>
-          <Container kind='thin-row' width='20px' {...this.link ()} >
-            <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} {...this.link ()} />
-          </Container>
-          <Container kind='thin-row' grow='1' width='100px' {...this.link ()} >
-            <Label text={meetingPoint.ShortDescription} wrap='no' {...this.link ()} />
-          </Container>
-          <Container kind='thin-row' width='50px' {...this.link ()} >
-            <Label text={meetingPoint.Zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
-          </Container>
-          <Container kind='thin-row' width='80px' {...this.link ()} >
-            <Label grow='1' {...this.link ()} />
-            {this.renderShortNotes (meetingPoint.Notes)}
-          </Container>
-        </Container>
+        <TripDeliver
+          data          = {data}
+          ticket        = {ticket}
+          close-deliver = {(action, date, time) => this.closeDeliver (action, date, time)}
+          {...this.link ()} />
       );
     } else {
+      return null;
+    }
+  }
+
+  renderPredispatch (data) {
+    if (this.getShowPredispatch ()) {
+      const ticket = this.read ('ticket');
       return (
-        <Container index={index} kind='thin-row' border={border} grow='1' {...this.link ()} >
-        </Container>
+        <TripPredispatch
+          data              = {data}
+          ticket            = {ticket}
+          close-predispatch = {(action, date, time) => this.closePredispatch (action, date, time)}
+          {...this.link ()} />
       );
+    } else {
+      return null;
     }
   }
 
-  renderMeetingPoints (meetingPoints) {
-    const result = [];
-    let index = 0;
-    for (var i = 0; i < meetingPoints.length; i++) {
-      const meetingPoint = meetingPoints[i];
-      const border = i < meetingPoints.length - 1 ? 'bottom' : null;
-      result.push (this.renderMeetingPoint (meetingPoint, border, index++));
+  renderCombo (data) {
+    if (this.getShowCombo ()) {
+      const ticket = this.read ('ticket');
+      const source = this.read ('source');
+      return (
+        <TripCombo
+          data             = {data}
+          ticket           = {ticket}
+          source           = {source}
+          center           = {this.comboLocation.center}
+          top              = {this.comboLocation.top}
+          bottom           = {this.comboLocation.bottom}
+          close-combo      = {() => this.setShowCombo (false)}
+          show-modify      = {() => this.showModify ()}
+          show-deliver     = {() => this.showDeliver ()}
+          show-predispatch = {() => this.showPredispatch ()}
+          {...this.link ()}/>
+      );
+    } else {
+      return null;
     }
-    return result;
   }
 
-  renderMetaContent (ticket) {
-    const dimmedColor = this.props.theme.palette.ticketDimmed;
-    const dimmedSize  = this.props.theme.shapes.ticketDimmedSize;
+  renderMetaTicket (ticket) {
+    const kind     = this.read ('kind');
+    const data     = this.read ('data');
+    const noDrag   = null;
+    const selected = this.getShowSomethink () ? 'true' : 'false';
 
     return (
-      <Container kind='row' grow='1' {...this.link ()} >
-        <Container kind='thin-column' border='right' width='10px' {...this.link ()} >
-          <Gauge value={ticket.Urgency} {...this.link ()} />
-        </Container>
-        <Container kind='thin-column' border='right' grow='1' {...this.link ()} >
-          {this.renderMeetingPoints (ticket.MeetingPoints, 'bottom')}
-        </Container>
-        <Container kind='thin-column' border='right' width='110px' {...this.link ()} >
-          <Container kind='thin-row' grow='1' {...this.link ()} >
-            <Container kind='thin-row' grow='1' {...this.link ()} >
-              <Label glyph='cube' glyph-color={dimmedColor} {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' grow='3' {...this.link ()} >
-              <Label text={TicketHelpers.getPackageCount (ticket)} justify='right' grow='1' wrap='no' {...this.link ()} />
-            </Container>
-          </Container>
-          <Container kind='thin-row' grow='1' {...this.link ()} >
-            <Container kind='thin-row' grow='1' {...this.link ()} >
-              <Label text='total' font-size={dimmedSize} text-color={dimmedColor} {...this.link ()} />
-            </Container>
-            <Container kind='thin-row' grow='3' {...this.link ()} >
-              <Label text={ticket.Weight} justify='right' grow='1' wrap='no' {...this.link ()} />
-            </Container>
-          </Container>
-        </Container>
-        <Container kind='thin-column' width='90px' {...this.link ()} >
-          <Container kind='thin-row' grow='1' {...this.link ()} >
-            <Label text={ticket.NetPrice} justify='right' grow='1' wrap='no' {...this.link ()} />
-          </Container>
-          <Container kind='thin-row' grow='1' {...this.link ()} >
-            <Container kind='thin-row' grow='2' {...this.link ()} >
-            </Container>
-            <Container kind='thin-row' grow='3' {...this.link ()} >
-              <Label grow='1' {...this.link ()} />
-              {this.renderShortNotes (ticket.Notes)}
-            </Container>
-          </Container>
-        </Container>
-      </Container>
+      <DragCab
+        drag-controller  = 'ticket'
+        direction        = 'vertical'
+        color            = {this.props.theme.palette.dragAndDropHover}
+        thickness        = {this.props.theme.shapes.dragAndDropTicketThickness}
+        radius           = {this.props.theme.shapes.dragAndDropTicketThickness}
+        mode             = 'corner-top-left'
+        data             = {data}
+        drag-owner-id    = {ticket.id}
+        no-drag          = {noDrag}
+        vertical-spacing = {this.props.theme.shapes.ticketBacklogVerticalSpacing}
+        mouse-down       = {e => this.mouseDown (e)}
+        mouse-up         = {e => this.mouseUp (e)}
+        do-click-action  = {e => this.doClickAction (e)}
+        {...this.link ()} >
+        <DispatchDragTicket
+          kind             = {kind}
+          ticket           = {ticket}
+          metaTicket       = 'true'
+          data             = {data}
+          selected         = {selected}
+          no-drag          = {noDrag}
+          vertical-spacing = {this.props.theme.shapes.ticketBacklogVerticalSpacing}
+          {...this.link ()} />
+        {this.renderCombo (data)}
+        {this.renderModify (data)}
+        {this.renderDeliver (data)}
+        {this.renderPredispatch (data)}
+      </DragCab>
     );
   }
 
-  renderCompactedContent (ticket, directionGlyph, delivered) {
-    let topTime, bottomTime;
-    if (delivered) {
-      topTime    = ticket.MeetingPoint.RealisedTime;
-      bottomTime = null;
+  renderTicket (ticket) {
+    const kind     = this.read ('kind');
+    const data     = this.read ('data');
+    const noDrag   = (ticket.Status === 'dispatched' || ticket.Status === 'delivered') ? 'true' : null;
+    const selected = this.getShowSomethink () ? 'true' : 'false';
+    const shape    = StateManager.getTicketShape (ticket.id);
+
+    let verticalSpacing;
+    let horizontalSpacing;
+    if (kind === 'backlog-box') {
+      verticalSpacing = this.props.theme.shapes.ticketBacklogVerticalSpacing;
+    } else if (kind === 'trip-backlog') {
+      verticalSpacing   = this.props.theme.shapes.ticketBacklogSpacing;
+      horizontalSpacing = this.props.theme.shapes.ticketBacklogSpacing;
     } else {
-      topTime    = ticket.MeetingPoint.StartPlanedTime;
-      bottomTime = ticket.MeetingPoint.EndPlanedTime;
+      if (shape === 'first') {
+        verticalSpacing = this.props.theme.shapes.ticketVerticalSpacingFirst;
+      } else {
+        verticalSpacing = this.props.theme.shapes.ticketVerticalSpacing;
+      }
     }
+
     return (
-      <Container kind='ticket-column' grow='1' {...this.link ()} >
-        {this.renderWarning (ticket.Warning)}
-        <Container kind='ticket-row' margin-bottom='-10px' {...this.link ()} >
-          <Label text={Converters.getDisplayedTime (topTime)} font-weight='bold' width='50px' {...this.link ()} />
-          <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
-          <Label text={ticket.MeetingPoint.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
-        </Container>
-        <Container kind='ticket-row' {...this.link ()} >
-          <Label text={Converters.getDisplayedTime (bottomTime)} font-weight='bold' width='50px' {...this.link ()} />
-          <Label text='' width='25px' {...this.link ()} />
-          <Label glyph='cube' spacing='compact' {...this.link ()} />
-          <Label text={TicketHelpers.getPackageCount (ticket)} grow='1' {...this.link ()} />
-          {this.renderNoteGlyphs (ticket.MeetingPoint.Notes)}
-        </Container>
-      </Container>
+      <DragCab
+        drag-controller  = 'ticket'
+        direction        = 'vertical'
+        color            = {this.props.theme.palette.dragAndDropHover}
+        thickness        = {this.props.theme.shapes.dragAndDropTicketThickness}
+        radius           = {this.props.theme.shapes.dragAndDropTicketThickness}
+        mode             = 'corner-top-left'
+        data             = {data}
+        drag-owner-id    = {ticket.id}
+        no-drag          = {noDrag}
+        vertical-spacing = {verticalSpacing}
+        mouse-down       = {e => this.mouseDown (e)}
+        mouse-up         = {e => this.mouseUp (e)}
+        do-click-action  = {e => this.doClickAction (e)}
+        {...this.link ()} >
+        <DispatchDragTicket
+          kind               = {kind}
+          ticket             = {ticket}
+          data               = {data}
+          selected           = {selected}
+          no-drag            = {noDrag}
+          shape              = {shape}
+          vertical-spacing   = {verticalSpacing}
+          horizontal-spacing = {horizontalSpacing}
+          {...this.link ()} />
+        {this.renderCombo (data)}
+        {this.renderModify (data)}
+        {this.renderDeliver (data)}
+        {this.renderPredispatch (data)}
+      </DragCab>
     );
-  }
-
-  renderExtendedContent (ticket, directionGlyph, delivered) {
-    let topTime;
-    if (delivered) {
-      topTime = ticket.MeetingPoint.RealisedTime;
-    } else {
-      topTime = ticket.MeetingPoint.StartPlanedTime;
-    }
-    return (
-      <Container kind='ticket-column' grow='1' {...this.link ()} >
-        {this.renderWarning (ticket.Warning)}
-        <Container kind='ticket-row' {...this.link ()} >
-          <Label text={Converters.getDisplayedTime (topTime)} font-weight='bold' width='50px' {...this.link ()} />
-          <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} width='25px' {...this.link ()} />
-          <Label text={ticket.MeetingPoint.ShortDescription} font-weight='bold' wrap='no' grow='1' {...this.link ()} />
-        </Container>
-        {this.renderLine ('building', ticket.MeetingPoint.LongDescription)}
-        {this.renderLine ('map-marker', ticket.MeetingPoint.Zone)}
-        {this.renderNotes (ticket.MeetingPoint.Notes)}
-        {this.renderLine ('cube', TicketHelpers.getPackageDescription (ticket))}
-        {this.renderLine ('money', ticket.MeetingPoint.NetPrice)}
-        {this.renderLine ('info-circle', TicketHelpers.getStatusDescription (ticket))}
-        {this.renderNotes (ticket.MeetingPoint.Notes)}
-      </Container>
-    );
-  }
-
-  renderTicketContent (ticket, extended, delivered) {
-    const directionGlyph = TicketHelpers.getDirectionGlyph (this.props.theme, ticket.Type);
-
-    if (extended) {
-      return this.renderExtendedContent (ticket, directionGlyph, delivered);
-    } else {
-      return this.renderCompactedContent (ticket, directionGlyph, delivered);
-    }
   }
 
   render () {
-    const ticket            = this.read ('ticket');
-    const metaTicket        = this.read ('metaTicket') === 'true';
-    const data              = this.read ('data');
-    const parentKind        = this.read ('kind');
-    const shape             = this.read ('shape');
-    const noDrag            = this.read ('no-drag');
-    const verticalSpacing   = this.read ('vertical-spacing');
-    const horizontalSpacing = this.read ('horizontal-spacing');
-    const selected          = this.read ('selected');
-    const isDragged         = this.props.isDragged;
-    const hasHeLeft         = this.props.hasHeLeft;
-
-    const cursor    = (noDrag === 'true') ? 'default' : 'move';
-
-    let delivered, hatch, extended, kind, width, height;
-    if (metaTicket) {
-      delivered = false;
-      hatch     = false;
-      extended  = false;
-      kind      = 'thin';
-      width     = null;
-      height    = Unit.multiply (this.props.theme.shapes.backlogTicketHeight, ticket.MeetingPoints.length);
+    const ticket     = this.read ('ticket');
+    const metaTicket = this.read ('metaTicket');
+    if (metaTicket === 'true') {
+      return this.renderMetaTicket (ticket);
     } else {
-      delivered = ticket.Status === 'delivered';
-      hatch     = (ticket.Status === 'dispatched' || delivered) ? 'true' : 'false';
-      extended  = ReducerData.ask (data, {type: 'IS_TICKET_EXTENDED', id: ticket.id});
-      if (parentKind === 'backlog-box') {
-        kind   = 'thin';
-        width  = null;
-        height = this.props.theme.shapes.backlogTicketHeight;
-      } else if (parentKind === 'trip-backlog') {
-        kind   = 'rect';
-        width  = this.props.theme.shapes.dispatchTicketWidth;
-        height = null;
-      } else {
-        kind   = extended ? 'rect' : 'ticket';
-        width  = this.props.theme.shapes.dispatchTicketWidth;
-        height = extended ? null : (ticket.Warning ? '90px' : '60px');
-      }
+      return this.renderTicket (ticket);
     }
-
-    let color = this.props.theme.palette.ticketBackground;
-    if (ticket.Flash === 'true' && !isDragged) {
-      color = this.props.theme.palette.ticketFlashBackground;
-    }
-    if (delivered) {
-      color = this.props.theme.palette.ticketDeliveredBackground;
-    }
-    if (ticket.Warning && !isDragged) {
-      color = this.props.theme.palette.ticketWarningBackground;
-    }
-    if (this.getHover () && !isDragged) {
-      color = ColorManipulator.emphasize (color, 0.1);
-    }
-    if (selected === 'true' && !isDragged) {
-      color = ColorManipulator.emphasize (color, 0.3);
-    }
-    if (hasHeLeft && !isDragged) {
-      color = this.props.theme.palette.ticketDragAndDropShadow;
-    }
-
-    let hoverShape = null;
-    if (this.getLink () && !isDragged && !hasHeLeft) {
-      if (!ticket.MeetingPoints || ticket.MeetingPoints.length === 1) {
-        if (ticket.Type.startsWith ('pick')) {
-          hoverShape = 'first';
-        } else if (ticket.Type.startsWith ('drop')) {
-          hoverShape = 'last';
-        } else {
-          hoverShape = 'normal';
-        }
-      } else {
-        hoverShape = 'normal';
-      }
-    }
-
-    return (
-      <Ticket
-        width              = {width}
-        height             = {height}
-        vertical-spacing   = {verticalSpacing}
-        horizontal-spacing = {horizontalSpacing}
-        color              = {color}
-        background-text    = {metaTicket ? null : this.getBackgroundText (ticket)}
-        kind               = {kind}
-        hatch              = {hatch}
-        shape              = {shape}
-        hover-shape        = {hoverShape}
-        cursor             = {cursor}
-        hud-glyph          = {this.getHudGlyph (data, ticket)}
-        hide-content       = {hasHeLeft && !isDragged ? 'true' : 'false'}
-        mouse-over         = {() => this.mouseOver ()}
-        mouse-out          = {() => this.mouseOut ()}
-        {...this.link ()} >
-        {metaTicket ?
-          this.renderMetaContent (ticket) :
-          this.renderTicketContent (ticket, extended, delivered)}
-      </Ticket>
-    );
   }
 }
 
