@@ -190,6 +190,12 @@ export default function styles (theme, props) {
     if (!flexGrow) {
       flexGrow = '1';
     }
+  } else if (inputWrap === 'stretch') {
+    textDisplay      = null;
+    linesOverflow    = 'hidden';
+    textOverflow     = 'hidden';
+    textTextOverflow = 'ellipsis';
+    textWhiteSpace   = 'nowrap';
   } else if (inputWrap === 'break-word') {
     textWordBreak = 'break-word';
   }

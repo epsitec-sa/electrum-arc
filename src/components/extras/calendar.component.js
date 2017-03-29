@@ -26,6 +26,11 @@ export default class Calendar extends React.Component {
     });
   }
 
+  componentDidMount () {
+    // At first time, initialize internalState.visibleDate with current date.
+    this.setVisibleDate (this.read ('date'));
+  }
+
   /******************************************************************************/
 
   get styleProps () {
@@ -233,12 +238,6 @@ export default class Calendar extends React.Component {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
     const recurrence = this.read ('recurrence');
-
-    // Get or create the internalState.
-    if (!this.getVisibleDate ()) {
-      // At first time, initialize internalState.visibleDate with current date.
-      this.setVisibleDate (this.read ('date'));
-    }
 
     const boxStyle = this.mergeStyles ('box');
 

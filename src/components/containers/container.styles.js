@@ -510,6 +510,12 @@ export default function styles (theme, props) {
     margin = topMargin + ' ' + rightMargin + ' ' + bottomMargin + ' ' + leftMargin;
   }
 
+  if (inputKind === 'row-pane-drag') {
+    display         = 'flex';
+    flexDirection   = 'column';
+    margin          = Unit.multiply (m, 0.5) + ' ' + Unit.multiply (m, -1) + ' ' + Unit.multiply (m, -0.5) + ' ' + Unit.multiply (m, -1);
+  }
+
   if (inputKind === 'row-wrap') {
     margin               = Unit.multiply (m, 0.25);
   }

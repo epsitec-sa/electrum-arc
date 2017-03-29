@@ -1,4 +1,5 @@
 import React from 'react';
+import {Trace} from 'electrum';
 import ReactDOM from 'react-dom';
 import {DragCarrier} from '../../all-components.js';
 
@@ -186,14 +187,14 @@ export default class DragCab extends React.Component {
 
     const htmlDragCarrier = (dragInProcess && !isDragged) ? this.renderDragCarrier () : null;
 
-    const boxStyle = direction === 'horizontal' ? {
-      display:       'flex',
-      flexDirection: 'column',
-      flexGrow:      isDragged && dragStarting ? 1 : null,
-      userSelect:    'none',
-    } : {
-      userSelect:    'none',
+    const boxStyle = {
+      userSelect: 'none',
     };
+    if (direction === 'horizontal') {
+      boxStyle.display       = 'flex';
+      boxStyle.flexDirection = 'column';
+      boxStyle.flexGrow      = isDragged && dragStarting ? 1 : null;
+    }
 
     return (
       <div

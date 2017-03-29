@@ -1,4 +1,5 @@
 import React from 'react';
+import {Trace} from 'electrum';
 import ReactDOM from 'react-dom';
 import {Unit} from 'electrum-theme';
 import ReducerData from '../polypheme/reducer-data.js';
@@ -279,7 +280,7 @@ export default class DragCarrier extends React.Component {
   }
 
   findParentId (id) {
-    if (id) {
+    if (id && window.document.dragParentControllers) {
       for (var c of window.document.dragParentControllers) {
         const parentId = c.props['drag-parent'];
         if (parentId === id) {
@@ -402,6 +403,10 @@ export default class DragCarrier extends React.Component {
 
   searchChildren (id) {
     const container = this.rectOrigin.container;
+    if (container.props.children.props && container.props.children.props['drag-owner-id'] === id) {
+      // Manages the case where there is only one child.
+      return container.props.children;
+    }
     for (let child of container.props.children) {
       if (child.props['drag-owner-id'] === id) {
         return child;
@@ -510,18 +515,19 @@ export default class DragCarrier extends React.Component {
   // toOwnerId -> owner where it is necessary to insert. Useful when toId is null.
   reduce (toId, ownerId, ownerKind) {
     const data = this.read ('data');
+    if (data) {
+      // Inject electrum state (needed for electrumDispatch).
+      data.state = this.read ('state');
 
-    // Inject electrum state (needed for electrumDispatch).
-    data.state = this.read ('state');
-
-    ReducerData.reducer (data, {
-      type:        'DROP',
-      fromKind:    (ownerKind === 'roadbooks') ? 'roadbook' : 'ticket',
-      fromIds:     this.selectedIds,
-      toId:        toId,
-      toOwnerId:   ownerId,
-      toOwnerKind: ownerKind,
-    });
+      ReducerData.reducer (data, {
+        type:        'DROP',
+        fromKind:    (ownerKind === 'roadbooks') ? 'roadbook' : 'ticket',
+        fromIds:     this.selectedIds,
+        toId:        toId,
+        toOwnerId:   ownerId,
+        toOwnerKind: ownerKind,
+      });
+    }
   }
 
   renderTooMany (n, index) {
