@@ -12,7 +12,7 @@ import ReducerData from '../polypheme/reducer-data.js';
 
 /******************************************************************************/
 
-export default class TripTicket extends React.Component {
+export default class DispatchTicket extends React.Component {
 
   constructor (props) {
     super (props);
@@ -43,16 +43,16 @@ export default class TripTicket extends React.Component {
   }
 
   componentDidMount () {
-    if (!window.document.tripTickets) {
-      window.document.tripTickets = [];
+    if (!window.document.dispatchTickets) {
+      window.document.dispatchTickets = [];
     }
-    window.document.tripTickets.push (this);
+    window.document.dispatchTickets.push (this);
   }
 
   componentWillUnmount () {
-    const index = window.document.tripTickets.indexOf (this);
+    const index = window.document.dispatchTickets.indexOf (this);
     if (index !== -1) {
-      window.document.tripTickets.splice (index, 1);
+      window.document.dispatchTickets.splice (index, 1);
     }
   }
 
@@ -90,7 +90,7 @@ export default class TripTicket extends React.Component {
     const ticket    = this.read ('ticket');
     const missionId = ticket.MissionId;
     if (missionId) {
-      for (var tripTicket of window.document.tripTickets) {
+      for (var tripTicket of window.document.dispatchTickets) {
         const t = tripTicket.read ('ticket');
         const m = t.MissionId;
         if (missionId === m) {
@@ -413,22 +413,22 @@ export default class TripTicket extends React.Component {
       extended  = false;
       kind      = 'thin';
       width     = null;
-      height    = Unit.multiply (this.props.theme.shapes.tripBoxHeight, ticket.MeetingPoints.length);
+      height    = Unit.multiply (this.props.theme.shapes.backlogTicketHeight, ticket.MeetingPoints.length);
     } else {
       delivered = ticket.Status === 'delivered';
       hatch     = (ticket.Status === 'dispatched' || delivered) ? 'true' : 'false';
       extended  = ReducerData.ask (data, {type: 'IS_TICKET_EXTENDED', id: ticket.id});
-      if (parentKind === 'trip-box') {
+      if (parentKind === 'backlog-box') {
         kind   = 'thin';
         width  = null;
-        height = this.props.theme.shapes.tripBoxHeight;
+        height = this.props.theme.shapes.backlogTicketHeight;
       } else if (parentKind === 'trip-backlog') {
         kind   = 'rect';
-        width  = this.props.theme.shapes.tripTicketWidth;
+        width  = this.props.theme.shapes.dispatchTicketWidth;
         height = null;
       } else {
         kind   = extended ? 'rect' : 'ticket';
-        width  = this.props.theme.shapes.tripTicketWidth;
+        width  = this.props.theme.shapes.dispatchTicketWidth;
         height = extended ? null : (ticket.Warning ? '90px' : '60px');
       }
     }

@@ -9,7 +9,7 @@ import StateManager from './state-manager.js';
 
 /******************************************************************************/
 
-export default class Trip extends React.Component {
+export default class DragTicket extends React.Component {
 
   constructor (props) {
     super (props);
@@ -263,7 +263,7 @@ export default class Trip extends React.Component {
         data             = {data}
         drag-owner-id    = {ticket.id}
         no-drag          = {noDrag}
-        vertical-spacing = {this.props.theme.shapes.tripBoxVerticalSpacing}
+        vertical-spacing = {this.props.theme.shapes.ticketBacklogVerticalSpacing}
         mouse-down       = {e => this.mouseDown (e)}
         mouse-up         = {e => this.mouseUp (e)}
         do-click-action  = {e => this.doClickAction (e)}
@@ -275,7 +275,7 @@ export default class Trip extends React.Component {
           data             = {data}
           selected         = {selected}
           no-drag          = {noDrag}
-          vertical-spacing = {this.props.theme.shapes.tripBoxVerticalSpacing}
+          vertical-spacing = {this.props.theme.shapes.ticketBacklogVerticalSpacing}
           {...this.link ()} />
         {this.renderCombo (data)}
         {this.renderModify (data)}
@@ -294,8 +294,8 @@ export default class Trip extends React.Component {
 
     let verticalSpacing;
     let horizontalSpacing;
-    if (kind === 'trip-box') {
-      verticalSpacing = this.props.theme.shapes.tripBoxVerticalSpacing;
+    if (kind === 'backlog-box') {
+      verticalSpacing = this.props.theme.shapes.ticketBacklogVerticalSpacing;
     } else if (kind === 'trip-backlog') {
       verticalSpacing   = this.props.theme.shapes.ticketBacklogSpacing;
       horizontalSpacing = this.props.theme.shapes.ticketBacklogSpacing;

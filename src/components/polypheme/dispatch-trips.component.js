@@ -45,7 +45,7 @@ export default class DispatchTrips extends React.Component {
       return (
         <DragTicket
           key        = {index}
-          kind       = 'trip-box'
+          kind       = 'backlog-box'
           source     = 'backlog'
           ticket     = {m}
           metaTicket = 'true'
