@@ -37,7 +37,7 @@ function pushCron (result, cron, year, month, deleteList) {
   }
 }
 
-function initializeRecurrence (recurrence, year, month) {
+function getRecurrenceList (recurrence, year, month) {
   const result = [];
   if (recurrence) {
     pushCron (result, recurrence.Cron, year, month, recurrence.Delete);
@@ -261,7 +261,7 @@ export default class Calendar extends React.Component {
     const firstDate    = new Date (visibleYear, visibleMonth, first);
     const header       = Converters.getMonthDescription (visibleMonth) + ' ' + visibleYear;  // 'mai 2016' by example
 
-    const recurrenceList = initializeRecurrence (recurrence, visibleYear, visibleMonth + 1);
+    const recurrenceList = getRecurrenceList (recurrence, visibleYear, visibleMonth + 1);
 
     const style = this.mergeStyles ('column');
     return (
