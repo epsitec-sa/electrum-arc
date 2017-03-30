@@ -1,8 +1,4 @@
-'use strict';
-
-import React from 'react';
-import {Action} from 'electrum';
-import {Trace} from 'electrum';
+import {Action, React, Trace} from 'electrum';
 
 /******************************************************************************/
 

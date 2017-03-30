@@ -8,16 +8,18 @@ import CronParser from 'cron-parser';
 
 /******************************************************************************/
 
-function containsDateTime (list, date, time) {
+function getDateTime (list, date, time) {
   for (var item of list) {
     if (item.Date === date && (!time || item.Time === time)) {
-      return true;
+      return item;
     }
   }
-  return false;
+  return null;
 }
 
-function pushCron (result, cron, year, month, deleteList) {
+function pushCron (result, cron, date, deleteList) {
+  const year  = Converters.getYear  (date);
+  const month = Converters.getMonth (date);
   var options = {
     currentDate: new Date (year, month - 2, 1),
     endDate:     new Date (year, month + 1, 1),
@@ -31,27 +33,36 @@ function pushCron (result, cron, year, month, deleteList) {
     }
     const date = Converters.jsToFormatedDate (next.value);
     const time = Converters.jsToFormatedTime (next.value);
-    if (!containsDateTime (deleteList, date, time)) {
-      result.push ({Date: date, Time: time});
+    if (getDateTime (deleteList, date, time) === null) {
+      const item = {
+        Date:  date,
+        Time:  time,
+        Type: 'default',
+      };
+      result.push (item);
     }
   }
 }
 
-function getRecurrenceList (recurrence, year, month) {
+function getRecurrenceList (recurrence, date) {
   const result = [];
   if (recurrence) {
-    pushCron (result, recurrence.Cron, year, month, recurrence.Delete);
+    pushCron (result, recurrence.Cron, date, recurrence.Delete);
 
     for (var item of recurrence.Add) {
-      result.push (item);
+      const it = {
+        Date:  item.Date,
+        Time:  item.Time,
+        Type: 'added',
+      };
+      result.push (it);
     }
   }
   return result;
 }
 
-function isRecurrence (date, recurrenceList) {
-  const d = Converters.jsToFormatedDate (date);
-  return containsDateTime (recurrenceList, d, null);
+function getRecurrence (date, recurrenceList) {
+  return getDateTime (recurrenceList, date, null);
 }
 
 /******************************************************************************/
@@ -96,12 +107,11 @@ export default class Calendar extends React.Component {
   }
 
   // If the input date is undefine, set to now.
-  // If the input date is a number, cast to Date.
   normalizeDate (date) {
     if (date) {
-      return new Date (date);
+      return date;
     } else {
-      return new Date (Date.now ());
+      return Converters.getNowFormatedDate ();
     }
   }
 
@@ -109,14 +119,14 @@ export default class Calendar extends React.Component {
   // Modify internalState.visibleDate (fix visible year and month).
   prevMonth () {
     const visibleDate = this.normalizeDate (this.getVisibleDate ());
-    this.setVisibleDate (new Date (visibleDate.getFullYear (), visibleDate.getMonth () - 1, 1));
+    this.setVisibleDate (Converters.addMonths (visibleDate, -1));
   }
 
   // Called when the '>' button is clicked.
   // Modify internalState.visibleDate (fix visible year and month).
   nextMonth () {
     const visibleDate = this.normalizeDate (this.getVisibleDate ());
-    this.setVisibleDate (new Date (visibleDate.getFullYear (), visibleDate.getMonth () + 1, 1));
+    this.setVisibleDate (Converters.addMonths (visibleDate, 1));
   }
 
   // Called when a [1]..[31] button is clicked.
@@ -132,17 +142,26 @@ export default class Calendar extends React.Component {
   /******************************************************************************/
 
   // Return the html for a [1]..[31] button.
-  renderButton (firstDate, active, nature, index) {
-    const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+  renderButton (dateTime, active, dimmed, weekend, recurrence, index) {
+    var tooltip;
+    if (dateTime.Time) {
+      const d = Converters.getDisplayedDate (dateTime.Date, false, 'Wdmy');
+      const t = Converters.getDisplayedTime (dateTime.Time, false, 'hm');
+      tooltip = d + ', ' + t;
+    } else {
+      tooltip = Converters.getDisplayedDate (dateTime.Date, false, 'Wdmy');
+    }
     return (
       <Button
-        key     = {index}
-        text    = {firstDate.getDate ()}  // 1..31
-        tooltip = {firstDate.toLocaleDateString ('fr-CH', options)}
-        kind    = 'calendar'
-        active  = {active}
-        nature  = {nature}
-        action  = {() => this.setDate (firstDate)}
+        key        = {index}
+        text       = {Converters.getDay (dateTime.Date)}  // 1..31
+        tooltip    = {tooltip}
+        kind       = 'calendar'
+        active     = {active}
+        dimmed     = {dimmed}
+        weekend    = {weekend}
+        recurrence = {recurrence}
+        action     = {() => this.setDate (dateTime.Date)}
         {...this.link ()}
       />
     );
@@ -152,24 +171,30 @@ export default class Calendar extends React.Component {
   renderButtons (firstDate, visibleDate, selectedDate, recurrenceList) {
     let line = [];
     let i = 0;
-    for (i = 0; i < 7; ++i) {
-      let active = 'hidden';
-      if (firstDate.getFullYear () === visibleDate.getFullYear () &&
-          firstDate.getMonth    () === visibleDate.getMonth    ()) {
-        active = 'false';
-      }
-      if (firstDate.getFullYear () === selectedDate.getFullYear () &&
-          firstDate.getMonth    () === selectedDate.getMonth    () &&
-          firstDate.getDate     () === selectedDate.getDate     ()) {
+    for (i = 0; i < 7; ++i) {  // monday..sunday
+      let active     = 'false';
+      let dimmed     = 'false';
+      let weekend    = 'false';
+      let recurrence = 'none';
+      if (firstDate === selectedDate) {
         active = 'true';
       }
-      let nature = (i < 5) ? 'default' : 'weekend';
-      if (isRecurrence (firstDate, recurrenceList)) {
-        nature = 'recurrence';
+      if (Converters.getYear  (firstDate) !== Converters.getYear  (visibleDate) ||
+          Converters.getMonth (firstDate) !== Converters.getMonth (visibleDate)) {
+        dimmed = 'true';
       }
-      const button = this.renderButton (firstDate, active, nature, i);
+      if (i >= 5) {  // saturday or sunday ?
+        weekend = 'true';
+      }
+      let dateTime = getRecurrence (firstDate, recurrenceList);
+      if (dateTime === null) {
+        dateTime = {Date: firstDate};
+      } else {
+        recurrence = dateTime.Type;
+      }
+      const button = this.renderButton (dateTime, active, dimmed, weekend, recurrence, i);
       line.push (button);
-      firstDate = new Date (firstDate.getFullYear (), firstDate.getMonth (), firstDate.getDate () + 1);
+      firstDate = Converters.addDays (firstDate, 1);
     }
     return line;
   }
@@ -245,7 +270,7 @@ export default class Calendar extends React.Component {
     for (i = 0; i < 6; ++i) {
       const line = this.renderLineOfButtons (firstDate, visibleDate, selectedDate, recurrenceList, i);
       column.push (line);
-      firstDate = new Date (firstDate.getFullYear (), firstDate.getMonth (), firstDate.getDate () + 7);
+      firstDate = Converters.addDays (firstDate, 7);
     }
     return column;
   }
@@ -254,14 +279,10 @@ export default class Calendar extends React.Component {
   renderLines (recurrence) {
     const visibleDate  = this.normalizeDate (this.getVisibleDate ());
     const selectedDate = this.normalizeDate (this.read ('date'));
-    const visibleYear  = visibleDate.getFullYear ();  // 2016
-    const visibleMonth = visibleDate.getMonth ();  // 0..11
-    const dotw         = new Date (visibleYear, visibleMonth, 1).getDay ();  // 0..6 (0 = Sunday)
-    const first        = -((dotw + 5) % 7);
-    const firstDate    = new Date (visibleYear, visibleMonth, first);
-    const header       = Converters.getMonthDescription (visibleMonth) + ' ' + visibleYear;  // 'mai 2016' by example
+    const firstDate    = Converters.getCalendarStartDate (visibleDate);
+    const header       = Converters.getDisplayedDate (visibleDate, false, 'My');  // 'mai 2016' by example
 
-    const recurrenceList = getRecurrenceList (recurrence, visibleYear, visibleMonth + 1);
+    const recurrenceList = getRecurrenceList (recurrence, visibleDate);
 
     const style = this.mergeStyles ('column');
     return (

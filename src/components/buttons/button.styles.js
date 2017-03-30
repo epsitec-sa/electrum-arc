@@ -20,7 +20,9 @@ export default function styles (theme, props) {
   const inputBottom          = props.bottom;
   const inputKind            = props.kind;
   const inputSubkind         = props.subkind;
-  const inputNature          = props.nature;
+  const inputDimmed          = props.dimmed;
+  const inputWeekend         = props.weekend;
+  const inputRecurrence      = props.recurrence;
   const inputPlace           = props.place;
   const inputActive          = props.active;
   const inputBadgeValue      = props.badgeValue;
@@ -71,6 +73,7 @@ export default function styles (theme, props) {
   let actif                = true;
   let boxPosition          = inputPosition ? inputPosition : 'relative';
   let cursor               = inputCursor;
+  let transition           = theme.transitions.easeOut ();
 
   // Initialize variables for button without border.
   if (inputBorder === 'none') {
@@ -453,25 +456,25 @@ export default function styles (theme, props) {
     boxWidth        = theme.shapes.calendarButtonWidth;
     boxHeight       = theme.shapes.calendarButtonHeight;
     textSize        = theme.shapes.calendarTextSize;
+    transition      = null;
+    backgroundColor = theme.palette.calendarBackground;
+    textColor       = theme.palette.calendarInactiveText;
     if (inputActive === 'true') {
-      backgroundColor = theme.palette.calendarButtonActiveBackground;
-      textColor       = theme.palette.calendarActiveText;
-    } else if (inputActive === 'hidden') {
-      backgroundColor = theme.palette.calendarBackground;
-      textColor       = theme.palette.calendarHiddenText;
-    } else {
-      backgroundColor = theme.palette.calendarButtonInactiveBackground;
-      textColor       = theme.palette.calendarInactiveText;
+      borderStyle = 'solid';
+      borderColor = theme.palette.calendarButtonActiveBackground;
+      borderWidth = '2px';
+      boxHeight   = Unit.sub (boxHeight, '4px');
     }
-    if (inputNature === 'weekend' && inputActive !== 'hidden') {
+    if (inputDimmed === 'true') {
+      textColor = ColorManipulator.emphasize (textColor, 0.5);
+    }
+    if (inputWeekend === 'true') {
       backgroundColor = theme.palette.calendarButtonWeekendBackground;
-    } else if (inputNature === 'recurrence' && inputActive !== 'hidden') {
+    }
+    if (inputRecurrence === 'default') {
       backgroundColor = theme.palette.calendarButtonRecurrenceBackground;
-    } else {
-      // const mm = Unit.multiply (Unit.sub (theme.shapes.calendarButtonWidth, theme.shapes.calendarButtonHeight), 0.5);
-      // boxMargin       = '0px ' + mm;
-      borderRadius    = Unit.multiply (theme.shapes.calendarButtonHeight, 0.5);
-      // boxWidth        = theme.shapes.calendarButtonHeight;
+    } else if (inputRecurrence === 'added') {
+      backgroundColor = ColorManipulator.emphasize (theme.palette.calendarButtonRecurrenceBackground, 0.3);
     }
   }
   // Button for month navigation in Calendar component.
@@ -592,7 +595,7 @@ export default function styles (theme, props) {
   // Buttons without left or right border (with only bottom border) are
   // considered as without border (for example task button).
   if (boxWidth && boxWidth !== '0px' && !borderStyle.startsWith ('none')) {
-    boxWidth = Unit.sub (boxWidth, '2px');
+    boxWidth = Unit.sub (boxWidth, Unit.multiply (borderWidth, 2));
   }
 
   const boxStyle = {
@@ -617,7 +620,7 @@ export default function styles (theme, props) {
     margin:          boxMargin,
     backgroundColor: backgroundColor,
     position:        boxPosition,
-    transition:      theme.transitions.easeOut (),
+    transition:      transition,
     zIndex:          boxZIndex,
     textDecoration:  'none',
     cursor:          cursor,

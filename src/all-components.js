@@ -102,6 +102,7 @@ import _Calendar from './components/time/calendar.component.js';
 import _Calendar$styles from './components/time/calendar.styles.js';
 import _Clock from './components/time/clock.component.js';
 import _Clock$styles from './components/time/clock.styles.js';
+import _Recurrence from './components/time/recurrence.component.js';
 export const ButtonClose = Electrum.wrap ('ButtonClose', _ButtonClose);
 export const Button = Electrum.wrap ('Button', _Button, {styles: _Button$styles});
 export const CheckButton = Electrum.wrap ('CheckButton', _CheckButton);
@@ -171,3 +172,4 @@ export const TableRow = Electrum.wrap ('TableRow', _TableRow, {styles: _TableRow
 export const Table = Electrum.wrap ('Table', _Table, {styles: _Table$styles});
 export const Calendar = Electrum.wrap ('Calendar', _Calendar, {styles: _Calendar$styles});
 export const Clock = Electrum.wrap ('Clock', _Clock, {styles: _Clock$styles});
+export const Recurrence = Electrum.wrap ('Recurrence', _Recurrence);

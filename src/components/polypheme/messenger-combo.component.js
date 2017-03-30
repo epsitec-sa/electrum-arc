@@ -1,5 +1,4 @@
-import React from 'react';
-import {Trace} from 'electrum';
+import {React, Trace} from 'electrum';
 import {Combo} from '../../all-components.js';
 import ReducerData from '../polypheme/reducer-data.js';
 

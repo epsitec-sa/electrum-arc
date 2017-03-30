@@ -127,6 +127,36 @@ function addYears (date, n) {
   return jsToFormatedDate (nd);
 }
 
+function getYear (date) {
+  const d = formatedDateToJs (date);
+  return d.getFullYear ();  // 2017..
+}
+
+function getMonth (date) {
+  const d = formatedDateToJs (date);
+  return d.getMonth () + 1;  // 1..12
+}
+
+function getDay (date) {
+  const d = formatedDateToJs (date);
+  return d.getDate ();  // 1..31
+}
+
+function getHours (time) {
+  const d = formatedTimeToJs (time);
+  return d.getHours ();  // 0..23
+}
+
+function getMinutes (time) {
+  const d = formatedTimeToJs (time);
+  return d.getMinutes ();  // 0..59
+}
+
+function getSeconds (time) {
+  const d = formatedTimeToJs (time);
+  return d.getSeconds ();  // 0..59
+}
+
 // With '2017-03-31', return {year: 2017, month: 03, day: 31}.
 function splitDate (date) {
   if (!date || date.length !== 10 || date[4] !== '-' || date[7] !== '-') {
@@ -230,6 +260,8 @@ function getDisplayedDate (date, useNowByDefault, format) {
     } else if (format === 'Wd') {
       const w = formatedDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
       return getDOWDescription ((w + 6) % 7, '3') + ' ' + padding (d.day, 2);
+    } else if (format === 'd') {
+      return padding (d.day, 2);
     } else if (format === 'Wdm') {
       const w = formatedDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
       return getDOWDescription ((w + 6) % 7, '3') + ' ' + padding (d.day, 2) + '.' + padding (d.month, 2);
@@ -308,6 +340,22 @@ function checkTime (editedTime) {
   return true;
 }
 
+function getNowFormatedTime () {
+  return jsToFormatedTime (new Date (Date.now ()));
+}
+
+function getNowFormatedDate () {
+  return jsToFormatedDate (new Date (Date.now ()));
+}
+
+function getCalendarStartDate (date) {
+  const jsDate    = formatedDateToJs (date);
+  const dotw      = new Date (jsDate.getFullYear (), jsDate.getMonth (), 1).getDay ();  // 0..6 (0 = Sunday)
+  const first     = -((dotw + 5) % 7);
+  const startDate = new Date (jsDate.getFullYear (), jsDate.getMonth (), first);
+  return jsToFormatedDate (startDate);
+}
+
 module.exports = {
   jsToFormatedTime, jsToFormatedDate,
   getMonthDescription, getDOWDescription,
@@ -315,6 +363,9 @@ module.exports = {
   isEmptyTime, isEmptyDate,
   getDisplayedTime, getFormatedTime, checkTime, splitTime, getTimeFromMinutes, getMinutes,
   getDisplayedDate,
+  getNowFormatedTime, getNowFormatedDate,
   addHours, addMinutes, addSeconds,
   addDays, addMonths, addYears,
+  getYear, getMonth, getDay, getHours, getMinutes, getSeconds,
+  getCalendarStartDate,
 };
