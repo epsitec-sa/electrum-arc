@@ -33,14 +33,13 @@ function pushCron (result, cron, date, deleteList) {
     }
     const date = Converters.jsToFormatedDate (next.value);
     const time = Converters.jsToFormatedTime (next.value);
-    if (getDateTime (deleteList, date, time) === null) {
-      const item = {
-        Date:  date,
-        Time:  time,
-        Type: 'default',
-      };
-      result.push (item);
-    }
+    const deleted = (getDateTime (deleteList, date, time) !== null);
+    const item = {
+      Date: date,
+      Time: time,
+      Type: deleted ? 'deleted' : 'default',
+    };
+    result.push (item);
   }
 }
 
@@ -51,8 +50,8 @@ function getRecurrenceList (recurrence, date) {
 
     for (var item of recurrence.Add) {
       const it = {
-        Date:  item.Date,
-        Time:  item.Time,
+        Date: item.Date,
+        Time: item.Time,
         Type: 'added',
       };
       result.push (it);
@@ -62,7 +61,15 @@ function getRecurrenceList (recurrence, date) {
 }
 
 function getRecurrence (date, recurrenceList) {
-  return getDateTime (recurrenceList, date, null);
+  const dateTime = getDateTime (recurrenceList, date, null);
+  if (dateTime === null) {
+    return {
+      Date: date,
+      Type: 'none',
+    };
+  } else {
+    return dateTime;
+  }
 }
 
 /******************************************************************************/
@@ -139,6 +146,14 @@ export default class Calendar extends React.Component {
     }
   }
 
+  mouseAction (dateTime) {
+    this.setDate (dateTime.Date);
+    const mouseDown = this.read ('mouse-action');
+    if (mouseDown) {
+      mouseDown (dateTime);
+    }
+  }
+
   /******************************************************************************/
 
   // Return the html for a [1]..[31] button.
@@ -161,7 +176,7 @@ export default class Calendar extends React.Component {
         dimmed     = {dimmed}
         weekend    = {weekend}
         recurrence = {recurrence}
-        action     = {() => this.setDate (dateTime.Date)}
+        action     = {() => this.mouseAction (dateTime)}
         {...this.link ()}
       />
     );
@@ -186,12 +201,9 @@ export default class Calendar extends React.Component {
       if (i >= 5) {  // saturday or sunday ?
         weekend = 'true';
       }
-      let dateTime = getRecurrence (firstDate, recurrenceList);
-      if (dateTime === null) {
-        dateTime = {Date: firstDate};
-      } else {
-        recurrence = dateTime.Type;
-      }
+      const dateTime = getRecurrence (firstDate, recurrenceList);
+      recurrence = dateTime.Type;
+
       const button = this.renderButton (dateTime, active, dimmed, weekend, recurrence, i);
       line.push (button);
       firstDate = Converters.addDays (firstDate, 1);
