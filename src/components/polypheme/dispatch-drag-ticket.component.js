@@ -12,7 +12,7 @@ import ReducerData from '../polypheme/reducer-data.js';
 
 /******************************************************************************/
 
-export default class TripTicket extends React.Component {
+export default class DispatchDragTicket extends React.Component {
 
   constructor (props) {
     super (props);
@@ -43,16 +43,16 @@ export default class TripTicket extends React.Component {
   }
 
   componentDidMount () {
-    if (!window.document.tripTickets) {
-      window.document.tripTickets = [];
+    if (!window.document.dispatchDragTickets) {
+      window.document.dispatchDragTickets = [];
     }
-    window.document.tripTickets.push (this);
+    window.document.dispatchDragTickets.push (this);
   }
 
   componentWillUnmount () {
-    const index = window.document.tripTickets.indexOf (this);
+    const index = window.document.dispatchDragTickets.indexOf (this);
     if (index !== -1) {
-      window.document.tripTickets.splice (index, 1);
+      window.document.dispatchDragTickets.splice (index, 1);
     }
   }
 
@@ -90,7 +90,7 @@ export default class TripTicket extends React.Component {
     const ticket    = this.read ('ticket');
     const missionId = ticket.MissionId;
     if (missionId) {
-      for (var tripTicket of window.document.tripTickets) {
+      for (var tripTicket of window.document.dispatchDragTickets) {
         const t = tripTicket.read ('ticket');
         const m = t.MissionId;
         if (missionId === m) {
@@ -280,7 +280,7 @@ export default class TripTicket extends React.Component {
     return result;
   }
 
-  renderTripBoxContent (ticket) {
+  renderMetaContent (ticket) {
     const dimmedColor = this.props.theme.palette.ticketDimmed;
     const dimmedSize  = this.props.theme.shapes.ticketDimmedSize;
 
@@ -381,7 +381,19 @@ export default class TripTicket extends React.Component {
     );
   }
 
-  renderMetaTicket (ticket) {
+  renderTicketContent (ticket, extended, delivered) {
+    const directionGlyph = TicketHelpers.getDirectionGlyph (this.props.theme, ticket.Type);
+
+    if (extended) {
+      return this.renderExtendedContent (ticket, directionGlyph, delivered);
+    } else {
+      return this.renderCompactedContent (ticket, directionGlyph, delivered);
+    }
+  }
+
+  render () {
+    const ticket            = this.read ('ticket');
+    const metaTicket        = this.read ('metaTicket') === 'true';
     const data              = this.read ('data');
     const parentKind        = this.read ('kind');
     const shape             = this.read ('shape');
@@ -393,12 +405,33 @@ export default class TripTicket extends React.Component {
     const hasHeLeft         = this.props.hasHeLeft;
 
     const cursor    = (noDrag === 'true') ? 'default' : 'move';
-    const delivered = false;
-    const hatch     = false;
-    const extended  = false;
-    const kind      = 'thin';
-    const width     = null;
-    const height    = Unit.multiply (this.props.theme.shapes.tripBoxHeight, ticket.MeetingPoints.length);
+
+    let delivered, hatch, extended, kind, width, height;
+    if (metaTicket) {
+      delivered = false;
+      hatch     = false;
+      extended  = false;
+      kind      = 'thin';
+      width     = null;
+      height    = Unit.multiply (this.props.theme.shapes.backlogTicketHeight, ticket.MeetingPoints.length);
+    } else {
+      delivered = ticket.Status === 'delivered';
+      hatch     = (ticket.Status === 'dispatched' || delivered) ? 'true' : 'false';
+      extended  = ReducerData.ask (data, {type: 'IS_TICKET_EXTENDED', id: ticket.id});
+      if (parentKind === 'backlog-box') {
+        kind   = 'thin';
+        width  = null;
+        height = this.props.theme.shapes.backlogTicketHeight;
+      } else if (parentKind === 'trip-backlog') {
+        kind   = 'rect';
+        width  = this.props.theme.shapes.dispatchTicketWidth;
+        height = null;
+      } else {
+        kind   = extended ? 'rect' : 'ticket';
+        width  = this.props.theme.shapes.dispatchTicketWidth;
+        height = extended ? null : (ticket.Warning ? '90px' : '60px');
+      }
+    }
 
     let color = this.props.theme.palette.ticketBackground;
     if (ticket.Flash === 'true' && !isDragged) {
@@ -422,7 +455,7 @@ export default class TripTicket extends React.Component {
 
     let hoverShape = null;
     if (this.getLink () && !isDragged && !hasHeLeft) {
-      if (ticket.MeetingPoints.length === 1) {
+      if (!ticket.MeetingPoints || ticket.MeetingPoints.length === 1) {
         if (ticket.Type.startsWith ('pick')) {
           hoverShape = 'first';
         } else if (ticket.Type.startsWith ('drop')) {
@@ -442,6 +475,7 @@ export default class TripTicket extends React.Component {
         vertical-spacing   = {verticalSpacing}
         horizontal-spacing = {horizontalSpacing}
         color              = {color}
+        background-text    = {metaTicket ? null : this.getBackgroundText (ticket)}
         kind               = {kind}
         hatch              = {hatch}
         shape              = {shape}
@@ -452,113 +486,11 @@ export default class TripTicket extends React.Component {
         mouse-over         = {() => this.mouseOver ()}
         mouse-out          = {() => this.mouseOut ()}
         {...this.link ()} >
-        {this.renderTripBoxContent (ticket)}
+        {metaTicket ?
+          this.renderMetaContent (ticket) :
+          this.renderTicketContent (ticket, extended, delivered)}
       </Ticket>
     );
-  }
-
-  renderTicketContent (ticket, extended, delivered) {
-    const directionGlyph = TicketHelpers.getDirectionGlyph (this.props.theme, ticket.Type);
-
-    if (extended) {
-      return this.renderExtendedContent (ticket, directionGlyph, delivered);
-    } else {
-      return this.renderCompactedContent (ticket, directionGlyph, delivered);
-    }
-  }
-
-  renderTicket (ticket) {
-    const data              = this.read ('data');
-    const parentKind        = this.read ('kind');
-    const shape             = this.read ('shape');
-    const noDrag            = this.read ('no-drag');
-    const verticalSpacing   = this.read ('vertical-spacing');
-    const horizontalSpacing = this.read ('horizontal-spacing');
-    const selected          = this.read ('selected');
-    const isDragged         = this.props.isDragged;
-    const hasHeLeft         = this.props.hasHeLeft;
-
-    const cursor    = (noDrag === 'true') ? 'default' : 'move';
-    const delivered = ticket.Status === 'delivered';
-    const hatch     = (ticket.Status === 'dispatched' || delivered) ? 'true' : 'false';
-    const extended  = ReducerData.ask (data, {type: 'IS_TICKET_EXTENDED', id: ticket.id});
-    let kind, width, height;
-    if (parentKind === 'trip-box') {
-      kind   = 'thin';
-      width  = null;
-      height = this.props.theme.shapes.tripBoxHeight;
-    } else if (parentKind === 'trip-backlog') {
-      kind   = 'rect';
-      width  = this.props.theme.shapes.tripTicketWidth;
-      height = null;
-    } else {
-      kind   = extended ? 'rect' : 'ticket';
-      width  = this.props.theme.shapes.tripTicketWidth;
-      height = extended ? null : (ticket.Warning ? '90px' : '60px');
-    }
-
-    let color = this.props.theme.palette.ticketBackground;
-    if (ticket.Flash === 'true' && !isDragged) {
-      color = this.props.theme.palette.ticketFlashBackground;
-    }
-    if (delivered) {
-      color = this.props.theme.palette.ticketDeliveredBackground;
-    }
-    if (ticket.Warning && !isDragged) {
-      color = this.props.theme.palette.ticketWarningBackground;
-    }
-    if (this.getHover () && !isDragged) {
-      color = ColorManipulator.emphasize (color, 0.1);
-    }
-    if (selected === 'true' && !isDragged) {
-      color = ColorManipulator.emphasize (color, 0.3);
-    }
-    if (hasHeLeft && !isDragged) {
-      color = this.props.theme.palette.ticketDragAndDropShadow;
-    }
-
-    let hoverShape = null;
-    if (this.getLink () && !isDragged && !hasHeLeft) {
-      if (ticket.Type.startsWith ('pick')) {
-        hoverShape = 'first';
-      } else if (ticket.Type.startsWith ('drop')) {
-        hoverShape = 'last';
-      } else {
-        hoverShape = 'normal';
-      }
-    }
-
-    return (
-      <Ticket
-        width              = {width}
-        height             = {height}
-        vertical-spacing   = {verticalSpacing}
-        horizontal-spacing = {horizontalSpacing}
-        color              = {color}
-        background-text    = {this.getBackgroundText (ticket)}
-        kind               = {kind}
-        shape              = {shape}
-        hover-shape        = {hoverShape}
-        hatch              = {hatch}
-        cursor             = {cursor}
-        hud-glyph          = {this.getHudGlyph (data, ticket)}
-        hide-content       = {hasHeLeft && !isDragged ? 'true' : 'false'}
-        mouse-over         = {() => this.mouseOver ()}
-        mouse-out          = {() => this.mouseOut ()}
-        {...this.link ()} >
-        {this.renderTicketContent (ticket, extended, delivered)}
-      </Ticket>
-    );
-  }
-
-  render () {
-    const ticket     = this.read ('ticket');
-    const metaTicket = this.read ('metaTicket');
-    if (metaTicket === 'true') {
-      return this.renderMetaTicket (ticket);
-    } else {
-      return this.renderTicket (ticket);
-    }
   }
 }
 

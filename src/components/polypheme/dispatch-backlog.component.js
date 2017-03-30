@@ -11,7 +11,7 @@ import {
   TextFieldCombo,
   CheckButton,
   Button,
-  Trip,
+  DispatchTicket,
   Chronos
 } from '../../all-components.js';
 
@@ -28,7 +28,7 @@ export default class DispatchBacklog extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      viewType: 'tripbox'
+      viewType: 'box'
     };
   }
 
@@ -58,21 +58,21 @@ export default class DispatchBacklog extends React.Component {
 
   cycleViewType () {
     switch (this.getViewType ()) {
-      case 'tripbox':
+      case 'box':
         this.setViewType ('distincts');
         break;
       case 'distincts':
         this.setViewType ('chronos');
         break;
       default:
-        this.setViewType ('tripbox');
+        this.setViewType ('box');
         break;
     }
   }
 
   getViewTypeGlyph () {
     switch (this.getViewType ()) {
-      case 'tripbox':
+      case 'box':
         return 'th';
       case 'distincts':
         return 'clock-o';
@@ -177,7 +177,7 @@ export default class DispatchBacklog extends React.Component {
 
   renderDistinctTicket (ticket, data, index) {
     return (
-      <Trip
+      <DispatchTicket
         key    = {index}
         kind   = 'trip-backlog'
         source = 'backlog'
@@ -204,9 +204,9 @@ export default class DispatchBacklog extends React.Component {
       metaTicket.MeetingPoints.push (ticket.MeetingPoint);
     }
     return (
-      <Trip
+      <DispatchTicket
         key        = {index}
-        kind       = 'trip-box'
+        kind       = 'backlog-box'
         source     = 'backlog'
         ticket     = {metaTicket}
         metaTicket = 'true'
@@ -230,7 +230,7 @@ export default class DispatchBacklog extends React.Component {
     return result;
   }
 
-  renderTripbox () {
+  renderBox () {
     const data = this.read ('data');
     return (
       <Container kind='view-stretch' {...this.link ()} >
@@ -326,8 +326,8 @@ export default class DispatchBacklog extends React.Component {
 
   render () {
     switch (this.getViewType ()) {
-      case 'tripbox':
-        return this.renderTripbox ();
+      case 'box':
+        return this.renderBox ();
       case 'distincts':
         return this.renderDistincts ();
       default:

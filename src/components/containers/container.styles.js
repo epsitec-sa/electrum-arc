@@ -591,9 +591,9 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'tickets-tray') {
-    minWidth        = inputWidth  ? inputWidth  : theme.shapes.tripTicketWidth;
-    maxWidth        = inputWidth  ? inputWidth  : theme.shapes.tripTicketWidth;
-    minHeight       = inputHeight ? inputHeight : theme.shapes.tripTicketsHeight;
+    minWidth        = inputWidth  ? inputWidth  : theme.shapes.dispatchTicketWidth;
+    maxWidth        = inputWidth  ? inputWidth  : theme.shapes.dispatchTicketWidth;
+    minHeight       = inputHeight ? inputHeight : theme.shapes.dispatchTicketsHeight;
   }
 
   if (inputKind === 'ticket-row') {

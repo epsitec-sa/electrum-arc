@@ -13,7 +13,7 @@ export default function styles (theme, props) {
   const mm = Unit.multiply (m, 0.5);
 
   const bc = x ? theme.palette.roadbookDragAndDropBackground : theme.palette.roadbookBackground;
-  const mw = x ? theme.shapes.tripTicketWidth : null;
+  const mw = x ? theme.shapes.dispatchTicketWidth : null;
 
   const border      = theme.shapes.viewSpacing + ' solid ' + theme.palette.rootBackground;
   const borderRight = border;
@@ -42,7 +42,7 @@ export default function styles (theme, props) {
     borderLeft:      borderOther,
     borderTop:       borderOther,
     borderBottom:    borderOther,
-    minWidth:        mw ? theme.shapes.tripTicketCompactedWidth : null,
+    minWidth:        mw ? theme.shapes.dispatchTicketCompactedWidth : null,
   };
 
   return {

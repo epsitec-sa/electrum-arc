@@ -1,13 +1,15 @@
+'use strict';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {TripTicket, DragCab, TripCombo, TripModify, TripDeliver, TripPredispatch} from '../../all-components.js';
+import {DispatchDragTicket, DragCab, TripCombo, TripModify, TripDeliver, TripPredispatch} from '../../all-components.js';
 import ReducerData from './reducer-data.js';
 import ComboHelpers from '../combo/combo-helpers.js';
 import StateManager from './state-manager.js';
 
 /******************************************************************************/
 
-export default class Trip extends React.Component {
+export default class DispatchTicket extends React.Component {
 
   constructor (props) {
     super (props);
@@ -261,19 +263,19 @@ export default class Trip extends React.Component {
         data             = {data}
         drag-owner-id    = {ticket.id}
         no-drag          = {noDrag}
-        vertical-spacing = {this.props.theme.shapes.tripBoxVerticalSpacing}
+        vertical-spacing = {this.props.theme.shapes.ticketBacklogVerticalSpacing}
         mouse-down       = {e => this.mouseDown (e)}
         mouse-up         = {e => this.mouseUp (e)}
         do-click-action  = {e => this.doClickAction (e)}
         {...this.link ()} >
-        <TripTicket
+        <DispatchDragTicket
           kind             = {kind}
           ticket           = {ticket}
           metaTicket       = 'true'
           data             = {data}
           selected         = {selected}
           no-drag          = {noDrag}
-          vertical-spacing = {this.props.theme.shapes.tripBoxVerticalSpacing}
+          vertical-spacing = {this.props.theme.shapes.ticketBacklogVerticalSpacing}
           {...this.link ()} />
         {this.renderCombo (data)}
         {this.renderModify (data)}
@@ -292,8 +294,8 @@ export default class Trip extends React.Component {
 
     let verticalSpacing;
     let horizontalSpacing;
-    if (kind === 'trip-box') {
-      verticalSpacing = this.props.theme.shapes.tripBoxVerticalSpacing;
+    if (kind === 'backlog-box') {
+      verticalSpacing = this.props.theme.shapes.ticketBacklogVerticalSpacing;
     } else if (kind === 'trip-backlog') {
       verticalSpacing   = this.props.theme.shapes.ticketBacklogSpacing;
       horizontalSpacing = this.props.theme.shapes.ticketBacklogSpacing;
@@ -321,7 +323,7 @@ export default class Trip extends React.Component {
         mouse-up         = {e => this.mouseUp (e)}
         do-click-action  = {e => this.doClickAction (e)}
         {...this.link ()} >
-        <TripTicket
+        <DispatchDragTicket
           kind               = {kind}
           ticket             = {ticket}
           data               = {data}

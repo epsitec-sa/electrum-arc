@@ -9,19 +9,6 @@ export default class Ticket extends React.Component {
 
   constructor (props) {
     super (props);
-    this.state = {
-      hover: false,
-    };
-  }
-
-  getHover () {
-    return this.state.hover;
-  }
-
-  setHover (value) {
-    this.setState ( {
-      hover: value
-    });
   }
 
   get styleProps () {
@@ -43,7 +30,6 @@ export default class Ticket extends React.Component {
 
   mouseOver () {
     // Trace.log ('Ticket.mouseOver');
-    this.setHover (true);
     const x = this.read ('mouse-over');
     if (x) {
       x ();
@@ -52,7 +38,6 @@ export default class Ticket extends React.Component {
 
   mouseOut () {
     // Trace.log ('Ticket.mouseOut');
-    this.setHover (false);
     const x = this.read ('mouse-out');
     if (x) {
       x ();
@@ -206,7 +191,16 @@ export default class Ticket extends React.Component {
   }
 
   renderSubpane () {
-    const rectStyle = this.mergeStyles (this.getHover () ? 'subpaneHoverRect' : 'subpaneRect');
+    const subkind = this.read ('subkind');
+
+    let styleName = 'subpaneRect';
+    if (subkind === 'hover') {
+      styleName = 'subpaneHoverRect';
+    } else if (subkind === 'dragged') {
+      styleName = 'subpaneDragged';
+    }
+    const rectStyle    = this.mergeStyles (styleName);
+    const contentStyle = this.mergeStyles ('subpaneContent');
 
     return (
       <div
@@ -218,7 +212,9 @@ export default class Ticket extends React.Component {
         onTouchStart = {e => this.mouseDown (e)}
         onTouchEnd   = {e => this.mouseUp (e)}
         >
-        {this.props.children}
+        <div style={contentStyle}>
+          {this.props.children}
+        </div>
       </div>
     );
   }

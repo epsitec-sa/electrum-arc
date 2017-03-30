@@ -69,7 +69,7 @@ export default class TicketsTray extends React.Component {
   }
 
   enterAction () {
-    Trace.log ('TicketsTray.enterAction');
+    // Trace.log ('TicketsTray.enterAction');
     if (this.getEdit ()) {
       this.setEdit (false);
     }

@@ -89,7 +89,7 @@ function electrumDispatch (state, oper, payload) {
     const result = deepSearchFromId (state, payload.MessengerId);
     payload.Kind = result.kind;
   }
-  Trace.log ('ReducerData.electrumDispatch ' + oper);
+  // Trace.log ('ReducerData.electrumDispatch ' + oper);
   Trace.dir (payload);
   Electrum.bus.postEnvelope (oper, payload);
 }
@@ -544,7 +544,7 @@ function initialise (state) {
 // toId      -> id before which it is necessary to insert. If it was null, insert after the last item.
 // toOwnerId -> owner where it is necessary to insert. Useful when toId is null.
 function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
-  Trace.log ('Reducer.drop');
+  // Trace.log ('Reducer.drop');
   if (window.document.mock) {
     const flashes = [];
     const warnings = [];
@@ -800,7 +800,7 @@ function setTrayName (state, id, value, accepted) {
 // ------------------------------------------------------------------------------------------
 
 function reducer (state = {}, action = {}) {
-  Trace.log (`reducer action.type=${action.type}`);
+  // Trace.log (`reducer action.type=${action.type}`);
   switch (action.type) {
     case 'INITIALISE':
       state = initialise (state);

@@ -163,7 +163,7 @@ export default class MessengerTicket extends React.Component {
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
 
-    const width  = this.props.theme.shapes.tripTicketWidth;
+    const width  = this.props.theme.shapes.dispatchTicketWidth;
     const height = this.props.theme.shapes.messengerHeight;
 
     const photo = (roadbook.Messenger && roadbook.Messenger.Photo && roadbook.Messenger.Photo.Glyph) ?
@@ -217,7 +217,7 @@ export default class MessengerTicket extends React.Component {
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
 
-    const width = this.props.theme.shapes.tripTicketCompactedWidth;
+    const width = this.props.theme.shapes.dispatchTicketCompactedWidth;
 
     let color = this.props.theme.palette.ticketMessengerBackground;
     if (this.getHover ()) {

@@ -84,7 +84,7 @@ export function transform (backlog) {
       }
     }
   }
-  Trace.log ('BacklogToChronos, number of events = ' + events.Events.length);
+  // Trace.log ('BacklogToChronos, number of events = ' + events.Events.length);
   return events;
 }
 

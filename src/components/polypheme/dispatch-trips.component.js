@@ -5,7 +5,7 @@ import ReducerData from './reducer-data.js';
 
 import {
   Container,
-  Trip,
+  DispatchTicket,
   TextFieldCombo,
   LabelTextField
 } from '../../all-components.js';
@@ -43,9 +43,9 @@ export default class DispatchTrips extends React.Component {
       metaTicket.MeetingPoints = meetingPoints;
       const m = JSON.parse (JSON.stringify (metaTicket));
       return (
-        <Trip
+        <DispatchTicket
           key        = {index}
-          kind       = 'trip-box'
+          kind       = 'backlog-box'
           source     = 'backlog'
           ticket     = {m}
           metaTicket = 'true'
