@@ -458,23 +458,25 @@ export default function styles (theme, props) {
     textSize        = theme.shapes.calendarTextSize;
     transition      = null;
     backgroundColor = theme.palette.calendarBackground;
-    textColor       = theme.palette.calendarInactiveText;
+    textColor       = theme.palette.calendarText;
     if (inputActive === 'true') {
       borderStyle = 'solid';
-      borderColor = theme.palette.calendarButtonActiveBackground;
+      borderColor = theme.palette.calendarBorderActiveBackground;
       borderWidth = '2px';
       boxHeight   = Unit.sub (boxHeight, '4px');
     }
     if (inputDimmed === 'true') {
-      textColor = ColorManipulator.emphasize (textColor, 0.5);
+      textColor = theme.palette.calendarDimmedText;
     }
     if (inputWeekend === 'true') {
       backgroundColor = theme.palette.calendarButtonWeekendBackground;
     }
     if (inputRecurrence === 'default') {
-      backgroundColor = theme.palette.calendarButtonRecurrenceBackground;
+      backgroundColor = theme.palette.calendarDefaultRecurrenceBackground;
+      textColor       = theme.palette.calendarRecurrenceText;
     } else if (inputRecurrence === 'added') {
-      backgroundColor = ColorManipulator.emphasize (theme.palette.calendarButtonRecurrenceBackground, 0.3);
+      backgroundColor = theme.palette.calendarAddedRecurrenceBackground;
+      textColor       = theme.palette.calendarRecurrenceText;
     }
   }
   // Button for month navigation in Calendar component.
