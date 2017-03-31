@@ -4,6 +4,7 @@ import React from 'react';
 import {Trace} from 'electrum';
 import ReactDOM from 'react-dom';
 import {DragCarrier} from '../../all-components.js';
+import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
@@ -15,6 +16,24 @@ function isInside (rect, x, y) {
   }
 }
 
+function getBoundingRect (container) {
+  const node = ReactDOM.findDOMNode (container);
+  const rect = node.getBoundingClientRect ();
+  const dragLeftDetect = container.props['drag-left-detect'];
+  if (dragLeftDetect) {
+    const dld = Unit.parse (dragLeftDetect).value;
+    return {
+      left:   rect.left,
+      right:  rect.left + dld,
+      top:    rect.top,
+      bottom: rect.bottom,
+      width:  dld,
+      height: rect.height,
+    };
+  }
+  return rect;
+}
+
 // Return the property 'drag-controller' of the rectangle targeted by the
 // mouse (x, y). If there are several imbricated rectangles, it is necessary
 // to take the one whose surface is the smallest !
@@ -22,8 +41,7 @@ function findDragController (x, y) {
   let dc = null;
   let minSurface = Number.MAX_SAFE_INTEGER;
   for (var container of window.document.dragControllers) {
-    const node = ReactDOM.findDOMNode (container);
-    const rect = node.getBoundingClientRect ();
+    const rect = getBoundingRect (container);
     const surface = rect.width * rect.height;
     if (isInside (rect, x, y) && surface < minSurface) {
       dc = container.props['drag-controller'];

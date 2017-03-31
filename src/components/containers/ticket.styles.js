@@ -428,7 +428,6 @@ export default function styles (theme, props) {
     borderStyle:     'dashed none none none',
     borderColor:     theme.palette.ticketSubpaneBorder,
     backgroundColor: color,
-    cursor:          'move',
   };
   const subpaneHoverRectStyle = {
     display:         'flex',
@@ -441,7 +440,6 @@ export default function styles (theme, props) {
     borderStyle:     'dashed none none solid',
     borderColor:     theme.palette.ticketSubpaneBorder,
     backgroundColor: color,
-    cursor:          'move',
   };
   const subpaneDraggedStyle = {
     display:         'flex',
@@ -454,7 +452,6 @@ export default function styles (theme, props) {
     borderStyle:     'solid',
     borderColor:     theme.palette.ticketSubpaneBorder,
     backgroundColor: color,
-    cursor:          'move',
   };
   const subpaneContentStyle = {
     visibility:      (hideContent === 'true') ? 'hidden' : 'visible',

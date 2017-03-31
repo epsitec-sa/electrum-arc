@@ -11,8 +11,9 @@ export default class CodispatchDragTicket extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      hover: false,
-      link:  false,
+      hover:     false,
+      dragHover: false,
+      link:      false,
     };
   }
 
@@ -26,6 +27,16 @@ export default class CodispatchDragTicket extends React.Component {
     });
   }
 
+  getDragHover () {
+    return this.state.dragHover;
+  }
+
+  setDragHover (value) {
+    this.setState ( {
+      dragHover: value
+    });
+  }
+
   mouseOver () {
     if (!this.props.isDragged) {
       this.setHover (true);
@@ -34,6 +45,16 @@ export default class CodispatchDragTicket extends React.Component {
 
   mouseOut () {
     this.setHover (false);
+  }
+
+  dragBarMouseOver () {
+    if (!this.props.isDragged) {
+      this.setDragHover (true);
+    }
+  }
+
+  dragBarMouseOut () {
+    this.setDragHover (false);
   }
 
   renderTicketContent (ticket, extended, delivered) {
@@ -54,26 +75,50 @@ export default class CodispatchDragTicket extends React.Component {
     let subkind = null;
     if (isDragged) {
       subkind = 'dragged';
-    } else if (this.getHover ()) {
+    } else if (this.getHover () || this.getDragHover ()) {
       subkind = 'hover';
     }
 
     let color = this.props.theme.palette.paneBackground;
     if (hasHeLeft && !isDragged) {
       color = this.props.theme.palette.ticketDragAndDropShadow;
+    } else if (this.getDragHover ()) {
+      color = this.props.theme.palette.ticketDragAndDropHover;
     }
 
+    const boxStyle = {
+      position: 'relative',
+    };
+
+    const dragBarStyle = {
+      position: 'absolute',
+      left:     '0px',
+      width:    this.props.theme.shapes.containerMargin,
+      top:      '0px',
+      height:   '100%',
+      cursor:   'move',
+    };
+
     return (
-      <Ticket
-        kind         = 'subpane'
-        subkind      = {subkind}
-        color        = {color}
-        hide-content = {hasHeLeft && !isDragged ? 'true' : 'false'}
-        mouse-over   = {() => this.mouseOver ()}
-        mouse-out    = {() => this.mouseOut ()}
-        {...this.link ()} >
-        {children}
-      </Ticket>
+      <div
+        style = {boxStyle}
+        >
+        <Ticket
+          kind         = 'subpane'
+          subkind      = {subkind}
+          color        = {color}
+          hide-content = {hasHeLeft && !isDragged ? 'true' : 'false'}
+          mouse-over   = {() => this.mouseOver ()}
+          mouse-out    = {() => this.mouseOut ()}
+          {...this.link ()} >
+          {children}
+        </Ticket>
+        <div
+          style       = {dragBarStyle}
+          onMouseOver = {() => this.dragBarMouseOver ()}
+          onMouseOut  = {() => this.dragBarMouseOut ()}
+          />
+      </div>
     );
   }
 }
