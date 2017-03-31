@@ -4,6 +4,7 @@ import React from 'react';
 import {Calendar} from 'electrum-arc';
 import Converters from '../polypheme/converters';
 import CronParser from 'cron-parser';
+import ReducerRecurrence from './reducer-recurrence.js';
 
 /******************************************************************************/
 
@@ -47,7 +48,7 @@ function getRecurrenceList (recurrence, date) {
   return result;
 }
 
-function getRecurrence (date, recurrenceList) {
+function getRecurrenceItem (date, recurrenceList) {
   for (var item of recurrenceList) {
     if (item.Date === date) {
       return item;
@@ -59,17 +60,6 @@ function getRecurrence (date, recurrenceList) {
   };
 }
 
-function getIndex (list, date) {
-  let index = 0;
-  for (var item of list) {
-    if (item.Date === date) {
-      return index;
-    }
-    index++;
-  }
-  return -1;
-}
-
 /******************************************************************************/
 
 export default class Recurrence extends React.Component {
@@ -77,10 +67,21 @@ export default class Recurrence extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
+      recurrence:      null,
       recurrenceDates: [],
       dates:           [],
     };
     this.visibleDate = null;
+  }
+
+  getRecurrence () {
+    return this.state.recurrence;
+  }
+
+  setRecurrence (value) {
+    this.setState ( {
+      recurrence: value
+    });
   }
 
   getRecurrenceDates () {
@@ -104,16 +105,19 @@ export default class Recurrence extends React.Component {
   }
 
   componentWillMount () {
+    const recurrence = this.read ('recurrence');
+    this.setRecurrence (recurrence);
+
     const now = Converters.getNowFormatedDate ();
     const year  = Converters.getYear  (now);
     const month = Converters.getMonth (now);
     this.visibleDate = Converters.getDate (year, month, 1);
+
     this.updateDates ();
   }
 
   updateDates () {
-    const recurrence = this.read ('recurrence');
-    const items = getRecurrenceList (recurrence, this.visibleDate);
+    const items = getRecurrenceList (this.getRecurrence (), this.visibleDate);
     this.setRecurrenceDates (items);
 
     const dates = [];
@@ -128,23 +132,22 @@ export default class Recurrence extends React.Component {
   }
 
   dateClicked (date) {
-    const item = getRecurrence (date, this.getRecurrenceDates ());
-    const recurrence = this.read ('recurrence');
+    const item = getRecurrenceItem (date, this.getRecurrenceDates ());
+    var recurrence = this.getRecurrence ();
     if (item.Type === 'default') {
       // If click on recurrent event, add a date into section 'Delete' for canceled the recurrence.
-      recurrence.Delete.push (item.Date);
+      recurrence = ReducerRecurrence.reducer (recurrence, {type: 'ADD_DELETE', date: item.Date});
     } else if (item.Type === 'added') {
       // If click on added event, simply remove it.
-      const i = getIndex (recurrence.Add, item.Date);
-      recurrence.Add.splice (i, 1);
+      recurrence = ReducerRecurrence.reducer (recurrence, {type: 'DELETE_ADD', date: item.Date});
     } else if (item.Type === 'deleted') {
       // If click on deleted event, remove 'Delete' entry. That restore the recurrent event.
-      const i = getIndex (recurrence.Delete, item.Date);
-      recurrence.Delete.splice (i, 1);
+      recurrence = ReducerRecurrence.reducer (recurrence, {type: 'DELETE_DELETE', date: item.Date});
     } else if (item.Type === 'none') {
       // If click on free date, add a event.
-      recurrence.Add.push (item.Date);
+      recurrence = ReducerRecurrence.reducer (recurrence, {type: 'ADD_ADD', date: item.Date});
     }
+    this.setRecurrence (recurrence);
     this.updateDates ();
   }
 
