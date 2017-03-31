@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import {Trace} from 'electrum';
 import ReactDOM from 'react-dom';

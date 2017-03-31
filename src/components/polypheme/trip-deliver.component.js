@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import {DialogModal, Container, Button, Label, LabelTextField, Separator} from '../../all-components.js';
 import Converters from './converters';

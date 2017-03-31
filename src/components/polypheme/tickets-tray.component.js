@@ -1,3 +1,5 @@
+'use strict';
+
 import {React, Trace} from 'electrum';
 import {Container, Button, SimpleTextField} from 'electrum-arc';
 import ReducerData from '../polypheme/reducer-data.js';

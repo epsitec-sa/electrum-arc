@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Action} from 'electrum';

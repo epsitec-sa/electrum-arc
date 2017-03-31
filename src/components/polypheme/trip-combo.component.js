@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import {Trace} from 'electrum';
 import {Combo} from '../../all-components.js';

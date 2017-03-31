@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Ticket, Container, Label, Button, MessengerModify, MessengerCombo} from '../../all-components.js';
