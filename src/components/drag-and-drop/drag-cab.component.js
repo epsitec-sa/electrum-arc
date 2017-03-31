@@ -16,12 +16,13 @@ function isInside (rect, x, y) {
   }
 }
 
-function getBoundingRect (container) {
+function getBoundingRect (theme, container) {
   const node = ReactDOM.findDOMNode (container);
   const rect = node.getBoundingClientRect ();
   const dragLeftDetect = container.props['drag-left-detect'];
   if (dragLeftDetect) {
-    const dld = Unit.parse (dragLeftDetect).value;
+    const x = theme.shapes[dragLeftDetect];
+    const dld = Unit.parse (x).value;
     return {
       left:   rect.left,
       right:  rect.left + dld,
@@ -37,11 +38,11 @@ function getBoundingRect (container) {
 // Return the property 'drag-controller' of the rectangle targeted by the
 // mouse (x, y). If there are several imbricated rectangles, it is necessary
 // to take the one whose surface is the smallest !
-function findDragController (x, y) {
+function findDragController (theme, x, y) {
   let dc = null;
   let minSurface = Number.MAX_SAFE_INTEGER;
   for (var container of window.document.dragControllers) {
-    const rect = getBoundingRect (container);
+    const rect = getBoundingRect (theme, container);
     const surface = rect.width * rect.height;
     if (isInside (rect, x, y) && surface < minSurface) {
       dc = container.props['drag-controller'];
@@ -117,7 +118,7 @@ export default class DragCab extends React.Component {
     if (noDrag === 'true') {
       return;  // if drag prohibited, don't initiate drag & drop ?
     }
-    const dc = findDragController (e.clientX, e.clientY);
+    const dc = findDragController (this.props.theme, e.clientX, e.clientY);
     if (!dc || dc !== this.props['drag-controller']) {
       // When clicking in a ticket of a messenger, 2 different drags try to start.
       // The first to move the ticket (drag-controller = 'ticket') and the second
