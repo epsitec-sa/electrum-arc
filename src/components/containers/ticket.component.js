@@ -193,13 +193,7 @@ export default class Ticket extends React.Component {
   renderSubpane () {
     const subkind = this.read ('subkind');
 
-    let styleName = 'subpaneRect';
-    if (subkind === 'hover') {
-      styleName = 'subpaneHoverRect';
-    } else if (subkind === 'dragged') {
-      styleName = 'subpaneDragged';
-    }
-    const rectStyle    = this.mergeStyles (styleName);
+    const rectStyle    = this.mergeStyles (subkind === 'dragged' ? 'subpaneDragged' : 'subpaneRect');
     const contentStyle = this.mergeStyles ('subpaneContent');
 
     return (

@@ -416,7 +416,6 @@ export default function styles (theme, props) {
   };
 
   const m = theme.shapes.containerMargin;
-  const h = theme.shapes.markWidth;
   const subpaneRectStyle = {
     display:         'flex',
     flexDirection:   'column',
@@ -426,18 +425,6 @@ export default function styles (theme, props) {
     padding:         m + ' ' + m + ' ' + Unit.multiply (m, 0.5) + ' ' + m,
     borderWidth:     '2px',
     borderStyle:     'dashed none none none',
-    borderColor:     theme.palette.ticketSubpaneBorder,
-    backgroundColor: color,
-  };
-  const subpaneHoverRectStyle = {
-    display:         'flex',
-    flexDirection:   'column',
-    flexGrow:        1,
-    justifyContent:  'flex-start',
-    alignItems:      'stretch',
-    padding:         m + ' ' + m + ' ' + Unit.multiply (m, 0.5) + ' ' + Unit.sub (m, h),
-    borderWidth:     '2px 0px 0px ' + h,
-    borderStyle:     'dashed none none solid',
     borderColor:     theme.palette.ticketSubpaneBorder,
     backgroundColor: color,
   };
@@ -478,7 +465,6 @@ export default function styles (theme, props) {
     coverContent:       coverContentStyle,
     backgroundText:     backgroundTextStyle,
     subpaneRect:        subpaneRectStyle,
-    subpaneHoverRect:   subpaneHoverRectStyle,
     subpaneDragged:     subpaneDraggedStyle,
     subpaneContent:     subpaneContentStyle,
   };

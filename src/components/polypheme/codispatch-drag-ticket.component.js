@@ -72,12 +72,7 @@ export default class CodispatchDragTicket extends React.Component {
     const isDragged = this.props.isDragged;
     const hasHeLeft = this.props.hasHeLeft;
 
-    let subkind = null;
-    if (isDragged) {
-      subkind = 'dragged';
-    } else if (this.getHover () || this.getDragHover ()) {
-      subkind = 'hover';
-    }
+    const subkind = isDragged ? 'dragged' : null;
 
     let color = this.props.theme.palette.paneBackground;
     if (hasHeLeft && !isDragged) {
