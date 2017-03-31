@@ -4,73 +4,6 @@ import React from 'react';
 import {Action} from 'electrum';
 import {Button} from 'electrum-arc';
 import Converters from '../polypheme/converters';
-import CronParser from 'cron-parser';
-
-/******************************************************************************/
-
-function getDateTime (list, date, time) {
-  for (var item of list) {
-    if (item.Date === date && (!time || item.Time === time)) {
-      return item;
-    }
-  }
-  return null;
-}
-
-function pushCron (result, cron, date, deleteList) {
-  const year  = Converters.getYear  (date);
-  const month = Converters.getMonth (date);
-  var options = {
-    currentDate: new Date (year, month - 2, 1),
-    endDate:     new Date (year, month + 1, 1),
-    iterator:    true
-  };
-  const interval = CronParser.parseExpression (cron, options);
-  while (true) {
-    const next = interval.next ();
-    if (next.done) {
-      break;
-    }
-    const date = Converters.jsToFormatedDate (next.value);
-    const time = Converters.jsToFormatedTime (next.value);
-    const deleted = (getDateTime (deleteList, date, time) !== null);
-    const item = {
-      Date: date,
-      Time: time,
-      Type: deleted ? 'deleted' : 'default',
-    };
-    result.push (item);
-  }
-}
-
-function getRecurrenceList (recurrence, date) {
-  const result = [];
-  if (recurrence) {
-    pushCron (result, recurrence.Cron, date, recurrence.Delete);
-
-    for (var item of recurrence.Add) {
-      const it = {
-        Date: item.Date,
-        Time: item.Time,
-        Type: 'added',
-      };
-      result.push (it);
-    }
-  }
-  return result;
-}
-
-function getRecurrence (date, recurrenceList) {
-  const dateTime = getDateTime (recurrenceList, date, null);
-  if (dateTime === null) {
-    return {
-      Date: date,
-      Type: 'none',
-    };
-  } else {
-    return dateTime;
-  }
-}
 
 /******************************************************************************/
 
@@ -93,9 +26,16 @@ export default class Calendar extends React.Component {
     });
   }
 
-  componentDidMount () {
+  componentWillMount () {
     // At first time, initialize internalState.visibleDate with current date.
-    this.setVisibleDate (this.read ('date'));
+    var date = this.read ('visible-date');
+    if (!date) {
+      const now = Converters.getNowFormatedDate ();
+      const year  = Converters.getYear  (now);
+      const month = Converters.getMonth (now);
+      date = Converters.getDate (year, month, 1);
+    }
+    this.setVisibleDate (date);
   }
 
   /******************************************************************************/
@@ -113,27 +53,28 @@ export default class Calendar extends React.Component {
     return Converters.getDOWDescription (dow).substring (0, 3);
   }
 
-  // If the input date is undefine, set to now.
-  normalizeDate (date) {
-    if (date) {
-      return date;
-    } else {
-      return Converters.getNowFormatedDate ();
-    }
-  }
-
   // Called when the '<' button is clicked.
   // Modify internalState.visibleDate (fix visible year and month).
   prevMonth () {
-    const visibleDate = this.normalizeDate (this.getVisibleDate ());
-    this.setVisibleDate (Converters.addMonths (visibleDate, -1));
+    const visibleDate = this.getVisibleDate ();
+    const newDate = Converters.addMonths (visibleDate, -1);
+    this.setVisibleDate (newDate);
+    var x = this.read ('visible-date-changed');
+    if (x) {
+      x (newDate);
+    }
   }
 
   // Called when the '>' button is clicked.
   // Modify internalState.visibleDate (fix visible year and month).
   nextMonth () {
-    const visibleDate = this.normalizeDate (this.getVisibleDate ());
-    this.setVisibleDate (Converters.addMonths (visibleDate, 1));
+    const visibleDate = this.getVisibleDate ();
+    const newDate = Converters.addMonths (visibleDate, 1);
+    this.setVisibleDate (newDate);
+    var x = this.read ('visible-date-changed');
+    if (x) {
+      x (newDate);
+    }
   }
 
   // Called when a [1]..[31] button is clicked.
@@ -146,52 +87,43 @@ export default class Calendar extends React.Component {
     }
   }
 
-  mouseAction (dateTime) {
-    this.setDate (dateTime.Date);
-    const mouseDown = this.read ('mouse-action');
-    if (mouseDown) {
-      mouseDown (dateTime);
+  dateClicked (date) {
+    this.setDate (date);
+    const x = this.read ('date-clicked');
+    if (x) {
+      x (date);
     }
   }
 
   /******************************************************************************/
 
   // Return the html for a [1]..[31] button.
-  renderButton (dateTime, active, dimmed, weekend, recurrence, index) {
-    var tooltip;
-    if (dateTime.Time) {
-      const d = Converters.getDisplayedDate (dateTime.Date, false, 'Wdmy');
-      const t = Converters.getDisplayedTime (dateTime.Time, false, 'hm');
-      tooltip = d + ', ' + t;
-    } else {
-      tooltip = Converters.getDisplayedDate (dateTime.Date, false, 'Wdmy');
-    }
+  renderButton (date, active, dimmed, weekend, index) {
+    const tooltip = Converters.getDisplayedDate (date, false, 'Wdmy');
     return (
       <Button
-        key        = {index}
-        text       = {Converters.getDay (dateTime.Date)}  // 1..31
-        tooltip    = {tooltip}
-        kind       = 'calendar'
-        active     = {active}
-        dimmed     = {dimmed}
-        weekend    = {weekend}
-        recurrence = {recurrence}
-        action     = {() => this.mouseAction (dateTime)}
+        key     = {index}
+        text    = {Converters.getDay (date)}  // 1..31
+        tooltip = {tooltip}
+        kind    = 'calendar'
+        active  = {active}
+        dimmed  = {dimmed}
+        weekend = {weekend}
+        action  = {() => this.dateClicked (date)}
         {...this.link ()}
       />
     );
   }
 
   // Return an array of 7 buttons, for a week.
-  renderButtons (firstDate, visibleDate, selectedDate, recurrenceList) {
+  renderButtons (firstDate, visibleDate, selectedDate, selectedDates) {
     let line = [];
     let i = 0;
     for (i = 0; i < 7; ++i) {  // monday..sunday
-      let active     = 'false';
-      let dimmed     = 'false';
-      let weekend    = 'false';
-      let recurrence = 'none';
-      if (firstDate === selectedDate) {
+      let active  = 'false';
+      let dimmed  = 'false';
+      let weekend = 'false';
+      if (firstDate === selectedDate || (selectedDates && selectedDates.indexOf (firstDate) !== -1)) {
         active = 'true';
       }
       if (Converters.getYear  (firstDate) !== Converters.getYear  (visibleDate) ||
@@ -201,10 +133,8 @@ export default class Calendar extends React.Component {
       if (i >= 5) {  // saturday or sunday ?
         weekend = 'true';
       }
-      const dateTime = getRecurrence (firstDate, recurrenceList);
-      recurrence = dateTime.Type;
 
-      const button = this.renderButton (dateTime, active, dimmed, weekend, recurrence, i);
+      const button = this.renderButton (firstDate, active, dimmed, weekend, i);
       line.push (button);
       firstDate = Converters.addDays (firstDate, 1);
     }
@@ -212,11 +142,11 @@ export default class Calendar extends React.Component {
   }
 
   // Return the html for a line of 7 buttons (for a week).
-  renderLineOfButtons (firstDate, visibleDate, selectedDate, recurrenceList, index) {
+  renderLineOfButtons (firstDate, visibleDate, selectedDate, selectedDates, index) {
     const style = this.mergeStyles ('line');
     return (
       <div style={style} key={index}>
-        {this.renderButtons (firstDate, visibleDate, selectedDate, recurrenceList)}
+        {this.renderButtons (firstDate, visibleDate, selectedDate, selectedDates)}
       </div>
     );
   }
@@ -274,13 +204,13 @@ export default class Calendar extends React.Component {
 
   // Return an array of lines, with header then week's lines.
   // The array must have from 4 to 6 lines.
-  renderColumnOfLines (header, firstDate, visibleDate, selectedDate, recurrenceList) {
+  renderColumnOfLines (header, firstDate, visibleDate, selectedDate, selectedDates) {
     let column = [];
     column.push (this.renderHeader (header));
     column.push (this.renderLineOfDOWs ());
     let i = 0;
     for (i = 0; i < 6; ++i) {
-      const line = this.renderLineOfButtons (firstDate, visibleDate, selectedDate, recurrenceList, i);
+      const line = this.renderLineOfButtons (firstDate, visibleDate, selectedDate, selectedDates, i);
       column.push (line);
       firstDate = Converters.addDays (firstDate, 7);
     }
@@ -288,18 +218,22 @@ export default class Calendar extends React.Component {
   }
 
   // Retourne all the html content of the calendar.
-  renderLines (recurrence) {
-    const visibleDate  = this.normalizeDate (this.getVisibleDate ());
-    const selectedDate = this.normalizeDate (this.read ('date'));
+  renderLines () {
+    const selectedDate  = this.read ('date');
+    const selectedDates = this.read ('dates');
+
+    const visibleDate = this.getVisibleDate ();
+    if (!visibleDate) {
+      return null;
+    }
+
     const firstDate    = Converters.getCalendarStartDate (visibleDate);
     const header       = Converters.getDisplayedDate (visibleDate, false, 'My');  // 'mai 2016' by example
-
-    const recurrenceList = getRecurrenceList (recurrence, visibleDate);
 
     const style = this.mergeStyles ('column');
     return (
       <div style={style}>
-        {this.renderColumnOfLines (header, firstDate, visibleDate, selectedDate, recurrenceList)}
+        {this.renderColumnOfLines (header, firstDate, visibleDate, selectedDate, selectedDates)}
       </div>
     );
   }
@@ -307,7 +241,6 @@ export default class Calendar extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const recurrence = this.read ('recurrence');
 
     const boxStyle = this.mergeStyles ('box');
 
@@ -315,7 +248,7 @@ export default class Calendar extends React.Component {
       <div
         disabled = {disabled}
         style    = {boxStyle} >
-        {this.renderLines (recurrence)}
+        {this.renderLines ()}
       </div>
     );
   }

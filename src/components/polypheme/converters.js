@@ -236,7 +236,7 @@ function getTimeFromMinutes (minutes) {
   return joinTime ({hour: hour, minute: minute, second: 0});
 }
 
-function getMinutes (time) {
+function getTotalMinutes (time) {
   const s = splitTime (time);
   return (s.hour * 60) + s.minute;
 }
@@ -348,6 +348,11 @@ function getNowFormatedDate () {
   return jsToFormatedDate (new Date (Date.now ()));
 }
 
+function getDate (year, month, day) {
+  const d = new Date (year, month - 1, day);
+  return jsToFormatedDate (d);
+}
+
 function getCalendarStartDate (date) {
   const jsDate    = formatedDateToJs (date);
   const dotw      = new Date (jsDate.getFullYear (), jsDate.getMonth (), 1).getDay ();  // 0..6 (0 = Sunday)
@@ -361,11 +366,12 @@ module.exports = {
   getMonthDescription, getDOWDescription,
   getEmptyTime, getEmptyDate,
   isEmptyTime, isEmptyDate,
-  getDisplayedTime, getFormatedTime, checkTime, splitTime, getTimeFromMinutes, getMinutes,
+  getDisplayedTime, getFormatedTime, checkTime, splitTime, getTimeFromMinutes, getTotalMinutes,
   getDisplayedDate,
   getNowFormatedTime, getNowFormatedDate,
   addHours, addMinutes, addSeconds,
   addDays, addMonths, addYears,
   getYear, getMonth, getDay, getHours, getMinutes, getSeconds,
+  getDate,
   getCalendarStartDate,
 };

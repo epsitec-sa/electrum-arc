@@ -1,9 +1,63 @@
 'use strict';
 
 import React from 'react';
-import {Container, Calendar, Clock, CheckButton, Separator} from 'electrum-arc';
+import {Calendar} from 'electrum-arc';
+import Converters from '../polypheme/converters';
+import CronParser from 'cron-parser';
 
 /******************************************************************************/
+
+function pushCron (result, cron, date, deleteList) {
+  const year  = Converters.getYear  (date);
+  const month = Converters.getMonth (date);
+  var options = {
+    currentDate: new Date (year, month - 2, 1),
+    endDate:     new Date (year, month + 1, 1),
+    iterator:    true
+  };
+  const interval = CronParser.parseExpression (cron, options);
+  while (true) {
+    const next = interval.next ();
+    if (next.done) {
+      break;
+    }
+    const date = Converters.jsToFormatedDate (next.value);
+    const deleted = deleteList.indexOf (date) !== -1;
+    const item = {
+      Date: date,
+      Type: deleted ? 'deleted' : 'default',
+    };
+    result.push (item);
+  }
+}
+
+function getRecurrenceList (recurrence, date) {
+  const result = [];
+  if (recurrence) {
+    pushCron (result, recurrence.Cron, date, recurrence.Delete);
+
+    for (var a of recurrence.Add) {
+      const item = {
+        Date: a,
+        Type: 'added',
+      };
+      result.push (item);
+    }
+  }
+  return result;
+}
+
+function getRecurrence (date, recurrenceList) {
+  for (var item of recurrenceList) {
+    if (item.Date === date) {
+      return item;
+    }
+  }
+  return {
+    Date: date,
+    Type: 'none',
+  };
+}
 
 function getIndex (list, date) {
   let index = 0;
@@ -23,88 +77,90 @@ export default class Recurrence extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      selectedDateTime: null,
-      hasEvent:         false,
+      recurrenceDates: [],
+      dates:           [],
     };
+    this.visibleDate = null;
   }
 
-  getSelectedDateTime () {
-    return this.state.selectedDateTime;
+  getRecurrenceDates () {
+    return this.state.recurrenceDates;
   }
 
-  setSelectedDateTime (value) {
+  setRecurrenceDates (value) {
     this.setState ( {
-      selectedDateTime: value
+      recurrenceDates: value
     });
   }
 
-  getHasEvent () {
-    return this.state.hasEvent;
+  getDates () {
+    return this.state.dates;
   }
 
-  setHasEvent (value) {
+  setDates (value) {
     this.setState ( {
-      hasEvent: value
+      dates: value
     });
   }
 
-  calendarSelectDate (dateTime) {
-    this.setSelectedDateTime (dateTime);
-    this.setHasEvent (dateTime.Type === 'default' || dateTime.Type === 'added');
+  componentWillMount () {
+    const now = Converters.getNowFormatedDate ();
+    const year  = Converters.getYear  (now);
+    const month = Converters.getMonth (now);
+    this.visibleDate = Converters.getDate (year, month, 1);
+    this.updateDates ();
   }
 
-  eventButtonClicked () {
+  updateDates () {
     const recurrence = this.read ('recurrence');
-    const dateTime = this.getSelectedDateTime ();
-    if (dateTime.Type === 'default') {
-      const item = {
-        Date: dateTime.Date,
-        Time: '11:30:00',
-        Type: 'added',
-      };
-      recurrence.Delete.push (item);
-    } else if (dateTime.Type === 'added') {
-      const i = getIndex (recurrence.Add, dateTime.Date);
-      recurrence.Add.splice (i, 1);
-    } else if (dateTime.Type === 'deleted') {
-      const i = getIndex (recurrence.Delete, dateTime.Date);
-      recurrence.Delete.splice (i, 1);
-    } else if (dateTime.Type === 'none') {
-      const item = {
-        Date: dateTime.Date,
-        Time: '11:30:00',
-        Type: 'added',
-      };
-      recurrence.Add.push (item);
+    const items = getRecurrenceList (recurrence, this.visibleDate);
+    this.setRecurrenceDates (items);
+
+    const dates = [];
+    for (let item of items) {
+      if (item.Type === 'default' || item.Type === 'added') {
+        dates.push (item.Date);
+      }
     }
+    this.setDates (dates);
+
+    this.forceUpdate ();
+  }
+
+  dateClicked (date) {
+    const item = getRecurrence (date, this.getRecurrenceDates ());
+    const recurrence = this.read ('recurrence');
+    if (item.Type === 'default') {
+      // If click on recurrent event, add a date into section 'Delete' for canceled the recurrence.
+      recurrence.Delete.push (item.Date);
+    } else if (item.Type === 'added') {
+      // If click on added event, simply remove it.
+      const i = getIndex (recurrence.Add, item.Date);
+      recurrence.Add.splice (i, 1);
+    } else if (item.Type === 'deleted') {
+      // If click on deleted event, remove 'Delete' entry. That restore the recurrent event.
+      const i = getIndex (recurrence.Delete, item.Date);
+      recurrence.Delete.splice (i, 1);
+    } else if (item.Type === 'none') {
+      // If click on free date, add a event.
+      recurrence.Add.push (item.Date);
+    }
+    this.updateDates ();
+  }
+
+  visibleDateChanged (date) {
+    this.visibleDate = date;
+    this.updateDates ();
   }
 
   render () {
-    const recurrence = this.read ('recurrence');
-
     return (
-      <Container
-        kind = 'row'
-        {...this.link ()}>
-        <Calendar
-          recurrence   = {recurrence}
-          mouse-action = {x => this.calendarSelectDate (x)}
-          {...this.link ()} />
-        <Container
-          kind = 'column'
-          {...this.link ()}>
-          <CheckButton
-            text            = 'Événement'
-            checked         = {this.getHasEvent () ? 'true' : 'false'}
-            custom-on-click = {() => this.eventButtonClicked ()}
-            {...this.link ()} />
-          <Separator
-            height = '15px'
-            {...this.link ()} />
-          <Clock
-            {...this.link ()} />
-        </Container>
-      </Container>
+      <Calendar
+        visible-date         = {this.visibleDate}
+        dates                = {this.getDates ()}
+        date-clicked         = {x => this.dateClicked (x)}
+        visible-date-changed = {x => this.visibleDateChanged (x)}
+        {...this.link ()} />
     );
   }
 }

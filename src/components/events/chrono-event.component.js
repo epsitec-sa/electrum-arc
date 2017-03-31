@@ -119,16 +119,16 @@ export default class ChronoEvent extends React.Component {
 
     var startFromPos, endFromPos, startToPos, endToPos, tricolor;
     if (event.StartFromTime) {
-      startFromPos = Converters.getMinutes (event.StartFromTime);
-      endFromPos   = Converters.getMinutes (event.EndFromTime);
-      startToPos   = Converters.getMinutes (event.StartToTime);
-      endToPos     = Converters.getMinutes (event.EndToTime);
+      startFromPos = Converters.getTotalMinutes (event.StartFromTime);
+      endFromPos   = Converters.getTotalMinutes (event.EndFromTime);
+      startToPos   = Converters.getTotalMinutes (event.StartToTime);
+      endToPos     = Converters.getTotalMinutes (event.EndToTime);
       tricolor     = true;
     } else {
-      startFromPos = Converters.getMinutes (event.FromTime);
-      endFromPos   = Converters.getMinutes (event.FromTime);
-      startToPos   = Converters.getMinutes (event.ToTime);
-      endToPos     = Converters.getMinutes (event.ToTime);
+      startFromPos = Converters.getTotalMinutes (event.FromTime);
+      endFromPos   = Converters.getTotalMinutes (event.FromTime);
+      startToPos   = Converters.getTotalMinutes (event.ToTime);
+      endToPos     = Converters.getTotalMinutes (event.ToTime);
       tricolor     = false;
     }
     const middle = (startFromPos + endFromPos + startToPos + endToPos) / 4;

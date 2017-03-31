@@ -22,7 +22,6 @@ export default function styles (theme, props) {
   const inputSubkind         = props.subkind;
   const inputDimmed          = props.dimmed;
   const inputWeekend         = props.weekend;
-  const inputRecurrence      = props.recurrence;
   const inputPlace           = props.place;
   const inputActive          = props.active;
   const inputBadgeValue      = props.badgeValue;
@@ -460,23 +459,14 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.calendarBackground;
     textColor       = theme.palette.calendarText;
     if (inputActive === 'true') {
-      borderStyle = 'solid';
-      borderColor = theme.palette.calendarBorderActiveBackground;
-      borderWidth = '2px';
-      boxHeight   = Unit.sub (boxHeight, '4px');
+      backgroundColor = theme.palette.calendarActiveBackground;
+      textColor       = theme.palette.calendarActiveText;
     }
     if (inputDimmed === 'true') {
       textColor = theme.palette.calendarDimmedText;
     }
     if (inputWeekend === 'true') {
-      backgroundColor = theme.palette.calendarButtonWeekendBackground;
-    }
-    if (inputRecurrence === 'default') {
-      backgroundColor = theme.palette.calendarDefaultRecurrenceBackground;
-      textColor       = theme.palette.calendarRecurrenceText;
-    } else if (inputRecurrence === 'added') {
-      backgroundColor = theme.palette.calendarAddedRecurrenceBackground;
-      textColor       = theme.palette.calendarRecurrenceText;
+      backgroundColor = theme.palette.calendarWeekendBackground;
     }
   }
   // Button for month navigation in Calendar component.

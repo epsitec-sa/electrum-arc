@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import {Badge, Menu} from '../../all-components.js';
 import ShortcutHelpers from './shortcut-helpers.js';
@@ -38,7 +40,6 @@ export default class Button extends React.Component {
       subkind:         this.read ('subkind'),
       dimmed:          this.read ('dimmed'),
       weekend:         this.read ('weekend'),
-      recurrence:      this.read ('recurrence'),
       place:           this.read ('place'),
       active:          this.readActive (),
       badgeValue:      this.read ('badge-value'),
