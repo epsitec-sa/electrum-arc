@@ -279,7 +279,8 @@ export default function styles (theme, props) {
     position        = 'relative';
     display         = 'flex';
     flexDirection   = 'column';
-    margin          = '0px ' + theme.shapes.viewSpacing + ' 0px 0px';
+    flexGrow        = 1;
+    margin          = '0px';
     backgroundColor = theme.palette.viewBackground;
     alignSelf       = 'flex-start';
   }
@@ -361,6 +362,7 @@ export default function styles (theme, props) {
     padding         = '0px';
     margin          = '0px 0px 0px ' + Unit.multiply (theme.shapes.vnavigatorButtonSize, -1);
     backgroundColor = theme.palette.vnavigatorButtonBackground;
+    zIndex          = 4;
   }
 
   if (inputKind === 'actions') {
