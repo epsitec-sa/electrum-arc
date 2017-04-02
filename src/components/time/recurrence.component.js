@@ -8,12 +8,16 @@ import ReducerRecurrence from './reducer-recurrence.js';
 
 /******************************************************************************/
 
+function monthCount () {
+  return 2;
+}
+
 function pushCron (result, cron, date, deleteList) {
   const year  = Converters.getYear  (date);
   const month = Converters.getMonth (date);
   var options = {
-    currentDate: new Date (year, month - 2, 1),
-    endDate:     new Date (year, month + 1, 1),
+    currentDate: new Date (year, month - 2,             1),
+    endDate:     new Date (year, month + monthCount (), 1),
     iterator:    true
   };
   const interval = CronParser.parseExpression (cron, options);
@@ -146,6 +150,7 @@ export default class Recurrence extends React.Component {
   render () {
     return (
       <Calendar
+        month-count          = {monthCount ()}
         visible-date         = {this.visibleDate}
         dates                = {this.getDates ()}
         date-clicked         = {x => this.dateClicked (x)}

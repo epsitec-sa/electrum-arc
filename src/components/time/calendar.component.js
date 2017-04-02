@@ -56,8 +56,10 @@ export default class Calendar extends React.Component {
   // Called when the '<' button is clicked.
   // Modify internalState.visibleDate (fix visible year and month).
   prevMonth () {
+    const monthCount = this.read ('month-count');
+    const m = monthCount ? monthCount : 1;
     const visibleDate = this.getVisibleDate ();
-    const newDate = Converters.addMonths (visibleDate, -1);
+    const newDate = Converters.addMonths (visibleDate, -m);
     this.setVisibleDate (newDate);
     var x = this.read ('visible-date-changed');
     if (x) {
@@ -68,8 +70,10 @@ export default class Calendar extends React.Component {
   // Called when the '>' button is clicked.
   // Modify internalState.visibleDate (fix visible year and month).
   nextMonth () {
+    const monthCount = this.read ('month-count');
+    const m = monthCount ? monthCount : 1;
     const visibleDate = this.getVisibleDate ();
-    const newDate = Converters.addMonths (visibleDate, 1);
+    const newDate = Converters.addMonths (visibleDate, m);
     this.setVisibleDate (newDate);
     var x = this.read ('visible-date-changed');
     if (x) {
@@ -151,22 +155,48 @@ export default class Calendar extends React.Component {
     );
   }
 
+  renderPrevMonthButton (showing) {
+    if (showing) {
+      return (
+        <Button
+          glyph  = 'chevron-left'
+          kind   = 'calendar-navigation'
+          key    = 'prevMonth'
+          action = {() => this.prevMonth ()}
+          {...this.link ()} />
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderNextMonthButton (showing) {
+    if (showing) {
+      return (
+        <Button
+          glyph  = 'chevron-right'
+          kind   = 'calendar-navigation'
+          key    = 'nextMonth'
+          action = {() => this.nextMonth ()}
+          {...this.link ()} />
+      );
+    } else {
+      return null;
+    }
+  }
+
   // Return the html for the header, with 2 buttons next/prevMonth and the title.
   // By example: '<' mai 2016 '>'
-  renderHeader (header) {
+  renderHeader (header, firstMonth, lastMonth) {
     const style     = this.mergeStyles ('header');
     const textStyle = this.mergeStyles ('headerText');
     return (
       <div style={style} key='header'>
-        <Button glyph='chevron-left' kind='calendar-navigation' key='prevMonth'
-          action={() => this.prevMonth ()}
-          {...this.link ()} />
+        {this.renderPrevMonthButton (firstMonth)}
         <div style={textStyle}>
           {header}
         </div>
-        <Button glyph='chevron-right' kind='calendar-navigation' key='nextMonth'
-          action={() => this.nextMonth ()}
-          {...this.link ()} />
+        {this.renderNextMonthButton (lastMonth)}
       </div>
     );
   }
@@ -204,9 +234,9 @@ export default class Calendar extends React.Component {
 
   // Return an array of lines, with header then week's lines.
   // The array must have from 4 to 6 lines.
-  renderColumnOfLines (header, firstDate, visibleDate, selectedDate, selectedDates) {
+  renderColumnOfLines (header, firstDate, visibleDate, selectedDate, selectedDates, firstMonth, lastMonth) {
     let column = [];
-    column.push (this.renderHeader (header));
+    column.push (this.renderHeader (header, firstMonth, lastMonth));
     column.push (this.renderLineOfDOWs ());
     let i = 0;
     for (i = 0; i < 6; ++i) {
@@ -218,37 +248,55 @@ export default class Calendar extends React.Component {
   }
 
   // Retourne all the html content of the calendar.
-  renderLines () {
-    const selectedDate  = this.read ('date');
-    const selectedDates = this.read ('dates');
-
-    const visibleDate = this.getVisibleDate ();
-    if (!visibleDate) {
-      return null;
-    }
-
+  renderLines (selectedDate, selectedDates, visibleDate, firstMonth, lastMonth) {
     const firstDate = Converters.getCalendarStartDate (visibleDate);
     const header    = Converters.getDisplayedDate (visibleDate, false, 'My');  // 'mai 2016' by example
 
     const style = this.mergeStyles ('column');
     return (
       <div style={style}>
-        {this.renderColumnOfLines (header, firstDate, visibleDate, selectedDate, selectedDates)}
+        {this.renderColumnOfLines (header, firstDate, visibleDate, selectedDate, selectedDates, firstMonth, lastMonth)}
       </div>
     );
   }
 
-  render () {
-    const {state} = this.props;
-    const disabled = Action.isDisabled (state);
-
-    const boxStyle = this.mergeStyles ('box');
-
+  renderMonth (selectedDate, selectedDates, visibleDate, firstMonth, lastMonth) {
+    const monthStyle = this.mergeStyles ('month');
     return (
-      <div
-        disabled = {disabled}
-        style    = {boxStyle} >
-        {this.renderLines ()}
+      <div style={monthStyle}>
+        {this.renderLines (selectedDate, selectedDates, visibleDate, firstMonth, lastMonth)}
+      </div>
+    );
+  }
+
+  renderMonths () {
+    const selectedDate  = this.read ('date');
+    const selectedDates = this.read ('dates');
+    const monthCount    = this.read ('month-count');
+
+    const visibleDate = this.getVisibleDate ();
+    if (!visibleDate) {
+      return null;
+    }
+
+    const result = [];
+    for (var m = 0; m < monthCount; m++) {
+      const year  = Converters.getYear  (visibleDate);
+      const month = Converters.getMonth (visibleDate);
+      const date  = Converters.getDate (year, month + m, 1);
+
+      const firstMonth = (m === 0);
+      const lastMonth  = (m === monthCount - 1);
+      result.push (this.renderMonth (selectedDate, selectedDates, date, firstMonth, lastMonth));
+    }
+    return result;
+  }
+
+  render () {
+    const boxStyle = this.mergeStyles ('box');
+    return (
+      <div style={boxStyle}>
+        {this.renderMonths ()}
       </div>
     );
   }

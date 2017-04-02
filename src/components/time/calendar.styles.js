@@ -6,10 +6,15 @@ import {Unit} from 'electrum-theme';
 
 export default function styles (theme, props) {
   const boxStyle = {
+    display:         'flex',
+    flexDirection:   'row',
+    backgroundColor: theme.palette.calendarBackground,
+  };
+
+  const monthStyle = {
+    display:         'flex',
     flexDirection:   'column',
     padding:         theme.shapes.calendarMargin,
-    backgroundColor: theme.palette.calendarBackground,
-    // boxShadow:       theme.shapes.calendarShadow,
   };
 
   const headerStyle = {
@@ -57,6 +62,7 @@ export default function styles (theme, props) {
 
   return {
     box:        boxStyle,
+    month:      monthStyle,
     header:     headerStyle,
     headerText: headerTextStyle,
     dowText:    dowTextStyle,
