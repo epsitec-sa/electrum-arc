@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {Unit} from 'electrum-theme';
 
@@ -104,7 +102,7 @@ export default class Ticket extends React.Component {
     const w = boxStyle.width;
     const h = boxStyle.height;
     if (!w || !h) {
-      throw new Error (`Undefined ticket width or height`);
+      throw new Error ('Undefined ticket width or height');
     }
     const htmlShadow = (
       <svg width={w} height={h} style={shadowStyle}>
@@ -121,8 +119,12 @@ export default class Ticket extends React.Component {
     const htmlHatch = hatch === 'true' ? (
       <svg width={w} height={h} style={hatchStyle}>
         <defs>
-          <pattern id='hatch' x='0px' y='0px' width={ht} height={ht} patternTransform='rotate(45)' patternUnits='userSpaceOnUse'>
-            <rect x='0px' y='0px' width={hs} height={ht} fill='#000' fillOpacity={this.props.theme.palette.ticketHatchOpacity} />
+          <pattern id='hatch' x='0px' y='0px'
+            width={ht} height={ht}
+            patternTransform='rotate(45)' patternUnits='userSpaceOnUse'>
+            <rect x='0px' y='0px'
+              width={hs} height={ht}
+              fill='#000' fillOpacity={this.props.theme.palette.ticketHatchOpacity} />
           </pattern>
         </defs>
         <path d={svgStyle.path} />

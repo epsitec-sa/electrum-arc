@@ -1,4 +1,4 @@
-'use strict';
+/* eslint react/no-find-dom-node: 0 */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -58,7 +58,7 @@ export default class MessengerTicket extends React.Component {
     return this.getShowCombo () || this.getShowModify ();
   }
 
-  showCombo (x, y) {
+  showCombo (x) {
     // Trace.log ('MessengerTicket.showCombo');
     const node = ReactDOM.findDOMNode (this);
     this.comboLocation = ComboHelpers.getComboLocation (node, this.props.theme, x);
@@ -86,7 +86,7 @@ export default class MessengerTicket extends React.Component {
     return false;
   }
 
-  mouseUp (e) {
+  mouseUp () {
     // Trace.log ('MessengerTicket.mouseUp');
     if (this.getShowCombo () || this.getShowModify ()) {
       return true;
@@ -94,7 +94,7 @@ export default class MessengerTicket extends React.Component {
     return false;
   }
 
-  closeModify (action) {
+  closeModify () {
     // Trace.log ('MessengerTicket.closeModify ' + action);
     this.setShowModify (false);
   }

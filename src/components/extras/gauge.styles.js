@@ -1,5 +1,3 @@
-'use strict';
-
 /******************************************************************************/
 
 //  Compute the color of gauge.
@@ -22,9 +20,9 @@ export default function styles (theme, props) {
   const inputValue = Math.max (Math.min (props.value, 100), 0);  // 0..100
 
   const boxStyle = {
-    display:         'flex',
-    height:          '100%',
-    alignItems:      'flex-end',
+    display:    'flex',
+    height:     '100%',
+    alignItems: 'flex-end',
   };
 
   //  Compute radius at left border, for including into left of Ticket kind='thin'.

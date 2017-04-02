@@ -1,4 +1,5 @@
-'use strict';
+/* global window document */
+/* eslint react/no-find-dom-node: 0 */
 
 // Sources imported from:
 // https://github.com/tomkp/react-split-pane
@@ -24,7 +25,7 @@ function unFocus (document, window) {
 }
 
 class SplitPane extends Component {
-  constructor(...args) {
+  constructor (...args) {
     super (...args);
 
     this.onMouseDown = this.onMouseDown.bind (this);
@@ -34,38 +35,38 @@ class SplitPane extends Component {
     this.onMouseUp = this.onMouseUp.bind (this);
 
     this.state = {
-        active: false,
-        resized: false,
-      };
+      active:  false,
+      resized: false,
+    };
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.setSize (this.props, this.state);
     document.addEventListener ('mouseup', this.onMouseUp);
     document.addEventListener ('mousemove', this.onMouseMove);
     document.addEventListener ('touchmove', this.onTouchMove);
   }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps (props) {
     this.setSize (props, this.state);
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     document.removeEventListener ('mouseup', this.onMouseUp);
     document.removeEventListener ('mousemove', this.onMouseMove);
     document.removeEventListener ('touchmove', this.onTouchMove);
   }
 
-  onMouseDown(event) {
+  onMouseDown (event) {
     const eventWithTouches = Object.assign (
         {},
         event,
-        {touches: [{clientX: event.clientX, clientY: event.clientY}] }
+        {touches: [ {clientX: event.clientX, clientY: event.clientY} ] }
     );
     this.onTouchStart (eventWithTouches);
   }
 
-  onTouchStart(event) {
+  onTouchStart (event) {
     if (this.props.allowResize && !this.props.size) {
       unFocus (document, window);
       const position = this.props.split === 'vertical' ? event.touches[0].clientX : event.touches[0].clientY;
@@ -79,16 +80,16 @@ class SplitPane extends Component {
     }
   }
 
-  onMouseMove(event) {
+  onMouseMove (event) {
     const eventWithTouches = Object.assign (
       {},
       event,
-      {touches: [{clientX: event.clientX, clientY: event.clientY}] }
+      {touches: [ {clientX: event.clientX, clientY: event.clientY} ] }
     );
     this.onTouchMove (eventWithTouches);
   }
 
-  onTouchMove(event) {
+  onTouchMove (event) {
     if (this.props.allowResize && !this.props.size) {
       if (this.state.active) {
         unFocus (document, window);
@@ -101,11 +102,11 @@ class SplitPane extends Component {
             const width = node.getBoundingClientRect ().width;
             const height = node.getBoundingClientRect ().height;
             const current = this.props.split === 'vertical' ?
-                event.touches[0].clientX
-                : event.touches[0].clientY;
+                event.touches[0].clientX :
+                event.touches[0].clientY;
             const size = this.props.split === 'vertical' ?
-                width
-                : height;
+                width :
+                height;
             const position = this.state.position;
             const newPosition = isPrimaryFirst ? (position - current) : (current - position);
 
@@ -128,7 +129,7 @@ class SplitPane extends Component {
             } else {
               this.setState ({
                 position: current,
-                resized: true,
+                resized:  true,
               });
             }
             const onSizeChanged = this.props.onSizeChanged;
@@ -151,7 +152,7 @@ class SplitPane extends Component {
     }
   }
 
-  onMouseUp() {
+  onMouseUp () {
     if (this.props.allowResize && !this.props.size) {
       if (this.state.active) {
         if (typeof this.props.onDragFinished === 'function') {
@@ -164,7 +165,7 @@ class SplitPane extends Component {
     }
   }
 
-  setSize(props, state) {
+  setSize (props, state) {
     const ref = this.props.primary === 'first' ? this.pane1 : this.pane2;
     let newSize;
     if (ref) {
@@ -180,21 +181,21 @@ class SplitPane extends Component {
     }
   }
 
-  render() {
+  render () {
     const {split, allowResize, firstViewId, lastViewId} = this.props;
     const disabledClass = allowResize ? '' : 'disabled';
 
     const style = Object.assign ({},
       this.props.style || {}, {
-        display: 'flex',
-        flex: 1,
-        position: 'relative',
-        outline: 'none',
-        overflow: 'hidden',
-        MozUserSelect: 'text',
+        display:          'flex',
+        flex:             1,
+        position:         'relative',
+        outline:          'none',
+        overflow:         'hidden',
+        MozUserSelect:    'text',
         WebkitUserSelect: 'text',
-        msUserSelect: 'text',
-        userSelect: 'text',
+        msUserSelect:     'text',
+        userSelect:       'text',
       });
 
     if (split === 'vertical') {
@@ -202,8 +203,8 @@ class SplitPane extends Component {
         flexDirection: 'row',
         // height: '100%',
         // position: 'absolute',
-        left: 0,
-        right: 0,
+        left:          0,
+        right:         0,
       });
     } else {
       Object.assign (style, {
@@ -211,8 +212,8 @@ class SplitPane extends Component {
         // height: '100%',
         // minHeight: '100%',
         // position: 'absolute',
-        top: 0,
-        bottom: 0,
+        top:           0,
+        bottom:        0,
         // width: '100%',
       });
     }
@@ -309,28 +310,30 @@ SplitPane.propTypes = {
     React.PropTypes.string,
     React.PropTypes.number,
   ]),
-  allowResize: PropTypes.bool,
-  split: PropTypes.oneOf (['vertical', 'horizontal']),
-  onDragStarted: PropTypes.func,
-  onDragFinished: PropTypes.func,
-  onChange: PropTypes.func,
-  prefixer: PropTypes.instanceOf (Prefixer).isRequired,
-  style: stylePropType,
-  resizerStyle: stylePropType,
-  paneStyle: stylePropType,
-  pane1Style: stylePropType,
-  pane2Style: stylePropType,
-  className: PropTypes.string,
+  allowResize:      PropTypes.bool,
+  split:            PropTypes.oneOf (['vertical', 'horizontal']),
+  onDragStarted:    PropTypes.func,
+  onDragFinished:   PropTypes.func,
+  onChange:         PropTypes.func,
+  prefixer:         PropTypes.instanceOf (Prefixer).isRequired,
+  style:            stylePropType,
+  resizerStyle:     stylePropType,
+  paneStyle:        stylePropType,
+  pane1Style:       stylePropType,
+  pane2Style:       stylePropType,
+  className:        PropTypes.string,
   resizerClassName: PropTypes.string,
-  children: PropTypes.arrayOf (PropTypes.node).isRequired,
+  children:         PropTypes.arrayOf (PropTypes.node).isRequired,
 };
 
 SplitPane.defaultProps = {
-  split: 'vertical',
-  minSize: 50,
+  split:       'vertical',
+  minSize:     50,
   allowResize: true,
-  prefixer: new Prefixer ({userAgent: USER_AGENT}),
-  primary: 'first',
+  prefixer:    new Prefixer ({userAgent: USER_AGENT}),
+  primary:     'first',
 };
+
+/******************************************************************************/
 
 export default SplitPane;

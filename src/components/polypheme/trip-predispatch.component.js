@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {DialogModal, Container, Button, Label, Separator} from '../../all-components.js';
 
@@ -29,7 +27,7 @@ export default class TripPredispatch extends React.Component {
   renderMain () {
     return (
       <Container kind='panes' {...this.link ()} >
-        <Label text={`Revenir à l'état 'non dispatché' ?`} grow='1' kind='title' {...this.link ()} />
+        <Label text={'Revenir à l\'état \'non dispatché\' ?'} grow='1' kind='title' {...this.link ()} />
         <Separator kind='space' {...this.link ()} />
         <Separator kind='space' {...this.link ()} />
       </Container>

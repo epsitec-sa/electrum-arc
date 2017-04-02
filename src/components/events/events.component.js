@@ -1,4 +1,4 @@
-'use strict';
+/* global Map */
 
 import React from 'react';
 import Enumerable from 'linq';
@@ -103,6 +103,7 @@ export default class Events extends React.Component {
     const result = new Map ();
     let currentDate = this.getFromDate ();
     const toDate = this.getToDate ();
+    /* eslint-disable no-constant-condition */
     while (true) {
       const events = Enumerable
         .from (data.Events)
@@ -177,8 +178,13 @@ export default class Events extends React.Component {
         {this.renderHeaderButton (null, '7',   'Semaine', range === 'week',  () => this.actionRange ('week'))}
         {this.renderHeaderButton (null, '31',  'Mois',    range === 'month', () => this.actionRange ('month'))}
         {this.renderHeaderButton (null, '365', 'Année',   range === 'year',  () => this.actionRange ('year'))}
-        {this.renderHeaderButton ('clock-o', null, 'Groupé par heures', this.getPerHour (),  () => this.actionPerHour ())}
-        {this.renderHeaderButton ('compress', null, 'Compact', this.getCollapse (),  () => this.actionCollapse ())}
+
+        {this.renderHeaderButton ('clock-o', null, 'Groupé par heures', this.getPerHour (),
+          () => this.actionPerHour ())}
+
+        {this.renderHeaderButton ('compress', null, 'Compact', this.getCollapse (),
+          () => this.actionCollapse ())}
+
         {this.renderHeaderButton (null, '5',  '5 minutes',     delta === 5,  () => this.actionDelta (5))}
         {this.renderHeaderButton (null, '15', 'Quart d´heure', delta === 15, () => this.actionDelta (15))}
         {this.renderHeaderButton (null, '30', 'Demi-heure',    delta === 30, () => this.actionDelta (30))}
@@ -323,7 +329,7 @@ export default class Events extends React.Component {
 
   /******************************************************************************/
 
-  renderDay (data) {
+  renderDay (_data) {
     const boxStyle = this.mergeStyles ('box');
     const rowStyle = this.mergeStyles ('row');
 
@@ -371,7 +377,7 @@ export default class Events extends React.Component {
     );
   }
 
-  renderMonth (data) {
+  renderMonth (_data) {
     const boxStyle = this.mergeStyles ('box');
     const rowStyle = this.mergeStyles ('row');
 
@@ -386,7 +392,7 @@ export default class Events extends React.Component {
     );
   }
 
-  renderYear (data) {
+  renderYear (_data) {
     const boxStyle = this.mergeStyles ('box');
     const rowStyle = this.mergeStyles ('row');
 

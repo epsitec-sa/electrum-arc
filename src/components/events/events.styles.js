@@ -1,11 +1,8 @@
-'use strict';
-
-import {Unit} from 'electrum-theme';
 import ScrollerHelpers from './scroller-helpers.js';
 
 /******************************************************************************/
 
-export default function styles (theme, props) {
+export default function styles (theme, _props) {
   const boxStyle = {
     display:         'flex',
     flexDirection:   'column',
@@ -16,30 +13,30 @@ export default function styles (theme, props) {
   };
 
   const headerStyle = {
-    minHeight:       theme.shapes.lineHeight,
-    margin:          '0px 0px ' + theme.shapes.eventSeparator + ' 0px',
-    display:         'flex',
-    flexDirection:   'row',
-    justifyContent:  'center',
-    color:           theme.palette.eventHeaderText,
+    minHeight:      theme.shapes.lineHeight,
+    margin:         '0px 0px ' + theme.shapes.eventSeparator + ' 0px',
+    display:        'flex',
+    flexDirection:  'row',
+    justifyContent: 'center',
+    color:          theme.palette.eventHeaderText,
   };
 
   const headerTextStyle = {
-    flexGrow:        1,
-    textAlign:       'center',
-    color:           theme.palette.eventHeaderText,
-    fontWeight:      'bold',
-    textTransform:   'uppercase',
-    alignSelf:       'center',
+    flexGrow:      1,
+    textAlign:     'center',
+    color:         theme.palette.eventHeaderText,
+    fontWeight:    'bold',
+    textTransform: 'uppercase',
+    alignSelf:     'center',
   };
 
   const sw = ScrollerHelpers.getScrollBarWidth ();
   const dowsStyle = {
-    minHeight:       theme.shapes.lineHeight,
-    margin:          '0px ' + sw + ' ' + theme.shapes.eventSeparator + ' 0px',
-    display:         'flex',
-    flexDirection:   'row',
-    justifyContent:  'center',
+    minHeight:      theme.shapes.lineHeight,
+    margin:         '0px ' + sw + ' ' + theme.shapes.eventSeparator + ' 0px',
+    display:        'flex',
+    flexDirection:  'row',
+    justifyContent: 'center',
   };
 
   const dowStyle = {
@@ -71,28 +68,28 @@ export default function styles (theme, props) {
   };
 
   const rowStyle = {
-    display:         'flex',
-    flexDirection:   'row',
-    flexGrow:        1,
-    overflowY:       'scroll',
+    display:       'flex',
+    flexDirection: 'row',
+    flexGrow:      1,
+    overflowY:     'scroll',
   };
 
   const partsStyle = {
-    display:         'flex',
-    flexDirection:   'column',
-    flexGrow:        1,
-    alignItems:      'stretch',
-    overflowY:       'scroll',
+    display:       'flex',
+    flexDirection: 'column',
+    flexGrow:      1,
+    alignItems:    'stretch',
+    overflowY:     'scroll',
   };
 
   const partStyle = {
-    display:         'table',
-    width:           '100%',
+    display: 'table',
+    width:   '100%',
   };
 
   const partEvenStyle = {
-    display:         'flex',
-    flexDirection:   'row',
+    display:       'flex',
+    flexDirection: 'row',
   };
 
   const partOddStyle = {
@@ -102,11 +99,11 @@ export default function styles (theme, props) {
   };
 
   const columnStyle = {
-    display:         'flex',
-    flexDirection:   'column',
-    flexGrow:        1,
-    flexBasis:       0,
-    margin:          '0px ' + theme.shapes.eventSeparator + ' 0px 0px',
+    display:       'flex',
+    flexDirection: 'column',
+    flexGrow:      1,
+    flexBasis:     0,
+    margin:        '0px ' + theme.shapes.eventSeparator + ' 0px 0px',
   };
 
   return {

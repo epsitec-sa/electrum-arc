@@ -1,4 +1,4 @@
-'use strict';
+/* global window */
 
 import React from 'react';
 import {Container} from '../../all-components.js';

@@ -1,4 +1,4 @@
-'use strict';
+/* global window */
 
 import React from 'react';
 import BacklogToChronos from './backlog-to-chronos.js';

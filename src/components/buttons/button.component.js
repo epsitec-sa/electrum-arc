@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {Badge, Menu} from '../../all-components.js';
 import ShortcutHelpers from './shortcut-helpers.js';

@@ -1,7 +1,8 @@
-'use strict';
+/* eslint react/no-find-dom-node: 0 */
+/* global window */
 
 import React from 'react';
-import {Trace} from 'electrum';
+// import {Trace} from 'electrum';
 import ReactDOM from 'react-dom';
 import {Unit} from 'electrum-theme';
 import ReducerData from '../polypheme/reducer-data.js';
@@ -576,14 +577,14 @@ export default class DragCarrier extends React.Component {
     const dragHeight = this.read ('drag-height');
 
     const fullScreenStyle = {
-      visibility:      'visible',
-      position:        'fixed',
-      zIndex:          10,
-      top:             '0px',
-      left:            '0px',
-      width:           '100%',
-      height:          '100%',
-      userSelect:      'none',
+      visibility: 'visible',
+      position:   'fixed',
+      zIndex:     10,
+      top:        '0px',
+      left:       '0px',
+      width:      '100%',
+      height:     '100%',
+      userSelect: 'none',
       // backgroundColor: 'rgba(100, 0, 0, 0.2)',
     };
 
@@ -617,15 +618,15 @@ export default class DragCarrier extends React.Component {
     }
 
     const draggedStyle = {
-      visibility:      'visible',
-      position:        'absolute',
-      display:         'flex',
-      flexDirection:   'column',
-      height:          dragHeight,
-      left:            this.getX (),
-      top:             this.getY (),
-      opacity:         0.9,
-      userSelect:      'none',
+      visibility:    'visible',
+      position:      'absolute',
+      display:       'flex',
+      flexDirection: 'column',
+      height:        dragHeight,
+      left:          this.getX (),
+      top:           this.getY (),
+      opacity:       0.9,
+      userSelect:    'none',
     };
 
     return (

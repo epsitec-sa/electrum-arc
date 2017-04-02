@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {Button, ButtonClose, Container} from '../../all-components.js';
 
@@ -12,7 +10,6 @@ export default class Route extends React.Component {
   }
 
   render () {
-    const {state} = this.props;
     const closable = this.read ('closable');
 
     if (closable === 'true') {

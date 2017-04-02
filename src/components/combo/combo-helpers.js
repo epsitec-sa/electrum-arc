@@ -1,10 +1,10 @@
-'use strict';
+/* global window */
 
 import {Unit} from 'electrum-theme';
 
 // Set the DragCab.hasCombo parent to true or false. It will be informed that a combo is
 // opening, so as not to initiate a drag and drop.
-function setDragCabHasCombo (id, value) {
+export function setDragCabHasCombo (id, value) {
   for (let dragCab of window.document.dragCabs) {
     if (dragCab.props['drag-owner-id'] === id) {
       dragCab.hasCombo = value;
@@ -15,7 +15,7 @@ function setDragCabHasCombo (id, value) {
 
 // Compute the location for a combo-menu.
 // If x or y are undefined, the location is based on bounding rect of node.
-function getComboLocation (node, theme, x, y) {
+export function getComboLocation (node, theme, x, y) {
   const rect = node.getBoundingClientRect ();
 
   // Compute horizontal position according to mouse or component.
@@ -44,8 +44,3 @@ function getComboLocation (node, theme, x, y) {
     bottom: underside ? null : topValue,
   };
 }
-
-module.exports = {
-  setDragCabHasCombo,
-  getComboLocation
-};

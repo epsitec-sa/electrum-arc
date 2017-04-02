@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 
 import {Button, Container, Label} from '../../all-components.js';
@@ -14,12 +12,12 @@ export default class Notification extends React.Component {
   }
 
   render () {
-    const data       = this.read ('data');
-    const generation = this.read ('generation');
+    const data = this.read ('data');
+    // const generation = this.read ('generation');
 
     let glyphColor = data.Color;
     if (glyphColor) {
-      glyphColor = ColorHelpers.GetMarkColor (this.theme, glyphColor);
+      glyphColor = ColorHelpers.getMarkColor (this.theme, glyphColor);
     }
 
     return (

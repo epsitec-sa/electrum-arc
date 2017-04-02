@@ -1,8 +1,6 @@
-'use strict';
-
 /******************************************************************************/
 
-export default function styles (theme, props) {
+export default function styles (_theme, _props) {
   const fullScreenStyle = {
     visibility:      'visible',
     position:        'fixed',

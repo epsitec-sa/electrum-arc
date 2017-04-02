@@ -1,7 +1,6 @@
-'use strict';
-
 import React from 'react';
 import {Action} from 'electrum';
+
 /******************************************************************************/
 
 export default class Checkbox extends React.Component {
@@ -22,10 +21,10 @@ export default class Checkbox extends React.Component {
       margin:          '0px',
     };
     const buttonStyle = {
-      padding:         '0px',
-      margin:          '0px',
-      color:           '#555',
-      fontSize:        '65%',
+      padding:  '0px',
+      margin:   '0px',
+      color:    '#555',
+      fontSize: '65%',
     };
 
     return (
@@ -45,3 +44,5 @@ export default class Checkbox extends React.Component {
     );
   }
 }
+
+/******************************************************************************/

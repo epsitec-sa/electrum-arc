@@ -1,7 +1,4 @@
-'use strict';
-
 import {Unit} from 'electrum-theme';
-import {ColorManipulator} from 'electrum';
 
 /******************************************************************************/
 
@@ -280,11 +277,11 @@ export default function styles (theme, props) {
   };
 
   const rectEmptyStyle = {
-    position:     'absolute',
-    width:        '100%',
-    height:       '100%',
-    top:          '0px',
-    left:         '0px',
+    position: 'absolute',
+    width:    '100%',
+    height:   '100%',
+    top:      '0px',
+    left:     '0px',
   };
 
   let rectHoverStyle;
@@ -293,40 +290,40 @@ export default function styles (theme, props) {
   if (hoverShape === 'first') {
     // n.
     rectHoverStyle = {
-      position:        'absolute',
-      width:           'calc(100% - ' + t2 + ')',
-      height:          'calc(100% - ' + t1 + ')',
-      top:             '0px',
-      left:            '0px',
-      borderRadius:    hoverRadius,
-      borderWidth:     t1,
-      borderStyle:     'solid solid none solid',
-      borderColor:     theme.palette.ticketHover,
+      position:     'absolute',
+      width:        'calc(100% - ' + t2 + ')',
+      height:       'calc(100% - ' + t1 + ')',
+      top:          '0px',
+      left:         '0px',
+      borderRadius: hoverRadius,
+      borderWidth:  t1,
+      borderStyle:  'solid solid none solid',
+      borderColor:  theme.palette.ticketHover,
     };
   } else if (hoverShape === 'last') {
     // u.
     rectHoverStyle = {
-      position:        'absolute',
-      width:           'calc(100% - ' + t2 + ')',
-      height:          'calc(100% - ' + t1 + ')',
-      top:             '1px',
-      left:            '0px',
-      borderRadius:    hoverRadius,
-      borderWidth:     t1,
-      borderStyle:     'none solid solid solid',
-      borderColor:     theme.palette.ticketHover,
+      position:     'absolute',
+      width:        'calc(100% - ' + t2 + ')',
+      height:       'calc(100% - ' + t1 + ')',
+      top:          '1px',
+      left:         '0px',
+      borderRadius: hoverRadius,
+      borderWidth:  t1,
+      borderStyle:  'none solid solid solid',
+      borderColor:  theme.palette.ticketHover,
     };
   } else {
     rectHoverStyle = {
-      position:        'absolute',
-      width:           'calc(100% - ' + t2 + ' + 1px)',
-      height:          'calc(100% - ' + t2 + ' + 1px)',
-      top:             '0px',
-      left:            '0px',
-      borderRadius:    hoverRadius,
-      borderWidth:     t1,
-      borderStyle:     'solid',
-      borderColor:     theme.palette.ticketHover,
+      position:     'absolute',
+      width:        'calc(100% - ' + t2 + ' + 1px)',
+      height:       'calc(100% - ' + t2 + ' + 1px)',
+      top:          '0px',
+      left:         '0px',
+      borderRadius: hoverRadius,
+      borderWidth:  t1,
+      borderStyle:  'solid',
+      borderColor:  theme.palette.ticketHover,
     };
   }
 
@@ -377,9 +374,9 @@ export default function styles (theme, props) {
   };
 
   const hudGlyphStyleContent = {
-    transform:       'scale(1.2)',
-    color:           theme.palette.ticketHudContent,
-    fontWeight:      'bold',
+    transform:  'scale(1.2)',
+    color:      theme.palette.ticketHudContent,
+    fontWeight: 'bold',
   };
 
   const coverStyle = {
@@ -441,7 +438,7 @@ export default function styles (theme, props) {
     backgroundColor: color,
   };
   const subpaneContentStyle = {
-    visibility:      (hideContent === 'true') ? 'hidden' : 'visible',
+    visibility: (hideContent === 'true') ? 'hidden' : 'visible',
   };
 
   return {

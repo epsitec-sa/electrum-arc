@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {Action} from 'electrum';
 import {Container, Label} from 'electrum-arc';
@@ -44,7 +42,11 @@ export default class FlyingBalloon extends React.Component {
           triangle-position = {inputTrianglePosition}
           {...this.link ()}
           >
-          <Label text={inputPrimaryText}   kind='flying-balloon' font-weight='bold' bottom-spacing={primaryBottomSpacing} {...this.link ()} />
+
+          <Label text={inputPrimaryText}   kind='flying-balloon'
+            font-weight='bold'
+            bottom-spacing={primaryBottomSpacing} {...this.link ()} />
+
           <Label text={inputSecondaryText} kind='flying-balloon' {...this.link ()} />
         </Container>
       </span>

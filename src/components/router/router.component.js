@@ -1,5 +1,7 @@
+/* global window Map */
+
 import React from 'react';
-import {Trace} from 'electrum';
+// import {Trace} from 'electrum';
 import {Container} from '../../all-components.js';
 
 /******************************************************************************/
@@ -59,10 +61,10 @@ export default class Router extends React.Component {
   }
 
   setNavigation () {
-    const children = React.Children.map (this.props.children, (child, i) => {
+    const children = React.Children.map (this.props.children, (child) => {
       const name = child.props.name;
       const props = {
-        active: name === this.view ? 'true' : 'false',
+        active:         name === this.view ? 'true' : 'false',
         ['mouse-down']: () => this.mouseDown (name),
       };
       return React.cloneElement (child, props);
@@ -71,7 +73,6 @@ export default class Router extends React.Component {
   }
 
   render () {
-    const {state} = this.props;
     const kind = this.read ('kind');
 
     return (

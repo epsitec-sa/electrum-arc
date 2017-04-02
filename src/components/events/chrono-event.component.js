@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import Converters from '../polypheme/converters';
 import {ChronoBar} from '../../all-components.js';

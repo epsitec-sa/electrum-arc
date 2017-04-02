@@ -1,4 +1,4 @@
-'use strict';
+/* global window Map */
 
 import React from 'react';
 import ReducerData from './reducer-data.js';

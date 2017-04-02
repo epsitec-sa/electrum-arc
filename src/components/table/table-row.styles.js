@@ -1,16 +1,14 @@
-'use strict';
-
 /******************************************************************************/
 
-export default function styles (theme, props) {
+export default function styles (theme, _props) {
   const m = theme.shapes.containerMargin;
 
   const rowStyle = {
-    borderBottom:    '1px solid ' + theme.palette.tableBorder,
-    display:         'flex',
-    flexDirection:   'row',
-    padding:         '0px ' + m,
-    cursor:          'default',
+    borderBottom:  '1px solid ' + theme.palette.tableBorder,
+    display:       'flex',
+    flexDirection: 'row',
+    padding:       '0px ' + m,
+    cursor:        'default',
   };
 
   const rowHoverStyle = {
@@ -33,9 +31,9 @@ export default function styles (theme, props) {
   };
 
   const cellStyle = {
-    padding:         theme.shapes.tablePadding + ' 0px',
-    fontSize:        theme.shapes.tableTextSize,
-    cursor:          'default',
+    padding:  theme.shapes.tablePadding + ' 0px',
+    fontSize: theme.shapes.tableTextSize,
+    cursor:   'default',
   };
 
   return {

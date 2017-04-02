@@ -1,18 +1,11 @@
-'use strict';
-
-import {Unit} from 'electrum-theme';
-import {ColorHelpers} from 'electrum-theme';
-
 /******************************************************************************/
 
 export default function styles (theme, props) {
   const inputWidth            = props.width;
   const inputHeight           = props.height;
-  const inputKind             = props.kind;
 
   let width           = inputWidth;
   let height          = inputHeight;
-  let padding         = theme.shapes.dialogPadding;
   let backgroundColor = theme.palette.dialogBackground;
   let boxShadow       = theme.shapes.dialogShadow;
 
@@ -30,7 +23,6 @@ export default function styles (theme, props) {
     top:             '0px',
     bottom:          '0px',
     margin:          'auto',
-    // padding:         padding,
   };
 
   return {

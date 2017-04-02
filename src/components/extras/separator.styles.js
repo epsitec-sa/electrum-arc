@@ -1,5 +1,3 @@
-'use strict';
-
 import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
@@ -64,14 +62,14 @@ export default function styles (theme, props) {
   }
 
   const boxStyle = {
-    width:             width,
-    height:            height,
-    borderWidth:       borderWidth,
-    borderStyle:       borderStyle,
-    borderColor:       borderColor,
-    margin:            margin,
-    padding:           padding,
-    backgroundColor:   backgroundColor,
+    width:           width,
+    height:          height,
+    borderWidth:     borderWidth,
+    borderStyle:     borderStyle,
+    borderColor:     borderColor,
+    margin:          margin,
+    padding:         padding,
+    backgroundColor: backgroundColor,
   };
 
   return {

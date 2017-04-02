@@ -1,4 +1,4 @@
-'use strict';
+/* eslint react/no-find-dom-node: 0 */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -128,11 +128,11 @@ export default class TextFieldCombo extends React.Component {
     }
   }
 
-  onMyFocus (e) {
+  onMyFocus () {
     this.setReadonly (false);
   }
 
-  onMyBlur (e) {
+  onMyBlur () {
     this.setReadonly (true);
   }
 

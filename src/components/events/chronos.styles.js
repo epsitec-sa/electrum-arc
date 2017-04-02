@@ -1,8 +1,6 @@
-'use strict';
-
 /******************************************************************************/
 
-export default function styles (theme, props) {
+export default function styles (theme, _props) {
   const mainStyle = {
     display:         'flex',
     flexDirection:   'row',
@@ -13,11 +11,11 @@ export default function styles (theme, props) {
   };
 
   const navigationStyle = {
-    display:         'flex',
-    flexDirection:   'column',
-    margin:          theme.shapes.chronosNavigatorMargin,
-    overflowX:       'hidden',
-    overflowY:       'auto',
+    display:       'flex',
+    flexDirection: 'column',
+    margin:        theme.shapes.chronosNavigatorMargin,
+    overflowX:     'hidden',
+    overflowY:     'auto',
   };
 
   const topStyle = {
@@ -32,37 +30,37 @@ export default function styles (theme, props) {
   };
 
   const topLabelStyle = {
-    minHeight:       theme.shapes.chronosTopHeight,
-    maxHeight:       theme.shapes.chronosTopHeight,
-    paddingLeft:     theme.shapes.chronosLabelMargin,
-    display:         'flex',
-    flexDirection:   'row',
-    fontWeight:      'bold',
-    textTransform:   'uppercase',
-    userSelect:      'none',
-    cursor:          'default',
+    minHeight:     theme.shapes.chronosTopHeight,
+    maxHeight:     theme.shapes.chronosTopHeight,
+    paddingLeft:   theme.shapes.chronosLabelMargin,
+    display:       'flex',
+    flexDirection: 'row',
+    fontWeight:    'bold',
+    textTransform: 'uppercase',
+    userSelect:    'none',
+    cursor:        'default',
   };
 
   const topEventStyle = {
-    position:        'relative',
-    minHeight:       theme.shapes.chronosTopHeight,
-    maxHeight:       theme.shapes.chronosTopHeight,
-    flexGrow:        1,
-    display:         'flex',
-    flexDirection:   'row',
-    justifyContent:  'center',
-    userSelect:      'none',
-    cursor:          'default',
+    position:       'relative',
+    minHeight:      theme.shapes.chronosTopHeight,
+    maxHeight:      theme.shapes.chronosTopHeight,
+    flexGrow:       1,
+    display:        'flex',
+    flexDirection:  'row',
+    justifyContent: 'center',
+    userSelect:     'none',
+    cursor:         'default',
   };
 
   const sepStyle = {
-    minHeight:       theme.shapes.chronosSeparatorHeight,
-    maxHeight:       theme.shapes.chronosSeparatorHeight,
-    width:           '100%',
-    display:         'flex',
-    flexDirection:   'row',
-    userSelect:      'none',
-    cursor:          'default',
+    minHeight:     theme.shapes.chronosSeparatorHeight,
+    maxHeight:     theme.shapes.chronosSeparatorHeight,
+    width:         '100%',
+    display:       'flex',
+    flexDirection: 'row',
+    userSelect:    'none',
+    cursor:        'default',
   };
 
   return {

@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {Container} from '../../all-components.js';
 
@@ -18,7 +16,7 @@ export default class DialogModal extends React.Component {
     };
   }
 
-  mouseDown (e) {
+  mouseDown () {
   }
 
   render () {

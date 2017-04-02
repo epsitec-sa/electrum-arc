@@ -1,4 +1,4 @@
-'use strict';
+
 
 import React from 'react';
 import {Calendar} from 'electrum-arc';
@@ -21,15 +21,16 @@ function pushCron (result, cron, date, deleteList) {
     iterator:    true
   };
   const interval = CronParser.parseExpression (cron, options);
+  /* eslint no-constant-condition: 0 */
   while (true) {
     const next = interval.next ();
     if (next.done) {
       break;
     }
-    const date = Converters.jsToFormatedDate (next.value);
-    const deleted = deleteList.indexOf (date) !== -1;
+    const itemDate = Converters.jsToFormatedDate (next.value);
+    const deleted = deleteList.indexOf (itemDate) !== -1;
     const item = {
-      Date: date,
+      Date: itemDate,
       Type: deleted ? 'deleted' : 'default',
     };
     result.push (item);

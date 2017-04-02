@@ -1,4 +1,3 @@
-'use strict';
 import Electrum from 'electrum';
 import _ButtonClose from './components/buttons/button-close.component.js';
 import _Button from './components/buttons/button.component.js';

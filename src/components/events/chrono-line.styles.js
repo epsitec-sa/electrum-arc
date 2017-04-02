@@ -1,5 +1,3 @@
-'use strict';
-
 import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
@@ -53,24 +51,24 @@ export default function styles (theme, props) {
   };
 
   const lineLabelStyle = {
-    minHeight:       theme.shapes.chronosLineHeight,
-    maxHeight:       theme.shapes.chronosLineHeight,
-    display:         'flex',
-    flexDirection:   'row',
-    userSelect:      'none',
-    cursor:          'default',
+    minHeight:     theme.shapes.chronosLineHeight,
+    maxHeight:     theme.shapes.chronosLineHeight,
+    display:       'flex',
+    flexDirection: 'row',
+    userSelect:    'none',
+    cursor:        'default',
   };
 
   const lineEventStyle = {
-    position:        'relative',
-    minHeight:       theme.shapes.chronosLineHeight,
-    maxHeight:       theme.shapes.chronosLineHeight,
-    flexGrow:        1,
-    display:         'flex',
-    flexDirection:   'row',
-    justifyContent:  'center',
-    userSelect:      'none',
-    cursor:          'default',
+    position:       'relative',
+    minHeight:      theme.shapes.chronosLineHeight,
+    maxHeight:      theme.shapes.chronosLineHeight,
+    flexGrow:       1,
+    display:        'flex',
+    flexDirection:  'row',
+    justifyContent: 'center',
+    userSelect:     'none',
+    cursor:         'default',
   };
 
   return {

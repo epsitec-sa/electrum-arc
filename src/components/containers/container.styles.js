@@ -1,8 +1,5 @@
-'use strict';
-
 import {Unit} from 'electrum-theme';
 import {ColorHelpers} from 'electrum-theme';
-import {ColorManipulator} from 'electrum';
 
 /******************************************************************************/
 
@@ -117,8 +114,8 @@ export default function styles (theme, props) {
     }
     // The property floating-height must correspond to the floating Container height !
     // The calculate height of floating-header Container fill the space on top of floating Container.
-    const h = Unit.add (Unit.multiply (inputFloatingHeight, 0.5), theme.shapes.floatingPadding);
-    height          = 'calc(50vh - ' + h + ')';
+    const hh = Unit.add (Unit.multiply (inputFloatingHeight, 0.5), theme.shapes.floatingPadding);
+    height          = 'calc(50vh - ' + hh + ')';
     position        = 'absolute';
     left            = '0px';
     right           = '0px';
@@ -449,7 +446,7 @@ export default function styles (theme, props) {
       if (inputMarkColor) {
         borderLeftWidth = theme.shapes.markWidth;
         borderLeftStyle = 'solid';
-        borderLeftColor = ColorHelpers.GetMarkColor (theme, inputMarkColor);
+        borderLeftColor = ColorHelpers.getMarkColor (theme, inputMarkColor);
         leftPadding     = Unit.sub (leftPadding, theme.shapes.markWidth);
       }
       padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
@@ -471,7 +468,7 @@ export default function styles (theme, props) {
       if (inputSelected === 'true') {
         borderLeftWidth = theme.shapes.markWidth;
         borderLeftStyle = 'solid';
-        borderLeftColor = ColorHelpers.GetMarkColor (theme, 'base');
+        borderLeftColor = ColorHelpers.getMarkColor (theme, 'base');
         leftPadding     = '0px';
       }
       padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
@@ -515,7 +512,10 @@ export default function styles (theme, props) {
   if (inputKind === 'row-pane-drag') {
     display         = 'flex';
     flexDirection   = 'column';
-    margin          = Unit.multiply (m, 0.5) + ' ' + Unit.multiply (m, -1) + ' ' + Unit.multiply (m, -0.5) + ' ' + Unit.multiply (m, -1);
+    margin          = Unit.multiply (m, 0.5) + ' ' +
+      Unit.multiply (m, -1) + ' ' +
+      Unit.multiply (m, -0.5) + ' ' +
+      Unit.multiply (m, -1);
   }
 
   if (inputKind === 'row-wrap') {
@@ -628,14 +628,14 @@ export default function styles (theme, props) {
     // TODO: improve this code !
     // Subtracting the current items supposed to be present at the total height
     // (main-tab, view-tab and footer).
-    let h = '0px';
-    h = Unit.add (h, theme.shapes.mainTabHeight);
-    h = Unit.add (h, theme.shapes.containerMargin);
-    h = Unit.add (h, theme.shapes.viewTabHeight);
-    const y = h;
-    h = Unit.add (h, theme.shapes.footerHeight);
+    let hh = '0px';
+    hh = Unit.add (h, theme.shapes.mainTabHeight);
+    hh = Unit.add (h, theme.shapes.containerMargin);
+    hh = Unit.add (h, theme.shapes.viewTabHeight);
+    const y = hh;
+    hh = Unit.add (h, theme.shapes.footerHeight);
     minWidth          = width;
-    maxHeight         = 'calc(100vh - ' + h + ')';
+    maxHeight         = 'calc(100vh - ' + hh + ')';
     position          = 'fixed';
     top               = y;
     right             = (inputSubkind === 'hidden') ? Unit.multiply (width, -1) : '0px';
@@ -683,7 +683,7 @@ export default function styles (theme, props) {
       leftPadding     = Unit.sub (leftPadding, theme.shapes.notificationMarkWidth);
       borderLeftWidth = theme.shapes.notificationMarkWidth;
       borderLeftStyle = 'solid';
-      borderLeftColor = ColorHelpers.GetMarkColor (theme, 'primary');
+      borderLeftColor = ColorHelpers.getMarkColor (theme, 'primary');
       backgroundColor = theme.palette.notificationBackgroundNotRead;
     } else {
       margin          = '0px 0px 1px 0px';
@@ -909,13 +909,13 @@ export default function styles (theme, props) {
       };
     } else if (inputTrianglePosition === 'bottom') {
       triangleStyle = {
-        position:     'absolute',
-        width:        '0px',
-        left:         'calc(50% - ' + t + ')',
-        bottom:       '-' + p,
-        borderLeft:   t + ' solid transparent',
-        borderRight:  t + ' solid transparent',
-        borderTop:    t + ' solid ' + theme.palette.flyingBalloonBackground,
+        position:    'absolute',
+        width:       '0px',
+        left:        'calc(50% - ' + t + ')',
+        bottom:      '-' + p,
+        borderLeft:  t + ' solid transparent',
+        borderRight: t + ' solid transparent',
+        borderTop:   t + ' solid ' + theme.palette.flyingBalloonBackground,
       };
     } else {
       triangleStyle = {

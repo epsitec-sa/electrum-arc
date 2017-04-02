@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import SplitPane from './split-pane.js';
 
@@ -29,7 +27,7 @@ export default class Splitter extends React.Component {
     const onSizeChanged = this.read ('onSizeChanged');
 
     if (!kind) {
-      throw new Error (`Undefined splitter kind`);
+      throw new Error ('Undefined splitter kind');
     }
 
     const resizerStyle = this.mergeStyles ('resizerStyle');

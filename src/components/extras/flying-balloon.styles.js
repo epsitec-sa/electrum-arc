@@ -1,5 +1,3 @@
-'use strict';
-
 import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
@@ -16,14 +14,14 @@ export default function styles (theme, props) {
   // with kind='flying-balloon'. For example, if triangle-position='left', the
   // floating box is positioned to the right the parent box.
   const boxStyle = {
-    width:           inputWidth    ? inputWidth    : '100%',
-    maxWidth:        inputMaxWidth ? inputMaxWidth : '200px',
-    display:         'flex',
-    flexDirection:   'column',
-    justifyContent:  'flex-start',
-    alignItems:      'flex-start',
-    position:        'absolute',
-    zIndex:          inputZIndex ? inputZIndex : 1,
+    width:          inputWidth    ? inputWidth    : '100%',
+    maxWidth:       inputMaxWidth ? inputMaxWidth : '200px',
+    display:        'flex',
+    flexDirection:  'column',
+    justifyContent: 'flex-start',
+    alignItems:     'flex-start',
+    position:       'absolute',
+    zIndex:         inputZIndex ? inputZIndex : 1,
   };
   if (inputTrianglePosition === 'left') {
     boxStyle.left   = '100%';

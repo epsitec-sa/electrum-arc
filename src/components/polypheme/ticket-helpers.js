@@ -1,10 +1,8 @@
-'use strict';
-
 import {ColorHelpers} from 'electrum-theme';
 
-function getDirectionGlyph (theme, type) {
+export function getDirectionGlyph (theme, type) {
   const transit = type.endsWith ('-transit');
-  const color = ColorHelpers.GetMarkColor (theme, type);
+  const color = ColorHelpers.getMarkColor (theme, type);
   if (type.startsWith ('pick')) {
     if (transit) {
       return {
@@ -37,7 +35,7 @@ function getDirectionGlyph (theme, type) {
   }
 }
 
-function getPackageCount (ticket) {
+export function getPackageCount (ticket) {
   if (ticket.Packages) {
     return ticket.Packages.length + 'x';
   } else {
@@ -45,7 +43,7 @@ function getPackageCount (ticket) {
   }
 }
 
-function getPackageDescription (ticket) {
+export function getPackageDescription (ticket) {
   let desc = getPackageCount (ticket);
   if (ticket.Weight) {
     desc += ` — ${ticket.Weight}`;
@@ -56,7 +54,7 @@ function getPackageDescription (ticket) {
   return desc;
 }
 
-function getStatusDescription (ticket) {
+export function getStatusDescription (ticket) {
   if (ticket.Status === 'pre-dispatched') {
     return 'Pré-dispatché';
   } else if (ticket.Status === 'dispatched') {
@@ -67,10 +65,3 @@ function getStatusDescription (ticket) {
     return ticket.Status;
   }
 }
-
-module.exports = {
-  getDirectionGlyph,
-  getPackageDescription,
-  getPackageCount,
-  getStatusDescription
-};

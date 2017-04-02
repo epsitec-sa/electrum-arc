@@ -1,4 +1,4 @@
-'use strict';
+/* global window Map */
 
 import Electrum from 'electrum';
 import {Trace} from 'electrum';
@@ -13,18 +13,18 @@ function updateUI () {
   }
 }
 
-// ------------------------------------------------------------------------------------------
+/******************************************************************************/
 
 function partialSearchFromId (root, items, kind, id, ownerId) {
   if (id) {
-    const item = Enumerable.from (items).where (item => item.id === id).firstOrDefault ();
+    const item = Enumerable.from (items).where (x => x.id === id).firstOrDefault ();
     if (item) {
       return {
         ownerId: root.id,
         kind:    kind,
         tickets: items,
         ticket:  item,
-        index:   Enumerable.from (items).indexOf (item => item.id === id),
+        index:   Enumerable.from (items).indexOf (x => x.id === id),
       };
     }
   } else if (root.id === ownerId) {
@@ -75,7 +75,7 @@ function deepSearchFromId (state, id, ownerId) {
   return null;
 }
 
-// ------------------------------------------------------------------------------------------
+/******************************************************************************/
 
 function electrumDispatch (state, oper, payload) {
   if (payload.TicketId) {
@@ -96,7 +96,7 @@ function electrumDispatch (state, oper, payload) {
   Electrum.bus.postEnvelope (oper, payload);
 }
 
-// ------------------------------------------------------------------------------------------
+/******************************************************************************/
 
 function addTicket (state, tickets, index, ticket) {
   tickets = ReducerTickets.reducer (tickets, {
@@ -113,7 +113,7 @@ function deleteTicket (state, tickets, ticket) {
   });
 }
 
-// ------------------------------------------------------------------------------------------
+/******************************************************************************/
 
 // Return all tickets, grouped by MissionId. Example:
 // {
@@ -130,7 +130,7 @@ function getMissions (tickets) {
     if (result.has (missionId)) {
       result.get (missionId).push (ticket);
     } else {
-      result.set (missionId, [ticket]);
+      result.set (missionId, [ ticket ]);
     }
   }
   return result;
@@ -140,15 +140,15 @@ function getMissions (tickets) {
 // See http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
 function getNewId () {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace (/[xy]/g, function (c) {
-      var r = Math.random () * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString (16);
-    });
+    /* eslint no-bitwise: 0 */
+    var r = Math.random () * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString (16);
+  });
 }
 
 // Return a deep copy of ticket, with new ids.
 function clone (state, ticket) {
   const n = JSON.parse (JSON.stringify (ticket));
-  const oldId = n.id;
   n.id = getNewId ();
   return n;
 }
@@ -205,7 +205,9 @@ function createTransits (state, flashes, warnings) {
   for (var roadbook of state.Roadbooks) {
     const tickets = roadbook.Tickets;
     getMissions (roadbook.Tickets).forEach ((list, missionId) => {
-      if (list.length === 1 && (list[0].Type === 'pick' || list[0].Type === 'drop') && !isTicketIntoTray (state, missionId)) {
+      if (list.length === 1 &&
+        (list[0].Type === 'pick' || list[0].Type === 'drop') &&
+        !isTicketIntoTray (state, missionId)) {
         const ticket = list[0];
         const newTicket = getNewTransit (state, ticket);
         flashes.push (newTicket.id);
@@ -224,7 +226,7 @@ function createTransits (state, flashes, warnings) {
 // Delete if there are unnecessary transits for a roadbook.
 // By example, if a transit is alone, it's unnecessary.
 // If there are 3 tickets, including 2 unnecessary, delete the 2 unnecessary tickets.
-function deleteTransits (state, flashes, warnings) {
+function deleteTransits (state) {
   for (var roadbook of state.Roadbooks) {
     const tickets = roadbook.Tickets;
     getMissions (tickets).forEach (list => {
@@ -238,7 +240,8 @@ function deleteTransits (state, flashes, warnings) {
   }
 }
 
-// ------------------------------------------------------------------------------------------
+/******************************************************************************/
+
 
 // Check if un pick is under a drop, and set the field 'warning'.
 function checkOrder (tickets, flashes, warnings) {
@@ -339,7 +342,7 @@ function updateOrders (state) {
   }
 }
 
-// ------------------------------------------------------------------------------------------
+/******************************************************************************/
 
 // Add a warning to all tickets into Roadbooks we are alone.
 function checkAlones (state, flashes, warnings) {
@@ -361,7 +364,7 @@ function checkAlones (state, flashes, warnings) {
   }
 }
 
-// ------------------------------------------------------------------------------------------
+/******************************************************************************/
 
 function updateShape (state, list, isBacklog) {
   for (let i = 0; i < list.Tickets.length; i++) {
@@ -404,7 +407,7 @@ function updateShapes (state) {
   }
 }
 
-// ------------------------------------------------------------------------------------------
+/******************************************************************************/
 
 function getTextWarning (warnings, id) {
   return Enumerable
@@ -443,7 +446,7 @@ function setMiscs (state, flashes, warnings) {
   setMisc (state, state.Roadbooks, flashes, warnings);
 }
 
-// ------------------------------------------------------------------------------------------
+/******************************************************************************/
 
 function firstSelectedIndex (state, result) {
   for (let i = 0; i < result.tickets.length; i++) {
@@ -468,8 +471,7 @@ function selectZone (state, flashes, result, fromIndex, toIndex, value) {
   }
 }
 
-// ------------------------------------------------------------------------------------------
-
+/*
 // Delete all residual tickets into Roadbooks and Desk.
 function deleteMission (state, missionId) {
   Enumerable
@@ -489,6 +491,7 @@ function deleteMission (state, missionId) {
       .forEach (ticket => deleteTicket (state, roadbook.Tickets, ticket))
     );
 }
+*/
 
 function dropGeneric (state, flashes, warnings, from, to) {
   const ticket = from.ticket;
@@ -535,7 +538,7 @@ function dropGeneric (state, flashes, warnings, from, to) {
   }
 }
 
-// ------------------------------------------------------------------------------------------
+/******************************************************************************/
 
 function initialise (state) {
   updateShapes (state);
@@ -545,7 +548,7 @@ function initialise (state) {
 // fromId    -> id to item to move.
 // toId      -> id before which it is necessary to insert. If it was null, insert after the last item.
 // toOwnerId -> owner where it is necessary to insert. Useful when toId is null.
-function drop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
+function doDrop (state, fromKind, fromIds, toId, toOwnerId, toOwnerKind) {
   // Trace.log ('Reducer.drop');
   if (window.document.mock) {
     const flashes = [];
@@ -628,14 +631,11 @@ function swapTicketExtended (state, id) {
   const flashes = [];
   const warnings = [];
   const result = deepSearchFromId (state, id);
-  // if (result.kind !== 'backlog') {
-  if (true) {
-    const ticket = result.tickets[result.index];
-    const x = ticket.Extended === 'true';
-    ticket.Extended = x ? 'false' : 'true';
-    result.tickets[result.index] = regen (state, ticket);
-    flashes.push (result.tickets[result.index].id);
-  }
+  const ticket = result.tickets[result.index];
+  const x = ticket.Extended === 'true';
+  ticket.Extended = x ? 'false' : 'true';
+  result.tickets[result.index] = regen (state, ticket);
+  flashes.push (result.tickets[result.index].id);
   setMiscs (state, flashes, warnings);
   updateUI ();
   return state;
@@ -799,9 +799,9 @@ function setTrayName (state, id, value, accepted) {
   }
 }
 
-// ------------------------------------------------------------------------------------------
+/******************************************************************************/
 
-function reducer (state = {}, action = {}) {
+export function reducer (state = {}, action = {}) {
   // Trace.log (`reducer action.type=${action.type}`);
   switch (action.type) {
     case 'INITIALISE':
@@ -809,7 +809,7 @@ function reducer (state = {}, action = {}) {
       break;
 
     case 'DROP':
-      state = drop (state, action.fromKind, action.fromIds, action.toId, action.toOwnerId, action.toOwnerKind);
+      state = doDrop (state, action.fromKind, action.fromIds, action.toId, action.toOwnerId, action.toOwnerKind);
       break;
 
     case 'SWAP_TICKET_SELECTED':
@@ -843,7 +843,7 @@ function reducer (state = {}, action = {}) {
   return state;
 }
 
-function ask (state = {}, action = {}) {
+export function ask (state = {}, action = {}) {
   const result = deepSearchFromId (state, action.id);
   switch (action.type) {
     case 'IS_MESSENGER_SHOWHIDDEN':
@@ -861,6 +861,4 @@ function ask (state = {}, action = {}) {
   return null;
 }
 
-// ------------------------------------------------------------------------------------------
-
-module.exports = {reducer, ask};
+/******************************************************************************/

@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {Action} from 'electrum';
 import {Button, TextField, SimpleTextField} from '../../../all-components.js';
@@ -47,11 +45,11 @@ export default class LabelTextField extends React.Component {
     }
   }
 
-  onMyFocus (e) {
+  onMyFocus () {
     this.setReadonly (false);
   }
 
-  onMyBlur (e) {
+  onMyBlur () {
     this.setReadonly (true);
   }
 

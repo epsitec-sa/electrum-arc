@@ -1,7 +1,7 @@
-'use strict';
+/* global document */
 
 // See http://stackoverflow.com/questions/986937/how-can-i-get-the-browsers-scrollbar-sizes
-function getScrollBarWidth () {
+export function getScrollBarWidth () {
   var inner = document.createElement ('p');
   inner.style.width = '100%';
   inner.style.height = '200px';
@@ -27,7 +27,3 @@ function getScrollBarWidth () {
   document.body.removeChild (outer);
   return (w1 - w2);
 }
-
-module.exports = {
-  getScrollBarWidth
-};

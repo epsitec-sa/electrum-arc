@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 
 /******************************************************************************/
@@ -17,8 +15,6 @@ export default class Gauge extends React.Component {
   }
 
   render () {
-    const {state} = this.props;
-
     const boxStyle     = this.mergeStyles ('box');
     const contentStyle = this.mergeStyles ('content');
 

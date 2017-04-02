@@ -1,4 +1,5 @@
-'use strict';
+/* eslint react/no-find-dom-node: 0 */
+/* global setTimeout */
 
 import React from 'react';
 import ReactDOM from 'react-dom';

@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {ColorManipulator} from 'electrum';
 import Converters from '../polypheme/converters';

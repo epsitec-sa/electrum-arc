@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {DialogModal, Container, Button, Label, LabelTextField, Separator} from '../../all-components.js';
 import Converters from './converters';
@@ -49,7 +47,12 @@ export default class TripModify extends React.Component {
 
     return (
       <Container kind='panes' {...this.link ()} >
-        <Label glyph={directionGlyph.glyph} glyph-color={directionGlyph.color} text={title} grow='1' kind='title' {...this.link ()} />
+        <Label
+          glyph={directionGlyph.glyph}
+          glyph-color={directionGlyph.color}
+          text={title} grow='1' kind='title'
+          {...this.link ()}
+        />
         <Separator kind='space' {...this.link ()} />
         <LabelTextField label-glyph='clock-o' hint-text='Heure début'
           value={Converters.getDisplayedTime (pd.StartPlanedTime)} width='100px' {...this.link ()} />

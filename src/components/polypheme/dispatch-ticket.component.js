@@ -1,8 +1,13 @@
-'use strict';
+/* eslint react/no-find-dom-node: 0 */
+/* global window */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {DispatchDragTicket, DragCab, TripCombo, TripModify, TripDeliver, TripPredispatch} from '../../all-components.js';
+
+import {
+  DispatchDragTicket, DragCab, TripCombo, TripModify, TripDeliver, TripPredispatch
+} from '../../all-components.js';
+
 import ReducerData from './reducer-data.js';
 import ComboHelpers from '../combo/combo-helpers.js';
 import StateManager from './state-manager.js';
@@ -69,7 +74,7 @@ export default class DispatchTicket extends React.Component {
     return this.getShowCombo () || this.getShowModify () || this.getShowDeliver () || this.getShowPredispatch ();
   }
 
-  showCombo (x, y) {
+  showCombo (x) {
     const node = ReactDOM.findDOMNode (this);
     this.comboLocation = ComboHelpers.getComboLocation (node, this.props.theme, x);
     this.setShowCombo (true);
@@ -88,7 +93,7 @@ export default class DispatchTicket extends React.Component {
     return false;
   }
 
-  mouseUp (e) {
+  mouseUp () {
     // Trace.log ('Trip.mouseUp');
     if (this.getShowSomethink ()) {
       return true;
@@ -144,7 +149,7 @@ export default class DispatchTicket extends React.Component {
     }
   }
 
-  closeModify (action) {
+  closeModify () {
     this.setShowModify (false);
   }
 

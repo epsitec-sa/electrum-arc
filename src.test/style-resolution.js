@@ -14,7 +14,7 @@ class _Foo extends React.Component {
   }
 }
 
-const _Foo$styles = function (/*theme*/) {
+const _Foo$styles = function (/* theme */) {
   return {
     base: {fontFamily: 'Verdana'},
     nice: {color: 'purple'},
@@ -48,7 +48,9 @@ describe ('Style resolution', () => {
 
   describe ('<Foo style={ {color: \'pink\'} }">', () => {
     it ('applies local style on top of computed styles on <div> element', () => {
-      const html = ReactDOMServer.renderToStaticMarkup (<Foo state={state} theme={theme} kind='nice' style={{color: 'pink'}}/>);
+      const html = ReactDOMServer.renderToStaticMarkup (
+        <Foo state={state} theme={theme} kind='nice' style={{color: 'pink'}}/>
+      );
       expect (html).to.equal ('<div style="font-family:Verdana;color:pink;" data-radium="true"></div>');
     });
   });

@@ -1,6 +1,5 @@
-'use strict';
-
-import {Trace} from 'electrum';
+/* global Map */
+// import {Trace} from 'electrum';
 
 /******************************************************************************/
 
@@ -48,7 +47,7 @@ function transformTicketToEvent (ticket) {
   event.ToDate        = ticket.MeetingPoint.PlanedDate;
   event.FromTime      = ticket.MeetingPoint.StartPlanedTime;
   event.ToTime        = ticket.MeetingPoint.EndPlanedTime;
-  event.Notes         = [transformMeetingPointToNote (ticket.MeetingPoint)];
+  event.Notes         = [ transformMeetingPointToNote (ticket.MeetingPoint) ];
   event.Link          = ticket.MissionId;
   return event;
 }

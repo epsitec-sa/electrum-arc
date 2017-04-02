@@ -1,6 +1,6 @@
-'use strict';
-
 import TicketHelpers from './ticket-helpers.js';
+
+/******************************************************************************/
 
 function transformMeetingPointToGlyphs (type, meetingPoint, theme) {
   const glyphs = [];
@@ -43,7 +43,9 @@ function transformRoadbookToEvents (events, roadbook, theme) {
   }
 }
 
-function transform (roadbooks, theme) {
+/******************************************************************************/
+
+export function transform (roadbooks, theme) {
   const events = {};
   events.FromDate = '2017-01-01';
   events.ToDate = '2017-12-31';
@@ -54,6 +56,4 @@ function transform (roadbooks, theme) {
   return events;
 }
 
-module.exports = {
-  transform,
-};
+/******************************************************************************/

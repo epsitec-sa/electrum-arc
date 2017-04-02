@@ -1,4 +1,4 @@
-'use strict';
+/* global window */
 
 import React from 'react';
 import {Trace} from 'electrum';
@@ -26,8 +26,8 @@ export default class TripCombo extends React.Component {
       const data   = this.read ('data');
       const ticket = this.read ('ticket');
       ReducerData.reducer (data, {
-        type: 'ELECTRUM_DISPATCH',
-        oper: 'ShowModifyTicketCommand',
+        type:    'ELECTRUM_DISPATCH',
+        oper:    'ShowModifyTicketCommand',
         payload: {
           TicketId: ticket.id,
         }
@@ -42,8 +42,8 @@ export default class TripCombo extends React.Component {
       const data   = this.read ('data');
       const ticket = this.read ('ticket');
       ReducerData.reducer (data, {
-        type: 'ELECTRUM_DISPATCH',
-        oper: 'ShowMissionCommand',
+        type:    'ELECTRUM_DISPATCH',
+        oper:    'ShowMissionCommand',
         payload: {
           TicketId: ticket.id,
         }
@@ -141,7 +141,7 @@ export default class TripCombo extends React.Component {
         text:     selected ? 'Désélectionner un' : 'Sélectionner un',
         glyph:    selected ? 'circle-o' : 'check-circle',
         shortcut: '_ctrl_+clic',
-        action: () => this.select (),
+        action:   () => this.select (),
       }
     );
     list.push (
@@ -149,7 +149,7 @@ export default class TripCombo extends React.Component {
         text:     selected ? 'Tout désélectionner' : 'Sélectionner plusieurs',
         glyph:    selected ? 'circle-o' : 'check-circle',
         shortcut: '_shift_+clic',
-        action: () => this.selectMany (),
+        action:   () => this.selectMany (),
       }
     );
     if (ticket.Type !== 'both') {
@@ -158,7 +158,7 @@ export default class TripCombo extends React.Component {
           text:     extended ? 'Réduire' : 'Étendre',
           glyph:    extended ? 'arrow-up' : 'arrow-down',
           shortcut: '_alt_+clic',
-          action: () => this.extend (),
+          action:   () => this.extend (),
         }
       );
       if (source === 'roadbook') {
@@ -173,7 +173,7 @@ export default class TripCombo extends React.Component {
             glyph:    'ban',
             active:   ticket.Status === 'pre-dispatched' ? 'true' : 'false',
             shortcut: ticket.Status === 'delivered' ? 'clic' : null,
-            action: () => this.dispatch ('pre-dispatched'),
+            action:   () => this.dispatch ('pre-dispatched'),
           }
         );
         list.push (
@@ -182,7 +182,7 @@ export default class TripCombo extends React.Component {
             glyph:    'envelope-o',
             active:   ticket.Status === 'dispatched' ? 'true' : 'false',
             shortcut: ticket.Status === 'pre-dispatched' ? 'clic' : null,
-            action: () => this.dispatch ('dispatched'),
+            action:   () => this.dispatch ('dispatched'),
           }
         );
         list.push (
@@ -191,7 +191,7 @@ export default class TripCombo extends React.Component {
             glyph:    'envelope',
             active:   ticket.Status === 'delivered' ? 'true' : 'false',
             shortcut: ticket.Status === 'dispatched' ? 'clic' : null,
-            action: () => this.dispatch ('delivered'),
+            action:   () => this.dispatch ('delivered'),
           }
         );
       }

@@ -1,13 +1,17 @@
-'use strict';
+/* global window */
 
 import React, { Component, PropTypes } from 'react';
 import Prefixer from 'inline-style-prefixer';
 import stylePropType from 'react-style-proptype';
 
+/******************************************************************************/
+
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Safari/537.2';
 
+/******************************************************************************/
+
 class Pane extends Component {
-  constructor(...args) {
+  constructor (...args) {
     super (...args);
 
     this.state = {size: this.props.size};
@@ -33,15 +37,15 @@ class Pane extends Component {
     }
   }
 
-  render() {
+  render () {
     const split = this.props.split;
     const classes = ['Pane', split, this.props.className];
 
     const style = Object.assign ({}, this.props.style || {}, {
-      display: 'flex',
-      flex: 1,
+      display:  'flex',
+      flex:     1,
       position: 'relative',
-      outline: 'none',
+      outline:  'none',
     });
 
     if (this.state.size !== undefined) {
@@ -63,12 +67,12 @@ class Pane extends Component {
 }
 
 Pane.propTypes = {
-  split: PropTypes.oneOf (['vertical', 'horizontal']),
+  split:     PropTypes.oneOf (['vertical', 'horizontal']),
   className: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  prefixer: PropTypes.instanceOf (Prefixer).isRequired,
-  style: stylePropType,
-  size: PropTypes.oneOfType ([
+  children:  PropTypes.node.isRequired,
+  prefixer:  PropTypes.instanceOf (Prefixer).isRequired,
+  style:     stylePropType,
+  size:      PropTypes.oneOfType ([
     React.PropTypes.string,
     React.PropTypes.number,
   ]),
@@ -77,5 +81,7 @@ Pane.propTypes = {
 Pane.defaultProps = {
   prefixer: new Prefixer ({userAgent: USER_AGENT}),
 };
+
+/******************************************************************************/
 
 export default Pane;

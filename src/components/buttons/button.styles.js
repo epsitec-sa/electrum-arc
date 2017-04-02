@@ -1,5 +1,3 @@
-'use strict';
-
 import {ColorManipulator} from 'electrum';
 import {Unit} from 'electrum-theme';
 
@@ -331,10 +329,10 @@ export default function styles (theme, props) {
 
   // Action button (usual parent is container with kind='actions').
   if (inputKind  === 'action') {
-    const m = Unit.multiply (theme.shapes.actionHeight, 0.1);
+    const h = Unit.multiply (theme.shapes.actionHeight, 0.1);
     const r = theme.shapes.actionRadius;
     boxHeight       = theme.shapes.actionHeight;
-    boxPadding      = '0px 0px 0px ' + m;
+    boxPadding      = '0px 0px 0px ' + h;
     borderStyle     = 'none';
     boxJustifyContent = null;
     backgroundColor = theme.palette.actionButtonBackground;
@@ -636,41 +634,41 @@ export default function styles (theme, props) {
   }
 
   const glyphStyle = {
-    display:         'flex',
-    flexDirection:   'row',
-    justifyContent:  'center',
-    alignItems:      'center',
-    width:           glyphWidth,
-    height:          glyphHeight,
-    padding:         '0px',
-    margin:          glyphMargin,
-    color:           glyphColor,
-    transform:       glyphTransform,
+    display:        'flex',
+    flexDirection:  'row',
+    justifyContent: 'center',
+    alignItems:     'center',
+    width:          glyphWidth,
+    height:         glyphHeight,
+    padding:        '0px',
+    margin:         glyphMargin,
+    color:          glyphColor,
+    transform:      glyphTransform,
   };
 
   const textStyle = {
-    width:           textWidth,
-    margin:          textMargin,
-    flexGrow:        textGrow,
-    color:           textColor,
-    fontWeight:      textWeight,
-    textTransform:   textTransform,
-    fontSize:        Unit.multiply (textSize, theme.typo.fontScale),
-    overflow:        'hidden',
-    textOverflow:    'ellipsis',
-    whiteSpace:      'nowrap',
-    wordWrap:        'break-word',
+    width:         textWidth,
+    margin:        textMargin,
+    flexGrow:      textGrow,
+    color:         textColor,
+    fontWeight:    textWeight,
+    textTransform: textTransform,
+    fontSize:      Unit.multiply (textSize, theme.typo.fontScale),
+    overflow:      'hidden',
+    textOverflow:  'ellipsis',
+    whiteSpace:    'nowrap',
+    wordWrap:      'break-word',
   };
 
   const shortcutStyle = {
-    width:           textWidth,
-    flexGrow:        textGrow,
-    color:           textColor,
-    fontSize:        Unit.multiply (textSize, theme.typo.fontScale * 0.9),
-    overflow:        'hidden',
-    textOverflow:    'ellipsis',
-    whiteSpace:      'nowrap',
-    wordWrap:        'break-word',
+    width:        textWidth,
+    flexGrow:     textGrow,
+    color:        textColor,
+    fontSize:     Unit.multiply (textSize, theme.typo.fontScale * 0.9),
+    overflow:     'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace:   'nowrap',
+    wordWrap:     'break-word',
   };
 
   if (!inputDisabled && actif) {

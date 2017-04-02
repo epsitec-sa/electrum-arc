@@ -1,4 +1,4 @@
-'use strict';
+/******************************************************************************/
 
 function replaceTicket (state, index, ticket) {
   state[index] = ticket;
@@ -18,7 +18,9 @@ function deleteTicket (state, ticket) {
   return state;
 }
 
-function reducer (state = {}, action = {}) {
+/******************************************************************************/
+
+export function reducer (state = {}, action = {}) {
   switch (action.type) {
     case 'REPLACE_TICKET':
       state = replaceTicket (state, action.index, action.ticket);
@@ -33,6 +35,4 @@ function reducer (state = {}, action = {}) {
   return state;
 }
 
-// ------------------------------------------------------------------------------------------
-
-module.exports = {reducer};
+/******************************************************************************/

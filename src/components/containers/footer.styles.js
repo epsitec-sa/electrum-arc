@@ -1,11 +1,6 @@
-'use strict';
-
 /******************************************************************************/
 
-export default function styles (theme, props) {
-  const inputWidth  = props.width;
-  const inputHeight = props.height;
-
+export default function styles (theme, _props) {
   const boxStyle = {
     minHeight:       theme.shapes.footerHeight,
     display:         'flex',

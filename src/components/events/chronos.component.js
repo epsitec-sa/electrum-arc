@@ -1,7 +1,9 @@
+/* global Map window */
+
 import React from 'react';
 import Converters from '../polypheme/converters';
 import {Unit} from 'electrum-theme';
-import {Trace} from 'electrum';
+// import {Trace} from 'electrum';
 
 import {
   DragCab,
@@ -165,17 +167,17 @@ export default class Chronos extends React.Component {
     updateHover (event, false);
   }
 
-  mouseDown (e) {
+  mouseDown () {
     // Trace.log ('ChronoLine.mouseDown');
     return false;
   }
 
-  mouseUp (e) {
+  mouseUp () {
     // Trace.log ('ChronoLine.mouseUp');
     return false;
   }
 
-  doClickAction (e) {
+  doClickAction () {
     // Trace.log ('ChronoLine.doClickAction');
   }
 
@@ -223,8 +225,8 @@ export default class Chronos extends React.Component {
       const index = this.flatEvents.groups.indexOf (filters[0]);
       if (index !== -1 && index > 0) {
         const newDate = this.flatEvents.groups[index - 1];
-        this.updateFilter ([newDate]);
-        this.setFilters ([newDate]);
+        this.updateFilter ([ newDate ]);
+        this.setFilters ([ newDate ]);
       }
     }
   }
@@ -235,8 +237,8 @@ export default class Chronos extends React.Component {
       const index = this.flatEvents.groups.indexOf (filters[0]);
       if (index !== -1 && index < this.flatEvents.groups.length - 1) {
         const newDate = this.flatEvents.groups[index + 1];
-        this.updateFilter ([newDate]);
-        this.setFilters ([newDate]);
+        this.updateFilter ([ newDate ]);
+        this.setFilters ([ newDate ]);
       }
     }
   }
@@ -282,8 +284,15 @@ export default class Chronos extends React.Component {
     const result = [];
     const filters = this.getFilters ();
     let index = 0;
-    result.push (this.renderNavigationButton (null, 'Tout', null, null, false, filters.length === 0, () => this.actionAll (), index++));
-    result.push (this.renderNavigationButton ('chevron-up', null, null, null, filters.length !== 1, false, () => this.actionPrevFilter (), index++));
+
+    result.push (
+      this.renderNavigationButton (null, 'Tout', null, null, false, filters.length === 0,
+        () => this.actionAll (), index++));
+
+    result.push (
+      this.renderNavigationButton ('chevron-up', null, null, null, filters.length !== 1, false,
+        () => this.actionPrevFilter (), index++));
+
     for (var i = 0; i < this.flatEvents.groups.length; i++) {
       const group = this.flatEvents.groups[i];
       const count = this.flatEvents.count[i];
@@ -296,9 +305,16 @@ export default class Chronos extends React.Component {
         tooltip = null;
       }
       const x = group;  // necessary, but strange !
-      result.push (this.renderNavigationButton (null, text, count, tooltip, false, filtersGet (filters, x), e => this.actionFilter (e, x), index++));
+
+      result.push (
+        this.renderNavigationButton (null, text, count, tooltip, false, filtersGet (filters, x),
+          e => this.actionFilter (e, x), index++));
     }
-    result.push (this.renderNavigationButton ('chevron-down', null, null, null, filters.length !== 1, false, () => this.actionNextFilter (), index++));
+
+    result.push (
+      this.renderNavigationButton ('chevron-down', null, null, null, filters.length !== 1, false,
+        () => this.actionNextFilter (), index++));
+
     return result;
   }
 
@@ -358,7 +374,10 @@ export default class Chronos extends React.Component {
 
     const lineWidth  = this.read ('lineWidth');
     const width = Unit.add (lineWidth, this.props.theme.shapes.chronosSeparatorWidth);
-    lineLabelStyle.width = Unit.sub (Unit.multiply (width, this.flatFilteredEvents.notesCount), this.props.theme.shapes.chronosLabelMargin);
+
+    lineLabelStyle.width = Unit.sub (
+      Unit.multiply (width, this.flatFilteredEvents.notesCount),
+      this.props.theme.shapes.chronosLabelMargin);
 
     return (
       <div style={lineStyle} key={index} data-owner-id={ownerId}>

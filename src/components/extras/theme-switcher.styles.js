@@ -1,8 +1,6 @@
-'use strict';
-
 /******************************************************************************/
 
-export default function (theme) {
+export default function (_theme) {
   return {
     base: {
       cursor: 'pointer',

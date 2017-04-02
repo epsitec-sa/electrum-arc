@@ -1,6 +1,4 @@
-'use strict';
-
-import {React, Trace} from 'electrum';
+import {React} from 'electrum';
 import {Container, Button, SimpleTextField} from 'electrum-arc';
 import ReducerData from '../polypheme/reducer-data.js';
 import MouseTrap from 'mousetrap';
@@ -77,24 +75,24 @@ export default class TicketsTray extends React.Component {
     }
   }
 
-  acceptClicked (e) {
+  acceptClicked () {
     this.setEdit (false);
     this.updateTitleData (this.getTitle (), true);
   }
 
-  cancelClicked (e) {
+  cancelClicked () {
     this.setTitle (this.initialTitle);
     this.setEdit (false);
     this.updateTitleData (this.initialTitle, false);
   }
 
   // The button was clicked, replace Button by SimpleTextField (edit = true).
-  mouseDown (e) {
+  mouseDown () {
     this.setEdit (true);
   }
 
   // The SimpleTextField has lost focus, replace SimpleTextField by Button (edit = false).
-  onMyBlur (e) {
+  onMyBlur () {
     // Trace.log ('TicketsTray.onMyBlur');
     this.setEdit (false);
     this.updateTitleData (this.getTitle (), true);

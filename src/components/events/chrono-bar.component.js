@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {Unit} from 'electrum-theme';
 import {Label} from '../../all-components.js';

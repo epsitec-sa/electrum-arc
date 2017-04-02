@@ -1,5 +1,3 @@
-'use strict';
-
 // month is zero based (0 = january).
 function getMonthDescription (month) {
   const array = [
@@ -74,7 +72,9 @@ function padding (value, decimals) {
 }
 
 function jsToFormatedTime (time) {
-  return padding (time.getHours (), 2) + ':' + padding (time.getMinutes (), 2) + ':' + padding (time.getSeconds (), 2);
+  return padding (time.getHours (), 2) + ':' +
+    padding (time.getMinutes (), 2) + ':' +
+    padding (time.getSeconds (), 2);
 }
 
 function formatedTimeToJs (time) {
@@ -83,7 +83,9 @@ function formatedTimeToJs (time) {
 }
 
 function jsToFormatedDate (date) {
-  return padding (date.getFullYear (), 4) + '-' + padding (date.getMonth () + 1, 2) + '-' + padding (date.getDate (), 2);
+  return padding (date.getFullYear (), 4) + '-' +
+    padding (date.getMonth () + 1, 2) + '-' +
+    padding (date.getDate (), 2);
 }
 
 function formatedDateToJs (date) {
@@ -91,68 +93,68 @@ function formatedDateToJs (date) {
   return new Date (s.year, s.month - 1, s.day);
 }
 
-function addHours (time, n) {
+export function addHours (time, n) {
   const d = formatedTimeToJs (time);
   const nd = new Date (2000, 1, 1, d.getHours () + n, d.getMinutes (), d.getSeconds ());
   return jsToFormatedTime (nd);
 }
 
-function addMinutes (time, n) {
+export function addMinutes (time, n) {
   const d = formatedTimeToJs (time);
   const nd = new Date (2000, 1, 1, d.getHours (), d.getMinutes () + n, d.getSeconds ());
   return jsToFormatedTime (nd);
 }
 
-function addSeconds (time, n) {
+export function addSeconds (time, n) {
   const d = formatedTimeToJs (time);
   const nd = new Date (2000, 1, 1, d.getHours (), d.getMinutes (), d.getSeconds () + n);
   return jsToFormatedTime (nd);
 }
 
-function addDays (date, n) {
+export function addDays (date, n) {
   const d = formatedDateToJs (date);
   const nd = new Date (d.getFullYear (), d.getMonth (), d.getDate () + n);
   return jsToFormatedDate (nd);
 }
 
-function addMonths (date, n) {
+export function addMonths (date, n) {
   const d = formatedDateToJs (date);
   const nd = new Date (d.getFullYear (), d.getMonth () + n, d.getDate ());
   return jsToFormatedDate (nd);
 }
 
-function addYears (date, n) {
+export function addYears (date, n) {
   const d = formatedDateToJs (date);
   const nd = new Date (d.getFullYear () + n, d.getMonth (), d.getDate ());
   return jsToFormatedDate (nd);
 }
 
-function getYear (date) {
+export function getYear (date) {
   const d = formatedDateToJs (date);
   return d.getFullYear ();  // 2017..
 }
 
-function getMonth (date) {
+export function getMonth (date) {
   const d = formatedDateToJs (date);
   return d.getMonth () + 1;  // 1..12
 }
 
-function getDay (date) {
+export function getDay (date) {
   const d = formatedDateToJs (date);
   return d.getDate ();  // 1..31
 }
 
-function getHours (time) {
+export function getHours (time) {
   const d = formatedTimeToJs (time);
   return d.getHours ();  // 0..23
 }
 
-function getMinutes (time) {
+export function getMinutes (time) {
   const d = formatedTimeToJs (time);
   return d.getMinutes ();  // 0..59
 }
 
-function getSeconds (time) {
+export function getSeconds (time) {
   const d = formatedTimeToJs (time);
   return d.getSeconds ();  // 0..59
 }
@@ -201,21 +203,21 @@ function getNow () {
 }
 
 // With {year: 2017, month: 03, day: 31}, return '2017-03-31'.
-function joinDate (date) {
+export function joinDate (date) {
   return padding (date.year,  4) + '-' +
          padding (date.month, 2) + '-' +
          padding (date.day,   2);
 }
 
 // With {hour: 12, minute: 34, second: 56}, return '12:34:56'.
-function joinTime (time) {
+export function joinTime (time) {
   return padding (time.hour,   2) + ':' +
          padding (time.minute, 2) + ':' +
          padding (time.second, 2);
 }
 
 // With ' 12/3 ', return [12, 3].
-function parseTime (editedTime) {
+export function parseTime (editedTime) {
   const result = [];
   if (editedTime) {
     editedTime = editedTime.trim ();
@@ -230,19 +232,19 @@ function parseTime (editedTime) {
   return result;
 }
 
-function getTimeFromMinutes (minutes) {
+export function getTimeFromMinutes (minutes) {
   const hour = Math.floor (minutes / 60);
   const minute = minutes % 60;
   return joinTime ({hour: hour, minute: minute, second: 0});
 }
 
-function getTotalMinutes (time) {
+export function getTotalMinutes (time) {
   const s = splitTime (time);
   return (s.hour * 60) + s.minute;
 }
 
 // With date = '2017-03-31', return '31.03.2017'.
-function getDisplayedDate (date, useNowByDefault, format) {
+export function getDisplayedDate (date, useNowByDefault, format) {
   let d;
   if (date && !isEmptyDate (date)) {
     d = splitDate (date);
@@ -267,7 +269,8 @@ function getDisplayedDate (date, useNowByDefault, format) {
       return getDOWDescription ((w + 6) % 7, '3') + ' ' + padding (d.day, 2) + '.' + padding (d.month, 2);
     } else if (format === 'Wdmy') {
       const w = formatedDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
-      return getDOWDescription ((w + 6) % 7, '3') + ' ' + padding (d.day, 2) + '.' + padding (d.month, 2) + '.' + padding (d.year, 4);
+      return getDOWDescription ((w + 6) % 7, '3') + ' ' +
+        padding (d.day, 2) + '.' + padding (d.month, 2) + '.' + padding (d.year, 4);
     } else {
       return padding (d.day, 2) + '.' + padding (d.month, 2) + '.' + padding (d.year, 4);
     }
@@ -277,7 +280,7 @@ function getDisplayedDate (date, useNowByDefault, format) {
 }
 
 // With time = '12:34:56', return '12:34'.
-function getDisplayedTime (time, useNowByDefault, format) {
+export function getDisplayedTime (time, useNowByDefault, format) {
   let d;
   if (time && !isEmptyTime (time)) {
     d = splitTime (time);
@@ -298,7 +301,7 @@ function getDisplayedTime (time, useNowByDefault, format) {
 }
 
 // With editedTime = '12', return '12:00:00'.
-function getFormatedTime (editedTime) {
+export function getFormatedTime (editedTime) {
   const time = {
     hour:   0,
     minute: 0,
@@ -320,7 +323,7 @@ function getFormatedTime (editedTime) {
 // With '12 3', return true;
 // With '12 60', return false;
 // With '12 3 4 5', return false;
-function checkTime (editedTime) {
+export function checkTime (editedTime) {
   const edited = parseTime (editedTime);
   if (edited.length === 0 || edited.length > 3) {
     return false;
@@ -340,38 +343,23 @@ function checkTime (editedTime) {
   return true;
 }
 
-function getNowFormatedTime () {
+export function getNowFormatedTime () {
   return jsToFormatedTime (new Date (Date.now ()));
 }
 
-function getNowFormatedDate () {
+export function getNowFormatedDate () {
   return jsToFormatedDate (new Date (Date.now ()));
 }
 
-function getDate (year, month, day) {
+export function getDate (year, month, day) {
   const d = new Date (year, month - 1, day);
   return jsToFormatedDate (d);
 }
 
-function getCalendarStartDate (date) {
+export function getCalendarStartDate (date) {
   const jsDate    = formatedDateToJs (date);
   const dotw      = new Date (jsDate.getFullYear (), jsDate.getMonth (), 1).getDay ();  // 0..6 (0 = Sunday)
   const first     = -((dotw + 5) % 7);
   const startDate = new Date (jsDate.getFullYear (), jsDate.getMonth (), first);
   return jsToFormatedDate (startDate);
 }
-
-module.exports = {
-  jsToFormatedTime, jsToFormatedDate,
-  getMonthDescription, getDOWDescription,
-  getEmptyTime, getEmptyDate,
-  isEmptyTime, isEmptyDate,
-  getDisplayedTime, getFormatedTime, checkTime, splitTime, getTimeFromMinutes, getTotalMinutes,
-  getDisplayedDate,
-  getNowFormatedTime, getNowFormatedDate,
-  addHours, addMinutes, addSeconds,
-  addDays, addMonths, addYears,
-  getYear, getMonth, getDay, getHours, getMinutes, getSeconds,
-  getDate,
-  getCalendarStartDate,
-};

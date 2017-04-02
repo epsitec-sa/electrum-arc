@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {Action} from 'electrum';
 import {Button} from 'electrum-arc';

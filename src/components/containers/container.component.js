@@ -1,4 +1,4 @@
-'use strict';
+/* global window document */
 
 import {Action, React, Trace} from 'electrum';
 
@@ -47,7 +47,8 @@ export default class Container extends React.Component {
     count += dragOwnerId    ? 1 : 0;
     if (count !== 0 && count !== 3) {
       // These 3 properties must exist all together, or none !
-      Trace.error (`Container has invalid properties, dragController=${dragController} dragSource=${dragSource} dragOwnerId=${dragOwnerId}`);
+      Trace.error ('Container has invalid properties:' +
+        ` dragController=${dragController} dragSource=${dragSource} dragOwnerId=${dragOwnerId}`);
     }
     const navFor = this.read ('navigation-for');
     if (navFor) {
@@ -105,7 +106,7 @@ export default class Container extends React.Component {
   }
 
   // Compute all cumulative bottom positions of panels.
-  computePanelBottoms(panelElem) {
+  computePanelBottoms (panelElem) {
     this.panelBottoms = [];
     const children = [].slice.call (panelElem.children);
     var first = -1;
@@ -120,7 +121,7 @@ export default class Container extends React.Component {
   }
 
   // Return the index of the top panel, according to  scroll position.
-  getPanelIndex(scrollTop, scrollMax) {
+  getPanelIndex (scrollTop, scrollMax) {
     if (scrollTop >= scrollMax - 4) {  // 4 = chouia for mouse wheel
       // If scroller is on bottom, return the last index.
       return this.panelBottoms.length - 1;
@@ -156,13 +157,13 @@ export default class Container extends React.Component {
 
   applySelectedToChildren (selected) {
     return React.Children.map (this.props.children, child => {
-        if (selected && React.isValidElement (child)) {
-          const props = {selected: selected};
-          return React.cloneElement (child, props);
-        } else {
-          return child;
-        }
+      if (selected && React.isValidElement (child)) {
+        const props = {selected: selected};
+        return React.cloneElement (child, props);
+      } else {
+        return child;
       }
+    }
     );
   }
 

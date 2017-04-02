@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 
 /******************************************************************************/
@@ -42,7 +40,7 @@ export default class TableRow extends React.Component {
 
   /******************************************************************************/
 
-  renderRowColumn(description, column, last, index) {
+  renderRowColumn (description, column, last, index) {
     const style = this.mergeStyles ('cell');
 
     if (column.Width) {
@@ -74,7 +72,7 @@ export default class TableRow extends React.Component {
     );
   }
 
-  renderRowColumns(header, row) {
+  renderRowColumns (header, row) {
     const result = [];
     let index = 0;
     for (var column of header) {
@@ -85,7 +83,7 @@ export default class TableRow extends React.Component {
     return result;
   }
 
-  render() {
+  render () {
     const header   = this.read ('header');
     const row      = this.read ('row');
     const index    = this.read ('index');

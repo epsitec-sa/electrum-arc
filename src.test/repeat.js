@@ -7,7 +7,7 @@ import {Repeat} from 'electrum-arc';
 
 /******************************************************************************/
 
-const theme = Theme.create ('default');
+const globalTheme = Theme.create ('default');
 
 /******************************************************************************/
 
@@ -40,7 +40,7 @@ describe ('<Foo>', () => {
     const store = Store.create ();
     const state = store.select ('root.f').set ('value', 'xyz');
 
-    const html = ReactDOMServer.renderToStaticMarkup (<Foo state={state} theme={theme} bar='42' id='i' />);
+    const html = ReactDOMServer.renderToStaticMarkup (<Foo state={state} theme={globalTheme} bar='42' id='i' />);
     expect (html).to.equal ('<span data-radium="true">xyz/42/i</span>');
   });
 });
@@ -53,7 +53,7 @@ describe ('<Repeat>', () => {
     const state = store.select ('root.f');
 
     const html = ReactDOMServer.renderToStaticMarkup (
-      <Repeat state={state} theme={theme}>
+      <Repeat state={state} theme={globalTheme}>
         <Foo id='i' field='value' bar='42'/>
       </Repeat>
     );
@@ -67,7 +67,7 @@ describe ('<Repeat>', () => {
     const state = store.select ('root.f');
 
     const html = ReactDOMServer.renderToStaticMarkup (
-      <Repeat state={state} theme={theme}>
+      <Repeat state={state} theme={globalTheme}>
         <Foo id='i' sub-field='name' bar='42'/>
       </Repeat>
     );
@@ -86,7 +86,7 @@ describe ('<Repeat>', () => {
     const state = store.select ('root.f');
 
     const html = ReactDOMServer.renderToStaticMarkup (
-      <Repeat state={state} theme={theme}>
+      <Repeat state={state} theme={globalTheme}>
         <Foo sub-field='name' bar='42'/>
       </Repeat>
     );
@@ -105,7 +105,7 @@ describe ('<Repeat>', () => {
     const state = store.select ('root.f');
 
     const html = ReactDOMServer.renderToStaticMarkup (
-      <Repeat state={state} theme={theme}>
+      <Repeat state={state} theme={globalTheme}>
         <h1>
           <Foo id='i' sub-field='name' bar='42'/>
         </h1>
@@ -126,7 +126,7 @@ describe ('<Repeat>', () => {
     const state = store.select ('root.f');
 
     const html = ReactDOMServer.renderToStaticMarkup (
-      <Repeat state={state} theme={theme}>
+      <Repeat state={state} theme={globalTheme}>
         <Group>
           <Foo id='i' sub-field='name' bar='42'/>
         </Group>
@@ -147,7 +147,7 @@ describe ('<Repeat>', () => {
     const state = store.select ('root.f');
 
     const html = ReactDOMServer.renderToStaticMarkup (
-      <Repeat state={state} theme={theme}>
+      <Repeat state={state} theme={globalTheme}>
         <Group sub-field='grp'>
           <Foo id='i' sub-field='name' bar='42'/>
         </Group>

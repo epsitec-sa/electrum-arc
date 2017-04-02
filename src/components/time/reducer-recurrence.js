@@ -1,8 +1,4 @@
-'use strict';
-
-function clone (state) {
-  return JSON.parse (JSON.stringify (state));
-}
+/******************************************************************************/
 
 function addDate (state, date) {
   state.push (date);
@@ -17,7 +13,9 @@ function deleteDate (state, date) {
   return state;
 }
 
-function reducer (state = {}, action = {}) {
+/******************************************************************************/
+
+export function reducer (state = {}, action = {}) {
   switch (action.type) {
     case 'ADD_ADD':
       state.Add = addDate (state.Add, action.date);
@@ -36,6 +34,4 @@ function reducer (state = {}, action = {}) {
   return state;
 }
 
-// ------------------------------------------------------------------------------------------
-
-module.exports = {reducer};
+/******************************************************************************/

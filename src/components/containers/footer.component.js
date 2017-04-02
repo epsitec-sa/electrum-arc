@@ -1,7 +1,4 @@
-'use strict';
-
 import React from 'react';
-import {Action} from 'electrum';
 
 /******************************************************************************/
 
@@ -19,9 +16,6 @@ export default class Footer extends React.Component {
   }
 
   render () {
-    const {state} = this.props;
-    const disabled = Action.isDisabled (state);
-
     const boxStyle = this.mergeStyles ('box');
 
     return (

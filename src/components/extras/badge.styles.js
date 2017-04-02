@@ -1,5 +1,3 @@
-'use strict';
-
 import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
@@ -31,17 +29,17 @@ export default function styles (theme, props) {
   }
 
   const boxStyle = {
-    width:           boxWidth,
-    height:          boxHeight,
-    alignSelf:       boxAlignSelf,
-    margin:          boxMargin,
-    display:         'flex',
-    flexDirection:   'row',
-    justifyContent:  'center',
-    alignItems:      'center',
-    position:        boxPosition,
-    right:           boxRight,
-    top:             boxTop,
+    width:          boxWidth,
+    height:         boxHeight,
+    alignSelf:      boxAlignSelf,
+    margin:         boxMargin,
+    display:        'flex',
+    flexDirection:  'row',
+    justifyContent: 'center',
+    alignItems:     'center',
+    position:       boxPosition,
+    right:          boxRight,
+    top:            boxTop,
   };
 
   const m = Unit.multiply (labelHeight, 0.25);

@@ -1,10 +1,9 @@
-'use strict';
+/* global window */
 
 import React from 'react';
 
-import {Ticket, Container, Label, Separator, Badge, Gauge} from '../../all-components.js';
+import {Ticket, Container, Label, Separator, Gauge} from '../../all-components.js';
 import {ColorManipulator} from 'electrum';
-import {ColorHelpers} from 'electrum-theme';
 import {Unit} from 'electrum-theme';
 import Converters from './converters';
 import TicketHelpers from './ticket-helpers.js';
@@ -253,7 +252,12 @@ export default class DispatchDragTicket extends React.Component {
             <Label text={meetingPoint.ShortDescription} wrap='no' {...this.link ()} />
           </Container>
           <Container kind='thin-row' width='50px' {...this.link ()} >
-            <Label text={meetingPoint.Zone} text-transform='uppercase' wrap='no' font-size={dimmedSize} {...this.link ()} />
+            <Label text={meetingPoint.Zone}
+              text-transform='uppercase'
+              wrap='no'
+              font-size={dimmedSize}
+              {...this.link ()}
+            />
           </Container>
           <Container kind='thin-row' width='80px' {...this.link ()} >
             <Label grow='1' {...this.link ()} />
@@ -298,7 +302,9 @@ export default class DispatchDragTicket extends React.Component {
               <Label glyph='cube' glyph-color={dimmedColor} {...this.link ()} />
             </Container>
             <Container kind='thin-row' grow='3' {...this.link ()} >
-              <Label text={TicketHelpers.getPackageCount (ticket)} justify='right' grow='1' wrap='no' {...this.link ()} />
+              <Label text={TicketHelpers.getPackageCount (ticket)}
+                justify='right' grow='1' wrap='no' {...this.link ()}
+              />
             </Container>
           </Container>
           <Container kind='thin-row' grow='1' {...this.link ()} >

@@ -1,5 +1,3 @@
-'use strict';
-
 import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
@@ -9,16 +7,16 @@ export default function styles (theme, props) {
   const glyphWidth = props.glyphWidth;
 
   const lineStyle = {
-    position:        'relative',
-    minHeight:       theme.shapes.chronosLineHeight,
-    maxHeight:       theme.shapes.chronosLineHeight,
-    width:           Unit.sub (lineWidth, theme.shapes.chronosLabelMargin),
-    paddingLeft:     theme.shapes.chronosLabelMargin,
-    borderRight:     theme.shapes.chronosSeparatorWidth + ' solid ' + theme.palette.chronoLabelSeparator,
-    display:         'flex',
-    flexDirection:   'row',
-    userSelect:      'none',
-    cursor:          'default',
+    position:      'relative',
+    minHeight:     theme.shapes.chronosLineHeight,
+    maxHeight:     theme.shapes.chronosLineHeight,
+    width:         Unit.sub (lineWidth, theme.shapes.chronosLabelMargin),
+    paddingLeft:   theme.shapes.chronosLabelMargin,
+    borderRight:   theme.shapes.chronosSeparatorWidth + ' solid ' + theme.palette.chronoLabelSeparator,
+    display:       'flex',
+    flexDirection: 'row',
+    userSelect:    'none',
+    cursor:        'default',
   };
 
   const emptyStyle = {
@@ -36,11 +34,11 @@ export default function styles (theme, props) {
   };
 
   const glyphsStyle = {
-    minHeight:       theme.shapes.chronosLineHeight,
-    maxHeight:       theme.shapes.chronosLineHeight,
-    width:           glyphWidth,
-    display:         'flex',
-    flexDirection:   'row',
+    minHeight:     theme.shapes.chronosLineHeight,
+    maxHeight:     theme.shapes.chronosLineHeight,
+    width:         glyphWidth,
+    display:       'flex',
+    flexDirection: 'row',
   };
 
   const m = '10px';
@@ -56,14 +54,14 @@ export default function styles (theme, props) {
   };
 
   const frontStyle = {
-    position:        'absolute',
-    minHeight:       theme.shapes.chronosLineHeight,
-    maxHeight:       theme.shapes.chronosLineHeight,
-    width:           Unit.add (lineWidth, theme.shapes.chronosSeparatorWidth),
-    marginLeft:      Unit.multiply (theme.shapes.chronosLabelMargin, -1),
-    userSelect:      'none',
-    cursor:          'default',
-    zIndex:          3,
+    position:   'absolute',
+    minHeight:  theme.shapes.chronosLineHeight,
+    maxHeight:  theme.shapes.chronosLineHeight,
+    width:      Unit.add (lineWidth, theme.shapes.chronosSeparatorWidth),
+    marginLeft: Unit.multiply (theme.shapes.chronosLabelMargin, -1),
+    userSelect: 'none',
+    cursor:     'default',
+    zIndex:     3,
     // backgroundColor: 'rgba(100, 0, 0, 0.2)',
   };
 

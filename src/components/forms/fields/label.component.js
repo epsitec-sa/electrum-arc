@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {Action} from 'electrum';
 
@@ -114,10 +112,10 @@ export default class Label extends React.Component {
         if (inputText) {
           return [htmlGlyph (0), htmlText (1)];
         } else {
-          return [htmlGlyph (0)];
+          return [ htmlGlyph (0) ];
         }
       } else {
-        return [htmlText (0)];
+        return [ htmlText (0) ];
       }
     };
 

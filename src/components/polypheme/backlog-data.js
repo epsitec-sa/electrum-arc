@@ -1,13 +1,12 @@
-'use strict';
+/* global window */
 
 import Converters from './converters';
 
-// --------------------------------------------------------------------------------------------------------------------
-
+/******************************************************************************/
 // Returns the items to populate the sort combo-menu.
 // It is here (for now) that the possible actions are decided, not in the C#.
 // The key (byPickTime, byProduct, usw.) is used to exchange information in data.BacklogSort (JS <-> C#).
-function getSortItems () {
+export function getSortItems () {
   return {
     byTime: {
       description: 'Par heures',
@@ -35,7 +34,7 @@ function getSortItems () {
 // Returns the items to populate the filter combo-menu.
 // It is here (for now) that the possible actions are decided, not in the C#.
 // The key (all, urgent, usw.) is used to exchange information in data.BacklogFilter (JS <-> C#).
-function getFilterItems () {
+export function getFilterItems () {
   return {
     all: {
       description: 'Tous',
@@ -101,7 +100,7 @@ function isFiltered (data, ticket) {
 
 // Return sorted content of backlog, only with 'mock = true'.
 // With 'mock = false', it is the C# that decides on filtering and sorting.
-function getSortedBacklog (data) {
+export function getSortedBacklog (data) {
   if (window.document.mock) {
     const result = [];
     for (var ticket of data.Backlog.Tickets) {
@@ -125,10 +124,3 @@ function getSortedBacklog (data) {
     return data.Backlog.Tickets;  // bypass
   }
 }
-
-// --------------------------------------------------------------------------------------------------------------------
-
-module.exports = {
-  getSortItems, getFilterItems,
-  getSortedBacklog,
-};

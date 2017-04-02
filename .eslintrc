@@ -21,7 +21,13 @@
     "eqeqeq": "error",
     "guard-for-in": "error",
     "indent": [2, 2, { "SwitchCase": 1 }],
-    "key-spacing": [2, {"beforeColon": false, "afterColon": true}],
+    "key-spacing": ["error", {
+      "align": {
+        "beforeColon": false,
+        "afterColon": true,
+        "on": "value"
+      }
+    }],
     "keyword-spacing": [2, {}],
     "linebreak-style": [2, "unix"],
     "max-depth": 0,

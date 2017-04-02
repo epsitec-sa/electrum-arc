@@ -1,4 +1,4 @@
-'use strict';
+/* global document */
 
 import React from 'react';
 

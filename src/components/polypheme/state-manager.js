@@ -1,4 +1,4 @@
-'use strict';
+/* global window Map */
 
 function getState () {
   if (!window.document.stateManager) {
@@ -15,9 +15,9 @@ function getStateTicketShapes () {
   return state.TicketShapes;
 }
 
-// ------------------------------------------------------------------------------------------
+/******************************************************************************/
 
-function getTicketShape (id) {
+export function getTicketShape (id) {
   const state = getStateTicketShapes ();
   if (state.has (id)) {
     return state.get (id);
@@ -26,14 +26,14 @@ function getTicketShape (id) {
   }
 }
 
-function setTicketShape (id, value) {
+export function setTicketShape (id, value) {
   const state = getStateTicketShapes ();
   state.set (id, value);
 }
 
-// ------------------------------------------------------------------------------------------
+/******************************************************************************/
 
-function getSplitterRoadbooksHeight () {
+export function getSplitterRoadbooksHeight () {
   const state = getState ();
   if (state.SplitterRoadbooksHeight) {
     return state.SplitterRoadbooksHeight;
@@ -42,12 +42,12 @@ function getSplitterRoadbooksHeight () {
   }
 }
 
-function setSplitterRoadbooksHeight (value) {
+export function setSplitterRoadbooksHeight (value) {
   const state = getState ();
   state.SplitterRoadbooksHeight = value;
 }
 
-function getSplitterBacklogWidth () {
+export function getSplitterBacklogWidth () {
   const state = getState ();
   if (state.SplitterBacklogWidth) {
     return state.SplitterBacklogWidth;
@@ -56,15 +56,9 @@ function getSplitterBacklogWidth () {
   }
 }
 
-function setSplitterBacklogWidth (value) {
+export function setSplitterBacklogWidth (value) {
   const state = getState ();
   state.SplitterBacklogWidth = value;
 }
 
-// ------------------------------------------------------------------------------------------
-
-module.exports = {
-  getTicketShape, setTicketShape,
-  getSplitterRoadbooksHeight, setSplitterRoadbooksHeight,
-  getSplitterBacklogWidth, setSplitterBacklogWidth,
-};
+/******************************************************************************/

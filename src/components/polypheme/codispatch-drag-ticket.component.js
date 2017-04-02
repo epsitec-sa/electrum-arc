@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import {Ticket} from '../../all-components.js';
 import TicketHelpers from './ticket-helpers.js';

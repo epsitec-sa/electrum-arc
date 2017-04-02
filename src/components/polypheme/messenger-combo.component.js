@@ -1,6 +1,6 @@
-'use strict';
+/* global window */
 
-import {React, Trace} from 'electrum';
+import {React} from 'electrum';
 import {Combo} from '../../all-components.js';
 import ReducerData from '../polypheme/reducer-data.js';
 
@@ -25,8 +25,8 @@ export default class MessengerCombo extends React.Component {
       const data     = this.read ('data');
       const roadbook = this.read ('roadbook');
       ReducerData.reducer (data, {
-        type:  'ELECTRUM_DISPATCH',
-        oper: 'ShowModifyMessengerCommand',
+        type:    'ELECTRUM_DISPATCH',
+        oper:    'ShowModifyMessengerCommand',
         payload: {
           TicketId: roadbook.id,
         }
@@ -41,8 +41,8 @@ export default class MessengerCombo extends React.Component {
       const data     = this.read ('data');
       const roadbook = this.read ('roadbook');
       ReducerData.reducer (data, {
-        type: 'ELECTRUM_DISPATCH',
-        oper: 'ShowMessengerCommand',
+        type:    'ELECTRUM_DISPATCH',
+        oper:    'ShowMessengerCommand',
         payload: {
           MessengerId: roadbook.id,
         }
@@ -83,7 +83,7 @@ export default class MessengerCombo extends React.Component {
     ReducerData.reducer (data, {
       type:        'DROP',
       fromKind:    'roadbook',
-      fromIds:     [roadbook.id],
+      fromIds:     [ roadbook.id ],
       toId:        toId,
       toOwnerId:   data.id,
       toOwnerKind: 'roadbook',
@@ -121,7 +121,7 @@ export default class MessengerCombo extends React.Component {
         text:     compacted ? 'Étendre' : 'Réduire',
         glyph:    compacted ? 'expand' : 'compress',
         shortcut: '_alt_+clic',
-        action: () => this.swapCompacted (),
+        action:   () => this.swapCompacted (),
       }
     );
     if (data.Roadbooks.length > 1) {

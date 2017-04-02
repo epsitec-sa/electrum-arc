@@ -1,5 +1,3 @@
-'use strict';
-
 import {Unit} from 'electrum-theme';
 import {ColorHelpers} from 'electrum-theme';
 
@@ -145,7 +143,10 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'task') {
-    padding         = theme.shapes.taskLabelTopMargin + ' 0px ' + theme.shapes.taskLabelBottomMargin + ' ' + theme.shapes.taskTabLeftMargin;
+    padding         = theme.shapes.taskLabelTopMargin + ' 0px ' +
+      theme.shapes.taskLabelBottomMargin + ' ' +
+      theme.shapes.taskTabLeftMargin;
+
     glyphColor      = theme.palette.taskLabelText;
     textColor       = theme.palette.taskLabelText;
     fontWeight      = 'bold';
@@ -201,11 +202,11 @@ export default function styles (theme, props) {
   }
 
   if (inputGlyphColor) {
-    glyphColor = ColorHelpers.GetMarkColor (theme, inputGlyphColor);
+    glyphColor = ColorHelpers.getMarkColor (theme, inputGlyphColor);
   }
 
   if (inputTextColor) {
-    textColor = ColorHelpers.GetMarkColor (theme, inputTextColor);
+    textColor = ColorHelpers.getMarkColor (theme, inputTextColor);
   }
 
   if (flexGrow) {
@@ -246,39 +247,39 @@ export default function styles (theme, props) {
   };
 
   const glyphStyle = {
-    display:         'flex',
-    flexDirection:   'row',
-    alignItems:      'center',
-    minWidth:        glyphMinWidth,
-    height:          glyphHeight,
-    padding:         '0px',
-    color:           glyphColor,
-    transform:       glyphTransform,
-    userSelect:      'none',
+    display:       'flex',
+    flexDirection: 'row',
+    alignItems:    'center',
+    minWidth:      glyphMinWidth,
+    height:        glyphHeight,
+    padding:       '0px',
+    color:         glyphColor,
+    transform:     glyphTransform,
+    userSelect:    'none',
   };
 
   const linesStyle = {
-    width:           '100%',
-    overflow:        linesOverflow,
-    userSelect:      'none',
+    width:      '100%',
+    overflow:   linesOverflow,
+    userSelect: 'none',
   };
 
   const textStyle = {
-    height:          textHeight,
-    display:         textDisplay,
-    flexDirection:   'column',
-    alignSelf:       textAlign,
-    fontSize:        Unit.multiply (fontSize, theme.typo.fontScale),
-    fontWeight:      fontWeight,
-    fontStyle:       inputFontStyle,
-    textTransform:   textTransform,
-    color:           textColor,
-    overflow:        textOverflow,
-    textOverflow:    textTextOverflow,
-    whiteSpace:      textWhiteSpace,
-    wordWrap:        'break-word',
-    wordBreak:       textWordBreak,
-    userSelect:      'none',
+    height:        textHeight,
+    display:       textDisplay,
+    flexDirection: 'column',
+    alignSelf:     textAlign,
+    fontSize:      Unit.multiply (fontSize, theme.typo.fontScale),
+    fontWeight:    fontWeight,
+    fontStyle:     inputFontStyle,
+    textTransform: textTransform,
+    color:         textColor,
+    overflow:      textOverflow,
+    textOverflow:  textTextOverflow,
+    whiteSpace:    textWhiteSpace,
+    wordWrap:      'break-word',
+    wordBreak:     textWordBreak,
+    userSelect:    'none',
   };
 
   return {

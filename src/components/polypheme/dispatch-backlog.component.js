@@ -1,4 +1,4 @@
-'use strict';
+/* global window Map */
 
 import React from 'react';
 import BacklogData from './backlog-data';
@@ -9,7 +9,6 @@ import BacklogToChronos from './backlog-to-chronos.js';
 import {
   Container,
   TextFieldCombo,
-  CheckButton,
   Button,
   DispatchTicket,
   Chronos
@@ -87,8 +86,8 @@ export default class DispatchBacklog extends React.Component {
       this.forceUpdate ();
     } else {
       ReducerData.reducer (data, {
-        type: 'ELECTRUM_DISPATCH',
-        oper: 'ChangeBacklogSortCommand',
+        type:    'ELECTRUM_DISPATCH',
+        oper:    'ChangeBacklogSortCommand',
         payload: {
           Value: item.key,
         }
@@ -102,8 +101,8 @@ export default class DispatchBacklog extends React.Component {
       this.forceUpdate ();
     } else {
       ReducerData.reducer (data, {
-        type: 'ELECTRUM_DISPATCH',
-        oper: 'ChangeBacklogFilterCommand',
+        type:    'ELECTRUM_DISPATCH',
+        oper:    'ChangeBacklogFilterCommand',
         payload: {
           Value: item.key,
         }

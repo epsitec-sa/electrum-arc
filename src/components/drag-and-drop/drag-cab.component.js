@@ -1,7 +1,8 @@
-'use strict';
+/* eslint react/no-find-dom-node: 0 */
+/* global window */
 
 import React from 'react';
-import {Trace} from 'electrum';
+// import {Trace} from 'electrum';
 import ReactDOM from 'react-dom';
 import {DragCarrier} from '../../all-components.js';
 import {Unit} from 'electrum-theme';

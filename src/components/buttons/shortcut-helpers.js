@@ -1,4 +1,4 @@
-'use strict';
+/* global navigator */
 
 // See http://www.javascripter.net/faq/operatin.htm
 function getOSName () {
@@ -22,7 +22,7 @@ function replace (text, search, futur) {
 
 // Return the final text for a shortcut. Replace the meta keys
 // (noted with _key_) by the key according to OS.
-function getShortcut (text) {
+export function getShortcut (text) {
   if (text) {
     const os = getOSName ();
     const ctrl = {
@@ -55,7 +55,3 @@ function getShortcut (text) {
     return null;
   }
 }
-
-module.exports = {
-  getShortcut
-};

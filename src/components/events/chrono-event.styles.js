@@ -1,16 +1,14 @@
-'use strict';
-
 /******************************************************************************/
 
-export default function styles (theme, props) {
+export default function styles (theme, _props) {
 
   const lineStyle = {
-    position:        'relative',
-    width:           '100%',
-    minHeight:       theme.shapes.chronosLineHeight,
-    maxHeight:       theme.shapes.chronosLineHeight,
-    userSelect:      'none',
-    cursor:          'default',
+    position:   'relative',
+    width:      '100%',
+    minHeight:  theme.shapes.chronosLineHeight,
+    maxHeight:  theme.shapes.chronosLineHeight,
+    userSelect: 'none',
+    cursor:     'default',
   };
 
   const emptyStyle = {
@@ -24,13 +22,13 @@ export default function styles (theme, props) {
   };
 
   const frontStyle = {
-    position:        'absolute',
-    width:           '100%',
-    minHeight:       theme.shapes.chronosLineHeight,
-    maxHeight:       theme.shapes.chronosLineHeight,
-    userSelect:      'none',
-    cursor:          'default',
-    zIndex:          3,
+    position:   'absolute',
+    width:      '100%',
+    minHeight:  theme.shapes.chronosLineHeight,
+    maxHeight:  theme.shapes.chronosLineHeight,
+    userSelect: 'none',
+    cursor:     'default',
+    zIndex:     3,
     // backgroundColor: 'rgba(100, 0, 0, 0.2)',
   };
 

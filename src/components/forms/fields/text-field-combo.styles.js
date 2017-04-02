@@ -1,5 +1,3 @@
-'use strict';
-
 import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
@@ -44,15 +42,15 @@ export default function styles (theme, props) {
   };
 
   const comboBoxStyle = {
-    position:        'absolute',
-    right:           (comboDirection === 'right') ? null : '0px',
-    left:            (comboDirection === 'right') ? '0px' : null,
-    top:             Unit.add (theme.shapes.lineHeight, '1px'),
-    marginTop:       theme.shapes.lineSpacing,
-    zIndex:          1,
-    display:         'flex',
-    flexDirection:   'column',
-    boxShadow:       theme.shapes.calendarShadow,
+    position:      'absolute',
+    right:         (comboDirection === 'right') ? null : '0px',
+    left:          (comboDirection === 'right') ? '0px' : null,
+    top:           Unit.add (theme.shapes.lineHeight, '1px'),
+    marginTop:     theme.shapes.lineSpacing,
+    zIndex:        1,
+    display:       'flex',
+    flexDirection: 'column',
+    boxShadow:     theme.shapes.calendarShadow,
   };
 
   const emptyComboStyle = {
