@@ -1,12 +1,13 @@
 {
   "name": "electrum-arc",
-  "version": "4.11.0",
+  "version": "4.12.0",
   "description": "Agnostic Reactive Components for Electrum",
   "main": "lib/index.js",
   "scripts": {
     "babel": "babel --quiet --out-dir lib src && babel --quiet --out-dir lib.test src.test",
     "clean": "rimraf ./lib && rimraf ./lib.test",
-    "compile": "npm run clean && require-self && npm run regen && npm run babel",
+    "compile": "npm run clean && require-self && npm run eslint && npm run regen && npm run babel",
+    "eslint": "eslint src src.test",
     "rebuild": "npm run regen && npm run babel",
     "prepublish": "npm run compile",
     "regen": "electrum-require-components --wrap ./src components .component.js all-components.js",
@@ -26,9 +27,9 @@
   "homepage": "https://github.com/epsitec-sa/electrum-arc",
   "dependencies": {
     "cron-parser": "^2.3.1",
-    "electrum": "^4.18.0",
+    "electrum": "^4.19.2",
     "electrum-style-reload": "^1.2.0",
-    "electrum-theme": "^4.5.1",
+    "electrum-theme": "^4.6.0",
     "inline-style-prefixer": "^3.0.2",
     "leaflet": "^1.0.3",
     "linq": "^3.0.7",
@@ -36,11 +37,11 @@
     "react-style-proptype": "^2.0.2"
   },
   "devDependencies": {
-    "babel-env": "^1.6.0",
+    "babel-env": "^2.3.1",
     "chokidar-cli": "^1.2.0",
-    "eslint": "^3.18.0",
+    "eslint": "^3.19.0",
     "eslint-plugin-react": "^6.10.3",
-    "generic-js-env": "^1.9.2",
+    "generic-js-env": "^2.2.0",
     "mai-chai": "^3.3.2"
   }
 }
