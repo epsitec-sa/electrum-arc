@@ -88,7 +88,7 @@ export default class Calendar extends React.Component {
   }
 
   dateClicked (date) {
-    this.setDate (date);
+    // this.setDate (date);
     const x = this.read ('date-clicked');
     if (x) {
       x (date);
@@ -227,8 +227,8 @@ export default class Calendar extends React.Component {
       return null;
     }
 
-    const firstDate    = Converters.getCalendarStartDate (visibleDate);
-    const header       = Converters.getDisplayedDate (visibleDate, false, 'My');  // 'mai 2016' by example
+    const firstDate = Converters.getCalendarStartDate (visibleDate);
+    const header    = Converters.getDisplayedDate (visibleDate, false, 'My');  // 'mai 2016' by example
 
     const style = this.mergeStyles ('column');
     return (

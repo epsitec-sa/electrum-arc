@@ -32,7 +32,7 @@ function pushCron (result, cron, date, deleteList) {
   }
 }
 
-function getRecurrenceList (recurrence, date) {
+function getRecurrenceItems (recurrence, date) {
   const result = [];
   if (recurrence) {
     pushCron (result, recurrence.Cron, date, recurrence.Delete);
@@ -67,21 +67,14 @@ export default class Recurrence extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      recurrence:      null,
       recurrenceDates: [],
       dates:           [],
     };
-    this.visibleDate = null;
-  }
-
-  getRecurrence () {
-    return this.state.recurrence;
-  }
-
-  setRecurrence (value) {
-    this.setState ( {
-      recurrence: value
-    });
+    this.recurrenceData = {};
+    const now = Converters.getNowFormatedDate ();
+    const year  = Converters.getYear  (now);
+    const month = Converters.getMonth (now);
+    this.visibleDate = Converters.getDate (year, month, 1);
   }
 
   getRecurrenceDates () {
@@ -105,19 +98,15 @@ export default class Recurrence extends React.Component {
   }
 
   componentWillMount () {
-    const recurrence = this.read ('recurrence');
-    this.setRecurrence (recurrence);
+    this.recurrenceData = this.read ('recurrence');
+  }
 
-    const now = Converters.getNowFormatedDate ();
-    const year  = Converters.getYear  (now);
-    const month = Converters.getMonth (now);
-    this.visibleDate = Converters.getDate (year, month, 1);
-
+  componentDidMount () {
     this.updateDates ();
   }
 
   updateDates () {
-    const items = getRecurrenceList (this.getRecurrence (), this.visibleDate);
+    const items = getRecurrenceItems (this.recurrenceData, this.visibleDate);
     this.setRecurrenceDates (items);
 
     const dates = [];
@@ -127,27 +116,25 @@ export default class Recurrence extends React.Component {
       }
     }
     this.setDates (dates);
-
-    this.forceUpdate ();
   }
 
   dateClicked (date) {
     const item = getRecurrenceItem (date, this.getRecurrenceDates ());
-    var recurrence = this.getRecurrence ();
+    var data = this.recurrenceData;
     if (item.Type === 'default') {
       // If click on recurrent event, add a date into section 'Delete' for canceled the recurrence.
-      recurrence = ReducerRecurrence.reducer (recurrence, {type: 'ADD_DELETE', date: item.Date});
+      data = ReducerRecurrence.reducer (data, {type: 'ADD_DELETE', date: item.Date});
     } else if (item.Type === 'added') {
       // If click on added event, simply remove it.
-      recurrence = ReducerRecurrence.reducer (recurrence, {type: 'DELETE_ADD', date: item.Date});
+      data = ReducerRecurrence.reducer (data, {type: 'DELETE_ADD', date: item.Date});
     } else if (item.Type === 'deleted') {
       // If click on deleted event, remove 'Delete' entry. That restore the recurrent event.
-      recurrence = ReducerRecurrence.reducer (recurrence, {type: 'DELETE_DELETE', date: item.Date});
+      data = ReducerRecurrence.reducer (data, {type: 'DELETE_DELETE', date: item.Date});
     } else if (item.Type === 'none') {
       // If click on free date, add a event.
-      recurrence = ReducerRecurrence.reducer (recurrence, {type: 'ADD_ADD', date: item.Date});
+      data = ReducerRecurrence.reducer (data, {type: 'ADD_ADD', date: item.Date});
     }
-    this.setRecurrence (recurrence);
+    this.recurrenceData = data;
     this.updateDates ();
   }
 
