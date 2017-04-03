@@ -1,5 +1,5 @@
 // month is zero based (0 = january).
-function getMonthDescription (month) {
+export function getMonthDescription (month) {
   const array = [
     'Janvier',
     'Février',
@@ -35,19 +35,19 @@ export function getDOWDescription (dow, format) {
   }
 }
 
-function getEmptyTime () {
+export function getEmptyTime () {
   return '00:00:00';
 }
 
-function getEmptyDate () {
+export function getEmptyDate () {
   return '0001-01-01';
 }
 
-function isEmptyTime (time) {
+export function isEmptyTime (time) {
   return !time || time === getEmptyTime ();
 }
 
-function isEmptyDate (date) {
+export function isEmptyDate (date) {
   return !date || date === getEmptyDate ();
 }
 
@@ -71,24 +71,24 @@ function padding (value, decimals) {
   }
 }
 
-function jsToFormatedTime (time) {
+export function jsToFormatedTime (time) {
   return padding (time.getHours (), 2) + ':' +
     padding (time.getMinutes (), 2) + ':' +
     padding (time.getSeconds (), 2);
 }
 
-function formatedTimeToJs (time) {
+export function formatedTimeToJs (time) {
   const s = splitTime (time);
   return new Date (2000, 1, 1, s.hour, s.minute, s.second);
 }
 
-function jsToFormatedDate (date) {
+export function jsToFormatedDate (date) {
   return padding (date.getFullYear (), 4) + '-' +
     padding (date.getMonth () + 1, 2) + '-' +
     padding (date.getDate (), 2);
 }
 
-function formatedDateToJs (date) {
+export function formatedDateToJs (date) {
   const s = splitDate (date);
   return new Date (s.year, s.month - 1, s.day);
 }
@@ -160,7 +160,7 @@ export function getSeconds (time) {
 }
 
 // With '2017-03-31', return {year: 2017, month: 03, day: 31}.
-function splitDate (date) {
+export function splitDate (date) {
   if (!date || date.length !== 10 || date[4] !== '-' || date[7] !== '-') {
     throw new Error (`Bad formated date '${date}' (must be 'yyyy-mm-dd')`);
   }
@@ -175,7 +175,7 @@ function splitDate (date) {
 }
 
 // With '12:34:56', return {hour: 12, minute: 34, second: 56}.
-function splitTime (time) {
+export function splitTime (time) {
   if (!time || time.length !== 8 || time[2] !== ':' || time[5] !== ':') {
     throw new Error (`Bad formated time '${time}' (must be 'hh:mm:ss')`);
   }
@@ -190,7 +190,7 @@ function splitTime (time) {
 }
 
 // Return actual date and time.
-function getNow () {
+export function getNow () {
   const now = new Date (Date.now ());
   return {
     year:   now.getFullYear (),
