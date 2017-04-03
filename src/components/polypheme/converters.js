@@ -18,7 +18,7 @@ function getMonthDescription (month) {
 }
 
 // dow is zero based (0 = monday).
-function getDOWDescription (dow, format) {
+export function getDOWDescription (dow, format) {
   const array = [
     'lundi',
     'mardi',

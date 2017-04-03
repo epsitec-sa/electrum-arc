@@ -1,4 +1,4 @@
-import ScrollerHelpers from './scroller-helpers.js';
+import * as ScrollerHelpers from './scroller-helpers.js';
 
 /******************************************************************************/
 
