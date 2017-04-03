@@ -86,7 +86,7 @@ class SplitPane extends Component {
     const eventWithTouches = Object.assign (
       {},
       event,
-      {touches: [ {clientX: event.clientX, clientY: event.clientY} ] }
+      {touches: [ {clientX: event.clientX, clientY: event.clientY} ]}
     );
     this.onTouchMove (eventWithTouches);
   }
