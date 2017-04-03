@@ -6,7 +6,7 @@
 // The MIT License (MIT)
 // Copyright (c) 2015 tomkp
 
-import React, { Component, PropTypes } from 'react';
+import React, {Component, PropTypes} from 'react';
 import {ReactDOM} from 'electrum';
 import Prefixer from 'inline-style-prefixer';
 import stylePropType from 'react-style-proptype';
@@ -61,7 +61,7 @@ class SplitPane extends Component {
     const eventWithTouches = Object.assign (
         {},
         event,
-        {touches: [ {clientX: event.clientX, clientY: event.clientY} ] }
+        {touches: [ {clientX: event.clientX, clientY: event.clientY} ]}
     );
     this.onTouchStart (eventWithTouches);
   }
@@ -69,7 +69,9 @@ class SplitPane extends Component {
   onTouchStart (event) {
     if (this.props.allowResize && !this.props.size) {
       unFocus (document, window);
-      const position = this.props.split === 'vertical' ? event.touches[0].clientX : event.touches[0].clientY;
+      const position = this.props.split === 'vertical' ?
+        event.touches[0].clientX :
+        event.touches[0].clientY;
       if (typeof this.props.onDragStarted === 'function') {
         this.props.onDragStarted ();
       }

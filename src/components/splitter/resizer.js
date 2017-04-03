@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, {Component, PropTypes} from 'react';
 import Prefixer from 'inline-style-prefixer';
 import stylePropType from 'react-style-proptype';
 
