@@ -1,6 +1,6 @@
 import {React} from 'electrum';
 import {Ticket} from '../../all-components.js';
-import TicketHelpers from './ticket-helpers.js';
+import * as TicketHelpers from './ticket-helpers.js';
 
 /******************************************************************************/
 

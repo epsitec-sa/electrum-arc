@@ -1,4 +1,4 @@
-import TicketHelpers from './ticket-helpers.js';
+import * as TicketHelpers from './ticket-helpers.js';
 
 /******************************************************************************/
 
