@@ -3,7 +3,7 @@
 import {React} from 'electrum';
 import {Trace} from 'electrum';
 import {Combo} from '../../all-components.js';
-import {ReducerData} from '../polypheme/reducer-data.js';
+import ReducerData from '../polypheme/reducer-data.js';
 
 /******************************************************************************/
 

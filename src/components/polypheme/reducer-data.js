@@ -3,9 +3,9 @@
 import Electrum from 'electrum';
 import Enumerable from 'linq';
 import {Trace} from 'electrum';
-import {ReducerTickets} from './reducer-tickets.js';
-import {Converters} from './converters';
-import {StateManager} from './state-manager.js';
+import ReducerTickets from './reducer-tickets.js';
+import Converters from './converters';
+import StateManager from './state-manager.js';
 
 function updateUI () {
   for (var c of window.document.toUpdate) {

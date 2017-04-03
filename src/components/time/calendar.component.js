@@ -1,6 +1,6 @@
 import {React} from 'electrum';
 import {Button} from 'electrum-arc';
-import {Converters} from '../polypheme/converters';
+import Converters from '../polypheme/converters';
 
 /******************************************************************************/
 

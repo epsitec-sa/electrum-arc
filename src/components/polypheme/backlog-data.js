@@ -1,6 +1,6 @@
 /* global window */
 
-import {Converters} from './converters';
+import Converters from './converters';
 
 /******************************************************************************/
 // Returns the items to populate the sort combo-menu.

@@ -1,6 +1,6 @@
 import {React} from 'electrum';
 import {Container, Button, SimpleTextField} from 'electrum-arc';
-import {ReducerData} from '../polypheme/reducer-data.js';
+import ReducerData from '../polypheme/reducer-data.js';
 import MouseTrap from 'mousetrap';
 
 /******************************************************************************/

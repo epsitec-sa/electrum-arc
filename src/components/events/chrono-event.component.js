@@ -1,5 +1,5 @@
 import {React} from 'electrum';
-import {Converters} from '../polypheme/converters';
+import Converters from '../polypheme/converters';
 import {ChronoBar} from '../../all-components.js';
 
 /******************************************************************************/

@@ -8,9 +8,9 @@ import {
   DispatchDragTicket, DragCab, TripCombo, TripModify, TripDeliver, TripPredispatch
 } from '../../all-components.js';
 
-import {ReducerData} from './reducer-data.js';
-import {ComboHelpers} from '../combo/combo-helpers.js';
-import {StateManager} from './state-manager.js';
+import ReducerData from './reducer-data.js';
+import ComboHelpers from '../combo/combo-helpers.js';
+import StateManager from './state-manager.js';
 
 /******************************************************************************/
 
