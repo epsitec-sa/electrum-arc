@@ -18,16 +18,24 @@ function deleteDate (state, date) {
 export function reducer (state = {}, action = {}) {
   switch (action.type) {
     case 'ADD_ADD':
-      state.Add = addDate (state.Add, action.date);
+      if (action.date >= state.StartDate && action.date <= state.EndDate) {
+        state.Add = addDate (state.Add, action.date);
+      }
       break;
     case 'DELETE_ADD':
-      state.Add = deleteDate (state.Add, action.date);
+      if (action.date >= state.StartDate && action.date <= state.EndDate) {
+        state.Add = deleteDate (state.Add, action.date);
+      }
       break;
     case 'ADD_DELETE':
-      state.Delete = addDate (state.Delete, action.date);
+      if (action.date >= state.StartDate && action.date <= state.EndDate) {
+        state.Delete = addDate (state.Delete, action.date);
+      }
       break;
     case 'DELETE_DELETE':
-      state.Delete = deleteDate (state.Delete, action.date);
+      if (action.date >= state.StartDate && action.date <= state.EndDate) {
+        state.Delete = deleteDate (state.Delete, action.date);
+      }
       break;
   }
   // return clone (state);

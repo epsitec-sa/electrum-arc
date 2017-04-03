@@ -456,15 +456,15 @@ export default function styles (theme, props) {
     transition      = null;
     backgroundColor = theme.palette.calendarBackground;
     textColor       = theme.palette.calendarText;
+    if (inputWeekend === 'true') {
+      backgroundColor = theme.palette.calendarWeekendBackground;
+    }
     if (inputActive === 'true') {
       backgroundColor = theme.palette.calendarActiveBackground;
       textColor       = theme.palette.calendarActiveText;
     }
     if (inputDimmed === 'true') {
       textColor = theme.palette.calendarDimmedText;
-    }
-    if (inputWeekend === 'true') {
-      backgroundColor = theme.palette.calendarWeekendBackground;
     }
   }
   // Button for month navigation in Calendar component.

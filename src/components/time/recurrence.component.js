@@ -1,16 +1,16 @@
 import CronParser from 'cron-parser';
 import {React} from 'electrum';
-import {Calendar} from 'electrum-arc';
+import {Calendar, Container, Label} from 'electrum-arc';
 import * as Converters from '../polypheme/converters';
 import * as ReducerRecurrence from './reducer-recurrence.js';
 
 /******************************************************************************/
 
 function monthCount () {
-  return 2;
+  return 2;  // display 2 months simultaneously
 }
 
-function pushCron (result, cron, date, deleteList) {
+function pushCron (result, cron, startDate, endDate, date, deleteList) {
   const year  = Converters.getYear  (date);
   const month = Converters.getMonth (date);
   var options = {
@@ -26,26 +26,30 @@ function pushCron (result, cron, date, deleteList) {
       break;
     }
     const itemDate = Converters.jsToFormatedDate (next.value);
-    const deleted = deleteList.indexOf (itemDate) !== -1;
-    const item = {
-      Date: itemDate,
-      Type: deleted ? 'deleted' : 'default',
-    };
-    result.push (item);
+    if (itemDate >= startDate && itemDate <= endDate) {
+      const deleted = deleteList.indexOf (itemDate) !== -1;
+      const item = {
+        Date: itemDate,
+        Type: deleted ? 'deleted' : 'default',
+      };
+      result.push (item);
+    }
   }
 }
 
 function getRecurrenceItems (recurrence, date) {
   const result = [];
   if (recurrence) {
-    pushCron (result, recurrence.Cron, date, recurrence.Delete);
+    pushCron (result, recurrence.Cron, recurrence.StartDate, recurrence.EndDate, date, recurrence.Delete);
 
     for (var a of recurrence.Add) {
-      const item = {
-        Date: a,
-        Type: 'added',
-      };
-      result.push (item);
+      if (a >= recurrence.StartDate && a <= recurrence.EndDate) {
+        const item = {
+          Date: a,
+          Type: 'added',
+        };
+        result.push (item);
+      }
     }
   }
   return result;
@@ -147,14 +151,22 @@ export default class Recurrence extends React.Component {
   }
 
   render () {
+    const f = Converters.getDisplayedDate (this.recurrenceData.StartDate);
+    const t = Converters.getDisplayedDate (this.recurrenceData.EndDate);
+    const title = `Du ${f} au ${t}`;
     return (
-      <Calendar
-        month-count          = {monthCount ()}
-        visible-date         = {this.visibleDate}
-        dates                = {this.getDates ()}
-        date-clicked         = {x => this.dateClicked (x)}
-        visible-date-changed = {x => this.visibleDateChanged (x)}
-        {...this.link ()} />
+      <Container kind='column' {...this.link ()}>
+        <Label text={title} kind ='title-recurrence' {...this.link ()} />
+        <Calendar
+          month-count          = {monthCount ()}
+          visible-date         = {this.visibleDate}
+          dates                = {this.getDates ()}
+          start-date           = {this.recurrenceData.StartDate}
+          end-date             = {this.recurrenceData.EndDate}
+          date-clicked         = {x => this.dateClicked (x)}
+          visible-date-changed = {x => this.visibleDateChanged (x)}
+          {...this.link ()} />
+      </Container>
     );
   }
 }

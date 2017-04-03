@@ -122,6 +122,8 @@ export default class Calendar extends React.Component {
   // Return an array of 7 buttons, for a week.
   renderButtons (firstDate, visibleDate, selectedDate, selectedDates) {
     let line = [];
+    const startDate = this.read ('start-date');
+    const endDate   = this.read ('end-date');
     let i = 0;
     for (i = 0; i < 7; ++i) {  // monday..sunday
       let active  = 'false';
@@ -132,6 +134,9 @@ export default class Calendar extends React.Component {
       }
       if (Converters.getYear  (firstDate) !== Converters.getYear  (visibleDate) ||
           Converters.getMonth (firstDate) !== Converters.getMonth (visibleDate)) {
+        dimmed = 'true';
+      }
+      if ((startDate && firstDate < startDate) || (endDate && firstDate > endDate)) {
         dimmed = 'true';
       }
       if (i >= 5) {  // saturday or sunday ?

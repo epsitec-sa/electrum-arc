@@ -84,6 +84,12 @@ export default function styles (theme, props) {
     textTransform   = 'uppercase';
   }
 
+  if (inputKind === 'title-recurrence') {
+    boxJustifyContent = 'center';
+    backgroundColor   = theme.palette.calendarWeekendBackground;
+    padding           = '10px';
+  }
+
   if (inputKind === 'big-center') {
     fontSize          = theme.shapes.labelBigTextSize;
     fontWeight        = 'bold';
