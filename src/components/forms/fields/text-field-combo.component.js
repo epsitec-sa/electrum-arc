@@ -1,6 +1,6 @@
 /* eslint react/no-find-dom-node: 0 */
 
-import React from 'react';
+import {React} from 'electrum';
 import ReactDOM from 'react-dom';
 import {Action} from 'electrum';
 import {Button, TextField, SimpleTextField, Combo} from '../../../all-components.js';

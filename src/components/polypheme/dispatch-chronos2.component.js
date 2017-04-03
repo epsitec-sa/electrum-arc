@@ -1,6 +1,6 @@
 /* global window */
 
-import React from 'react';
+import {React} from 'electrum';
 import RoadbooksToChronos from './roadbooks-to-chronos.js';
 
 import {

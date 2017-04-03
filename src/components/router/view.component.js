@@ -1,6 +1,6 @@
 /* global window */
 
-import React from 'react';
+import {React} from 'electrum';
 import {Container} from '../../all-components.js';
 
 /******************************************************************************/

@@ -1,4 +1,4 @@
-import React from 'react';
+import {React} from 'electrum';
 
 /******************************************************************************/
 export default class TableRow extends React.Component {

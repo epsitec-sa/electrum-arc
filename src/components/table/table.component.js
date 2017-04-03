@@ -1,6 +1,6 @@
 
 
-import React from 'react';
+import {React} from 'electrum';
 import {TableRow} from '../../all-components.js';
 
 /******************************************************************************/

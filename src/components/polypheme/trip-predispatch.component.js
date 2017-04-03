@@ -1,4 +1,4 @@
-import React from 'react';
+import {React} from 'electrum';
 import {DialogModal, Container, Button, Label, Separator} from '../../all-components.js';
 
 /******************************************************************************/

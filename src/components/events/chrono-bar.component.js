@@ -1,4 +1,4 @@
-import React from 'react';
+import {React} from 'electrum';
 import {Unit} from 'electrum-theme';
 import {Label} from '../../all-components.js';
 

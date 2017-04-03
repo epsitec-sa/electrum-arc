@@ -1,6 +1,6 @@
 /* global window Map */
 
-import React from 'react';
+import {React} from 'electrum';
 // import {Trace} from 'electrum';
 import {Container} from '../../all-components.js';
 

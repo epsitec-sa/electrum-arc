@@ -1,4 +1,4 @@
-import React from 'react';
+import {React} from 'electrum';
 import {DragCab, CodispatchDragTicket} from '../../all-components.js';
 
 /******************************************************************************/

@@ -1,6 +1,6 @@
 /* global window Map */
 
-import React from 'react';
+import {React} from 'electrum';
 import BacklogData from './backlog-data';
 import ReducerData from '../polypheme/reducer-data.js';
 import Enumerable from 'linq';

@@ -1,7 +1,7 @@
 /* eslint react/no-find-dom-node: 0 */
 /* global setTimeout */
 
-import React from 'react';
+import {React} from 'electrum';
 import ReactDOM from 'react-dom';
 import {Action} from 'electrum';
 import {FlyingBalloon} from '../../../all-components.js';

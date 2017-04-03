@@ -1,4 +1,4 @@
-import React from 'react';
+import {React} from 'electrum';
 import {Action} from 'electrum';
 import {Button, TextField, SimpleTextField} from '../../../all-components.js';
 

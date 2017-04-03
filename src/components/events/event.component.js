@@ -1,6 +1,6 @@
-import React from 'react';
+import {React} from 'electrum';
 import {ColorManipulator} from 'electrum';
-import Converters from '../polypheme/converters';
+import {Converters} from '../polypheme/converters';
 
 import {
   Ticket,

@@ -1,6 +1,6 @@
 /* global window Map */
 
-import React from 'react';
+import {React} from 'electrum';
 import ReducerData from './reducer-data.js';
 
 import {

@@ -1,7 +1,7 @@
 /* eslint react/no-find-dom-node: 0 */
 /* global window */
 
-import React from 'react';
+import {React} from 'electrum';
 // import {Trace} from 'electrum';
 import ReactDOM from 'react-dom';
 import {Unit} from 'electrum-theme';

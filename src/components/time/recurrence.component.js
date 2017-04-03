@@ -1,6 +1,6 @@
-import React from 'react';
+import {React} from 'electrum';
 import {Calendar} from 'electrum-arc';
-import Converters from '../polypheme/converters';
+import {Converters} from '../polypheme/converters';
 import CronParser from 'cron-parser';
 import ReducerRecurrence from './reducer-recurrence.js';
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import {React} from 'electrum';
 
 import {Button, Container, Label} from '../../all-components.js';
 import {ColorHelpers} from 'electrum-theme';

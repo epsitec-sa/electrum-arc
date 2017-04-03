@@ -1,6 +1,6 @@
 /* eslint react/no-find-dom-node: 0 */
 
-import React from 'react';
+import {React} from 'electrum';
 import ReactDOM from 'react-dom';
 import {Ticket, Container, Label, Button, MessengerModify, MessengerCombo} from '../../all-components.js';
 import ComboHelpers from '../combo/combo-helpers.js';

@@ -1,11 +1,11 @@
 /* global window */
 
-import React from 'react';
+import {React} from 'electrum';
 
 import {Ticket, Container, Label, Separator, Gauge} from '../../all-components.js';
 import {ColorManipulator} from 'electrum';
 import {Unit} from 'electrum-theme';
-import Converters from './converters';
+import {Converters} from './converters';
 import TicketHelpers from './ticket-helpers.js';
 import ReducerData from '../polypheme/reducer-data.js';
 

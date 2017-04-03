@@ -1,6 +1,6 @@
 /* global window */
 
-import React from 'react';
+import {React} from 'electrum';
 import {Unit} from 'electrum-theme';
 import {Container, DispatchTicket, TicketsTray} from '../../all-components.js';
 
