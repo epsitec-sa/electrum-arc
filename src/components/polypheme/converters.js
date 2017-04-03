@@ -256,6 +256,10 @@ export function getDisplayedDate (date, useNowByDefault, format) {
       return padding (d.year, 4);
     } else if (format === 'My') {
       return getMonthDescription (d.month - 1) + ' ' + padding (d.year, 4);
+    } else if (format === 'M') {
+      return getMonthDescription (d.month - 1);
+    } else if (format === 'y') {
+      return padding (d.year, 4);
     } else if (format === 'W') {
       const w = formatedDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
       return getDOWDescription ((w + 6) % 7);
@@ -318,6 +322,91 @@ export function getFormatedTime (editedTime) {
     time.second = edited[2];
   }
   return joinTime (time);
+}
+
+function join (list, separator) {
+  var result = '';
+  for (var item of list) {
+    if (result !== '') {
+      result += separator;
+    }
+    result += item;
+  }
+  return result;
+}
+
+//	Return a nice description for a period. Examples:
+//	"2017"
+//	"2016 - 2017"
+//	"Janvier - Mars 2017"
+//	"Octobre 2016 - Février 2017"
+//	"10 - 15 Juillet 2017"
+//	"3 Mars - 10 Avril 2017"
+//	"12 Mars 2016 - 24 Juin 2017"
+export function getPeriodDescription (fromDate, toDate) {
+  var fd = getDay (fromDate);
+  var fm = getDisplayedDate (fromDate, false, 'M');
+  var fy = getDisplayedDate (fromDate, false, 'y');
+
+  var td = getDay (toDate);
+  var tm = getDisplayedDate (toDate, false, 'M');
+  var ty = getDisplayedDate (toDate, false, 'y');
+
+  var nextDate = addDays (toDate, 1);
+  if (getDay (fromDate) === 1 && getDay (nextDate) === 1 &&
+      getMonth (fromDate) === 1 && getMonth (nextDate) === 1) {
+    //	Full years.
+    fd = null;
+    fm = null;
+    td = null;
+    tm = null;
+  } else if (getDay (fromDate) === 1 && getDay (nextDate) === 1) {
+    //	Full months.
+    fd = null;
+    td = null;
+  }
+
+  if (fd === td) {
+    fd = null;
+  }
+  if (fm === tm) {
+    fm = null;
+  }
+  if (fy === ty) {
+    fy = null;
+  }
+
+  var fromList = [];
+  var   toList = [];
+
+  if (fd !== null) {
+    fromList.push (fd);
+  }
+  if (fm !== null) {
+    fromList.push (fm);
+  }
+  if (fy !== null) {
+    fromList.push (fy);
+  }
+
+  if (td !== null) {
+    toList.push (td);
+  }
+  if (tm !== null) {
+    toList.push (tm);
+  }
+  if (ty !== null) {
+    toList.push (ty);
+  }
+
+  var f = join (fromList, ' ');
+  var t = join (  toList, ' ');
+
+  if (f === '')  {
+    return t;
+  }  else  {
+    return f + ' — ' + t;
+  }
 }
 
 // With '12 3', return true;
