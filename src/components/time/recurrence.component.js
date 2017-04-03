@@ -151,9 +151,7 @@ export default class Recurrence extends React.Component {
   }
 
   render () {
-    const f = Converters.getDisplayedDate (this.recurrenceData.StartDate);
-    const t = Converters.getDisplayedDate (this.recurrenceData.EndDate);
-    const title = `Du ${f} au ${t}`;
+    const title = Converters.getPeriodDescription (this.recurrenceData.StartDate, this.recurrenceData.EndDate);
     return (
       <Container kind='column' {...this.link ()}>
         <Label text={title} kind ='title-recurrence' {...this.link ()} />
