@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import {Calendar} from 'electrum-arc';
 import Converters from '../polypheme/converters';
