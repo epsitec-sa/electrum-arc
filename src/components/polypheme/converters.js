@@ -402,7 +402,7 @@ export function getPeriodDescription (fromDate, toDate) {
   var f = join (fromList, ' ');
   var t = join (  toList, ' ');
 
-  if (f === '')  {
+  if (f === '') {
     return t;
   }  else  {
     return f + ' — ' + t;

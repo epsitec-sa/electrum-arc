@@ -464,7 +464,9 @@ export default function styles (theme, props) {
       textColor       = theme.palette.calendarActiveText;
     }
     if (inputDimmed === 'true') {
-      textColor = theme.palette.calendarDimmedText;
+      backgroundColor      = theme.palette.calendarBackground;
+      backgroundHoverColor = theme.palette.calendarBackground;  // no visible hover effect
+      textColor            = theme.palette.calendarDimmedText;
     }
   }
   // Button for month navigation in Calendar component.
