@@ -2,7 +2,7 @@
 
 import {React} from 'electrum';
 import Enumerable from 'linq';
-import {Converters} from '../polypheme/converters';
+import * as Converters from '../polypheme/converters';
 
 import {
   Event,

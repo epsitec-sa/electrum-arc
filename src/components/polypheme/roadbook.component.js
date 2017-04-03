@@ -1,5 +1,5 @@
 import {React} from 'electrum';
-import {ReducerData} from './reducer-data.js';
+import * as ReducerData from './reducer-data.js';
 
 /******************************************************************************/
 

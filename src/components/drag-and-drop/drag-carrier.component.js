@@ -4,7 +4,7 @@
 import {React, ReactDOM} from 'electrum';
 // import {Trace} from 'electrum';
 import {Unit} from 'electrum-theme';
-import {ReducerData} from '../polypheme/reducer-data.js';
+import * as ReducerData from '../polypheme/reducer-data.js';
 
 import {
   Container,

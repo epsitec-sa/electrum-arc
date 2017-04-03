@@ -1,7 +1,7 @@
 /* global window */
 
 import {React} from 'electrum';
-import {BacklogToChronos} from './backlog-to-chronos.js';
+import * as BacklogToChronos from './backlog-to-chronos.js';
 
 import {
   Container,

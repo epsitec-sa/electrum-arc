@@ -1,7 +1,7 @@
 /* global window */
 
 import {React} from 'electrum';
-import {RoadbooksToChronos} from './roadbooks-to-chronos.js';
+import * as RoadbooksToChronos from './roadbooks-to-chronos.js';
 
 import {
   Container,

@@ -2,9 +2,9 @@
 
 import Enumerable from 'linq';
 import {React} from 'electrum';
-import {BacklogData} from './backlog-data';
-import {ReducerData} from '../polypheme/reducer-data.js';
-import {BacklogToChronos} from './backlog-to-chronos.js';
+import * as BacklogData from './backlog-data';
+import * as ReducerData from '../polypheme/reducer-data.js';
+import * as BacklogToChronos from './backlog-to-chronos.js';
 
 import {
   Container,

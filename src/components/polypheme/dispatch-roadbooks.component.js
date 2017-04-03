@@ -1,8 +1,8 @@
 /* global window */
 
 import {React} from 'electrum';
-import {ReducerData} from './reducer-data.js';
-import {RoadbooksToChronos} from './roadbooks-to-chronos.js';
+import * as ReducerData from './reducer-data.js';
+import * as RoadbooksToChronos from './roadbooks-to-chronos.js';
 
 import {
   Container,

@@ -1,7 +1,7 @@
 import {React} from 'electrum';
 import {DialogModal, Container, Button, Label, LabelTextField, Separator} from '../../all-components.js';
-import {Converters} from './converters';
-import TicketHelpers from './ticket-helpers.js';
+import * as Converters from './converters';
+import * as TicketHelpers from './ticket-helpers.js';
 
 /******************************************************************************/
 
