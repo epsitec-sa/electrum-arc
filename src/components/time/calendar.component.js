@@ -46,6 +46,11 @@ export default class Calendar extends React.Component {
     };
   }
 
+  getMonthCount () {
+    const monthCount = this.read ('month-count');
+    return monthCount ? monthCount : 1;
+  }
+
   getDOW3Letters (dow) {
     return Converters.getDOWDescription (dow).substring (0, 3);
   }
@@ -53,8 +58,7 @@ export default class Calendar extends React.Component {
   // Called when the '<' button is clicked.
   // Modify internalState.visibleDate (fix visible year and month).
   prevMonth () {
-    const monthCount = this.read ('month-count');
-    const m = monthCount ? monthCount : 1;
+    const m = this.getMonthCount ();
     const visibleDate = this.getVisibleDate ();
     const newDate = Converters.addMonths (visibleDate, -m);
     this.setVisibleDate (newDate);
@@ -67,8 +71,7 @@ export default class Calendar extends React.Component {
   // Called when the '>' button is clicked.
   // Modify internalState.visibleDate (fix visible year and month).
   nextMonth () {
-    const monthCount = this.read ('month-count');
-    const m = monthCount ? monthCount : 1;
+    const m = this.getMonthCount ();
     const visibleDate = this.getVisibleDate ();
     const newDate = Converters.addMonths (visibleDate, m);
     this.setVisibleDate (newDate);
@@ -259,6 +262,9 @@ export default class Calendar extends React.Component {
 
   renderMonth (selectedDate, selectedDates, visibleDate, firstMonth, lastMonth) {
     const monthStyle = this.mergeStyles ('month');
+    if (!lastMonth) {
+      monthStyle.paddingRight = this.props.theme.shapes.calendarButtonWidth;
+    }
     return (
       <div style={monthStyle}>
         {this.renderLines (selectedDate, selectedDates, visibleDate, firstMonth, lastMonth)}
@@ -269,7 +275,6 @@ export default class Calendar extends React.Component {
   renderMonths () {
     const selectedDate  = this.read ('date');
     const selectedDates = this.read ('dates');
-    const monthCount    = this.read ('month-count');
 
     const visibleDate = this.getVisibleDate ();
     if (!visibleDate) {
@@ -277,6 +282,7 @@ export default class Calendar extends React.Component {
     }
 
     const result = [];
+    const monthCount = this.getMonthCount ();
     for (var m = 0; m < monthCount; m++) {
       const year  = Converters.getYear  (visibleDate);
       const month = Converters.getMonth (visibleDate);

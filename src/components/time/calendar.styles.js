@@ -4,15 +4,14 @@ import {Unit} from 'electrum-theme';
 
 export default function styles (theme, _props) {
   const boxStyle = {
-    display:         'flex',
-    flexDirection:   'row',
-    backgroundColor: theme.palette.calendarBackground,
+    display:       'flex',
+    flexDirection: 'row',
   };
 
   const monthStyle = {
-    display:       'flex',
-    flexDirection: 'column',
-    padding:       theme.shapes.calendarMargin,
+    display:         'flex',
+    flexDirection:   'column',
+    backgroundColor: theme.palette.calendarBackground,
   };
 
   const headerStyle = {
