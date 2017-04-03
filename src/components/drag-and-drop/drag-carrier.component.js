@@ -1,11 +1,10 @@
 /* eslint react/no-find-dom-node: 0 */
 /* global window */
 
-import {React} from 'electrum';
+import {React, ReactDOM} from 'electrum';
 // import {Trace} from 'electrum';
-import ReactDOM from 'react-dom';
 import {Unit} from 'electrum-theme';
-import ReducerData from '../polypheme/reducer-data.js';
+import {ReducerData} from '../polypheme/reducer-data.js';
 
 import {
   Container,

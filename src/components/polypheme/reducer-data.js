@@ -1,11 +1,11 @@
 /* global window Map */
 
 import Electrum from 'electrum';
-import {Trace} from 'electrum';
 import Enumerable from 'linq';
-import ReducerTickets from './reducer-tickets.js';
+import {Trace} from 'electrum';
+import {ReducerTickets} from './reducer-tickets.js';
 import {Converters} from './converters';
-import StateManager from './state-manager.js';
+import {StateManager} from './state-manager.js';
 
 function updateUI () {
   for (var c of window.document.toUpdate) {

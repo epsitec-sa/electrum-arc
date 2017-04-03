@@ -1,8 +1,8 @@
 /* global window */
 
 import {React} from 'electrum';
-import ReducerData from './reducer-data.js';
-import StateManager from './state-manager.js';
+import {ReducerData} from './reducer-data.js';
+import {StateManager} from './state-manager.js';
 
 import {
   Container,

@@ -7,7 +7,7 @@ import {ColorManipulator} from 'electrum';
 import {Unit} from 'electrum-theme';
 import {Converters} from './converters';
 import TicketHelpers from './ticket-helpers.js';
-import ReducerData from '../polypheme/reducer-data.js';
+import {ReducerData} from '../polypheme/reducer-data.js';
 
 /******************************************************************************/
 

@@ -1,10 +1,10 @@
 /* global window Map */
 
-import {React} from 'electrum';
-import BacklogData from './backlog-data';
-import ReducerData from '../polypheme/reducer-data.js';
 import Enumerable from 'linq';
-import BacklogToChronos from './backlog-to-chronos.js';
+import {React} from 'electrum';
+import {BacklogData} from './backlog-data';
+import {ReducerData} from '../polypheme/reducer-data.js';
+import {BacklogToChronos} from './backlog-to-chronos.js';
 
 import {
   Container,

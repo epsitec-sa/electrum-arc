@@ -2,7 +2,7 @@
 /* global setTimeout */
 
 import {React} from 'electrum';
-import ReactDOM from 'react-dom';
+import {ReactDOM} from 'electrum';
 import {Action} from 'electrum';
 import {FlyingBalloon} from '../../../all-components.js';
 

@@ -1,7 +1,7 @@
 /* eslint react/no-find-dom-node: 0 */
 
 import {React} from 'electrum';
-import ReactDOM from 'react-dom';
+import {ReactDOM} from 'electrum';
 import MouseTrap from 'mousetrap';
 
 import {

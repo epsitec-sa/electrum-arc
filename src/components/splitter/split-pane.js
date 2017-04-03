@@ -7,7 +7,7 @@
 // Copyright (c) 2015 tomkp
 
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
+import {ReactDOM} from 'electrum';
 import Prefixer from 'inline-style-prefixer';
 import stylePropType from 'react-style-proptype';
 

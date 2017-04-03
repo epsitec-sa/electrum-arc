@@ -1,11 +1,11 @@
 /* eslint react/no-find-dom-node: 0 */
 
 import {React} from 'electrum';
-import ReactDOM from 'react-dom';
+import {ReactDOM} from 'electrum';
 import {Ticket, Container, Label, Button, MessengerModify, MessengerCombo} from '../../all-components.js';
-import ComboHelpers from '../combo/combo-helpers.js';
+import {ComboHelpers} from '../combo/combo-helpers.js';
 import {ColorManipulator} from 'electrum';
-import ReducerData from './reducer-data.js';
+import {ReducerData} from './reducer-data.js';
 
 /******************************************************************************/
 

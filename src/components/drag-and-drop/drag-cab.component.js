@@ -3,7 +3,7 @@
 
 import {React} from 'electrum';
 // import {Trace} from 'electrum';
-import ReactDOM from 'react-dom';
+import {ReactDOM} from 'electrum';
 import {DragCarrier} from '../../all-components.js';
 import {Unit} from 'electrum-theme';
 
