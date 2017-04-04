@@ -85,9 +85,8 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'title-recurrence') {
-    boxJustifyContent = 'center';
     backgroundColor   = theme.palette.calendarWeekendBackground;
-    padding           = '10px';
+    padding           = '0px ' + theme.shapes.lineSpacing;
   }
 
   if (inputKind === 'big-center') {

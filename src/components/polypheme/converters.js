@@ -1,5 +1,8 @@
 // month is zero based (0 = january).
-export function getMonthDescription (month) {
+export function getMonthDescription (month, format) {
+  if (month < 0 || month > 11) {
+    return null;
+  }
   const array = [
     'Janvier',
     'Février',
@@ -14,11 +17,18 @@ export function getMonthDescription (month) {
     'Novembre',
     'Décembre',
   ];
-  return array[month];
+  if (format === '4') {
+    return array[month].substring (0, 4);
+  } else {
+    return array[month];
+  }
 }
 
 // dow is zero based (0 = monday).
 export function getDOWDescription (dow, format) {
+  if (dow < 0 || dow > 6) {
+    return null;
+  }
   const array = [
     'lundi',
     'mardi',
@@ -217,7 +227,7 @@ export function joinTime (time) {
 }
 
 // With ' 12/3 ', return [12, 3].
-export function parseTime (editedTime) {
+function parseDateOrTime (editedTime) {
   const result = [];
   if (editedTime) {
     editedTime = editedTime.trim ();
@@ -225,7 +235,7 @@ export function parseTime (editedTime) {
     if (editedTime) {
       const p = editedTime.split (':');
       for (var n of p) {
-        result.push (n);
+        result.push (parseInt (n));
       }
     }
   }
@@ -245,6 +255,9 @@ export function getTotalMinutes (time) {
 
 // With date = '2017-03-31', return '31.03.2017'.
 export function getDisplayedDate (date, useNowByDefault, format) {
+  if (date && !useNowByDefault && isEmptyDate (date)) {
+    return null;
+  }
   let d;
   if (date && !isEmptyDate (date)) {
     d = splitDate (date);
@@ -285,6 +298,9 @@ export function getDisplayedDate (date, useNowByDefault, format) {
 
 // With time = '12:34:56', return '12:34'.
 export function getDisplayedTime (time, useNowByDefault, format) {
+  if (time && !useNowByDefault && isEmptyTime (time)) {
+    return null;
+  }
   let d;
   if (time && !isEmptyTime (time)) {
     d = splitTime (time);
@@ -304,6 +320,28 @@ export function getDisplayedTime (time, useNowByDefault, format) {
   }
 }
 
+// With editedDate = '31 3 2017', return '2017-03-31'.
+export function getFormatedDate (editedDate, useNowByDefault) {
+  const date = useNowByDefault ? getNow () : {
+    year:  1,
+    month: 1,
+    day:   1,
+  };
+  const edited = parseDateOrTime (editedDate);
+  if (edited.length > 0 && edited[0] >= 1 && edited[0] <= 31) {
+    date.day = edited[0];
+  }
+  if (edited.length > 1 && edited[1] >= 1 && edited[1] <= 12) {
+    date.month = edited[1];
+  }
+  if (edited.length > 2 && edited[2] >= 2000 && edited[2] <= 2100) {
+    date.year = edited[2];
+  } else if (edited.length > 2 && edited[2] >= 0 && edited[2] <= 100) {
+    date.year = 2000 + edited[2];
+  }
+  return joinDate (date);
+}
+
 // With editedTime = '12', return '12:00:00'.
 export function getFormatedTime (editedTime) {
   const time = {
@@ -311,14 +349,14 @@ export function getFormatedTime (editedTime) {
     minute: 0,
     second: 0,
   };
-  const edited = parseTime (editedTime);
-  if (edited.length > 0) {
+  const edited = parseDateOrTime (editedTime);
+  if (edited.length > 0 && edited[0] >= 0 && edited[0] <= 23) {
     time.hour = edited[0];
   }
-  if (edited.length > 1) {
+  if (edited.length > 1 && edited[1] >= 0 && edited[1] <= 59) {
     time.minute = edited[1];
   }
-  if (edited.length > 2) {
+  if (edited.length > 2 && edited[2] >= 0 && edited[2] <= 59) {
     time.second = edited[2];
   }
   return joinTime (time);
@@ -344,6 +382,10 @@ function join (list, separator) {
 //	"3 Mars - 10 Avril 2017"
 //	"12 Mars 2016 - 24 Juin 2017"
 export function getPeriodDescription (fromDate, toDate) {
+  if (!fromDate || !toDate) {
+    return null;
+  }
+
   var fd = getDay (fromDate);
   var fm = getDisplayedDate (fromDate, false, 'M');
   var fy = getDisplayedDate (fromDate, false, 'y');
@@ -413,7 +455,7 @@ export function getPeriodDescription (fromDate, toDate) {
 // With '12 60', return false;
 // With '12 3 4 5', return false;
 export function checkTime (editedTime) {
-  const edited = parseTime (editedTime);
+  const edited = parseDateOrTime (editedTime);
   if (edited.length === 0 || edited.length > 3) {
     return false;
   }
