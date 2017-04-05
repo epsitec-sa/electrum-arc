@@ -206,6 +206,7 @@ export default class Recurrence extends React.Component {
   }
 
   componentWillMount () {
+    this.setExtended (this.read ('extended') === 'true');
     this.updateEditor ();
     this.updateInfo ();
   }
@@ -263,6 +264,8 @@ export default class Recurrence extends React.Component {
   createRecurrence () {
     const x = this.read ('do-create');
     if (x) {
+      console.log ('Recurrence.createRecurrence');
+      console.dir (this.recurrenceData);
       x (this.recurrenceData);
     }
   }
@@ -284,6 +287,8 @@ export default class Recurrence extends React.Component {
     const value = e.target.value;
     const date = Converters.getFormatedDate (value, true);
     this.recurrenceData.StartDate = date;
+    console.log ('Recurrence.startDateChanged ' + date);
+    console.dir (this.recurrenceData);
     this.updateInfo ();
   }
 
@@ -394,32 +399,40 @@ export default class Recurrence extends React.Component {
     return (
       <Container kind='row' {...this.link ()}>
         <TextFieldCombo
-          value       = {this.getStartDateEdited ()}
-          hint-text   = 'Date de début'
-          combo-glyph = 'forward'
-          grow        = '1'
-          spacing     = 'large'
+          value          = {this.getStartDateEdited ()}
+          hint-text      = 'Date de début'
+          combo-glyph    = 'forward'
+          grow           = '1'
+          updateStrategy = 'every-time'
+          onChange       = {e => this.startDateChanged (e)}
+          spacing        = 'large'
           {...this.link ()} />
         <TextFieldCombo
-          value       = {this.getEndDateEdited ()}
-          hint-text   = 'Date de fin'
-          combo-glyph = 'backward'
-          grow        = '1'
-          spacing     = 'large'
+          value          = {this.getEndDateEdited ()}
+          hint-text      = 'Date de fin'
+          combo-glyph    = 'backward'
+          grow           = '1'
+          updateStrategy = 'every-time'
+          onChange       = {e => this.endDateChanged (e)}
+          spacing        = 'large'
           {...this.link ()} />
         <TextFieldCombo
-          value       = {this.getDaysEdited ()}
-          hint-text   = 'Jours de la semaine'
-          combo-glyph = 'calendar'
-          grow        = '1'
-          spacing     = 'large'
+          value          = {this.getDaysEdited ()}
+          hint-text      = 'Jours de la semaine'
+          combo-glyph    = 'calendar'
+          grow           = '1'
+          updateStrategy = 'every-time'
+          onChange       = {e => this.daysChanged (e)}
+          spacing        = 'large'
           {...this.link ()} />
         <TextFieldCombo
-          value       = {this.getMonthsEdited ()}
-          hint-text   = 'Mois de l´année'
-          combo-glyph = 'calendar-o'
-          grow        = '1'
-          spacing     = 'large'
+          value          = {this.getMonthsEdited ()}
+          hint-text      = 'Mois de l´année'
+          combo-glyph    = 'calendar-o'
+          grow           = '1'
+          updateStrategy = 'every-time'
+          onChange       = {e => this.monthsChanged (e)}
+          spacing        = 'large'
           {...this.link ()} />
         <Button
           glyph      = 'plus'

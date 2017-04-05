@@ -7,12 +7,27 @@ export default class Recurrences extends React.Component {
 
   constructor (props) {
     super (props);
+    this.state = {
+      extendedIndex: -1,
+    };
     this.recurrencesData = this.read ('recurrences');
   }
 
+  getExtendedIndex () {
+    return this.state.extendedIndex;
+  }
+
+  setExtendedIndex (value) {
+    this.setState ( {
+      extendedIndex: value
+    });
+  }
+
   createRecurrence (recurrence) {
+    console.log ('Recurrences.createRecurrence');
     console.dir (recurrence);
     this.recurrencesData.push (recurrence);
+    this.setExtendedIndex (this.recurrencesData.length - 1);
     this.forceUpdate ();
   }
 
@@ -22,12 +37,13 @@ export default class Recurrences extends React.Component {
     this.forceUpdate ();
   }
 
-  renderRow (recurrence, create, index) {
+  renderRow (recurrence, create, extended, index) {
     return (
       <Recurrence
         recurrence = {recurrence}
         index      = {index}
-        create     = {create ? 'true' : 'false'}
+        create     = {create   ? 'true' : 'false'}
+        extended   = {extended ? 'true' : 'false'}
         do-create  = {x => this.createRecurrence (x)}
         do-delete  = {x => this.deleteRecurrence (x)}
         {...this.link ()} />
@@ -37,15 +53,17 @@ export default class Recurrences extends React.Component {
   renderRows () {
     const result = [];
     let index = 0;
+    const extendedIndex = this.getExtendedIndex ();
     for (var recurrence of this.recurrencesData) {
-      result.push (this.renderRow (recurrence, false, index++));
+      const extended = (extendedIndex === index);
+      result.push (this.renderRow (recurrence, false, extended, index++));
     }
     return result;
   }
 
   renderEditor () {
     const recurrence = {};
-    return this.renderRow (recurrence, true, -1);
+    return this.renderRow (recurrence, true, false, -1);
   }
 
   render () {
