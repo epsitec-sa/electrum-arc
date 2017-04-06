@@ -266,10 +266,7 @@ export default class Calendar extends React.Component {
   }
 
   renderMonth (selectedDate, selectedDates, visibleDate, firstMonth, lastMonth) {
-    const monthStyle = this.mergeStyles ('month');
-    if (!lastMonth) {
-      monthStyle.paddingRight = this.props.theme.shapes.calendarButtonWidth;
-    }
+    const monthStyle = this.mergeStyles (lastMonth ? 'singleMonth' : 'month');
     return (
       <div style={monthStyle}>
         {this.renderLines (selectedDate, selectedDates, visibleDate, firstMonth, lastMonth)}

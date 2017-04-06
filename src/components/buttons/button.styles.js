@@ -524,6 +524,15 @@ export default function styles (theme, props) {
     }
   }
 
+  if (inputKind === 'recurrence') {
+    if (inputActive === 'true') {
+      glyphColor      = theme.palette.calendarActiveText;
+      textColor       = theme.palette.calendarActiveText;
+      backgroundColor = theme.palette.calendarActiveBackground;
+      borderColor     = theme.palette.calendarActiveBackground;
+    }
+  }
+
   if (inputKind === 'hover') {
     boxOpacity           = 0;
     borderWidth          = theme.shapes.lineSpacing;

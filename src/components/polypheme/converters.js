@@ -322,6 +322,9 @@ export function getDisplayedTime (time, useNowByDefault, format) {
 
 // With editedDate = '31 3 2017', return '2017-03-31'.
 export function getFormatedDate (editedDate, useNowByDefault) {
+  if (!editedDate || editedDate === '') {
+    return null;
+  }
   const date = useNowByDefault ? getNow () : {
     year:  1,
     month: 1,
@@ -334,7 +337,7 @@ export function getFormatedDate (editedDate, useNowByDefault) {
   if (edited.length > 1 && edited[1] >= 1 && edited[1] <= 12) {
     date.month = edited[1];
   }
-  if (edited.length > 2 && edited[2] >= 2000 && edited[2] <= 2100) {
+  if (edited.length > 2 && edited[2] >= 1000 && edited[2] <= 2100) {
     date.year = edited[2];
   } else if (edited.length > 2 && edited[2] >= 0 && edited[2] <= 100) {
     date.year = 2000 + edited[2];
@@ -373,17 +376,28 @@ function join (list, separator) {
   return result;
 }
 
+function toFirstUpperCase (s) {
+  if (s) {
+    const f = s.substring (0, 1);
+    const r = s.substring (1);
+    return f.toUpperCase () + r.toLowerCase ();
+  }
+}
+
 //	Return a nice description for a period. Examples:
 //	"2017"
 //	"2016 - 2017"
-//	"Janvier - Mars 2017"
-//	"Octobre 2016 - Février 2017"
-//	"10 - 15 Juillet 2017"
-//	"3 Mars - 10 Avril 2017"
-//	"12 Mars 2016 - 24 Juin 2017"
+//	"Janvier - mars 2017"
+//	"Octobre 2016 - février 2017"
+//	"10 - 15 juillet 2017"
+//	"3 mars - 10 avril 2017"
+//	"12 mars 2016 - 24 juin 2017"
 export function getPeriodDescription (fromDate, toDate) {
-  if (!fromDate || !toDate) {
-    return null;
+  if (!fromDate) {
+    fromDate = '2000-01-01';
+  }
+  if (!toDate) {
+    toDate = '2100-12-31';
   }
 
   var fd = getDay (fromDate);
@@ -393,6 +407,13 @@ export function getPeriodDescription (fromDate, toDate) {
   var td = getDay (toDate);
   var tm = getDisplayedDate (toDate, false, 'M');
   var ty = getDisplayedDate (toDate, false, 'y');
+
+  if (fy <= '2000') {
+    fy = '-∞';
+  }
+  if (ty >= '2100') {
+    ty = '∞';
+  }
 
   var nextDate = addDays (toDate, 1);
   if (getDay (fromDate) === 1 && getDay (nextDate) === 1 &&
@@ -445,9 +466,9 @@ export function getPeriodDescription (fromDate, toDate) {
   var t = join (  toList, ' ');
 
   if (f === '') {
-    return t;
+    return toFirstUpperCase (t);
   }  else  {
-    return f + ' — ' + t;
+    return toFirstUpperCase (f + ' — ' + t);
   }
 }
 

@@ -3,6 +3,12 @@ import {Recurrence} from 'electrum-arc';
 
 /******************************************************************************/
 
+function clone (recurrence) {
+  return JSON.parse (JSON.stringify (recurrence));
+}
+
+/******************************************************************************/
+
 export default class Recurrences extends React.Component {
 
   constructor (props) {
@@ -11,6 +17,11 @@ export default class Recurrences extends React.Component {
       extendedIndex: -1,
     };
     this.recurrencesData = this.read ('recurrences');
+    this.newRecurrence = {
+      Cron:   '0 0 0 * * *',
+      Add:    [],
+      Delete: [],
+    };
   }
 
   getExtendedIndex () {
@@ -23,29 +34,50 @@ export default class Recurrences extends React.Component {
     });
   }
 
+  updateComponents () {
+    // TODO: Shit code to replace by correct code !!!
+    let index = 0;
+    for (let r of window.document.recurrenceComponents) {
+      const recurrence = this.recurrencesData[index++];
+      r.updateComponent (recurrence);
+    }
+  }
+
+  swapExtended (index) {
+    if (index === this.getExtendedIndex ()) {  // if panel extended ?
+      index = -1;  // compact the panel
+    }
+    this.setExtendedIndex (index);
+  }
+
   createRecurrence (recurrence) {
-    console.log ('Recurrences.createRecurrence');
-    console.dir (recurrence);
-    this.recurrencesData.push (recurrence);
-    this.setExtendedIndex (this.recurrencesData.length - 1);
-    this.forceUpdate ();
+    this.recurrencesData.push (clone (recurrence));  // add to end of list
+    this.setExtendedIndex (this.recurrencesData.length - 1);  // extend last panel
   }
 
   deleteRecurrence (index) {
-    console.log (index);
     this.recurrencesData.splice (index, 1);
-    this.forceUpdate ();
+    this.setExtendedIndex (-1);
+    this.updateComponents ();
+  }
+
+  eraseEvents (index) {
+    this.recurrencesData[index].Add = [];
+    this.recurrencesData[index].Delete = [];
+    this.updateComponents ();
   }
 
   renderRow (recurrence, create, extended, index) {
     return (
       <Recurrence
-        recurrence = {recurrence}
-        index      = {index}
-        create     = {create   ? 'true' : 'false'}
-        extended   = {extended ? 'true' : 'false'}
-        do-create  = {x => this.createRecurrence (x)}
-        do-delete  = {x => this.deleteRecurrence (x)}
+        recurrence       = {recurrence}
+        index            = {index}
+        create           = {create   ? 'true' : 'false'}
+        extended         = {extended ? 'true' : 'false'}
+        do-swap-extended = {x => this.swapExtended (x)}
+        do-create        = {x => this.createRecurrence (x)}
+        do-delete        = {x => this.deleteRecurrence (x)}
+        do-erase-events  = {x => this.eraseEvents (x)}
         {...this.link ()} />
     );
   }
@@ -62,8 +94,7 @@ export default class Recurrences extends React.Component {
   }
 
   renderEditor () {
-    const recurrence = {};
-    return this.renderRow (recurrence, true, false, -1);
+    return this.renderRow (this.newRecurrence, true, false, -1);
   }
 
   render () {

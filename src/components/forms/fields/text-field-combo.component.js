@@ -143,6 +143,7 @@ export default class TextFieldCombo extends React.Component {
     const value               = this.read ('value');
     const selectedValue       = this.read ('selected-value');
     const hintText            = this.read ('hint-text');
+    const tooltip             = this.read ('tooltip');
     const flyingBalloonAnchor = this.read ('flying-balloon-anchor');
     const rows                = this.read ('rows');
     const readonly            = this.read ('readonly');
@@ -167,6 +168,7 @@ export default class TextFieldCombo extends React.Component {
           id                    = {id}
           value                 = {displayValue}
           hint-text             = {hintText}
+          tooltip               = {tooltip}
           filter-keys           = {filterKeys}
           spacing               = 'overlap'
           shape                 = {textFieldShape}
@@ -188,6 +190,7 @@ export default class TextFieldCombo extends React.Component {
           id                    = {id}
           value                 = {displayValue}
           hint-text             = {hintText}
+          tooltip               = {tooltip}
           filter-keys           = {filterKeys}
           spacing               = 'overlap'
           shape                 = {textFieldShape}

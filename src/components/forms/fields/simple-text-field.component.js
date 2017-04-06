@@ -186,6 +186,7 @@ export default class SimpleTextField extends React.Component {
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
+    const tooltip = this.read ('tooltip');
 
     const boxStyle = this.mergeStyles ('box');
 
@@ -193,6 +194,7 @@ export default class SimpleTextField extends React.Component {
      <span
        disabled = {disabled}
        style    = {boxStyle}
+       title    = {tooltip}
        >
        {this.renderInput ()}
        {this.renderFlyingBalloon ()}

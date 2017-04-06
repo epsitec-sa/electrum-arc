@@ -1,6 +1,6 @@
 import CronParser from 'cron-parser';
 import {React} from 'electrum';
-import {Calendar, Container, TextFieldCombo, Button, Label} from 'electrum-arc';
+import {Calendar, TextFieldCombo, Button, Label} from 'electrum-arc';
 import * as Converters from '../polypheme/converters';
 import * as CronHelpers from './cron-helpers';
 import * as ReducerRecurrence from './reducer-recurrence.js';
@@ -44,12 +44,21 @@ function pushCron (result, cron, startDate, endDate, date, deleteList) {
 function getRecurrenceItems (recurrence, date) {
   const result = [];
   if (recurrence) {
+    let startDate = recurrence.StartDate;
+    if (!startDate) {
+      startDate = '2000-01-01';
+    }
+    let endDate = recurrence.EndDate;
+    if (!endDate) {
+      endDate = '2100-12-31';
+    }
+
     if (recurrence.Cron) {
-      pushCron (result, recurrence.Cron, recurrence.StartDate, recurrence.EndDate, date, recurrence.Delete);
+      pushCron (result, recurrence.Cron, startDate, endDate, date, recurrence.Delete);
     }
 
     for (var a of recurrence.Add) {
-      if (a >= recurrence.StartDate && a <= recurrence.EndDate) {
+      if (a >= startDate && a <= endDate) {
         const item = {
           Date: a,
           Type: 'added',
@@ -86,33 +95,9 @@ export default class Recurrence extends React.Component {
       endDateEdited:   null,
       daysEdited:      null,
       monthsEdited:    null,
-      extended:        false,
       recurrenceDates: [],
       dates:           [],
     };
-
-    this.recurrenceData = this.read ('recurrence');
-
-    if (!this.recurrenceData.Cron) {
-      this.recurrenceData.Cron = '0 0 0 * * *';
-    }
-    if (!this.recurrenceData.Add) {
-      this.recurrenceData.Add = [];
-    }
-    if (!this.recurrenceData.Delete) {
-      this.recurrenceData.Delete = [];
-    }
-
-    if (this.recurrenceData.StartDate) {
-      const year  = Converters.getYear  (this.recurrenceData.StartDate);
-      const month = Converters.getMonth (this.recurrenceData.StartDate);
-      this.visibleDate = Converters.getDate (year, month, 1);
-    } else {
-      const now = Converters.getNowFormatedDate ();
-      const year  = Converters.getYear  (now);
-      const month = Converters.getMonth (now);
-      this.visibleDate = Converters.getDate (year, month, 1);
-    }
   }
 
   getPeriodInfo () {
@@ -175,16 +160,6 @@ export default class Recurrence extends React.Component {
     });
   }
 
-  getExtended () {
-    return this.state.extended;
-  }
-
-  setExtended (value) {
-    this.setState ( {
-      extended: value
-    });
-  }
-
   getRecurrenceDates () {
     return this.state.recurrenceDates;
   }
@@ -205,13 +180,68 @@ export default class Recurrence extends React.Component {
     });
   }
 
+  initializeDates (recurrence) {
+    this.recurrenceData = recurrence ? recurrence : this.read ('recurrence');
+
+    if (!this.recurrenceData.Cron) {
+      this.recurrenceData.Cron = '0 0 0 * * *';
+    }
+    if (!this.recurrenceData.Add) {
+      this.recurrenceData.Add = [];
+    }
+    if (!this.recurrenceData.Delete) {
+      this.recurrenceData.Delete = [];
+    }
+
+    let startDate = this.recurrenceData.StartDate ? this.recurrenceData.StartDate : null;
+    if (!startDate) {
+      startDate = '2000-01-01';
+    }
+    let endDate = this.recurrenceData.EndDate ? this.recurrenceData.EndDate : null;
+    if (!endDate) {
+      endDate = '2100-12-31';
+    }
+    if (!this.visibleDate || this.visibleDate < startDate || this.visibleDate > endDate) {
+      if (this.recurrenceData.StartDate) {
+        const year  = Converters.getYear  (this.recurrenceData.StartDate);
+        const month = Converters.getMonth (this.recurrenceData.StartDate);
+        this.visibleDate = Converters.getDate (year, month, 1);
+      } else {
+        const now = Converters.getNowFormatedDate ();
+        const year  = Converters.getYear  (now);
+        const month = Converters.getMonth (now);
+        this.visibleDate = Converters.getDate (year, month, 1);
+      }
+    }
+  }
+
   componentWillMount () {
-    this.setExtended (this.read ('extended') === 'true');
+    this.initializeDates ();
     this.updateEditor ();
     this.updateInfo ();
+    this.updateDates ();
   }
 
   componentDidMount () {
+    // TODO: Shit code to replace by correct code !!!
+    if (!window.document.recurrenceComponents) {
+      window.document.recurrenceComponents = [];
+    }
+    window.document.recurrenceComponents.push (this);
+  }
+
+  componentWillUnmount () {
+    // TODO: Shit code to replace by correct code !!!
+    const index = window.document.recurrenceComponents.indexOf (this);
+    if (index !== -1) {
+      window.document.recurrenceComponents.splice (index, 1);
+    }
+  }
+
+  updateComponent (recurrence) {
+    this.initializeDates (recurrence);
+    this.updateEditor ();
+    this.updateInfo ();
     this.updateDates ();
   }
 
@@ -264,14 +294,20 @@ export default class Recurrence extends React.Component {
   createRecurrence () {
     const x = this.read ('do-create');
     if (x) {
-      console.log ('Recurrence.createRecurrence');
-      console.dir (this.recurrenceData);
       x (this.recurrenceData);
     }
   }
 
   deleteRecurrence () {
     const x = this.read ('do-delete');
+    if (x) {
+      const index = this.read ('index');
+      x (index);
+    }
+  }
+
+  eraseEvents () {
+    const x = this.read ('do-erase-events');
     if (x) {
       const index = this.read ('index');
       x (index);
@@ -287,8 +323,6 @@ export default class Recurrence extends React.Component {
     const value = e.target.value;
     const date = Converters.getFormatedDate (value, true);
     this.recurrenceData.StartDate = date;
-    console.log ('Recurrence.startDateChanged ' + date);
-    console.dir (this.recurrenceData);
     this.updateInfo ();
   }
 
@@ -316,40 +350,69 @@ export default class Recurrence extends React.Component {
   }
 
   swapExtended () {
-    if (this.getExtended ()) {
-      this.setExtended (false);
-    } else {
+    const extended = this.read ('extended') === 'true';
+    if (!extended) {  // compact ?
       this.updateEditor ();
-      this.setExtended (true);
+      this.updateInfo ();
+      this.updateDates ();
+    }
+    const x = this.read ('do-swap-extended');
+    if (x) {
+      const index = this.read ('index');
+      x (index);
     }
   }
 
   renderInfo () {
+    const extended = this.read ('extended') === 'true';
+    const singleStyle = this.mergeStyles (extended ? 'header' : 'single');
     return (
-      <Container kind='row' {...this.link ()}>
+      <div style={singleStyle}>
         <Label
           text    = {this.getPeriodInfo ()}
-          kind    = 'title-recurrence'
+          kind    = {extended ? 'title-recurrence-extended' : 'title-recurrence'}
           grow    = '2.1'
           {...this.link ()} />
         <Label
           text    = {this.getCronInfo ()}
-          kind    = 'title-recurrence'
+          kind    = {extended ? 'title-recurrence-extended' : 'title-recurrence'}
           grow    = '2'
           spacing = 'large'
           {...this.link ()} />
         <Button
-          glyph      = {this.getExtended () ? 'caret-up' : 'caret-down'}
-          tooltip    = {this.getExtended () ? 'Compacte la ligne' : 'Etend la ligne pour la modifier'}
+          kind       = 'recurrence'
+          glyph      = {extended ? 'caret-up' : 'caret-down'}
+          tooltip    = {extended ? 'Compacte la ligne' : 'Etend la ligne pour la modifier'}
+          active     = {extended ? 'true' : 'false'}
           mouse-down = {() => this.swapExtended ()}
           {...this.link ()} />
-      </Container>
+      </div>
     );
   }
 
-  renderEditor () {
+  renderEditorEraser (create) {
+    if (create) {
+      return null;
+    } else {
+      return (
+        <Button
+          glyph      = 'eraser'
+          tooltip    = 'Supprime toutes les exceptions'
+          mouse-down = {() => this.eraseEvents ()}
+          {...this.link ()} />
+      );
+    }
+  }
+
+  renderEditor (create) {
+    const editStyle = this.mergeStyles (create ? 'single' : 'edit');
+
+    const buttonGlyph   = create ? 'plus' : 'trash';
+    const buttonTooltip = create ? 'Crée une nouvelle ligne' : 'Supprime la ligne';
+    const buttonAction  = create ? () => this.createRecurrence () : () => this.deleteRecurrence ();
+
     return (
-      <Container kind='row' {...this.link ()}>
+      <div style={editStyle}>
         <TextFieldCombo
           value          = {this.getStartDateEdited ()}
           hint-text      = 'Date de début'
@@ -371,6 +434,7 @@ export default class Recurrence extends React.Component {
         <TextFieldCombo
           value          = {this.getDaysEdited ()}
           hint-text      = 'Jours de la semaine'
+          tooltip        = '1..7 = lundi..dimanche   - = à   , = et'
           combo-glyph    = 'calendar'
           grow           = '1'
           updateStrategy = 'every-time'
@@ -380,81 +444,39 @@ export default class Recurrence extends React.Component {
         <TextFieldCombo
           value          = {this.getMonthsEdited ()}
           hint-text      = 'Mois de l´année'
+          tooltip        = '1..12 = janvier..décembre   - = à   , = et'
           combo-glyph    = 'calendar-o'
           grow           = '1'
           updateStrategy = 'every-time'
           onChange       = {e => this.monthsChanged (e)}
           spacing        = 'large'
           {...this.link ()} />
+        {this.renderEditorEraser (create)}
         <Button
-          glyph      = 'trash'
-          tooltip    = 'Supprime la ligne'
-          mouse-down = {() => this.deleteRecurrence ()}
+          glyph      = {buttonGlyph}
+          tooltip    = {buttonTooltip}
+          mouse-down = {buttonAction}
           {...this.link ()} />
-      </Container>
-    );
-  }
-
-  renderCreate () {
-    return (
-      <Container kind='row' {...this.link ()}>
-        <TextFieldCombo
-          value          = {this.getStartDateEdited ()}
-          hint-text      = 'Date de début'
-          combo-glyph    = 'forward'
-          grow           = '1'
-          updateStrategy = 'every-time'
-          onChange       = {e => this.startDateChanged (e)}
-          spacing        = 'large'
-          {...this.link ()} />
-        <TextFieldCombo
-          value          = {this.getEndDateEdited ()}
-          hint-text      = 'Date de fin'
-          combo-glyph    = 'backward'
-          grow           = '1'
-          updateStrategy = 'every-time'
-          onChange       = {e => this.endDateChanged (e)}
-          spacing        = 'large'
-          {...this.link ()} />
-        <TextFieldCombo
-          value          = {this.getDaysEdited ()}
-          hint-text      = 'Jours de la semaine'
-          combo-glyph    = 'calendar'
-          grow           = '1'
-          updateStrategy = 'every-time'
-          onChange       = {e => this.daysChanged (e)}
-          spacing        = 'large'
-          {...this.link ()} />
-        <TextFieldCombo
-          value          = {this.getMonthsEdited ()}
-          hint-text      = 'Mois de l´année'
-          combo-glyph    = 'calendar-o'
-          grow           = '1'
-          updateStrategy = 'every-time'
-          onChange       = {e => this.monthsChanged (e)}
-          spacing        = 'large'
-          {...this.link ()} />
-        <Button
-          glyph      = 'plus'
-          tooltip    = 'Crée une nouvelle recurrence'
-          mouse-down = {() => this.createRecurrence ()}
-          {...this.link ()} />
-      </Container>
+      </div>
     );
   }
 
   renderCalendar () {
-    if (this.getExtended ()) {
+    const extended = this.read ('extended') === 'true';
+    if (extended) {
+      const editStyle = this.mergeStyles ('edit');
       return (
-        <Calendar
-          month-count          = {monthCount ()}
-          visible-date         = {this.visibleDate}
-          dates                = {this.getDates ()}
-          start-date           = {this.recurrenceData.StartDate}
-          end-date             = {this.recurrenceData.EndDate}
-          date-clicked         = {x => this.dateClicked (x)}
-          visible-date-changed = {x => this.visibleDateChanged (x)}
-          {...this.link ()} />
+        <div style={editStyle}>
+          <Calendar
+            month-count          = {monthCount ()}
+            visible-date         = {this.visibleDate}
+            dates                = {this.getDates ()}
+            start-date           = {this.recurrenceData.StartDate}
+            end-date             = {this.recurrenceData.EndDate}
+            date-clicked         = {x => this.dateClicked (x)}
+            visible-date-changed = {x => this.visibleDateChanged (x)}
+            {...this.link ()} />
+        </div>
       );
     } else {
       return null;
@@ -462,20 +484,25 @@ export default class Recurrence extends React.Component {
   }
 
   render () {
-    const create = this.read ('create');
-    const boxStyle = this.mergeStyles ('box');
-    if (create === 'true') {
+    this.initializeDates ();
+
+    const create   = this.read ('create') === 'true';
+    const extended = this.read ('extended') === 'true';
+
+    const boxStyle = this.mergeStyles (extended ? 'extendedBox' : 'box');
+
+    if (create) {
       return (
         <div style={boxStyle}>
-          {this.renderCreate ()}
+          {this.renderEditor (create)}
         </div>
       );
     } else {
-      if (this.getExtended ()) {
+      if (extended) {
         return (
           <div style={boxStyle}>
             {this.renderInfo ()}
-            {this.renderEditor ()}
+            {this.renderEditor (create)}
             {this.renderCalendar ()}
           </div>
         );

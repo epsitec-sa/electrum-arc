@@ -88,6 +88,11 @@ export default function styles (theme, props) {
     backgroundColor   = theme.palette.calendarWeekendBackground;
     padding           = '0px ' + theme.shapes.lineSpacing;
   }
+  if (inputKind === 'title-recurrence-extended') {
+    backgroundColor   = theme.palette.calendarActiveBackground;
+    textColor         = theme.palette.calendarActiveText;
+    padding           = '0px ' + theme.shapes.lineSpacing;
+  }
 
   if (inputKind === 'big-center') {
     fontSize          = theme.shapes.labelBigTextSize;

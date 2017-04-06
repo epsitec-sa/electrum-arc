@@ -12,6 +12,13 @@ export default function styles (theme, _props) {
     display:         'flex',
     flexDirection:   'column',
     backgroundColor: theme.palette.calendarBackground,
+    marginRight:     theme.shapes.lineSpacing,
+  };
+
+  const singleMonthStyle = {
+    display:         'flex',
+    flexDirection:   'column',
+    backgroundColor: theme.palette.calendarBackground,
   };
 
   const headerStyle = {
@@ -58,14 +65,15 @@ export default function styles (theme, _props) {
   };
 
   return {
-    box:        boxStyle,
-    month:      monthStyle,
-    header:     headerStyle,
-    headerText: headerTextStyle,
-    dowText:    dowTextStyle,
-    dowLine:    dowLineStyle,
-    line:       lineStyle,
-    column:     columnStyle,
+    box:         boxStyle,
+    month:       monthStyle,
+    singleMonth: singleMonthStyle,
+    header:      headerStyle,
+    headerText:  headerTextStyle,
+    dowText:     dowTextStyle,
+    dowLine:     dowLineStyle,
+    line:        lineStyle,
+    column:      columnStyle,
   };
 }
 
