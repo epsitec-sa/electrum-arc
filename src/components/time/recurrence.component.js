@@ -1,3 +1,5 @@
+/* global window */
+
 import CronParser from 'cron-parser';
 import {React} from 'electrum';
 import {Calendar, TextFieldCombo, Button, Label} from 'electrum-arc';

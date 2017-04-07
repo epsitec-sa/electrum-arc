@@ -1,3 +1,5 @@
+/* global window */
+
 import {React} from 'electrum';
 import {Recurrence} from 'electrum-arc';
 

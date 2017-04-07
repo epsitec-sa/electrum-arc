@@ -1,6 +1,6 @@
 /******************************************************************************/
 
-export default function styles (theme, _props) {
+export default function styles (_theme, _props) {
   const boxStyle = {
     flexGrow: '1',
   };
