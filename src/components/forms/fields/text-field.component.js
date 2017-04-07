@@ -39,6 +39,10 @@ export default class TextField extends React.Component {
     }
   }
 
+  onChange () {
+    this.forceUpdate ();
+  }
+
   onMyFocus (e) {
     this.onFocus (e);
     this.selectAll ();
