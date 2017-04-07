@@ -61,7 +61,7 @@ export default class TextField extends React.Component {
   }
 
   renderInput () {
-    const {state} = this.props;
+    const state    = this.props.state.find ();
     const disabled = Action.isDisabled (state);
     const id       = this.read ('id');
     const value    = this.read ('value');
