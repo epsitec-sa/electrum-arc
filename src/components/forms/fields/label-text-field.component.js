@@ -98,8 +98,17 @@ export default class LabelTextField extends React.Component {
     const type           = this.read ('type');
     const shape          = this.read ('shape');
     const fieldWidth     = this.read ('field-width');
-    const value          = this.read ('value');
+
+    // @DR: Don't do this: setting the value as a `prop` rather than through
+    // its state breaks React's forceUpdate() optimizations on the child
+    // <input> element:
+//  const value          = this.read ('value');
+
+    // @DR: We should remove the `selected-value` property altogether and
+    // use the state (based on `value`) instead; but since I am not sure
+    // of all the implications, I prefer not to touch this logic for now:
     const selectedValue  = this.read ('selected-value');
+
     const hintText       = this.read ('hint-text');
     const rows           = this.read ('rows');
     const readonly       = this.read ('readonly');
@@ -108,7 +117,7 @@ export default class LabelTextField extends React.Component {
     const tabIndex       = this.props['tab-index'];
 
     const autoReadonly = this.getReadonly () && selectedValue && selectedValue !== '';
-    const displayValue = autoReadonly ? selectedValue : value;
+    const displayValue = autoReadonly ? selectedValue : null;
     const visibleReadonly = readonly ? readonly : (autoReadonly ? 'true' : 'false');
 
     const s = shape ? shape : 'smooth';
@@ -117,22 +126,28 @@ export default class LabelTextField extends React.Component {
       rounded: 'right-rounded',
     };
     const textFieldShape = textFieldShapes[s];
+    const props = {
+      'id':                  id,
+      'type':                type,
+      'width':               fieldWidth,
+      'hint-text':           hintText,
+      'filter-keys':         filterKeys,
+      'spacing':             this.hasActionButton () ? 'overlap' : null,
+      'shape':               textFieldShape,
+      'tab-index':           tabIndex,
+      'rows':                rows,
+      'readonly':            visibleReadonly,
+      'select-all-on-focus': visibleReadonly
+    };
+
+    if (displayValue) {
+      props.value = displayValue;
+    }
 
     if (updateStrategy) {
       return (
         <SimpleTextField
-          id                  = {id}
-          type                = {type}
-          width               = {fieldWidth}
-          value               = {displayValue}
-          hint-text           = {hintText}
-          filter-keys         = {filterKeys}
-          spacing             = {this.hasActionButton () ? 'overlap' : null}
-          shape               = {textFieldShape}
-          tab-index           = {tabIndex}
-          rows                = {rows}
-          readonly            = {visibleReadonly}
-          select-all-on-focus = {visibleReadonly}
+          {...props}
           updateStrategy      = {updateStrategy}
           onChange            = {e => this.onMyChange (e)}
           onFocus             = {e => this.onMyFocus (e)}
@@ -143,18 +158,7 @@ export default class LabelTextField extends React.Component {
     } else {
       return (
         <TextField
-          id                  = {id}
-          type                = {type}
-          width               = {fieldWidth}
-          value               = {displayValue}
-          hint-text           = {hintText}
-          filter-keys         = {filterKeys}
-          spacing             = {this.hasActionButton () ? 'overlap' : null}
-          shape               = {textFieldShape}
-          tab-index           = {tabIndex}
-          rows                = {rows}
-          readonly            = {visibleReadonly}
-          select-all-on-focus = {visibleReadonly}
+          {...props}
           onFocus             = {e => this.onMyFocus (e)}
           onBlur              = {e => this.onMyBlur (e)}
           {...this.link ()}
