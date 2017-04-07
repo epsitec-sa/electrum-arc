@@ -1,6 +1,6 @@
 import {React} from 'electrum';
 import {Badge, Menu} from '../../all-components.js';
-import ShortcutHelpers from './shortcut-helpers.js';
+import * as ShortcutHelpers from './shortcut-helpers.js';
 
 /******************************************************************************/
 
