@@ -130,7 +130,7 @@ export default class SimpleTextField extends React.Component {
           disabled    = {disabled}
           rows        = {rows}
           tabIndex    = {tabIndex}
-          value       = {editedValue}
+          value       = {editedValue || ''}
           />
       );
     } else {
@@ -153,7 +153,7 @@ export default class SimpleTextField extends React.Component {
           type        = {this.props.type || 'text'}
           key         = 'input'
           tabIndex    = {tabIndex}
-          value       = {editedValue}
+          value       = {editedValue || ''}
           />
       );
     }
