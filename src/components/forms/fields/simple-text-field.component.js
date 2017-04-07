@@ -44,6 +44,7 @@ export default class SimpleTextField extends React.Component {
 
   componentWillMount () {
     // Trace.log ('SimpleTextField.componentWillMount');
+    // @DR: `updateStrategy` should be renamed to `update-strategy`
     const updateStrategy = this.read ('updateStrategy');
     if (updateStrategy === 'every-time' || updateStrategy === 'when-blur') {
       const value = this.read ('value');
