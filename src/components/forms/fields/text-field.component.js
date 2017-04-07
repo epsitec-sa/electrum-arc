@@ -85,7 +85,7 @@ export default class TextField extends React.Component {
           disabled    = {disabled}
           rows        = {rows}
           tabIndex    = {tabIndex}
-          value       = {value}
+          value       = {value || ''}
           />
       );
     } else {
@@ -108,7 +108,7 @@ export default class TextField extends React.Component {
           type        = {this.props.type || 'text'}
           key         = 'input'
           tabIndex    = {tabIndex}
-          value       = {value}
+          value       = {value || ''}
           />
       );
     }
