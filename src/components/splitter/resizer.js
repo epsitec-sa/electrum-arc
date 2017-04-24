@@ -29,18 +29,18 @@ class Resizer extends Component {
     const classes = [resizerClassName, split, className];
     return (
       <span
-        className={classes.join (' ')}
-        style={this.props.prefixer.prefix (this.props.style) || {}}
+        className   = {classes.join (' ')}
+        style       = {this.props.prefixer.prefix (this.props.style) || {}}
         onMouseOver = {() => this.mouseOver ()}
         onMouseOut  = {() => this.mouseOut ()}
-        onMouseDown={(event) => {
+        onMouseDown = {(event) => {
           this.props.onMouseDown (event);
         }}
-        onTouchStart={(event) => {
+        onTouchStart = {(event) => {
           event.preventDefault ();
           this.props.onTouchStart (event);
         }}
-        onTouchEnd={(event) => {
+        onTouchEnd = {(event) => {
           event.preventDefault ();
           this.props.onTouchEnd (event);
         }}

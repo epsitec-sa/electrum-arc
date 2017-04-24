@@ -58,6 +58,7 @@ class SplitPane extends Component {
   }
 
   onMouseDown (event) {
+    this.mouseDown = true;
     const eventWithTouches = Object.assign (
         {},
         event,
@@ -155,6 +156,7 @@ class SplitPane extends Component {
   }
 
   onMouseUp () {
+    this.mouseDown = false;
     if (this.props.allowResize && !this.props.size) {
       if (this.state.active) {
         if (typeof this.props.onDragFinished === 'function') {
@@ -194,7 +196,7 @@ class SplitPane extends Component {
   }
 
   getResizerStyle () {
-    if (this.hover) {
+    if (this.hover || this.mouseDown) {
       return this.props.resizerHoverStyle || {};
     } else {
       return this.props.resizerStyle || {};
