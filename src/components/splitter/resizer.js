@@ -10,6 +10,20 @@ const USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like 
 
 class Resizer extends Component {
 
+  mouseOver () {
+    const x = this.props['mouse-over'];
+    if (x) {
+      x ();
+    }
+  }
+
+  mouseOut () {
+    const x = this.props['mouse-out'];
+    if (x) {
+      x ();
+    }
+  }
+
   render () {
     const {split, className, resizerClassName} = this.props;
     const classes = [resizerClassName, split, className];
@@ -17,6 +31,8 @@ class Resizer extends Component {
       <span
         className={classes.join (' ')}
         style={this.props.prefixer.prefix (this.props.style) || {}}
+        onMouseOver = {() => this.mouseOver ()}
+        onMouseOut  = {() => this.mouseOut ()}
         onMouseDown={(event) => {
           this.props.onMouseDown (event);
         }}

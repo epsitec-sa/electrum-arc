@@ -183,6 +183,24 @@ class SplitPane extends Component {
     }
   }
 
+  mouseOver (e) {
+    this.hover = true;
+    this.forceUpdate ();
+  }
+
+  mouseOut (e) {
+    this.hover = false;
+    this.forceUpdate ();
+  }
+
+  getResizerStyle () {
+    if (this.hover) {
+      return this.props.resizerHoverStyle || {};
+    } else {
+      return this.props.resizerStyle || {};
+    }
+  }
+
   render () {
     const {split, allowResize, firstViewId, lastViewId} = this.props;
     const disabledClass = allowResize ? '' : 'disabled';
@@ -237,21 +255,21 @@ class SplitPane extends Component {
 
     return (
       <div
-        className={classes.join (' ')}
-        style={this.props.prefixer.prefix (style)}
-        ref={(node) => {
+        className = {classes.join (' ')}
+        style     = {this.props.prefixer.prefix (style)}
+        ref       = {(node) => {
           this.splitPane = node;
         }}
       >
 
         <Pane
-          ref={(node) => {
+          ref = {(node) => {
             this.pane1 = node;
           }}
-          key="pane1" className="Pane1"
-          style={pane1Style}
-          split={split}
-          size={this.props.primary === 'first' ?
+          key   = "pane1" className="Pane1"
+          style = {pane1Style}
+          split = {split}
+          size  = {this.props.primary === 'first' ?
             this.props.size || this.props.defaultSize || this.props.minSize :
             undefined
           }
@@ -260,27 +278,29 @@ class SplitPane extends Component {
           {children[0]}
         </Pane>
         <Resizer
-          ref={(node) => {
+          ref = {(node) => {
             this.resizer = node;
           }}
-          key="resizer"
-          className={disabledClass}
-          resizerClassName={this.props.resizerClassName}
-          onMouseDown={this.onMouseDown}
-          onTouchStart={this.onTouchStart}
-          onTouchEnd={this.onMouseUp}
-          style={this.props.resizerStyle || {}}
-          split={split}
+          key              = "resizer"
+          className        = {disabledClass}
+          resizerClassName = {this.props.resizerClassName}
+          mouse-over       = {e => this.mouseOver (e)}
+          mouse-out        = {e => this.mouseOut (e)}
+          onMouseDown      = {this.onMouseDown}
+          onTouchStart     = {this.onTouchStart}
+          onTouchEnd       = {this.onMouseUp}
+          style            = {this.getResizerStyle ()}
+          split            = {split}
         />
         <Pane
-          ref={(node) => {
+          ref = {(node) => {
             this.pane2 = node;
           }}
-          key="pane2"
-          className="Pane2"
-          style={pane2Style}
-          split={split}
-          size={this.props.primary === 'second' ?
+          key       = "pane2"
+          className = "Pane2"
+          style     = {pane2Style}
+          split     = {split}
+          size      = {this.props.primary === 'second' ?
             this.props.size || this.props.defaultSize || this.props.minSize :
             undefined
           }

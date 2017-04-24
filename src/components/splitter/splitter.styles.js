@@ -31,12 +31,19 @@ export default function styles (theme, props) {
     backgroundColor: theme.palette.splitterBackground,
   };
 
-  // resizerStyle[':hover'] = {
-  //   backgroundColor: theme.palette.splitterBackgroundHover,  // TODO: does not work !!!
-  // };
+  const resizerHoverStyle = {
+    zIndex:          1,
+    width:           width,
+    minWidth:        width,
+    height:          height,
+    minHeight:       height,
+    cursor:          cursor,
+    backgroundColor: theme.palette.splitterBackgroundHover,
+  };
 
   return {
-    resizerStyle: resizerStyle,
+    resizer:      resizerStyle,
+    resizerHover: resizerHoverStyle,
   };
 }
 

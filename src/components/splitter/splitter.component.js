@@ -30,18 +30,20 @@ export default class Splitter extends React.Component {
       throw new Error ('Undefined splitter kind');
     }
 
-    const resizerStyle = this.mergeStyles ('resizerStyle');
+    const resizerStyle      = this.mergeStyles ('resizer');
+    const resizerHoverStyle = this.mergeStyles ('resizerHover');
 
     return (
       <SplitPane
-        split         = {kind}
-        resizerStyle  = {resizerStyle}
-        defaultSize   = {defaultSize}
-        minSize       = {minSize}
-        maxSize       = {maxSize}
-        firstViewId   = {firstViewId}
-        lastViewId    = {lastViewId}
-        onSizeChanged = {onSizeChanged}
+        split             = {kind}
+        resizerStyle      = {resizerStyle}
+        resizerHoverStyle = {resizerHoverStyle}
+        defaultSize       = {defaultSize}
+        minSize           = {minSize}
+        maxSize           = {maxSize}
+        firstViewId       = {firstViewId}
+        lastViewId        = {lastViewId}
+        onSizeChanged     = {onSizeChanged}
         {...this.link ()}
         >
         {this.props.children}
