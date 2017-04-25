@@ -276,14 +276,11 @@ export default function styles (theme, props) {
 
   const textStyle = {
     height:        textHeight,
-    display:       textDisplay,
-    flexDirection: 'column',
     alignSelf:     textAlign,
     fontSize:      Unit.multiply (fontSize, theme.typo.fontScale),
     fontWeight:    fontWeight,
     fontStyle:     inputFontStyle,
     textTransform: textTransform,
-    color:         textColor,
     overflow:      textOverflow,
     textOverflow:  textTextOverflow,
     whiteSpace:    textWhiteSpace,
@@ -292,11 +289,22 @@ export default function styles (theme, props) {
     userSelect:    'none',
   };
 
+  const normalFragmentStyle = {
+    color: textColor,
+  };
+
+  const hilitedFragmentStyle = {
+    color:           theme.palette.highlightedText,
+    backgroundColor: theme.palette.highlightedTextBackground,
+  };
+
   return {
-    box:   boxStyle,
-    glyph: glyphStyle,
-    lines: linesStyle,
-    text:  textStyle,
+    box:             boxStyle,
+    glyph:           glyphStyle,
+    lines:           linesStyle,
+    text:            textStyle,
+    normalFragment:  normalFragmentStyle,
+    hilitedFragment: hilitedFragmentStyle,
   };
 }
 

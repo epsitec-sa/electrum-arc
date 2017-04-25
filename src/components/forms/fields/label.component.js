@@ -33,16 +33,75 @@ export default class Label extends React.Component {
     };
   }
 
+  getFragments (line) {
+    const result = [];
+    var i = 0;
+    var j = 0;
+    var em = false;
+    while (i < line.length) {
+      if (line[i] === '<') {
+        const last = line.substring (i);
+        if (last.startsWith ('<em>')) {
+          if (j < i) {
+            result.push ({em: em, text: line.substring (j, i)});
+          }
+          em = true;
+          i += 4;
+          j = i;
+        } else if (last.startsWith ('</em>')) {
+          if (j < i) {
+            result.push ({em: em, text: line.substring (j, i)});
+          }
+          em = false;
+          i += 5;
+          j = i;
+        } else {
+          i++;
+        }
+      } else {
+        i++;
+      }
+    }
+    if (j < i) {
+      result.push ({em: em, text: line.substring (j, i)});
+    }
+    return result;
+  }
+
+  renderFragment (index, fragment) {
+    const style = this.mergeStyles (fragment.em ? 'hilitedFragment' : 'normalFragment');
+    return (
+      <span key={index} style={style}>
+        {fragment.text}
+      </span>
+    );
+  }
+
+  renderFragments (line) {
+    const result = [];
+    const fragments = this.getFragments (line);
+    let index = 0;
+    for (var fragment of fragments) {
+      result.push (this.renderFragment (index++, fragment));
+    }
+    return result;
+  }
+
+  renderLine (index, line) {
+    const textStyle = this.mergeStyles ('text');
+    return (
+      <div key={index} style={textStyle}>
+        {this.renderFragments (line)}
+      </div>
+    );
+  }
+
   getLines (lines) {
     const array = [];
-    const textStyle  = this.mergeStyles ('text');
-    let keyIndex = 0;
+    let index = 0;
     lines.map (
       line => {
-        const htmlText = (
-          <div key={keyIndex++} style={textStyle}>{line}</div>
-        );
-        array.push (htmlText);
+        array.push (this.renderLine (index++, line));
       }
     );
     return array;
@@ -60,21 +119,12 @@ export default class Label extends React.Component {
   renderText (index) {
     const inputText = this.read ('text');
 
-    const textStyle = this.mergeStyles ('text');
-
     if (inputText) {
       if (typeof inputText === 'string') {
         const lines = inputText.split ('\\n');
-        if (lines.length < 2) {
-          return (
-            <div key={index} style={textStyle}>
-              {inputText}
-            </div>
-          );
-        } else {
-          return this.renderLines (index, lines);
-        }
+        return this.renderLines (index, lines);
       } else {
+        const textStyle = this.mergeStyles ('text');
         return (
           <div key={index} style={textStyle}>
             {inputText}
