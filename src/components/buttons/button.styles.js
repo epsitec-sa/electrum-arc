@@ -329,6 +329,21 @@ export default function styles (theme, props) {
 
   // Action button (usual parent is container with kind='actions').
   if (inputKind  === 'action') {
+    let place = inputPlace;
+    if (place === '1/1') {
+      place = 'single';
+    } else if (place.indexOf ('/') !== -1) {
+      const n = place.split ('/');
+      if (n.length === 2) {
+        if (n[0] === '1') {
+          place = 'left';
+        } else if (n[0] === n[1]) {
+          place = 'right';
+        } else {
+          place = 'middle';
+        }
+      }
+    }
     const h = Unit.multiply (theme.shapes.actionHeight, 0.1);
     const r = theme.shapes.actionRadius;
     boxHeight       = theme.shapes.actionHeight;
@@ -338,12 +353,12 @@ export default function styles (theme, props) {
     backgroundColor = theme.palette.actionButtonBackground;
     textSize        = theme.shapes.actionTextSize;
     glyphSize       = theme.shapes.actionGlyphSize;
-    if (inputPlace === 'left') {
+    if (place === 'left') {
       boxMargin    = '0px 1px 0px 0px';
       borderRadius = r + ' 0px 0px ' + r;
-    } else if (inputPlace === 'right') {
+    } else if (place === 'right') {
       borderRadius = '0px ' + r + ' ' + r + ' 0px';
-    } else if (inputPlace === 'single') {
+    } else if (place === 'single') {
       borderRadius      = r;
       boxJustifyContent = 'center';
     } else {
