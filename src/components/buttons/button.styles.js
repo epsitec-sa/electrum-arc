@@ -6,6 +6,7 @@ import {Unit} from 'electrum-theme';
 export default function styles (theme, props) {
   const inputGlyph           = props.glyph;
   const inputText            = props.text;
+  const inputShortcut        = props.shortcut;
   const inputBorder          = props.border;
   const inputGlyphPosition   = props.glyphPosition;
   const inputSpacing         = props.spacing;
@@ -675,7 +676,7 @@ export default function styles (theme, props) {
   const textStyle = {
     width:         textWidth,
     margin:        textMargin,
-    flexGrow:      textGrow,
+    flexGrow:      inputShortcut ? '1' : textGrow,
     color:         textColor,
     fontWeight:    textWeight,
     textTransform: textTransform,

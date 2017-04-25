@@ -127,33 +127,30 @@ export default class Label extends React.Component {
     );
   }
 
-  renderText (index) {
-    const inputText = this.read ('text');
-
-    if (inputText) {
-      if (typeof inputText === 'string') {
-        const hasEol = inputText.indexOf ('\\n'  ) !== -1;
-        const hasBr  = inputText.indexOf ('<br/>') !== -1;
-        const hasEm  = inputText.indexOf ('<em>' ) !== -1;
+  renderText (index, text) {
+    if (text) {
+      if (typeof text === 'string') {
+        const hasEol = text.indexOf ('\\n'  ) !== -1;
+        const hasBr  = text.indexOf ('<br/>') !== -1;
+        const hasEm  = text.indexOf ('<em>' ) !== -1;
         if (hasEol || hasBr || hasEm) {  // complex text ?
-          const lines = inputText.split (hasEol ? '\\n' : '<br/>');
+          const lines = text.split (hasEol ? '\\n' : '<br/>');
           return this.renderLines (index, lines);
         } else {
-          return this.renderSimpleText (index, inputText);
+          return this.renderSimpleText (index, text);
         }
       } else {
-        return this.renderSimpleText (index, inputText);
+        return this.renderSimpleText (index, text);
       }
     } else {
       return null;
     }
   }
 
-  renderGlyph (index) {
-    const inputGlyph  = this.read ('glyph');
-    const inputRotate = this.read ('rotate');
-    const inputFlip   = this.read ('flip');
-    const inputSpin   = this.read ('spin');
+  renderGlyph (index, glyph) {
+    const rotate = this.read ('rotate');
+    const flip   = this.read ('flip');
+    const spin   = this.read ('spin');
 
     const style = this.mergeStyles ('glyph');
 
@@ -161,49 +158,49 @@ export default class Label extends React.Component {
       <i key      = {index}
         style     = {style}
         className = {`fa
-          fa-${inputGlyph}
-          fa-rotate-${inputRotate}
-          fa-flip-${inputFlip}
-          ${inputSpin ? 'fa-spin' : ''}`}
+          fa-${glyph}
+          fa-rotate-${rotate}
+          fa-flip-${flip}
+          ${spin ? 'fa-spin' : ''}`}
       />
     );
   }
 
   getGlyphAndText () {
-    const inputText  = this.read ('text');
-    const inputGlyph = this.read ('glyph');
+    const text  = this.read ('text');
+    const glyph = this.read ('glyph');
 
-    if (inputGlyph) {
-      if (inputText) {
+    if (glyph) {
+      if (text) {
         // Glyph followed by text.
-        return [this.renderGlyph (0), this.renderText (1)];
+        return [this.renderGlyph (0, glyph), this.renderText (1, text)];
       } else {
         // Glyph alone.
-        return [ this.renderGlyph (0) ];
+        return [ this.renderGlyph (0, glyph) ];
       }
     } else {
       // Text alone.
-      return [ this.renderText (0) ];
+      return [ this.renderText (0, text) ];
     }
   }
 
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
-    const inputIndex   = this.read ('index');
-    const inputTooltip = this.read ('tooltip');
-    const inputMarquee = this.read ('marquee');
+    const index   = this.read ('index');
+    const tooltip = this.read ('tooltip');
+    const marquee = this.read ('marquee');
 
     const style = this.mergeStyles ('box');
 
-    if (inputMarquee === 'true') {
+    if (marquee === 'true') {
       return (
         <marquee
-          key      = {inputIndex}
+          key      = {index}
           onClick  = {this.onClick}
           disabled = {disabled}
           style    = {style}
-          title    = {inputTooltip}
+          title    = {tooltip}
         >
           {this.getGlyphAndText ()}
           {this.props.children}
@@ -212,11 +209,11 @@ export default class Label extends React.Component {
     } else {
       return (
         <div
-          key      = {inputIndex}
+          key      = {index}
           onClick  = {this.onClick}
           disabled = {disabled}
           style    = {style}
-          title    = {inputTooltip}
+          title    = {tooltip}
         >
           {this.getGlyphAndText ()}
           {this.props.children}

@@ -24,6 +24,7 @@ export default class Button extends React.Component {
     return {
       glyph:           this.read ('glyph'),
       text:            this.read ('text'),
+      shortcut:        this.read ('shortcut'),
       border:          this.read ('border'),
       glyphPosition:   this.read ('glyph-position'),
       spacing:         this.read ('spacing'),
@@ -137,9 +138,9 @@ export default class Button extends React.Component {
     const kind   = this.read ('kind');
     const active = this.readActive ();
     if (kind === 'main-tab' && active === 'true') {
-      const triangleStyle = this.mergeStyles ('triangle');
+      const style = this.mergeStyles ('triangle');
       return (
-        <div style={triangleStyle} key='triangle' />
+        <div style={style} key='triangle' />
       );
     } else {
       return null;
@@ -149,9 +150,9 @@ export default class Button extends React.Component {
   renderMenu () {
     if (this.isMenuVisible () === 'true') {
       const menu = this.read ('menu');
-      const menuBoxStyle = this.mergeStyles ('menuBox');
+      const style = this.mergeStyles ('menuBox');
       return (
-        <div style={menuBoxStyle} key='menu' >
+        <div style={style} key='menu' >
           <Menu items={menu} {...this.link ()} />
         </div>
       );
@@ -166,16 +167,15 @@ export default class Button extends React.Component {
       const rotate = this.read ('rotate');
       const flip   = this.read ('flip');
       const spin   = this.read ('spin');
-      const renderSpin = spin ? 'fa-spin' : '';
-      const glyphStyle = this.mergeStyles ('glyph');
+      const style = this.mergeStyles ('glyph');
       return (
-        <i key='icon'
-          style={glyphStyle}
-          className={`fa
-          fa-${glyph}
-          fa-rotate-${rotate}
-          fa-flip-${flip}
-          ${renderSpin}`}
+        <i key      = 'icon'
+          style     = {style}
+          className = {`fa
+            fa-${glyph}
+            fa-rotate-${rotate}
+            fa-flip-${flip}
+            ${spin ? 'fa-spin' : ''}`}
         />
       );
     } else {
@@ -186,13 +186,9 @@ export default class Button extends React.Component {
   renderText () {
     const text = this.read ('text');
     if (text) {
-      const shortcut = this.read ('shortcut');
-      const textStyle = this.mergeStyles ('text');
-      if (shortcut) {
-        textStyle.flexGrow = 1;
-      }
+      const style = this.mergeStyles ('text');
       return (
-        <label key='text' style={textStyle}>
+        <label key='text' style={style}>
           {text}
         </label>
       );
@@ -204,9 +200,9 @@ export default class Button extends React.Component {
   renderShortcut () {
     const shortcut = this.read ('shortcut');
     if (shortcut) {
-      const shortcutStyle = this.mergeStyles ('shortcut');
+      const style = this.mergeStyles ('shortcut');
       return (
-        <label key='shortcut' style={shortcutStyle}>
+        <label key='shortcut' style={style}>
           {ShortcutHelpers.getShortcut (shortcut)}
         </label>
       );
@@ -243,7 +239,7 @@ export default class Button extends React.Component {
       tooltip = text;
     }
 
-    const boxStyle = this.mergeStyles ('box');
+    const style = this.mergeStyles ('box');
 
     if (show === 'false') {
       return null;
@@ -256,7 +252,7 @@ export default class Button extends React.Component {
           onMouseUp    = {e => this.mouseUp (e)}
           onTouchStart = {e => this.mouseDown (e)}
           onTouchEnd   = {e => this.mouseUp (e)}
-          style        = {boxStyle}
+          style        = {style}
           title        = {tooltip}
         >
           {this.props.children}
@@ -271,7 +267,7 @@ export default class Button extends React.Component {
           onMouseUp    = {e => this.mouseUp (e)}
           onTouchStart = {e => this.mouseDown (e)}
           onTouchEnd   = {e => this.mouseUp (e)}
-          style        = {boxStyle}
+          style        = {style}
           title        = {tooltip}
         >
           {this.renderLayout ()}
@@ -290,7 +286,7 @@ export default class Button extends React.Component {
           onMouseUp    = {e => this.mouseUp (e)}
           onTouchStart = {e => this.mouseDown (e)}
           onTouchEnd   = {e => this.mouseUp (e)}
-          style        = {boxStyle}
+          style        = {style}
           title        = {tooltip}
           href         = {'#' + toAnchor}
         >
@@ -310,7 +306,7 @@ export default class Button extends React.Component {
           onMouseUp    = {e => this.mouseUp (e)}
           onTouchStart = {e => this.mouseDown (e)}
           onTouchEnd   = {e => this.mouseUp (e)}
-          style        = {boxStyle}
+          style        = {style}
           title        = {tooltip}
         >
           {this.renderLayout ()}
