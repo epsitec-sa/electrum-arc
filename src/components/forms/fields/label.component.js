@@ -119,12 +119,22 @@ export default class Label extends React.Component {
   renderText (index) {
     const inputText = this.read ('text');
 
+    const textStyle = this.mergeStyles ('text');
+
     if (inputText) {
       if (typeof inputText === 'string') {
         const lines = inputText.split ('\\n');
-        return this.renderLines (index, lines);
+        const hasEm = inputText.indexOf ('<em>') !== -1;
+        if (lines.length < 2 && hasEm === false) {
+          return (
+            <div key={index} style={textStyle}>
+              {inputText}
+            </div>
+          );
+        } else {
+          return this.renderLines (index, lines);
+        }
       } else {
-        const textStyle = this.mergeStyles ('text');
         return (
           <div key={index} style={textStyle}>
             {inputText}

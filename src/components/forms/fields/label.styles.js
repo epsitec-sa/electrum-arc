@@ -280,6 +280,7 @@ export default function styles (theme, props) {
     fontSize:      Unit.multiply (fontSize, theme.typo.fontScale),
     fontWeight:    fontWeight,
     fontStyle:     inputFontStyle,
+    color:         textColor,
     textTransform: textTransform,
     overflow:      textOverflow,
     textOverflow:  textTextOverflow,
