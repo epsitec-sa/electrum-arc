@@ -33,27 +33,28 @@ export default class Label extends React.Component {
     };
   }
 
+  // Splits 'abc<em>def</em>ghi' into three parts.
   getFragments (line) {
     const result = [];
     var i = 0;
     var j = 0;
-    var em = false;
+    var em = false;  // outside <em></em>
     while (i < line.length) {
-      if (line[i] === '<') {
+      if (line[i] === '<') {  // start of tag ?
         const last = line.substring (i);
         if (last.startsWith ('<em>')) {
           if (j < i) {
             result.push ({em: em, text: line.substring (j, i)});
           }
-          em = true;
-          i += 4;
+          em = true;  // inside <em></em>
+          i += 4;  // skip <em>
           j = i;
         } else if (last.startsWith ('</em>')) {
           if (j < i) {
             result.push ({em: em, text: line.substring (j, i)});
           }
-          em = false;
-          i += 5;
+          em = false;  // outside <em></em>
+          i += 5;  // skip </em>
           j = i;
         } else {
           i++;
@@ -68,6 +69,7 @@ export default class Label extends React.Component {
     return result;
   }
 
+  // Render a fragment with normal or hilited style.
   renderFragment (index, fragment) {
     const style = this.mergeStyles (fragment.em ? 'hilitedFragment' : 'normalFragment');
     return (
@@ -77,6 +79,7 @@ export default class Label extends React.Component {
     );
   }
 
+  // Render all fragments of a line.
   renderFragments (line) {
     const result = [];
     const fragments = this.getFragments (line);
@@ -88,9 +91,9 @@ export default class Label extends React.Component {
   }
 
   renderLine (index, line) {
-    const textStyle = this.mergeStyles ('text');
+    const style = this.mergeStyles ('text');
     return (
-      <div key={index} style={textStyle}>
+      <div key={index} style={style}>
         {this.renderFragments (line)}
       </div>
     );
@@ -99,19 +102,27 @@ export default class Label extends React.Component {
   getLines (lines) {
     const array = [];
     let index = 0;
-    lines.map (
-      line => {
-        array.push (this.renderLine (index++, line));
-      }
-    );
+    for (var line of lines) {
+      array.push (this.renderLine (index++, line));
+    }
     return array;
   }
 
   renderLines (index, lines) {
-    const linesStyle = this.mergeStyles ('lines');
+    const style = this.mergeStyles ('lines');
     return (
-      <div key={index} style={linesStyle}>
-        {this.getLines (lines).map ((comp) => comp)}
+      <div key={index} style={style}>
+        {this.getLines (lines)}
+      </div>
+    );
+  }
+
+  // Render a very simple text, that is to say a single line and without highlighting.
+  renderSimpleText (index, text) {
+    const style = this.mergeStyles ('text');
+    return (
+      <div key={index} style={style}>
+        {text}
       </div>
     );
   }
@@ -119,29 +130,19 @@ export default class Label extends React.Component {
   renderText (index) {
     const inputText = this.read ('text');
 
-    const textStyle = this.mergeStyles ('text');
-
     if (inputText) {
       if (typeof inputText === 'string') {
         const hasEol = inputText.indexOf ('\\n'  ) !== -1;
         const hasBr  = inputText.indexOf ('<br/>') !== -1;
         const hasEm  = inputText.indexOf ('<em>' ) !== -1;
-        if (hasEol || hasBr || hasEm) {
+        if (hasEol || hasBr || hasEm) {  // complex text ?
           const lines = inputText.split (hasEol ? '\\n' : '<br/>');
           return this.renderLines (index, lines);
         } else {
-          return (
-            <div key={index} style={textStyle}>
-              {inputText}
-            </div>
-          );
+          return this.renderSimpleText (index, inputText);
         }
       } else {
-        return (
-          <div key={index} style={textStyle}>
-            {inputText}
-          </div>
-        );
+        return this.renderSimpleText (index, inputText);
       }
     } else {
       return null;
@@ -154,11 +155,11 @@ export default class Label extends React.Component {
     const inputFlip   = this.read ('flip');
     const inputSpin   = this.read ('spin');
 
-    const glyphStyle = this.mergeStyles ('glyph');
+    const style = this.mergeStyles ('glyph');
 
     return (
       <i key      = {index}
-        style     = {glyphStyle}
+        style     = {style}
         className = {`fa
           fa-${inputGlyph}
           fa-rotate-${inputRotate}
@@ -168,28 +169,32 @@ export default class Label extends React.Component {
     );
   }
 
+  getGlyphAndText () {
+    const inputText  = this.read ('text');
+    const inputGlyph = this.read ('glyph');
+
+    if (inputGlyph) {
+      if (inputText) {
+        // Glyph followed by text.
+        return [this.renderGlyph (0), this.renderText (1)];
+      } else {
+        // Glyph alone.
+        return [ this.renderGlyph (0) ];
+      }
+    } else {
+      // Text alone.
+      return [ this.renderText (0) ];
+    }
+  }
+
   render () {
     const {state} = this.props;
     const disabled = Action.isDisabled (state);
     const inputIndex   = this.read ('index');
-    const inputText    = this.read ('text');
-    const inputGlyph   = this.read ('glyph');
     const inputTooltip = this.read ('tooltip');
     const inputMarquee = this.read ('marquee');
 
-    const boxStyle = this.mergeStyles ('box');
-
-    const layout = () => {
-      if (inputGlyph) {
-        if (inputText) {
-          return [this.renderGlyph (0), this.renderText (1)];
-        } else {
-          return [ this.renderGlyph (0) ];
-        }
-      } else {
-        return [ this.renderText (0) ];
-      }
-    };
+    const style = this.mergeStyles ('box');
 
     if (inputMarquee === 'true') {
       return (
@@ -197,10 +202,10 @@ export default class Label extends React.Component {
           key      = {inputIndex}
           onClick  = {this.onClick}
           disabled = {disabled}
-          style    = {boxStyle}
+          style    = {style}
           title    = {inputTooltip}
         >
-          {layout ().map ((comp) => comp)}
+          {this.getGlyphAndText ()}
           {this.props.children}
         </marquee>
       );
@@ -210,10 +215,10 @@ export default class Label extends React.Component {
           key      = {inputIndex}
           onClick  = {this.onClick}
           disabled = {disabled}
-          style    = {boxStyle}
+          style    = {style}
           title    = {inputTooltip}
         >
-          {layout ().map ((comp) => comp)}
+          {this.getGlyphAndText ()}
           {this.props.children}
         </div>
       );
