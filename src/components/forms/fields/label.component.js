@@ -48,12 +48,61 @@ export default class Label extends React.Component {
     return array;
   }
 
-  getText (index, lines) {
+  renderLines (index, lines) {
     const linesStyle = this.mergeStyles ('lines');
     return (
       <div key={index} style={linesStyle}>
         {this.getLines (lines).map ((comp) => comp)}
       </div>
+    );
+  }
+
+  renderText (index) {
+    const inputText = this.read ('text');
+
+    const textStyle = this.mergeStyles ('text');
+
+    if (inputText) {
+      if (typeof inputText === 'string') {
+        const lines = inputText.split ('\\n');
+        if (lines.length < 2) {
+          return (
+            <div key={index} style={textStyle}>
+              {inputText}
+            </div>
+          );
+        } else {
+          return this.renderLines (index, lines);
+        }
+      } else {
+        return (
+          <div key={index} style={textStyle}>
+            {inputText}
+          </div>
+        );
+      }
+    } else {
+      return null;
+    }
+  }
+
+  renderGlyph (index) {
+    const inputGlyph  = this.read ('glyph');
+    const inputRotate = this.read ('rotate');
+    const inputFlip   = this.read ('flip');
+    const inputSpin   = this.read ('spin');
+
+    const glyphStyle = this.mergeStyles ('glyph');
+
+    return (
+      <i key      = {index}
+        style     = {glyphStyle}
+        className = {`fa
+          fa-${inputGlyph}
+          fa-rotate-${inputRotate}
+          fa-flip-${inputFlip}
+          ${inputSpin ? 'fa-spin' : ''}`}
+      />
     );
   }
 
@@ -63,59 +112,20 @@ export default class Label extends React.Component {
     const inputIndex   = this.read ('index');
     const inputText    = this.read ('text');
     const inputGlyph   = this.read ('glyph');
-    const inputRotate  = this.read ('rotate');
-    const inputFlip    = this.read ('flip');
-    const inputSpin    = this.read ('spin');
     const inputTooltip = this.read ('tooltip');
     const inputMarquee = this.read ('marquee');
 
-    const boxStyle   = this.mergeStyles ('box');
-    const glyphStyle = this.mergeStyles ('glyph');
-    const textStyle  = this.mergeStyles ('text');
-
-    let htmlText = () => null;
-    if (inputText) {
-      if (typeof inputText === 'string') {
-        const lines = inputText.split ('\\n');
-        if (lines.length < 2) {
-          htmlText = (index) => (
-            <div key={index} style={textStyle}>
-              {inputText}
-            </div>
-          );
-        } else {
-          htmlText = (index) => this.getText (index, lines);
-        }
-      } else {
-        htmlText = (index) => (
-          <div key={index} style={textStyle}>
-            {inputText}
-          </div>
-        );
-      }
-    }
-
-    const renderSpin = inputSpin ? 'fa-spin' : '';
-    const htmlGlyph = (index) => (
-      <i key={index}
-        style={glyphStyle}
-        className={`fa
-        fa-${inputGlyph}
-        fa-rotate-${inputRotate}
-        fa-flip-${inputFlip}
-        ${renderSpin}`}
-      />
-    );
+    const boxStyle = this.mergeStyles ('box');
 
     const layout = () => {
       if (inputGlyph) {
         if (inputText) {
-          return [htmlGlyph (0), htmlText (1)];
+          return [this.renderGlyph (0), this.renderText (1)];
         } else {
-          return [ htmlGlyph (0) ];
+          return [ this.renderGlyph (0) ];
         }
       } else {
-        return [ htmlText (0) ];
+        return [ this.renderText (0) ];
       }
     };
 
