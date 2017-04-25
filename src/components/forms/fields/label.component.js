@@ -123,15 +123,17 @@ export default class Label extends React.Component {
 
     if (inputText) {
       if (typeof inputText === 'string') {
-        const lines = inputText.split ('\\n');
-        const hasEm = inputText.indexOf ('<em>') !== -1;
-        if (lines.length < 2 && hasEm === false) {
+        const hasEol = inputText.indexOf ('\\n');
+        const hasBr  = inputText.indexOf ('<br/>');
+        const hasEm  = inputText.indexOf ('<em>') !== -1;
+        if (hasEol === false && hasBr === false || hasEm === false) {
           return (
             <div key={index} style={textStyle}>
               {inputText}
             </div>
           );
         } else {
+          const lines = inputText.split (hasEol ? '\\n' : '<br/>');
           return this.renderLines (index, lines);
         }
       } else {

@@ -39,8 +39,6 @@ export default function styles (theme, props) {
   let glyphColor         = null;
   let textColor          = null;
   let linesOverflow      = null;
-  let textDisplay        = 'flex';
-  let textAlign          = 'center';
   let textOverflow       = null;
   let textTextOverflow   = null;
   let textWhiteSpace     = null;
@@ -192,7 +190,6 @@ export default function styles (theme, props) {
   }
 
   if (inputWrap === 'no') {
-    textDisplay      = null;
     linesOverflow    = 'hidden';
     textOverflow     = 'hidden';
     textTextOverflow = 'ellipsis';
@@ -202,7 +199,6 @@ export default function styles (theme, props) {
       flexGrow = '1';
     }
   } else if (inputWrap === 'stretch') {
-    textDisplay      = null;
     linesOverflow    = 'hidden';
     textOverflow     = 'hidden';
     textTextOverflow = 'ellipsis';
@@ -246,6 +242,7 @@ export default function styles (theme, props) {
     margin:          margin,
     display:         'flex',
     flexDirection:   'row',
+    alignItems:      'center',
     justifyContent:  boxJustifyContent,
     alignSelf:       boxAlignSelf,
     flexGrow:        flexGrow,
@@ -276,7 +273,6 @@ export default function styles (theme, props) {
 
   const textStyle = {
     height:        textHeight,
-    alignSelf:     textAlign,
     fontSize:      Unit.multiply (fontSize, theme.typo.fontScale),
     fontWeight:    fontWeight,
     fontStyle:     inputFontStyle,
@@ -297,6 +293,7 @@ export default function styles (theme, props) {
   const hilitedFragmentStyle = {
     color:           theme.palette.highlightedText,
     backgroundColor: theme.palette.highlightedTextBackground,
+    padding:         '2px',
   };
 
   return {
