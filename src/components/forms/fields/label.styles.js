@@ -83,12 +83,6 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'title-recurrence') {
-    backgroundColor   = theme.palette.calendarWeekendBackground;
-    padding           = '0px ' + theme.shapes.lineSpacing;
-  }
-  if (inputKind === 'title-recurrence-extended') {
-    backgroundColor   = theme.palette.calendarActiveBackground;
-    textColor         = theme.palette.calendarActiveText;
     padding           = '0px ' + theme.shapes.lineSpacing;
   }
 

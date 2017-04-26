@@ -365,21 +365,19 @@ export default class Recurrence extends React.Component {
     }
   }
 
-  renderInfo () {
-    const extended = this.read ('extended') === 'true';
+  renderInfo (extended) {
     const singleStyle = this.mergeStyles (extended ? 'header' : 'single');
     return (
       <div style={singleStyle}>
         <Label
-          text    = {this.getPeriodInfo ()}
-          kind    = {extended ? 'title-recurrence-extended' : 'title-recurrence'}
-          grow    = '2.1'
+          text = {this.getPeriodInfo ()}
+          kind = 'title-recurrence'
+          grow = '2.1'
           {...this.link ()} />
         <Label
-          text    = {this.getCronInfo ()}
-          kind    = {extended ? 'title-recurrence-extended' : 'title-recurrence'}
-          grow    = '2'
-          spacing = 'large'
+          text = {this.getCronInfo ()}
+          kind = 'title-recurrence'
+          grow = '2'
           {...this.link ()} />
         <Button
           kind       = 'recurrence'
@@ -407,7 +405,7 @@ export default class Recurrence extends React.Component {
   }
 
   renderEditor (create) {
-    const editStyle = this.mergeStyles (create ? 'single' : 'edit');
+    const editStyle = this.mergeStyles (create ? 'create' : 'edit');
 
     const buttonGlyph   = create ? 'plus' : 'trash';
     const buttonTooltip = create ? 'Crée une nouvelle ligne' : 'Supprime la ligne';
@@ -464,25 +462,20 @@ export default class Recurrence extends React.Component {
   }
 
   renderCalendar () {
-    const extended = this.read ('extended') === 'true';
-    if (extended) {
-      const editStyle = this.mergeStyles ('edit');
-      return (
-        <div style={editStyle}>
-          <Calendar
-            month-count          = {monthCount ()}
-            visible-date         = {this.visibleDate}
-            dates                = {this.getDates ()}
-            start-date           = {this.recurrenceData.StartDate}
-            end-date             = {this.recurrenceData.EndDate}
-            date-clicked         = {x => this.dateClicked (x)}
-            visible-date-changed = {x => this.visibleDateChanged (x)}
-            {...this.link ()} />
-        </div>
-      );
-    } else {
-      return null;
-    }
+    const editStyle = this.mergeStyles ('edit');
+    return (
+      <div style={editStyle}>
+        <Calendar
+          month-count          = {monthCount ()}
+          visible-date         = {this.visibleDate}
+          dates                = {this.getDates ()}
+          start-date           = {this.recurrenceData.StartDate}
+          end-date             = {this.recurrenceData.EndDate}
+          date-clicked         = {x => this.dateClicked (x)}
+          visible-date-changed = {x => this.visibleDateChanged (x)}
+          {...this.link ()} />
+      </div>
+    );
   }
 
   render () {
@@ -503,7 +496,7 @@ export default class Recurrence extends React.Component {
       if (extended) {
         return (
           <div style={boxStyle}>
-            {this.renderInfo ()}
+            {this.renderInfo (extended)}
             {this.renderEditor (create)}
             {this.renderCalendar ()}
           </div>
@@ -511,7 +504,9 @@ export default class Recurrence extends React.Component {
       } else {
         return (
           <div style={boxStyle}>
-            {this.renderInfo ()}
+            {this.renderInfo (extended)}
+            {this.renderEditor (create)}
+            {this.renderCalendar ()}
           </div>
         );
       }
