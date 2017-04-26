@@ -18,7 +18,6 @@ export default class Recurrences extends React.Component {
     this.state = {
       extendedIndex: -1,
     };
-    this.recurrencesData = this.read ('recurrences');
     this.newRecurrence = {
       Cron:   '0 0 0 * * *',
       Add:    [],
@@ -38,11 +37,6 @@ export default class Recurrences extends React.Component {
 
   updateComponents () {
     // TODO: Shit code to replace by correct code !!!
-    let index = 0;
-    for (let r of window.document.recurrenceComponents) {
-      const recurrence = this.recurrencesData[index++];
-      r.updateComponent (recurrence);
-    }
   }
 
   swapExtended (index) {
@@ -69,10 +63,9 @@ export default class Recurrences extends React.Component {
     this.updateComponents ();
   }
 
-  renderRow (recurrence, create, extended, index) {
+  renderRow (key, create, extended, index) {
     return (
       <Recurrence
-        recurrence       = {recurrence}
         index            = {index}
         create           = {create   ? 'true' : 'false'}
         extended         = {extended ? 'true' : 'false'}
@@ -80,7 +73,7 @@ export default class Recurrences extends React.Component {
         do-create        = {x => this.createRecurrence (x)}
         do-delete        = {x => this.deleteRecurrence (x)}
         do-erase-events  = {x => this.eraseEvents (x)}
-        {...this.link ()} />
+        {...this.link (key)} />
     );
   }
 
@@ -88,15 +81,16 @@ export default class Recurrences extends React.Component {
     const result = [];
     let index = 0;
     const extendedIndex = this.getExtendedIndex ();
-    for (var recurrence of this.recurrencesData) {
+    for (var key of this.props.state.indexKeys) {
       const extended = (extendedIndex === index);
-      result.push (this.renderRow (recurrence, false, extended, index++));
+      result.push (this.renderRow (key, false, extended, index++));
     }
     return result;
   }
 
   renderEditor () {
-    return this.renderRow (this.newRecurrence, true, false, -1);
+    // ???return this.renderRow (this.newRecurrence, true, false, -1);
+    return null;
   }
 
   render () {
