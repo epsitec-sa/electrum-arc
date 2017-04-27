@@ -128,12 +128,6 @@ export default class Recurrence extends React.Component {
     return {...this.link (), state: this.internalStore.select ('Months'), bus: this.localBus};
   }
 
-  componentWillMount () {
-    // this.updateEditor ();
-    // this.updateInfo ();
-    // this.updateDates ();
-  }
-
   updateEditor () {
     const startDate = this.props.state.get ('StartDate');
     const endDate   = this.props.state.get ('EndDate');
@@ -241,6 +235,7 @@ export default class Recurrence extends React.Component {
   visibleDateChanged (date) {
     this.visibleDate = date;
     this.updateDates ();
+    this.forceUpdate ();
   }
 
   swapExtended () {
@@ -264,12 +259,12 @@ export default class Recurrence extends React.Component {
         <Label
           text = {this.periodInfo}
           kind = 'title-recurrence'
-          grow = '2.1'
+          grow = '2'
           {...this.link ()} />
         <Label
           text = {this.cronInfo}
           kind = 'title-recurrence'
-          grow = '2'
+          grow = '2.3'
           {...this.link ()} />
         <Button
           kind       = 'recurrence'
