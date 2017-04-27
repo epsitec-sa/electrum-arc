@@ -47,10 +47,18 @@ export default class LabelTextField extends React.Component {
 
   onMyFocus () {
     this.setReadonly (false);
+    const onFocus = this.read ('onFocus');
+    if (onFocus) {
+      onFocus ();
+    }
   }
 
   onMyBlur () {
     this.setReadonly (true);
+    const onBlur = this.read ('onBlur');
+    if (onBlur) {
+      onBlur ();
+    }
   }
 
   actionClicked (e) {
@@ -95,6 +103,7 @@ export default class LabelTextField extends React.Component {
 
   renderInput () {
     const id             = this.read ('id');
+    const field          = this.read ('field');
     const type           = this.read ('type');
     const shape          = this.read ('shape');
     const fieldWidth     = this.read ('field-width');
@@ -110,6 +119,8 @@ export default class LabelTextField extends React.Component {
     const selectedValue  = this.read ('selected-value');
 
     const hintText       = this.read ('hint-text');
+    const messageInfo    = this.read ('message-info');
+    const messageWarning = this.read ('message-warning');
     const rows           = this.read ('rows');
     const readonly       = this.read ('readonly');
     const filterKeys     = this.props['filter-keys'];
@@ -128,9 +139,12 @@ export default class LabelTextField extends React.Component {
     const textFieldShape = textFieldShapes[s];
     const props = {
       'id':                  id,
+      'field':               field,
       'type':                type,
       'width':               fieldWidth,
       'hint-text':           hintText,
+      'message-info':        messageInfo,
+      'message-warning':     messageWarning,
       'filter-keys':         filterKeys,
       'spacing':             this.hasActionButton () ? 'overlap' : null,
       'shape':               textFieldShape,
@@ -148,10 +162,10 @@ export default class LabelTextField extends React.Component {
       return (
         <SimpleTextField
           {...props}
-          updateStrategy      = {updateStrategy}
-          onChange            = {e => this.onMyChange (e)}
-          onFocus             = {e => this.onMyFocus (e)}
-          onBlur              = {e => this.onMyBlur (e)}
+          updateStrategy = {updateStrategy}
+          onChange       = {e => this.onMyChange (e)}
+          onFocus        = {e => this.onMyFocus (e)}
+          onBlur         = {e => this.onMyBlur (e)}
           {...this.link ()}
         />
       );
@@ -159,8 +173,8 @@ export default class LabelTextField extends React.Component {
       return (
         <TextField
           {...props}
-          onFocus             = {e => this.onMyFocus (e)}
-          onBlur              = {e => this.onMyBlur (e)}
+          onFocus = {e => this.onMyFocus (e)}
+          onBlur  = {e => this.onMyBlur (e)}
           {...this.link ()}
         />
       );

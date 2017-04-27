@@ -1,8 +1,6 @@
-/* global window */
-
 import CronParser from 'cron-parser';
 import {React, Store, State} from 'electrum';
-import {Calendar, TextFieldCombo, Button, Label} from 'electrum-arc';
+import {Calendar, TextField, LabelTextField, TextFieldDate, Button, Label} from 'electrum-arc';
 import * as Converters from '../polypheme/converters';
 import * as CronHelpers from './cron-helpers';
 import * as ReducerRecurrence from './reducer-recurrence.js';
@@ -13,7 +11,7 @@ function monthCount () {
   return 2;  // display 2 months simultaneously
 }
 
-function pushCron (result, cron, startDate, endDate, date, deleteList) {
+function pushCron (result, date, startDate, endDate, cron, deleteList) {
   const year  = Converters.getYear  (date);
   const month = Converters.getMonth (date);
   var options = {
@@ -43,30 +41,26 @@ function pushCron (result, cron, startDate, endDate, date, deleteList) {
   }
 }
 
-function getRecurrenceItems (recurrence, date) {
+function getRecurrenceItems (date, startDate, endDate, cron, deleteList, addList) {
   const result = [];
-  if (recurrence) {
-    let startDate = recurrence.StartDate;
-    if (!startDate) {
-      startDate = '2000-01-01';
-    }
-    let endDate = recurrence.EndDate;
-    if (!endDate) {
-      endDate = '2100-12-31';
-    }
+  if (!startDate) {
+    startDate = '2000-01-01';
+  }
+  if (!endDate) {
+    endDate = '2100-12-31';
+  }
 
-    if (recurrence.Cron) {
-      pushCron (result, recurrence.Cron, startDate, endDate, date, recurrence.Delete);
-    }
+  if (cron) {
+    pushCron (result, date, startDate, endDate, cron, deleteList);
+  }
 
-    for (var a of recurrence.Add) {
-      if (a >= startDate && a <= endDate) {
-        const item = {
-          Date: a,
-          Type: 'added',
-        };
-        result.push (item);
-      }
+  for (var a of addList) {
+    if (a >= startDate && a <= endDate) {
+      const item = {
+        Date: a,
+        Type: 'added',
+      };
+      result.push (item);
     }
   }
   return result;
@@ -90,141 +84,74 @@ export default class Recurrence extends React.Component {
 
   constructor (props) {
     super (props);
-    this.state = {
-      periodInfo:      null,
-      cronInfo:        null,
-      startDateEdited: null,
-      endDateEdited:   null,
-      daysEdited:      null,
-      monthsEdited:    null,
-      recurrenceDates: [],
-      dates:           [],
-    };
     this.internalStore = Store.create ();
     this.localBus = this;  // for access to property notify
     this.updateEditor ();
+    this.updateInfo ();
+    this.updateDates ();
   }
+
 
   // LocalBus.notify
   notify (props, source, value) {
-    console.log ('Recurrence.LocalBus.notify');
-    console.dir (value);
-    if (props.field === 'StartDate') {
-      this.internalStore.select ('StartDate').set ('value', value);
-      const date = Converters.getFormatedDate (value, true);
-      // TODO: ...
-      this.forceUpdate ();
+    this.internalStore.select (props.field).set ('value', value);
+    // TODO: Update external state !
+
+    this.updateInfo ();
+    if (props.field === 'Days' || props.field === 'Months') {
+      this.updateDates ();
     }
+    this.forceUpdate ();
   }
 
-  getPeriodInfo () {
-    return this.state.periodInfo;
-  }
-
-  setPeriodInfo (value) {
-    this.setState ( {
-      periodInfo: value
-    });
-  }
-
-  getCronInfo () {
-    return this.state.cronInfo;
-  }
-
-  setCronInfo (value) {
-    this.setState ( {
-      cronInfo: value
-    });
-  }
-
-  linkStartDateEdited () {
+  linkStartDate () {
     return {...this.link (), state: this.internalStore.select ('StartDate'), bus: this.localBus};
   }
 
-  getStartDateFormatted () {
-    const editedDate = this.internalStore.select ('StartDate').get ('value');
-    return Converters.getFormatedDate (editedDate, true);
+  getStartDate () {
+    return this.internalStore.select ('StartDate').get ('value');
   }
 
-  setStartDateEdited (value) {
-    this.internalStore.select ('StartDate').set ('value', value);
+  linkEndDate () {
+    return {...this.link (), state: this.internalStore.select ('EndDate'), bus: this.localBus};
   }
 
-  getEndDateEdited () {
-    return this.state.endDateEdited;
+  getEndDate () {
+    return this.internalStore.select ('EndDate').get ('value');
   }
 
-  setEndDateEdited (value) {
-    this.setState ( {
-      endDateEdited: value
-    });
+  linkDays () {
+    return {...this.link (), state: this.internalStore.select ('Days'), bus: this.localBus};
   }
 
-  getDaysEdited () {
-    return this.state.daysEdited;
+  linkMonths () {
+    return {...this.link (), state: this.internalStore.select ('Months'), bus: this.localBus};
   }
 
-  setDaysEdited (value) {
-    this.setState ( {
-      daysEdited: value
-    });
+  componentWillMount () {
+    // this.updateEditor ();
+    // this.updateInfo ();
+    // this.updateDates ();
   }
 
-  getMonthsEdited () {
-    return this.state.monthsEdited;
-  }
+  updateEditor () {
+    const startDate = this.props.state.get ('StartDate');
+    const endDate   = this.props.state.get ('EndDate');
+    const cron      = this.props.state.get ('Cron');
 
-  setMonthsEdited (value) {
-    this.setState ( {
-      monthsEdited: value
-    });
-  }
+    this.internalStore.select ('StartDate').set ('value', startDate);
+    this.internalStore.select ('EndDate'  ).set ('value', endDate);
 
-  getRecurrenceDates () {
-    return this.state.recurrenceDates;
-  }
+    this.internalStore.select ('Days'  ).set ('value', CronHelpers.getFormatedDays   (cron));
+    this.internalStore.select ('Months').set ('value', CronHelpers.getFormatedMonths (cron));
 
-  setRecurrenceDates (value) {
-    this.setState ( {
-      recurrenceDates: value
-    });
-  }
+    this.internalStore.select ('Delete').set ('value', []);  // TODO: ...
+    this.internalStore.select ('Add'   ).set ('value', []);
 
-  getDates () {
-    return this.state.dates;
-  }
-
-  setDates (value) {
-    this.setState ( {
-      dates: value
-    });
-  }
-
-  initializeDates () {
-    this.recurrenceData = {};  // ???
-
-    if (!this.recurrenceData.Cron) {
-      this.recurrenceData.Cron = '0 0 0 * * *';
-    }
-    if (!this.recurrenceData.Add) {
-      this.recurrenceData.Add = [];
-    }
-    if (!this.recurrenceData.Delete) {
-      this.recurrenceData.Delete = [];
-    }
-
-    let startDate = this.recurrenceData.StartDate ? this.recurrenceData.StartDate : null;
-    if (!startDate) {
-      startDate = '2000-01-01';
-    }
-    let endDate = this.recurrenceData.EndDate ? this.recurrenceData.EndDate : null;
-    if (!endDate) {
-      endDate = '2100-12-31';
-    }
     if (!this.visibleDate || this.visibleDate < startDate || this.visibleDate > endDate) {
-      if (this.recurrenceData.StartDate) {
-        const year  = Converters.getYear  (this.recurrenceData.StartDate);
-        const month = Converters.getMonth (this.recurrenceData.StartDate);
+      if (startDate) {
+        const year  = Converters.getYear  (startDate);
+        const month = Converters.getMonth (startDate);
         this.visibleDate = Converters.getDate (year, month, 1);
       } else {
         const now = Converters.getNowFormatedDate ();
@@ -235,35 +162,28 @@ export default class Recurrence extends React.Component {
     }
   }
 
-  componentWillMount () {
-    this.initializeDates ();
-    this.updateEditor ();
-    this.updateInfo ();
-    this.updateDates ();
-  }
-
-  componentDidMount () {
-  }
-
-  componentWillUnmount () {
-  }
-
-  updateEditor () {
-    this.setStartDateEdited (Converters.getDisplayedDate (this.props.state.get ('StartDate')));
-    // this.setEndDateEdited   (Converters.getDisplayedDate (this.recurrenceData.EndDate));
-    // this.setDaysEdited   (CronHelpers.getFormatedDays   (this.recurrenceData.Cron));
-    // this.setMonthsEdited (CronHelpers.getFormatedMonths (this.recurrenceData.Cron));
-  }
-
   updateInfo () {
-    // this.setPeriodInfo (Converters.getPeriodDescription (this.recurrenceData.StartDate, this.recurrenceData.EndDate));
-    // this.setCronInfo (CronHelpers.getDisplayedCron (this.recurrenceData));
+    const startDate  = this.internalStore.select ('StartDate').get ('value');
+    const endDate    = this.internalStore.select ('EndDate'  ).get ('value');
+    const days       = this.internalStore.select ('Days'     ).get ('value');
+    const months     = this.internalStore.select ('Months'   ).get ('value');
+    const deleteList = this.internalStore.select ('Delete'   ).get ('value');
+    const addList    = this.internalStore.select ('Add'      ).get ('value');
+    const cron       = CronHelpers.getCron (days, months);
+    this.periodInfo = Converters.getPeriodDescription (startDate, endDate);
+    this.cronInfo   = CronHelpers.getDisplayedCron (cron, deleteList, addList);
   }
 
   updateDates () {
-    return;  // ???
-    const items = getRecurrenceItems (this.recurrenceData, this.visibleDate);
-    this.setRecurrenceDates (items);
+    const startDate  = this.internalStore.select ('StartDate').get ('value');
+    const endDate    = this.internalStore.select ('EndDate'  ).get ('value');
+    const days       = this.internalStore.select ('Days'     ).get ('value');
+    const months     = this.internalStore.select ('Months'   ).get ('value');
+    const deleteList = this.internalStore.select ('Delete'   ).get ('value');
+    const addList    = this.internalStore.select ('Add'      ).get ('value');
+    const cron       = CronHelpers.getCron (days, months);
+    const items = getRecurrenceItems (this.visibleDate, startDate, endDate, cron, deleteList, addList);
+    this.recurrenceDates = items;
 
     const dates = [];
     for (let item of items) {
@@ -271,11 +191,11 @@ export default class Recurrence extends React.Component {
         dates.push (item.Date);
       }
     }
-    this.setDates (dates);
+    this.dates = dates;
   }
 
   dateClicked (date) {
-    const item = getRecurrenceItem (date, this.getRecurrenceDates ());
+    const item = getRecurrenceItem (date, this.recurrenceDates);
     var data = this.recurrenceData;
     if (item.Type === 'default') {
       // If click on recurrent event, add a date into section 'Delete' for canceled the recurrence.
@@ -323,36 +243,6 @@ export default class Recurrence extends React.Component {
     this.updateDates ();
   }
 
-  startDateChanged (e) {
-    const value = e.target.value;
-    const date = Converters.getFormatedDate (value, true);
-    this.recurrenceData.StartDate = date;
-    this.updateInfo ();
-  }
-
-  endDateChanged (e) {
-    const value = e.target.value;
-    const date = Converters.getFormatedDate (value, true);
-    this.recurrenceData.EndDate = date;
-    this.updateInfo ();
-  }
-
-  daysChanged (e) {
-    const value = e.target.value;
-    const months = CronHelpers.getFormatedMonths (this.recurrenceData.Cron);
-    this.recurrenceData.Cron = CronHelpers.getCron (value, months);
-    this.updateInfo ();
-    this.updateDates ();
-  }
-
-  monthsChanged (e) {
-    const value = e.target.value;
-    const days = CronHelpers.getFormatedDays (this.recurrenceData.Cron);
-    this.recurrenceData.Cron = CronHelpers.getCron (days, value);
-    this.updateInfo ();
-    this.updateDates ();
-  }
-
   swapExtended () {
     const extended = this.read ('extended') === 'true';
     if (!extended) {  // compact ?
@@ -372,12 +262,12 @@ export default class Recurrence extends React.Component {
     return (
       <div style={singleStyle}>
         <Label
-          text = {this.getPeriodInfo ()}
+          text = {this.periodInfo}
           kind = 'title-recurrence'
           grow = '2.1'
           {...this.link ()} />
         <Label
-          text = {this.getCronInfo ()}
+          text = {this.cronInfo}
           kind = 'title-recurrence'
           grow = '2'
           {...this.link ()} />
@@ -415,44 +305,36 @@ export default class Recurrence extends React.Component {
 
     return (
       <div style={editStyle}>
-        <TextFieldCombo
-          field          = 'StartDate'
-          hint-text      = 'Date de début'
-          combo-glyph    = 'forward'
-          grow           = '1'
-          updateStrategy = 'every-time'
-          onChange       = {e => this.startDateChanged (e)}
-          spacing        = 'large'
-          {...this.linkStartDateEdited ()} />
-        <TextFieldCombo
-          value          = {this.getEndDateEdited ()}
-          hint-text      = 'Date de fin'
-          combo-glyph    = 'backward'
-          grow           = '1'
-          updateStrategy = 'every-time'
-          onChange       = {e => this.endDateChanged (e)}
-          spacing        = 'large'
-          {...this.link ()} />
-        <TextFieldCombo
-          value          = {this.getDaysEdited ()}
-          hint-text      = 'Jours de la semaine'
-          tooltip        = '1..7 = lundi..dimanche   - = à   , = et'
-          combo-glyph    = 'calendar'
-          grow           = '1'
-          updateStrategy = 'every-time'
-          onChange       = {e => this.daysChanged (e)}
-          spacing        = 'large'
-          {...this.link ()} />
-        <TextFieldCombo
-          value          = {this.getMonthsEdited ()}
-          hint-text      = 'Mois de l´année'
-          tooltip        = '1..12 = janvier..décembre   - = à   , = et'
-          combo-glyph    = 'calendar-o'
-          grow           = '1'
-          updateStrategy = 'every-time'
-          onChange       = {e => this.monthsChanged (e)}
-          spacing        = 'large'
-          {...this.link ()} />
+        <TextFieldDate
+          field       = 'StartDate'
+          hint-text   = 'Date de début'
+          label-glyph = 'forward'
+          grow        = '1'
+          spacing     = 'large'
+          {...this.linkStartDate ()} />
+        <TextFieldDate
+          field       = 'EndDate'
+          hint-text   = 'Date de fin'
+          label-glyph = 'backward'
+          grow        = '1'
+          spacing     = 'large'
+          {...this.linkEndDate ()} />
+        <LabelTextField
+          field       = 'Days'
+          hint-text   = 'Jours de la semaine'
+          tooltip     = '1..7 = lundi..dimanche   - = à   , = et'
+          label-glyph = 'calendar'
+          grow        = '1'
+          spacing     = 'large'
+          {...this.linkDays ()} />
+        <LabelTextField
+          field       = 'Months'
+          hint-text   = 'Mois de l´année'
+          tooltip     = '1..12 = janvier..décembre   - = à   , = et'
+          label-glyph = 'calendar-o'
+          grow        = '1'
+          spacing     = 'large'
+          {...this.linkMonths ()} />
         {this.renderEditorEraser (create)}
         <Button
           glyph      = {buttonGlyph}
@@ -470,9 +352,9 @@ export default class Recurrence extends React.Component {
         <Calendar
           month-count          = {monthCount ()}
           visible-date         = {this.visibleDate}
-          dates                = {this.getDates ()}
-          start-date           = {this.getStartDateFormatted ()}
-          end-date             = {this.recurrenceData.EndDate}
+          dates                = {this.dates}
+          start-date           = {this.getStartDate ()}
+          end-date             = {this.getEndDate ()}
           date-clicked         = {x => this.dateClicked (x)}
           visible-date-changed = {x => this.visibleDateChanged (x)}
           {...this.link ()} />
@@ -481,8 +363,6 @@ export default class Recurrence extends React.Component {
   }
 
   render () {
-    this.initializeDates ();
-
     const create   = this.read ('create') === 'true';
     const extended = this.read ('extended') === 'true';
 

@@ -52,6 +52,7 @@ import _SimpleTextField from './components/forms/fields/simple-text-field.compon
 import _SimpleTextField$styles from './components/forms/fields/simple-text-field.styles.js';
 import _TextFieldCombo from './components/forms/fields/text-field-combo.component.js';
 import _TextFieldCombo$styles from './components/forms/fields/text-field-combo.styles.js';
+import _TextFieldDate from './components/forms/fields/text-field-date.component.js';
 import _TextField from './components/forms/fields/text-field.component.js';
 import _TextField$styles from './components/forms/fields/text-field.styles.js';
 import _Layout from './components/layout/layout.component.js';
@@ -135,6 +136,7 @@ export const LabelTextField = Electrum.wrap ('LabelTextField', _LabelTextField, 
 export const Label = Electrum.wrap ('Label', _Label, {styles: _Label$styles});
 export const SimpleTextField = Electrum.wrap ('SimpleTextField', _SimpleTextField, {styles: _SimpleTextField$styles});
 export const TextFieldCombo = Electrum.wrap ('TextFieldCombo', _TextFieldCombo, {styles: _TextFieldCombo$styles});
+export const TextFieldDate = Electrum.wrap ('TextFieldDate', _TextFieldDate);
 export const TextField = Electrum.wrap ('TextField', _TextField, {styles: _TextField$styles});
 export const Layout = Electrum.wrap ('Layout', _Layout);
 export const Link = Electrum.wrap ('Link', _Link, {styles: _Link$styles});

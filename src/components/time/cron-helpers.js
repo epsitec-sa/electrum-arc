@@ -104,25 +104,25 @@ export function getFormatedMonths (cron) {
 
 // Return a full description of recurrence. By example:
 // lun et jeu, mars à sept, -4, +5
-export function getDisplayedCron (recurrenceData) {
+export function getDisplayedCron (cron, deleteList, addList) {
   const result = [];
 
-  const d = getDisplayedDays (getFormatedDays (recurrenceData.Cron));
+  const d = getDisplayedDays (getFormatedDays (cron));
   if (d && d !== '') {
     result.push (d);
   }
 
-  const m = getDisplayedMonths (getFormatedMonths (recurrenceData.Cron));
+  const m = getDisplayedMonths (getFormatedMonths (cron));
   if (m && m !== '') {
     result.push (m);
   }
 
-  if (recurrenceData.Delete && recurrenceData.Delete.length > 0) {
-    result.push ('-' + recurrenceData.Delete.length);
+  if (deleteList && deleteList.length > 0) {
+    result.push ('-' + deleteList.length);
   }
 
-  if (recurrenceData.Add && recurrenceData.Add.length > 0) {
-    result.push ('+' + recurrenceData.Add.length);
+  if (addList && addList.length > 0) {
+    result.push ('+' + addList.length);
   }
 
   return join (result, ', ');
