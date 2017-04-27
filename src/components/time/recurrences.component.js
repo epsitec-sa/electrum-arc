@@ -25,11 +25,11 @@ export default class Recurrences extends React.Component {
     };
   }
 
-  getExtendedIndex () {
+  get extendedIndex () {
     return this.state.extendedIndex;
   }
 
-  setExtendedIndex (value) {
+  set extendedIndex (value) {
     this.setState ( {
       extendedIndex: value
     });
@@ -40,20 +40,20 @@ export default class Recurrences extends React.Component {
   }
 
   swapExtended (index) {
-    if (index === this.getExtendedIndex ()) {  // if panel extended ?
+    if (index === this.extendedIndex) {  // if panel extended ?
       index = -1;  // compact the panel
     }
-    this.setExtendedIndex (index);
+    this.extendedIndex = index;
   }
 
   createRecurrence (recurrence) {
     this.recurrencesData.push (clone (recurrence));  // add to end of list
-    this.setExtendedIndex (this.recurrencesData.length - 1);  // extend last panel
+    this.extendedIndex = this.recurrencesData.length - 1;  // extend last panel
   }
 
   deleteRecurrence (index) {
     this.recurrencesData.splice (index, 1);
-    this.setExtendedIndex (-1);
+    this.extendedIndex = -1;
     this.updateComponents ();
   }
 
@@ -80,7 +80,7 @@ export default class Recurrences extends React.Component {
   renderRows () {
     const result = [];
     let index = 0;
-    const extendedIndex = this.getExtendedIndex ();
+    const extendedIndex = this.extendedIndex;
     for (var key of this.props.state.indexKeys) {
       const extended = (extendedIndex === index);
       result.push (this.renderRow (key, false, extended, index++));

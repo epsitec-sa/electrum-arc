@@ -189,22 +189,24 @@ export default class Recurrence extends React.Component {
   }
 
   dateClicked (date) {
+    const deleteList = this.internalStore.select ('Delete').get ('value');
+    const addList    = this.internalStore.select ('Add'   ).get ('value');
     const item = getRecurrenceItem (date, this.recurrenceDates);
-    var data = this.recurrenceData;
     if (item.Type === 'default') {
       // If click on recurrent event, add a date into section 'Delete' for canceled the recurrence.
-      data = ReducerRecurrence.reducer (data, {type: 'ADD_DELETE', date: item.Date});
+      ReducerRecurrence.reducer (deleteList, {type: 'ADD', date: item.Date});
     } else if (item.Type === 'added') {
       // If click on added event, simply remove it.
-      data = ReducerRecurrence.reducer (data, {type: 'DELETE_ADD', date: item.Date});
+      ReducerRecurrence.reducer (addList, {type: 'DELETE', date: item.Date});
     } else if (item.Type === 'deleted') {
       // If click on deleted event, remove 'Delete' entry. That restore the recurrent event.
-      data = ReducerRecurrence.reducer (data, {type: 'DELETE_DELETE', date: item.Date});
+      ReducerRecurrence.reducer (deleteList, {type: 'DELETE', date: item.Date});
     } else if (item.Type === 'none') {
       // If click on free date, add a event.
-      data = ReducerRecurrence.reducer (data, {type: 'ADD_ADD', date: item.Date});
+      ReducerRecurrence.reducer (addList, {type: 'ADD', date: item.Date});
     }
-    this.recurrenceData = data;
+    this.internalStore.select ('Delete').set ('value', deleteList);
+    this.internalStore.select ('Add'   ).set ('value', addList);
     this.updateInfo ();
     this.updateDates ();
   }

@@ -15,30 +15,14 @@ function deleteDate (state, date) {
 
 /******************************************************************************/
 
-export function reducer (state = {}, action = {}) {
-  let startDate = state.StartDate;
-  if (!startDate) {
-    startDate = '2000-01-01';
-  }
-  let endDate = state.EndDate;
-  if (!endDate) {
-    endDate = '2100-12-31';
-  }
-  if (action.date >= startDate && action.date <= endDate) {
-    switch (action.type) {
-      case 'ADD_ADD':
-        state.Add = addDate (state.Add, action.date);
-        break;
-      case 'DELETE_ADD':
-        state.Add = deleteDate (state.Add, action.date);
-        break;
-      case 'ADD_DELETE':
-        state.Delete = addDate (state.Delete, action.date);
-        break;
-      case 'DELETE_DELETE':
-        state.Delete = deleteDate (state.Delete, action.date);
-        break;
-    }
+export function reducer (state, action) {
+  switch (action.type) {
+    case 'ADD':
+      state.Add = addDate (state, action.date);
+      break;
+    case 'DELETE':
+      state.Add = deleteDate (state, action.date);
+      break;
   }
   return state;
 }

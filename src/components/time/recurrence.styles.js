@@ -11,7 +11,7 @@ export default function styles (theme, _props) {
     overflowY:       'hidden',
     margin:          '0px 0px ' + s + ' 0px',
     backgroundColor: theme.palette.recurrenceExtendedBackground,
-    transition:      theme.transitions.easeOut (800, 'height'),
+    transition:      theme.transitions.easeOut (800, 'height', 0, 'linear'),
     // transitionProperty: 'height',
     // transitionDuration: '1s',
   };
@@ -22,7 +22,7 @@ export default function styles (theme, _props) {
     margin:          '0px 0px ' + s + ' 0px',
     // padding:         s,
     backgroundColor: theme.palette.recurrenceExtendedBackground,
-    transition:      theme.transitions.easeOut (800, 'height'),
+    transition:      theme.transitions.easeOut (800, 'height', 0, 'linear'),
     // transitionProperty: 'height',
     // transitionDuration: '1s',
   };
@@ -32,7 +32,7 @@ export default function styles (theme, _props) {
     flexDirection:   'row',
     backgroundColor: theme.palette.calendarWeekendBackground,
     color:           theme.palette.calendarHeaderText,
-    transition:      theme.transitions.easeOut (800, 'background-color'),
+    transition:      theme.transitions.easeOut (800, 'background-color', 0, 'linear'),
   };
 
   const headerStyle = {
@@ -41,7 +41,7 @@ export default function styles (theme, _props) {
     // margin:          n + ' ' + n + ' ' + s + ' ' + n,
     backgroundColor: theme.palette.calendarActiveBackground,
     color:           theme.palette.calendarActiveText,
-    transition:      theme.transitions.easeOut (800, 'background-color'),
+    transition:      theme.transitions.easeOut (800, 'background-color', 0, 'linear'),
   };
 
   const editStyle = {
