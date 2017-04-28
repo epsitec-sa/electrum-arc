@@ -1,13 +1,7 @@
-/* global window */
-
-import {React} from 'electrum';
+import {React, Store} from 'electrum';
+import E from 'electrum';
 import {Recurrence} from 'electrum-arc';
-
-/******************************************************************************/
-
-function clone (recurrence) {
-  return JSON.parse (JSON.stringify (recurrence));
-}
+import * as ReducerRecurrences from './reducer-recurrences.js';
 
 /******************************************************************************/
 
@@ -15,82 +9,116 @@ export default class Recurrences extends React.Component {
 
   constructor (props) {
     super (props);
-    this.state = {
-      extendedIndex: -1,
-    };
-    this.newRecurrence = {
+
+    this.internalStore = Store.create ();
+    this.localBus = this;  // for access to property notify
+
+    this.internalStore.select ('extendedIndex').set ('value', -1);
+  }
+
+  componentWillMount () {
+    const recurrences = this.read ('value');
+    this.internalStore.select ('recurrences').set ('value', recurrences);
+
+    const newRecurrence = {
       Cron:   '0 0 0 * * *',
       Add:    [],
       Delete: [],
     };
+    this.internalStore.select ('newRecurrence').set ('value', newRecurrence);
   }
 
   get extendedIndex () {
-    return this.state.extendedIndex;
+    return this.internalStore.select ('extendedIndex').get ('value');
   }
 
   set extendedIndex (value) {
-    this.setState ( {
-      extendedIndex: value
-    });
+    this.internalStore.select ('extendedIndex').set ('value', value);
   }
 
-  updateComponents () {
-    // TODO: Shit code to replace by correct code !!!
+  // LocalBus.notify
+  notify (props, source, value) {
+    // console.log (`Recurrences.notify field=${props.field} type=${source.type}`);
+    if (source.type === 'change') {
+      if (props.field === -1) {  // last line (for create) ?
+        this.internalStore.select ('newRecurrence').set ('value', value);
+      } else {
+        const recurrences = this.internalStore.select ('recurrences').get ('value');
+        const newRecurrences = ReducerRecurrences.reducer (recurrences, {
+          type:       'UPDATE',
+          index:      props.field,
+          recurrence: value
+        });
+        const bus = this.props.bus || E.bus;
+        bus.notify (this.props, source, newRecurrences);
+        // console.dir (newRecurrences);
+      }
+    }
   }
 
-  swapExtended (index) {
+  linkRecurrence () {
+    return {...this.link (), bus: this.localBus};
+  }
+
+  onSwapExtended (index) {
     if (index === this.extendedIndex) {  // if panel extended ?
       index = -1;  // compact the panel
     }
     this.extendedIndex = index;
+    this.forceUpdate ();
   }
 
-  createRecurrence (recurrence) {
-    this.recurrencesData.push (clone (recurrence));  // add to end of list
-    this.extendedIndex = this.recurrencesData.length - 1;  // extend last panel
+  onCreateRecurrence () {
+    const recurrences = this.internalStore.select ('recurrences').get ('value');
+    const newRecurrence = this.internalStore.select ('newRecurrence').get ('value');
+    const newRecurrences = ReducerRecurrences.reducer (recurrences, {type: 'ADD', recurrence: newRecurrence});
+    const bus = this.props.bus || E.bus;
+    bus.notify (this.props, {type: 'change'}, newRecurrences);
+    this.internalStore.select ('recurrences').set ('value', newRecurrences);
+    this.extendedIndex = newRecurrences.length - 1;  // extend created recurrence
+    this.forceUpdate ();
   }
 
-  deleteRecurrence (index) {
-    this.recurrencesData.splice (index, 1);
-    this.extendedIndex = -1;
-    this.updateComponents ();
+  onDeleteRecurrence (field) {
+    const recurrences = this.internalStore.select ('recurrences').get ('value');
+    const newRecurrences = ReducerRecurrences.reducer (recurrences, {type: 'DELETE', index: field});
+    const bus = this.props.bus || E.bus;
+    bus.notify (this.props, {type: 'change'}, newRecurrences);
+    this.internalStore.select ('recurrences').set ('value', newRecurrences);
+    this.extendedIndex = -1;  // collapse all recurrences
+    this.forceUpdate ();
   }
 
-  eraseEvents (index) {
-    this.recurrencesData[index].Add = [];
-    this.recurrencesData[index].Delete = [];
-    this.updateComponents ();
-  }
-
-  renderRow (key, create, extended, index) {
+  renderRow (recurrence, create, extended, index) {
     return (
       <Recurrence
         index            = {index}
+        field            = {index}
+        value            = {recurrence}
         create           = {create   ? 'true' : 'false'}
         extended         = {extended ? 'true' : 'false'}
-        do-swap-extended = {x => this.swapExtended (x)}
-        do-create        = {x => this.createRecurrence (x)}
-        do-delete        = {x => this.deleteRecurrence (x)}
-        do-erase-events  = {x => this.eraseEvents (x)}
-        {...this.link (key)} />
+        do-swap-extended = {this.onSwapExtended}
+        do-create        = {this.onCreateRecurrence}
+        do-delete        = {this.onDeleteRecurrence}
+        {...this.linkRecurrence ()} />
     );
   }
 
   renderRows () {
     const result = [];
     let index = 0;
+    const recurrences = this.internalStore.select ('recurrences').get ('value');
     const extendedIndex = this.extendedIndex;
-    for (var key of this.props.state.indexKeys) {
+    for (var recurrence of recurrences) {
       const extended = (extendedIndex === index);
-      result.push (this.renderRow (key, false, extended, index++));
+      result.push (this.renderRow (recurrence, false, extended, index++));
     }
     return result;
   }
 
   renderEditor () {
-    // ???return this.renderRow (this.newRecurrence, true, false, -1);
-    return null;
+    const newRecurrence = this.internalStore.select ('newRecurrence').get ('value');
+    return this.renderRow (newRecurrence, true, false, -1);  // last line (for create)
   }
 
   render () {

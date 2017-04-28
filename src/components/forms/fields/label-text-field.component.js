@@ -61,7 +61,7 @@ export default class LabelTextField extends React.Component {
     }
   }
 
-  actionClicked (e) {
+  onActionClicked (e) {
     this.onClick (e);
   }
 
@@ -119,6 +119,7 @@ export default class LabelTextField extends React.Component {
     const selectedValue  = this.read ('selected-value');
 
     const hintText       = this.read ('hint-text');
+    const tooltip        = this.read ('tooltip');
     const messageInfo    = this.read ('message-info');
     const messageWarning = this.read ('message-warning');
     const rows           = this.read ('rows');
@@ -143,6 +144,7 @@ export default class LabelTextField extends React.Component {
       'type':                type,
       'width':               fieldWidth,
       'hint-text':           hintText,
+      'tooltip':             tooltip,
       'message-info':        messageInfo,
       'message-warning':     messageWarning,
       'filter-keys':         filterKeys,
@@ -163,9 +165,9 @@ export default class LabelTextField extends React.Component {
         <SimpleTextField
           {...props}
           updateStrategy = {updateStrategy}
-          onChange       = {e => this.onMyChange (e)}
-          onFocus        = {e => this.onMyFocus (e)}
-          onBlur         = {e => this.onMyBlur (e)}
+          onChange       = {this.onMyChange}
+          onFocus        = {this.onMyFocus}
+          onBlur         = {this.onMyBlur}
           {...this.link ()}
         />
       );
@@ -173,8 +175,8 @@ export default class LabelTextField extends React.Component {
       return (
         <TextField
           {...props}
-          onFocus = {e => this.onMyFocus (e)}
-          onBlur  = {e => this.onMyBlur (e)}
+          onFocus = {this.onMyFocus}
+          onBlur  = {this.onMyBlur}
           {...this.link ()}
         />
       );
@@ -188,7 +190,7 @@ export default class LabelTextField extends React.Component {
         <Button
           kind            = 'combo'
           glyph           = {actionGlyph}
-          custom-on-click = {e => this.actionClicked (e)}
+          custom-on-click = {this.onActionClicked}
           {...this.link ()}
         />
       );

@@ -77,8 +77,8 @@ export default class TextField extends React.Component {
           id          = {id}
           style       = {textareaStyle}
           onChange    = {this.onChange}
-          onFocus     = {e => this.onMyFocus (e)}
-          onBlur      = {e => this.onMyBlur (e)}
+          onFocus     = {this.onMyFocus}
+          onBlur      = {this.onMyBlur}
           onKeyDown   = {this.onKeyDown}
           onKeyUp     = {this.onKeyUp}
           onSelect    = {this.onSelect}
@@ -95,8 +95,8 @@ export default class TextField extends React.Component {
           ref         = 'inputTag'
           id          = {id}
           onChange    = {this.onChange}
-          onFocus     = {e => this.onMyFocus (e)}
-          onBlur      = {e => this.onMyBlur (e)}
+          onFocus     = {this.onMyFocus}
+          onBlur      = {this.onMyBlur}
           onKeyDown   = {this.onKeyDown}
           onKeyUp     = {this.onKeyUp}
           onSelect    = {this.onSelect}

@@ -59,7 +59,7 @@ export default class Button extends React.Component {
     return state.select ('menu-internal');
   }
 
-  clicked (e) {
+  onClicked (e) {
     const customOnClick = this.read ('custom-on-click');
     if (customOnClick) {
       customOnClick (e);
@@ -69,7 +69,7 @@ export default class Button extends React.Component {
   }
 
   // Called when the button is clicked.
-  showMenu () {
+  onShowMenu () {
     // Trace.log ('>>>> showMenu <<<<');
     const internalState = this.getInternalState ();
     let isMenuVisible = internalState.get ('isMenuVisible');
@@ -81,7 +81,7 @@ export default class Button extends React.Component {
     internalState.set ('isMenuVisible', isMenuVisible);
   }
 
-  mouseDown (e) {
+  onMouseDown (e) {
     // Trace.log ('Button.mouseDown');
     const disabled = this.read ('disabled');
     if (disabled === 'true') {
@@ -93,7 +93,7 @@ export default class Button extends React.Component {
     }
   }
 
-  mouseUp (e) {
+  onMouseUp (e) {
     const disabled = this.read ('disabled');
     if (disabled === 'true') {
       return;
@@ -247,11 +247,11 @@ export default class Button extends React.Component {
       return (
         <div
           key          = {index}
-          onClick      = {e => this.clicked (e)}  // voir (*)
-          onMouseDown  = {e => this.mouseDown (e)}
-          onMouseUp    = {e => this.mouseUp (e)}
-          onTouchStart = {e => this.mouseDown (e)}
-          onTouchEnd   = {e => this.mouseUp (e)}
+          onClick      = {this.onClicked}  // voir (*)
+          onMouseDown  = {this.onMouseDown}
+          onMouseUp    = {this.onMouseUp}
+          onTouchStart = {this.onMouseDown}
+          onTouchEnd   = {this.onMouseUp}
           style        = {style}
           title        = {tooltip}
         >
@@ -262,11 +262,11 @@ export default class Button extends React.Component {
       return (
         <div
           key          = {index}
-          onClick      = {() => this.showMenu ()}  // voir (*)
-          onMouseDown  = {e => this.mouseDown (e)}
-          onMouseUp    = {e => this.mouseUp (e)}
-          onTouchStart = {e => this.mouseDown (e)}
-          onTouchEnd   = {e => this.mouseUp (e)}
+          onClick      = {this.onShowMenu}  // voir (*)
+          onMouseDown  = {this.onMouseDown}
+          onMouseUp    = {this.onMouseUp}
+          onTouchStart = {this.onMouseDown}
+          onTouchEnd   = {this.onMouseUp}
           style        = {style}
           title        = {tooltip}
         >
@@ -281,11 +281,11 @@ export default class Button extends React.Component {
       return (
         <a
           key          = {index}
-          onClick      = {e => this.clicked (e)}  // voir (*)
-          onMouseDown  = {e => this.mouseDown (e)}
-          onMouseUp    = {e => this.mouseUp (e)}
-          onTouchStart = {e => this.mouseDown (e)}
-          onTouchEnd   = {e => this.mouseUp (e)}
+          onClick      = {this.onClicked}  // voir (*)
+          onMouseDown  = {this.onMouseDown}
+          onMouseUp    = {this.onMouseUp}
+          onTouchStart = {this.onMouseDown}
+          onTouchEnd   = {this.onMouseUp}
           style        = {style}
           title        = {tooltip}
           href         = {'#' + toAnchor}
@@ -301,11 +301,11 @@ export default class Button extends React.Component {
       return (
         <div
           key          = {index}
-          onClick      = {e => this.clicked (e)}  // voir (*)
-          onMouseDown  = {e => this.mouseDown (e)}
-          onMouseUp    = {e => this.mouseUp (e)}
-          onTouchStart = {e => this.mouseDown (e)}
-          onTouchEnd   = {e => this.mouseUp (e)}
+          onClick      = {this.onClicked}  // voir (*)
+          onMouseDown  = {this.onMouseDown}
+          onMouseUp    = {this.onMouseUp}
+          onTouchStart = {this.onMouseDown}
+          onTouchEnd   = {this.onMouseUp}
           style        = {style}
           title        = {tooltip}
         >

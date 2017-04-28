@@ -1,16 +1,18 @@
 /******************************************************************************/
 
 function addDate (state, date) {
-  state.push (date);
-  return state;
+  const mutableState = [ ...state ];  // shallow copy of state
+  mutableState.push (date);
+  return mutableState;
 }
 
 function deleteDate (state, date) {
-  const i = state.indexOf (date);
+  const mutableState = [ ...state ];  // shallow copy of state
+  const i = mutableState.indexOf (date);
   if (i !== -1) {
-    state.splice (i, 1);
+    mutableState.splice (i, 1);
   }
-  return state;
+  return mutableState;
 }
 
 /******************************************************************************/
@@ -18,11 +20,9 @@ function deleteDate (state, date) {
 export function reducer (state, action) {
   switch (action.type) {
     case 'ADD':
-      state.Add = addDate (state, action.date);
-      break;
+      return addDate (state, action.date);
     case 'DELETE':
-      state.Add = deleteDate (state, action.date);
-      break;
+      return deleteDate (state, action.date);
   }
   return state;
 }

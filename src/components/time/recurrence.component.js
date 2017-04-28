@@ -84,24 +84,48 @@ export default class Recurrence extends React.Component {
 
   constructor (props) {
     super (props);
+
     this.internalStore = Store.create ();
     this.localBus = this;  // for access to property notify
-    this.updateEditor ();
-    this.updateInfo ();
-    this.updateDates ();
   }
-
 
   // LocalBus.notify
   notify (props, source, value) {
-    this.internalStore.select (props.field).set ('value', value);
-    // TODO: Update external state !
+    // console.log (`Recurrence.notify field=${props.field} type=${source.type}`);
+    if (source.type === 'change') {
+      this.internalStore.select (props.field).set ('value', value);
+      this.notifyParent ();
 
-    this.updateInfo ();
-    if (props.field === 'Days' || props.field === 'Months') {
-      this.updateDates ();
+      this.updateInfo ();
+      if (props.field === 'Days' || props.field === 'Months') {
+        this.updateDates ();
+      }
+      this.forceUpdate ();
     }
-    this.forceUpdate ();
+  }
+
+  notifyParent () {
+    const notifySource = {type: 'change'};
+    this.props.bus.notify (this.props, notifySource, this.getValueState ());
+  }
+
+  getValueState () {
+    const startDate  = this.internalStore.select ('StartDate').get ('value');
+    const endDate    = this.internalStore.select ('EndDate'  ).get ('value');
+    const days       = this.internalStore.select ('Days'     ).get ('value');
+    const months     = this.internalStore.select ('Months'   ).get ('value');
+    const deleteList = this.internalStore.select ('Delete'   ).get ('value');
+    const addList    = this.internalStore.select ('Add'      ).get ('value');
+    const cron       = CronHelpers.getCron (days, months);
+
+    return {
+      id:        this.recurrenceId,
+      StartDate: startDate,
+      EndDate:   endDate,
+      Cron:      cron,
+      Delete:    deleteList,
+      Add:       addList,
+    };
   }
 
   linkStartDate () {
@@ -128,10 +152,24 @@ export default class Recurrence extends React.Component {
     return {...this.link (), state: this.internalStore.select ('Months'), bus: this.localBus};
   }
 
-  updateEditor () {
-    const startDate = this.props.state.get ('StartDate');
-    const endDate   = this.props.state.get ('EndDate');
-    const cron      = this.props.state.get ('Cron');
+  updateComponent () {
+    const recurrence = this.read ('value');
+    if (recurrence !== this.lastRecurrence) {
+      this.updateInternalState (recurrence);
+      this.lastRecurrence = recurrence;
+      this.updateInfo ();
+      this.updateDates ();
+    }
+  }
+
+  updateInternalState (recurrence) {
+    const startDate  = recurrence.StartDate;
+    const endDate    = recurrence.EndDate;
+    const cron       = recurrence.Cron;
+    const deleteList = recurrence.Delete;
+    const addList    = recurrence.Add;
+
+    this.recurrenceId = recurrence.id;
 
     this.internalStore.select ('StartDate').set ('value', startDate);
     this.internalStore.select ('EndDate'  ).set ('value', endDate);
@@ -139,8 +177,8 @@ export default class Recurrence extends React.Component {
     this.internalStore.select ('Days'  ).set ('value', CronHelpers.getFormatedDays   (cron));
     this.internalStore.select ('Months').set ('value', CronHelpers.getFormatedMonths (cron));
 
-    this.internalStore.select ('Delete').set ('value', []);  // TODO: ...
-    this.internalStore.select ('Add'   ).set ('value', []);
+    this.internalStore.select ('Delete').set ('value', deleteList);
+    this.internalStore.select ('Add'   ).set ('value', addList);
 
     if (!this.visibleDate || this.visibleDate < startDate || this.visibleDate > endDate) {
       if (startDate) {
@@ -188,64 +226,70 @@ export default class Recurrence extends React.Component {
     this.dates = dates;
   }
 
-  dateClicked (date) {
-    const deleteList = this.internalStore.select ('Delete').get ('value');
-    const addList    = this.internalStore.select ('Add'   ).get ('value');
+  onDateClicked (date) {
     const item = getRecurrenceItem (date, this.recurrenceDates);
     if (item.Type === 'default') {
       // If click on recurrent event, add a date into section 'Delete' for canceled the recurrence.
-      ReducerRecurrence.reducer (deleteList, {type: 'ADD', date: item.Date});
+      const list = this.internalStore.select ('Delete').get ('value');
+      const newList = ReducerRecurrence.reducer (list, {type: 'ADD', date: item.Date});
+      this.internalStore.select ('Delete').set ('value', newList);
     } else if (item.Type === 'added') {
       // If click on added event, simply remove it.
-      ReducerRecurrence.reducer (addList, {type: 'DELETE', date: item.Date});
+      const list = this.internalStore.select ('Add').get ('value');
+      const newList = ReducerRecurrence.reducer (list, {type: 'DELETE', date: item.Date});
+      this.internalStore.select ('Add').set ('value', newList);
     } else if (item.Type === 'deleted') {
       // If click on deleted event, remove 'Delete' entry. That restore the recurrent event.
-      ReducerRecurrence.reducer (deleteList, {type: 'DELETE', date: item.Date});
+      const list = this.internalStore.select ('Delete').get ('value');
+      const newList = ReducerRecurrence.reducer (list, {type: 'DELETE', date: item.Date});
+      this.internalStore.select ('Delete').set ('value', newList);
     } else if (item.Type === 'none') {
       // If click on free date, add a event.
-      ReducerRecurrence.reducer (addList, {type: 'ADD', date: item.Date});
+      const list = this.internalStore.select ('Add').get ('value');
+      const newList = ReducerRecurrence.reducer (list, {type: 'ADD', date: item.Date});
+      this.internalStore.select ('Add').set ('value', newList);
     }
-    this.internalStore.select ('Delete').set ('value', deleteList);
-    this.internalStore.select ('Add'   ).set ('value', addList);
+    this.notifyParent ();
     this.updateInfo ();
     this.updateDates ();
+    this.forceUpdate ();
   }
 
-  createRecurrence () {
+  onCreateRecurrence () {
     const x = this.read ('do-create');
     if (x) {
-      x (this.recurrenceData);
+      x ();
     }
   }
 
-  deleteRecurrence () {
+  onDeleteRecurrence () {
     const x = this.read ('do-delete');
     if (x) {
-      const index = this.read ('index');
-      x (index);
+      const field = this.read ('field');
+      x (field);
     }
   }
 
-  eraseEvents () {
-    const x = this.read ('do-erase-events');
-    if (x) {
-      const index = this.read ('index');
-      x (index);
-    }
+  onEraseEvents () {
+    this.internalStore.select ('Delete').set ('value', []);
+    this.internalStore.select ('Add'   ).set ('value', []);
+    this.notifyParent ();
+    this.updateInfo ();
+    this.updateDates ();
+    this.forceUpdate ();
   }
 
-  visibleDateChanged (date) {
+  onVisibleDateChanged (date) {
     this.visibleDate = date;
     this.updateDates ();
     this.forceUpdate ();
   }
 
-  swapExtended () {
+  onSwapExtended () {
     const extended = this.read ('extended') === 'true';
     if (!extended) {  // compact ?
-      this.updateEditor ();
-      this.updateInfo ();
-      this.updateDates ();
+      // this.updateInfo ();
+      // this.updateDates ();
     }
     const x = this.read ('do-swap-extended');
     if (x) {
@@ -269,11 +313,11 @@ export default class Recurrence extends React.Component {
           grow = '2.3'
           {...this.link ()} />
         <Button
-          kind       = 'recurrence'
-          glyph      = {extended ? 'caret-up' : 'caret-down'}
-          tooltip    = {extended ? 'Compacte la ligne' : 'Etend la ligne pour la modifier'}
-          active     = {extended ? 'true' : 'false'}
-          mouse-down = {() => this.swapExtended ()}
+          kind            = 'recurrence'
+          glyph           = {extended ? 'caret-up' : 'caret-down'}
+          tooltip         = {extended ? 'Compacte la ligne' : 'Etend la ligne pour la modifier'}
+          active          = {extended ? 'true' : 'false'}
+          custom-on-click = {this.onSwapExtended}
           {...this.link ()} />
       </div>
     );
@@ -285,9 +329,9 @@ export default class Recurrence extends React.Component {
     } else {
       return (
         <Button
-          glyph      = 'eraser'
-          tooltip    = 'Supprime toutes les exceptions'
-          mouse-down = {() => this.eraseEvents ()}
+          glyph           = 'eraser'
+          tooltip         = 'Supprime toutes les exceptions'
+          custom-on-click = {this.onEraseEvents}
           {...this.link ()} />
       );
     }
@@ -298,13 +342,14 @@ export default class Recurrence extends React.Component {
 
     const buttonGlyph   = create ? 'plus' : 'trash';
     const buttonTooltip = create ? 'Crée une nouvelle ligne' : 'Supprime la ligne';
-    const buttonAction  = create ? () => this.createRecurrence () : () => this.deleteRecurrence ();
+    const buttonAction  = create ? this.onCreateRecurrence : this.onDeleteRecurrence;
 
     return (
       <div style={editStyle}>
         <TextFieldDate
           field       = 'StartDate'
           hint-text   = 'Date de début'
+          tooltip     = 'Date de début'
           label-glyph = 'forward'
           grow        = '1'
           spacing     = 'large'
@@ -312,6 +357,7 @@ export default class Recurrence extends React.Component {
         <TextFieldDate
           field       = 'EndDate'
           hint-text   = 'Date de fin'
+          tooltip     = 'Date de fin'
           label-glyph = 'backward'
           grow        = '1'
           spacing     = 'large'
@@ -334,9 +380,9 @@ export default class Recurrence extends React.Component {
           {...this.linkMonths ()} />
         {this.renderEditorEraser (create)}
         <Button
-          glyph      = {buttonGlyph}
-          tooltip    = {buttonTooltip}
-          mouse-down = {buttonAction}
+          glyph           = {buttonGlyph}
+          tooltip         = {buttonTooltip}
+          custom-on-click = {buttonAction}
           {...this.link ()} />
       </div>
     );
@@ -352,14 +398,16 @@ export default class Recurrence extends React.Component {
           dates                = {this.dates}
           start-date           = {this.getStartDate ()}
           end-date             = {this.getEndDate ()}
-          date-clicked         = {x => this.dateClicked (x)}
-          visible-date-changed = {x => this.visibleDateChanged (x)}
+          date-clicked         = {this.onDateClicked}
+          visible-date-changed = {this.onVisibleDateChanged}
           {...this.link ()} />
       </div>
     );
   }
 
   render () {
+    this.updateComponent ();
+
     const create   = this.read ('create') === 'true';
     const extended = this.read ('extended') === 'true';
 

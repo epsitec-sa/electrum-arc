@@ -57,7 +57,7 @@ export default class Calendar extends React.Component {
 
   // Called when the '<' button is clicked.
   // Modify internalState.visibleDate (fix visible year and month).
-  prevMonth () {
+  onPrevMonth () {
     const m = this.getMonthCount ();
     const visibleDate = this.getVisibleDate ();
     const newDate = Converters.addMonths (visibleDate, -m);
@@ -70,7 +70,7 @@ export default class Calendar extends React.Component {
 
   // Called when the '>' button is clicked.
   // Modify internalState.visibleDate (fix visible year and month).
-  nextMonth () {
+  onNextMonth () {
     const m = this.getMonthCount ();
     const visibleDate = this.getVisibleDate ();
     const newDate = Converters.addMonths (visibleDate, m);
@@ -91,7 +91,7 @@ export default class Calendar extends React.Component {
     }
   }
 
-  dateClicked (date) {
+  onDateClicked (date) {
     // this.setDate (date);
     const x = this.read ('date-clicked');
     if (x) {
@@ -106,14 +106,14 @@ export default class Calendar extends React.Component {
     const tooltip = Converters.getDisplayedDate (date, false, 'Wdmy');
     return (
       <Button
-        key     = {index}
-        text    = {Converters.getDay (date)}  // 1..31
-        tooltip = {tooltip}
-        kind    = 'calendar'
-        active  = {active}
-        dimmed  = {dimmed}
-        weekend = {weekend}
-        action  = {() => this.dateClicked (date)}
+        key             = {index}
+        text            = {Converters.getDay (date)}  // 1..31
+        tooltip         = {tooltip}
+        kind            = 'calendar'
+        active          = {active}
+        dimmed          = {dimmed}
+        weekend         = {weekend}
+        custom-on-click = {() => this.onDateClicked (date)}
         {...this.link ()}
       />
     );
@@ -164,10 +164,10 @@ export default class Calendar extends React.Component {
     if (showing) {
       return (
         <Button
-          glyph  = 'chevron-left'
-          kind   = 'calendar-navigation'
-          key    = 'prevMonth'
-          action = {() => this.prevMonth ()}
+          glyph           = 'chevron-left'
+          kind            = 'calendar-navigation'
+          key             = 'prevMonth'
+          custom-on-click = {this.onPrevMonth}
           {...this.link ()} />
       );
     } else {
@@ -179,10 +179,10 @@ export default class Calendar extends React.Component {
     if (showing) {
       return (
         <Button
-          glyph  = 'chevron-right'
-          kind   = 'calendar-navigation'
-          key    = 'nextMonth'
-          action = {() => this.nextMonth ()}
+          glyph           = 'chevron-right'
+          kind            = 'calendar-navigation'
+          key             = 'nextMonth'
+          custom-on-click = {this.onNextMonth}
           {...this.link ()} />
       );
     } else {
