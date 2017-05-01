@@ -53,8 +53,8 @@ export default class TextFieldDate extends React.Component {
 
       this.forceUpdate ();  // to update message-info
     } else if (source.type === 'defocus') {
-      When defocus, complete the edited value and hide the FlyingBalloon (which
-      contains the message). By example, '12' is replaced by '12.05.2017'.
+      // When defocus, complete the edited value and hide the FlyingBalloon (which
+      // contains the message). By example, '12' is replaced by '12.05.2017'.
       const displayedValue = this.internalStore.select ('value').get ('value');
       const canonicalValue = this.displayedToCanonical (displayedValue);
       const finalValue     = this.canonicalToDisplayed (canonicalValue);
