@@ -16,16 +16,16 @@ export default function styles (theme, _props) {
   const headerInfoCompactedStyle = {
     display:         'flex',
     flexDirection:   'row',
-    backgroundColor: theme.palette.calendarWeekendBackground,
-    color:           theme.palette.calendarHeaderText,
+    backgroundColor: theme.palette.recurrenceHeaderInfoCompactedBackground,
+    color:           theme.palette.recurrenceHeaderInfoCompactedText,
     transition:      theme.transitions.easeOut (400, 'background-color', 0),
   };
 
   const headerInfoExtendedStyle = {
     display:         'flex',
     flexDirection:   'row',
-    backgroundColor: theme.palette.calendarActiveBackground,
-    color:           theme.palette.calendarActiveText,
+    backgroundColor: theme.palette.recurrenceHeaderInfoExtendedBackground,
+    color:           theme.palette.recurrenceHeaderInfoExtendedText,
     transition:      theme.transitions.easeOut (400, 'background-color', 0),
   };
 
@@ -40,7 +40,7 @@ export default function styles (theme, _props) {
     height:          '0px',
     overflowY:       'hidden',
     margin:          '0px 0px ' + s + ' 0px',
-    backgroundColor: theme.palette.recurrenceExtendedBackground,
+    backgroundColor: theme.palette.recurrenceExtendedBoxBackground,
     transition:      theme.transitions.easeOut (400, 'height', 0),
   };
 
@@ -50,7 +50,7 @@ export default function styles (theme, _props) {
     height:          extendedBoxHeight,
     overflowY:       'hidden',
     margin:          '0px 0px ' + s + ' 0px',
-    backgroundColor: theme.palette.recurrenceExtendedBackground,
+    backgroundColor: theme.palette.recurrenceExtendedBoxBackground,
     transition:      theme.transitions.easeOut (400, 'height', 0),
   };
 
