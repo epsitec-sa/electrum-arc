@@ -97,9 +97,7 @@ export default class Recurrence extends React.Component {
       this.notifyParent ('change');
 
       this.updateInfo ();
-      if (props.field === 'Days' || props.field === 'Months') {
-        this.updateDates ();
-      }
+      this.updateDates ();
       this.forceUpdate ();
     }
   }
@@ -257,10 +255,16 @@ export default class Recurrence extends React.Component {
 
   onCreateRecurrence () {
     this.notifyParent ('create');
+    this.updateInfo ();
+    this.updateDates ();
+    this.forceUpdate ();
   }
 
   onDeleteRecurrence () {
     this.notifyParent ('delete');
+    this.updateInfo ();
+    this.updateDates ();
+    this.forceUpdate ();
   }
 
   onEraseEvents () {
