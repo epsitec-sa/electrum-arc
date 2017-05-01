@@ -171,8 +171,8 @@ export default class Recurrence extends React.Component {
     this.internalStore.select ('StartDate').set ('value', startDate);
     this.internalStore.select ('EndDate'  ).set ('value', endDate);
 
-    this.internalStore.select ('Days'  ).set ('value', CronHelpers.getFormatedDays   (cron));
-    this.internalStore.select ('Months').set ('value', CronHelpers.getFormatedMonths (cron));
+    this.internalStore.select ('Days'  ).set ('value', CronHelpers.getCanonicalDays   (cron));
+    this.internalStore.select ('Months').set ('value', CronHelpers.getCanonicalMonths (cron));
 
     this.internalStore.select ('Delete').set ('value', deleteList);
     this.internalStore.select ('Add'   ).set ('value', addList);
