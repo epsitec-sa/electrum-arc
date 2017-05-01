@@ -95,7 +95,6 @@ export default class Recurrence extends React.Component {
     if (source.type === 'change') {
       this.internalStore.select (props.field).set ('value', value);
       this.notifyParent ('change');
-
       this.updateInfo ();
       this.updateDates ();
       this.forceUpdate ();

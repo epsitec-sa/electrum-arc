@@ -819,7 +819,7 @@ export default function styles (theme, props) {
     padding         = Unit.add (fbp, '1px') + ' ' + fbp + ' ' + fbp + ' ' + fbp;
     backgroundColor = theme.palette.flyingBalloonBackground;
     position        = 'relative';
-    boxShadow       = theme.shapes.floatingShadow;
+    boxShadow       = theme.shapes.flyingShadow;
     borderRadius    = theme.shapes.flyingBalloonRadius;
   }
 
