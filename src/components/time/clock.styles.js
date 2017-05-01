@@ -20,7 +20,7 @@ export default function styles (theme, _props) {
   const headerTextStyle = {
     flexGrow:      1,
     textAlign:     'center',
-    lineHeight:    theme.shapes.calendarButtonSize,
+    lineHeight:    theme.shapes.calendarButtonHeight,
     color:         theme.palette.calendarHeaderText,
     fontWeight:    'bold',
     textTransform: 'uppercase',

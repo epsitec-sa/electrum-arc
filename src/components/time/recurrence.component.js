@@ -299,9 +299,9 @@ export default class Recurrence extends React.Component {
   }
 
   renderInfo (extended) {
-    const singleStyle = this.mergeStyles (extended ? 'header' : 'single');
+    const style = this.mergeStyles (extended ? 'headerInfoExtended' : 'headerInfoCompacted');
     return (
-      <div style={singleStyle}>
+      <div style={style}>
         <Label
           text = {this.periodInfo}
           kind = 'title-recurrence'
@@ -310,7 +310,7 @@ export default class Recurrence extends React.Component {
         <Label
           text = {this.cronInfo}
           kind = 'title-recurrence'
-          grow = '2.3'
+          grow = '2'
           {...this.link ()} />
         <Button
           kind            = 'recurrence'
@@ -338,7 +338,7 @@ export default class Recurrence extends React.Component {
   }
 
   renderEditor (create) {
-    const editStyle = this.mergeStyles (create ? 'create' : 'edit');
+    const editStyle = this.mergeStyles (create ? 'headerEditor' : 'editor');
 
     const buttonGlyph   = create ? 'plus' : 'trash';
     const buttonTooltip = create ? 'Crée une nouvelle ligne' : 'Supprime la ligne';
@@ -389,7 +389,7 @@ export default class Recurrence extends React.Component {
   }
 
   renderCalendar () {
-    const editStyle = this.mergeStyles ('edit');
+    const editStyle = this.mergeStyles ('calendar');
     return (
       <div style={editStyle}>
         <Calendar
@@ -411,32 +411,25 @@ export default class Recurrence extends React.Component {
     const create   = this.read ('create') === 'true';
     const extended = this.read ('extended') === 'true';
 
-    const boxStyle = this.mergeStyles (extended ? 'extendedBox' : 'box');
+    const mainStyle = this.mergeStyles ('main');
 
     if (create) {
       return (
-        <div style={boxStyle}>
+        <div style={mainStyle}>
           {this.renderEditor (create)}
         </div>
       );
     } else {
-      if (extended) {
-        return (
+      const boxStyle = this.mergeStyles (extended ? 'extendedBox' : 'compactedBox');
+      return (
+        <div style={mainStyle}>
+          {this.renderInfo (extended)}
           <div style={boxStyle}>
-            {this.renderInfo (extended)}
             {this.renderEditor (create)}
             {this.renderCalendar ()}
           </div>
-        );
-      } else {
-        return (
-          <div style={boxStyle}>
-            {this.renderInfo (extended)}
-            {this.renderEditor (create)}
-            {this.renderCalendar ()}
-          </div>
-        );
-      }
+        </div>
+      );
     }
   }
 }

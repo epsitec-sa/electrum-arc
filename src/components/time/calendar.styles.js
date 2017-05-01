@@ -32,7 +32,7 @@ export default function styles (theme, _props) {
   const headerTextStyle = {
     flexGrow:      1,
     textAlign:     'center',
-    lineHeight:    theme.shapes.calendarButtonSize,
+    lineHeight:    theme.shapes.calendarButtonHeight,
     color:         theme.palette.calendarHeaderText,
     fontWeight:    'bold',
     textTransform: 'uppercase',
@@ -42,7 +42,7 @@ export default function styles (theme, _props) {
   const dowTextStyle = {
     width:      theme.shapes.calendarButtonWidth,
     textAlign:  'center',
-    lineHeight: theme.shapes.calendarButtonSize,
+    lineHeight: theme.shapes.calendarButtonHeight,
     color:      theme.palette.calendarHeaderText,
     fontSize:   Unit.multiply (theme.shapes.calendarDOWTextSize, theme.typo.fontScale),
   };
