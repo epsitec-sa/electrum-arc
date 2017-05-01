@@ -94,7 +94,7 @@ export default class Recurrence extends React.Component {
     // console.log (`Recurrence.notify field=${props.field} type=${source.type}`);
     if (source.type === 'change') {
       this.internalStore.select (props.field).set ('value', value);
-      this.notifyParent ();
+      this.notifyParent ('change');
 
       this.updateInfo ();
       if (props.field === 'Days' || props.field === 'Months') {
@@ -104,9 +104,9 @@ export default class Recurrence extends React.Component {
     }
   }
 
-  notifyParent () {
-    const notifySource = {type: 'change'};
-    this.props.bus.notify (this.props, notifySource, this.getValueState ());
+  notifyParent (type) {
+    const source = {type: type};
+    this.props.bus.notify (this.props, source, this.getValueState ());
   }
 
   getValueState () {
@@ -249,31 +249,24 @@ export default class Recurrence extends React.Component {
       const newList = ReducerRecurrence.reducer (list, {type: 'ADD', date: item.Date});
       this.internalStore.select ('Add').set ('value', newList);
     }
-    this.notifyParent ();
+    this.notifyParent ('change');
     this.updateInfo ();
     this.updateDates ();
     this.forceUpdate ();
   }
 
   onCreateRecurrence () {
-    const x = this.read ('do-create');
-    if (x) {
-      x ();
-    }
+    this.notifyParent ('create');
   }
 
   onDeleteRecurrence () {
-    const x = this.read ('do-delete');
-    if (x) {
-      const field = this.read ('field');
-      x (field);
-    }
+    this.notifyParent ('delete');
   }
 
   onEraseEvents () {
     this.internalStore.select ('Delete').set ('value', []);
     this.internalStore.select ('Add'   ).set ('value', []);
-    this.notifyParent ();
+    this.notifyParent ('change');
     this.updateInfo ();
     this.updateDates ();
     this.forceUpdate ();
