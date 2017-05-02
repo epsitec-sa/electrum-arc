@@ -38,7 +38,11 @@ export default class TripDeliver extends React.Component {
     // Trace.log ('TripDeliver.componentWillMount');
     const ticket = this.read ('ticket');
     const trip = this.getTrip (ticket);
-    this.setRealisedTime (Converters.getDisplayedTime (trip.RealisedTime, true));
+    let time = trip.RealisedTime;
+    if (!time) {
+      time = Converters.getNowCanonicalDate ();
+    }
+    this.setRealisedTime (Converters.getDisplayedTime (time));
   }
 
   getTime () {
@@ -72,7 +76,8 @@ export default class TripDeliver extends React.Component {
     const value = e.target.value;
     // Trace.log ('TripDeliver.onMyChange ' + value);
     this.setRealisedTime (value);
-    this.setOk (Converters.checkTime (value));
+    // this.setOk (Converters.checkTime (value));
+    this.setOk (true);  // TODO...
   }
 
   renderMain (ticket) {

@@ -38,16 +38,22 @@ export default class FlyingBalloon extends React.Component {
         style    = {boxStyle}
         >
         <Container
-          kind = 'flying-balloon'
+          kind              = 'flying-balloon'
           triangle-position = {inputTrianglePosition}
           {...this.link ()}
           >
 
-          <Label text={inputPrimaryText}   kind='flying-balloon'
-            font-weight='bold'
-            bottom-spacing={primaryBottomSpacing} {...this.link ()} />
+          <Label
+            text           = {inputPrimaryText}
+            kind           = 'flying-balloon'
+            font-weight    = 'bold'
+            bottom-spacing = {primaryBottomSpacing}
+            {...this.link ()} />
 
-          <Label text={inputSecondaryText} kind='flying-balloon' {...this.link ()} />
+          <Label
+            text = {inputSecondaryText}
+            kind = 'flying-balloon'
+            {...this.link ()} />
         </Container>
       </span>
     );

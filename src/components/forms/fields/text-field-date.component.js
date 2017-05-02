@@ -22,17 +22,27 @@ export default class TextFieldDate extends React.Component {
     return Converters.getDisplayedDate (canonicalValue);
   }
 
-  displayedToCanonical (displayedValue) {
-    return Converters.getCanonicalDate (displayedValue);
+  parseEditedDate (displayedValue) {
+    const parsed = Converters.parseEditedDate (displayedValue);
+    const finalValue = this.canonicalToDisplayed (parsed.value);
+    return {canonicalValue: parsed.value, displayedFinalValue: finalValue, warning: parsed.error};
   }
 
   linkValueEdited () {
     return {...this.link (), state: this.internalStore.select ('value'), bus: this.localBus};
   }
 
-  getMessage () {
+  // Return the top line of FlyingBalloon, displayed in bold.
+  // Contains the optional error message.
+  getMessageWarning () {
+    return this.internalStore.select ('value').get ('warning');
+  }
+
+  // Return the bottom line of FlyingBalloon.
+  // Contains the final value.
+  getMessageInfo () {
     const displayedValue = this.internalStore.select ('value').get ('value');
-    const message        = this.internalStore.select ('value').get ('message');
+    const message        = this.internalStore.select ('value').get ('info');
     if (message !== displayedValue) {
       return message;
     } else {
@@ -43,12 +53,15 @@ export default class TextFieldDate extends React.Component {
   // LocalBus.notify
   notify (props, source, value) {
     if (source.type === 'change') {
-      const canonicalValue = this.displayedToCanonical (value);
-      const finalValue     = this.canonicalToDisplayed (canonicalValue);
-      this.internalStore.select ('value').set ('value', value, 'message', finalValue);
+      const parsed = this.parseEditedDate (value);
+      this.internalStore.select ('value').set (
+        'value',   value,
+        'info',    parsed.displayedFinalValue,
+        'warning', parsed.warning
+      );
 
-      if (canonicalValue !== this.read ('value')) {
-        this.props.bus.notify (this.props, source, canonicalValue);
+      if (parsed.canonicalValue !== this.read ('value')) {
+        this.props.bus.notify (this.props, source, parsed.canonicalValue);
       }
 
       this.forceUpdate ();  // to update message-info
@@ -56,9 +69,8 @@ export default class TextFieldDate extends React.Component {
       // When defocus, complete the edited value and hide the FlyingBalloon (which
       // contains the message). By example, '12' is replaced by '12.05.2017'.
       const displayedValue = this.internalStore.select ('value').get ('value');
-      const canonicalValue = this.displayedToCanonical (displayedValue);
-      const finalValue     = this.canonicalToDisplayed (canonicalValue);
-      this.internalStore.select ('value').set ('value', finalValue);  // no 'message' to hide
+      const parsed         = this.parseEditedDate (displayedValue);
+      this.internalStore.select ('value').set ('value', parsed.displayedFinalValue);  // no 'info' to hide
       this.forceUpdate ();  // to update message-info
     }
   }
@@ -74,14 +86,15 @@ export default class TextFieldDate extends React.Component {
 
     return (
       <LabelTextField
-        hint-text    = {hintText}
-        tooltip      = {tooltip}
-        label-glyph  = {labelGlyph}
-        label-text   = {labelText}
-        label-width  = {labelWidth}
-        grow         = {grow}
-        spacing      = {spacing}
-        message-info = {this.getMessage ()}
+        hint-text       = {hintText}
+        tooltip         = {tooltip}
+        label-glyph     = {labelGlyph}
+        label-text      = {labelText}
+        label-width     = {labelWidth}
+        grow            = {grow}
+        spacing         = {spacing}
+        message-warning = {this.getMessageWarning ()}
+        message-info    = {this.getMessageInfo ()}
         {...this.linkValueEdited ()} />
     );
   }

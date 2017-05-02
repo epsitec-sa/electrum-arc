@@ -61,6 +61,24 @@ export function isEmptyDate (date) {
   return !date || date === getEmptyDate ();
 }
 
+function tryParseInt (text) {
+  if (typeof text === 'string') {
+    text = text.trim ();
+    let result = 0;
+    for (var c of text) {
+      if (c >= '0' && c <= '9') {
+        result *= 10;
+        result += c - '0';
+      } else {
+        return NaN;
+      }
+    }
+    return result;
+  } else {
+    return NaN;
+  }
+}
+
 // value =  '1', decimals = 3  -> return '001'
 // value =  'a', decimals = 3  -> return null
 // value =    5, decimals = 3  -> return '005'
@@ -88,8 +106,12 @@ export function jsToCanonicalTime (time) {
 }
 
 export function canonicalTimeToJs (time) {
-  const s = splitTime (time);
-  return new Date (2000, 1, 1, s.hour, s.minute, s.second);
+  if (typeof date === 'object') {
+    return new Date (2000, 1, 1, time.hour, time.minute, time.second);
+  } else {
+    const s = splitTime (time);
+    return new Date (2000, 1, 1, s.hour, s.minute, s.second);
+  }
 }
 
 export function jsToCanonicalDate (date) {
@@ -99,8 +121,12 @@ export function jsToCanonicalDate (date) {
 }
 
 export function canonicalDateToJs (date) {
-  const s = splitDate (date);
-  return new Date (s.year, s.month - 1, s.day);
+  if (typeof date === 'object') {
+    return new Date (date.year, date.month - 1, date.day);
+  } else {
+    const s = splitDate (date);
+    return new Date (s.year, s.month - 1, s.day);
+  }
 }
 
 export function addHours (time, n) {
@@ -170,13 +196,14 @@ export function getSeconds (time) {
 }
 
 // With '2017-03-31', return {year: 2017, month: 03, day: 31}.
-export function splitDate (date) {
-  if (!date || date.length !== 10 || date[4] !== '-' || date[7] !== '-') {
-    throw new Error (`Bad canonical date '${date}' (must be 'yyyy-mm-dd')`);
+export function splitDate (canonicalDate) {
+  if (!canonicalDate || canonicalDate.length !== 10 ||
+    canonicalDate[4] !== '-' || canonicalDate[7] !== '-') {
+    throw new Error (`Bad canonical date '${canonicalDate}' (must be 'yyyy-mm-dd')`);
   }
-  let year  = parseInt (date.substring (0, 4));
-  let month = parseInt (date.substring (5, 7));
-  let day   = parseInt (date.substring (8, 10));
+  let year  = parseInt (canonicalDate.substring (0, 4));
+  let month = parseInt (canonicalDate.substring (5, 7));
+  let day   = parseInt (canonicalDate.substring (8, 10));
   return {
     year:  year,
     month: month,
@@ -185,13 +212,14 @@ export function splitDate (date) {
 }
 
 // With '12:34:56', return {hour: 12, minute: 34, second: 56}.
-export function splitTime (time) {
-  if (!time || time.length !== 8 || time[2] !== ':' || time[5] !== ':') {
-    throw new Error (`Bad canonical time '${time}' (must be 'hh:mm:ss')`);
+export function splitTime (canonicalTime) {
+  if (!canonicalTime || canonicalTime.length !== 8 ||
+    canonicalTime[2] !== ':' || canonicalTime[5] !== ':') {
+    throw new Error (`Bad canonical time '${canonicalTime}' (must be 'hh:mm:ss')`);
   }
-  let hour   = parseInt (time.substring (0, 2));
-  let minute = parseInt (time.substring (3, 5));
-  let second = parseInt (time.substring (6, 8));
+  let hour   = parseInt (canonicalTime.substring (0, 2));
+  let minute = parseInt (canonicalTime.substring (3, 5));
+  let second = parseInt (canonicalTime.substring (6, 8));
   return {
     hour:   hour,
     minute: minute,
@@ -227,7 +255,7 @@ export function joinTime (time) {
 }
 
 // With ' 12/3 ', return [12, 3].
-function parseDateOrTime (editedTime) {
+function tryParseDateOrTime (editedTime) {
   const result = [];
   if (editedTime) {
     editedTime = editedTime.trim ();
@@ -235,7 +263,7 @@ function parseDateOrTime (editedTime) {
     if (editedTime) {
       const p = editedTime.split (':');
       for (var n of p) {
-        result.push (parseInt (n));
+        result.push (tryParseInt (n));
       }
     }
   }
@@ -254,16 +282,11 @@ export function getTotalMinutes (time) {
 }
 
 // With date = '2017-03-31', return '31.03.2017'.
-export function getDisplayedDate (date, useNowByDefault, format) {
-  if (date && !useNowByDefault && isEmptyDate (date)) {
+export function getDisplayedDate (canonicalDate, format) {
+  if (!canonicalDate || isEmptyDate (canonicalDate)) {
     return null;
   }
-  let d;
-  if (date && !isEmptyDate (date)) {
-    d = splitDate (date);
-  } else if (useNowByDefault) {
-    d = getNow ();
-  }
+  const d = splitDate (canonicalDate);
   if (d) {
     if (format === 'y') {
       return padding (d.year, 4);
@@ -274,39 +297,34 @@ export function getDisplayedDate (date, useNowByDefault, format) {
     } else if (format === 'y') {
       return padding (d.year, 4);
     } else if (format === 'W') {
-      const w = canonicalDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
+      const w = canonicalDateToJs (canonicalDate).getDay ();  // 0..6 (0 = Sunday)
       return getDOWDescription ((w + 6) % 7);
     } else if (format === 'Wd') {
-      const w = canonicalDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
+      const w = canonicalDateToJs (canonicalDate).getDay ();  // 0..6 (0 = Sunday)
       return getDOWDescription ((w + 6) % 7, '3') + ' ' + padding (d.day, 2);
     } else if (format === 'd') {
       return padding (d.day, 2);
     } else if (format === 'Wdm') {
-      const w = canonicalDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
+      const w = canonicalDateToJs (canonicalDate).getDay ();  // 0..6 (0 = Sunday)
       return getDOWDescription ((w + 6) % 7, '3') + ' ' + padding (d.day, 2) + '.' + padding (d.month, 2);
     } else if (format === 'Wdmy') {
-      const w = canonicalDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
+      const w = canonicalDateToJs (canonicalDate).getDay ();  // 0..6 (0 = Sunday)
       return getDOWDescription ((w + 6) % 7, '3') + ' ' +
         padding (d.day, 2) + '.' + padding (d.month, 2) + '.' + padding (d.year, 4);
     } else {
       return padding (d.day, 2) + '.' + padding (d.month, 2) + '.' + padding (d.year, 4);
     }
   } else {
-    return date;  // return the initial text if it's not a valid date
+    return canonicalDate;  // return the initial text if it's not a valid date
   }
 }
 
 // With time = '12:34:56', return '12:34'.
-export function getDisplayedTime (time, useNowByDefault, format) {
-  if (time && !useNowByDefault && isEmptyTime (time)) {
+export function getDisplayedTime (time, format) {
+  if (!time || isEmptyTime (time)) {
     return null;
   }
-  let d;
-  if (time && !isEmptyTime (time)) {
-    d = splitTime (time);
-  } else if (useNowByDefault) {
-    d = getNow ();
-  }
+  const d = splitTime (time);
   if (d) {
     if (format === 'hms') {
       return padding (d.hour, 2) + ':' + padding (d.minute, 2) + ':' + padding (d.second, 2);
@@ -321,6 +339,78 @@ export function getDisplayedTime (time, useNowByDefault, format) {
 }
 
 // With editedDate = '31 3 2017', return '2017-03-31'.
+export function parseEditedDate (editedDate, defaultCanonicalDate) {
+  if (!editedDate || editedDate === '') {
+    return {value: null, error: null};
+  }
+  if (!defaultCanonicalDate) {
+    defaultCanonicalDate = getNowCanonicalDate ();
+  }
+  const date = splitDate (defaultCanonicalDate);
+  const edited = tryParseDateOrTime (editedDate);
+  let incorrectDay   = false;
+  let incorrectMonth = false;
+  let incorrectYear  = false;
+  let incorrectArgs  = false;
+  if (edited.length > 0) {
+    if (isNaN (edited[0])) {
+      incorrectDay = true;
+    } else {
+      date.day = edited[0];
+    }
+  }
+  if (edited.length > 1) {
+    if (isNaN (edited[1])) {
+      incorrectMonth = true;
+    } else {
+      date.month = edited[1];
+    }
+  }
+  if (edited.length > 2) {
+    if (isNaN (edited[2])) {
+      incorrectYear = true;
+    } else {
+      if (edited[2] >= 1000 && edited[2] <= 2100) {
+        date.year = edited[2];
+      } else if (edited[2] >= 0 && edited[2] <= 99) {
+        date.year = 2000 + edited[2];
+      } else {
+        incorrectYear = true;
+      }
+    }
+  }
+  if (edited.length > 3) {
+    incorrectArgs = true;
+  }
+
+  const jsDate = canonicalDateToJs (date);
+  const result = jsToCanonicalDate (jsDate);
+
+  const r = splitDate (result);
+
+  if (date.day !== r.day) {
+    incorrectDay = true;
+  } else if (date.month !== r.month) {
+    incorrectMonth = true;
+  } else if (date.year !== r.year) {
+    incorrectYear = true;
+  }
+
+  let error = null;
+  if (incorrectDay) {
+    error = 'Jour incorrect';
+  } else if (incorrectMonth) {
+    error = 'Mois incorrect';
+  } else if (incorrectYear) {
+    error = 'Année incorrecte';
+  } else if (incorrectArgs) {
+    error = 'Trop d\'arguments';
+  }
+
+  return {value: result, error: error};
+}
+
+// With editedDate = '31 3 2017', return '2017-03-31'.
 export function getCanonicalDate (editedDate, defaultCanonicalDate) {
   if (!editedDate || editedDate === '') {
     return null;
@@ -329,16 +419,16 @@ export function getCanonicalDate (editedDate, defaultCanonicalDate) {
     defaultCanonicalDate = getNowCanonicalDate ();
   }
   const date = splitDate (defaultCanonicalDate);
-  const edited = parseDateOrTime (editedDate);
-  if (edited.length > 0 && edited[0] >= 1 && edited[0] <= 31) {
+  const edited = tryParseDateOrTime (editedDate);
+  if (edited.length > 0 && !isNaN (edited[0]) && edited[0] >= 1 && edited[0] <= 31) {
     date.day = edited[0];
   }
-  if (edited.length > 1 && edited[1] >= 1 && edited[1] <= 12) {
+  if (edited.length > 1 && !isNaN (edited[1]) && edited[1] >= 1 && edited[1] <= 12) {
     date.month = edited[1];
   }
-  if (edited.length > 2 && edited[2] >= 1000 && edited[2] <= 2100) {
+  if (edited.length > 2 && !isNaN (edited[2]) && edited[2] >= 1000 && edited[2] <= 2100) {
     date.year = edited[2];
-  } else if (edited.length > 2 && edited[2] >= 0 && edited[2] <= 100) {
+  } else if (edited.length > 2 && !isNaN (edited[2]) && edited[2] >= 0 && edited[2] <= 100) {
     date.year = 2000 + edited[2];
   }
   return joinDate (date);
@@ -351,14 +441,14 @@ export function getCanonicalTime (editedTime) {
     minute: 0,
     second: 0,
   };
-  const edited = parseDateOrTime (editedTime);
-  if (edited.length > 0 && edited[0] >= 0 && edited[0] <= 23) {
+  const edited = tryParseDateOrTime (editedTime);
+  if (edited.length > 0 && !isNaN (edited[0]) && edited[0] >= 0 && edited[0] <= 23) {
     time.hour = edited[0];
   }
-  if (edited.length > 1 && edited[1] >= 0 && edited[1] <= 59) {
+  if (edited.length > 1 && !isNaN (edited[1]) && edited[1] >= 0 && edited[1] <= 59) {
     time.minute = edited[1];
   }
-  if (edited.length > 2 && edited[2] >= 0 && edited[2] <= 59) {
+  if (edited.length > 2 && !isNaN (edited[2]) && edited[2] >= 0 && edited[2] <= 59) {
     time.second = edited[2];
   }
   return joinTime (time);
@@ -400,12 +490,12 @@ export function getPeriodDescription (fromDate, toDate) {
   }
 
   var fd = getDay (fromDate);
-  var fm = getDisplayedDate (fromDate, false, 'M');
-  var fy = getDisplayedDate (fromDate, false, 'y');
+  var fm = getDisplayedDate (fromDate, 'M');
+  var fy = getDisplayedDate (fromDate, 'y');
 
   var td = getDay (toDate);
-  var tm = getDisplayedDate (toDate, false, 'M');
-  var ty = getDisplayedDate (toDate, false, 'y');
+  var tm = getDisplayedDate (toDate, 'M');
+  var ty = getDisplayedDate (toDate, 'y');
 
   if (fy <= '2000') {
     fy = '-∞';
@@ -469,29 +559,6 @@ export function getPeriodDescription (fromDate, toDate) {
   }  else  {
     return toFirstUpperCase (f + ' — ' + t);
   }
-}
-
-// With '12 3', return true;
-// With '12 60', return false;
-// With '12 3 4 5', return false;
-export function checkTime (editedTime) {
-  const edited = parseDateOrTime (editedTime);
-  if (edited.length === 0 || edited.length > 3) {
-    return false;
-  }
-  const max = [23, 59, 59];  // max for hour, minute and second
-  let i = 0;
-  for (var part of edited) {
-    const n = padding (part, 2);
-    if (!n || n > max[i++]) {
-      return false;
-    }
-  }
-  const time = getCanonicalTime (editedTime);
-  if (isEmptyTime (time)) {
-    return false;
-  }
-  return true;
 }
 
 export function getNowCanonicalTime () {

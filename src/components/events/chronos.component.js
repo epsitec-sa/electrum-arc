@@ -299,7 +299,7 @@ export default class Chronos extends React.Component {
       var text, tooltip;
       if (this.flatEvents.hasDates) {
         text    = Converters.getDisplayedDate (group);
-        tooltip = Converters.getDisplayedDate (group, false, 'W');
+        tooltip = Converters.getDisplayedDate (group, 'W');
       } else {
         text    = group;
         tooltip = null;
@@ -341,7 +341,7 @@ export default class Chronos extends React.Component {
       width:      width,
       userSelect: 'none',
     };
-    const text = time ? Converters.getDisplayedTime (Converters.addSeconds (time, 1), false, 'h') : '';
+    const text = time ? Converters.getDisplayedTime (Converters.addSeconds (time, 1), 'h') : '';
 
     return (
       <div style={style} key={index}>
@@ -447,7 +447,7 @@ export default class Chronos extends React.Component {
       if (item.type === 'top') {
         var text;
         if (item.date) {
-          text = Converters.getDisplayedDate (item.date, false, 'Wdmy');
+          text = Converters.getDisplayedDate (item.date, 'Wdmy');
         } else {
           text = item.group;
         }

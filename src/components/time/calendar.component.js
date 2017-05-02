@@ -103,7 +103,7 @@ export default class Calendar extends React.Component {
 
   // Return the html for a [1]..[31] button.
   renderButton (date, active, dimmed, weekend, index) {
-    const tooltip = Converters.getDisplayedDate (date, false, 'Wdmy');
+    const tooltip = Converters.getDisplayedDate (date, 'Wdmy');
     return (
       <Button
         key             = {index}
@@ -255,7 +255,7 @@ export default class Calendar extends React.Component {
   // Retourne all the html content of the calendar.
   renderLines (selectedDate, selectedDates, visibleDate, firstMonth, lastMonth) {
     const firstDate = Converters.getCalendarStartDate (visibleDate);
-    const header    = Converters.getDisplayedDate (visibleDate, false, 'My');  // 'mai 2016' by example
+    const header    = Converters.getDisplayedDate (visibleDate, 'My');  // 'mai 2016' by example
 
     const style = this.mergeStyles ('column');
     return (

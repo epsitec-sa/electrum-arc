@@ -216,7 +216,7 @@ export default class Events extends React.Component {
 
   renderDow (date, index) {
     const dowStyle = this.mergeStyles ('dow');
-    const h = Converters.getDisplayedDate (date, false, 'Wd');
+    const h = Converters.getDisplayedDate (date, 'Wd');
 
     return (
       <div style = {dowStyle} key = {index}>
@@ -333,7 +333,7 @@ export default class Events extends React.Component {
     const boxStyle = this.mergeStyles ('box');
     const rowStyle = this.mergeStyles ('row');
 
-    const h = Converters.getDisplayedDate (this.getFromDate (), false, 'W');
+    const h = Converters.getDisplayedDate (this.getFromDate (), 'W');
 
     return (
       <div style = {boxStyle}>
@@ -347,7 +347,7 @@ export default class Events extends React.Component {
   renderWeek (data) {
     const boxStyle = this.mergeStyles ('box');
 
-    const h = Converters.getDisplayedDate (this.getFromDate (), false, 'My');
+    const h = Converters.getDisplayedDate (this.getFromDate (), 'My');
     const days = this.getGroupedByDays (data);
 
     return (
@@ -363,7 +363,7 @@ export default class Events extends React.Component {
     const boxStyle   = this.mergeStyles ('box');
     const partsStyle = this.mergeStyles ('parts');
 
-    const h = Converters.getDisplayedDate (this.getFromDate (), false, 'My');
+    const h = Converters.getDisplayedDate (this.getFromDate (), 'My');
     const days = this.getGroupedByDays (data);
 
     return (
@@ -381,7 +381,7 @@ export default class Events extends React.Component {
     const boxStyle = this.mergeStyles ('box');
     const rowStyle = this.mergeStyles ('row');
 
-    const h = Converters.getDisplayedDate (this.getFromDate (), false, 'My');
+    const h = Converters.getDisplayedDate (this.getFromDate (), 'My');
 
     return (
       <div style = {boxStyle}>
@@ -396,7 +396,7 @@ export default class Events extends React.Component {
     const boxStyle = this.mergeStyles ('box');
     const rowStyle = this.mergeStyles ('row');
 
-    const h = Converters.getDisplayedDate (this.getFromDate (), false, 'y');
+    const h = Converters.getDisplayedDate (this.getFromDate (), 'y');
 
     return (
       <div style = {boxStyle}>
