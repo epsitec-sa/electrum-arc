@@ -27,6 +27,10 @@ export default class TextField extends React.Component {
     };
   }
 
+  componentDidMount () {
+    this.selectAll ();
+  }
+
   selectAll () {
     const selectAllOnFocus = this.read ('select-all-on-focus');
     if (selectAllOnFocus === 'true') {

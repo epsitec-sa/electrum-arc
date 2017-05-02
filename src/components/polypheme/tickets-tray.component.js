@@ -1,7 +1,6 @@
-import {React} from 'electrum';
-import {Container, Button, SimpleTextField} from 'electrum-arc';
+import {React, Store} from 'electrum';
+import {Container, Button, TextField} from 'electrum-arc';
 import * as ReducerData from '../polypheme/reducer-data.js';
-import * as MouseTrap from 'mousetrap';
 
 /******************************************************************************/
 
@@ -9,25 +8,15 @@ export default class TicketsTray extends React.Component {
 
   constructor (props) {
     super (props);
-    this.state = {
-      title: null,
-      edit:  false,
-    };
-    this.initialTitle = null;
+    this.internalStore = Store.create ();
+    this.localBus = this;  // for access to property notify
   }
 
   componentDidMount () {
-    // Trace.log ('TicketsTray.componentDidMount');
     const tray = this.read ('tray');
-    this.setTitle (tray.Name);
-  }
-
-  componentWillMount () {
-    // Trace.log ('TicketsTray.componentWillMount');
-  }
-
-  componentWillUnmount () {
-    // Trace.log ('TicketsTray.componentWillUnmount');
+    this.internalStore.select ('title').set ('value', tray.Name);
+    this.internalStore.select ('edit').set ('value', false);
+    this.forceUpdate ();
   }
 
   get styleProps () {
@@ -40,114 +29,87 @@ export default class TicketsTray extends React.Component {
     };
   }
 
-  getTitle () {
-    return this.state.title;
-  }
-
-  setTitle (value) {
-    this.setState ( {
-      title: value
-    });
-  }
-
-  getEdit () {
-    return this.state.edit;
-  }
-
-  setEdit (value) {
-    this.setState ( {
-      edit: value
-    });
-    if (value) {
-      this.initialTitle = this.getTitle ();
-      MouseTrap.bind ('enter', () => this.enterAction ());
-      MouseTrap.bind ('esc',   () => this.enterAction ());
-    } else {
-      MouseTrap.unbind ('enter');
-      MouseTrap.unbind ('esc');
+  // LocalBus.notify
+  notify (props, source, value) {
+    // console.log (`TicketsTray.notify type=${source.type}`);
+    if (source.type === 'change') {
+      this.internalStore.select ('title').set ('value', value);
+      this.forceUpdate ();
+    } else if (source.type === 'defocus') {
+      this.internalStore.select ('edit').set ('value', false);
+      this.forceUpdate ();
+      const title = this.internalStore.select ('title').get ('value');
+      this.updateTitleData (title);
     }
   }
 
-  enterAction () {
-    // Trace.log ('TicketsTray.enterAction');
-    if (this.getEdit ()) {
-      this.setEdit (false);
-    }
+  linkTitle () {
+    return {...this.link (), state: this.internalStore.select ('title'), bus: this.localBus};
   }
 
-  acceptClicked () {
-    this.setEdit (false);
-    this.updateTitleData (this.getTitle (), true);
+  onAccept () {
+    // console.log ('TicketsTray.onAccept');
+    this.internalStore.select ('edit').set ('value', false);
+    this.forceUpdate ();
+    const title = this.internalStore.select ('title').get ('value');
+    this.updateTitleData (title);
   }
 
-  cancelClicked () {
-    this.setTitle (this.initialTitle);
-    this.setEdit (false);
-    this.updateTitleData (this.initialTitle, false);
+  onCancel () {
+    // console.log ('TicketsTray.onCancel');
+    this.internalStore.select ('title').set ('value', this.initialTitle);
+    this.internalStore.select ('edit').set ('value', false);
+    this.forceUpdate ();
   }
 
   // The button was clicked, replace Button by SimpleTextField (edit = true).
-  mouseDown () {
-    this.setEdit (true);
+  onMyMouseDown () {
+    // console.log ('TicketsTray.onMyMouseDown');
+    this.initialTitle = this.internalStore.select ('title').get ('value');
+    this.internalStore.select ('edit').set ('value', true);
+    this.forceUpdate ();
   }
 
-  // The SimpleTextField has lost focus, replace SimpleTextField by Button (edit = false).
-  onMyBlur () {
-    // Trace.log ('TicketsTray.onMyBlur');
-    this.setEdit (false);
-    this.updateTitleData (this.getTitle (), true);
-  }
-
-  // The title in SimpleTextField was changed, update the data.
-  // This method was called only when the SimpleTextField lost focus (not at every keys pressed),
-  // for minimized the interaction with Lydia (see updateStrategy = 'when-blur').
-  onMyChange (e) {
-    const value = e.target.value;
-    // Trace.log ('TicketsTray.onMyChange ' + value);
-    this.setTitle (value);
-  }
-
-  updateTitleData (title, accepted) {
+  updateTitleData (title) {
     const data = this.read ('data');
     const tray = this.read ('tray');
     ReducerData.reducer (data, {
-      type:     'SET_TRAY_NAME',
-      id:       tray.id,
-      value:    title,
-      accepted: accepted,
+      type:  'SET_TRAY_NAME',
+      id:    tray.id,
+      value: title,
     });
   }
 
   // Render the header, that contains a Button (with a look like a Label)
-  // or a SimpleTextField followed by [v] [x].
+  // or a TextField followed by [v] [x].
   renderHeader () {
-    if (this.getEdit ()) {
+    const edit = this.internalStore.select ('edit').get ('value');
+    if (edit) {
       return (
         <Container kind='row' {...this.link ()} >
-          <SimpleTextField
-            autofocus      = {true}
-            updateStrategy = 'every-time'
-            value          = {this.getTitle ()}
-            onBlur         = {e => this.onMyBlur (e)}
-            onChange       = {e => this.onMyChange (e)}
-            {...this.link ()} />
+          <TextField
+            select-all-on-focus = 'true'
+            spacing             = 'overlap'
+            {...this.linkTitle ()} />
           <Button
             glyph      = 'check'
-            mouse-down = {e => this.acceptClicked (e)}
+            spacing    = 'overlap'
+            mouse-down = {this.onAccept}
             {...this.link ()} />
           <Button
             glyph      = 'close'
-            mouse-down = {e => this.cancelClicked (e)}
+            mouse-down = {this.onCancel}
             {...this.link ()} />
         </Container>
       );
     } else {
+      const title = this.internalStore.select ('title').get ('value');
       return (
         <Button
           kind       = 'tray-title'
           grow       = {1}
-          text       = {this.getTitle ()}
-          mouse-down = {e => this.mouseDown (e)}
+          text       = {title}
+          mouse-down = {this.onMyMouseDown}
           {...this.link ()} />
       );
     }

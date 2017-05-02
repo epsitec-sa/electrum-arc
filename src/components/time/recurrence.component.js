@@ -1,6 +1,6 @@
 import CronParser from 'cron-parser';
-import {React, Store, State} from 'electrum';
-import {Calendar, TextField, LabelTextField, TextFieldDate, Button, Label} from 'electrum-arc';
+import {React, Store} from 'electrum';
+import {Calendar, LabelTextField, TextFieldDate, Button, Label} from 'electrum-arc';
 import * as Converters from '../polypheme/converters';
 import * as CronHelpers from './cron-helpers';
 import * as ReducerRecurrence from './reducer-recurrence.js';
