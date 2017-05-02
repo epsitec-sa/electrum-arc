@@ -410,30 +410,6 @@ export function parseEditedDate (editedDate, defaultCanonicalDate) {
   return {value: result, error: error};
 }
 
-// With editedDate = '31 3 2017', return '2017-03-31'.
-export function getCanonicalDate (editedDate, defaultCanonicalDate) {
-  if (!editedDate || editedDate === '') {
-    return null;
-  }
-  if (!defaultCanonicalDate) {
-    defaultCanonicalDate = getNowCanonicalDate ();
-  }
-  const date = splitDate (defaultCanonicalDate);
-  const edited = tryParseDateOrTime (editedDate);
-  if (edited.length > 0 && !isNaN (edited[0]) && edited[0] >= 1 && edited[0] <= 31) {
-    date.day = edited[0];
-  }
-  if (edited.length > 1 && !isNaN (edited[1]) && edited[1] >= 1 && edited[1] <= 12) {
-    date.month = edited[1];
-  }
-  if (edited.length > 2 && !isNaN (edited[2]) && edited[2] >= 1000 && edited[2] <= 2100) {
-    date.year = edited[2];
-  } else if (edited.length > 2 && !isNaN (edited[2]) && edited[2] >= 0 && edited[2] <= 100) {
-    date.year = 2000 + edited[2];
-  }
-  return joinDate (date);
-}
-
 // With editedTime = '12', return '12:00:00'.
 export function getCanonicalTime (editedTime) {
   const time = {
