@@ -103,7 +103,6 @@ export default class TripDeliver extends React.Component {
           label-text     = 'Heure de livraison'
           label-width    = '200px'
           hint-text      = 'Heure'
-          updateStrategy = 'every-time'
           value          = {this.getRealisedTime ()}
           onChange       = {e => this.onMyChange (e)}
           {...this.link ()} />

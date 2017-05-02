@@ -156,7 +156,6 @@ export default class TextFieldCombo extends React.Component {
     const flyingBalloonAnchor = this.read ('flying-balloon-anchor');
     const rows                = this.read ('rows');
     const readonly            = this.read ('readonly');
-    const updateStrategy      = this.read ('updateStrategy');
     const filterKeys          = this.props['filter-keys'];
     const tabIndex            = this.props['tab-index'];
 
@@ -189,27 +188,14 @@ export default class TextFieldCombo extends React.Component {
     }
 
 
-    if (updateStrategy) {
-      return (
-        <SimpleTextField
-          {...props}
-          updateStrategy        = {updateStrategy}
-          onChange              = {e => this.onMyChange (e)}
-          onFocus               = {e => this.onMyFocus (e)}
-          onBlur                = {e => this.onMyBlur (e)}
-          {...this.link ()}
-          />
-      );
-    } else {
-      return (
-        <TextField
-          {...props}
-          onFocus               = {e => this.onMyFocus (e)}
-          onBlur                = {e => this.onMyBlur (e)}
-          {...this.link ()}
-          />
-      );
-    }
+    return (
+      <TextField
+        {...props}
+        onFocus               = {e => this.onMyFocus (e)}
+        onBlur                = {e => this.onMyBlur (e)}
+        {...this.link ()}
+        />
+    );
   }
 
   renderButton () {

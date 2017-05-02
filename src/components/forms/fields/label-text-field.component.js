@@ -125,7 +125,6 @@ export default class LabelTextField extends React.Component {
     const rows           = this.read ('rows');
     const readonly       = this.read ('readonly');
     const filterKeys     = this.props['filter-keys'];
-    const updateStrategy = this.read ('updateStrategy');
     const tabIndex       = this.props['tab-index'];
 
     const autoReadonly = this.getReadonly () && selectedValue && selectedValue !== '';
@@ -139,48 +138,34 @@ export default class LabelTextField extends React.Component {
     };
     const textFieldShape = textFieldShapes[s];
     const props = {
-      'id':                  id,
-      'field':               field,
-      'type':                type,
-      'width':               fieldWidth,
-      'hint-text':           hintText,
-      'tooltip':             tooltip,
-      'message-info':        messageInfo,
-      'message-warning':     messageWarning,
-      'filter-keys':         filterKeys,
-      'spacing':             this.hasActionButton () ? 'overlap' : null,
-      'shape':               textFieldShape,
-      'tab-index':           tabIndex,
-      'rows':                rows,
-      'readonly':            visibleReadonly,
-      'select-all-on-focus': visibleReadonly
+      'id':              id,
+      'field':           field,
+      'type':            type,
+      'width':           fieldWidth,
+      'hint-text':       hintText,
+      'tooltip':         tooltip,
+      'message-info':    messageInfo,
+      'message-warning': messageWarning,
+      'filter-keys':     filterKeys,
+      'spacing':         this.hasActionButton () ? 'overlap' : null,
+      'shape':           textFieldShape,
+      'tab-index':       tabIndex,
+      'rows':            rows,
+      'readonly':        visibleReadonly,
     };
 
     if (displayValue) {
       props.value = displayValue;
     }
 
-    if (updateStrategy) {
-      return (
-        <SimpleTextField
-          {...props}
-          updateStrategy = {updateStrategy}
-          onChange       = {this.onMyChange}
-          onFocus        = {this.onMyFocus}
-          onBlur         = {this.onMyBlur}
-          {...this.link ()}
-        />
-      );
-    } else {
-      return (
-        <TextField
-          {...props}
-          onFocus = {this.onMyFocus}
-          onBlur  = {this.onMyBlur}
-          {...this.link ()}
-        />
-      );
-    }
+    return (
+      <TextField
+        {...props}
+        onFocus = {this.onMyFocus}
+        onBlur  = {this.onMyBlur}
+        {...this.link ()}
+      />
+    );
   }
 
   renderAction () {
