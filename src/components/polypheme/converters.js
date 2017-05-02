@@ -321,15 +321,14 @@ export function getDisplayedTime (time, useNowByDefault, format) {
 }
 
 // With editedDate = '31 3 2017', return '2017-03-31'.
-export function getCanonicalDate (editedDate, useNowByDefault) {
+export function getCanonicalDate (editedDate, defaultCanonicalDate) {
   if (!editedDate || editedDate === '') {
     return null;
   }
-  const date = useNowByDefault ? getNow () : {
-    year:  1,
-    month: 1,
-    day:   1,
-  };
+  if (!defaultCanonicalDate) {
+    defaultCanonicalDate = getNowCanonicalDate ();
+  }
+  const date = splitDate (defaultCanonicalDate);
   const edited = parseDateOrTime (editedDate);
   if (edited.length > 0 && edited[0] >= 1 && edited[0] <= 31) {
     date.day = edited[0];
