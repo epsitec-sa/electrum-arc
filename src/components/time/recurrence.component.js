@@ -27,7 +27,7 @@ function pushCron (result, date, startDate, endDate, cron, deleteList) {
       if (next.done) {
         break;
       }
-      const itemDate = Converters.jsToFormatedDate (next.value);
+      const itemDate = Converters.jsToCanonicalDate (next.value);
       if (itemDate >= startDate && itemDate <= endDate) {
         const deleted = deleteList.indexOf (itemDate) !== -1;
         const item = {
@@ -183,7 +183,7 @@ export default class Recurrence extends React.Component {
         const month = Converters.getMonth (startDate);
         this.visibleDate = Converters.getDate (year, month, 1);
       } else {
-        const now = Converters.getNowFormatedDate ();
+        const now = Converters.getNowCanonicalDate ();
         const year  = Converters.getYear  (now);
         const month = Converters.getMonth (now);
         this.visibleDate = Converters.getDate (year, month, 1);

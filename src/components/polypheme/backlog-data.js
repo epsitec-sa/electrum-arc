@@ -54,8 +54,8 @@ export function getFilterItems () {
 // --------------------------------------------------------------------------------------------------------------------
 
 function sortTime (a, b) {
-  const ta = Converters.getFormatedTime (a.MeetingPoint.StartPlanedTime);
-  const tb = Converters.getFormatedTime (b.MeetingPoint.StartPlanedTime);
+  const ta = Converters.getCanonicalTime (a.MeetingPoint.StartPlanedTime);
+  const tb = Converters.getCanonicalTime (b.MeetingPoint.StartPlanedTime);
   return ta.localeCompare (tb);
 }
 

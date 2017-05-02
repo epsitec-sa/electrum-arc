@@ -81,98 +81,98 @@ function padding (value, decimals) {
   }
 }
 
-export function jsToFormatedTime (time) {
+export function jsToCanonicalTime (time) {
   return padding (time.getHours (), 2) + ':' +
     padding (time.getMinutes (), 2) + ':' +
     padding (time.getSeconds (), 2);
 }
 
-export function formatedTimeToJs (time) {
+export function canonicalTimeToJs (time) {
   const s = splitTime (time);
   return new Date (2000, 1, 1, s.hour, s.minute, s.second);
 }
 
-export function jsToFormatedDate (date) {
+export function jsToCanonicalDate (date) {
   return padding (date.getFullYear (), 4) + '-' +
     padding (date.getMonth () + 1, 2) + '-' +
     padding (date.getDate (), 2);
 }
 
-export function formatedDateToJs (date) {
+export function canonicalDateToJs (date) {
   const s = splitDate (date);
   return new Date (s.year, s.month - 1, s.day);
 }
 
 export function addHours (time, n) {
-  const d = formatedTimeToJs (time);
+  const d = canonicalTimeToJs (time);
   const nd = new Date (2000, 1, 1, d.getHours () + n, d.getMinutes (), d.getSeconds ());
-  return jsToFormatedTime (nd);
+  return jsToCanonicalTime (nd);
 }
 
 export function addMinutes (time, n) {
-  const d = formatedTimeToJs (time);
+  const d = canonicalTimeToJs (time);
   const nd = new Date (2000, 1, 1, d.getHours (), d.getMinutes () + n, d.getSeconds ());
-  return jsToFormatedTime (nd);
+  return jsToCanonicalTime (nd);
 }
 
 export function addSeconds (time, n) {
-  const d = formatedTimeToJs (time);
+  const d = canonicalTimeToJs (time);
   const nd = new Date (2000, 1, 1, d.getHours (), d.getMinutes (), d.getSeconds () + n);
-  return jsToFormatedTime (nd);
+  return jsToCanonicalTime (nd);
 }
 
 export function addDays (date, n) {
-  const d = formatedDateToJs (date);
+  const d = canonicalDateToJs (date);
   const nd = new Date (d.getFullYear (), d.getMonth (), d.getDate () + n);
-  return jsToFormatedDate (nd);
+  return jsToCanonicalDate (nd);
 }
 
 export function addMonths (date, n) {
-  const d = formatedDateToJs (date);
+  const d = canonicalDateToJs (date);
   const nd = new Date (d.getFullYear (), d.getMonth () + n, d.getDate ());
-  return jsToFormatedDate (nd);
+  return jsToCanonicalDate (nd);
 }
 
 export function addYears (date, n) {
-  const d = formatedDateToJs (date);
+  const d = canonicalDateToJs (date);
   const nd = new Date (d.getFullYear () + n, d.getMonth (), d.getDate ());
-  return jsToFormatedDate (nd);
+  return jsToCanonicalDate (nd);
 }
 
 export function getYear (date) {
-  const d = formatedDateToJs (date);
+  const d = canonicalDateToJs (date);
   return d.getFullYear ();  // 2017..
 }
 
 export function getMonth (date) {
-  const d = formatedDateToJs (date);
+  const d = canonicalDateToJs (date);
   return d.getMonth () + 1;  // 1..12
 }
 
 export function getDay (date) {
-  const d = formatedDateToJs (date);
+  const d = canonicalDateToJs (date);
   return d.getDate ();  // 1..31
 }
 
 export function getHours (time) {
-  const d = formatedTimeToJs (time);
+  const d = canonicalTimeToJs (time);
   return d.getHours ();  // 0..23
 }
 
 export function getMinutes (time) {
-  const d = formatedTimeToJs (time);
+  const d = canonicalTimeToJs (time);
   return d.getMinutes ();  // 0..59
 }
 
 export function getSeconds (time) {
-  const d = formatedTimeToJs (time);
+  const d = canonicalTimeToJs (time);
   return d.getSeconds ();  // 0..59
 }
 
 // With '2017-03-31', return {year: 2017, month: 03, day: 31}.
 export function splitDate (date) {
   if (!date || date.length !== 10 || date[4] !== '-' || date[7] !== '-') {
-    throw new Error (`Bad formated date '${date}' (must be 'yyyy-mm-dd')`);
+    throw new Error (`Bad canonical date '${date}' (must be 'yyyy-mm-dd')`);
   }
   let year  = parseInt (date.substring (0, 4));
   let month = parseInt (date.substring (5, 7));
@@ -187,7 +187,7 @@ export function splitDate (date) {
 // With '12:34:56', return {hour: 12, minute: 34, second: 56}.
 export function splitTime (time) {
   if (!time || time.length !== 8 || time[2] !== ':' || time[5] !== ':') {
-    throw new Error (`Bad formated time '${time}' (must be 'hh:mm:ss')`);
+    throw new Error (`Bad canonical time '${time}' (must be 'hh:mm:ss')`);
   }
   let hour   = parseInt (time.substring (0, 2));
   let minute = parseInt (time.substring (3, 5));
@@ -274,18 +274,18 @@ export function getDisplayedDate (date, useNowByDefault, format) {
     } else if (format === 'y') {
       return padding (d.year, 4);
     } else if (format === 'W') {
-      const w = formatedDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
+      const w = canonicalDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
       return getDOWDescription ((w + 6) % 7);
     } else if (format === 'Wd') {
-      const w = formatedDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
+      const w = canonicalDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
       return getDOWDescription ((w + 6) % 7, '3') + ' ' + padding (d.day, 2);
     } else if (format === 'd') {
       return padding (d.day, 2);
     } else if (format === 'Wdm') {
-      const w = formatedDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
+      const w = canonicalDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
       return getDOWDescription ((w + 6) % 7, '3') + ' ' + padding (d.day, 2) + '.' + padding (d.month, 2);
     } else if (format === 'Wdmy') {
-      const w = formatedDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
+      const w = canonicalDateToJs (date).getDay ();  // 0..6 (0 = Sunday)
       return getDOWDescription ((w + 6) % 7, '3') + ' ' +
         padding (d.day, 2) + '.' + padding (d.month, 2) + '.' + padding (d.year, 4);
     } else {
@@ -321,7 +321,7 @@ export function getDisplayedTime (time, useNowByDefault, format) {
 }
 
 // With editedDate = '31 3 2017', return '2017-03-31'.
-export function getFormatedDate (editedDate, useNowByDefault) {
+export function getCanonicalDate (editedDate, useNowByDefault) {
   if (!editedDate || editedDate === '') {
     return null;
   }
@@ -346,7 +346,7 @@ export function getFormatedDate (editedDate, useNowByDefault) {
 }
 
 // With editedTime = '12', return '12:00:00'.
-export function getFormatedTime (editedTime) {
+export function getCanonicalTime (editedTime) {
   const time = {
     hour:   0,
     minute: 0,
@@ -488,30 +488,30 @@ export function checkTime (editedTime) {
       return false;
     }
   }
-  const time = getFormatedTime (editedTime);
+  const time = getCanonicalTime (editedTime);
   if (isEmptyTime (time)) {
     return false;
   }
   return true;
 }
 
-export function getNowFormatedTime () {
-  return jsToFormatedTime (new Date (Date.now ()));
+export function getNowCanonicalTime () {
+  return jsToCanonicalTime (new Date (Date.now ()));
 }
 
-export function getNowFormatedDate () {
-  return jsToFormatedDate (new Date (Date.now ()));
+export function getNowCanonicalDate () {
+  return jsToCanonicalDate (new Date (Date.now ()));
 }
 
 export function getDate (year, month, day) {
   const d = new Date (year, month - 1, day);
-  return jsToFormatedDate (d);
+  return jsToCanonicalDate (d);
 }
 
 export function getCalendarStartDate (date) {
-  const jsDate    = formatedDateToJs (date);
+  const jsDate    = canonicalDateToJs (date);
   const dotw      = new Date (jsDate.getFullYear (), jsDate.getMonth (), 1).getDay ();  // 0..6 (0 = Sunday)
   const first     = -((dotw + 5) % 7);
   const startDate = new Date (jsDate.getFullYear (), jsDate.getMonth (), first);
-  return jsToFormatedDate (startDate);
+  return jsToCanonicalDate (startDate);
 }

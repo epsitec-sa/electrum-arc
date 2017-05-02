@@ -23,7 +23,7 @@ export default class TextFieldDate extends React.Component {
   }
 
   displayedToCanonical (displayedValue) {
-    return Converters.getFormatedDate (displayedValue, true);
+    return Converters.getCanonicalDate (displayedValue, true);
   }
 
   linkValueEdited () {

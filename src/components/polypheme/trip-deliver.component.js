@@ -42,7 +42,7 @@ export default class TripDeliver extends React.Component {
   }
 
   getTime () {
-    return Converters.getFormatedTime (this.getRealisedTime ());
+    return Converters.getCanonicalTime (this.getRealisedTime ());
   }
 
   closeDeliver (action) {

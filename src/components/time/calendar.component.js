@@ -27,7 +27,7 @@ export default class Calendar extends React.Component {
     // At first time, initialize internalState.visibleDate with current date.
     var date = this.read ('visible-date');
     if (!date) {
-      const now = Converters.getNowFormatedDate ();
+      const now = Converters.getNowCanonicalDate ();
       const year  = Converters.getYear  (now);
       const month = Converters.getMonth (now);
       date = Converters.getDate (year, month, 1);
