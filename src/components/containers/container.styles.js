@@ -629,11 +629,11 @@ export default function styles (theme, props) {
     // Subtracting the current items supposed to be present at the total height
     // (main-tab, view-tab and footer).
     let hh = '0px';
-    hh = Unit.add (h, theme.shapes.mainTabHeight);
-    hh = Unit.add (h, theme.shapes.containerMargin);
-    hh = Unit.add (h, theme.shapes.viewTabHeight);
+    hh = Unit.add (hh, theme.shapes.mainTabHeight);
+    hh = Unit.add (hh, theme.shapes.containerMargin);
+    hh = Unit.add (hh, theme.shapes.viewTabHeight);
     const y = hh;
-    hh = Unit.add (h, theme.shapes.footerHeight);
+    hh = Unit.add (hh, theme.shapes.footerHeight);
     minWidth          = width;
     maxHeight         = 'calc(100vh - ' + hh + ')';
     position          = 'fixed';
@@ -644,7 +644,7 @@ export default function styles (theme, props) {
     margin            = '0px';
     backgroundColor   = theme.palette.notificationBackground;
     transition        = theme.transitions.easeOut ();
-    zIndex            = 3;
+    zIndex            = 4;
   }
 
   if (inputKind === 'notification-header') {
