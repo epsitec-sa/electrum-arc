@@ -35,15 +35,9 @@ export default class TripModify extends React.Component {
     this.closeModify ('cancel');
   }
 
-  renderHalf (ticket, type) {
-    const directionGlyph = TicketHelpers.getDirectionGlyph (this.props.theme, type);
-    let title;
-    if (type.startsWith ('pick')) {
-      title = 'Pick';
-    } else {
-      title = 'Drop';
-    }
-    const pd = ticket.MeetingPoint;
+  renderMeetingPoint (meetingPoint) {
+    const directionGlyph = TicketHelpers.getDirectionGlyph (this.props.theme, meetingPoint.Type);
+    const title = meetingPoint.Type;
 
     return (
       <Container kind='column' {...this.link ()} >
@@ -59,25 +53,25 @@ export default class TripModify extends React.Component {
         <LabelTextField
           label-glyph = 'clock-o'
           hint-text   = 'Heure début'
-          value       = {Converters.getDisplayedTime (pd.StartPlanedTime)}
+          value       = {Converters.getDisplayedTime (meetingPoint.StartPlanedTime)}
           width       = '100px'
           {...this.link ()} />
         <LabelTextField
           label-glyph = 'clock-o'
           hint-text   = 'Heure fin'
-          value       = {Converters.getDisplayedTime (pd.EndPlanedTime)}
+          value       = {Converters.getDisplayedTime (meetingPoint.EndPlanedTime)}
           width       = '100px'
           {...this.link ()} />
         <LabelTextField
           label-glyph = 'tag'
           hint-text   = 'Description courte'
-          value       = {pd.ShortDescription}
+          value       = {meetingPoint.ShortDescription}
           grow        = '1'
           {...this.link ()} />
         <LabelTextField
           label-glyph = 'building'
           hint-text   = 'Description complète'
-          value       = {prepareLines (pd.LongDescription)}
+          value       = {prepareLines (meetingPoint.LongDescription)}
           grow        = '1'
           rows        = {5}
           {...this.link ()} />
@@ -85,6 +79,18 @@ export default class TripModify extends React.Component {
         <Separator kind='space' {...this.link ()} />
       </Container>
     );
+  }
+
+  renderMeetingPoints (ticket) {
+    if (ticket.MeetingPoints) {
+      const result = [];
+      for (var meetingPoint of ticket.MeetingPoints) {
+        result.push (this.renderMeetingPoint (meetingPoint));
+      }
+      return result;
+    } else {
+      return this.renderMeetingPoint (ticket.MeetingPoint);
+    }
   }
 
   renderFooter () {
@@ -113,30 +119,16 @@ export default class TripModify extends React.Component {
   render () {
     const ticket = this.read ('ticket');
 
-    if (ticket.Type === 'both') {
-      return (
-        <DialogModal width='500px' {...this.link ()}>
-          <Container kind='views' {...this.link ()} >
-            <Container kind='full-view' {...this.link ()} >
-              {this.renderHalf (ticket, 'pick')}
-              {this.renderHalf (ticket, 'drop')}
-              {this.renderFooter ()}
-            </Container>
+    return (
+      <DialogModal width='500px' {...this.link ()}>
+        <Container kind='views' {...this.link ()} >
+          <Container kind='full-view' {...this.link ()} >
+            {this.renderMeetingPoints (ticket)}
+            {this.renderFooter ()}
           </Container>
-        </DialogModal>
-      );
-    } else {
-      return (
-        <DialogModal width='500px' {...this.link ()}>
-          <Container kind='views' {...this.link ()} >
-            <Container kind='full-view' {...this.link ()} >
-              {this.renderHalf (ticket, ticket.Type)}
-              {this.renderFooter ()}
-            </Container>
-          </Container>
-        </DialogModal>
-      );
-    }
+        </Container>
+      </DialogModal>
+    );
   }
 }
 
