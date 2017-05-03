@@ -13,16 +13,15 @@ export default class TripDeliver extends React.Component {
   }
 
   componentWillMount () {
-    // Trace.log ('TripDeliver.componentWillMount');
     const ticket = this.read ('ticket');
-    const trip = ticket.MeetingPoint;
-    let time = trip.RealisedTime;
+    const meetingPoint = ticket.MeetingPoint;
+    let time = meetingPoint.RealisedTime;
     if (!time || time === Converters.getEmptyTime ()) {
       time = Converters.getNowCanonicalTime ();
     }
     this.internalStore.select ('RealisedTime'   ).set ('value', time);
-    this.internalStore.select ('StartPlanedTime').set ('value', trip.StartPlanedTime);
-    this.internalStore.select ('EndPlanedTime'  ).set ('value', trip.EndPlanedTime);
+    this.internalStore.select ('StartPlanedTime').set ('value', meetingPoint.StartPlanedTime);
+    this.internalStore.select ('EndPlanedTime'  ).set ('value', meetingPoint.EndPlanedTime);
   }
 
   // LocalBus.notify
@@ -48,9 +47,9 @@ export default class TripDeliver extends React.Component {
     const x = this.read ('close-deliver');
     if (x) {
       const ticket = this.read ('ticket');
-      const trip = ticket.MeetingPoint;
+      const meetingPoint = ticket.MeetingPoint;
       const time = this.internalStore.select ('RealisedTime').get ('value');
-      x (action, trip.PlanedDate, time);
+      x (action, meetingPoint.PlanedDate, time);
     }
   }
 
