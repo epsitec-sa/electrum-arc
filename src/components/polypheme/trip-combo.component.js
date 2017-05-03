@@ -86,9 +86,9 @@ export default class TripCombo extends React.Component {
   onDispatch (value) {
     if (window.document.mock) {
       if (value === 'delivered') {
-        this.showDeliver ();
+        this.onShowDeliver ();
       } else if (value === 'pre-dispatch') {
-        this.showPredispatch ();
+        this.onShowPredispatch ();
       } else {
         const ticket = this.read ('ticket');
         this.reduce ('CHANGE_TICKET_STATUS', ticket.id, value);
