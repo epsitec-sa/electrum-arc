@@ -10,9 +10,9 @@ export default class TripPredispatch extends React.Component {
   }
 
   closePredispatch (action) {
-    const closePredispatch = this.read ('close-predispatch');
-    if (closePredispatch) {
-      closePredispatch (action);
+    const x = this.read ('close-predispatch');
+    if (x) {
+      x (action);
     }
   }
 

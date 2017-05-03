@@ -9,18 +9,18 @@ import * as ReducerData from '../polypheme/reducer-data.js';
 
 export default class TripCombo extends React.Component {
 
-  closeCombo () {
-    const closeCombo = this.read ('close-combo');
-    if (closeCombo) {
-      closeCombo ();
+  onCloseCombo () {
+    const x = this.read ('close-combo');
+    if (x) {
+      x ();
     }
   }
 
-  showModify () {
+  onShowModify () {
     if (window.document.mock) {
-      const showModify = this.read ('show-modify');
-      if (showModify) {
-        showModify ();
+      const x = this.read ('show-modify');
+      if (x) {
+        x ();
       }
     } else {
       const data   = this.read ('data');
@@ -35,7 +35,7 @@ export default class TripCombo extends React.Component {
     }
   }
 
-  showMission () {
+  onShowMission () {
     if (window.document.mock) {
       Trace.error ('showMission is possible only with Lydia');
     } else {
@@ -51,7 +51,7 @@ export default class TripCombo extends React.Component {
     }
   }
 
-  showDeliver () {
+  onShowDeliver () {
     if (window.document.mock) {
       const showDeliver = this.read ('show-deliver');
       if (showDeliver) {
@@ -62,7 +62,7 @@ export default class TripCombo extends React.Component {
     }
   }
 
-  showPredispatch () {
+  onShowPredispatch () {
     if (window.document.mock) {
       const showPredispatch = this.read ('show-predispatch');
       if (showPredispatch) {
@@ -83,7 +83,7 @@ export default class TripCombo extends React.Component {
     });
   }
 
-  dispatch (value) {
+  onDispatch (value) {
     if (window.document.mock) {
       if (value === 'delivered') {
         this.showDeliver ();
@@ -99,17 +99,17 @@ export default class TripCombo extends React.Component {
     }
   }
 
-  extend () {
+  onExtend () {
     const ticket = this.read ('ticket');
     this.reduce ('SWAP_TICKET_EXTENDED', ticket.id);
   }
 
-  select () {
+  onSelectOne () {
     const ticket = this.read ('ticket');
     this.reduce ('SWAP_TICKET_SELECTED', ticket.id);
   }
 
-  selectMany () {
+  onSelectMany () {
     const ticket = this.read ('ticket');
     this.reduce ('SWAP_TICKET_SELECTED', ticket.id, null, true);
   }
@@ -126,14 +126,14 @@ export default class TripCombo extends React.Component {
       {
         text:   'Modifier...',
         glyph:  'pencil',
-        action: () => this.showModify (),
+        action: this.onShowModify,
       }
     );
     list.push (
       {
         text:   'Voir la mission...',
         glyph:  'eye',
-        action: () => this.showMission (),
+        action: this.onShowMission,
       }
     );
     list.push (
@@ -141,7 +141,7 @@ export default class TripCombo extends React.Component {
         text:     selected ? 'Désélectionner un' : 'Sélectionner un',
         glyph:    selected ? 'circle-o' : 'check-circle',
         shortcut: '_ctrl_+clic',
-        action:   () => this.select (),
+        action:   this.onSelectOne,
       }
     );
     list.push (
@@ -149,16 +149,16 @@ export default class TripCombo extends React.Component {
         text:     selected ? 'Tout désélectionner' : 'Sélectionner plusieurs',
         glyph:    selected ? 'circle-o' : 'check-circle',
         shortcut: '_shift_+clic',
-        action:   () => this.selectMany (),
+        action:   this.onSelectMany,
       }
     );
-    if (ticket.Type !== 'both') {
+    if (source !== 'backlog') {
       list.push (
         {
           text:     extended ? 'Réduire' : 'Étendre',
           glyph:    extended ? 'arrow-up' : 'arrow-down',
           shortcut: '_alt_+clic',
-          action:   () => this.extend (),
+          action:   this.onExtend,
         }
       );
       if (source === 'roadbook') {
@@ -173,7 +173,7 @@ export default class TripCombo extends React.Component {
             glyph:    'ban',
             active:   ticket.Status === 'pre-dispatched' ? 'true' : 'false',
             shortcut: ticket.Status === 'delivered' ? 'clic' : null,
-            action:   () => this.dispatch ('pre-dispatched'),
+            action:   () => this.onDispatch ('pre-dispatched'),
           }
         );
         list.push (
@@ -182,7 +182,7 @@ export default class TripCombo extends React.Component {
             glyph:    'envelope-o',
             active:   ticket.Status === 'dispatched' ? 'true' : 'false',
             shortcut: ticket.Status === 'pre-dispatched' ? 'clic' : null,
-            action:   () => this.dispatch ('dispatched'),
+            action:   () => this.onDispatch ('dispatched'),
           }
         );
         list.push (
@@ -191,7 +191,7 @@ export default class TripCombo extends React.Component {
             glyph:    'envelope',
             active:   ticket.Status === 'delivered' ? 'true' : 'false',
             shortcut: ticket.Status === 'dispatched' ? 'clic' : null,
-            action:   () => this.dispatch ('delivered'),
+            action:   () => this.onDispatch ('delivered'),
           }
         );
       }
@@ -210,7 +210,7 @@ export default class TripCombo extends React.Component {
         top    = {top}
         bottom = {bottom}
         list   = {this.getList ()}
-        close  = {() => this.closeCombo ()}
+        close  = {this.onCloseCombo}
         {...this.link ()} />
     );
   }

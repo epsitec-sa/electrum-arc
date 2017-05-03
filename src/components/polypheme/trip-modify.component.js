@@ -21,9 +21,9 @@ export default class TripModify extends React.Component {
   }
 
   closeModify (action) {
-    const closeModify = this.read ('close-modify');
-    if (closeModify) {
-      closeModify (action);
+    const x = this.read ('close-modify');
+    if (x) {
+      x (action);
     }
   }
 
