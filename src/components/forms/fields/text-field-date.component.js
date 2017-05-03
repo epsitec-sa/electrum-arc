@@ -70,7 +70,11 @@ export default class TextFieldDate extends React.Component {
       // contains the message). By example, '12' is replaced by '12.05.2017'.
       const displayedValue = this.internalStore.select ('value').get ('value');
       const parsed         = this.parseEditedValue (displayedValue);
-      this.internalStore.select ('value').set ('value', parsed.displayedFinalValue);  // no 'info' to hide
+      this.internalStore.select ('value').set (
+        'value',   parsed.displayedFinalValue,  // no 'info' -> hide FlyingBalloon
+        'info',    null,
+        'warning', null
+      );
       this.forceUpdate ();  // to update message-info
     }
   }
