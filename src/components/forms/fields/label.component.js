@@ -130,11 +130,12 @@ export default class Label extends React.Component {
   renderText (index, text) {
     if (text) {
       if (typeof text === 'string') {
-        const hasEol = text.indexOf ('\\n'  ) !== -1;
-        const hasBr  = text.indexOf ('<br/>') !== -1;
-        const hasEm  = text.indexOf ('<em>' ) !== -1;
-        if (hasEol || hasBr || hasEm) {  // complex text ?
-          const lines = text.split (hasEol ? '\\n' : '<br/>');
+        const hasEol1 = text.indexOf ('\n'   ) !== -1;
+        const hasEol2 = text.indexOf ('\\n'  ) !== -1;
+        const hasBr   = text.indexOf ('<br/>') !== -1;
+        const hasEm   = text.indexOf ('<em>' ) !== -1;
+        if (hasEol1 || hasEol2 || hasBr || hasEm) {  // complex text ?
+          const lines = text.split (hasBr ? '<br/>' : (hasEol1 ? '\n' : '\\n'));
           return this.renderLines (index, lines);
         } else {
           return this.renderSimpleText (index, text);

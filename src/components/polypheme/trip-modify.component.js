@@ -4,15 +4,6 @@ import * as TicketHelpers from './ticket-helpers.js';
 
 /******************************************************************************/
 
-function prepareLines (text) {
-  if (text) {
-    text = text.replace (/\\n/g, '\n');  // replace all \\n by \n
-  }
-  return text;
-}
-
-/******************************************************************************/
-
 export default class TripModify extends React.Component {
 
   constructor (props) {
