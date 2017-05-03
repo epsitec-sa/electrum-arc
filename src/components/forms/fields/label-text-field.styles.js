@@ -3,8 +3,8 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 export default function styles (theme, props) {
-  const inputGrow       = props.grow;
-  const inputSpacing    = props.spacing;
+  const inputGrow    = props.grow;
+  const inputSpacing = props.spacing;
 
   let flexGrow    = inputGrow;
   let flexShrink  = null;
