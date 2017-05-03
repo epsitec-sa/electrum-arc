@@ -1,6 +1,6 @@
 import {React} from 'electrum';
 import {Action} from 'electrum';
-import {Button, TextField, SimpleTextField} from '../../../all-components.js';
+import {Button, TextField} from '../../../all-components.js';
 
 /******************************************************************************/
 
@@ -102,30 +102,31 @@ export default class LabelTextField extends React.Component {
   }
 
   renderInput () {
-    const id             = this.read ('id');
-    const field          = this.read ('field');
-    const type           = this.read ('type');
-    const shape          = this.read ('shape');
-    const fieldWidth     = this.read ('field-width');
+    const id               = this.read ('id');
+    const field            = this.read ('field');
+    const type             = this.read ('type');
+    const shape            = this.read ('shape');
+    const fieldWidth       = this.read ('field-width');
 
     // @DR: Don't do this: setting the value as a `prop` rather than through
     // its state breaks React's forceUpdate() optimizations on the child
     // <input> element:
-//  const value          = this.read ('value');
+//  const value            = this.read ('value');
 
     // @DR: We should remove the `selected-value` property altogether and
     // use the state (based on `value`) instead; but since I am not sure
     // of all the implications, I prefer not to touch this logic for now:
-    const selectedValue  = this.read ('selected-value');
+    const selectedValue    = this.read ('selected-value');
 
-    const hintText       = this.read ('hint-text');
-    const tooltip        = this.read ('tooltip');
-    const messageInfo    = this.read ('message-info');
-    const messageWarning = this.read ('message-warning');
-    const rows           = this.read ('rows');
-    const readonly       = this.read ('readonly');
-    const filterKeys     = this.props['filter-keys'];
-    const tabIndex       = this.props['tab-index'];
+    const hintText         = this.read ('hint-text');
+    const tooltip          = this.read ('tooltip');
+    const messageInfo      = this.read ('message-info');
+    const messageWarning   = this.read ('message-warning');
+    const rows             = this.read ('rows');
+    const readonly         = this.read ('readonly');
+    const selectAllOnFocus = this.read ('select-all-on-focus');
+    const filterKeys       = this.props['filter-keys'];
+    const tabIndex         = this.props['tab-index'];
 
     const autoReadonly = this.getReadonly () && selectedValue && selectedValue !== '';
     const displayValue = autoReadonly ? selectedValue : null;
@@ -138,20 +139,21 @@ export default class LabelTextField extends React.Component {
     };
     const textFieldShape = textFieldShapes[s];
     const props = {
-      'id':              id,
-      'field':           field,
-      'type':            type,
-      'width':           fieldWidth,
-      'hint-text':       hintText,
-      'tooltip':         tooltip,
-      'message-info':    messageInfo,
-      'message-warning': messageWarning,
-      'filter-keys':     filterKeys,
-      'spacing':         this.hasActionButton () ? 'overlap' : null,
-      'shape':           textFieldShape,
-      'tab-index':       tabIndex,
-      'rows':            rows,
-      'readonly':        visibleReadonly,
+      'id':                  id,
+      'field':               field,
+      'type':                type,
+      'width':               fieldWidth,
+      'hint-text':           hintText,
+      'tooltip':             tooltip,
+      'message-info':        messageInfo,
+      'message-warning':     messageWarning,
+      'filter-keys':         filterKeys,
+      'spacing':             this.hasActionButton () ? 'overlap' : null,
+      'shape':               textFieldShape,
+      'tab-index':           tabIndex,
+      'rows':                rows,
+      'readonly':            visibleReadonly,
+      'select-all-on-focus': selectAllOnFocus,
     };
 
     if (displayValue) {

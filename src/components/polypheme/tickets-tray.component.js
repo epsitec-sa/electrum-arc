@@ -62,7 +62,7 @@ export default class TicketsTray extends React.Component {
     this.forceUpdate ();
   }
 
-  // The button was clicked, replace Button by SimpleTextField (edit = true).
+  // The button was clicked, replace Button by TextField (edit = true).
   onMyMouseDown () {
     // console.log ('TicketsTray.onMyMouseDown');
     this.initialTitle = this.internalStore.select ('title').get ('value');

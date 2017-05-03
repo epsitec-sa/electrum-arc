@@ -3,7 +3,7 @@
 import {React} from 'electrum';
 import {ReactDOM} from 'electrum';
 import {Action} from 'electrum';
-import {Button, TextField, SimpleTextField, Combo} from '../../../all-components.js';
+import {Button, TextField, Combo} from '../../../all-components.js';
 import * as ComboHelpers from '../../combo/combo-helpers.js';
 
 /******************************************************************************/

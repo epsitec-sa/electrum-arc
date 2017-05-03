@@ -76,25 +76,29 @@ export default class TextFieldDate extends React.Component {
   }
 
   render () {
-    const hintText   = this.read ('hint-text');
-    const tooltip    = this.read ('tooltip');
-    const labelGlyph = this.read ('label-glyph');
-    const labelText  = this.read ('label-text');
-    const labelWidth = this.read ('label-width');
-    const grow       = this.read ('grow');
-    const spacing    = this.read ('spacing');
+    const hintText         = this.read ('hint-text');
+    const tooltip          = this.read ('tooltip');
+    const labelGlyph       = this.read ('label-glyph');
+    const labelText        = this.read ('label-text');
+    const labelWidth       = this.read ('label-width');
+    const grow             = this.read ('grow');
+    const spacing          = this.read ('spacing');
+    const readonly         = this.read ('readonly');
+    const selectAllOnFocus = this.read ('select-all-on-focus');
 
     return (
       <LabelTextField
-        hint-text       = {hintText}
-        tooltip         = {tooltip}
-        label-glyph     = {labelGlyph}
-        label-text      = {labelText}
-        label-width     = {labelWidth}
-        grow            = {grow}
-        spacing         = {spacing}
-        message-warning = {this.getMessageWarning ()}
-        message-info    = {this.getMessageInfo ()}
+        hint-text           = {hintText}
+        tooltip             = {tooltip}
+        label-glyph         = {labelGlyph}
+        label-text          = {labelText}
+        label-width         = {labelWidth}
+        grow                = {grow}
+        spacing             = {spacing}
+        readonly            = {readonly}
+        select-all-on-focus = {selectAllOnFocus}
+        message-warning     = {this.getMessageWarning ()}
+        message-info        = {this.getMessageInfo ()}
         {...this.linkValueEdited ()} />
     );
   }

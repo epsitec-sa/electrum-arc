@@ -87,11 +87,12 @@ export default class TripDeliver extends React.Component {
           hint-text   = 'Heure'
           {...this.linkEndPlanedTime ()} />
         <TextFieldTime
-          field       = 'RealisedTime'
-          grow        = '1'
-          label-text  = 'Heure de livraison'
-          label-width = '200px'
-          hint-text   = 'Heure'
+          field               = 'RealisedTime'
+          grow                = '1'
+          select-all-on-focus = 'true'
+          label-text          = 'Heure de livraison'
+          label-width         = '200px'
+          hint-text           = 'Heure'
           {...this.linkRealisedTime ()} />
         <Separator kind='space' {...this.link ()} />
         <Separator kind='space' {...this.link ()} />
