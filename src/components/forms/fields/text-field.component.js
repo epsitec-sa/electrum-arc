@@ -50,17 +50,17 @@ export default class TextField extends React.Component {
   onMyFocus (e) {
     this.onFocus (e);
     this.selectAll ();
-    const onFocus = this.read ('onFocus');
-    if (onFocus) {
-      onFocus (e);
+    const x = this.read ('onFocus');
+    if (x) {
+      x (e);
     }
   }
 
   onMyBlur (e) {
     this.onBlur (e);
-    const onBlur = this.read ('onBlur');
-    if (onBlur) {
-      onBlur (e);
+    const x = this.read ('onBlur');
+    if (x) {
+      x (e);
     }
   }
 
