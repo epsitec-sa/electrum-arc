@@ -16,17 +16,17 @@ export default class TripPredispatch extends React.Component {
     }
   }
 
-  doAccept () {
+  onAccept () {
     this.closePredispatch ('accept');
   }
 
-  doCancel () {
+  onCancel () {
     this.closePredispatch ('cancel');
   }
 
   renderMain () {
     return (
-      <Container kind='panes' {...this.link ()} >
+      <Container kind='column' {...this.link ()} >
         <Label text={'Revenir à l\'état \'non dispatché\' ?'} grow='1' kind='title' {...this.link ()} />
         <Separator kind='space' {...this.link ()} />
         <Separator kind='space' {...this.link ()} />
@@ -36,22 +36,22 @@ export default class TripPredispatch extends React.Component {
 
   renderFooter () {
     return (
-      <Container kind='actions' subkind='no-shadow' {...this.link ()} >
+      <Container kind='row' {...this.link ()} >
         <Button
-          mouse-down = {() => this.doAccept ()}
-          glyph      = 'check'
-          text       = 'Oui'
-          kind       = 'action'
-          grow       = '1'
-          place      = 'left'
+          glyph           = 'check'
+          text            = 'Oui'
+          kind            = 'action'
+          grow            = '1'
+          place           = 'left'
+          custom-on-click = {this.onAccept}
           {...this.link ()} />
         <Button
-          mouse-down = {() => this.doCancel ()}
-          glyph      = 'close'
-          text       = 'Non'
-          kind       = 'action'
-          grow       = '1'
-          place      = 'right'
+          glyph           = 'close'
+          text            = 'Non'
+          kind            = 'action'
+          grow            = '1'
+          place           = 'right'
+          custom-on-click = {this.onCancel}
           {...this.link ()} />
       </Container>
     );

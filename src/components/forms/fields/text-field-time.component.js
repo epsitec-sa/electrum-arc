@@ -6,7 +6,7 @@ import * as Converters from '../../polypheme/converters';
 
 /******************************************************************************/
 
-export default class TextFieldDate extends React.Component {
+export default class TextFieldTime extends React.Component {
 
   constructor (props) {
     super (props);
@@ -19,11 +19,11 @@ export default class TextFieldDate extends React.Component {
   }
 
   canonicalToDisplayed (canonicalValue) {
-    return Converters.getDisplayedDate (canonicalValue);
+    return Converters.getDisplayedTime (canonicalValue);
   }
 
   parseEditedValue (displayedValue) {
-    const parsed = Converters.parseEditedDate (displayedValue);
+    const parsed = Converters.parseEditedTime (displayedValue, '12:00:00');
     const finalValue = this.canonicalToDisplayed (parsed.value);
     return {canonicalValue: parsed.value, displayedFinalValue: finalValue, warning: parsed.error};
   }

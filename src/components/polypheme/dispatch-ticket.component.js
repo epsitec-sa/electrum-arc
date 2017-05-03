@@ -80,7 +80,7 @@ export default class DispatchTicket extends React.Component {
     this.setShowCombo (true);
   }
 
-  mouseDown (e) {
+  onMyMouseDown (e) {
     // Trace.log ('Trip.mouseDown');
     if (this.getShowSomethink ()) {
       return true;
@@ -93,7 +93,7 @@ export default class DispatchTicket extends React.Component {
     return false;
   }
 
-  mouseUp () {
+  onMyMouseUp () {
     // Trace.log ('Trip.mouseUp');
     if (this.getShowSomethink ()) {
       return true;
@@ -101,7 +101,7 @@ export default class DispatchTicket extends React.Component {
     return false;
   }
 
-  doClickAction (e) {
+  onClickAction (e) {
     if (e.ctrlKey || e.shiftKey || e.metaKey) {  // select/deselect ?
       this.reduce ('SWAP_TICKET_SELECTED', e.shiftKey);
     } else if (e.altKey) {  // compected/extended ?
@@ -110,9 +110,9 @@ export default class DispatchTicket extends React.Component {
       if (window.document.mock) {
         const ticket = this.read ('ticket');
         if (ticket.Status === 'dispatched') {  // dispatched -> delivered ?
-          this.showDeliver ();  // selected realised time...
+          this.onShowDeliver ();  // selected realised time...
         } else if (ticket.Status === 'delivered') {  // delivered -> pre-dispatched ?
-          this.showPredispatch ();  // request confirmation...
+          this.onShowPredispatch ();  // request confirmation...
         } else {
           this.reduce ('CYCLE_TICKET_STATUS');  // change directly without dialog
         }
@@ -141,7 +141,11 @@ export default class DispatchTicket extends React.Component {
     });
   }
 
-  showModify () {
+  onCloseCombo () {
+    this.setShowCombo (false);
+  }
+
+  onShowModify () {
     if (window.document.mock) {
       this.setShowModify (true);
     } else {
@@ -149,11 +153,11 @@ export default class DispatchTicket extends React.Component {
     }
   }
 
-  closeModify () {
+  onCloseModify () {
     this.setShowModify (false);
   }
 
-  showDeliver () {
+  onShowDeliver () {
     if (window.document.mock) {
       this.setShowDeliver (true);
     } else {
@@ -161,14 +165,15 @@ export default class DispatchTicket extends React.Component {
     }
   }
 
-  closeDeliver (action, date, time) {
+  onCloseDeliver (action, date, time) {
+    // console.log (`DispatchTicket.closeDeliver action=${action} date=${date} time=${time}`);
     this.setShowDeliver (false);
     if (action === 'accept') {
       this.reduce ('CHANGE_TICKET_STATUS', false, 'delivered', date, time);
     }
   }
 
-  showPredispatch () {
+  onShowPredispatch () {
     if (window.document.mock) {
       this.setShowPredispatch (true);
     } else {
@@ -176,7 +181,7 @@ export default class DispatchTicket extends React.Component {
     }
   }
 
-  closePredispatch (action, date, time) {
+  onClosePredispatch (action, date, time) {
     this.setShowPredispatch (false);
     if (action === 'accept') {
       this.reduce ('CHANGE_TICKET_STATUS', false, 'pre-dispatched', date, time);
@@ -190,7 +195,7 @@ export default class DispatchTicket extends React.Component {
         <TripModify
           data         = {data}
           ticket       = {ticket}
-          close-modify = {action => this.closeModify (action)}
+          close-modify = {this.onCloseModify}
           {...this.link ()} />
       );
     } else {
@@ -205,7 +210,7 @@ export default class DispatchTicket extends React.Component {
         <TripDeliver
           data          = {data}
           ticket        = {ticket}
-          close-deliver = {(action, date, time) => this.closeDeliver (action, date, time)}
+          close-deliver = {this.onCloseDeliver}
           {...this.link ()} />
       );
     } else {
@@ -220,7 +225,7 @@ export default class DispatchTicket extends React.Component {
         <TripPredispatch
           data              = {data}
           ticket            = {ticket}
-          close-predispatch = {(action, date, time) => this.closePredispatch (action, date, time)}
+          close-predispatch = {this.onClosePredispatch}
           {...this.link ()} />
       );
     } else {
@@ -240,10 +245,10 @@ export default class DispatchTicket extends React.Component {
           center           = {this.comboLocation.center}
           top              = {this.comboLocation.top}
           bottom           = {this.comboLocation.bottom}
-          close-combo      = {() => this.setShowCombo (false)}
-          show-modify      = {() => this.showModify ()}
-          show-deliver     = {() => this.showDeliver ()}
-          show-predispatch = {() => this.showPredispatch ()}
+          close-combo      = {this.onCloseCombo}
+          show-modify      = {this.onShowModify}
+          show-deliver     = {this.onShowDeliver}
+          show-predispatch = {this.onShowPredispatch}
           {...this.link ()}/>
       );
     } else {
@@ -269,9 +274,9 @@ export default class DispatchTicket extends React.Component {
         drag-owner-id    = {ticket.id}
         no-drag          = {noDrag}
         vertical-spacing = {this.props.theme.shapes.ticketBacklogVerticalSpacing}
-        mouse-down       = {e => this.mouseDown (e)}
-        mouse-up         = {e => this.mouseUp (e)}
-        do-click-action  = {e => this.doClickAction (e)}
+        mouse-down       = {this.onMyMouseDown}
+        mouse-up         = {this.onMyMouseUp}
+        do-click-action  = {this.onClickAction}
         {...this.link ()} >
         <DispatchDragTicket
           kind             = {kind}
@@ -324,9 +329,9 @@ export default class DispatchTicket extends React.Component {
         drag-owner-id    = {ticket.id}
         no-drag          = {noDrag}
         vertical-spacing = {verticalSpacing}
-        mouse-down       = {e => this.mouseDown (e)}
-        mouse-up         = {e => this.mouseUp (e)}
-        do-click-action  = {e => this.doClickAction (e)}
+        mouse-down       = {this.onMyMouseDown}
+        mouse-up         = {this.onMyMouseUp}
+        do-click-action  = {this.onClickAction}
         {...this.link ()} >
         <DispatchDragTicket
           kind               = {kind}

@@ -27,11 +27,11 @@ export default class TripModify extends React.Component {
     }
   }
 
-  modifyAccept () {
+  onAccept () {
     this.closeModify ('accept');
   }
 
-  modifyCancel () {
+  onCancel () {
     this.closeModify ('cancel');
   }
 
@@ -46,22 +46,41 @@ export default class TripModify extends React.Component {
     const pd = ticket.MeetingPoint;
 
     return (
-      <Container kind='panes' {...this.link ()} >
+      <Container kind='column' {...this.link ()} >
         <Label
-          glyph={directionGlyph.glyph}
-          glyph-color={directionGlyph.color}
-          text={title} grow='1' kind='title'
+          glyph       = {directionGlyph.glyph}
+          glyph-color = {directionGlyph.color}
+          text        = {title}
+          grow        = '1'
+          kind        = 'title'
           {...this.link ()}
         />
         <Separator kind='space' {...this.link ()} />
-        <LabelTextField label-glyph='clock-o' hint-text='Heure début'
-          value={Converters.getDisplayedTime (pd.StartPlanedTime)} width='100px' {...this.link ()} />
-        <LabelTextField label-glyph='clock-o' hint-text='Heure fin'
-          value={Converters.getDisplayedTime (pd.EndPlanedTime)} width='100px' {...this.link ()} />
-        <LabelTextField label-glyph='tag' hint-text='Description courte'
-          value={pd.ShortDescription} grow='1' {...this.link ()} />
-        <LabelTextField label-glyph='building' hint-text='Description complète'
-          value={prepareLines (pd.LongDescription)} grow='1' rows={5} {...this.link ()} />
+        <LabelTextField
+          label-glyph = 'clock-o'
+          hint-text   = 'Heure début'
+          value       = {Converters.getDisplayedTime (pd.StartPlanedTime)}
+          width       = '100px'
+          {...this.link ()} />
+        <LabelTextField
+          label-glyph = 'clock-o'
+          hint-text   = 'Heure fin'
+          value       = {Converters.getDisplayedTime (pd.EndPlanedTime)}
+          width       = '100px'
+          {...this.link ()} />
+        <LabelTextField
+          label-glyph = 'tag'
+          hint-text   = 'Description courte'
+          value       = {pd.ShortDescription}
+          grow        = '1'
+          {...this.link ()} />
+        <LabelTextField
+          label-glyph = 'building'
+          hint-text   = 'Description complète'
+          value       = {prepareLines (pd.LongDescription)}
+          grow        = '1'
+          rows        = {5}
+          {...this.link ()} />
         <Separator kind='space' {...this.link ()} />
         <Separator kind='space' {...this.link ()} />
       </Container>
@@ -70,11 +89,23 @@ export default class TripModify extends React.Component {
 
   renderFooter () {
     return (
-      <Container kind='actions' subkind='no-shadow' {...this.link ()} >
-        <Button mouse-down={() => this.modifyAccept ()} glyph='check' text='Modifier' kind='action'
-          grow='1' place='left' {...this.link ()} />
-        <Button mouse-down={() => this.modifyCancel ()} glyph='close' text='Annuler' kind='action'
-          grow='1' place='right' {...this.link ()} />
+      <Container kind='row' {...this.link ()} >
+        <Button
+          glyph           = 'check'
+          text            = 'Modifier'
+          kind            = 'action'
+          grow            = '1'
+          place           = 'left'
+          custom-on-click = {this.onAccept}
+          {...this.link ()} />
+        <Button
+          glyph           = 'close'
+          text            = 'Annuler'
+          kind            = 'action'
+          grow            = '1'
+          place           = 'right'
+          custom-on-click = {this.onCancel }
+          {...this.link ()} />
       </Container>
     );
   }

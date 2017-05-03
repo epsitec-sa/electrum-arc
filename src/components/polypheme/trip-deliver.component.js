@@ -1,5 +1,5 @@
-import {React} from 'electrum';
-import {DialogModal, Container, Button, Label, LabelTextField, Separator} from '../../all-components.js';
+import {React, Store} from 'electrum';
+import {DialogModal, Container, Button, Label, TextFieldTime, Separator} from '../../all-components.js';
 import * as Converters from './converters';
 
 /******************************************************************************/
@@ -8,109 +8,92 @@ export default class TripDeliver extends React.Component {
 
   constructor (props) {
     super (props);
-    this.state = {
-      realisedTime: '',
-      ok:           true,
-    };
-  }
-
-  getRealisedTime () {
-    return this.state.realisedTime;
-  }
-
-  setRealisedTime (value) {
-    this.setState ( {
-      realisedTime: value
-    });
-  }
-
-  getOk () {
-    return this.state.ok;
-  }
-
-  setOk (value) {
-    this.setState ( {
-      ok: value
-    });
+    this.internalStore = Store.create ();
+    this.localBus = this;  // for access to property notify
   }
 
   componentWillMount () {
     // Trace.log ('TripDeliver.componentWillMount');
     const ticket = this.read ('ticket');
-    const trip = this.getTrip (ticket);
+    const trip = ticket.MeetingPoint;
     let time = trip.RealisedTime;
-    if (!time) {
-      time = Converters.getNowCanonicalDate ();
+    if (!time || time === Converters.getEmptyTime ()) {
+      time = Converters.getNowCanonicalTime ();
     }
-    this.setRealisedTime (Converters.getDisplayedTime (time));
+    this.internalStore.select ('RealisedTime'   ).set ('value', time);
+    this.internalStore.select ('StartPlanedTime').set ('value', trip.StartPlanedTime);
+    this.internalStore.select ('EndPlanedTime'  ).set ('value', trip.EndPlanedTime);
   }
 
-  getTime () {
-    return Converters.getCanonicalTime (this.getRealisedTime ());
+  // LocalBus.notify
+  notify (props, source, value) {
+    if (source.type === 'change') {
+      this.internalStore.select (props.field).set ('value', value);
+    }
+  }
+
+  linkStartPlanedTime () {
+    return {...this.link (), state: this.internalStore.select ('StartPlanedTime'), bus: this.localBus};
+  }
+
+  linkEndPlanedTime () {
+    return {...this.link (), state: this.internalStore.select ('EndPlanedTime'), bus: this.localBus};
+  }
+
+  linkRealisedTime () {
+    return {...this.link (), state: this.internalStore.select ('RealisedTime'), bus: this.localBus};
   }
 
   closeDeliver (action) {
-    const closeDeliver = this.read ('close-deliver');
-    if (closeDeliver) {
+    const x = this.read ('close-deliver');
+    if (x) {
       const ticket = this.read ('ticket');
-      const trip = this.getTrip (ticket);
-      closeDeliver (action, trip.PlanedDate, this.getTime ());
+      const trip = ticket.MeetingPoint;
+      const time = this.internalStore.select ('RealisedTime').get ('value');
+      x (action, trip.PlanedDate, time);
     }
   }
 
-  doAccept () {
-    if (this.getOk ()) {
-      this.closeDeliver ('accept');
-    }
+  onAccept () {
+    this.closeDeliver ('accept');
   }
 
-  doCancel () {
+  onCancel () {
     this.closeDeliver ('cancel');
   }
 
-  getTrip (ticket) {
-    return ticket.MeetingPoint;
-  }
-
-  onMyChange (e) {
-    const value = e.target.value;
-    // Trace.log ('TripDeliver.onMyChange ' + value);
-    this.setRealisedTime (value);
-    // this.setOk (Converters.checkTime (value));
-    this.setOk (true);  // TODO...
-  }
-
   renderMain (ticket) {
-    const trip = this.getTrip (ticket);
-
     return (
-      <Container kind='panes' {...this.link ()} >
-        <Label text={`Livraison du ${ticket.Type}`} grow='1' kind='title' {...this.link ()} />
+      <Container kind='column' {...this.link ()} >
+        <Label
+          text = {`Livraison du ${ticket.Type}`}
+          grow = '1'
+          kind = 'title'
+          {...this.link ()} />
         <Separator kind='space' {...this.link ()} />
-        <LabelTextField
+        <TextFieldTime
+          field       = 'StartPlanedTime'
           grow        = '1'
           readonly    = 'true'
           label-text  = 'Début heure planifiée'
           label-width = '200px'
           hint-text   = 'Heure'
-          value       = {Converters.getDisplayedTime (trip.StartPlanedTime)}
-          {...this.link ()} />
-        <LabelTextField
+          {...this.linkStartPlanedTime ()} />
+        <TextFieldTime
+          field       = 'EndPlanedTime'
           grow        = '1'
           readonly    = 'true'
           label-text  = 'Fin heure planifiée'
           label-width = '200px'
           hint-text   = 'Heure'
-          value       = {Converters.getDisplayedTime (trip.EndPlanedTime)}
-          {...this.link ()} />
-        <LabelTextField
-          grow           = '1'
-          label-text     = 'Heure de livraison'
-          label-width    = '200px'
-          hint-text      = 'Heure'
-          value          = {this.getRealisedTime ()}
-          onChange       = {e => this.onMyChange (e)}
-          {...this.link ()} />
+          {...this.linkEndPlanedTime ()} />
+        <TextFieldTime
+          field       = 'RealisedTime'
+          grow        = '1'
+          label-text  = 'Heure de livraison'
+          label-width = '200px'
+          hint-text   = 'Heure'
+          {...this.linkRealisedTime ()} />
         <Separator kind='space' {...this.link ()} />
         <Separator kind='space' {...this.link ()} />
       </Container>
@@ -119,23 +102,22 @@ export default class TripDeliver extends React.Component {
 
   renderFooter () {
     return (
-      <Container kind='actions' subkind='no-shadow' {...this.link ()} >
+      <Container kind='row' {...this.link ()} >
         <Button
-          mouse-down = {() => this.doAccept ()}
-          disabled   = {this.getOk () ? 'false' : 'true'}
-          glyph      = 'check'
-          text       = 'C´est livré'
-          kind       = 'action'
-          grow       = '1'
-          place      = 'left'
+          glyph           = 'check'
+          text            = 'C´est livré'
+          kind            = 'action'
+          grow            = '1'
+          place           = 'left'
+          custom-on-click = {this.onAccept}
           {...this.link ()} />
         <Button
-          mouse-down = {() => this.doCancel ()}
-          glyph      = 'close'
-          text       = 'Annuler'
-          kind       = 'action'
-          grow       = '1'
-          place      = 'right'
+          glyph           = 'close'
+          text            = 'Annuler'
+          kind            = 'action'
+          grow            = '1'
+          place           = 'right'
+          custom-on-click = {this.onCancel}
           {...this.link ()} />
       </Container>
     );

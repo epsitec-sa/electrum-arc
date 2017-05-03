@@ -106,7 +106,7 @@ export function jsToCanonicalTime (time) {
 }
 
 export function canonicalTimeToJs (time) {
-  if (typeof date === 'object') {
+  if (typeof time === 'object') {
     return new Date (2000, 1, 1, time.hour, time.minute, time.second);
   } else {
     const s = splitTime (time);
@@ -385,7 +385,6 @@ export function parseEditedDate (editedDate, defaultCanonicalDate) {
 
   const jsDate = canonicalDateToJs (date);
   const result = jsToCanonicalDate (jsDate);
-
   const r = splitDate (result);
 
   if (date.day !== r.day) {
@@ -411,23 +410,68 @@ export function parseEditedDate (editedDate, defaultCanonicalDate) {
 }
 
 // With editedTime = '12', return '12:00:00'.
-export function getCanonicalTime (editedTime) {
-  const time = {
-    hour:   0,
-    minute: 0,
-    second: 0,
-  };
+export function parseEditedTime (editedTime, defaultCanonicalTime) {
+  if (!editedTime || editedTime === '') {
+    return {value: null, error: null};
+  }
+  if (!defaultCanonicalTime) {
+    defaultCanonicalTime = getNowCanonicalTime ();
+  }
+  const time = splitTime (defaultCanonicalTime);
   const edited = tryParseDateOrTime (editedTime);
-  if (edited.length > 0 && !isNaN (edited[0]) && edited[0] >= 0 && edited[0] <= 23) {
-    time.hour = edited[0];
+  let incorrectHour   = false;
+  let incorrectMinute = false;
+  let incorrectSecond = false;
+  let incorrectArgs   = false;
+  if (edited.length > 0) {
+    if (isNaN (edited[0])) {
+      incorrectHour = true;
+    } else {
+      time.hour = edited[0];
+    }
   }
-  if (edited.length > 1 && !isNaN (edited[1]) && edited[1] >= 0 && edited[1] <= 59) {
-    time.minute = edited[1];
+  if (edited.length > 1) {
+    if (isNaN (edited[1])) {
+      incorrectMinute = true;
+    } else {
+      time.minute = edited[1];
+    }
   }
-  if (edited.length > 2 && !isNaN (edited[2]) && edited[2] >= 0 && edited[2] <= 59) {
-    time.second = edited[2];
+  if (edited.length > 2) {
+    if (isNaN (edited[2])) {
+      incorrectSecond = true;
+    } else {
+      time.second = edited[2];
+    }
   }
-  return joinTime (time);
+  if (edited.length > 3) {
+    incorrectArgs = true;
+  }
+
+  const jsTime = canonicalTimeToJs (time);
+  const result = jsToCanonicalTime (jsTime);
+  const r = splitTime (result);
+
+  if (time.hour !== r.hour) {
+    incorrectHour = true;
+  } else if (time.minute !== r.minute) {
+    incorrectMinute = true;
+  } else if (time.second !== r.second) {
+    incorrectSecond = true;
+  }
+
+  let error = null;
+  if (incorrectHour) {
+    error = 'Heure incorrecte';
+  } else if (incorrectMinute) {
+    error = 'Minutes incorrectes';
+  } else if (incorrectSecond) {
+    error = 'Secondes incorrectes';
+  } else if (incorrectArgs) {
+    error = 'Trop d\'arguments';
+  }
+
+  return {value: result, error: error};
 }
 
 function join (list, separator) {
