@@ -13,8 +13,10 @@ export default class Button extends React.Component {
   readActive () {
     const active   = this.read ('active');
     const selected = this.read ('selected');
-    if (active === 'true' || selected === 'true') {
-      return 'true';
+    if (active || active !== 'false') {
+      return active;
+    } else if (selected || selected !== 'false') {
+      return selected;
     } else {
       return 'false';
     }
