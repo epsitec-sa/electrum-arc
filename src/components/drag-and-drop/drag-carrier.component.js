@@ -450,7 +450,7 @@ export default class DragCarrier extends React.Component {
     }
   }
 
-  mouseMove (e) {
+  onMyMouseMove (e) {
     let x = e.clientX;
     let y = e.clientY;
     if (!x && e.touches.length > 0) {
@@ -496,7 +496,7 @@ export default class DragCarrier extends React.Component {
     }
   }
 
-  mouseUp (e) {
+  onMyMouseUp (e) {
     // Trace.log ('DragCarrier.mouseUp');
     const dragEnding = this.read ('drag-ending');
     if (dragEnding) {
@@ -630,10 +630,10 @@ export default class DragCarrier extends React.Component {
 
     return (
       <div style = {fullScreenStyle}
-        onMouseMove = {e => this.mouseMove (e)}
-        onMouseUp   = {e => this.mouseUp (e)}
-        onTouchMove = {e => this.mouseMove (e)}
-        onTouchEnd  = {e => this.mouseUp (e)}
+        onMouseMove = {this.onMyMouseMove}
+        onMouseUp   = {this.onMyMouseUp}
+        onTouchMove = {this.onMyMouseMove}
+        onTouchEnd  = {this.onMyMouseUp}
         >
         <div style = {hilitedStyle} />
         <div style = {draggedStyle}>

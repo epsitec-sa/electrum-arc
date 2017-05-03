@@ -29,11 +29,11 @@ export default class Event extends React.Component {
     });
   }
 
-  mouseOver () {
+  onMyMouseOver () {
     this.setHover (true);
   }
 
-  mouseOut () {
+  onMyMouseOut () {
     this.setHover (false);
   }
 
@@ -58,8 +58,8 @@ export default class Event extends React.Component {
         vertical-spacing = {this.props.theme.shapes.eventSeparator}
         color            = {color}
         height           = {height}
-        mouse-over       = {() => this.mouseOver ()}
-        mouse-out        = {() => this.mouseOut ()}
+        mouse-over       = {this.onMyMouseOver}
+        mouse-out        = {this.onMyMouseOut}
         {...this.link ()} >
         <Container kind='ticket-column' grow='1' {...this.link ()} >
           <Container kind='ticket-row' {...this.link ()} >

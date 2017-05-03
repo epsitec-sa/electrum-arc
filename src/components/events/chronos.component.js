@@ -159,26 +159,26 @@ export default class Chronos extends React.Component {
     this.updateFilter (filters);
   }
 
-  mouseOver (event) {
+  onMyMouseOver (event) {
     updateHover (event, true);
   }
 
-  mouseOut (event) {
+  onMyMouseOut (event) {
     updateHover (event, false);
   }
 
-  mouseDown () {
-    // Trace.log ('ChronoLine.mouseDown');
+  onMyMouseDown () {
+    // Trace.log ('ChronoLine.onMyMouseDown');
     return false;
   }
 
-  mouseUp () {
-    // Trace.log ('ChronoLine.mouseUp');
+  onMyMouseUp () {
+    // Trace.log ('ChronoLine.onMyMouseUp');
     return false;
   }
 
-  doClickAction () {
-    // Trace.log ('ChronoLine.doClickAction');
+  onClickAction () {
+    // Trace.log ('ChronoLine.onClickAction');
   }
 
   /******************************************************************************/
@@ -192,12 +192,12 @@ export default class Chronos extends React.Component {
     }
   }
 
-  actionAll () {
+  onActionAll () {
     this.updateFilter ([]);
     this.setFilters ([]);
   }
 
-  actionFilter (e, date) {
+  onActionFilter (e, date) {
     const filters = this.getFilters ();
     if (e.ctrlKey) {
       if (filtersGet (filters, date)) {
@@ -219,7 +219,7 @@ export default class Chronos extends React.Component {
     this.setFilters (filters.slice ());
   }
 
-  actionPrevFilter () {
+  onActionPrevFilter () {
     const filters = this.getFilters ();
     if (filters.length === 1) {
       const index = this.flatEvents.groups.indexOf (filters[0]);
@@ -231,7 +231,7 @@ export default class Chronos extends React.Component {
     }
   }
 
-  actionNextFilter () {
+  onActionNextFilter () {
     const filters = this.getFilters ();
     if (filters.length === 1) {
       const index = this.flatEvents.groups.indexOf (filters[0]);
@@ -245,7 +245,7 @@ export default class Chronos extends React.Component {
 
   /******************************************************************************/
 
-  renderNavigationButton (glyph, text, count, tooltip, disabled, active, action, index) {
+  renderNavigationButton (glyph, text, count, tooltip, disabled, active, onAction, index) {
     if (count) {
       return (
         <Button
@@ -258,7 +258,7 @@ export default class Chronos extends React.Component {
           border          = 'none'
           disabled        = {disabled ? 'true' : 'false'}
           active          = {active ? 'true' : 'false'}
-          custom-on-click = {e => action (e)}
+          custom-on-click = {onAction}
           {...this.link ()}>
           <Badge value={count} kind='chronos-count' {...this.link ()} />
         </Button>
@@ -274,7 +274,7 @@ export default class Chronos extends React.Component {
           border          = 'none'
           disabled        = {disabled ? 'true' : 'false'}
           active          = {active ? 'true' : 'false'}
-          custom-on-click = {e => action (e)}
+          custom-on-click = {onAction}
           {...this.link ()}/>
       );
     }
@@ -287,11 +287,11 @@ export default class Chronos extends React.Component {
 
     result.push (
       this.renderNavigationButton (null, 'Tout', null, null, false, filters.length === 0,
-        () => this.actionAll (), index++));
+        this.onActionAll, index++));
 
     result.push (
       this.renderNavigationButton ('chevron-up', null, null, null, filters.length !== 1, false,
-        () => this.actionPrevFilter (), index++));
+        this.onActionPrevFilter, index++));
 
     for (var i = 0; i < this.flatEvents.groups.length; i++) {
       const group = this.flatEvents.groups[i];
@@ -308,12 +308,12 @@ export default class Chronos extends React.Component {
 
       result.push (
         this.renderNavigationButton (null, text, count, tooltip, false, filtersGet (filters, x),
-          e => this.actionFilter (e, x), index++));
+          e => this.onActionFilter (e, x), index++));
     }
 
     result.push (
       this.renderNavigationButton ('chevron-down', null, null, null, filters.length !== 1, false,
-        () => this.actionNextFilter (), index++));
+        this.onActionNextFilter, index++));
 
     return result;
   }
@@ -411,9 +411,9 @@ export default class Chronos extends React.Component {
         drag-owner-id    = {event.id}
         no-drag          = {noDrag}
         vertical-spacing = {verticalSpacing}
-        mouse-down       = {e => this.mouseDown (e)}
-        mouse-up         = {e => this.mouseUp (e)}
-        do-click-action  = {e => this.doClickAction (e)}
+        mouse-down       = {this.onMyMouseDown}
+        mouse-up         = {this.onMyMouseUp}
+        do-click-action  = {this.onClickAction}
         {...this.link ()} >
         <ChronoLine
           index      = {index}
@@ -424,8 +424,8 @@ export default class Chronos extends React.Component {
           notesCount = {this.flatFilteredEvents.notesCount}
           minHour    = {this.flatFilteredEvents.minHour}
           maxHour    = {this.flatFilteredEvents.maxHour}
-          mouseOver  = {e => this.mouseOver (e)}
-          mouseOut   = {e => this.mouseOut  (e)}
+          mouseOver  = {this.onMyMouseOver}
+          mouseOut   = {this.onMyMouseOut}
           {...this.link ()}>
         </ChronoLine>
       </DragCab>

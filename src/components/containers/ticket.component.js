@@ -26,32 +26,28 @@ export default class Ticket extends React.Component {
     };
   }
 
-  mouseOver () {
-    // Trace.log ('Ticket.mouseOver');
+  onMyMouseOver () {
     const x = this.read ('mouse-over');
     if (x) {
       x ();
     }
   }
 
-  mouseOut () {
-    // Trace.log ('Ticket.mouseOut');
+  onMyMouseOut () {
     const x = this.read ('mouse-out');
     if (x) {
       x ();
     }
   }
 
-  mouseDown (e) {
-    // Trace.log ('Ticket.mouseDown');
+  onMyMouseDown (e) {
     const x = this.read ('mouse-down');
     if (x) {
       x (e);
     }
   }
 
-  mouseUp (e) {
-    // Trace.log ('Ticket.mouseUp');
+  onMyMouseUp (e) {
     const x = this.read ('mouse-up');
     if (x) {
       x (e);
@@ -139,12 +135,12 @@ export default class Ticket extends React.Component {
     return (
       <div
         style        = {boxStyle}
-        onMouseOver  = {() => this.mouseOver ()}
-        onMouseOut   = {() => this.mouseOut ()}
-        onMouseDown  = {e => this.mouseDown (e)}
-        onMouseUp    = {e => this.mouseUp (e)}
-        onTouchStart = {e => this.mouseDown (e)}
-        onTouchEnd   = {e => this.mouseUp (e)}
+        onMouseOver  = {this.onMyMouseOver}
+        onMouseOut   = {this.onMyMouseOut}
+        onMouseDown  = {this.onMyMouseDown}
+        onMouseUp    = {this.onMyMouseUp}
+        onTouchStart = {this.onMyMouseDown}
+        onTouchEnd   = {this.onMyMouseUp}
         >
         {htmlShadow}
         {htmlShape}
@@ -173,12 +169,12 @@ export default class Ticket extends React.Component {
     return (
       <div
         style        = {rectShadowStyle}
-        onMouseOver  = {() => this.mouseOver ()}
-        onMouseOut   = {() => this.mouseOut ()}
-        onMouseDown  = {e => this.mouseDown (e)}
-        onMouseUp    = {e => this.mouseUp (e)}
-        onTouchStart = {e => this.mouseDown (e)}
-        onTouchEnd   = {e => this.mouseUp (e)}
+        onMouseOver  = {this.onMyMouseOver}
+        onMouseOut   = {this.onMyMouseOut}
+        onMouseDown  = {this.onMyMouseDown}
+        onMouseUp    = {this.onMyMouseUp}
+        onTouchStart = {this.onMyMouseDown}
+        onTouchEnd   = {this.onMyMouseUp}
         >
         <div style = {rectStyle}>
           <div style = {hatch === 'true' ? rectContentHatchStyle : contentStyle}>
@@ -201,12 +197,12 @@ export default class Ticket extends React.Component {
     return (
       <div
         style        = {rectStyle}
-        onMouseOver  = {() => this.mouseOver ()}
-        onMouseOut   = {() => this.mouseOut ()}
-        onMouseDown  = {e => this.mouseDown (e)}
-        onMouseUp    = {e => this.mouseUp (e)}
-        onTouchStart = {e => this.mouseDown (e)}
-        onTouchEnd   = {e => this.mouseUp (e)}
+        onMouseOver  = {this.onMyMouseOver}
+        onMouseOut   = {this.onMyMouseOut}
+        onMouseDown  = {this.onMyMouseDown}
+        onMouseUp    = {this.onMyMouseUp}
+        onTouchStart = {this.onMyMouseDown}
+        onTouchEnd   = {this.onMyMouseUp}
         >
         <div style={contentStyle}>
           {this.props.children}
@@ -222,12 +218,12 @@ export default class Ticket extends React.Component {
     return (
       <div
         style        = {coverStyle}
-        onMouseOver  = {() => this.mouseOver ()}
-        onMouseOut   = {() => this.mouseOut ()}
-        onMouseDown  = {e => this.mouseDown (e)}
-        onMouseUp    = {e => this.mouseUp (e)}
-        onTouchStart = {e => this.mouseDown (e)}
-        onTouchEnd   = {e => this.mouseUp (e)}
+        onMouseOver  = {this.onMyMouseOver}
+        onMouseOut   = {this.onMyMouseOut}
+        onMouseDown  = {this.onMyMouseDown}
+        onMouseUp    = {this.onMyMouseUp}
+        onTouchStart = {this.onMyMouseDown}
+        onTouchEnd   = {this.onMyMouseUp}
         >
         <div style = {coverContentStyle}>
           {this.props.children}

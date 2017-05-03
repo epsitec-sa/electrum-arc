@@ -29,21 +29,21 @@ export default class ChronoLabel extends React.Component {
     };
   }
 
-  mouseOver () {
+  onMyMouseOver () {
     this.setHover (true);
-    const mouseOver = this.read ('mouseOver');
-    if (mouseOver) {
+    const x = this.read ('mouseOver');
+    if (x) {
       const event = this.read ('event');
-      mouseOver (event);
+      x (event);
     }
   }
 
-  mouseOut () {
+  onMyMouseOut () {
     this.setHover (false);
-    const mouseOut = this.read ('mouseOut');
-    if (mouseOut) {
+    const x = this.read ('mouseOut');
+    if (x) {
       const event = this.read ('event');
-      mouseOut (event);
+      x (event);
     }
   }
 
@@ -54,7 +54,12 @@ export default class ChronoLabel extends React.Component {
       const style = this.mergeStyles ('tooltip');
       return (
         <div style={style} key='tooltip'>
-          <Label index='2' text={text} grow='1' wrap='stretch' {...this.link ()} />
+          <Label
+            index = '2'
+            text  = {text}
+            grow  = '1'
+            wrap  = 'stretch'
+            {...this.link ()} />
         </div>
       );
     } else {
@@ -66,11 +71,21 @@ export default class ChronoLabel extends React.Component {
     if (glyph.Glyph.startsWith ('bookmark-')) {
       const color = glyph.Glyph.substring (9);
       return (
-        <Label index={index} glyph='bookmark' glyph-color={color} spacing='compact' {...this.link ()} />
+        <Label
+          index       = {index}
+          glyph       = 'bookmark'
+          glyph-color = {color}
+          spacing     = 'compact'
+          {...this.link ()} />
       );
     } else {
       return (
-        <Label index={index} glyph={glyph.Glyph} glyph-color={glyph.Color} spacing='compact' {...this.link ()} />
+        <Label
+          index       = {index}
+          glyph       = {glyph.Glyph}
+          glyph-color = {glyph.Color}
+          spacing     = 'compact'
+          {...this.link ()} />
       );
     }
   }
@@ -108,8 +123,8 @@ export default class ChronoLabel extends React.Component {
         <div
           key         = 'front'
           style       = {frontStyle}
-          onMouseOver = {() => this.mouseOver ()}
-          onMouseOut  = {() => this.mouseOut ()}
+          onMouseOver = {this.onMyMouseOver}
+          onMouseOut  = {this.onMyMouseOut}
           />
       </div>
     );

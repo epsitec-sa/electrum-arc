@@ -47,21 +47,21 @@ export default class ChronoLine extends React.Component {
     }
   }
 
-  mouseOver () {
+  onMyMouseOver () {
     // this.setHover (true);
-    const mouseOver = this.read ('mouseOver');
-    if (mouseOver) {
+    const x = this.read ('mouseOver');
+    if (x) {
       const event = this.read ('event');
-      mouseOver (event);
+      x (event);
     }
   }
 
-  mouseOut () {
+  onMyMouseOut () {
     // this.setHover (false);
-    const mouseOut = this.read ('mouseOut');
-    if (mouseOut) {
+    const x = this.read ('mouseOut');
+    if (x) {
       const event = this.read ('event');
-      mouseOut (event);
+      x (event);
     }
   }
 
@@ -78,8 +78,8 @@ export default class ChronoLine extends React.Component {
         note       = {note}
         lineWidth  = {lineWidth}
         glyphWidth = {glyphWidth}
-        mouseOver  = {() => this.mouseOver ()}
-        mouseOut   = {() => this.mouseOut ()}
+        mouseOver  = {this.onMyMouseOver}
+        mouseOut   = {this.onMyMouseOut}
         {...this.link ()}/>
     );
   }
@@ -136,8 +136,8 @@ export default class ChronoLine extends React.Component {
             hasHeLeft = {hasHeLeft}
             minHour   = {minHour}
             maxHour   = {maxHour}
-            mouseOver = {() => this.mouseOver ()}
-            mouseOut  = {() => this.mouseOut ()}
+            mouseOver = {this.onMyMouseOver}
+            mouseOut  = {this.onMyMouseOut}
             {...this.link ()}/>
         </div>
       </div>

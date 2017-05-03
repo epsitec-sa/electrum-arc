@@ -65,7 +65,7 @@ export default class TextFieldCombo extends React.Component {
   }
 
   // Called when the combo button is clicked.
-  buttonClicked () {
+  onButtonClicked () {
     // const internalState = this.getInternalState ();
     // var isComboVisible = internalState.get ('isComboVisible');
     // if (isComboVisible === 'true') {
@@ -191,8 +191,8 @@ export default class TextFieldCombo extends React.Component {
     return (
       <TextField
         {...props}
-        onFocus               = {e => this.onMyFocus (e)}
-        onBlur                = {e => this.onMyBlur (e)}
+        onFocus = {this.onMyFocus}
+        onBlur  = {this.onMyBlur}
         {...this.link ()}
         />
     );
@@ -223,7 +223,7 @@ export default class TextFieldCombo extends React.Component {
         glyph  = {glyph}
         shape  = {buttonShape}
         active = {isComboVisible}
-        action = {() => this.buttonClicked ()}
+        action = {this.onButtonClicked}
         {...this.link ()}
         />
     );

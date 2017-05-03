@@ -106,7 +106,7 @@ export default class DragCab extends React.Component {
     }
   }
 
-  mouseDown (e) {
+  onMyMouseDown (e) {
     // Trace.log ('DragCab.mouseDown');
     if (this.hasCombo) {  // does a child have an open combo-menu ?
       return;
@@ -133,7 +133,7 @@ export default class DragCab extends React.Component {
     this.setDragInProcess (true);
   }
 
-  mouseUp (e) {
+  onMyMouseUp (e) {
     // Trace.log ('DragCab.mouseUp');
     if (this.hasCombo) {  // does a child have an open combo-menu ?
       return;
@@ -148,8 +148,8 @@ export default class DragCab extends React.Component {
     }
   }
 
-  dragEnding (e, isDragDoing) {
-    // Trace.log ('DragCab.dragEnding');
+  onDragEnding (e, isDragDoing) {
+    // Trace.log ('DragCab.onDragEnding');
     this.setDragInProcess (false);
     this.setDragStarting (false);
     if (!isDragDoing) {  // simple click done ?
@@ -183,7 +183,7 @@ export default class DragCab extends React.Component {
         over-spacing      = {overSpacing}
         mode              = {mode}
         data              = {data}
-        drag-ending       = {(e, x) => this.dragEnding (e, x)}
+        drag-ending       = {this.onDragEnding}
         drag-height       = {this.dragHeight}
         drag-controller   = {dragController}
         drag-owner-id     = {dragOwnerId}
@@ -224,10 +224,10 @@ export default class DragCab extends React.Component {
         style                 = {boxStyle}
         data-id               = {dragOwnerId}
         data-vertical-spacing = {verticalSpacing}
-        onMouseDown           = {e => this.mouseDown (e)}
-        onMouseUp             = {e => this.mouseUp (e)}
-        onTouchStart          = {e => this.mouseDown (e)}
-        onTouchEnd            = {e => this.mouseUp (e)}
+        onMouseDown           = {this.onMyMouseDown}
+        onMouseUp             = {this.onMyMouseUp}
+        onTouchStart          = {this.onMyMouseDown}
+        onTouchEnd            = {this.onMyMouseUp}
         >
         {this.renderChildren (isDragged, dragStarting)}
         {htmlDragCarrier}

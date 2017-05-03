@@ -23,21 +23,21 @@ export default class ChronoEvent extends React.Component {
     });
   }
 
-  mouseOver () {
+  onMyMouseOver () {
     this.setHover (true);
-    const mouseOver = this.read ('mouseOver');
-    if (mouseOver) {
+    const x = this.read ('mouseOver');
+    if (x) {
       const event = this.read ('event');
-      mouseOver (event);
+      x (event);
     }
   }
 
-  mouseOut () {
+  onMyMouseOut () {
     this.setHover (false);
-    const mouseOut = this.read ('mouseOut');
-    if (mouseOut) {
+    const x = this.read ('mouseOut');
+    if (x) {
       const event = this.read ('event');
-      mouseOut (event);
+      x (event);
     }
   }
 
@@ -168,8 +168,8 @@ export default class ChronoEvent extends React.Component {
         <div
           key         = 'front'
           style       = {frontStyle}
-          onMouseOver = {() => this.mouseOver ()}
-          onMouseOut  = {() => this.mouseOut ()}
+          onMouseOver = {this.onMyMouseOver}
+          onMouseOut  = {this.onMyMouseOut}
           />
       </div>
     );

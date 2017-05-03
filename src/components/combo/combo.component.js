@@ -31,11 +31,11 @@ export default class Combo extends React.Component {
     };
   }
 
-  getFocusedIndex () {
+  get focusedIndex () {
     return this.state.focusedIndex;
   }
 
-  setFocusedIndex (value) {
+  set focusedIndex (value) {
     this.setState ( {
       focusedIndex: value
     });
@@ -43,10 +43,10 @@ export default class Combo extends React.Component {
 
   componentWillMount () {
     // Trace.log ('Combo.componentWillMount');
-    MouseTrap.bind ('esc',   () => this.closeCombo ());
-    MouseTrap.bind ('up',    () => this.prevIndex ());
-    MouseTrap.bind ('down',  () => this.nextIndex ());
-    MouseTrap.bind ('enter', () => this.enterAction ());
+    MouseTrap.bind ('esc',   this.onCloseCombo);
+    MouseTrap.bind ('up',    this.onPrevIndex);
+    MouseTrap.bind ('down',  this.onNextIndex);
+    MouseTrap.bind ('enter', this.onEnterAction);
   }
 
   componentWillUnmount () {
@@ -67,22 +67,21 @@ export default class Combo extends React.Component {
     };
   }
 
-  nextIndex () {
+  onNextIndex () {
     const list = this.read ('list');
-    let index = this.getFocusedIndex ();
+    let index = this.focusedIndex;
     while (index < list.length - 1) {
       index++;
       if (!list[index].separator) {
         break;
       }
     }
-    this.setFocusedIndex (index);
-    // Trace.log ('Combo.nextIndex index=' + index);
+    this.focusedIndex = index;
   }
 
-  prevIndex () {
+  onPrevIndex () {
     const list = this.read ('list');
-    let index = this.getFocusedIndex ();
+    let index = this.focusedIndex;
     if (index === -1) {
       index = list.length;
     }
@@ -92,39 +91,37 @@ export default class Combo extends React.Component {
         break;
       }
     }
-    this.setFocusedIndex (index);
-    // Trace.log ('Combo.prevIndex index=' + index);
+    this.focusedIndex = index;
   }
 
-  enterAction () {
-    const index = this.getFocusedIndex ();
+  onEnterAction () {
+    const index = this.focusedIndex;
     if (index !== -1) {
       const list = this.read ('list');
       const item = list[index];
-      this.actionAndClose (item);
+      this.onActionAndClose (item);
     }
   }
 
-  closeCombo () {
+  onCloseCombo () {
     const close = this.read ('close');
     if (close) {
       close ();
     }
   }
 
-  mouseDown (e) {
-    // Trace.log ('Combo.mouseDown');
+  onMyMouseDown (e) {
     const node = ReactDOM.findDOMNode (this);
     const rect = node.children[0].getBoundingClientRect ();
     if (!isInside (rect, e.clientX, e.clientY)) {
       // If the mouse is outside the menu combo, close it.
-      this.closeCombo ();
+      this.onCloseCombo ();
     }
   }
 
-  actionAndClose (item) {
+  onActionAndClose (item) {
     item.action (item);
-    this.closeCombo ();
+    this.onCloseCombo ();
   }
 
   renderItem (item, focused, index) {
@@ -142,7 +139,7 @@ export default class Combo extends React.Component {
           text     = {item.text}
           shortcut = {item.shortcut}
           active   = {active}
-          mouse-up = {() => this.actionAndClose (item)}
+          mouse-up = {() => this.onActionAndClose (item)}
           {...this.link ()} />
       );
     }
@@ -151,7 +148,7 @@ export default class Combo extends React.Component {
   renderCombo () {
     const list = this.read ('list');
     const result = [];
-    const focusedIndex = this.getFocusedIndex ();
+    const focusedIndex = this.focusedIndex;
     let index = 0;
     for (let item of list) {
       const focused = (index === focusedIndex);
@@ -170,8 +167,8 @@ export default class Combo extends React.Component {
     return (
       <div
         style        = {fullScreenStyle}
-        onMouseDown  = {e => this.mouseDown (e)}
-        onTouchStart = {e => this.mouseDown (e)}
+        onMouseDown  = {this.onMyMouseDown}
+        onTouchStart = {this.onMyMouseDown}
         >
         <div style = {comboStyle}>
           <Container

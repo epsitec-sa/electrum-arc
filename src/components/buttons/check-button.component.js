@@ -9,10 +9,10 @@ export default class CheckButton extends React.Component {
     super (props);
   }
 
-  buttonClicked (e) {
-    const customOnClick = this.read ('custom-on-click');
-    if (customOnClick) {
-      customOnClick (e);
+  onButtonClicked (e) {
+    const x = this.read ('custom-on-click');
+    if (x) {
+      x (e);
     } else {
       this.onClick (e);
     }
@@ -35,7 +35,7 @@ export default class CheckButton extends React.Component {
 
     return (
       <Button
-        custom-on-click = {e => this.buttonClicked (e)}
+        custom-on-click = {this.onButtonClicked}
         glyph           = {glyph}
         text            = {text}
         border          = 'none'
