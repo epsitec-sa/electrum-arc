@@ -47,20 +47,30 @@ export function getDisplayedDays (canonicalDays) {
 // janv
 // févr à sept
 // mars et juin
-// TODO: process month 10..12 (2 digits) !!!
 export function getDisplayedMonths (canonicalMonths) {
   let result = [];
   if (canonicalMonths && canonicalMonths !== '*') {
+    let m = 0;
     for (let c of canonicalMonths) {
-      if (c >= '1' && c <= '9') {
-        result.push (Converters.getMonthDescription (c - 1, '4').toLowerCase ());
-      } else if (c === '-') {
-        result.push ('à');
-      } else if (c === ',') {
-        result.push ('et');
+      if (c >= '0' && c <= '9') {
+        m *= 10;
+        m += c - '0';
       } else {
-        result.push ('?');
+        if (m !== 0) {
+          result.push (Converters.getMonthDescription (m - 1, '4').toLowerCase ());
+        }
+        m = 0;
+        if (c === '-') {
+          result.push ('à');
+        } else if (c === ',') {
+          result.push ('et');
+        } else {
+          result.push ('?');
+        }
       }
+    }
+    if (m !== 0) {
+      result.push (Converters.getMonthDescription (m - 1, '4').toLowerCase ());
     }
   }
   return join (result, ' ');
