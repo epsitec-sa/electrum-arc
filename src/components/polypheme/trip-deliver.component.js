@@ -1,5 +1,5 @@
 import {React, Store} from 'electrum';
-import {DialogModal, Container, Button, Label, TextFieldTime, Separator} from '../../all-components.js';
+import {DialogModal, Container, Button, Label, TextFieldTyped, Separator} from '../../all-components.js';
 import * as Converters from './converters';
 
 /******************************************************************************/
@@ -70,7 +70,8 @@ export default class TripDeliver extends React.Component {
           kind = 'title'
           {...this.link ()} />
         <Separator kind='space' {...this.link ()} />
-        <TextFieldTime
+        <TextFieldTyped
+          type        = 'time'
           field       = 'StartPlanedTime'
           grow        = '1'
           readonly    = 'true'
@@ -78,7 +79,8 @@ export default class TripDeliver extends React.Component {
           label-width = '200px'
           hint-text   = 'Heure'
           {...this.linkStartPlanedTime ()} />
-        <TextFieldTime
+        <TextFieldTyped
+          type        = 'time'
           field       = 'EndPlanedTime'
           grow        = '1'
           readonly    = 'true'
@@ -86,7 +88,8 @@ export default class TripDeliver extends React.Component {
           label-width = '200px'
           hint-text   = 'Heure'
           {...this.linkEndPlanedTime ()} />
-        <TextFieldTime
+        <TextFieldTyped
+          type                = 'time'
           field               = 'RealisedTime'
           grow                = '1'
           select-all-on-focus = 'true'

@@ -1,5 +1,5 @@
 import {React, Store} from 'electrum';
-import {DialogModal, Container, Button, Label, LabelTextField, TextFieldTime, Separator} from '../../all-components.js';
+import {DialogModal, Container, Button, Label, LabelTextField, TextFieldTyped, Separator} from '../../all-components.js';
 import * as TicketHelpers from './ticket-helpers.js';
 
 /******************************************************************************/
@@ -84,13 +84,15 @@ export default class TripModify extends React.Component {
           {...this.link ()}
         />
         <Separator kind='space' {...this.link ()} />
-        <TextFieldTime
+        <TextFieldTyped
+          type        = 'time'
           field       = {index + '.StartPlanedTime'}
           label-glyph = 'clock-o'
           hint-text   = 'Début heure planifiée'
           grow        = '1'
           {...this.linkStartPlanedTime (index)} />
-        <TextFieldTime
+        <TextFieldTyped
+          type        = 'time'
           field       = {index + '.EndPlanedTime'}
           label-glyph = 'clock-o'
           hint-text   = 'Fin heure planifiée'

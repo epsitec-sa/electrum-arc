@@ -1,6 +1,6 @@
 import CronParser from 'cron-parser';
 import {React, Store} from 'electrum';
-import {Calendar, LabelTextField, TextFieldDate, Button, Label} from 'electrum-arc';
+import {Calendar, LabelTextField, TextFieldTyped, Button, Label} from 'electrum-arc';
 import * as Converters from '../polypheme/converters';
 import * as CronHelpers from './cron-helpers';
 import * as ReducerRecurrence from './reducer-recurrence.js';
@@ -342,7 +342,8 @@ export default class Recurrence extends React.Component {
 
     return (
       <div style={editStyle}>
-        <TextFieldDate
+        <TextFieldTyped
+          type        = 'date'
           field       = 'StartDate'
           hint-text   = 'Date de début'
           tooltip     = 'Date de début'
@@ -350,7 +351,8 @@ export default class Recurrence extends React.Component {
           grow        = '1'
           spacing     = 'large'
           {...this.linkStartDate ()} />
-        <TextFieldDate
+        <TextFieldTyped
+          type        = 'date'
           field       = 'EndDate'
           hint-text   = 'Date de fin'
           tooltip     = 'Date de fin'
