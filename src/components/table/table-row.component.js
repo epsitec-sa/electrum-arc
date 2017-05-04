@@ -10,11 +10,11 @@ export default class TableRow extends React.Component {
     };
   }
 
-  getHover () {
+  get hover () {
     return this.state.hover;
   }
 
-  setHover (value) {
+  set hover (value) {
     this.setState ( {
       hover: value
     });
@@ -22,19 +22,19 @@ export default class TableRow extends React.Component {
 
   /******************************************************************************/
 
-  mouseOver () {
-    this.setHover (true);
+  onMyMouseOver () {
+    this.hover = true;
   }
 
-  mouseOut () {
-    this.setHover (false);
+  onMyMouseOut () {
+    this.hover = false;
   }
 
-  mouseDown () {
-    const selectionChanged = this.read ('selectionChanged');
-    if (selectionChanged) {
+  onMyMouseDown () {
+    const x = this.read ('selectionChanged');
+    if (x) {
       const row = this.read ('row');
-      selectionChanged (row.id);
+      x (row.id);
     }
   }
 
@@ -63,9 +63,9 @@ export default class TableRow extends React.Component {
       <div
         key         = {index}
         style       = {style}
-        onMouseOver = {() => this.mouseOver ()}
-        onMouseOut  = {() => this.mouseOut ()}
-        onMouseDown = {() => this.mouseDown ()}
+        onMouseOver = {this.onMyMouseOver}
+        onMouseOut  = {this.onMyMouseOut}
+        onMouseDown = {this.onMyMouseDown}
         >
         {description}
       </div>
@@ -89,7 +89,7 @@ export default class TableRow extends React.Component {
     const index    = this.read ('index');
     const selected = this.read ('selected');
 
-    var styleName = (selected === 'true') ? 'rowSelected' : (this.getHover () ? 'rowHover' : 'row');
+    var styleName = (selected === 'true') ? 'rowSelected' : (this.hover ? 'rowHover' : 'row');
     const rowStyle = this.mergeStyles (styleName);
 
     return (

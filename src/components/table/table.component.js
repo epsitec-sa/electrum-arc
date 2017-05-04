@@ -13,22 +13,22 @@ export default class Table extends React.Component {
     };
   }
 
-  getSelectedRow () {
+  get selectedRow () {
     return this.state.selectedRow;
   }
 
-  setSelectedRow (value) {
+  set selectedRow (value) {
     this.setState ( {
       selectedRow: value
     });
   }
 
-  selectionChanged (id) {
-    const currentId = this.getSelectedRow ();
+  onSelectionChanged (id) {
+    const currentId = this.selectedRow;
     if (id === currentId) {
       id = null;
     }
-    this.setSelectedRow (id);
+    this.selectedRow = id;
   }
 
   /******************************************************************************/
@@ -84,8 +84,8 @@ export default class Table extends React.Component {
         header           = {header}
         row              = {row}
         index            = {index}
-        selected         = {this.getSelectedRow () === row.id ? 'true' : 'false'}
-        selectionChanged = {id => this.selectionChanged (id)}
+        selected         = {this.selectedRow === row.id ? 'true' : 'false'}
+        selectionChanged = {this.onSelectionChanged}
         {...this.link ()} />
     );
   }

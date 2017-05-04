@@ -10,18 +10,32 @@ const USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like 
 
 class Resizer extends Component {
 
-  mouseOver () {
+  onMyMouseOver () {
     const x = this.props['mouse-over'];
     if (x) {
       x ();
     }
   }
 
-  mouseOut () {
+  onMyMouseOut () {
     const x = this.props['mouse-out'];
     if (x) {
       x ();
     }
+  }
+
+  onMyMouseDown (e) {
+    this.props.onMouseDown (e);
+  }
+
+  onMyTouchStart (e) {
+    e.preventDefault ();
+    this.props.onTouchStart (e);
+  }
+
+  onMyTouchEnd (e) {
+    e.preventDefault ();
+    this.props.onTouchEnd (e);
   }
 
   render () {
@@ -29,21 +43,13 @@ class Resizer extends Component {
     const classes = [resizerClassName, split, className];
     return (
       <span
-        className   = {classes.join (' ')}
-        style       = {this.props.prefixer.prefix (this.props.style) || {}}
-        onMouseOver = {() => this.mouseOver ()}
-        onMouseOut  = {() => this.mouseOut ()}
-        onMouseDown = {(event) => {
-          this.props.onMouseDown (event);
-        }}
-        onTouchStart = {(event) => {
-          event.preventDefault ();
-          this.props.onTouchStart (event);
-        }}
-        onTouchEnd = {(event) => {
-          event.preventDefault ();
-          this.props.onTouchEnd (event);
-        }}
+        className    = {classes.join (' ')}
+        style        = {this.props.prefixer.prefix (this.props.style) || {}}
+        onMouseOver  = {() => this.onMyMouseOver ()}
+        onMouseOut   = {() => this.onMyMouseOut ()}
+        onMouseDown  = {e => this.onMyMouseDown (e)}
+        onTouchStart = {e => this.onMyTouchStart (e)}
+        onTouchEnd   = {e => this.onMyTouchEnd (e)}
       />
     );
   }
