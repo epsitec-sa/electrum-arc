@@ -12,11 +12,11 @@ export default class ChronoLabel extends React.Component {
     };
   }
 
-  getHover () {
+  get hover () {
     return this.state.hover;
   }
 
-  setHover (value) {
+  set hover (value) {
     this.setState ( {
       hover: value
     });
@@ -30,7 +30,7 @@ export default class ChronoLabel extends React.Component {
   }
 
   onMyMouseOver () {
-    this.setHover (true);
+    this.hover = true;
     const x = this.read ('mouseOver');
     if (x) {
       const event = this.read ('event');
@@ -39,7 +39,7 @@ export default class ChronoLabel extends React.Component {
   }
 
   onMyMouseOut () {
-    this.setHover (false);
+    this.hover = false;
     const x = this.read ('mouseOut');
     if (x) {
       const event = this.read ('event');
@@ -50,7 +50,7 @@ export default class ChronoLabel extends React.Component {
   /******************************************************************************/
 
   renderTooltip (text, isDragged) {
-    if (!isDragged && this.getHover () && text) {
+    if (!isDragged && this.hover && text) {
       const style = this.mergeStyles ('tooltip');
       return (
         <div style={style} key='tooltip'>

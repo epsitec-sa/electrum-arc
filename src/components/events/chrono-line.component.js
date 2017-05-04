@@ -14,11 +14,11 @@ export default class ChronoLine extends React.Component {
     };
   }
 
-  getHover () {
+  get hover () {
     return this.state.hover;
   }
 
-  setHover (value) {
+  set hover (value) {
     this.setState ( {
       hover: value
     });
@@ -48,7 +48,6 @@ export default class ChronoLine extends React.Component {
   }
 
   onMyMouseOver () {
-    // this.setHover (true);
     const x = this.read ('mouseOver');
     if (x) {
       const event = this.read ('event');
@@ -57,7 +56,6 @@ export default class ChronoLine extends React.Component {
   }
 
   onMyMouseOut () {
-    // this.setHover (false);
     const x = this.read ('mouseOut');
     if (x) {
       const event = this.read ('event');
@@ -111,7 +109,7 @@ export default class ChronoLine extends React.Component {
     const hasHeLeft = this.props.hasHeLeft;
     // Trace.log ('ChronoLine ' + isDragged + ' ' + hasHeLeft);
 
-    const hover = !isDragged && this.getHover ();
+    const hover = !isDragged && this.hover;
     const cursor = isDragged ? 'move' : 'default';
 
     let styleName = hover ? 'lineHover' : 'line';

@@ -13,18 +13,18 @@ export default class ChronoEvent extends React.Component {
     };
   }
 
-  getHover () {
+  get hover () {
     return this.state.hover;
   }
 
-  setHover (value) {
+  set hover (value) {
     this.setState ( {
       hover: value
     });
   }
 
   onMyMouseOver () {
-    this.setHover (true);
+    this.hover = true;
     const x = this.read ('mouseOver');
     if (x) {
       const event = this.read ('event');
@@ -33,7 +33,7 @@ export default class ChronoEvent extends React.Component {
   }
 
   onMyMouseOut () {
-    this.setHover (false);
+    this.hover = false;
     const x = this.read ('mouseOut');
     if (x) {
       const event = this.read ('event');
@@ -150,7 +150,7 @@ export default class ChronoEvent extends React.Component {
         leftTooltip  = {this.getLeftTooltip  (event, tricolor, isTextToLeft)}
         rightTooltip = {this.getRightTooltip (event, tricolor, isTextToLeft)}
         isDragged    = {isDragged}
-        hover        = {this.getHover () ? 'true' : 'false'}
+        hover        = {this.hover ? 'true' : 'false'}
         {...this.link ()} />
     );
   }

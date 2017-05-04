@@ -99,9 +99,9 @@ function getFlatEvents (events, filters) {
 function updateHover (event, state) {
   for (let line of window.document.chronoLines) {
     if (line.props.event === event) {
-      line.setHover (state);
+      line.hover = state;
     } else if (event.Link && line.props.event.Link && event.Link === line.props.event.Link) {
-      line.setHover (state);
+      line.hover = state;
     }
   }
 }
@@ -140,11 +140,11 @@ export default class Chronos extends React.Component {
     };
   }
 
-  getFilters () {
+  get filters () {
     return this.state.filters;
   }
 
-  setFilters (value) {
+  set filters (value) {
     this.setState ( {
       filters: value
     });
@@ -154,7 +154,7 @@ export default class Chronos extends React.Component {
 
   componentWillMount () {
     const events = this.read ('events');
-    const filters = this.getFilters ();
+    const filters = this.filters;
     this.flatEvents = getFlatEvents (events, filters);
     this.updateFilter (filters);
   }
@@ -194,11 +194,11 @@ export default class Chronos extends React.Component {
 
   onActionAll () {
     this.updateFilter ([]);
-    this.setFilters ([]);
+    this.filters = [];
   }
 
   onActionFilter (e, date) {
-    const filters = this.getFilters ();
+    const filters = this.filters;
     if (e.ctrlKey) {
       if (filtersGet (filters, date)) {
         if (filters.length === 0) {
@@ -216,29 +216,29 @@ export default class Chronos extends React.Component {
       filtersSet (filters, date, true);
     }
     this.updateFilter (filters);
-    this.setFilters (filters.slice ());
+    this.filters = filters.slice ();
   }
 
   onActionPrevFilter () {
-    const filters = this.getFilters ();
+    const filters = this.filters;
     if (filters.length === 1) {
       const index = this.flatEvents.groups.indexOf (filters[0]);
       if (index !== -1 && index > 0) {
         const newDate = this.flatEvents.groups[index - 1];
         this.updateFilter ([ newDate ]);
-        this.setFilters ([ newDate ]);
+        this.filters = [ newDate ];
       }
     }
   }
 
   onActionNextFilter () {
-    const filters = this.getFilters ();
+    const filters = this.filters;
     if (filters.length === 1) {
       const index = this.flatEvents.groups.indexOf (filters[0]);
       if (index !== -1 && index < this.flatEvents.groups.length - 1) {
         const newDate = this.flatEvents.groups[index + 1];
         this.updateFilter ([ newDate ]);
-        this.setFilters ([ newDate ]);
+        this.filters = [ newDate ];
       }
     }
   }
@@ -282,7 +282,7 @@ export default class Chronos extends React.Component {
 
   renderNavigationButtons () {
     const result = [];
-    const filters = this.getFilters ();
+    const filters = this.filters;
     let index = 0;
 
     result.push (
