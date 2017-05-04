@@ -19,21 +19,21 @@ export default class TextFieldCombo extends React.Component {
     this.comboLocation = null;
   }
 
-  getShowCombo () {
+  get showCombo () {
     return this.state.showCombo;
   }
 
-  setShowCombo (value) {
+  set showCombo (value) {
     this.setState ( {
       showCombo: value
     });
   }
 
-  getReadonly () {
+  get readonly () {
     return this.state.readonly;
   }
 
-  setReadonly (value) {
+  set readonly (value) {
     this.setState ( {
       readonly: value
     });
@@ -52,88 +52,38 @@ export default class TextFieldCombo extends React.Component {
     };
   }
 
-  // Return the internalState with contain the isComboVisible.
-  getInternalState () {
-    const {state} = this.props;
-    return state.select ('combo-internal');
-  }
-
-  showCombo () {
+  doShowCombo () {
     const node = ReactDOM.findDOMNode (this);
     this.comboLocation = ComboHelpers.getComboLocation (node, this.props.theme);
-    this.setShowCombo (true);
+    this.showCombo = true;
+  }
+
+  onHideCombo () {
+    this.showCombo = false;
   }
 
   // Called when the combo button is clicked.
   onButtonClicked () {
-    // const internalState = this.getInternalState ();
-    // var isComboVisible = internalState.get ('isComboVisible');
-    // if (isComboVisible === 'true') {
-    //   isComboVisible = 'false';
-    // } else {
-    //   isComboVisible = 'true';
-    // }
-    // internalState.set ('isComboVisible', isComboVisible);
-
     const list = this.read ('list');
     if (list) {
-      this.showCombo ();
+      this.doShowCombo ();
     }
-  }
-
-  // TODO: Move to helpers, or ???
-  dateToString (date) {
-    const day   = date.getDate ();
-    const month = date.getMonth () + 1;
-    const year  = date.getFullYear ();
-    return day + '.' + month + '.' + year;
-  }
-
-  // TODO: Move to helpers, or ???
-  timeToString (time) {
-    const hours   = time.getHours ();
-    const minutes = time.getMinutes ();
-    return hours + ':' + minutes;
-  }
-
-  dateChanged (date) {
-    const {state} = this.props;
-    state.set ('value', this.dateToString (date));
-    this.showCombo ();  // close the combo
-  }
-
-  timeChanged (date) {
-    const {state} = this.props;
-    state.set ('value', this.timeToString (date));
-  }
-
-  alter (list) {
-    for (var item of list) {
-      item.action = () => {
-        this.setShowCombo (false);
-      };
-    }
-    return list;
-  }
-
-  pencilClicked () {
-    this.setReadonly (false);
   }
 
   onMyChange (e) {
     this.onChange (e);
-    const onChange = this.read ('onChange');
-    if (onChange) {
-      onChange (e);
+    const x = this.read ('onChange');
+    if (x) {
+      x (e);
     }
   }
 
   onMyFocus () {
-    this.setReadonly (false);
+    this.readonly = false;
   }
 
   onMyBlur () {
-    this.setReadonly (true);
+    this.readonly = true;
   }
 
   renderTextField () {
@@ -159,7 +109,7 @@ export default class TextFieldCombo extends React.Component {
     const filterKeys          = this.props['filter-keys'];
     const tabIndex            = this.props['tab-index'];
 
-    const autoReadonly = this.getReadonly () && selectedValue && selectedValue !== '';
+    const autoReadonly = this.readonly && selectedValue && selectedValue !== '';
     const displayValue = autoReadonly ? selectedValue : null;
     const visibleReadonly = readonly ? readonly : (autoReadonly ? 'true' : 'false');
 
@@ -207,72 +157,32 @@ export default class TextFieldCombo extends React.Component {
       smooth:  'right-smooth',
       rounded: 'right-rounded',
     };
-    const buttonShape    = buttonShapes[s];
+    const buttonShape = buttonShapes[s];
 
-    // Get or create the internalState.
-    var internalState = this.getInternalState ();
-    if (!internalState.get ('isComboVisible')) {
-      // At first time, initialize internalState.isComboVisible with false.
-      internalState = internalState.set ('isComboVisible', 'false');
-    }
-    const isComboVisible = internalState.get ('isComboVisible');
+    const isComboVisible = this.showCombo ? 'true' : 'false';
 
     return (
       <Button
-        kind   = 'combo'
-        glyph  = {glyph}
-        shape  = {buttonShape}
-        active = {isComboVisible}
-        action = {this.onButtonClicked}
+        kind            = 'combo'
+        glyph           = {glyph}
+        shape           = {buttonShape}
+        active          = {isComboVisible}
+        custom-on-click = {this.onButtonClicked}
         {...this.link ()}
         />
     );
   }
 
-  renderCalendar () {
-    let htmlCalendar = null;
-    //    if (isComboVisible === 'true') {
-    //      var htmlCombo = null;
-    //      if (comboType === 'calendar') {
-    //        htmlCombo = (
-    //          <Calendar
-    //            onChange={(date) => this.dateChanged (date)}
-    //            {...this.link ()}
-    //          />
-    //        );
-    //      } else if (comboType === 'clock') {
-    //        htmlCombo = (
-    //          <Clock
-    //            onChange={(date) => this.timeChanged (date)}
-    //            {...this.link ()}
-    //          />
-    //        );
-    //      } else {
-    //        const emptyComboStyle = this.mergeStyles ('emptyCombo');
-    //        htmlCombo = (
-    //          <span style={emptyComboStyle}>{comboType}</span>
-    //        );
-    //      }
-    //      const comboBoxStyle = this.mergeStyles ('comboBox');
-    //      htmlCalendar = (
-    //        <div style={comboBoxStyle}>
-    //          {htmlCombo}
-    //        </div>
-    //      );
-    //    }
-    return htmlCalendar;
-  }
-
   renderCombo () {
     const list = this.read ('list');
-    if (list && this.getShowCombo ()) {
+    if (list && this.showCombo) {
       return (
         <Combo
           center = {this.comboLocation.center}
           top    = {this.comboLocation.top}
           bottom = {this.comboLocation.bottom}
           list   = {list}
-          close  = {() => this.setShowCombo (false)}
+          close  = {this.onHideCombo}
           {...this.link ()} />
       );
     } else {
@@ -293,7 +203,6 @@ export default class TextFieldCombo extends React.Component {
         >
         {this.renderTextField ()}
         {this.renderButton ()}
-        {this.renderCalendar ()}
         {this.renderCombo ()}
       </span>
     );
