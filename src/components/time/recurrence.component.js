@@ -343,38 +343,42 @@ export default class Recurrence extends React.Component {
     return (
       <div style={editStyle}>
         <TextFieldTyped
-          type        = 'date'
-          field       = 'StartDate'
-          hint-text   = 'Date de début'
-          tooltip     = 'Date de début'
-          label-glyph = 'forward'
-          grow        = '1'
-          spacing     = 'large'
+          type                = 'date'
+          field               = 'StartDate'
+          select-all-on-focus = 'true'
+          hint-text           = 'Date de début'
+          tooltip             = 'Date de début'
+          label-glyph         = 'forward'
+          grow                = '1'
+          spacing             = 'large'
           {...this.linkStartDate ()} />
         <TextFieldTyped
-          type        = 'date'
-          field       = 'EndDate'
-          hint-text   = 'Date de fin'
-          tooltip     = 'Date de fin'
-          label-glyph = 'backward'
-          grow        = '1'
-          spacing     = 'large'
+          type                = 'date'
+          field               = 'EndDate'
+          select-all-on-focus = 'true'
+          hint-text           = 'Date de fin'
+          tooltip             = 'Date de fin'
+          label-glyph         = 'backward'
+          grow                = '1'
+          spacing             = 'large'
           {...this.linkEndDate ()} />
         <LabelTextField
-          field       = 'Days'
-          hint-text   = 'Jours de la semaine'
-          tooltip     = '1..7 = lundi..dimanche   - = à   , = et'
-          label-glyph = 'calendar'
-          grow        = '1'
-          spacing     = 'large'
+          field               = 'Days'
+          select-all-on-focus = 'true'
+          hint-text           = 'Jours de la semaine'
+          tooltip             = '1..7 = lundi..dimanche   - = à   , = et'
+          label-glyph         = 'calendar'
+          grow                = '1'
+          spacing             = 'large'
           {...this.linkDays ()} />
         <LabelTextField
-          field       = 'Months'
-          hint-text   = 'Mois de l´année'
-          tooltip     = '1..12 = janvier..décembre   - = à   , = et'
-          label-glyph = 'calendar-o'
-          grow        = '1'
-          spacing     = 'large'
+          field               = 'Months'
+          select-all-on-focus = 'true'
+          hint-text           = 'Mois de l´année'
+          tooltip             = '1..12 = janvier..décembre   - = à   , = et'
+          label-glyph         = 'calendar-o'
+          grow                = '1'
+          spacing             = 'large'
           {...this.linkMonths ()} />
         {this.renderEditorEraser (create)}
         <Button

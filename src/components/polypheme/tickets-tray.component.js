@@ -89,6 +89,7 @@ export default class TicketsTray extends React.Component {
         <Container kind='row' {...this.link ()} >
           <TextField
             select-all-on-focus = 'true'
+            default-focus       = 'true'
             spacing             = 'overlap'
             {...this.linkTitle ()} />
           <Button

@@ -125,6 +125,7 @@ export default class LabelTextField extends React.Component {
     const rows             = this.read ('rows');
     const readonly         = this.read ('readonly');
     const selectAllOnFocus = this.read ('select-all-on-focus');
+    const defaultFocus     = this.read ('default-focus');
     const filterKeys       = this.props['filter-keys'];
     const tabIndex         = this.props['tab-index'];
 
@@ -154,6 +155,7 @@ export default class LabelTextField extends React.Component {
       'rows':                rows,
       'readonly':            visibleReadonly,
       'select-all-on-focus': selectAllOnFocus,
+      'default-focus':       defaultFocus,
     };
 
     if (displayValue) {

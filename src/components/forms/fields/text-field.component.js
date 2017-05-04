@@ -28,17 +28,25 @@ export default class TextField extends React.Component {
   }
 
   componentDidMount () {
-    this.selectAll ();
+    const defaultFocus = this.read ('default-focus');
+    if (defaultFocus === 'true') {
+      this.selectAll ();
+    }
   }
 
   selectAll () {
     const selectAllOnFocus = this.read ('select-all-on-focus');
+    const node = ReactDOM.findDOMNode (this.refs.inputTag);
     if (selectAllOnFocus === 'true') {
-      const node = ReactDOM.findDOMNode (this.refs.inputTag);
       // Set focus to child <input>, asynchronously.
       setTimeout (() => {
         node.focus ();
         node.select ();
+      }, 0);
+    } else {
+      // Set focus to child <input>, asynchronously.
+      setTimeout (() => {
+        node.focus ();
       }, 0);
     }
   }
@@ -49,7 +57,10 @@ export default class TextField extends React.Component {
 
   onMyFocus (e) {
     this.onFocus (e);
-    this.selectAll ();
+    const selectAllOnFocus = this.read ('select-all-on-focus');
+    if (selectAllOnFocus === 'true') {
+      this.selectAll ();
+    }
     const x = this.read ('onFocus');
     if (x) {
       x (e);

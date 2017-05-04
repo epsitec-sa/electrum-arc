@@ -93,6 +93,7 @@ export default class TripDeliver extends React.Component {
           field               = 'RealisedTime'
           grow                = '1'
           select-all-on-focus = 'true'
+          default-focus       = 'true'
           label-text          = 'Heure de livraison'
           label-width         = '200px'
           hint-text           = 'Heure'

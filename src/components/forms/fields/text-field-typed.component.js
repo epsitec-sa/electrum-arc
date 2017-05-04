@@ -111,6 +111,7 @@ export default class TextFieldTyped extends React.Component {
     const spacing          = this.read ('spacing');
     const readonly         = this.read ('readonly');
     const selectAllOnFocus = this.read ('select-all-on-focus');
+    const defaultFocus     = this.read ('default-focus');
 
     return (
       <LabelTextField
@@ -123,6 +124,7 @@ export default class TextFieldTyped extends React.Component {
         spacing             = {spacing}
         readonly            = {readonly}
         select-all-on-focus = {selectAllOnFocus}
+        default-focus       = {defaultFocus}
         message-warning     = {this.getMessageWarning ()}
         message-info        = {this.getMessageInfo ()}
         {...this.linkValueEdited ()} />
