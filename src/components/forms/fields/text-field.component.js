@@ -38,7 +38,7 @@ export default class TextField extends React.Component {
     const selectAllOnFocus = this.read ('select-all-on-focus');
     const node = ReactDOM.findDOMNode (this.refs.inputTag);
     if (selectAllOnFocus === 'true') {
-      // Set focus to child <input>, asynchronously.
+      // Set focus and select all to child <input>, asynchronously.
       setTimeout (() => {
         node.focus ();
         node.select ();
