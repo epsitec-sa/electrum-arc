@@ -40,13 +40,24 @@ function transformPickDropToEvent (pick, drop) {
   return event;
 }
 
+function typeToColor (type) {
+  if (type.startsWith ('pick')) {
+    return '#ffa800';  // TODO...
+  } else if (type.startsWith ('drop')) {
+    return '#099f18';  // TODO...
+  } else {
+    return null;
+  }
+}
+
 function transformTicketToEvent (ticket) {
   const event = {};
   event.id            = ticket.id;
   event.FromDate      = ticket.MeetingPoint.PlanedDate;
-  event.ToDate        = ticket.MeetingPoint.PlanedDate;
   event.FromTime      = ticket.MeetingPoint.StartPlanedTime;
+  event.ToDate        = ticket.MeetingPoint.PlanedDate;
   event.ToTime        = ticket.MeetingPoint.EndPlanedTime;
+  event.Color         = typeToColor (ticket.Type);
   event.Notes         = [ transformMeetingPointToNote (ticket.MeetingPoint) ];
   event.Link          = ticket.MissionId;
   return event;

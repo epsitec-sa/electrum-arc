@@ -417,7 +417,6 @@ export default class Chronos extends React.Component {
         {...this.link ()} >
         <ChronoLine
           index      = {index}
-          data       = {data}
           event      = {event}
           lineWidth  = {lineWidth}
           glyphWidth = {glyphWidth}
