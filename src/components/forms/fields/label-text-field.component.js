@@ -14,11 +14,11 @@ export default class LabelTextField extends React.Component {
     this.comboLocation = null;
   }
 
-  getReadonly () {
+  get readonly () {
     return this.state.readonly;
   }
 
-  setReadonly (value) {
+  set readonly (value) {
     this.setState ( {
       readonly: value
     });
@@ -39,25 +39,25 @@ export default class LabelTextField extends React.Component {
 
   onMyChange (e) {
     this.onChange (e);
-    const onChange = this.read ('onChange');
-    if (onChange) {
-      onChange (e);
+    const x = this.read ('onChange');
+    if (x) {
+      x (e);
     }
   }
 
   onMyFocus () {
-    this.setReadonly (false);
-    const onFocus = this.read ('onFocus');
-    if (onFocus) {
-      onFocus ();
+    this.readonly = false;
+    const x = this.read ('onFocus');
+    if (x) {
+      x ();
     }
   }
 
   onMyBlur () {
-    this.setReadonly (true);
-    const onBlur = this.read ('onBlur');
-    if (onBlur) {
-      onBlur ();
+    this.readonly = true;
+    const x = this.read ('onBlur');
+    if (x) {
+      x ();
     }
   }
 
@@ -129,7 +129,7 @@ export default class LabelTextField extends React.Component {
     const filterKeys       = this.props['filter-keys'];
     const tabIndex         = this.props['tab-index'];
 
-    const autoReadonly = this.getReadonly () && selectedValue && selectedValue !== '';
+    const autoReadonly = this.readonly && selectedValue && selectedValue !== '';
     const displayValue = autoReadonly ? selectedValue : null;
     const visibleReadonly = readonly ? readonly : (autoReadonly ? 'true' : 'false');
 
