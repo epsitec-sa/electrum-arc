@@ -384,6 +384,9 @@ export function parseEditedDate (editedDate, defaultCanonicalDate) {
   }
 
   const jsDate = canonicalDateToJs (date);
+  if (isNaN (jsDate)) {
+    return {value: null, error: 'Date invalide'};
+  }
   const result = jsToCanonicalDate (jsDate);
   const r = splitDate (result);
 
@@ -449,6 +452,9 @@ export function parseEditedTime (editedTime, defaultCanonicalTime) {
   }
 
   const jsTime = canonicalTimeToJs (time);
+  if (isNaN (jsTime)) {
+    return {value: null, error: 'Heure invalide'};
+  }
   const result = jsToCanonicalTime (jsTime);
   const r = splitTime (result);
 
