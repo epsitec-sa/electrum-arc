@@ -140,6 +140,7 @@ export default function styles (theme, props) {
     height:          Unit.multiply (r, 2),
     borderRadius:    r,
     backgroundColor: mainColor,
+    zIndex:          2,
   };
 
   const fromDotStyle = {
@@ -150,6 +151,7 @@ export default function styles (theme, props) {
     height:          Unit.multiply (r, 2),
     borderRadius:    r,
     backgroundColor: theme.palette.chronoEventStartBackground,
+    zIndex:          2,
   };
 
   const toDotStyle = {
@@ -160,6 +162,7 @@ export default function styles (theme, props) {
     height:          Unit.multiply (r, 2),
     borderRadius:    r,
     backgroundColor: theme.palette.chronoEventEndBackground,
+    zIndex:          2,
   };
 
   const lineStyle = {
@@ -169,6 +172,7 @@ export default function styles (theme, props) {
     top:             top,
     height:          height,
     backgroundColor: mainColor,
+    zIndex:          2,
   };
 
   const fromLineStyle = {
@@ -178,6 +182,7 @@ export default function styles (theme, props) {
     top:             top,
     height:          height,
     backgroundColor: theme.palette.chronoEventStartBackground,
+    zIndex:          2,
   };
 
   const toLineStyle = {
@@ -187,6 +192,7 @@ export default function styles (theme, props) {
     top:             top,
     height:          height,
     backgroundColor: theme.palette.chronoEventEndBackground,
+    zIndex:          2,
   };
 
   return {
