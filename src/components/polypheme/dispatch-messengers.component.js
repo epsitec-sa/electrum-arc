@@ -53,7 +53,7 @@ export default class DispatchMessengers extends React.Component {
           kind          = 'horizontal'
           first-view-id = 'view-roadbook'
           default-size  = {StateManager.getSplitterRoadbooksHeight ()}
-          onSizeChanged = {size => StateManager.setSplitterRoadbooksHeight (size)}
+          onSizeChanged = {StateManager.setSplitterRoadbooksHeight}
           {...this.link ()} >
           <DispatchRoadbooks data={data} {...this.link ()} />
           <Splitter
@@ -61,7 +61,7 @@ export default class DispatchMessengers extends React.Component {
             first-view-id = 'view-backlog'
             last-view-id  = 'view-desk'
             default-size  = {StateManager.getSplitterBacklogWidth ()} min-size='0px'
-            onSizeChanged = {size => StateManager.setSplitterBacklogWidth (size)}
+            onSizeChanged = {StateManager.setSplitterBacklogWidth}
             {...this.link ()} >
             <DispatchBacklog data={data} {...this.link ()} />
             <DispatchDesk data={data} {...this.link ()} />

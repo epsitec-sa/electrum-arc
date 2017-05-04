@@ -27,11 +27,11 @@ export default class DispatchTicket extends React.Component {
     this.comboLocation = null;
   }
 
-  getShowCombo () {
+  get showCombo () {
     return this.state.showCombo;
   }
 
-  setShowCombo (value) {
+  set showCombo (value) {
     this.setState ( {
       showCombo: value
     });
@@ -40,44 +40,44 @@ export default class DispatchTicket extends React.Component {
     ComboHelpers.setDragCabHasCombo (id, value);
   }
 
-  getShowModify () {
+  get showModify () {
     return this.state.showModify;
   }
 
-  setShowModify (value) {
+  set showModify (value) {
     this.setState ( {
       showModify: value
     });
   }
 
-  getShowDeliver () {
+  get showDeliver () {
     return this.state.showDeliver;
   }
 
-  setShowDeliver (value) {
+  set showDeliver (value) {
     this.setState ( {
       showDeliver: value
     });
   }
 
-  getShowPredispatch () {
+  get showPredispatch () {
     return this.state.showPredispatch;
   }
 
-  setShowPredispatch (value) {
+  set showPredispatch (value) {
     this.setState ( {
       showPredispatch: value
     });
   }
 
   getShowSomethink () {
-    return this.getShowCombo () || this.getShowModify () || this.getShowDeliver () || this.getShowPredispatch ();
+    return this.showCombo || this.showModify || this.showDeliver || this.showPredispatch;
   }
 
-  showCombo (x) {
+  doShowCombo (x) {
     const node = ReactDOM.findDOMNode (this);
     this.comboLocation = ComboHelpers.getComboLocation (node, this.props.theme, x);
-    this.setShowCombo (true);
+    this.showCombo = true;
   }
 
   onMyMouseDown (e) {
@@ -87,7 +87,7 @@ export default class DispatchTicket extends React.Component {
     }
     // if (e.button === 2)  // right-click ?
     if (e.button === 2 || (e.ctrlKey && e.shiftKey)) {
-      this.showCombo (e.clientX, e.clientY);
+      this.doShowCombo (e.clientX, e.clientY);
       return true;
     }
     return false;
@@ -142,24 +142,24 @@ export default class DispatchTicket extends React.Component {
   }
 
   onCloseCombo () {
-    this.setShowCombo (false);
+    this.showCombo = false;
   }
 
   onShowModify () {
     if (window.document.mock) {
-      this.setShowModify (true);
+      this.showModify = true;
     } else {
       throw new Error ('Direct call to showModify is impossible in mock=false mode');
     }
   }
 
   onCloseModify () {
-    this.setShowModify (false);
+    this.showModify = false;
   }
 
   onShowDeliver () {
     if (window.document.mock) {
-      this.setShowDeliver (true);
+      this.showDeliver = true;
     } else {
       throw new Error ('Direct call to showDeliver is impossible in mock=false mode');
     }
@@ -167,7 +167,7 @@ export default class DispatchTicket extends React.Component {
 
   onCloseDeliver (action, date, time) {
     // console.log (`DispatchTicket.closeDeliver action=${action} date=${date} time=${time}`);
-    this.setShowDeliver (false);
+    this.showDeliver = false;
     if (action === 'accept') {
       this.reduce ('CHANGE_TICKET_STATUS', false, 'delivered', date, time);
     }
@@ -175,21 +175,21 @@ export default class DispatchTicket extends React.Component {
 
   onShowPredispatch () {
     if (window.document.mock) {
-      this.setShowPredispatch (true);
+      this.showPredispatch = true;
     } else {
       throw new Error ('Direct call to showPredispatch is impossible in mock=false mode');
     }
   }
 
   onClosePredispatch (action, date, time) {
-    this.setShowPredispatch (false);
+    this.showPredispatch = false;
     if (action === 'accept') {
       this.reduce ('CHANGE_TICKET_STATUS', false, 'pre-dispatched', date, time);
     }
   }
 
   renderModify (data) {
-    if (this.getShowModify ()) {
+    if (this.showModify) {
       const ticket = this.read ('ticket');
       return (
         <TripModify
@@ -204,7 +204,7 @@ export default class DispatchTicket extends React.Component {
   }
 
   renderDeliver (data) {
-    if (this.getShowDeliver ()) {
+    if (this.showDeliver) {
       const ticket = this.read ('ticket');
       return (
         <TripDeliver
@@ -219,7 +219,7 @@ export default class DispatchTicket extends React.Component {
   }
 
   renderPredispatch (data) {
-    if (this.getShowPredispatch ()) {
+    if (this.showPredispatch) {
       const ticket = this.read ('ticket');
       return (
         <TripPredispatch
@@ -234,7 +234,7 @@ export default class DispatchTicket extends React.Component {
   }
 
   renderCombo (data) {
-    if (this.getShowCombo ()) {
+    if (this.showCombo) {
       const ticket = this.read ('ticket');
       const source = this.read ('source');
       return (

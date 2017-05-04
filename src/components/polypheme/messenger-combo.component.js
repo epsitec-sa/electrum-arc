@@ -8,18 +8,18 @@ import * as ReducerData from '../polypheme/reducer-data.js';
 
 export default class MessengerCombo extends React.Component {
 
-  closeCombo () {
-    const closeCombo = this.read ('close-combo');
-    if (closeCombo) {
-      closeCombo ();
+  onCloseCombo () {
+    const x = this.read ('close-combo');
+    if (x) {
+      x ();
     }
   }
 
-  showModify () {
+  onShowModify () {
     if (window.document.mock) {
-      const showModify = this.read ('show-modify');
-      if (showModify) {
-        showModify ();
+      const x = this.read ('show-modify');
+      if (x) {
+        x ();
       }
     } else {
       const data     = this.read ('data');
@@ -34,9 +34,9 @@ export default class MessengerCombo extends React.Component {
     }
   }
 
-  showMessenger () {
+  onShowMessenger () {
     if (window.document.mock) {
-      // Trace.log ('showMessenger is possible only with Lydia');
+      // Trace.log ('onShowMessenger is possible only with Lydia');
     } else {
       const data     = this.read ('data');
       const roadbook = this.read ('roadbook');
@@ -62,24 +62,24 @@ export default class MessengerCombo extends React.Component {
     });
   }
 
-  swapCompacted () {
+  onSwapCompacted () {
     const roadbook = this.read ('roadbook');
     this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.id);
   }
 
-  swapCompactedAndShift () {
+  onSwapCompactedAndShift () {
     const data      = this.read ('data');
     const roadbook  = this.read ('roadbook');
     const compacted = ReducerData.ask (data, {type: 'IS_MESSENGER_COMPACTED', id: roadbook.id});
     if (compacted) {
-      this.shift (data, roadbook, data.Roadbooks[0].id);  // shift |<-
+      this.onShift (data, roadbook, data.Roadbooks[0].id);  // shift |<-
     } else {
-      this.shift (data, roadbook, null);  // shift ->|
+      this.onShift (data, roadbook, null);  // shift ->|
     }
     this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.id);
   }
 
-  shift (data, roadbook, toId) {
+  onShift (data, roadbook, toId) {
     ReducerData.reducer (data, {
       type:        'DROP',
       fromKind:    'roadbook',
@@ -90,7 +90,7 @@ export default class MessengerCombo extends React.Component {
     });
   }
 
-  swapShowHidden () {
+  onSwapShowHidden () {
     const roadbook = this.read ('roadbook');
     this.reduce ('SWAP_ROADBOOK_SHOWHIDDEN', roadbook.id);
   }
@@ -106,14 +106,14 @@ export default class MessengerCombo extends React.Component {
       {
         text:   'Modifier...',
         glyph:  'pencil',
-        action: () => this.showModify (),
+        action: this.onShowModify,
       }
     );
     list.push (
       {
         text:   'Voir le coursier...',
         glyph:  'user',
-        action: () => this.showMessenger (),
+        action: this.onShowMessenger,
       }
     );
     list.push (
@@ -121,7 +121,7 @@ export default class MessengerCombo extends React.Component {
         text:     compacted ? 'Étendre' : 'Réduire',
         glyph:    compacted ? 'expand' : 'compress',
         shortcut: '_alt_+clic',
-        action:   () => this.swapCompacted (),
+        action:   this.onSwapCompacted,
       }
     );
     if (data.Roadbooks.length > 1) {
@@ -129,21 +129,21 @@ export default class MessengerCombo extends React.Component {
         {
           text:   compacted ? 'Étendre et pousser' : 'Réduire et pousser',
           glyph:  compacted ? 'fast-backward' : 'fast-forward',
-          action: () => this.swapCompactedAndShift (),
+          action: this.onSwapCompactedAndShift,
         }
       );
       list.push (
         {
           text:   'Pousser à gauche',
           glyph:  'step-backward',
-          action: () => this.shift (data, roadbook, data.Roadbooks[0].id),
+          action: () => this.onShift (data, roadbook, data.Roadbooks[0].id),
         }
       );
       list.push (
         {
           text:   'Pousser à droite',
           glyph:  'step-forward',
-          action: () => this.shift (data, roadbook, null),
+          action: () => this.onShift (data, roadbook, null),
         }
       );
     }
@@ -151,7 +151,7 @@ export default class MessengerCombo extends React.Component {
       {
         text:   showHidden ? 'Cacher les livrés' : 'Montrer les livrés',
         glyph:  showHidden ? 'eye-slash' : 'eye',
-        action: () => this.swapShowHidden (),
+        action: this.onSwapShowHidden,
       }
     );
     return list;
@@ -168,7 +168,7 @@ export default class MessengerCombo extends React.Component {
         top    = {top}
         bottom = {bottom}
         list   = {this.getList ()}
-        close  = {() => this.closeCombo ()}
+        close  = {this.onCloseCombo}
         {...this.link ()} />
     );
   }

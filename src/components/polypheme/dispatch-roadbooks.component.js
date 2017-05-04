@@ -60,13 +60,13 @@ export default class DispatchRoadbooks extends React.Component {
     });
   }
 
-  doClickAction (roadbook, e) {
+  onClickAction (roadbook, e) {
     if (e.altKey) {  // compected/extended ?
       this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.id);
     }
   }
 
-  cycleViewType () {
+  onCycleViewType () {
     switch (this.getViewType ()) {
       case 'tickets':
         this.setViewType ('chronos');
@@ -109,7 +109,7 @@ export default class DispatchRoadbooks extends React.Component {
           kind            = 'hover'
           glyph           = {glyph.glyph}
           rotate          = {glyph.rotate}
-          custom-on-click = {() => this.cycleViewType ()}
+          custom-on-click = {this.onCycleViewType}
           {...this.link ()} />
       </div>
     );
@@ -177,7 +177,7 @@ export default class DispatchRoadbooks extends React.Component {
         over-spacing    = {this.props.theme.shapes.viewSpacing}
         radius          = '0px'
         data            = {data}
-        do-click-action = {e => this.doClickAction (roadbook, e)}
+        do-click-action = {e => this.onClickAction (roadbook, e)}
         drag-owner-id   = {roadbook.id}
         {...this.link ()}>
         <Roadbook

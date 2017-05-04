@@ -21,21 +21,21 @@ export default class MessengerTicket extends React.Component {
     this.comboLocation = null;
   }
 
-  getHover () {
+  get hover () {
     return this.state.hover;
   }
 
-  setHover (value) {
+  set hover (value) {
     this.setState ( {
       hover: value
     });
   }
 
-  getShowCombo () {
+  get showCombo () {
     return this.state.showCombo;
   }
 
-  setShowCombo (value) {
+  set showCombo (value) {
     this.setState ( {
       showCombo: value
     });
@@ -44,59 +44,67 @@ export default class MessengerTicket extends React.Component {
     ComboHelpers.setDragCabHasCombo (id, value);
   }
 
-  getShowModify () {
+  get showModify () {
     return this.state.showModify;
   }
 
-  setShowModify (value) {
+  set showModify (value) {
     this.setState ( {
       showModify: value
     });
   }
 
   getShowSomethink () {
-    return this.getShowCombo () || this.getShowModify ();
+    return this.showCombo || this.showModify;
   }
 
-  showCombo (x) {
+  doShowCombo (x) {
     // Trace.log ('MessengerTicket.showCombo');
     const node = ReactDOM.findDOMNode (this);
     this.comboLocation = ComboHelpers.getComboLocation (node, this.props.theme, x);
-    this.setShowCombo (true);
+    this.showCombo = true;
   }
 
-  mouseOver () {
-    this.setHover (true);
+  onMyMouseOver () {
+    this.hover = true;
   }
 
-  mouseOut () {
-    this.setHover (false);
+  onMyMouseOut () {
+    this.hover = false;
   }
 
-  mouseDown (e) {
-    // Trace.log ('MessengerTicket.mouseDown');
-    if (this.getShowCombo () || this.getShowModify ()) {
+  onMyMouseDown (e) {
+    // Trace.log ('MessengerTicket.onMyMouseDown');
+    if (this.showCombo || this.showModify) {
       return true;
     }
     // if (e.button === 2)  // right-click ?
     if (e.button === 2 || (e.ctrlKey && e.shiftKey)) {  // right-click ?
-      this.showCombo (e.clientX, e.clientY);
+      this.doShowCombo (e.clientX, e.clientY);
       return true;
     }
     return false;
   }
 
-  mouseUp () {
-    // Trace.log ('MessengerTicket.mouseUp');
-    if (this.getShowCombo () || this.getShowModify ()) {
+  onMyMouseUp () {
+    // Trace.log ('MessengerTicket.onMyMouseUp');
+    if (this.showCombo || this.showModify) {
       return true;
     }
     return false;
   }
 
-  closeModify () {
-    // Trace.log ('MessengerTicket.closeModify ' + action);
-    this.setShowModify (false);
+  onCloseModify () {
+    // Trace.log ('MessengerTicket.onCloseModify ' + action);
+    this.showModify = false;
+  }
+
+  onShowModify () {
+    this.showModify = true;
+  }
+
+  onCloseCombo () {
+    this.showCombo = false;
   }
 
   // Return the name displayed in cover mode, 'Blupi (12)' by example.
@@ -115,13 +123,13 @@ export default class MessengerTicket extends React.Component {
   }
 
   renderModify (data) {
-    if (this.getShowModify ()) {
+    if (this.showModify) {
       const roadbook = this.read ('roadbook');
       return (
         <MessengerModify
           data         = {data}
           roadbook     = {roadbook}
-          close-modify = {action => this.closeModify (action)}
+          close-modify = {this.onCloseModify}
           {...this.link ()} />
       );
     } else {
@@ -130,7 +138,7 @@ export default class MessengerTicket extends React.Component {
   }
 
   renderCombo (data) {
-    if (this.getShowCombo ()) {
+    if (this.showCombo) {
       const roadbook = this.read ('roadbook');
       return (
         <MessengerCombo
@@ -139,8 +147,8 @@ export default class MessengerTicket extends React.Component {
           center      = {this.comboLocation.center}
           top         = {this.comboLocation.top}
           bottom      = {this.comboLocation.bottom}
-          close-combo = {() => this.setShowCombo (false)}
-          show-modify = {() => this.setShowModify (true)}
+          close-combo = {this.onCloseCombo}
+          show-modify = {this.onShowModify}
           {...this.link ()}/>
       );
     } else {
@@ -176,7 +184,7 @@ export default class MessengerTicket extends React.Component {
       'A définir';
 
     let color = this.props.theme.palette.ticketMessengerBackground;
-    if (this.getHover ()) {
+    if (this.hover) {
       color = ColorManipulator.darken (color, 0.1);
     }
     if (this.getShowSomethink ()) {
@@ -193,10 +201,10 @@ export default class MessengerTicket extends React.Component {
         color            = {color}
         no-drag          = 'false'
         cursor           = 'ew-resize'
-        mouse-over       = {() => this.mouseOver ()}
-        mouse-out        = {() => this.mouseOut ()}
-        mouse-down       = {e => this.mouseDown (e)}
-        mouse-up         = {e => this.mouseUp (e)}
+        mouse-over       = {this.onMyMouseOver}
+        mouse-out        = {this.onMyMouseOut}
+        mouse-down       = {this.onMyMouseDown}
+        mouse-up         = {this.onMyMouseUp}
         {...this.link ()} >
         <Container kind='column' grow='2' {...this.link ()} >
           <Button glyph={photo} kind='identity' {...this.link ()} />
@@ -222,7 +230,7 @@ export default class MessengerTicket extends React.Component {
     const width = this.props.theme.shapes.dispatchTicketCompactedWidth;
 
     let color = this.props.theme.palette.ticketMessengerBackground;
-    if (this.getHover ()) {
+    if (this.hover) {
       color = ColorManipulator.darken (color, 0.1);
     }
     if (this.getShowSomethink ()) {
@@ -238,10 +246,10 @@ export default class MessengerTicket extends React.Component {
           color      = {color}
           no-drag    = 'false'
           cursor     = 'ew-resize'
-          mouse-over = {() => this.mouseOver ()}
-          mouse-out  = {() => this.mouseOut ()}
-          mouse-down = {e => this.mouseDown (e)}
-          mouse-up   = {e => this.mouseUp (e)}
+          mouse-over = {this.onMyMouseOver}
+          mouse-out  = {this.onMyMouseOut}
+          mouse-down = {this.onMyMouseDown}
+          mouse-up   = {this.onMyMouseUp}
           {...this.link ()} >
           <Container kind='column' grow='1' {...this.link ()} >
             <Label text={this.getCompactedName (roadbook)} text-color='#fff' {...this.link ()} />

@@ -121,33 +121,33 @@ export default class Events extends React.Component {
 
   /******************************************************************************/
 
-  actionPrev () {
+  onActionPrev () {
     this.setFromDate (this.getToDate ('back'));
   }
 
-  actionNext () {
+  onActionNext () {
     this.setFromDate (this.getToDate ('next'));
   }
 
-  actionRange (range) {
+  onActionRange (range) {
     this.setRange (range);
   }
 
-  actionPerHour () {
+  onActionPerHour () {
     this.setPerHour (!this.getPerHour ());
   }
 
-  actionCollapse () {
+  onActionCollapse () {
     this.setCollapse (!this.getCollapse ());
   }
 
-  actionDelta (delta) {
+  onActionDelta (delta) {
     this.setDelta (delta);
   }
 
   /******************************************************************************/
 
-  renderHeaderButton (glyph, text, tooltip, active, action) {
+  renderHeaderButton (glyph, text, tooltip, active, onAction) {
     return (
       <Button
         glyph   = {glyph}
@@ -155,7 +155,7 @@ export default class Events extends React.Component {
         tooltip = {tooltip}
         border  = 'none'
         active  = {active ? 'true' : 'false'}
-        action  = {() => action ()}
+        action  = {onAction}
         {...this.link ()} />
     );
   }
@@ -169,26 +169,26 @@ export default class Events extends React.Component {
 
     return (
       <div style = {headerStyle}>
-        {this.renderHeaderButton ('chevron-left',  null, null, false, () => this.actionPrev ())}
-        {this.renderHeaderButton ('chevron-right', null, null, false, () => this.actionNext ())}
+        {this.renderHeaderButton ('chevron-left',  null, null, false, this.onActionPrev)}
+        {this.renderHeaderButton ('chevron-right', null, null, false, this.onActionNext)}
         <div style = {textStyle}>
           {header}
         </div>
-        {this.renderHeaderButton (null, '1',   'Jour',    range === 'day',   () => this.actionRange ('day'))}
-        {this.renderHeaderButton (null, '7',   'Semaine', range === 'week',  () => this.actionRange ('week'))}
-        {this.renderHeaderButton (null, '31',  'Mois',    range === 'month', () => this.actionRange ('month'))}
-        {this.renderHeaderButton (null, '365', 'Année',   range === 'year',  () => this.actionRange ('year'))}
+        {this.renderHeaderButton (null, '1',   'Jour',    range === 'day',   () => this.onActionRange ('day'))}
+        {this.renderHeaderButton (null, '7',   'Semaine', range === 'week',  () => this.onActionRange ('week'))}
+        {this.renderHeaderButton (null, '31',  'Mois',    range === 'month', () => this.onActionRange ('month'))}
+        {this.renderHeaderButton (null, '365', 'Année',   range === 'year',  () => this.onActionRange ('year'))}
 
         {this.renderHeaderButton ('clock-o', null, 'Groupé par heures', this.getPerHour (),
-          () => this.actionPerHour ())}
+          this.onActionPerHour)}
 
         {this.renderHeaderButton ('compress', null, 'Compact', this.getCollapse (),
-          () => this.actionCollapse ())}
+          this.onActionCollapse)}
 
-        {this.renderHeaderButton (null, '5',  '5 minutes',     delta === 5,  () => this.actionDelta (5))}
-        {this.renderHeaderButton (null, '15', 'Quart d´heure', delta === 15, () => this.actionDelta (15))}
-        {this.renderHeaderButton (null, '30', 'Demi-heure',    delta === 30, () => this.actionDelta (30))}
-        {this.renderHeaderButton (null, '60', 'Heure',         delta === 60, () => this.actionDelta (60))}
+        {this.renderHeaderButton (null, '5',  '5 minutes',     delta === 5,  () => this.onActionDelta (5))}
+        {this.renderHeaderButton (null, '15', 'Quart d´heure', delta === 15, () => this.onActionDelta (15))}
+        {this.renderHeaderButton (null, '30', 'Demi-heure',    delta === 30, () => this.onActionDelta (30))}
+        {this.renderHeaderButton (null, '60', 'Heure',         delta === 60, () => this.onActionDelta (60))}
       </div>
     );
   }

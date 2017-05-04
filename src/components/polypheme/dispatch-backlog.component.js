@@ -55,7 +55,7 @@ export default class DispatchBacklog extends React.Component {
     }
   }
 
-  cycleViewType () {
+  onCycleViewType () {
     switch (this.getViewType ()) {
       case 'box':
         this.setViewType ('distincts');
@@ -80,7 +80,7 @@ export default class DispatchBacklog extends React.Component {
     }
   }
 
-  changeSort (data, item) {
+  onChangeSort (data, item) {
     if (window.document.mock) {
       data.BacklogSort = item.key;
       this.forceUpdate ();
@@ -95,7 +95,7 @@ export default class DispatchBacklog extends React.Component {
     }
   }
 
-  changeFilter (data, item) {
+  onChangeFilter (data, item) {
     if (window.document.mock) {
       data.BacklogFilter = item.key;
       this.forceUpdate ();
@@ -120,11 +120,11 @@ export default class DispatchBacklog extends React.Component {
   }
 
   getSortItem (data, item) {
-    return this.getItem (item, data.BacklogSort, () => this.changeSort (data, item));
+    return this.getItem (item, data.BacklogSort, () => this.onChangeSort (data, item));
   }
 
   getFilterItem (data, item) {
-    return this.getItem (item, data.BacklogFilter, () => this.changeFilter (data, item));
+    return this.getItem (item, data.BacklogFilter, () => this.onChangeFilter (data, item));
   }
 
   getSortList (data) {
@@ -168,7 +168,7 @@ export default class DispatchBacklog extends React.Component {
         <Button
           kind            = 'hover'
           glyph           = {this.getViewTypeGlyph ()}
-          custom-on-click = {() => this.cycleViewType ()}
+          custom-on-click = {this.onCycleViewType}
           {...this.link ()} />
       </div>
     );

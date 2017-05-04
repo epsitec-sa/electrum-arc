@@ -16,28 +16,28 @@ export default class DispatchDragTicket extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      hover: false,
-      link:  false,
+      hover:  false,
+      linked: false,
     };
   }
 
-  getHover () {
+  get hover () {
     return this.state.hover;
   }
 
-  setHover (value) {
+  set hover (value) {
     this.setState ( {
       hover: value
     });
   }
 
-  getLink () {
-    return this.state.link;
+  get linked () {
+    return this.state.linked;
   }
 
-  setLink (value) {
+  set linked (value) {
     this.setState ( {
-      link: value
+      linked: value
     });
   }
 
@@ -56,7 +56,7 @@ export default class DispatchDragTicket extends React.Component {
   }
 
   getBackgroundText (ticket) {
-    if (this.getLink ()) {
+    if (this.linked) {
       return ticket.Order + 1;  // display 1..4 (for pick, drop-transit, pick-transit and drop)
     } else {
       return null;
@@ -83,9 +83,9 @@ export default class DispatchDragTicket extends React.Component {
     }
   }
 
-  //  Update state.link to all tickets linked.
+  //  Update state.linked to all tickets linked.
   //  By example, pick and drop to a trip, or 4 tickets if has transit.
-  setLinkToAll (link) {
+  setLinkedToAll (linked) {
     const ticket    = this.read ('ticket');
     const missionId = ticket.MissionId;
     if (missionId) {
@@ -93,22 +93,22 @@ export default class DispatchDragTicket extends React.Component {
         const t = tripTicket.read ('ticket');
         const m = t.MissionId;
         if (missionId === m) {
-          tripTicket.setLink (link);
+          tripTicket.linked = linked;
         }
       }
     }
   }
 
-  mouseOver () {
+  onMyMouseOver () {
     if (!this.props.isDragged) {
-      this.setHover (true);
-      this.setLinkToAll (true);
+      this.hover = true;
+      this.setLinkedToAll (true);
     }
   }
 
-  mouseOut () {
-    this.setHover (false);
-    this.setLinkToAll (false);
+  onMyMouseOut () {
+    this.hover = false;
+    this.setLinkedToAll (false);
   }
 
   renderGlyph (glyph) {
@@ -449,7 +449,7 @@ export default class DispatchDragTicket extends React.Component {
     if (ticket.Warning && !isDragged) {
       color = this.props.theme.palette.ticketWarningBackground;
     }
-    if (this.getHover () && !isDragged) {
+    if (this.hover && !isDragged) {
       color = ColorManipulator.emphasize (color, 0.1);
     }
     if (selected === 'true' && !isDragged) {
@@ -460,7 +460,7 @@ export default class DispatchDragTicket extends React.Component {
     }
 
     let hoverShape = null;
-    if (this.getLink () && !isDragged && !hasHeLeft) {
+    if (this.linked && !isDragged && !hasHeLeft) {
       if (!ticket.MeetingPoints || ticket.MeetingPoints.length === 1) {
         if (ticket.Type.startsWith ('pick')) {
           hoverShape = 'first';
@@ -489,8 +489,8 @@ export default class DispatchDragTicket extends React.Component {
         cursor             = {cursor}
         hud-glyph          = {this.getHudGlyph (data, ticket)}
         hide-content       = {hasHeLeft && !isDragged ? 'true' : 'false'}
-        mouse-over         = {() => this.mouseOver ()}
-        mouse-out          = {() => this.mouseOut ()}
+        mouse-over         = {this.onMyMouseOver}
+        mouse-out          = {this.onMyMouseOut}
         {...this.link ()} >
         {metaTicket ?
           this.renderMetaContent (ticket) :

@@ -11,48 +11,47 @@ export default class CodispatchDragTicket extends React.Component {
     this.state = {
       hover:     false,
       dragHover: false,
-      link:      false,
     };
   }
 
-  getHover () {
+  get hover () {
     return this.state.hover;
   }
 
-  setHover (value) {
+  set hover (value) {
     this.setState ( {
       hover: value
     });
   }
 
-  getDragHover () {
+  get dragHover () {
     return this.state.dragHover;
   }
 
-  setDragHover (value) {
+  set dragHover (value) {
     this.setState ( {
       dragHover: value
     });
   }
 
-  mouseOver () {
+  onMyMouseOver () {
     if (!this.props.isDragged) {
-      this.setHover (true);
+      this.hover = true;
     }
   }
 
-  mouseOut () {
-    this.setHover (false);
+  onMyMouseOut () {
+    this.hover = false;
   }
 
-  dragBarMouseOver () {
+  onDragBarMouseOver () {
     if (!this.props.isDragged) {
-      this.setDragHover (true);
+      this.dragHover = true;
     }
   }
 
-  dragBarMouseOut () {
-    this.setDragHover (false);
+  onDragBarMouseOut () {
+    this.dragHover = false;
   }
 
   renderTicketContent (ticket, extended, delivered) {
@@ -75,7 +74,7 @@ export default class CodispatchDragTicket extends React.Component {
     let color = this.props.theme.palette.paneBackground;
     if (hasHeLeft && !isDragged) {
       color = this.props.theme.palette.ticketDragAndDropShadow;
-    } else if (this.getDragHover ()) {
+    } else if (this.dragHover) {
       color = this.props.theme.palette.ticketDragAndDropHover;
     }
 
@@ -101,15 +100,15 @@ export default class CodispatchDragTicket extends React.Component {
           subkind      = {subkind}
           color        = {color}
           hide-content = {hasHeLeft && !isDragged ? 'true' : 'false'}
-          mouse-over   = {() => this.mouseOver ()}
-          mouse-out    = {() => this.mouseOut ()}
+          mouse-over   = {this.onMyMouseOver}
+          mouse-out    = {this.onMyMouseOut}
           {...this.link ()} >
           {children}
         </Ticket>
         <div
           style       = {dragBarStyle}
-          onMouseOver = {() => this.dragBarMouseOver ()}
-          onMouseOut  = {() => this.dragBarMouseOut ()}
+          onMouseOver = {this.onDragBarMouseOver}
+          onMouseOut  = {this.onDragBarMouseOut}
           />
       </div>
     );
