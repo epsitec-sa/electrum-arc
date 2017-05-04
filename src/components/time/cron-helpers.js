@@ -1,4 +1,4 @@
-import * as Converters from '../polypheme/converters';
+import * as Converters from './converters';
 
 // *    *    *    *    *    *
 // ┬    ┬    ┬    ┬    ┬    ┬

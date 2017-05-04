@@ -1,6 +1,6 @@
 import {React, Store} from 'electrum';
 import {DialogModal, Container, Button, Label, TextFieldTyped, Separator} from '../../all-components.js';
-import * as Converters from './converters';
+import * as Converters from '../time/converters';
 
 /******************************************************************************/
 

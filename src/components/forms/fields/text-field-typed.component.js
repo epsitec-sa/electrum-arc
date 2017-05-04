@@ -2,7 +2,7 @@
 
 import {React, Store} from 'electrum';
 import {LabelTextField} from 'electrum-arc';
-import * as Converters from '../../polypheme/converters';
+import * as Converters from '../../time/converters';
 
 /******************************************************************************/
 

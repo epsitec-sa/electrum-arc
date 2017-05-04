@@ -1,7 +1,7 @@
 /* global Map window */
 
 import {React} from 'electrum';
-import * as Converters from '../polypheme/converters';
+import * as Converters from '../time/converters';
 import {Unit} from 'electrum-theme';
 // import {Trace} from 'electrum';
 

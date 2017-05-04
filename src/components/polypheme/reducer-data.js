@@ -4,7 +4,7 @@ import Electrum from 'electrum';
 import Enumerable from 'linq';
 import {Trace} from 'electrum';
 import * as ReducerTickets from './reducer-tickets.js';
-import * as Converters from './converters';
+import * as Converters from '../time/converters';
 import * as StateManager from './state-manager.js';
 
 function updateUI () {
