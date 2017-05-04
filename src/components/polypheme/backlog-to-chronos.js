@@ -42,9 +42,9 @@ function transformPickDropToEvent (pick, drop) {
 
 function typeToColor (type) {
   if (type.startsWith ('pick')) {
-    return '#ffa800';  // TODO...
+    return 'start';
   } else if (type.startsWith ('drop')) {
-    return '#099f18';  // TODO...
+    return 'end';
   } else {
     return null;
   }

@@ -2,13 +2,36 @@ import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
+function getMainColor (theme, props) {
+  if (props.color) {
+    if (props.color.startsWith ('#') || props.color.startsWith ('rgb')) {
+      //  Bypass this colors:
+      //  #f00
+      //  #123456
+      //  rgb(100,100,100)
+      //  rgba(0,0,0,0.5)
+      return props.color;
+    } else {
+      const fix = {
+        main:   theme.palette.chronoEventMainBackground,
+        start:  theme.palette.chronoEventStartBackground,
+        middle: theme.palette.chronoEventMiddleBackground,
+        end:    theme.palette.chronoEventEndBackground,
+      };
+      return fix[props.color];
+    }
+  } else {
+    return theme.palette.chronoEventMainBackground;
+  }
+}
+
 export default function styles (theme, props) {
   const a = props.startFrom;
   const b = props.endFrom;
   const c = props.startTo;
   const d = props.endTo;
 
-  const mainColor = props.color ? props.color : theme.palette.chronoEventMainBackground;
+  const mainColor = getMainColor (theme, props);
 
   const abWidth = Unit.sub (b, a);
   const bcWidth = Unit.sub (c, b);
