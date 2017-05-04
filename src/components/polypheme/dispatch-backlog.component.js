@@ -1,7 +1,7 @@
 /* global window Map */
 
 import Enumerable from 'linq';
-import {React} from 'electrum';
+import {React, Store} from 'electrum';
 import * as BacklogData from './backlog-data';
 import * as ReducerData from '../polypheme/reducer-data.js';
 import * as BacklogToChronos from './backlog-to-chronos.js';
@@ -29,16 +29,32 @@ export default class DispatchBacklog extends React.Component {
     this.state = {
       viewType: 'box'
     };
+    this.internalStore = Store.create ();
+    this.localBus = this;  // for access to property notify
   }
 
-  getViewType () {
+  get viewType () {
     return this.state.viewType;
   }
 
-  setViewType (value) {
+  set viewType (value) {
     this.setState ( {
       viewType: value
     });
+  }
+
+  // LocalBus.notify
+  notify (props, source, value) {
+    if (source.type === 'change') {
+    }
+  }
+
+  linkBacklogSort () {
+    return {...this.link (), state: this.internalStore.select ('BacklogSort'), bus: this.localBus};
+  }
+
+  componentWillMount () {
+    this.updateBacklogSort ();
   }
 
   componentDidMount () {
@@ -55,22 +71,28 @@ export default class DispatchBacklog extends React.Component {
     }
   }
 
+  updateBacklogSort () {
+    const data = this.read ('data');
+    const backlogSort = this.getCurrentSortDescription (data.BacklogSort);
+    this.internalStore.select ('BacklogSort').set ('value', backlogSort);
+  }
+
   onCycleViewType () {
-    switch (this.getViewType ()) {
+    switch (this.viewType) {
       case 'box':
-        this.setViewType ('distincts');
+        this.viewType = 'distincts';
         break;
       case 'distincts':
-        this.setViewType ('chronos');
+        this.viewType = 'chronos';
         break;
       default:
-        this.setViewType ('box');
+        this.viewType = 'box';
         break;
     }
   }
 
   getViewTypeGlyph () {
-    switch (this.getViewType ()) {
+    switch (this.viewType) {
       case 'box':
         return 'th';
       case 'distincts':
@@ -83,6 +105,7 @@ export default class DispatchBacklog extends React.Component {
   onChangeSort (data, item) {
     if (window.document.mock) {
       data.BacklogSort = item.key;
+      this.updateBacklogSort ();
       this.forceUpdate ();
     } else {
       ReducerData.reducer (data, {
@@ -141,18 +164,18 @@ export default class DispatchBacklog extends React.Component {
       .toArray ();
   }
 
-  getCurrentSortDescription (data) {
+  getCurrentSortDescription (backlogSort) {
     return Enumerable
       .from (BacklogData.getSortItems ())
-      .where (item => item.key === data.BacklogSort)
+      .where (item => item.key === backlogSort)
       .select (item => item.value.description)
       .firstOrDefault ();
   }
 
-  getCurrentFilterDescription (data) {
+  getCurrentFilterDescription (backlogFilter) {
     return Enumerable
       .from (BacklogData.getFilterItems ())
-      .where (item => item.key === data.BacklogFilter)
+      .where (item => item.key === backlogFilter)
       .select (item => item.value.description)
       .firstOrDefault ();
   }
@@ -229,19 +252,19 @@ export default class DispatchBacklog extends React.Component {
     return result;
   }
 
-  renderBox () {
-    const data = this.read ('data');
+  renderBox (data) {
     return (
       <Container kind='view-stretch' {...this.link ()} >
         <Container kind='pane-top' {...this.link ()} >
           <TextFieldCombo
+            field       = 'BacklogSort'
+            readonly    = 'true'
             hint-text   = 'Trier'
             combo-glyph = 'sort'
             width       = '250px'
             spacing     = 'large'
-            value       = {this.getCurrentSortDescription (data)}
             list        = {this.getSortList (data)}
-            {...this.link ()} />
+            {...this.linkBacklogSort ()} />
         </Container>
         <Container
           kind        = 'panes'
@@ -263,19 +286,19 @@ export default class DispatchBacklog extends React.Component {
     );
   }
 
-  renderDistincts () {
-    const data = this.read ('data');
+  renderDistincts (data) {
     return (
       <Container kind='view-stretch' {...this.link ()} >
         <Container kind='pane-top' {...this.link ()} >
           <TextFieldCombo
+            field       = 'BacklogSort'
+            readonly    = 'true'
             hint-text   = 'Trier'
             combo-glyph = 'sort'
             width       = '250px'
             spacing     = 'large'
-            value       = {this.getCurrentSortDescription (data)}
             list        = {this.getSortList (data)}
-            {...this.link ()} />
+            {...this.linkBacklogSort ()} />
         </Container>
         <Container
           kind        = 'panes'
@@ -297,8 +320,7 @@ export default class DispatchBacklog extends React.Component {
     );
   }
 
-  renderChronos () {
-    const data = this.read ('data');
+  renderChronos (data) {
     return (
       <Container kind='view-stretch' {...this.link ()} >
         <Container
@@ -324,13 +346,14 @@ export default class DispatchBacklog extends React.Component {
   }
 
   render () {
-    switch (this.getViewType ()) {
+    const data = this.read ('data');
+    switch (this.viewType) {
       case 'box':
-        return this.renderBox ();
+        return this.renderBox (data);
       case 'distincts':
-        return this.renderDistincts ();
+        return this.renderDistincts (data);
       default:
-        return this.renderChronos ();
+        return this.renderChronos (data);
     }
   }
 }

@@ -1,7 +1,5 @@
 /* global window */
 
-import * as Converters from '../time/converters';
-
 /******************************************************************************/
 // Returns the items to populate the sort combo-menu.
 // It is here (for now) that the possible actions are decided, not in the C#.

@@ -23,11 +23,11 @@ export default class DispatchRoadbooks extends React.Component {
     };
   }
 
-  getViewType () {
+  get viewType () {
     return this.state.viewType;
   }
 
-  setViewType (value) {
+  set viewType (value) {
     this.setState ( {
       viewType: value
     });
@@ -67,18 +67,18 @@ export default class DispatchRoadbooks extends React.Component {
   }
 
   onCycleViewType () {
-    switch (this.getViewType ()) {
+    switch (this.viewType) {
       case 'tickets':
-        this.setViewType ('chronos');
+        this.viewType = 'chronos';
         break;
       default:
-        this.setViewType ('tickets');
+        this.viewType = 'tickets';
         break;
     }
   }
 
   getViewTypeGlyph () {
-    switch (this.getViewType ()) {
+    switch (this.viewType) {
       case 'tickets':
         return {glyph: 'clock-o', rotate: '0'};
       default:
@@ -241,7 +241,7 @@ export default class DispatchRoadbooks extends React.Component {
   }
 
   render () {
-    switch (this.getViewType ()) {
+    switch (this.viewType) {
       case 'tickets':
         return this.renderRoadbooks ();
       default:
