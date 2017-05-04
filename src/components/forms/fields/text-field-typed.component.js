@@ -31,28 +31,23 @@ export default class TextFieldTyped extends React.Component {
   }
 
   parseEditedValue (displayedValue) {
+    let parsed;
     switch (this.type) {
-      case 'date': {
-        const parsed = Converters.parseEditedDate (displayedValue);
-        const finalValue = this.canonicalToDisplayed (parsed.value);
-        return {
-          canonicalValue:      parsed.value,
-          displayedFinalValue: finalValue,
-          warning:             parsed.error,
-        };
-      }
-      case 'time': {
-        const parsed = Converters.parseEditedTime (displayedValue, '12:00:00');
-        const finalValue = this.canonicalToDisplayed (parsed.value);
-        return {
-          canonicalValue:      parsed.value,
-          displayedFinalValue: finalValue,
-          warning:             parsed.error,
-        };
-      }
+      case 'date':
+        parsed = Converters.parseEditedDate (displayedValue);
+        break;
+      case 'time':
+        parsed = Converters.parseEditedTime (displayedValue, '12:00:00');
+        break;
       default:
         throw new Error (`Invalid type ${this.type}`);
     }
+    const finalValue = this.canonicalToDisplayed (parsed.value);
+    return {
+      canonicalValue:      parsed.value,
+      warning:             parsed.error,
+      displayedFinalValue: finalValue,
+    };
   }
 
   linkValueEdited () {
