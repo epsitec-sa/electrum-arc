@@ -57,7 +57,12 @@ export function getDisplayedMonths (canonicalMonths) {
         m += c - '0';
       } else {
         if (m !== 0) {
-          result.push (Converters.getMonthDescription (m - 1, '4').toLowerCase ());
+          const d = Converters.getMonthDescription (m - 1, '4');
+          if (d) {
+            result.push (d.toLowerCase ());
+          } else {
+            result.push ('?');
+          }
         }
         m = 0;
         if (c === '-') {
@@ -70,7 +75,12 @@ export function getDisplayedMonths (canonicalMonths) {
       }
     }
     if (m !== 0) {
-      result.push (Converters.getMonthDescription (m - 1, '4').toLowerCase ());
+      const d = Converters.getMonthDescription (m - 1, '4');
+      if (d) {
+        result.push (d.toLowerCase ());
+      } else {
+        result.push ('?');
+      }
     }
   }
   return join (result, ' ');
