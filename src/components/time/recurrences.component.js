@@ -46,29 +46,22 @@ export default class Recurrences extends React.Component {
       if (props.field === -1) {  // last line (for create) ?
         this.internalStore.select ('newRecurrence').set ('value', value);
       } else {
-        const newRecurrences = ReducerRecurrences.reducer (recurrences, {
-          type:       'UPDATE',
-          index:      props.field,
-          recurrence: value,
-        });
+        const newRecurrences = ReducerRecurrences.reducer (recurrences,
+          ReducerRecurrences.updateAction (props.field, value));
         bus.notify (this.props, source, newRecurrences);
         // console.dir (newRecurrences);
       }
     } else if (source.type === 'create') {
       const newRecurrence = this.internalStore.select ('newRecurrence').get ('value');
-      const newRecurrences = ReducerRecurrences.reducer (recurrences, {
-        type:       'ADD',
-        recurrence: newRecurrence,
-      });
+      const newRecurrences = ReducerRecurrences.reducer (recurrences,
+        ReducerRecurrences.addAction (newRecurrence));
       bus.notify (this.props, {type: 'change'}, newRecurrences);
       this.internalStore.select ('recurrences').set ('value', newRecurrences);
       this.extendedIndex = newRecurrences.length - 1;  // extend created recurrence
       this.forceUpdate ();
     } else if (source.type === 'delete') {
-      const newRecurrences = ReducerRecurrences.reducer (recurrences, {
-        type:  'DELETE',
-        index: props.field,
-      });
+      const newRecurrences = ReducerRecurrences.reducer (recurrences,
+        ReducerRecurrences.deleteAction (props.field));
       bus.notify (this.props, {type: 'change'}, newRecurrences);
       this.internalStore.select ('recurrences').set ('value', newRecurrences);
       this.extendedIndex = -1;  // collapse all recurrences

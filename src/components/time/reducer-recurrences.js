@@ -1,5 +1,23 @@
 /******************************************************************************/
 
+export const updateAction = (index, recurrence) => ({
+  type:       'ADD',
+  index:      index,
+  recurrence: recurrence,
+});
+
+export const addAction = recurrence => ({
+  type:       'ADD',
+  recurrence: recurrence,
+});
+
+export const deleteAction = index => ({
+  type:  'DELETE',
+  index: index,
+});
+
+/******************************************************************************/
+
 function updateRecurrence (state, index, recurrence) {
   const mutableState = [ ...state ];  // shallow copy of state
   mutableState.splice (index, 1);  // remove old recurrence

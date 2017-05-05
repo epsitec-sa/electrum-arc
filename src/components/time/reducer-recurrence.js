@@ -1,5 +1,17 @@
 /******************************************************************************/
 
+export const addAction = date => ({
+  type: 'ADD',
+  date: date,
+});
+
+export const deleteAction = date => ({
+  type: 'DELETE',
+  date: date,
+});
+
+/******************************************************************************/
+
 function addDate (state, date) {
   const mutableState = [ ...state ];  // shallow copy of state
   mutableState.push (date);
