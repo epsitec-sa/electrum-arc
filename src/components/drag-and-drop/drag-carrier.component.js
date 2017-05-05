@@ -521,14 +521,9 @@ export default class DragCarrier extends React.Component {
       // Inject electrum state (needed for electrumDispatch).
       data.state = this.read ('state');
 
-      ReducerData.reducer (data, {
-        type:        'DROP',
-        fromKind:    (ownerKind === 'roadbooks') ? 'roadbook' : 'ticket',
-        fromIds:     this.selectedIds,
-        toId:        toId,
-        toOwnerId:   ownerId,
-        toOwnerKind: ownerKind,
-      });
+      ReducerData.reducer (data,
+        ReducerData.dropAction = ((ownerKind === 'roadbooks') ? 'roadbook' : 'ticket',
+        this.selectedIds, toId, ownerId, ownerKind));
     }
   }
 

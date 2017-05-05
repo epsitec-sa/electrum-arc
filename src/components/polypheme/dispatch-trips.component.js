@@ -33,7 +33,7 @@ export default class DispatchTrips extends React.Component {
   initialise (data) {
     // Inject electrum state (needed for electrumDispatch).
     data.state = this.props.state;
-    ReducerData.reducer (data, {type: 'INITIALISE'});
+    ReducerData.reducer (data, ReducerData.initialiseAction ());
   }
 
   renderTicket (metaTicket, meetingPoints, data, index) {

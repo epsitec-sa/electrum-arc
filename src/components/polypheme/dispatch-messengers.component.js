@@ -35,7 +35,7 @@ export default class DispatchMessengers extends React.Component {
   initialise (data) {
     // Inject electrum state (needed for electrumDispatch).
     data.state = this.props.state;
-    ReducerData.reducer (data, {type: 'INITIALISE'});
+    ReducerData.reducer (data, ReducerData.initialiseAction ());
   }
 
   render () {

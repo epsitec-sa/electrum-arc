@@ -25,13 +25,8 @@ export default class TripCombo extends React.Component {
     } else {
       const data   = this.read ('data');
       const ticket = this.read ('ticket');
-      ReducerData.reducer (data, {
-        type:    'ELECTRUM_DISPATCH',
-        oper:    'ShowModifyTicketCommand',
-        payload: {
-          TicketId: ticket.id,
-        }
-      });
+      ReducerData.reducer (data,
+        ReducerData.electrumDispatchAction ('ShowModifyTicketCommand', {TicketId: ticket.id}));
     }
   }
 
@@ -41,13 +36,8 @@ export default class TripCombo extends React.Component {
     } else {
       const data   = this.read ('data');
       const ticket = this.read ('ticket');
-      ReducerData.reducer (data, {
-        type:    'ELECTRUM_DISPATCH',
-        oper:    'ShowMissionCommand',
-        payload: {
-          TicketId: ticket.id,
-        }
-      });
+      ReducerData.reducer (data,
+        ReducerData.electrumDispatchAction ('ShowMissionCommand', {TicketId: ticket.id}));
     }
   }
 
@@ -73,16 +63,6 @@ export default class TripCombo extends React.Component {
     }
   }
 
-  reduce (action, id, value, shiftKey) {
-    const data = this.read ('data');
-    ReducerData.reducer (data, {
-      type:     action,
-      id:       id,
-      value:    value,
-      shiftKey: shiftKey,
-    });
-  }
-
   onDispatch (value) {
     if (window.document.mock) {
       if (value === 'delivered') {
@@ -90,28 +70,33 @@ export default class TripCombo extends React.Component {
       } else if (value === 'pre-dispatch') {
         this.onShowPredispatch ();
       } else {
+        const data   = this.read ('data');
         const ticket = this.read ('ticket');
-        this.reduce ('CHANGE_TICKET_STATUS', ticket.id, value);
+        ReducerData.reduce (data, ReducerData.changeTicketStatusAction = (ticket.id, value));
       }
     } else {
+      const data   = this.read ('data');
       const ticket = this.read ('ticket');
-      this.reduce ('CHANGE_TICKET_STATUS', ticket.id, value);
+      ReducerData.reduce (data, ReducerData.changeTicketStatusAction = (ticket.id, value));
     }
   }
 
   onExtend () {
+    const data   = this.read ('data');
     const ticket = this.read ('ticket');
-    this.reduce ('SWAP_TICKET_EXTENDED', ticket.id);
+    ReducerData.reduce (data, ReducerData.swapTicketExtendedAction = (ticket.id));
   }
 
   onSelectOne () {
+    const data   = this.read ('data');
     const ticket = this.read ('ticket');
-    this.reduce ('SWAP_TICKET_SELECTED', ticket.id);
+    ReducerData.reduce (data, ReducerData.swapTicketSelectedAction = (ticket.id, false));
   }
 
   onSelectMany () {
+    const data   = this.read ('data');
     const ticket = this.read ('ticket');
-    this.reduce ('SWAP_TICKET_SELECTED', ticket.id, null, true);
+    ReducerData.reduce (data, ReducerData.swapTicketSelectedAction = (ticket.id, true));
   }
 
   // Return the combo-menu content.

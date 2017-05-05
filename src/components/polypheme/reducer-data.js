@@ -7,6 +7,70 @@ import * as ReducerTickets from './reducer-tickets.js';
 import * as Converters from '../time/converters';
 import * as StateManager from './state-manager.js';
 
+/******************************************************************************/
+
+export const initialiseAction = () => ({
+  type: 'INITIALISE',
+});
+
+export const dropAction = (fromKind, fromIds, toId, toOwnerId, toOwnerKind) => ({
+  type:        'DROP',
+  fromKind:    fromKind,
+  fromIds:     fromIds,
+  toId:        toId,
+  toOwnerId:   toOwnerId,
+  toOwnerKind: toOwnerKind,
+});
+
+export const swapTicketSelectedAction = (id, shiftKey) => ({
+  type:     'SWAP_TICKET_SELECTED',
+  id:       id,
+  shiftKey: shiftKey,
+});
+
+export const swapTicketExtendedAction = (id) => ({
+  type: 'SWAP_TICKET_EXTENDED',
+  id:   id,
+});
+
+export const cycleTicketStatusAction = (id) => ({
+  type: 'CYCLE_TICKET_STATUS',
+  id:   id,
+});
+
+export const changeTicketStatusAction = (id, value, date, time) => ({
+  type:  'CHANGE_TICKET_STATUS',
+  id:    id,
+  value: value,
+  date:  date,
+  time:  time,
+});
+
+export const swapRoadbookCompactedAction = (id) => ({
+  type: 'SWAP_ROADBOOK_COMPACTED',
+  id:   id,
+});
+
+export const swapRoadbookShowHiddenAction = (id) => ({
+  type: 'SWAP_ROADBOOK_SHOWHIDDEN',
+  id:   id,
+});
+
+export const setTrayNameAction = (id, value, accepted) => ({
+  type:     'SET_TRAY_NAME',
+  id:       id,
+  value:    value,
+  accepted: accepted,
+});
+
+export const electrumDispatchAction = (oper, payload) => ({
+  type:    'ELECTRUM_DISPATCH',
+  oper:    oper,
+  payload: payload,
+});
+
+/******************************************************************************/
+
 function updateUI () {
   for (var c of window.document.toUpdate) {
     c.forceUpdate ();

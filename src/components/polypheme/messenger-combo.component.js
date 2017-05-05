@@ -24,13 +24,8 @@ export default class MessengerCombo extends React.Component {
     } else {
       const data     = this.read ('data');
       const roadbook = this.read ('roadbook');
-      ReducerData.reducer (data, {
-        type:    'ELECTRUM_DISPATCH',
-        oper:    'ShowModifyMessengerCommand',
-        payload: {
-          TicketId: roadbook.id,
-        }
-      });
+      ReducerData.reducer (data,
+        ReducerData.electrumDispatchAction ('ShowModifyMessengerCommand', {TicketId: roadbook.id}));
     }
   }
 
@@ -40,31 +35,15 @@ export default class MessengerCombo extends React.Component {
     } else {
       const data     = this.read ('data');
       const roadbook = this.read ('roadbook');
-      ReducerData.reducer (data, {
-        type:    'ELECTRUM_DISPATCH',
-        oper:    'ShowMessengerCommand',
-        payload: {
-          MessengerId: roadbook.id,
-        }
-      });
+      ReducerData.reducer (data,
+        ReducerData.electrumDispatchAction ('ShowMessengerCommand', {MessengerId: roadbook.id}));
     }
   }
 
-  reduce (action, id) {
-    const data = this.read ('data');
-
-    // Inject electrum state (needed for electrumDispatch).
-    data.state = this.props.state;
-
-    ReducerData.reducer (data, {
-      type: action,
-      id:   id,
-    });
-  }
-
   onSwapCompacted () {
+    const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
-    this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.id);
+    ReducerData.reduce (data, ReducerData.swapRoadbookCompactedAction = (roadbook.id));
   }
 
   onSwapCompactedAndShift () {
@@ -76,23 +55,18 @@ export default class MessengerCombo extends React.Component {
     } else {
       this.onShift (data, roadbook, null);  // shift ->|
     }
-    this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.id);
+    ReducerData.reduce (data, ReducerData.swapRoadbookCompactedAction = (roadbook.id));
   }
 
   onShift (data, roadbook, toId) {
-    ReducerData.reducer (data, {
-      type:        'DROP',
-      fromKind:    'roadbook',
-      fromIds:     [ roadbook.id ],
-      toId:        toId,
-      toOwnerId:   data.id,
-      toOwnerKind: 'roadbook',
-    });
+    ReducerData.reducer (data,
+      ReducerData.dropAction = ('roadbook', [ roadbook.id ], toId, data.id, 'roadbook'));
   }
 
   onSwapShowHidden () {
+    const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
-    this.reduce ('SWAP_ROADBOOK_SHOWHIDDEN', roadbook.id);
+    ReducerData.reduce (data, ReducerData.swapRoadbookShowHiddenAction = (roadbook.id));
   }
 
   // Return the combo-menu content.

@@ -47,22 +47,10 @@ export default class DispatchRoadbooks extends React.Component {
     }
   }
 
-  reduce (action, id) {
-    // Trace.log ('DispatchRoadbooks.reducer');
-    const data = this.read ('data');
-
-    // Inject electrum state (needed for electrumDispatch).
-    data.state = this.props.state;
-
-    ReducerData.reducer (data, {
-      type: action,
-      id:   id,
-    });
-  }
-
   onClickAction (roadbook, e) {
     if (e.altKey) {  // compected/extended ?
-      this.reduce ('SWAP_ROADBOOK_COMPACTED', roadbook.id);
+      const data = this.read ('data');
+      ReducerData.reduce (data, ReducerData.swapRoadbookCompactedAction = (roadbook.id));
     }
   }
 

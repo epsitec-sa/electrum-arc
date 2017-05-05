@@ -102,43 +102,25 @@ export default class DispatchTicket extends React.Component {
   }
 
   onClickAction (e) {
+    const data   = this.read ('data');
+    const ticket = this.read ('ticket');
     if (e.ctrlKey || e.shiftKey || e.metaKey) {  // select/deselect ?
-      this.reduce ('SWAP_TICKET_SELECTED', e.shiftKey);
+      ReducerData.reduce (data, ReducerData.swapTicketSelectedAction = (ticket.id, e.shiftKey));
     } else if (e.altKey) {  // compected/extended ?
-      this.reduce ('SWAP_TICKET_EXTENDED');
+      ReducerData.reduce (data, ReducerData.swapTicketExtendedAction = (ticket.id));
     } else {  // pre-dispatched/dispatched/delivered ?
       if (window.document.mock) {
-        const ticket = this.read ('ticket');
         if (ticket.Status === 'dispatched') {  // dispatched -> delivered ?
           this.onShowDeliver ();  // selected realised time...
         } else if (ticket.Status === 'delivered') {  // delivered -> pre-dispatched ?
           this.onShowPredispatch ();  // request confirmation...
         } else {
-          this.reduce ('CYCLE_TICKET_STATUS');  // change directly without dialog
+          ReducerData.reduce (data, ReducerData.cycleTicketStatusAction = (ticket.id));
         }
       } else {
-        this.reduce ('CYCLE_TICKET_STATUS');
+        ReducerData.reduce (data, ReducerData.cycleTicketStatusAction = (ticket.id));
       }
     }
-  }
-
-  reduce (action, shiftKey, value, date, time) {
-    // Trace.log ('Trip.reducer');
-    const data   = this.read ('data');
-    const ticket = this.read ('ticket');
-    const id     = ticket.id;
-
-    // Inject electrum state (needed for electrumDispatch).
-    data.state = this.props.state;
-
-    ReducerData.reducer (data, {
-      type:     action,
-      id:       id,
-      shiftKey: shiftKey,
-      value:    value,
-      date:     date,
-      time:     time,
-    });
   }
 
   onCloseCombo () {
@@ -169,7 +151,9 @@ export default class DispatchTicket extends React.Component {
     // console.log (`DispatchTicket.closeDeliver action=${action} date=${date} time=${time}`);
     this.showDeliver = false;
     if (action === 'accept') {
-      this.reduce ('CHANGE_TICKET_STATUS', false, 'delivered', date, time);
+      const data   = this.read ('data');
+      const ticket = this.read ('ticket');
+      ReducerData.reduce (data, ReducerData.changeTicketStatusAction = (ticket.id, 'delivered', date, time));
     }
   }
 
@@ -184,7 +168,9 @@ export default class DispatchTicket extends React.Component {
   onClosePredispatch (action, date, time) {
     this.showPredispatch = false;
     if (action === 'accept') {
-      this.reduce ('CHANGE_TICKET_STATUS', false, 'pre-dispatched', date, time);
+      const data   = this.read ('data');
+      const ticket = this.read ('ticket');
+      ReducerData.reduce (data, ReducerData.changeTicketStatusAction = (ticket.id, 'pre-dispatched', date, time));
     }
   }
 
