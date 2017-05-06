@@ -163,18 +163,11 @@ function electrumDispatch (state, oper, payload) {
 /******************************************************************************/
 
 function addTicket (state, tickets, index, ticket) {
-  tickets = ReducerTickets.reducer (tickets, {
-    type:   'ADD_TICKET',
-    index:  index,
-    ticket: ticket,
-  });
+  tickets = ReducerTickets.reducer (tickets, ReducerTickets.addTicketAction (index, ticket));
 }
 
 function deleteTicket (state, tickets, ticket) {
-  tickets = ReducerTickets.reducer (tickets, {
-    type:   'DELETE_TICKET',
-    ticket: ticket,
-  });
+  tickets = ReducerTickets.reducer (tickets, ReducerTickets.deleteTicketAction (ticket));
 }
 
 /******************************************************************************/

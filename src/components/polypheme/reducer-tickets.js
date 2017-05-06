@@ -1,5 +1,24 @@
 /******************************************************************************/
 
+export const replaceTicketAction = (index, ticket) => ({
+  type:   'REPLACE_TICKET',
+  index:  index,
+  ticket: ticket,
+});
+
+export const addTicketAction = (index, ticket) => ({
+  type:   'ADD_TICKET',
+  index:  index,
+  ticket: ticket,
+});
+
+export const deleteTicketAction = (ticket) => ({
+  type:   'DELETE_TICKET',
+  ticket: ticket,
+});
+
+/******************************************************************************/
+
 function replaceTicket (state, index, ticket) {
   state[index] = ticket;
   return state;
