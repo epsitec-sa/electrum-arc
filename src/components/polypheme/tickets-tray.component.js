@@ -73,7 +73,7 @@ export default class TicketsTray extends React.Component {
   updateTitleData (title) {
     const data = this.read ('data');
     const tray = this.read ('tray');
-    ReducerData.reducer (data, ReducerData.setTrayNameAction = (tray.id, title, true));
+    ReducerData.reducer (data, ReducerData.setTrayNameAction (tray.id, title, true));
   }
 
   // Render the header, that contains a Button (with a look like a Label)

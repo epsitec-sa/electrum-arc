@@ -50,7 +50,7 @@ export default class DispatchRoadbooks extends React.Component {
   onClickAction (roadbook, e) {
     if (e.altKey) {  // compected/extended ?
       const data = this.read ('data');
-      ReducerData.reduce (data, ReducerData.swapRoadbookCompactedAction = (roadbook.id));
+      ReducerData.reducer (data, ReducerData.swapRoadbookCompactedAction (roadbook.id));
     }
   }
 

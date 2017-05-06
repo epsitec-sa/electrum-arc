@@ -522,7 +522,7 @@ export default class DragCarrier extends React.Component {
       data.state = this.read ('state');
 
       ReducerData.reducer (data,
-        ReducerData.dropAction = ((ownerKind === 'roadbooks') ? 'roadbook' : 'ticket',
+        ReducerData.dropAction ((ownerKind === 'roadbooks') ? 'roadbook' : 'ticket',
         this.selectedIds, toId, ownerId, ownerKind));
     }
   }

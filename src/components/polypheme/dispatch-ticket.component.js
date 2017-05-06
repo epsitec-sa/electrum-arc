@@ -105,9 +105,9 @@ export default class DispatchTicket extends React.Component {
     const data   = this.read ('data');
     const ticket = this.read ('ticket');
     if (e.ctrlKey || e.shiftKey || e.metaKey) {  // select/deselect ?
-      ReducerData.reduce (data, ReducerData.swapTicketSelectedAction = (ticket.id, e.shiftKey));
+      ReducerData.reducer (data, ReducerData.swapTicketSelectedAction (ticket.id, e.shiftKey));
     } else if (e.altKey) {  // compected/extended ?
-      ReducerData.reduce (data, ReducerData.swapTicketExtendedAction = (ticket.id));
+      ReducerData.reducer (data, ReducerData.swapTicketExtendedAction (ticket.id));
     } else {  // pre-dispatched/dispatched/delivered ?
       if (window.document.mock) {
         if (ticket.Status === 'dispatched') {  // dispatched -> delivered ?
@@ -115,10 +115,10 @@ export default class DispatchTicket extends React.Component {
         } else if (ticket.Status === 'delivered') {  // delivered -> pre-dispatched ?
           this.onShowPredispatch ();  // request confirmation...
         } else {
-          ReducerData.reduce (data, ReducerData.cycleTicketStatusAction = (ticket.id));
+          ReducerData.reducer (data, ReducerData.cycleTicketStatusAction (ticket.id));
         }
       } else {
-        ReducerData.reduce (data, ReducerData.cycleTicketStatusAction = (ticket.id));
+        ReducerData.reducer (data, ReducerData.cycleTicketStatusAction (ticket.id));
       }
     }
   }
@@ -153,7 +153,7 @@ export default class DispatchTicket extends React.Component {
     if (action === 'accept') {
       const data   = this.read ('data');
       const ticket = this.read ('ticket');
-      ReducerData.reduce (data, ReducerData.changeTicketStatusAction = (ticket.id, 'delivered', date, time));
+      ReducerData.reducer (data, ReducerData.changeTicketStatusAction (ticket.id, 'delivered', date, time));
     }
   }
 
@@ -170,7 +170,7 @@ export default class DispatchTicket extends React.Component {
     if (action === 'accept') {
       const data   = this.read ('data');
       const ticket = this.read ('ticket');
-      ReducerData.reduce (data, ReducerData.changeTicketStatusAction = (ticket.id, 'pre-dispatched', date, time));
+      ReducerData.reducer (data, ReducerData.changeTicketStatusAction (ticket.id, 'pre-dispatched', date, time));
     }
   }
 

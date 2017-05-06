@@ -43,7 +43,7 @@ export default class MessengerCombo extends React.Component {
   onSwapCompacted () {
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
-    ReducerData.reduce (data, ReducerData.swapRoadbookCompactedAction = (roadbook.id));
+    ReducerData.reducer (data, ReducerData.swapRoadbookCompactedAction (roadbook.id));
   }
 
   onSwapCompactedAndShift () {
@@ -55,18 +55,18 @@ export default class MessengerCombo extends React.Component {
     } else {
       this.onShift (data, roadbook, null);  // shift ->|
     }
-    ReducerData.reduce (data, ReducerData.swapRoadbookCompactedAction = (roadbook.id));
+    ReducerData.reducer (data, ReducerData.swapRoadbookCompactedAction (roadbook.id));
   }
 
   onShift (data, roadbook, toId) {
     ReducerData.reducer (data,
-      ReducerData.dropAction = ('roadbook', [ roadbook.id ], toId, data.id, 'roadbook'));
+      ReducerData.dropAction ('roadbook', [ roadbook.id ], toId, data.id, 'roadbook'));
   }
 
   onSwapShowHidden () {
     const data     = this.read ('data');
     const roadbook = this.read ('roadbook');
-    ReducerData.reduce (data, ReducerData.swapRoadbookShowHiddenAction = (roadbook.id));
+    ReducerData.reducer (data, ReducerData.swapRoadbookShowHiddenAction (roadbook.id));
   }
 
   // Return the combo-menu content.

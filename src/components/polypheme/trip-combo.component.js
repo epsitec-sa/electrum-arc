@@ -72,31 +72,31 @@ export default class TripCombo extends React.Component {
       } else {
         const data   = this.read ('data');
         const ticket = this.read ('ticket');
-        ReducerData.reduce (data, ReducerData.changeTicketStatusAction = (ticket.id, value));
+        ReducerData.reducer (data, ReducerData.changeTicketStatusAction (ticket.id, value));
       }
     } else {
       const data   = this.read ('data');
       const ticket = this.read ('ticket');
-      ReducerData.reduce (data, ReducerData.changeTicketStatusAction = (ticket.id, value));
+      ReducerData.reducer (data, ReducerData.changeTicketStatusAction (ticket.id, value));
     }
   }
 
   onExtend () {
     const data   = this.read ('data');
     const ticket = this.read ('ticket');
-    ReducerData.reduce (data, ReducerData.swapTicketExtendedAction = (ticket.id));
+    ReducerData.reducer (data, ReducerData.swapTicketExtendedAction (ticket.id));
   }
 
   onSelectOne () {
     const data   = this.read ('data');
     const ticket = this.read ('ticket');
-    ReducerData.reduce (data, ReducerData.swapTicketSelectedAction = (ticket.id, false));
+    ReducerData.reducer (data, ReducerData.swapTicketSelectedAction (ticket.id, false));
   }
 
   onSelectMany () {
     const data   = this.read ('data');
     const ticket = this.read ('ticket');
-    ReducerData.reduce (data, ReducerData.swapTicketSelectedAction = (ticket.id, true));
+    ReducerData.reducer (data, ReducerData.swapTicketSelectedAction (ticket.id, true));
   }
 
   // Return the combo-menu content.
