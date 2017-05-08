@@ -34,7 +34,8 @@
     "leaflet": "^1.0.3",
     "linq": "^3.0.8",
     "mousetrap": "^1.6.0",
-    "react-style-proptype": "^2.0.2"
+    "react-style-proptype": "^2.0.2",
+    "redux": "^3.6.0"
   },
   "devDependencies": {
     "babel-env": "^2.4.0",
