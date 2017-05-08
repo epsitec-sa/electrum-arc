@@ -72,8 +72,8 @@ export default class Container extends React.Component {
       }
       window.document.dragControllers.push (this);
     }
-    const dragParent = this.read ('drag-parent');
-    if (dragParent) {
+    const dragParentId = this.read ('drag-parent-id');
+    if (dragParentId) {
       if (!window.document.dragParentControllers) {
         window.document.dragParentControllers = [];
       }
@@ -96,8 +96,8 @@ export default class Container extends React.Component {
         window.document.dragControllers.splice (index, 1);
       }
     }
-    const dragParent = this.read ('drag-parent');
-    if (dragParent) {
+    const dragParentId = this.read ('drag-parent-id');
+    if (dragParentId) {
       const index = window.document.dragParentControllers.indexOf (this);
       if (index !== -1) {
         window.document.dragParentControllers.splice (index, 1);

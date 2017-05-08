@@ -257,8 +257,8 @@ export default class DispatchBacklog extends React.Component {
             {...this.linkBacklogSort ()} />
         </Container>
         <Container
-          kind        = 'panes'
-          drag-parent = {data.Backlog.id}
+          kind           = 'panes'
+          drag-parent-id = {data.Backlog.id}
           {...this.link ()} >
           <Container
             kind            = {'column'}
@@ -291,8 +291,8 @@ export default class DispatchBacklog extends React.Component {
             {...this.linkBacklogSort ()} />
         </Container>
         <Container
-          kind        = 'panes'
-          drag-parent = {data.Backlog.id}
+          kind           = 'panes'
+          drag-parent-id = {data.Backlog.id}
           {...this.link ()} >
           <Container
             kind            = {'wrap'}
@@ -314,8 +314,8 @@ export default class DispatchBacklog extends React.Component {
     return (
       <Container kind='view-stretch' {...this.link ()} >
         <Container
-          kind        = 'tickets-root'
-          drag-parent = {data.Backlog.id}
+          kind           = 'tickets-root'
+          drag-parent-id = {data.Backlog.id}
           {...this.link ()} >
           <Chronos
             data            = {data}
