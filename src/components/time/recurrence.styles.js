@@ -18,7 +18,7 @@ export default function styles (theme, _props) {
     flexDirection:   'row',
     backgroundColor: theme.palette.recurrenceHeaderInfoCompactedBackground,
     color:           theme.palette.recurrenceHeaderInfoCompactedText,
-    transition:      theme.transitions.easeOut (400, 'background-color', 0),
+    transition:      theme.transitions.easeOut (500, 'background-color', 0),
   };
 
   const headerInfoExtendedStyle = {
@@ -26,7 +26,7 @@ export default function styles (theme, _props) {
     flexDirection:   'row',
     backgroundColor: theme.palette.recurrenceHeaderInfoExtendedBackground,
     color:           theme.palette.recurrenceHeaderInfoExtendedText,
-    transition:      theme.transitions.easeOut (400, 'background-color', 0),
+    transition:      theme.transitions.easeOut (500, 'background-color', 0),
   };
 
   const headerEditorStyle = {
@@ -40,8 +40,8 @@ export default function styles (theme, _props) {
     height:          '0px',
     overflowY:       'hidden',
     margin:          '0px 0px ' + s + ' 0px',
-    backgroundColor: theme.palette.recurrenceExtendedBoxBackground,
-    transition:      theme.transitions.easeOut (400, 'height', 0),
+    backgroundColor: 'transparent',
+    transition:      theme.transitions.easeOut (500),
   };
 
   const extendedBoxStyle = {
@@ -51,7 +51,7 @@ export default function styles (theme, _props) {
     overflowY:       'hidden',
     margin:          '0px 0px ' + s + ' 0px',
     backgroundColor: theme.palette.recurrenceExtendedBoxBackground,
-    transition:      theme.transitions.easeOut (400, 'height', 0),
+    transition:      theme.transitions.easeOut (500),
   };
 
   const editorStyle = {
