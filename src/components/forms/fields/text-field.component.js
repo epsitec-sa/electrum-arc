@@ -82,7 +82,13 @@ export default class TextField extends React.Component {
     const value    = this.read ('value');
     const hintText = this.read ('hint-text');
     const rows     = this.read ('rows');
+    const readonly = this.read ('readonly');
     const tabIndex = this.props['tab-index'];
+
+    const options = [];
+    if (readonly === 'true') {
+      options.readOnly = 'readOnly';
+    }
 
     if (rows) {
       const textareaStyle = this.mergeStyles ('textarea');
@@ -101,6 +107,7 @@ export default class TextField extends React.Component {
           rows        = {rows}
           tabIndex    = {tabIndex}
           value       = {value || ''}
+          {...options}
           />
       );
     } else {
@@ -124,6 +131,7 @@ export default class TextField extends React.Component {
           key         = 'input'
           tabIndex    = {tabIndex}
           value       = {value || ''}
+          {...options}
           />
       );
     }
