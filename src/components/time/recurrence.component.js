@@ -1,5 +1,6 @@
 import CronParser from 'cron-parser';
 import {React, Store} from 'electrum';
+import {createStore} from 'redux';
 import {Calendar, LabelTextField, TextFieldTyped, Button, Label} from 'electrum-arc';
 import * as Converters from './converters';
 import * as CronHelpers from './cron-helpers';
@@ -228,22 +229,30 @@ export default class Recurrence extends React.Component {
     if (item.Type === 'default') {
       // If click on recurrent event, add a date into section 'Delete' for canceled the recurrence.
       const list = this.internalStore.select ('Delete').get ('value');
-      const newList = ReducerRecurrence.reducer (list, ReducerRecurrence.addAction (item.Date));
+      const reduxStore = createStore (ReducerRecurrence.reducer, list);
+      reduxStore.dispatch (ReducerRecurrence.addAction (item.Date));
+      const newList = reduxStore.getState ();
       this.internalStore.select ('Delete').set ('value', newList);
     } else if (item.Type === 'added') {
       // If click on added event, simply remove it.
       const list = this.internalStore.select ('Add').get ('value');
-      const newList = ReducerRecurrence.reducer (list, ReducerRecurrence.deleteAction (item.Date));
+      const reduxStore = createStore (ReducerRecurrence.reducer, list);
+      reduxStore.dispatch (ReducerRecurrence.deleteAction (item.Date));
+      const newList = reduxStore.getState ();
       this.internalStore.select ('Add').set ('value', newList);
     } else if (item.Type === 'deleted') {
       // If click on deleted event, remove 'Delete' entry. That restore the recurrent event.
       const list = this.internalStore.select ('Delete').get ('value');
-      const newList = ReducerRecurrence.reducer (list, ReducerRecurrence.deleteAction (item.Date));
+      const reduxStore = createStore (ReducerRecurrence.reducer, list);
+      reduxStore.dispatch (ReducerRecurrence.deleteAction (item.Date));
+      const newList = reduxStore.getState ();
       this.internalStore.select ('Delete').set ('value', newList);
     } else if (item.Type === 'none') {
       // If click on free date, add a event.
       const list = this.internalStore.select ('Add').get ('value');
-      const newList = ReducerRecurrence.reducer (list, ReducerRecurrence.addAction (item.Date));
+      const reduxStore = createStore (ReducerRecurrence.reducer, list);
+      reduxStore.dispatch (ReducerRecurrence.addAction (item.Date));
+      const newList = reduxStore.getState ();
       this.internalStore.select ('Add').set ('value', newList);
     }
     this.notifyParent ('change');
