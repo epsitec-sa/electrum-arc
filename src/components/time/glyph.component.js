@@ -1,6 +1,7 @@
 import {React, Store} from 'electrum';
 import {LabelTextField, TextFieldCombo, Button, Label} from 'electrum-arc';
 import Enumerable from 'linq';
+import * as GlyphHelpers from '../polypheme/glyph-helpers.js';
 
 /******************************************************************************/
 
@@ -127,27 +128,16 @@ export default class Glyph extends React.Component {
   }
 
   renderInfoGlyph (glyph) {
-    if (glyph.startsWith ('bookmark-')) {
-      const color = glyph.substring (9);
-      return (
-        <Label
-          grow        = '1'
-          glyph       = 'bookmark'
-          glyph-color = {color}
-          justify     = 'center'
-          spacing     = 'compact'
-          {...this.link ()} />
-      );
-    } else {
-      return (
-        <Label
-          grow        = '1'
-          glyph       = {glyph}
-          justify     = 'center'
-          spacing     = 'compact'
-          {...this.link ()} />
-      );
-    }
+    const g = GlyphHelpers.getGlyph (glyph);
+    return (
+      <Label
+        grow        = '0.2'
+        glyph       = {g.glyph}
+        glyph-color = {g.color}
+        justify     = 'center'
+        spacing     = 'compact'
+        {...this.link ()} />
+    );
   }
 
   renderInfo (extended) {
@@ -193,14 +183,6 @@ export default class Glyph extends React.Component {
           list                = {this.getList ()}
           readonly            = 'true'
           combo-glyph         = 'picture-o'
-          grow                = '1'
-          spacing             = 'large'
-          {...this.linkGlyph ()} />
-        <LabelTextField
-          field               = 'Name'
-          select-all-on-focus = 'true'
-          hint-text           = 'Nom court'
-          label-glyph         = 'tag'
           grow                = '1'
           spacing             = 'large'
           {...this.linkName ()} />

@@ -8,6 +8,7 @@ import {Unit} from 'electrum-theme';
 import * as Converters from '../time/converters';
 import * as TicketHelpers from './ticket-helpers.js';
 import * as ReducerData from '../polypheme/reducer-data.js';
+import * as GlyphHelpers from '../polypheme/glyph-helpers.js';
 
 /******************************************************************************/
 
@@ -112,18 +113,14 @@ export default class DispatchDragTicket extends React.Component {
   }
 
   renderGlyph (glyph) {
-    if (glyph.startsWith ('bookmark-')) {
-      const color = glyph.substring (9);
-      return (
-        <Label glyph='bookmark' glyph-color={color} z-index={0}
-          spacing='compact' {...this.link ()} />
-      );
-    } else {
-      return (
-        <Label glyph={glyph} z-index={0}
-          spacing='compact' {...this.link ()} />
-      );
-    }
+    const g = GlyphHelpers.getGlyph (glyph);
+    return (
+      <Label
+        glyph       = {g.glyph}
+        glyph-color = {g.color}
+        z-index     = {0}
+        spacing     = 'compact' {...this.link ()} />
+    );
   }
 
   renderNoteGlyph (note) {
@@ -156,15 +153,11 @@ export default class DispatchDragTicket extends React.Component {
     if (!text) {
       return null;
     } else {
-      let color = null;
-      if (glyph.startsWith ('bookmark-')) {
-        color = glyph.substring (9);
-        glyph = 'bookmark';
-      }
+      const g = GlyphHelpers.getGlyph (glyph);
       return (
         <Container key={index} kind='ticket-row' {...this.link ()} >
           <Label width='15px' {...this.link ()} />
-          <Label glyph={glyph} glyph-color={color} width='35px' {...this.link ()} />
+          <Label glyph={g.glyph} glyph-color={g.color} width='35px' {...this.link ()} />
           <Label text={text} font-size={this.props.theme.shapes.ticketExtendedTextSize}
             wrap='yes' grow='1' {...this.link ()} />
         </Container>

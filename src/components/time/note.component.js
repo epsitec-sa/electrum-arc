@@ -1,5 +1,6 @@
 import {React, Store} from 'electrum';
 import {LabelTextField, Glyphs, Button, Label, Container} from 'electrum-arc';
+import * as GlyphHelpers from '../polypheme/glyph-helpers.js';
 
 /******************************************************************************/
 
@@ -92,26 +93,15 @@ export default class Note extends React.Component {
   }
 
   renderInfoGlyph (glyph, index) {
-    if (glyph.Glyph.startsWith ('bookmark-')) {
-      const color = glyph.Glyph.substring (9);
-      return (
-        <Label
-          index       = {index}
-          glyph       = 'bookmark'
-          glyph-color = {color}
-          spacing     = 'compact'
-          {...this.link ()} />
-      );
-    } else {
-      return (
-        <Label
-          index       = {index}
-          glyph       = {glyph.Glyph}
-          glyph-color = {glyph.Color}
-          spacing     = 'compact'
-          {...this.link ()} />
-      );
-    }
+    const g = GlyphHelpers.getGlyph (glyph.Glyph);
+    return (
+      <Label
+        index       = {index}
+        glyph       = {g.glyph}
+        glyph-color = {g.color}
+        spacing     = 'compact'
+        {...this.link ()} />
+    );
   }
 
   renderInfoGlyphs (glyphs) {
