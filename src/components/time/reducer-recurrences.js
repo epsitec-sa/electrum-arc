@@ -1,7 +1,7 @@
 /******************************************************************************/
 
 export const updateAction = (index, recurrence) => ({
-  type:       'ADD',
+  type:       'UPDATE',
   index:      index,
   recurrence: recurrence,
 });

@@ -48,6 +48,8 @@ export default class Glyphs extends React.Component {
       } else {
         const newGlyphs = ReducerGlyphs.reducer (glyphs,
           ReducerGlyphs.updateAction (props.field, value));
+        this.internalStore.select ('glyphs').set ('value', newGlyphs);
+        this.forceUpdate ();
         bus.notify (this.props, source, newGlyphs);
         // console.dir (newGlyphs);
       }
@@ -82,11 +84,13 @@ export default class Glyphs extends React.Component {
   }
 
   renderRow (glyph, create, extended, index) {
+    const glyphs = this.read ('glyphs');
     return (
       <Glyph
         index            = {index}
         field            = {index}
         value            = {glyph}
+        glyphs           = {glyphs}
         create           = {create   ? 'true' : 'false'}
         extended         = {extended ? 'true' : 'false'}
         do-swap-extended = {this.onSwapExtended}

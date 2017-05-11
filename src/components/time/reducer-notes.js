@@ -1,7 +1,7 @@
 /******************************************************************************/
 
 export const updateAction = (index, note) => ({
-  type:  'ADD',
+  type:  'UPDATE',
   index: index,
   note:  note,
 });

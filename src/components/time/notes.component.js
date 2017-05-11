@@ -81,11 +81,13 @@ export default class Notes extends React.Component {
   }
 
   renderRow (note, create, extended, index) {
+    const glyphs = this.read ('glyphs');
     return (
       <Note
         index            = {index}
         field            = {index}
         value            = {note}
+        glyphs           = {glyphs}
         create           = {create   ? 'true' : 'false'}
         extended         = {extended ? 'true' : 'false'}
         do-swap-extended = {this.onSwapExtended}

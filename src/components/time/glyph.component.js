@@ -1,5 +1,6 @@
 import {React, Store} from 'electrum';
-import {LabelTextField, Button, Label} from 'electrum-arc';
+import {LabelTextField, TextFieldCombo, Button, Label} from 'electrum-arc';
+import Enumerable from 'linq';
 
 /******************************************************************************/
 
@@ -29,8 +30,8 @@ export default class Glyph extends React.Component {
   }
 
   getValueState () {
-    const name        = this.internalStore.select ('Name').get ('value');
-    const glyph       = this.internalStore.select ('Glyph'  ).get ('value');
+    const name        = this.internalStore.select ('Name'       ).get ('value');
+    const glyph       = this.internalStore.select ('Glyph'      ).get ('value');
     const description = this.internalStore.select ('Description').get ('value');
 
     return {
@@ -67,7 +68,7 @@ export default class Glyph extends React.Component {
     const glyph       = data.Glyph;
     const description = data.Description;
 
-    this.glyphId = glyph.id;
+    this.glyphId = data.id;
 
     this.internalStore.select ('Name'       ).set ('value', name);
     this.internalStore.select ('Glyph'      ).set ('value', glyph);
@@ -100,17 +101,62 @@ export default class Glyph extends React.Component {
     }
   }
 
+  onChangeGlyph (item) {
+    this.updateInternalState (item);
+    this.lastGlyph = item;
+    this.updateInfo ();
+    this.notifyParent ('change');
+    this.forceUpdate ();
+  }
+
+  getMenuItem (item) {
+    return {
+      text:   item.Name,
+      glyph:  item.Glyph,
+      active: item.id === this.glyphId ? 'true' : 'false',
+      action: () => this.onChangeGlyph (item),
+    };
+  }
+
+  getList () {
+    const glyphs = this.read ('glyphs');
+    return Enumerable
+      .from (glyphs)
+      .select (item => this.getMenuItem (item))
+      .toArray ();
+  }
+
+  renderInfoGlyph (glyph) {
+    if (glyph.startsWith ('bookmark-')) {
+      const color = glyph.substring (9);
+      return (
+        <Label
+          grow        = '1'
+          glyph       = 'bookmark'
+          glyph-color = {color}
+          justify     = 'center'
+          spacing     = 'compact'
+          {...this.link ()} />
+      );
+    } else {
+      return (
+        <Label
+          grow        = '1'
+          glyph       = {glyph}
+          justify     = 'center'
+          spacing     = 'compact'
+          {...this.link ()} />
+      );
+    }
+  }
+
   renderInfo (extended) {
     const style = this.mergeStyles (extended ? 'headerInfoExtended' : 'headerInfoCompacted');
     return (
       <div style={style}>
+        {this.renderInfoGlyph (this.glyph)}
         <Label
           text = {this.name}
-          kind = 'title-recurrence'
-          grow = '1'
-          {...this.link ()} />
-        <Label
-          text = {this.glyph}
           kind = 'title-recurrence'
           grow = '1'
           {...this.link ()} />
@@ -126,6 +172,7 @@ export default class Glyph extends React.Component {
           glyph           = {extended ? 'caret-up' : 'caret-down'}
           tooltip         = {extended ? 'Compacte le glyph' : 'Etend le glyph pour la modifier'}
           active          = {extended ? 'true' : 'false'}
+          active-color    = '#db9307'
           custom-on-click = {this.onSwapExtended}
           {...this.link ()} />
       </div>
@@ -141,6 +188,14 @@ export default class Glyph extends React.Component {
 
     return (
       <div style={editStyle}>
+        <TextFieldCombo
+          field               = 'Glyph'
+          list                = {this.getList ()}
+          readonly            = 'true'
+          combo-glyph         = 'picture-o'
+          grow                = '1'
+          spacing             = 'large'
+          {...this.linkGlyph ()} />
         <LabelTextField
           field               = 'Name'
           select-all-on-focus = 'true'
@@ -149,14 +204,6 @@ export default class Glyph extends React.Component {
           grow                = '1'
           spacing             = 'large'
           {...this.linkName ()} />
-        <LabelTextField
-          field               = 'Glyph'
-          select-all-on-focus = 'true'
-          hint-text           = 'Nom du glyph'
-          label-glyph         = 'picture-o'
-          grow                = '1'
-          spacing             = 'large'
-          {...this.linkGlyph ()} />
         <LabelTextField
           field               = 'Description'
           select-all-on-focus = 'true'

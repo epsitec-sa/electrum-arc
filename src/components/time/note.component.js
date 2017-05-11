@@ -1,5 +1,5 @@
 import {React, Store} from 'electrum';
-import {LabelTextField, Glyphs, Button, Label} from 'electrum-arc';
+import {LabelTextField, Glyphs, Button, Label, Container} from 'electrum-arc';
 
 /******************************************************************************/
 
@@ -91,6 +91,38 @@ export default class Note extends React.Component {
     }
   }
 
+  renderInfoGlyph (glyph, index) {
+    if (glyph.Glyph.startsWith ('bookmark-')) {
+      const color = glyph.Glyph.substring (9);
+      return (
+        <Label
+          index       = {index}
+          glyph       = 'bookmark'
+          glyph-color = {color}
+          spacing     = 'compact'
+          {...this.link ()} />
+      );
+    } else {
+      return (
+        <Label
+          index       = {index}
+          glyph       = {glyph.Glyph}
+          glyph-color = {glyph.Color}
+          spacing     = 'compact'
+          {...this.link ()} />
+      );
+    }
+  }
+
+  renderInfoGlyphs (glyphs) {
+    const result = [];
+    let index = 0;
+    for (var glyph of glyphs) {
+      result.push (this.renderInfoGlyph (glyph, index++));
+    }
+    return result;
+  }
+
   renderInfo (extended) {
     const style = this.mergeStyles (extended ? 'headerInfoExtended' : 'headerInfoCompacted');
     return (
@@ -102,11 +134,12 @@ export default class Note extends React.Component {
           single-line = 'true'
           grow        = '3'
           {...this.link ()} />
-        <Label
-          text = '???'
-          kind = 'title-recurrence'
+        <Container
+          kind = 'row'
           grow = '1'
-          {...this.link ()} />
+          {...this.link ()} >
+          {this.renderInfoGlyphs (this.glyphs)}
+        </Container>
         <Button
           kind            = 'recurrence'
           glyph           = {extended ? 'caret-up' : 'caret-down'}
@@ -146,11 +179,13 @@ export default class Note extends React.Component {
   }
 
   renderGlyphs () {
+    const glyphs = this.read ('glyphs');
     const style = this.mergeStyles ('glyphs');
     return (
       <div style={style}>
         <Glyphs
-          field = 'Glyphs'
+          field  = 'Glyphs'
+          glyphs = {glyphs}
           {...this.linkGlyphs ()} />
       </div>
     );
