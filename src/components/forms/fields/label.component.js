@@ -136,7 +136,13 @@ export default class Label extends React.Component {
         const hasEm   = text.indexOf ('<em>' ) !== -1;
         if (hasEol1 || hasEol2 || hasBr || hasEm) {  // complex text ?
           const lines = text.split (hasBr ? '<br/>' : (hasEol1 ? '\n' : '\\n'));
-          return this.renderLines (index, lines);
+          const singleLine = this.read ('single-line');
+          if (singleLine === 'true') {
+            const line = lines.join (', ');
+            return this.renderSimpleText (index, line);
+          } else {
+            return this.renderLines (index, lines);
+          }
         } else {
           return this.renderSimpleText (index, text);
         }

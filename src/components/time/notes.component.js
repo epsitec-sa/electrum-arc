@@ -52,7 +52,7 @@ export default class Notes extends React.Component {
       }
     } else if (source.type === 'create') {
       const newNote = this.internalStore.select ('newNote').get ('value');
-      const newNotes = ReducerNotes.reducer (Notes,
+      const newNotes = ReducerNotes.reducer (notes,
         ReducerNotes.addAction (newNote));
       bus.notify (this.props, {type: 'change'}, newNotes);
       this.internalStore.select ('notes').set ('value', newNotes);

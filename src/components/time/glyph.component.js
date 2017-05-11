@@ -3,7 +3,7 @@ import {LabelTextField, Button, Label} from 'electrum-arc';
 
 /******************************************************************************/
 
-export default class Note extends React.Component {
+export default class Glyph extends React.Component {
 
   constructor (props) {
     super (props);
@@ -14,7 +14,7 @@ export default class Note extends React.Component {
 
   // LocalBus.notify
   notify (props, source, value) {
-    // console.log (`Note.notify field=${props.field} type=${source.type}`);
+    // console.log (`Glyph.notify field=${props.field} type=${source.type}`);
     if (source.type === 'change') {
       this.internalStore.select (props.field).set ('value', value);
       this.notifyParent ('change');
@@ -29,55 +29,64 @@ export default class Note extends React.Component {
   }
 
   getValueState () {
-    const content = this.internalStore.select ('Content').get ('value');
-    const glyph   = this.internalStore.select ('Glyph'  ).get ('value');
+    const name        = this.internalStore.select ('Name').get ('value');
+    const glyph       = this.internalStore.select ('Glyph'  ).get ('value');
+    const description = this.internalStore.select ('Description').get ('value');
 
     return {
-      id:      this.noteId,
-      Content: content,
-      Glyph:   glyph,
+      id:          this.glyphId,
+      Name:        name,
+      Glyph:       glyph,
+      Description: description,
     };
   }
 
-  linkContent () {
-    return {...this.link (), state: this.internalStore.select ('Content'), bus: this.localBus};
+  linkName () {
+    return {...this.link (), state: this.internalStore.select ('Name'), bus: this.localBus};
   }
 
   linkGlyph () {
     return {...this.link (), state: this.internalStore.select ('Glyph'), bus: this.localBus};
   }
 
+  linkDescription () {
+    return {...this.link (), state: this.internalStore.select ('Description'), bus: this.localBus};
+  }
+
   updateComponent () {
-    const note = this.read ('value');
-    if (note !== this.lastNote) {
-      this.updateInternalState (note);
-      this.lastNote = note;
+    const glyph = this.read ('value');
+    if (glyph !== this.lastGlyph) {
+      this.updateInternalState (glyph);
+      this.lastGlyph = glyph;
       this.updateInfo ();
     }
   }
 
-  updateInternalState (note) {
-    const content = note.Content;
-    const glyph   = note.Glyph;
+  updateInternalState (data) {
+    const name        = data.Name;
+    const glyph       = data.Glyph;
+    const description = data.Description;
 
-    this.noteId = note.id;
+    this.glyphId = glyph.id;
 
-    this.internalStore.select ('Content').set ('value', content);
-    this.internalStore.select ('Glyph'  ).set ('value', glyph);
+    this.internalStore.select ('Name'       ).set ('value', name);
+    this.internalStore.select ('Glyph'      ).set ('value', glyph);
+    this.internalStore.select ('Description').set ('value', description);
   }
 
   updateInfo () {
-    this.content = this.internalStore.select ('Content').get ('value');
-    this.glyph   = this.internalStore.select ('Glyph'  ).get ('value');
+    this.name        = this.internalStore.select ('Name'       ).get ('value');
+    this.glyph       = this.internalStore.select ('Glyph'      ).get ('value');
+    this.description = this.internalStore.select ('Description').get ('value');
   }
 
-  onCreateNote () {
+  onCreateGlyph () {
     this.notifyParent ('create');
     this.updateInfo ();
     this.forceUpdate ();
   }
 
-  onDeleteNote () {
+  onDeleteGlyph () {
     this.notifyParent ('delete');
     this.updateInfo ();
     this.forceUpdate ();
@@ -96,21 +105,26 @@ export default class Note extends React.Component {
     return (
       <div style={style}>
         <Label
-          text        = {this.content}
-          kind        = 'title-recurrence'
-          wrap        = 'no'
-          single-line = 'true'
-          grow        = '3'
+          text = {this.name}
+          kind = 'title-recurrence'
+          grow = '1'
           {...this.link ()} />
         <Label
           text = {this.glyph}
           kind = 'title-recurrence'
           grow = '1'
           {...this.link ()} />
+        <Label
+          text        = {this.description}
+          kind        = 'title-recurrence'
+          single-line = 'true'
+          wrap        = 'no'
+          grow        = '2'
+          {...this.link ()} />
         <Button
           kind            = 'recurrence'
           glyph           = {extended ? 'caret-up' : 'caret-down'}
-          tooltip         = {extended ? 'Compacte la note' : 'Etend la note pour la modifier'}
+          tooltip         = {extended ? 'Compacte le glyph' : 'Etend le glyph pour la modifier'}
           active          = {extended ? 'true' : 'false'}
           custom-on-click = {this.onSwapExtended}
           {...this.link ()} />
@@ -122,20 +136,19 @@ export default class Note extends React.Component {
     const editStyle = this.mergeStyles (create ? 'headerEditor' : 'editor');
 
     const buttonGlyph   = create ? 'plus' : 'trash';
-    const buttonTooltip = create ? 'Crée une nouvelle note' : 'Supprime la note';
-    const buttonAction  = create ? this.onCreateNote : this.onDeleteNote;
+    const buttonTooltip = create ? 'Crée un nouveau glyph' : 'Supprime le glyph';
+    const buttonAction  = create ? this.onCreateGlyph : this.onDeleteGlyph;
 
     return (
       <div style={editStyle}>
         <LabelTextField
-          field               = 'Content'
+          field               = 'Name'
           select-all-on-focus = 'true'
-          hint-text           = 'Texte de la note'
-          label-glyph         = 'pencil'
-          grow                = '3'
+          hint-text           = 'Nom court'
+          label-glyph         = 'tag'
+          grow                = '1'
           spacing             = 'large'
-          rows                = {extended ? 10 : null}
-          {...this.linkContent ()} />
+          {...this.linkName ()} />
         <LabelTextField
           field               = 'Glyph'
           select-all-on-focus = 'true'
@@ -144,6 +157,15 @@ export default class Note extends React.Component {
           grow                = '1'
           spacing             = 'large'
           {...this.linkGlyph ()} />
+        <LabelTextField
+          field               = 'Description'
+          select-all-on-focus = 'true'
+          hint-text           = 'Description'
+          label-glyph         = 'pencil'
+          grow                = '2'
+          spacing             = 'large'
+          rows                = {extended ? 10 : null}
+          {...this.linkDescription ()} />
         <Button
           glyph           = {buttonGlyph}
           tooltip         = {buttonTooltip}
