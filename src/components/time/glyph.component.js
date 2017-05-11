@@ -204,6 +204,24 @@ export default class Glyph extends React.Component {
     );
   }
 
+  renderCreateEditor () {
+    const editStyle = this.mergeStyles ('headerEditor');
+
+    const buttonGlyph   = 'plus';
+    const buttonTooltip = 'Crée un nouveau glyph';
+    const buttonAction  = this.onCreateGlyph;
+
+    return (
+      <div style={editStyle}>
+        <Button
+          glyph           = {buttonGlyph}
+          tooltip         = {buttonTooltip}
+          custom-on-click = {buttonAction}
+          {...this.link ()} />
+      </div>
+    );
+  }
+
   render () {
     this.updateComponent ();
 
@@ -215,7 +233,7 @@ export default class Glyph extends React.Component {
     if (create) {
       return (
         <div style={mainStyle}>
-          {this.renderEditor (create)}
+          {this.renderCreateEditor ()}
         </div>
       );
     } else {
