@@ -100,6 +100,10 @@ import _Calendar from './components/time/calendar.component.js';
 import _Calendar$styles from './components/time/calendar.styles.js';
 import _Clock from './components/time/clock.component.js';
 import _Clock$styles from './components/time/clock.styles.js';
+import _Note from './components/time/note.component.js';
+import _Note$styles from './components/time/note.styles.js';
+import _Notes from './components/time/notes.component.js';
+import _Notes$styles from './components/time/notes.styles.js';
 import _Recurrence from './components/time/recurrence.component.js';
 import _Recurrence$styles from './components/time/recurrence.styles.js';
 import _Recurrences from './components/time/recurrences.component.js';
@@ -173,5 +177,7 @@ export const TableRow = Electrum.wrap ('TableRow', _TableRow, {styles: _TableRow
 export const Table = Electrum.wrap ('Table', _Table, {styles: _Table$styles});
 export const Calendar = Electrum.wrap ('Calendar', _Calendar, {styles: _Calendar$styles});
 export const Clock = Electrum.wrap ('Clock', _Clock, {styles: _Clock$styles});
+export const Note = Electrum.wrap ('Note', _Note, {styles: _Note$styles});
+export const Notes = Electrum.wrap ('Notes', _Notes, {styles: _Notes$styles});
 export const Recurrence = Electrum.wrap ('Recurrence', _Recurrence, {styles: _Recurrence$styles});
 export const Recurrences = Electrum.wrap ('Recurrences', _Recurrences, {styles: _Recurrences$styles});
