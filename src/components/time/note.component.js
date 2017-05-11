@@ -1,5 +1,5 @@
 import {React, Store} from 'electrum';
-import {LabelTextField, Button, Label} from 'electrum-arc';
+import {LabelTextField, Glyphs, Button, Label} from 'electrum-arc';
 
 /******************************************************************************/
 
@@ -30,12 +30,12 @@ export default class Note extends React.Component {
 
   getValueState () {
     const content = this.internalStore.select ('Content').get ('value');
-    const glyph   = this.internalStore.select ('Glyph'  ).get ('value');
+    const glyphs  = this.internalStore.select ('Glyphs' ).get ('value');
 
     return {
       id:      this.noteId,
       Content: content,
-      Glyph:   glyph,
+      Glyphs:  glyphs,
     };
   }
 
@@ -43,8 +43,8 @@ export default class Note extends React.Component {
     return {...this.link (), state: this.internalStore.select ('Content'), bus: this.localBus};
   }
 
-  linkGlyph () {
-    return {...this.link (), state: this.internalStore.select ('Glyph'), bus: this.localBus};
+  linkGlyphs () {
+    return {...this.link (), state: this.internalStore.select ('Glyphs'), bus: this.localBus};
   }
 
   updateComponent () {
@@ -58,17 +58,17 @@ export default class Note extends React.Component {
 
   updateInternalState (note) {
     const content = note.Content;
-    const glyph   = note.Glyph;
+    const glyphs  = note.Glyphs;
 
     this.noteId = note.id;
 
     this.internalStore.select ('Content').set ('value', content);
-    this.internalStore.select ('Glyph'  ).set ('value', glyph);
+    this.internalStore.select ('Glyphs' ).set ('value', glyphs);
   }
 
   updateInfo () {
     this.content = this.internalStore.select ('Content').get ('value');
-    this.glyph   = this.internalStore.select ('Glyph'  ).get ('value');
+    this.glyphs  = this.internalStore.select ('Glyphs' ).get ('value');
   }
 
   onCreateNote () {
@@ -103,7 +103,7 @@ export default class Note extends React.Component {
           grow        = '3'
           {...this.link ()} />
         <Label
-          text = {this.glyph}
+          text = '???'
           kind = 'title-recurrence'
           grow = '1'
           {...this.link ()} />
@@ -134,21 +134,24 @@ export default class Note extends React.Component {
           label-glyph         = 'pencil'
           grow                = '3'
           spacing             = 'large'
-          rows                = {extended ? 10 : null}
+          rows                = {extended ? 4 : null}
           {...this.linkContent ()} />
-        <LabelTextField
-          field               = 'Glyph'
-          select-all-on-focus = 'true'
-          hint-text           = 'Nom du glyph'
-          label-glyph         = 'picture-o'
-          grow                = '1'
-          spacing             = 'large'
-          {...this.linkGlyph ()} />
         <Button
           glyph           = {buttonGlyph}
           tooltip         = {buttonTooltip}
           custom-on-click = {buttonAction}
           {...this.link ()} />
+      </div>
+    );
+  }
+
+  renderGlyphs () {
+    const style = this.mergeStyles ('glyphs');
+    return (
+      <div style={style}>
+        <Glyphs
+          field = 'Glyphs'
+          {...this.linkGlyphs ()} />
       </div>
     );
   }
@@ -174,6 +177,7 @@ export default class Note extends React.Component {
           {this.renderInfo (extended)}
           <div style={boxStyle}>
             {this.renderEditor (create, extended)}
+            {this.renderGlyphs ()}
           </div>
         </div>
       );

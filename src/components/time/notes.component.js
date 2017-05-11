@@ -22,7 +22,7 @@ export default class Notes extends React.Component {
 
     const newNote = {
       Content: '',
-      Glyph:   '',
+      Glyphs:  [],
     };
     this.internalStore.select ('newNote').set ('value', newNote);
   }

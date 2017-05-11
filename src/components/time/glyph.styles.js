@@ -5,8 +5,7 @@ import {Unit} from 'electrum-theme';
 export default function styles (theme, _props) {
   const s = theme.shapes.lineSpacing;
   const editorHeight = Unit.add (theme.shapes.lineHeight, '2px');
-  const calendarHeight = Unit.multiply (theme.shapes.calendarButtonHeight, 8);
-  const extendedBoxHeight = Unit.add (Unit.add (editorHeight, calendarHeight), Unit.multiply (Unit.add (s, '2px'), 3));
+  const extendedBoxHeight = Unit.multiply (editorHeight, 3);
 
   const mainStyle = {
     display:       'flex',
@@ -24,7 +23,8 @@ export default function styles (theme, _props) {
   const headerInfoExtendedStyle = {
     display:         'flex',
     flexDirection:   'row',
-    backgroundColor: theme.palette.recurrenceHeaderInfoExtendedBackground,
+    // backgroundColor: theme.palette.recurrenceHeaderInfoExtendedBackground,
+    backgroundColor: '#db9307',
     color:           theme.palette.recurrenceHeaderInfoExtendedText,
     transition:      theme.transitions.easeOut (500, 'background-color', 0),
   };
@@ -47,22 +47,20 @@ export default function styles (theme, _props) {
   const extendedBoxStyle = {
     display:         'flex',
     flexDirection:   'column',
-    height:          extendedBoxHeight,
+    // height:          extendedBoxHeight,
     overflowY:       'hidden',
     margin:          '0px 0px ' + s + ' 0px',
-    backgroundColor: theme.palette.recurrenceExtendedBoxBackground,
+    // backgroundColor: theme.palette.recurrenceExtendedBoxBackground,
+    backgroundColor: '#f4d497',
     transition:      theme.transitions.easeOut (500),
   };
 
   const editorStyle = {
     minHeight:     editorHeight,
+    alignItems:    'flex-start',
     padding:       s,
     display:       'flex',
     flexDirection: 'row',
-  };
-
-  const calendarStyle = {
-    padding: '0px ' + s + ' ' + s + ' ' + s,
   };
 
   return {
@@ -73,7 +71,6 @@ export default function styles (theme, _props) {
     compactedBox:        compactedBoxStyle,
     extendedBox:         extendedBoxStyle,
     editor:              editorStyle,
-    calendar:            calendarStyle,
   };
 }
 

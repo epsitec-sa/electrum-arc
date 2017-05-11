@@ -5,8 +5,8 @@ import {Unit} from 'electrum-theme';
 export default function styles (theme, _props) {
   const s = theme.shapes.lineSpacing;
   const editorHeight = Unit.add (theme.shapes.lineHeight, '2px');
-  const calendarHeight = Unit.multiply (theme.shapes.calendarButtonHeight, 8);
-  const extendedBoxHeight = Unit.add (Unit.add (editorHeight, calendarHeight), Unit.multiply (Unit.add (s, '2px'), 3));
+  const glyphsHeight = '200px';
+  const extendedBoxHeight = Unit.add (Unit.add (editorHeight, glyphsHeight), Unit.multiply (Unit.add (s, '2px'), 3));
 
   const mainStyle = {
     display:       'flex',
@@ -47,7 +47,7 @@ export default function styles (theme, _props) {
   const extendedBoxStyle = {
     display:         'flex',
     flexDirection:   'column',
-    height:          extendedBoxHeight,
+    // height:          extendedBoxHeight,
     overflowY:       'hidden',
     margin:          '0px 0px ' + s + ' 0px',
     backgroundColor: theme.palette.recurrenceExtendedBoxBackground,
@@ -61,8 +61,8 @@ export default function styles (theme, _props) {
     flexDirection: 'row',
   };
 
-  const calendarStyle = {
-    padding: '0px ' + s + ' ' + s + ' ' + s,
+  const glyphsStyle = {
+    padding: '0px ' + '54px' + ' ' + s + ' ' + s,
   };
 
   return {
@@ -73,7 +73,7 @@ export default function styles (theme, _props) {
     compactedBox:        compactedBoxStyle,
     extendedBox:         extendedBoxStyle,
     editor:              editorStyle,
-    calendar:            calendarStyle,
+    glyphs:              glyphsStyle,
   };
 }
 

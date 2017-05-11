@@ -164,7 +164,7 @@ export default class Glyph extends React.Component {
           label-glyph         = 'pencil'
           grow                = '2'
           spacing             = 'large'
-          rows                = {extended ? 10 : null}
+          rows                = {extended ? 3 : null}
           {...this.linkDescription ()} />
         <Button
           glyph           = {buttonGlyph}
