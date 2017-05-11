@@ -43,6 +43,7 @@ export default class Button extends React.Component {
       weekend:         this.read ('weekend'),
       place:           this.read ('place'),
       active:          this.readActive (),
+      activeColor:     this.read ('active-color'),
       badgeValue:      this.read ('badge-value'),
       shape:           this.read ('shape'),
       menuDirection:   this.read ('menu-direction'),

@@ -23,6 +23,7 @@ export default function styles (theme, props) {
   const inputWeekend         = props.weekend;
   const inputPlace           = props.place;
   const inputActive          = props.active;
+  const inputActiveColor     = props.activeColor;
   const inputBadgeValue      = props.badgeValue;
   const inputShape           = props.shape;
   const inputMenuDirection   = props.menuDirection;
@@ -542,10 +543,15 @@ export default function styles (theme, props) {
 
   if (inputKind === 'recurrence') {
     if (inputActive === 'true') {
-      glyphColor      = theme.palette.calendarActiveText;
-      textColor       = theme.palette.calendarActiveText;
-      backgroundColor = theme.palette.calendarActiveBackground;
-      borderColor     = theme.palette.calendarActiveBackground;
+      glyphColor = theme.palette.calendarActiveText;
+      textColor  = theme.palette.calendarActiveText;
+      if (inputActiveColor) {
+        backgroundColor = inputActiveColor;
+        borderColor     = inputActiveColor;
+      } else {
+        backgroundColor = theme.palette.calendarActiveBackground;
+        borderColor     = theme.palette.calendarActiveBackground;
+      }
     }
   }
 
