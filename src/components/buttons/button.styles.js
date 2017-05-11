@@ -5,6 +5,7 @@ import {Unit} from 'electrum-theme';
 
 export default function styles (theme, props) {
   const inputGlyph           = props.glyph;
+  const inputGlyphColor      = props.glyphColor;
   const inputText            = props.text;
   const inputShortcut        = props.shortcut;
   const inputBorder          = props.border;
@@ -58,7 +59,7 @@ export default function styles (theme, props) {
   let backgroundHoverColor = null;
   let glyphWidth           = theme.shapes.lineHeight;
   let glyphHeight          = theme.shapes.lineHeight;
-  let glyphColor           = null;
+  let glyphColor           = inputGlyphColor;
   let glyphSize            = null;
   let glyphTransform       = null;
   let glyphMargin          = null;
@@ -440,15 +441,15 @@ export default function styles (theme, props) {
     textWeight        = 'bold';
     borderStyle       = 'none';
     if (inputActive === 'true') {
-      glyphColor        = theme.palette.menuText;
+      glyphColor        = inputGlyphColor ? inputGlyphColor : theme.palette.menuText;
       textColor         = theme.palette.menuText;
       backgroundColor   = theme.palette.menuItemActiveBackground;
     } else if (inputActive === 'focused') {
-      glyphColor        = theme.palette.menuFocusText;
+      glyphColor        = inputGlyphColor ? inputGlyphColor : theme.palette.menuFocusText;
       textColor         = theme.palette.menuFocusText;
       backgroundColor   = theme.palette.menuItemFocusBackground;
     } else {
-      glyphColor        = theme.palette.menuText;
+      glyphColor        = inputGlyphColor ? inputGlyphColor : theme.palette.menuText;
       textColor         = theme.palette.menuText;
       backgroundColor   = theme.palette.menuItemInactiveBackground;
     }

@@ -3,6 +3,8 @@
 import {React} from 'electrum';
 import {ReactDOM} from 'electrum';
 import MouseTrap from 'mousetrap';
+import * as GlyphHelpers from '../polypheme/glyph-helpers.js';
+import {ColorHelpers} from 'electrum-theme';
 
 import {
   Container,
@@ -130,16 +132,19 @@ export default class Combo extends React.Component {
         <Separator key={index} kind='menu-separator' {...this.link ()} />
       );
     } else {
+      const g = GlyphHelpers.getGlyph (item.glyph);
+      const color = ColorHelpers.getMarkColor (this.props.theme, g.color);
       const active = focused ? 'focused' : item.active;
       return (
         <Button
-          key      = {index}
-          kind     = 'menu-item'
-          glyph    = {item.glyph}
-          text     = {item.text}
-          shortcut = {item.shortcut}
-          active   = {active}
-          mouse-up = {() => this.onActionAndClose (item)}
+          key         = {index}
+          kind        = 'menu-item'
+          glyph       = {g.glyph}
+          glyph-color = {color}
+          text        = {item.text}
+          shortcut    = {item.shortcut}
+          active      = {active}
+          mouse-up    = {() => this.onActionAndClose (item)}
           {...this.link ()} />
       );
     }

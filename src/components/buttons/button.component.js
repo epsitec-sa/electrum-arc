@@ -25,6 +25,7 @@ export default class Button extends React.Component {
   get styleProps () {
     return {
       glyph:           this.read ('glyph'),
+      glyphColor:      this.read ('glyph-color'),
       text:            this.read ('text'),
       shortcut:        this.read ('shortcut'),
       border:          this.read ('border'),
