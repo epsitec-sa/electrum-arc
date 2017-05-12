@@ -140,6 +140,21 @@ export default class Glyph extends React.Component {
     );
   }
 
+  renderEditorGlyph (glyph) {
+    const g = GlyphHelpers.getGlyph (glyph);
+    return (
+      <Label
+        width       = '100px'
+        height      = '70px'
+        glyph       = {g.glyph}
+        glyph-color = {g.color}
+        glyph-size  = '400%'
+        justify     = 'center'
+        spacing     = 'compact'
+        {...this.link ()} />
+    );
+  }
+
   renderInfo (extended) {
     const style = this.mergeStyles (extended ? 'headerInfoExtended' : 'headerInfoCompacted');
     return (
@@ -178,6 +193,7 @@ export default class Glyph extends React.Component {
 
     return (
       <div style={editStyle}>
+        {this.renderEditorGlyph (this.glyph)}
         <TextFieldCombo
           field               = 'Glyph'
           list                = {this.getList ()}
