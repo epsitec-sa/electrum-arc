@@ -11,6 +11,8 @@ export default function styles (theme, _props) {
   const mainStyle = {
     display:       'flex',
     flexDirection: 'column',
+    cursor:        'default',
+    userSelect:    'none',
   };
 
   const headerInfoCompactedStyle = {
