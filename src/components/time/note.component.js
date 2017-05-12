@@ -116,7 +116,10 @@ export default class Note extends React.Component {
   renderInfo (extended) {
     const style = this.mergeStyles (extended ? 'headerInfoExtended' : 'headerInfoCompacted');
     return (
-      <div style={style}>
+      <div
+        style       = {style}
+        onMouseDown = {this.onSwapExtended}
+        >
         <Label
           text        = {this.content}
           kind        = 'title-recurrence'
@@ -131,11 +134,10 @@ export default class Note extends React.Component {
           {this.renderInfoGlyphs (this.glyphs)}
         </Container>
         <Button
-          kind            = 'recurrence'
-          glyph           = {extended ? 'caret-up' : 'caret-down'}
-          tooltip         = {extended ? 'Compacte la note' : 'Etend la note pour la modifier'}
-          active          = {extended ? 'true' : 'false'}
-          custom-on-click = {this.onSwapExtended}
+          kind    = 'recurrence'
+          glyph   = {extended ? 'caret-up' : 'caret-down'}
+          tooltip = {extended ? 'Compacte la note' : 'Etend la note pour la modifier'}
+          active  = {extended ? 'true' : 'false'}
           {...this.link ()} />
       </div>
     );
@@ -171,15 +173,15 @@ export default class Note extends React.Component {
   renderCreateEditor () {
     const editStyle = this.mergeStyles ('headerEditor');
 
-    const buttonGlyph   = 'plus';
-    const buttonTooltip = 'Crée une nouvelle note';
-    const buttonAction  = this.onCreateNote;
+    const buttonGlyph  = 'plus';
+    const buttonAction = this.onCreateNote;
 
     return (
       <div style={editStyle}>
         <Button
           glyph           = {buttonGlyph}
-          tooltip         = {buttonTooltip}
+          text            = 'Créer une nouvelle note'
+          glyph-position  = 'right'
           custom-on-click = {buttonAction}
           {...this.link ()} />
       </div>

@@ -164,7 +164,10 @@ export default class Glyph extends React.Component {
   renderInfo (extended) {
     const style = this.mergeStyles (extended ? 'headerInfoExtended' : 'headerInfoCompacted');
     return (
-      <div style={style}>
+      <div
+        style       = {style}
+        onMouseDown = {this.onSwapExtended}
+        >
         {this.renderInfoGlyph (this.glyph)}
         <Label
           text = {this.name}
@@ -179,11 +182,10 @@ export default class Glyph extends React.Component {
           grow        = '2'
           {...this.link ()} />
         <Button
-          kind            = 'recurrence'
-          glyph           = {extended ? 'caret-up' : 'caret-down'}
-          tooltip         = {extended ? 'Compacte le glyph' : 'Etend le glyph pour la modifier'}
-          active          = {extended ? 'true' : 'false'}
-          custom-on-click = {this.onSwapExtended}
+          kind    = 'recurrence'
+          glyph   = {extended ? 'caret-up' : 'caret-down'}
+          tooltip = {extended ? 'Compacte le pictogramme' : 'Etend le pictogramme pour le modifier'}
+          active  = {extended ? 'true' : 'false'}
           {...this.link ()} />
       </div>
     );
@@ -193,7 +195,7 @@ export default class Glyph extends React.Component {
     const editStyle = this.mergeStyles (create ? 'headerEditor' : 'editor');
 
     const buttonGlyph   = create ? 'plus' : 'trash';
-    const buttonTooltip = create ? 'Crée un nouveau glyph' : 'Supprime le glyph';
+    const buttonTooltip = create ? 'Crée un nouveau pictogramme' : 'Supprime le pictogramme';
     const buttonAction  = create ? this.onCreateGlyph : this.onDeleteGlyph;
 
     return (
@@ -228,15 +230,15 @@ export default class Glyph extends React.Component {
   renderCreateEditor () {
     const editStyle = this.mergeStyles ('headerEditor');
 
-    const buttonGlyph   = 'plus';
-    const buttonTooltip = 'Crée un nouveau glyph';
-    const buttonAction  = this.onCreateGlyph;
+    const buttonGlyph  = 'plus';
+    const buttonAction = this.onCreateGlyph;
 
     return (
       <div style={editStyle}>
         <Button
           glyph           = {buttonGlyph}
-          tooltip         = {buttonTooltip}
+          text            = 'Créer un nouveau pictogramme'
+          glyph-position  = 'right'
           custom-on-click = {buttonAction}
           {...this.link ()} />
       </div>

@@ -291,11 +291,6 @@ export default class Recurrence extends React.Component {
   }
 
   onSwapExtended () {
-    const extended = this.read ('extended') === 'true';
-    if (!extended) {  // compact ?
-      // this.updateInfo ();
-      // this.updateDates ();
-    }
     const x = this.read ('do-swap-extended');
     if (x) {
       const index = this.read ('index');
@@ -306,7 +301,10 @@ export default class Recurrence extends React.Component {
   renderInfo (extended) {
     const style = this.mergeStyles (extended ? 'headerInfoExtended' : 'headerInfoCompacted');
     return (
-      <div style={style}>
+      <div
+        style       = {style}
+        onMouseDown = {this.onSwapExtended}
+        >
         <Label
           text = {this.periodInfo}
           kind = 'title-recurrence'
@@ -318,11 +316,10 @@ export default class Recurrence extends React.Component {
           grow = '2'
           {...this.link ()} />
         <Button
-          kind            = 'recurrence'
-          glyph           = {extended ? 'caret-up' : 'caret-down'}
-          tooltip         = {extended ? 'Compacte la ligne' : 'Etend la ligne pour la modifier'}
-          active          = {extended ? 'true' : 'false'}
-          custom-on-click = {this.onSwapExtended}
+          kind    = 'recurrence'
+          glyph   = {extended ? 'caret-up' : 'caret-down'}
+          tooltip = {extended ? 'Compacte la récurrence' : 'Etend la récurrence pour la modifier'}
+          active  = {extended ? 'true' : 'false'}
           {...this.link ()} />
       </div>
     );
@@ -346,7 +343,7 @@ export default class Recurrence extends React.Component {
     const editStyle = this.mergeStyles (create ? 'headerEditor' : 'editor');
 
     const buttonGlyph   = create ? 'plus' : 'trash';
-    const buttonTooltip = create ? 'Crée une nouvelle ligne' : 'Supprime la ligne';
+    const buttonTooltip = create ? 'Crée une nouvelle récurrence' : 'Supprime la récurrence';
     const buttonAction  = create ? this.onCreateRecurrence : this.onDeleteRecurrence;
 
     return (
@@ -402,15 +399,15 @@ export default class Recurrence extends React.Component {
   renderCreateEditor () {
     const editStyle = this.mergeStyles ('headerEditor');
 
-    const buttonGlyph   = 'plus';
-    const buttonTooltip = 'Crée une nouvelle ligne';
-    const buttonAction  = this.onCreateRecurrence;
+    const buttonGlyph  = 'plus';
+    const buttonAction = this.onCreateRecurrence;
 
     return (
       <div style={editStyle}>
         <Button
           glyph           = {buttonGlyph}
-          tooltip         = {buttonTooltip}
+          text            = 'Créer une nouvelle récurrence'
+          glyph-position  = 'right'
           custom-on-click = {buttonAction}
           {...this.link ()} />
       </div>
