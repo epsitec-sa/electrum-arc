@@ -5,8 +5,6 @@ import {Unit} from 'electrum-theme';
 export default function styles (theme, _props) {
   const s = theme.shapes.lineSpacing;
   const editorHeight = Unit.add (theme.shapes.lineHeight, '2px');
-  const glyphsHeight = '200px';
-  const extendedBoxHeight = Unit.add (Unit.add (editorHeight, glyphsHeight), Unit.multiply (Unit.add (s, '2px'), 3));
 
   const mainStyle = {
     display:       'flex',

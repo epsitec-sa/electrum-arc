@@ -85,12 +85,14 @@ export default class Glyphs extends React.Component {
 
   renderRow (glyph, create, extended, index) {
     const glyphs = this.read ('glyphs');
+    const darken = this.read ('darken');
     return (
       <Glyph
         index            = {index}
         field            = {index}
         value            = {glyph}
         glyphs           = {glyphs}
+        darken           = {darken}
         create           = {create   ? 'true' : 'false'}
         extended         = {extended ? 'true' : 'false'}
         do-swap-extended = {this.onSwapExtended}

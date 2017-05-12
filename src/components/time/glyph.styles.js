@@ -1,11 +1,13 @@
 import {Unit} from 'electrum-theme';
+import {ColorManipulator} from 'electrum';
 
 /******************************************************************************/
 
-export default function styles (theme, _props) {
+export default function styles (theme, props) {
+  const inputDarken = props.darken;
+
   const s = theme.shapes.lineSpacing;
   const editorHeight = Unit.add (theme.shapes.lineHeight, '2px');
-  const extendedBoxHeight = Unit.multiply (editorHeight, 3);
 
   const mainStyle = {
     display:       'flex',
@@ -23,8 +25,7 @@ export default function styles (theme, _props) {
   const headerInfoExtendedStyle = {
     display:         'flex',
     flexDirection:   'row',
-    // backgroundColor: theme.palette.recurrenceHeaderInfoExtendedBackground,
-    backgroundColor: '#db9307',
+    backgroundColor: theme.palette.recurrenceHeaderInfoExtendedBackground,
     color:           theme.palette.recurrenceHeaderInfoExtendedText,
     transition:      theme.transitions.easeOut (500, 'background-color', 0),
   };
@@ -47,11 +48,9 @@ export default function styles (theme, _props) {
   const extendedBoxStyle = {
     display:         'flex',
     flexDirection:   'column',
-    // height:          extendedBoxHeight,
     overflowY:       'hidden',
     margin:          '0px 0px ' + s + ' 0px',
-    // backgroundColor: theme.palette.recurrenceExtendedBoxBackground,
-    backgroundColor: '#f4d497',
+    backgroundColor: ColorManipulator.darken (theme.palette.recurrenceExtendedBoxBackground, inputDarken),
     transition:      theme.transitions.easeOut (500),
   };
 

@@ -14,6 +14,12 @@ export default class Glyph extends React.Component {
     this.localBus = this;  // for access to property notify
   }
 
+  get styleProps () {
+    return {
+      darken: this.read ('darken'),
+    };
+  }
+
   // LocalBus.notify
   notify (props, source, value) {
     // console.log (`Glyph.notify field=${props.field} type=${source.type}`);
@@ -177,7 +183,6 @@ export default class Glyph extends React.Component {
           glyph           = {extended ? 'caret-up' : 'caret-down'}
           tooltip         = {extended ? 'Compacte le glyph' : 'Etend le glyph pour la modifier'}
           active          = {extended ? 'true' : 'false'}
-          active-color    = '#db9307'
           custom-on-click = {this.onSwapExtended}
           {...this.link ()} />
       </div>

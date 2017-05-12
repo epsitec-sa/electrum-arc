@@ -194,6 +194,7 @@ export default class Note extends React.Component {
         <Glyphs
           field  = 'Glyphs'
           glyphs = {glyphs}
+          darken = '0.1'
           {...this.linkGlyphs ()} />
       </div>
     );
