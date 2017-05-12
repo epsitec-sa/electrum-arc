@@ -399,6 +399,24 @@ export default class Recurrence extends React.Component {
     );
   }
 
+  renderCreateEditor () {
+    const editStyle = this.mergeStyles ('headerEditor');
+
+    const buttonGlyph   = 'plus';
+    const buttonTooltip = 'Crée une nouvelle ligne';
+    const buttonAction  = this.onCreateRecurrence;
+
+    return (
+      <div style={editStyle}>
+        <Button
+          glyph           = {buttonGlyph}
+          tooltip         = {buttonTooltip}
+          custom-on-click = {buttonAction}
+          {...this.link ()} />
+      </div>
+    );
+  }
+
   renderCalendar () {
     const editStyle = this.mergeStyles ('calendar');
     return (
@@ -427,7 +445,7 @@ export default class Recurrence extends React.Component {
     if (create) {
       return (
         <div style={mainStyle}>
-          {this.renderEditor (create)}
+          {this.renderCreateEditor ()}
         </div>
       );
     } else {

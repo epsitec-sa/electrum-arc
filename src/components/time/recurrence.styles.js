@@ -31,7 +31,7 @@ export default function styles (theme, _props) {
 
   const headerEditorStyle = {
     display:       'flex',
-    flexDirection: 'row',
+    flexDirection: 'row-reverse',
   };
 
   const compactedBoxStyle = {

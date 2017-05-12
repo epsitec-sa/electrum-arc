@@ -168,6 +168,24 @@ export default class Note extends React.Component {
     );
   }
 
+  renderCreateEditor () {
+    const editStyle = this.mergeStyles ('headerEditor');
+
+    const buttonGlyph   = 'plus';
+    const buttonTooltip = 'Crée une nouvelle note';
+    const buttonAction  = this.onCreateNote;
+
+    return (
+      <div style={editStyle}>
+        <Button
+          glyph           = {buttonGlyph}
+          tooltip         = {buttonTooltip}
+          custom-on-click = {buttonAction}
+          {...this.link ()} />
+      </div>
+    );
+  }
+
   renderGlyphs () {
     const glyphs = this.read ('glyphs');
     const style = this.mergeStyles ('glyphs');
@@ -192,7 +210,7 @@ export default class Note extends React.Component {
     if (create) {
       return (
         <div style={mainStyle}>
-          {this.renderEditor (create)}
+          {this.renderCreateEditor ()}
         </div>
       );
     } else {
