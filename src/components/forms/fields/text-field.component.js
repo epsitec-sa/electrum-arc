@@ -24,6 +24,7 @@ export default class TextField extends React.Component {
       messageInfo:    this.read ('message-info'),
       messageWarning: this.read ('message-warning'),
       readonly:       this.read ('readonly'),
+      active:         this.read ('active'),
     };
   }
 
@@ -76,7 +77,6 @@ export default class TextField extends React.Component {
   }
 
   onMyMouseDown (e) {
-    console.log ('TextField.onMyMouseDown');
     const x = this.read ('onMouseDown');
     if (x) {
       x (e);

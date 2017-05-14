@@ -8,6 +8,7 @@ export default function styles (theme, props) {
   const inputWidth          = props.width;
   const inputShape          = props.shape;
   const inputReadonly       = props.readonly;
+  const inputActive         = props.active;
 
   let flexGrow    = inputGrow;
   let flexShrink  = null;
@@ -66,7 +67,17 @@ export default function styles (theme, props) {
     }
   }
 
-  const bg = (inputReadonly === 'true') ? theme.palette.textFieldReadonlyBackground : theme.palette.textFieldBackground;
+  let color           = theme.palette.textColor;
+  let backgroundColor = theme.palette.textFieldBackground;
+  if (inputActive === 'true') {
+    color           = theme.palette.comboActiveGlyph;
+    backgroundColor = theme.palette.comboActiveBackground;
+  } else if (inputReadonly === 'true') {
+    backgroundColor = theme.palette.textFieldReadonlyBackground;
+  } else {
+    backgroundColor = theme.palette.textFieldBackground;
+  }
+
   const boxStyle = {
     display:         'flex',
     flexDirection:   'row',
@@ -77,7 +88,8 @@ export default function styles (theme, props) {
     flexBasis:       flexBasis,
     border:          '1px solid ' + theme.palette.buttonBorder,
     borderRadius:    borderRadius,
-    backgroundColor: bg,
+    color:           color,
+    backgroundColor: backgroundColor,
     padding:         padding,
     marginTop:       '0px',
     marginRight:     marginRight,
@@ -93,7 +105,8 @@ export default function styles (theme, props) {
     border:          'none',
     padding:         '10px',
     margin:          '0px',
-    backgroundColor: bg,
+    color:           color,
+    backgroundColor: backgroundColor,
   };
 
   const textareaStyle = {

@@ -148,10 +148,12 @@ export default class TextFieldCombo extends React.Component {
       props.value = displayValue;
     }
 
+    const isComboVisible = this.showCombo ? 'true' : 'false';
 
     return (
       <TextField
         {...props}
+        active      = {isComboVisible}
         onFocus     = {this.onMyFocus}
         onBlur      = {this.onMyBlur}
         onMouseDown = {this.onMyMouseDown}
