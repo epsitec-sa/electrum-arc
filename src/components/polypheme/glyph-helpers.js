@@ -10,10 +10,12 @@ export function getGlyph (glyph) {
     'drop',
     'task',
   ];
-  const i = glyph.indexOf ('-');
+  const i = glyph.lastIndexOf ('-');
   if (i !== -1) {
     const prefix = glyph.substring (i + 1);
-    if (Enumerable.from (prefixes).where (x => x === prefix).any ()) {
+    if (prefix.startsWith ('#')   ||  // '#f00' or '#123456'
+        prefix.startsWith ('rgb') ||  // 'rgb(100,100,100)' or 'rgba(0,0,0,0.5)'
+        Enumerable.from (prefixes).where (x => x === prefix).any ()) {
       return {
         glyph: glyph.substring (0, i),
         color: prefix,
