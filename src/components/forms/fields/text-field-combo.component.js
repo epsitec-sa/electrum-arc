@@ -86,6 +86,13 @@ export default class TextFieldCombo extends React.Component {
     this.readonly = true;
   }
 
+  onMyMouseDown () {
+    const readonly = this.read ('readonly');
+    if (readonly === 'true') {
+      this.onButtonClicked ();
+    }
+  }
+
   renderTextField () {
     const id                  = this.read ('id');
     const width               = this.read ('width');
@@ -145,8 +152,9 @@ export default class TextFieldCombo extends React.Component {
     return (
       <TextField
         {...props}
-        onFocus = {this.onMyFocus}
-        onBlur  = {this.onMyBlur}
+        onFocus     = {this.onMyFocus}
+        onBlur      = {this.onMyBlur}
+        onMouseDown = {this.onMyMouseDown}
         {...this.link ()}
         />
     );

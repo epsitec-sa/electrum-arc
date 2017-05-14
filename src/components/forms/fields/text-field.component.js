@@ -75,6 +75,14 @@ export default class TextField extends React.Component {
     }
   }
 
+  onMyMouseDown (e) {
+    console.log ('TextField.onMyMouseDown');
+    const x = this.read ('onMouseDown');
+    if (x) {
+      x (e);
+    }
+  }
+
   renderInput () {
     const state    = this.props.state.find ();
     const disabled = Action.isDisabled (state);
@@ -100,6 +108,7 @@ export default class TextField extends React.Component {
           onChange    = {this.onChange}
           onFocus     = {this.onMyFocus}
           onBlur      = {this.onMyBlur}
+          onMouseDown = {this.onMyMouseDown}
           onKeyDown   = {this.onKeyDown}
           onKeyUp     = {this.onKeyUp}
           onSelect    = {this.onSelect}
@@ -119,6 +128,7 @@ export default class TextField extends React.Component {
           onChange    = {this.onChange}
           onFocus     = {this.onMyFocus}
           onBlur      = {this.onMyBlur}
+          onMouseDown = {this.onMyMouseDown}
           onKeyDown   = {this.onKeyDown}
           onKeyUp     = {this.onKeyUp}
           onSelect    = {this.onSelect}
