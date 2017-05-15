@@ -16,6 +16,11 @@ export const deleteAction = index => ({
   index: index,
 });
 
+export const toggleAction = glyph => ({
+  type:  'TOGGLE',
+  glyph: glyph,
+});
+
 /******************************************************************************/
 
 function updateGlyph (state, index, glyph) {
@@ -37,6 +42,17 @@ function deleteGlyph (state, index) {
   return mutableState;
 }
 
+function toggleGlyph (state, glyph) {
+  const mutableState = [ ...state ];  // shallow copy of state
+  const index = mutableState.indexOf (glyph);
+  if (index === -1) {
+    mutableState.push (glyph);
+  } else {
+    mutableState.splice (index, 1);
+  }
+  return mutableState;
+}
+
 /******************************************************************************/
 
 export function reducer (state, action) {
@@ -47,6 +63,8 @@ export function reducer (state, action) {
       return addGlyph (state, action.glyph);
     case 'DELETE':
       return deleteGlyph (state, action.index);
+    case 'TOGGLE':
+      return toggleGlyph (state, action.glyph);
   }
   return state;
 }

@@ -519,16 +519,16 @@ export default function styles (theme, props) {
   }
 
   if (inputKind === 'row-wrap') {
-    margin               = Unit.multiply (m, 0.25);
+    margin = Unit.multiply (m, 0.25);
   }
 
   if (inputKind === 'compact-row') {
-    display              = 'flex';
-    flexDirection        = 'row';
-    justifyContent       = 'flex-start';
-    alignItems           = 'flex-start';
-    margin               = '0px';
-    padding              = '0px';
+    display        = 'flex';
+    flexDirection  = 'row';
+    justifyContent = 'flex-start';
+    alignItems     = 'flex-start';
+    margin         = '0px';
+    padding        = '0px';
   }
 
   if (inputKind === 'footer') {

@@ -441,17 +441,33 @@ export default function styles (theme, props) {
     textWeight        = 'bold';
     borderStyle       = 'none';
     if (inputActive === 'true') {
-      glyphColor        = inputGlyphColor ? inputGlyphColor : theme.palette.menuText;
-      textColor         = theme.palette.menuText;
-      backgroundColor   = theme.palette.menuItemActiveBackground;
+      glyphColor      = inputGlyphColor ? inputGlyphColor : theme.palette.menuText;
+      textColor       = theme.palette.menuText;
+      backgroundColor = theme.palette.menuItemActiveBackground;
     } else if (inputActive === 'focused') {
-      glyphColor        = inputGlyphColor ? inputGlyphColor : theme.palette.menuFocusText;
-      textColor         = theme.palette.menuFocusText;
-      backgroundColor   = theme.palette.menuItemFocusBackground;
+      glyphColor      = inputGlyphColor ? inputGlyphColor : theme.palette.menuFocusText;
+      textColor       = theme.palette.menuFocusText;
+      backgroundColor = theme.palette.menuItemFocusBackground;
     } else {
-      glyphColor        = inputGlyphColor ? inputGlyphColor : theme.palette.menuText;
-      textColor         = theme.palette.menuText;
-      backgroundColor   = theme.palette.menuItemInactiveBackground;
+      glyphColor      = inputGlyphColor ? inputGlyphColor : theme.palette.menuText;
+      textColor       = theme.palette.menuText;
+      backgroundColor = theme.palette.menuItemInactiveBackground;
+    }
+  }
+
+  if (inputKind  === 'glyph-item') {
+    textWidth         = 'max-content';
+    boxHeight         = theme.shapes.menuButtonHeight;
+    boxMargin         = '0px 5px 5px 0px';
+    boxPadding        = '0px ' + theme.shapes.containerMargin + ' 0px ' + theme.shapes.containerMargin;
+    textMargin        = '0px ' + theme.shapes.containerMargin + ' 0px ' + theme.shapes.containerMargin;
+    boxJustifyContent = 'flex-start';
+    borderStyle       = 'none';
+    glyphSize         = '150%';
+    if (inputActive === 'true') {
+      // glyphColor      = inputGlyphColor ? inputGlyphColor : theme.palette.menuText;
+      // textColor       = theme.palette.menuText;
+      backgroundColor = theme.palette.boxActiveBackground;
     }
   }
 

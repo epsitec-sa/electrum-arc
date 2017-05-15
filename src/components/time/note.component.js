@@ -1,6 +1,8 @@
 import {React, Store} from 'electrum';
-import {LabelTextField, Glyphs, Button, Label, Container} from 'electrum-arc';
+import {LabelTextField, Glyphs, Button, Label, Container, GlyphsDialog} from 'electrum-arc';
 import * as GlyphHelpers from '../polypheme/glyph-helpers.js';
+import Enumerable from 'linq';
+import * as ReducerGlyphs from './reducer-glyphs.js';
 
 /******************************************************************************/
 
@@ -11,6 +13,8 @@ export default class Note extends React.Component {
 
     this.internalStore = Store.create ();
     this.localBus = this;  // for access to property notify
+
+    this.showGlyphsDialog = false;
   }
 
   // LocalBus.notify
@@ -92,6 +96,52 @@ export default class Note extends React.Component {
     }
   }
 
+  onGlyphClicked (glyph) {
+    console.log ('Note.onGlyphClicked');
+    // if (Enumerable.from (this.glyphs).where (x => x.id === glyph.id).any ()) {
+    //   // this.glyphs.splice ();
+    // } else {
+    //   var g = {...this.glyphs, glyph};
+    //   this.internalStore.select ('Glyphs' ).set ('value', g);
+    //   this.notifyParent ('change');
+    //   this.updateInfo ();
+    //   this.forceUpdate ();
+    // }
+    const newGlyphs = ReducerGlyphs.reducer (this.glyphs,
+      ReducerGlyphs.toggleAction (glyph));
+    this.internalStore.select ('Glyphs').set ('value', newGlyphs);
+    this.notifyParent ('change');
+    this.updateInfo ();
+    this.forceUpdate ();
+    // bus.notify (this.props, source, newGlyphs);
+  }
+
+  onOpenGlyphsDialog () {
+    this.showGlyphsDialog = true;
+    this.forceUpdate ();
+  }
+
+  onCloseGlyphsDialog () {
+    this.showGlyphsDialog = false;
+    this.forceUpdate ();
+  }
+
+  renderGlyphsDialog () {
+    if (this.showGlyphsDialog) {
+      const allGlyphs = this.read ('glyphs');
+      return (
+        <GlyphsDialog
+          all-glyphs      = {allGlyphs}
+          selected-glyphs = {this.glyphs}
+          glyph-clicked   = {this.onGlyphClicked}
+          close-dialog    = {this.onCloseGlyphsDialog}
+          {...this.link ()} />
+      );
+    } else {
+      return null;
+    }
+  }
+
   renderInfoGlyph (glyph, index) {
     const g = GlyphHelpers.getGlyph (glyph.Glyph);
     return (
@@ -162,6 +212,12 @@ export default class Note extends React.Component {
           rows                = {extended ? 4 : null}
           {...this.linkContent ()} />
         <Button
+          text            = 'Pictogrammes'
+          grow            = '0.2'
+          custom-on-click = {this.onOpenGlyphsDialog}
+          spacing         = 'large'
+          {...this.link ()} />
+        <Button
           glyph           = {buttonGlyph}
           tooltip         = {buttonTooltip}
           custom-on-click = {buttonAction}
@@ -223,8 +279,8 @@ export default class Note extends React.Component {
           {this.renderInfo (extended)}
           <div style={boxStyle}>
             {this.renderEditor (create, extended)}
-            {this.renderGlyphs ()}
           </div>
+          {this.renderGlyphsDialog ()}
         </div>
       );
     }
