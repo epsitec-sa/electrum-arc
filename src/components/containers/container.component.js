@@ -202,9 +202,7 @@ export default class Container extends React.Component {
           id       = {anchor}
           >
           <div style = {triangleStyle}/>
-          <div>
-            {this.applySelectedToChildren (selected)}
-          </div>
+          {this.applySelectedToChildren (selected)}
         </div>
       );
     } else {

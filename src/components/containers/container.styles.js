@@ -816,6 +816,9 @@ export default function styles (theme, props) {
 
   if (inputKind === 'flying-balloon') {
     const fbp = theme.shapes.flyingBalloonPadding;
+    display         = 'flex';
+    flexDirection   = 'column';
+    flexWrap        = 'wrap';
     padding         = Unit.add (fbp, '1px') + ' ' + fbp + ' ' + fbp + ' ' + fbp;
     backgroundColor = theme.palette.flyingBalloonBackground;
     position        = 'relative';
