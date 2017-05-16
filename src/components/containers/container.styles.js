@@ -78,7 +78,6 @@ export default function styles (theme, props) {
   const m = theme.shapes.containerMargin;
   const s = theme.shapes.lineSpacing;
   const d = Unit.multiply (m, 0.5);
-  const t = Unit.add (theme.shapes.flyingBalloonTriangleSize, '1px', 0);  // round (suppress decimals)
 
   if (inputKind === 'root') {
     fontFamily      = theme.typo.font;
@@ -826,6 +825,17 @@ export default function styles (theme, props) {
     borderRadius    = theme.shapes.flyingBalloonRadius;
   }
 
+  if (inputKind === 'flying-dialog') {
+    display         = 'flex';
+    flexDirection   = 'column';
+    flexWrap        = 'wrap';
+    padding         = theme.shapes.floatingPadding;
+    backgroundColor = theme.palette.flyingDialogBackground;
+    position        = 'relative';
+    boxShadow       = theme.shapes.flyingShadow;
+    borderRadius    = theme.shapes.flyingDialogRadius;
+  }
+
   if (flexGrow) {
     flexShrink = '1';
     flexBasis  = '0%';
@@ -888,8 +898,17 @@ export default function styles (theme, props) {
   // A Container with kind='flying-balloon' has a standard behavior. It behaves like
   // a box with a small triangle which overlaps with the upper part (for example).
   let triangleStyle = null;
-  if (inputKind === 'flying-balloon') {
-    const p = theme.shapes.flyingBalloonTriangle;
+  if (inputKind === 'flying-balloon' || inputKind === 'flying-dialog') {
+    let triangleSize, triangleColor;
+    if (inputKind === 'flying-balloon') {
+      triangleSize  = theme.shapes.flyingBalloonTriangleSize;
+      triangleColor = theme.palette.flyingBalloonBackground;
+    } else {
+      triangleSize  = theme.shapes.flyingDialogTriangleSize;
+      triangleColor = theme.palette.flyingDialogBackground;
+    }
+    const t = Unit.add (triangleSize, '1px', 0);  // round (suppress decimals)
+    const p = triangleSize;
     if (inputTrianglePosition === 'left') {
       triangleStyle = {
         position:     'absolute',
@@ -898,7 +917,7 @@ export default function styles (theme, props) {
         left:         '-' + p,
         borderTop:    t + ' solid transparent',
         borderBottom: t + ' solid transparent',
-        borderRight:  t + ' solid ' + theme.palette.flyingBalloonBackground,
+        borderRight:  t + ' solid ' + triangleColor,
       };
     } else if (inputTrianglePosition === 'right') {
       triangleStyle = {
@@ -908,7 +927,7 @@ export default function styles (theme, props) {
         right:        '-' + p,
         borderTop:    t + ' solid transparent',
         borderBottom: t + ' solid transparent',
-        borderLeft:   t + ' solid ' + theme.palette.flyingBalloonBackground,
+        borderLeft:   t + ' solid ' + triangleColor,
       };
     } else if (inputTrianglePosition === 'bottom') {
       triangleStyle = {
@@ -918,7 +937,7 @@ export default function styles (theme, props) {
         bottom:      '-' + p,
         borderLeft:  t + ' solid transparent',
         borderRight: t + ' solid transparent',
-        borderTop:   t + ' solid ' + theme.palette.flyingBalloonBackground,
+        borderTop:   t + ' solid ' + triangleColor,
       };
     } else {
       triangleStyle = {
@@ -928,7 +947,7 @@ export default function styles (theme, props) {
         top:          '-' + p,
         borderLeft:   t + ' solid transparent',
         borderRight:  t + ' solid transparent',
-        borderBottom: t + ' solid ' + theme.palette.flyingBalloonBackground,
+        borderBottom: t + ' solid ' + triangleColor,
       };
     }
   }

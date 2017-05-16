@@ -61,7 +61,7 @@ export default class MessengerTicket extends React.Component {
   doShowCombo (x) {
     // Trace.log ('MessengerTicket.showCombo');
     const node = ReactDOM.findDOMNode (this);
-    this.comboLocation = ComboHelpers.getComboLocation (node, this.props.theme, x);
+    this.comboLocation = ComboHelpers.getComboLocation (node, this.props.theme, 'flying-balloon', x);
     this.showCombo = true;
   }
 

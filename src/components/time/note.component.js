@@ -1,8 +1,9 @@
 import {React, Store} from 'electrum';
+import {ReactDOM} from 'electrum';
 import {LabelTextField, Glyphs, Button, Label, Container, GlyphsDialog} from 'electrum-arc';
 import * as GlyphHelpers from '../polypheme/glyph-helpers.js';
-import Enumerable from 'linq';
 import * as ReducerGlyphs from './reducer-glyphs.js';
+import * as ComboHelpers from '../combo/combo-helpers.js';
 
 /******************************************************************************/
 
@@ -97,7 +98,6 @@ export default class Note extends React.Component {
   }
 
   onGlyphClicked (glyph) {
-    // console.log ('Note.onGlyphClicked');
     const newGlyphs = ReducerGlyphs.reducer (this.glyphs,
       ReducerGlyphs.toggleAction (glyph));
     this.internalStore.select ('Glyphs').set ('value', newGlyphs);
@@ -117,6 +117,8 @@ export default class Note extends React.Component {
 
   onOpenGlyphsDialog () {
     this.showGlyphsDialog = true;
+    const node = ReactDOM.findDOMNode (this.glyphDialogButton);
+    this.comboLocation = ComboHelpers.getComboLocation (node, this.props.theme, 'flying-dialog');
     this.forceUpdate ();
   }
 
@@ -130,6 +132,9 @@ export default class Note extends React.Component {
       const allGlyphs = this.read ('glyphs');
       return (
         <GlyphsDialog
+          center          = {this.comboLocation.center}
+          top             = {this.comboLocation.top}
+          bottom          = {this.comboLocation.bottom}
           all-glyphs      = {allGlyphs}
           selected-glyphs = {this.glyphs}
           glyph-clicked   = {this.onGlyphClicked}
@@ -212,10 +217,13 @@ export default class Note extends React.Component {
           rows                = {extended ? 4 : null}
           {...this.linkContent ()} />
         <Button
+          kind            = 'combo'
           text            = 'Pictogrammes'
+          active          = {this.showGlyphsDialog ? 'true' : 'false'}
           grow            = '0.2'
           custom-on-click = {this.onOpenGlyphsDialog}
           spacing         = 'large'
+          ref             = {x => this.glyphDialogButton = x}
           {...this.link ()} />
         <Button
           glyph           = {buttonGlyph}

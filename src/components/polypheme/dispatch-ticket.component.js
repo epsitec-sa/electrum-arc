@@ -76,7 +76,7 @@ export default class DispatchTicket extends React.Component {
 
   doShowCombo (x) {
     const node = ReactDOM.findDOMNode (this);
-    this.comboLocation = ComboHelpers.getComboLocation (node, this.props.theme, x);
+    this.comboLocation = ComboHelpers.getComboLocation (node, this.props.theme, 'flying-balloon', x);
     this.showCombo = true;
   }
 

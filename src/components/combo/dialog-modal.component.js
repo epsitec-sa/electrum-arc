@@ -1,5 +1,16 @@
 import {React} from 'electrum';
+import {ReactDOM} from 'electrum';
 import {Container} from '../../all-components.js';
+
+/******************************************************************************/
+
+function isInside (rect, x, y) {
+  if (rect && rect.left < rect.right && rect.top < rect.bottom) {
+    return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+  } else {
+    return true;
+  }
+}
 
 /******************************************************************************/
 
@@ -13,25 +24,63 @@ export default class DialogModal extends React.Component {
     return {
       width:  this.read ('width'),
       height: this.read ('height'),
+      center: this.read ('center'),
+      top:    this.read ('top'),
+      bottom: this.read ('bottom'),
     };
   }
 
-  onMyMouseDown () {
+  onCloseCombo () {
+    const close = this.read ('close');
+    if (close) {
+      close ();
+    }
+  }
+
+  onMyMouseDown (e) {
+    const node = ReactDOM.findDOMNode (this);
+    const rect = node.children[0].getBoundingClientRect ();
+    if (!isInside (rect, e.clientX, e.clientY)) {
+      // If the mouse is outside the menu combo, close it.
+      this.onCloseCombo ();
+    }
   }
 
   render () {
     const width  = this.read ('width');
     const height = this.read ('height');
+    const top    = this.read ('top');
+    const bottom = this.read ('bottom');
 
     const fullScreenStyle = this.mergeStyles ('fullScreen');
-    const comboStyle      = this.mergeStyles ('combo');
 
-    return (
-      <div
-        style       = {fullScreenStyle}
-        onMouseDown = {this.onMyMouseDown}
-        >
-        <div style = {comboStyle}>
+    if (top || bottom) {
+      const comboStyle = this.mergeStyles ('combo');
+      return (
+        <div
+          style        = {fullScreenStyle}
+          onMouseDown  = {this.onMyMouseDown}
+          onTouchStart = {this.onMyMouseDown}
+          >
+          <div style = {comboStyle}>
+            <Container
+              kind              = 'flying-dialog'
+              triangle-position = {top ? 'top' : 'bottom'}
+              width             = {width}
+              height            = {height}
+              cursor            = 'default'
+              {...this.link ()}>
+              {this.props.children}
+            </Container>
+          </div>
+        </div>
+      );
+    } else    {
+      return (
+        <div
+          style       = {fullScreenStyle}
+          onMouseDown = {this.onMyMouseDown}
+          >
           <Container
             kind   = 'floating'
             cursor = 'default'
@@ -41,8 +90,8 @@ export default class DialogModal extends React.Component {
             {this.props.children}
           </Container>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 

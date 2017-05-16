@@ -1,6 +1,6 @@
 /******************************************************************************/
 
-export default function styles (theme, props) {
+export default function styles (_theme, _props) {
   const mainStyle = {
     display:       'flex',
     flexDirection: 'column',
@@ -12,7 +12,7 @@ export default function styles (theme, props) {
     flexDirection: 'row',
     flexWrap:      'wrap',
     alignContent:  'flex-start',
-    maxHeight:     '500px',
+    maxHeight:     '400px',
     marginTop:     '20px',
     overflowX:     'hidden',
     overflowY:     'auto',
@@ -24,7 +24,6 @@ export default function styles (theme, props) {
     height:        '100px',
     overflowX:     'auto',
     overflowY:     'hidden',
-    marginBottom:  '20px',
   };
 
   return {

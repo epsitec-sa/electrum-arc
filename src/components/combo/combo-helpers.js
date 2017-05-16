@@ -15,7 +15,7 @@ export function setDragCabHasCombo (id, value) {
 
 // Compute the location for a combo-menu.
 // If x or y are undefined, the location is based on bounding rect of node.
-export function getComboLocation (node, theme, x, y) {
+export function getComboLocation (node, theme, name, x, y) {
   const rect = node.getBoundingClientRect ();
 
   // Compute horizontal position according to mouse or component.
@@ -27,7 +27,8 @@ export function getComboLocation (node, theme, x, y) {
   }
 
   // Puts the menu under the component if it's in the upper half of the window.
-  const t = theme.shapes.flyingBalloonTriangleSize;
+  const t = name === 'flying-balloon' ?
+    theme.shapes.flyingBalloonTriangleSize : theme.shapes.flyingDialogTriangleSize;
   let topValue, bottomValue;
   if (y) {
     topValue    = Unit.add ((window.innerHeight - y) + 'px', t);

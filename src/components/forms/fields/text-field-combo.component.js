@@ -54,7 +54,7 @@ export default class TextFieldCombo extends React.Component {
 
   doShowCombo () {
     const node = ReactDOM.findDOMNode (this);
-    this.comboLocation = ComboHelpers.getComboLocation (node, this.props.theme);
+    this.comboLocation = ComboHelpers.getComboLocation (node, this.props.theme, 'flying-balloon');
     this.showCombo = true;
   }
 

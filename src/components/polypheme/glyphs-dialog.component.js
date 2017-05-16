@@ -117,30 +117,25 @@ export default class GlyphsDialog extends React.Component {
     return result;
   }
 
-  renderFooter () {
-    return (
-      <Container kind='row' {...this.link ()} >
-        <Button
-          glyph           = 'check'
-          text            = 'Fermer'
-          kind            = 'action'
-          grow            = '1'
-          place           = '1/1'
-          custom-on-click = {this.onClose}
-          {...this.link ()} />
-      </Container>
-    );
-  }
-
   render () {
+    const center = this.read ('center');
+    const top    = this.read ('top');
+    const bottom = this.read ('bottom');
+
     const sampleStyle = this.mergeStyles ('sample');
+
     return (
-      <DialogModal width='760px' {...this.link ()}>
+      <DialogModal
+        width  = '760px'
+        center = {center}
+        top    = {top}
+        bottom = {bottom}
+        close  = {this.onClose}
+        {...this.link ()}>
         {this.renderMain ()}
         <div style={sampleStyle}>
           {this.renderSample ()}
         </div>
-        {this.renderFooter ()}
       </DialogModal>
     );
   }

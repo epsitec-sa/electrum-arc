@@ -193,7 +193,7 @@ export default class Container extends React.Component {
 
     if (show === 'false') {
       return null;
-    } else if (kind === 'flying-balloon') {
+    } else if (kind === 'flying-balloon' || kind === 'flying-dialog') {
       return (
         <div
           key      = {index}
