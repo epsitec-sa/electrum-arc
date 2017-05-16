@@ -21,6 +21,10 @@ export const toggleAction = glyph => ({
   glyph: glyph,
 });
 
+export const flushAction = () => ({
+  type: 'FLUSH',
+});
+
 /******************************************************************************/
 
 function updateGlyph (state, index, glyph) {
@@ -42,14 +46,29 @@ function deleteGlyph (state, index) {
   return mutableState;
 }
 
+function indexOf (state, glyph) {
+  for (var i = 0; i < state.length; i++) {
+    if (state[i].id === glyph.id) {
+      return i;
+    }
+  }
+  return -1;
+}
+
 function toggleGlyph (state, glyph) {
   const mutableState = [ ...state ];  // shallow copy of state
-  const index = mutableState.indexOf (glyph);
+  const index = indexOf (mutableState, glyph);
   if (index === -1) {
     mutableState.push (glyph);
   } else {
     mutableState.splice (index, 1);
   }
+  return mutableState;
+}
+
+function flushGlyph (state) {
+  const mutableState = [ ...state ];  // shallow copy of state
+  mutableState.splice (0, mutableState.length);
   return mutableState;
 }
 
@@ -65,6 +84,8 @@ export function reducer (state, action) {
       return deleteGlyph (state, action.index);
     case 'TOGGLE':
       return toggleGlyph (state, action.glyph);
+    case 'FLUSH':
+      return flushGlyph (state);
   }
   return state;
 }

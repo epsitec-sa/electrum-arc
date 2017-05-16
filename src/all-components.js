@@ -74,6 +74,7 @@ import _DispatchTable2 from './components/polypheme/dispatch-table2.component.js
 import _DispatchTicket from './components/polypheme/dispatch-ticket.component.js';
 import _DispatchTrips from './components/polypheme/dispatch-trips.component.js';
 import _GlyphsDialog from './components/polypheme/glyphs-dialog.component.js';
+import _GlyphsDialog$styles from './components/polypheme/glyphs-dialog.styles.js';
 import _MessengerCombo from './components/polypheme/messenger-combo.component.js';
 import _MessengerModify from './components/polypheme/messenger-modify.component.js';
 import _MessengerTicket from './components/polypheme/messenger-ticket.component.js';
@@ -162,7 +163,7 @@ export const DispatchTable1 = Electrum.wrap ('DispatchTable1', _DispatchTable1);
 export const DispatchTable2 = Electrum.wrap ('DispatchTable2', _DispatchTable2);
 export const DispatchTicket = Electrum.wrap ('DispatchTicket', _DispatchTicket);
 export const DispatchTrips = Electrum.wrap ('DispatchTrips', _DispatchTrips);
-export const GlyphsDialog = Electrum.wrap ('GlyphsDialog', _GlyphsDialog);
+export const GlyphsDialog = Electrum.wrap ('GlyphsDialog', _GlyphsDialog, {styles: _GlyphsDialog$styles});
 export const MessengerCombo = Electrum.wrap ('MessengerCombo', _MessengerCombo);
 export const MessengerModify = Electrum.wrap ('MessengerModify', _MessengerModify);
 export const MessengerTicket = Electrum.wrap ('MessengerTicket', _MessengerTicket);

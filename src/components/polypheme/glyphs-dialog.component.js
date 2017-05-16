@@ -1,4 +1,4 @@
-import {React, Store} from 'electrum';
+import {React} from 'electrum';
 import {DialogModal, Container, Button, Label, Separator} from '../../all-components.js';
 import * as GlyphHelpers from '../polypheme/glyph-helpers.js';
 import {ColorHelpers} from 'electrum-theme';
@@ -10,46 +10,27 @@ export default class GlyphsDialog extends React.Component {
 
   constructor (props) {
     super (props);
-
-    this.internalStore = Store.create ();
-    this.localBus = this;  // for access to property notify
-
-    const allGlyphs      = this.read ('all-glyphs');
-    const selectedGlyphs = this.read ('selected-glyphs');
-    this.internalStore.select ('allGlyphs'     ).set ('value', allGlyphs);
-    this.internalStore.select ('selectedGlyphs').set ('value', selectedGlyphs);
   }
 
-  componentWillMount () {
-  }
-
-  // LocalBus.notify
-  notify (props, source, value) {
-    if (source.type === 'change') {
-      this.internalStore.select (props.field).set ('value', value);
-    }
-  }
-
-  closeDialog (action) {
+  onClose () {
     const x = this.read ('close-dialog');
     if (x) {
       x ();
     }
   }
 
-  onAccept () {
-    this.closeDialog ('accept');
-  }
-
-  onCancel () {
-    this.closeDialog ('cancel');
-  }
-
   onToggleGlyph (glyph) {
-    console.log ('GlyphsDialog.onToggleGlyph');
+    // console.log ('GlyphsDialog.onToggleGlyph');
     const x = this.read ('glyph-clicked');
     if (x) {
       x (glyph);
+    }
+  }
+
+  onClearGlyphs () {
+    const x = this.read ('clear-glyphs');
+    if (x) {
+      x ();
     }
   }
 
@@ -70,8 +51,8 @@ export default class GlyphsDialog extends React.Component {
   }
 
   renderGlyphs () {
-    const allGlyphs      = this.internalStore.select ('allGlyphs'     ).get ('value');
-    const selectedGlyphs = this.internalStore.select ('selectedGlyphs').get ('value');
+    const allGlyphs      = this.read ('all-glyphs');
+    const selectedGlyphs = this.read ('selected-glyphs');
     const result = [];
     for (var glyph of allGlyphs) {
       const selected = Enumerable.from (selectedGlyphs).where (x => x.id === glyph.id).any ();
@@ -80,25 +61,60 @@ export default class GlyphsDialog extends React.Component {
     return result;
   }
 
-  renderMain () {
+  renderClearButton () {
     return (
-      <Container kind='column' {...this.link ()} >
-        <Label
-          text = 'Choix des pictogrammes'
-          grow = '1'
-          kind = 'title'
-          {...this.link ()} />
-        <Separator kind='space' {...this.link ()} />
-        <Separator kind='space' {...this.link ()} />
-        <Container kind='wrap' {...this.link ()} >
-          {this.renderGlyphs ()}
-        </Container>
-        <Separator kind='space' {...this.link ()} />
-        <Separator kind='space' {...this.link ()} />
-        <Separator kind='space' {...this.link ()} />
-        <Separator kind='space' {...this.link ()} />
-      </Container>
+      <Button
+        glyph           = 'trash'
+        tooltip         = 'Supprime tous les pictogrammes'
+        custom-on-click = {this.onClearGlyphs}
+        {...this.link ()} />
     );
+  }
+
+  renderMain () {
+    const mainStyle   = this.mergeStyles ('main');
+    const glyphsStyle = this.mergeStyles ('glyphs');
+    return (
+      <div style={mainStyle}>
+        <Container kind='row' {...this.link ()} >
+          <Label
+            text = 'Choix des pictogrammes'
+            grow = '1'
+            kind = 'title'
+            {...this.link ()} />
+            <Label grow='1' {...this.link ()} />
+            {this.renderClearButton ()}
+          </Container>
+        <div style={glyphsStyle}>
+          {this.renderGlyphs ()}
+        </div>
+      </div>
+    );
+  }
+
+  renderSampleGlyph (glyph, index) {
+    const g = GlyphHelpers.getGlyph (glyph.Glyph);
+    return (
+      <Label
+        width       = '60px'
+        index       = {index}
+        glyph       = {g.glyph}
+        glyph-color = {g.color}
+        glyph-size  = '300%'
+        spacing     = 'compact'
+        justify     = 'center'
+        {...this.link ()} />
+    );
+  }
+
+  renderSample () {
+    const selectedGlyphs = this.read ('selected-glyphs');
+    const result = [];
+    let index = 0;
+    for (var glyph of selectedGlyphs) {
+      result.push (this.renderSampleGlyph (glyph, index++));
+    }
+    return result;
   }
 
   renderFooter () {
@@ -109,30 +125,22 @@ export default class GlyphsDialog extends React.Component {
           text            = 'Fermer'
           kind            = 'action'
           grow            = '1'
-          place           = 'left'
-          custom-on-click = {this.onAccept}
-          {...this.link ()} />
-        <Button
-          glyph           = 'close'
-          text            = 'Annuler'
-          kind            = 'action'
-          grow            = '1'
-          place           = 'right'
-          custom-on-click = {this.onCancel}
+          place           = '1/1'
+          custom-on-click = {this.onClose}
           {...this.link ()} />
       </Container>
     );
   }
 
   render () {
+    const sampleStyle = this.mergeStyles ('sample');
     return (
-      <DialogModal width='800px' {...this.link ()}>
-        <Container kind='views' {...this.link ()} >
-          <Container kind='full-view' {...this.link ()} >
-            {this.renderMain ()}
-            {this.renderFooter ()}
-          </Container>
-        </Container>
+      <DialogModal width='760px' {...this.link ()}>
+        {this.renderMain ()}
+        <div style={sampleStyle}>
+          {this.renderSample ()}
+        </div>
+        {this.renderFooter ()}
       </DialogModal>
     );
   }

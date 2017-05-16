@@ -463,10 +463,8 @@ export default function styles (theme, props) {
     textMargin        = '0px ' + theme.shapes.containerMargin + ' 0px ' + theme.shapes.containerMargin;
     boxJustifyContent = 'flex-start';
     borderStyle       = 'none';
-    glyphSize         = '150%';
+    glyphSize         = '120%';
     if (inputActive === 'true') {
-      // glyphColor      = inputGlyphColor ? inputGlyphColor : theme.palette.menuText;
-      // textColor       = theme.palette.menuText;
       backgroundColor = theme.palette.boxActiveBackground;
     }
   }

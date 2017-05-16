@@ -97,23 +97,22 @@ export default class Note extends React.Component {
   }
 
   onGlyphClicked (glyph) {
-    console.log ('Note.onGlyphClicked');
-    // if (Enumerable.from (this.glyphs).where (x => x.id === glyph.id).any ()) {
-    //   // this.glyphs.splice ();
-    // } else {
-    //   var g = {...this.glyphs, glyph};
-    //   this.internalStore.select ('Glyphs' ).set ('value', g);
-    //   this.notifyParent ('change');
-    //   this.updateInfo ();
-    //   this.forceUpdate ();
-    // }
+    // console.log ('Note.onGlyphClicked');
     const newGlyphs = ReducerGlyphs.reducer (this.glyphs,
       ReducerGlyphs.toggleAction (glyph));
     this.internalStore.select ('Glyphs').set ('value', newGlyphs);
     this.notifyParent ('change');
     this.updateInfo ();
     this.forceUpdate ();
-    // bus.notify (this.props, source, newGlyphs);
+  }
+
+  onClearGlyphs () {
+    const newGlyphs = ReducerGlyphs.reducer (this.glyphs,
+      ReducerGlyphs.flushAction ());
+    this.internalStore.select ('Glyphs').set ('value', newGlyphs);
+    this.notifyParent ('change');
+    this.updateInfo ();
+    this.forceUpdate ();
   }
 
   onOpenGlyphsDialog () {
@@ -134,6 +133,7 @@ export default class Note extends React.Component {
           all-glyphs      = {allGlyphs}
           selected-glyphs = {this.glyphs}
           glyph-clicked   = {this.onGlyphClicked}
+          clear-glyphs    = {this.onClearGlyphs}
           close-dialog    = {this.onCloseGlyphsDialog}
           {...this.link ()} />
       );
