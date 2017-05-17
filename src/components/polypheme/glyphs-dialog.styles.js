@@ -11,7 +11,7 @@ export default function styles (_theme, _props) {
     flexDirection: 'row',
     flexWrap:      'wrap',
     alignContent:  'flex-start',
-    maxHeight:     '400px',
+    maxHeight:     '300px',
     marginTop:     '20px',
     overflowX:     'hidden',
     overflowY:     'auto',
