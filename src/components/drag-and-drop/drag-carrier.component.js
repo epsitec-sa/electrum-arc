@@ -109,31 +109,31 @@ export default class DragCarrier extends React.Component {
     this.selectedIds     = [];
   }
 
-  getX () {
+  get x () {
     return this.state.x;
   }
 
-  setX (value) {
+  set x (value) {
     this.setState ( {
       x: value
     });
   }
 
-  getY () {
+  get y () {
     return this.state.y;
   }
 
-  setY (value) {
+  set y (value) {
     this.setState ( {
       y: value
     });
   }
 
-  getDest () {
+  get dest () {
     return this.state.dest;
   }
 
-  setDest (value) {
+  set dest (value) {
     this.setState ( {
       dest: value
     });
@@ -420,7 +420,7 @@ export default class DragCarrier extends React.Component {
   selectOne (id, value) {
     // Trace.log ('DragCarrier.selectOne');
     const dragCab = this.searchDragCab (id);
-    dragCab.setDragStarting (value);
+    dragCab.dragStarting = value;
     if (value) {
       this.selectedIds.push (id);
     }
@@ -475,19 +475,19 @@ export default class DragCarrier extends React.Component {
 
     const mode = this.read ('mode');
     if (mode === 'corner-top-left') {
-      this.setX (x);
-      this.setY (y);
+      this.x = x;
+      this.y = y;
     } else {  // keep mouse at click point
-      this.setX (x - this.offsetX);
-      this.setY (y - this.offsetY);
+      this.x = x - this.offsetX;
+      this.y = y - this.offsetY;
     }
 
     const dest = this.find (x, y);
     if (dest && dest.ownerId === this.rectOrigin.ownerId &&
       (dest.index === this.rectOrigin.index || dest.index === this.rectOrigin.index + 1)) {
-      this.setDest (this.rectOrigin);
+      this.dest = this.rectOrigin;
     } else {
-      this.setDest (dest);
+      this.dest = dest;
     }
 
     if (!this.lastDragStarted && this.isDragStarted ()) {
@@ -503,7 +503,7 @@ export default class DragCarrier extends React.Component {
       dragEnding (e, this.isDragStarted ());
       if (this.isDragStarted ()) {
         this.selectMulti (false);
-        const dest = this.getDest ();
+        const dest = this.dest;
         if (dest) {
           this.reduce (dest.id, dest.ownerId, dest.ownerKind);
         }
@@ -582,7 +582,7 @@ export default class DragCarrier extends React.Component {
       // backgroundColor: 'rgba(100, 0, 0, 0.2)',
     };
 
-    const dest = this.getDest ();
+    const dest = this.dest;
     let hilitedStyle;
     if (dest && this.isDragStarted ()) {
       const rect = clip (dest.rect, dest.parentRect);
@@ -617,8 +617,8 @@ export default class DragCarrier extends React.Component {
       display:       'flex',
       flexDirection: 'column',
       height:        dragHeight,
-      left:          this.getX (),
-      top:           this.getY (),
+      left:          this.x,
+      top:           this.y,
       opacity:       0.9,
       userSelect:    'none',
     };

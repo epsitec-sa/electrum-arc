@@ -62,27 +62,26 @@ export default class DragCab extends React.Component {
     this.state = {
       dragInProcess: false,
       dragStarting:  false,
-      hasCombo:      false,
     };
     this.dragHeight = 0;
     this.hasCombo   = false;
   }
 
-  getDragInProcess () {
+  get dragInProcess () {
     return this.state.dragInProcess;
   }
 
-  setDragInProcess (value) {
+  set dragInProcess (value) {
     this.setState ( {
       dragInProcess: value
     });
   }
 
-  getDragStarting () {
+  get dragStarting () {
     return this.state.dragStarting;
   }
 
-  setDragStarting (value) {
+  set dragStarting (value) {
     this.setState ( {
       dragStarting: value
     });
@@ -130,7 +129,7 @@ export default class DragCab extends React.Component {
     }
     const node = ReactDOM.findDOMNode (this);
     this.dragHeight = node.clientHeight;
-    this.setDragInProcess (true);
+    this.dragInProcess = true;
   }
 
   onMyMouseUp (e) {
@@ -150,8 +149,8 @@ export default class DragCab extends React.Component {
 
   onDragEnding (e, isDragDoing) {
     // Trace.log ('DragCab.onDragEnding');
-    this.setDragInProcess (false);
-    this.setDragStarting (false);
+    this.dragInProcess = false;
+    this.dragStarting  = false;
     if (!isDragDoing) {  // simple click done ?
       this.doClickAction (e);
     }
@@ -204,8 +203,8 @@ export default class DragCab extends React.Component {
     const dragOwnerId     = this.read ('drag-owner-id');
     const direction       = this.read ('direction');
     const verticalSpacing = this.read ('vertical-spacing');
-    const dragInProcess   = this.getDragInProcess ();
-    const dragStarting    = this.getDragStarting ();
+    const dragInProcess   = this.dragInProcess;
+    const dragStarting    = this.dragStarting;
 
     const htmlDragCarrier = (dragInProcess && !isDragged) ? this.renderDragCarrier () : null;
 
