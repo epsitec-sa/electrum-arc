@@ -462,7 +462,6 @@ export default function styles (theme, props) {
     boxPadding        = '0px ' + theme.shapes.containerMargin + ' 0px ' + theme.shapes.containerMargin;
     textMargin        = '0px ' + theme.shapes.containerMargin + ' 0px ' + theme.shapes.containerMargin;
     boxJustifyContent = 'flex-start';
-    borderStyle       = 'none';
     glyphSize         = '120%';
     if (inputActive === 'true') {
       backgroundColor = theme.palette.boxActiveBackground;

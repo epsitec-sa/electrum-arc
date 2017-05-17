@@ -1,5 +1,5 @@
 import {React} from 'electrum';
-import {DialogModal, Container, Button, Label, Separator} from '../../all-components.js';
+import {DialogModal, Container, Button, Label} from '../../all-components.js';
 import * as GlyphHelpers from '../polypheme/glyph-helpers.js';
 import {ColorHelpers} from 'electrum-theme';
 import Enumerable from 'linq';
@@ -61,16 +61,6 @@ export default class GlyphsDialog extends React.Component {
     return result;
   }
 
-  renderClearButton () {
-    return (
-      <Button
-        glyph           = 'trash'
-        tooltip         = 'Supprime tous les pictogrammes'
-        custom-on-click = {this.onClearGlyphs}
-        {...this.link ()} />
-    );
-  }
-
   renderMain () {
     const mainStyle   = this.mergeStyles ('main');
     const glyphsStyle = this.mergeStyles ('glyphs');
@@ -83,7 +73,11 @@ export default class GlyphsDialog extends React.Component {
             kind = 'title'
             {...this.link ()} />
             <Label grow='1' {...this.link ()} />
-            {this.renderClearButton ()}
+            <Button
+              glyph           = 'trash'
+              tooltip         = 'Supprime tous les pictogrammes'
+              custom-on-click = {this.onClearGlyphs}
+              {...this.link ()} />
           </Container>
         <div style={glyphsStyle}>
           {this.renderGlyphs ()}
@@ -96,7 +90,7 @@ export default class GlyphsDialog extends React.Component {
     const g = GlyphHelpers.getGlyph (glyph.Glyph);
     return (
       <Label
-        width       = '60px'
+        width       = '70px'
         index       = {index}
         glyph       = {g.glyph}
         glyph-color = {g.color}
@@ -117,11 +111,28 @@ export default class GlyphsDialog extends React.Component {
     return result;
   }
 
+  renderFooter () {
+    return (
+      <Container kind='row' {...this.link ()} >
+        <Label grow='1' {...this.link ()} />
+        <Button
+          glyph           = 'check'
+          text            = 'Fermer'
+          kind            = 'action'
+          width           = '200px'
+          place           = '1/1'
+          custom-on-click = {this.onClose}
+          {...this.link ()} />
+      </Container>
+    );
+  }
+
   render () {
     const center = this.read ('center');
     const top    = this.read ('top');
     const bottom = this.read ('bottom');
 
+    const footerStyle = this.mergeStyles ('footer');
     const sampleStyle = this.mergeStyles ('sample');
 
     return (
@@ -133,8 +144,19 @@ export default class GlyphsDialog extends React.Component {
         close  = {this.onClose}
         {...this.link ()}>
         {this.renderMain ()}
-        <div style={sampleStyle}>
-          {this.renderSample ()}
+        <div style={footerStyle}>
+          <div style={sampleStyle}>
+            {this.renderSample ()}
+          </div>
+          <Label grow='1' {...this.link ()} />
+          <Button
+            glyph           = 'check'
+            text            = 'Fermer'
+            kind            = 'action'
+            width           = '200px'
+            place           = '1/1'
+            custom-on-click = {this.onClose}
+            {...this.link ()} />
         </div>
       </DialogModal>
     );
