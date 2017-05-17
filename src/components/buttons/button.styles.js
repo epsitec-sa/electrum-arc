@@ -459,8 +459,6 @@ export default function styles (theme, props) {
     textWidth         = 'max-content';
     boxHeight         = theme.shapes.menuButtonHeight;
     boxMargin         = '0px 5px 5px 0px';
-    boxPadding        = '0px ' + theme.shapes.containerMargin + ' 0px ' + theme.shapes.containerMargin;
-    textMargin        = '0px ' + theme.shapes.containerMargin + ' 0px ' + theme.shapes.containerMargin;
     boxJustifyContent = 'flex-start';
     glyphSize         = '120%';
     if (inputActive === 'true') {

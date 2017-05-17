@@ -753,6 +753,16 @@ export default function styles (theme, props) {
     margin          = '0px -20px 0px 0px';
   }
 
+  if (inputKind === 'glyph-samples') {
+    display       = 'flex';
+    flexDirection = 'row';
+    alignItems    = 'center';
+    height        = '80px';
+    overflowX     = 'auto';
+    overflowY     = 'hidden';
+    margin        = '0px 20px 0px 0px';
+  }
+
   if (inputKind && inputKind.startsWith ('thin-')) {
     if (inputBorder) {
       if (inputBorder === 'top') {

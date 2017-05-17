@@ -1,5 +1,5 @@
 import {React} from 'electrum';
-import {DialogModal, Container, Button, Label} from '../../all-components.js';
+import {DialogModal, Container, Button, Label, DragCab} from '../../all-components.js';
 import * as GlyphHelpers from '../polypheme/glyph-helpers.js';
 import {ColorHelpers} from 'electrum-theme';
 import Enumerable from 'linq';
@@ -86,27 +86,35 @@ export default class GlyphsDialog extends React.Component {
     );
   }
 
-  renderSampleGlyph (glyph, index) {
+  renderGlyphSample (glyph, index) {
     const g = GlyphHelpers.getGlyph (glyph.Glyph);
     return (
-      <Label
-        width       = '70px'
-        index       = {index}
-        glyph       = {g.glyph}
-        glyph-color = {g.color}
-        glyph-size  = '300%'
-        spacing     = 'compact'
-        justify     = 'center'
-        {...this.link ()} />
+      <DragCab
+        drag-controller = 'glyph-sample'
+        direction       = 'horizontal'
+        drag-owner-id   = {glyph.id}
+        color           = {this.props.theme.palette.dragAndDropHover}
+        thickness       = {this.props.theme.shapes.dragAndDropTicketThickness}
+        {...this.link ()}>
+        <Label
+          width       = '70px'
+          index       = {index}
+          glyph       = {g.glyph}
+          glyph-color = {g.color}
+          glyph-size  = '300%'
+          spacing     = 'compact'
+          justify     = 'center'
+          {...this.link ()} />
+      </DragCab>
     );
   }
 
-  renderSample () {
+  renderGlyphSamples () {
     const selectedGlyphs = this.read ('selected-glyphs');
     const result = [];
     let index = 0;
     for (var glyph of selectedGlyphs) {
-      result.push (this.renderSampleGlyph (glyph, index++));
+      result.push (this.renderGlyphSample (glyph, index++));
     }
     return result;
   }
@@ -119,7 +127,7 @@ export default class GlyphsDialog extends React.Component {
           glyph           = 'check'
           text            = 'Fermer'
           kind            = 'action'
-          width           = '200px'
+          width           = '180px'
           place           = '1/1'
           custom-on-click = {this.onClose}
           {...this.link ()} />
@@ -133,11 +141,10 @@ export default class GlyphsDialog extends React.Component {
     const bottom = this.read ('bottom');
 
     const footerStyle = this.mergeStyles ('footer');
-    const sampleStyle = this.mergeStyles ('sample');
 
     return (
       <DialogModal
-        width  = '760px'
+        width  = '640px'
         center = {center}
         top    = {top}
         bottom = {bottom}
@@ -145,9 +152,14 @@ export default class GlyphsDialog extends React.Component {
         {...this.link ()}>
         {this.renderMain ()}
         <div style={footerStyle}>
-          <div style={sampleStyle}>
-            {this.renderSample ()}
-          </div>
+          <Container
+            kind            = 'glyph-samples'
+            drag-controller = 'glyph-sample'
+            drag-source     = 'glyph-samples'
+            drag-owner-id   = 'glyph-samples'
+            {...this.link ()} >
+            {this.renderGlyphSamples ()}
+          </Container>
           <Label grow='1' {...this.link ()} />
           <Button
             glyph           = 'check'

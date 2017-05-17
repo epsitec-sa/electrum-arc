@@ -27,21 +27,10 @@ export default function styles (_theme, _props) {
     marginTop:     '10px',
   };
 
-  const sampleStyle = {
-    display:       'flex',
-    flexDirection: 'row',
-    alignItems:    'center',
-    height:        '80px',
-    overflowX:     'auto',
-    overflowY:     'hidden',
-    marginRight:   '20px',
-  };
-
   return {
     main:   mainStyle,
     glyphs: glyphsStyle,
     footer: footerStyle,
-    sample: sampleStyle,
   };
 }
 
