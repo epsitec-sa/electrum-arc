@@ -118,22 +118,6 @@ export default class GlyphsDialog extends React.Component {
     return result;
   }
 
-  renderFooter () {
-    return (
-      <Container kind='row' {...this.link ()} >
-        <Label grow='1' {...this.link ()} />
-        <Button
-          glyph           = 'check'
-          text            = 'Fermer'
-          kind            = 'action'
-          width           = '180px'
-          place           = '1/1'
-          custom-on-click = {this.onClose}
-          {...this.link ()} />
-      </Container>
-    );
-  }
-
   render () {
     const center = this.read ('center');
     const top    = this.read ('top');
@@ -168,7 +152,7 @@ export default class GlyphsDialog extends React.Component {
             glyph           = 'check'
             text            = 'Fermer'
             kind            = 'action'
-            width           = '200px'
+            width           = '150px'
             place           = '1/1'
             custom-on-click = {this.onClose}
             {...this.link ()} />

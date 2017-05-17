@@ -349,21 +349,20 @@ export default function styles (theme, props) {
     }
     const h = Unit.multiply (theme.shapes.actionHeight, 0.1);
     const r = theme.shapes.actionRadius;
-    boxHeight       = theme.shapes.actionHeight;
-    boxPadding      = '0px 0px 0px ' + h;
-    borderStyle     = 'none';
+    boxHeight         = theme.shapes.actionHeight;
+    boxPadding        = '0px 0px 0px ' + h;
+    borderStyle       = 'none';
     boxJustifyContent = null;
-    backgroundColor = theme.palette.actionButtonBackground;
-    textSize        = theme.shapes.actionTextSize;
-    glyphSize       = theme.shapes.actionGlyphSize;
+    backgroundColor   = theme.palette.actionButtonBackground;
+    textSize          = theme.shapes.actionTextSize;
+    glyphSize         = theme.shapes.actionGlyphSize;
     if (place === 'left') {
       boxMargin    = '0px 1px 0px 0px';
       borderRadius = r + ' 0px 0px ' + r;
     } else if (place === 'right') {
       borderRadius = '0px ' + r + ' ' + r + ' 0px';
     } else if (place === 'single') {
-      borderRadius      = r;
-      boxJustifyContent = 'center';
+      borderRadius = r;
     } else {
       boxMargin = '0px 1px 0px 0px';
     }
