@@ -1,6 +1,7 @@
 import {React} from 'electrum';
 import {ReactDOM} from 'electrum';
 import {Container} from '../../all-components.js';
+import MouseTrap from 'mousetrap';
 
 /******************************************************************************/
 
@@ -28,6 +29,16 @@ export default class DialogModal extends React.Component {
       top:    this.read ('top'),
       bottom: this.read ('bottom'),
     };
+  }
+
+  componentWillMount () {
+    MouseTrap.bind ('esc',   this.onCloseCombo);
+    MouseTrap.bind ('enter', this.onCloseCombo);
+  }
+
+  componentWillUnmount () {
+    MouseTrap.unbind ('esc');
+    MouseTrap.unbind ('enter');
   }
 
   onCloseCombo () {
