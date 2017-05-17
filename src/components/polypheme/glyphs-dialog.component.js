@@ -127,7 +127,7 @@ export default class GlyphsDialog extends React.Component {
 
     const buttonWidth  = Unit.add (this.props.theme.shapes.glyphsDialogButtonWidth, this.props.theme.shapes.glyphsDialogButtonMargin);
     const buttonsWidth = Unit.multiply (buttonWidth, 3);  // 3 columns of buttons
-    const dialogWidth  = Unit.add (buttonsWidth, '25px');  // add scroller width
+    const dialogWidth  = Unit.add (buttonsWidth, '20px');  // add scroller width
 
     return (
       <DialogModal
