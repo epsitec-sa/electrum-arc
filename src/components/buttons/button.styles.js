@@ -456,9 +456,10 @@ export default function styles (theme, props) {
   }
 
   if (inputKind  === 'glyph-item') {
+    boxWidth          = theme.shapes.glyphsDialogButtonWidth;
     textWidth         = 'max-content';
     boxHeight         = theme.shapes.menuButtonHeight;
-    boxMargin         = '0px 5px 5px 0px';
+    boxMargin         = '0px ' + theme.shapes.glyphsDialogButtonMargin + ' ' + theme.shapes.glyphsDialogButtonMargin + ' 0px';
     boxJustifyContent = 'flex-start';
     glyphSize         = '120%';
     if (inputActive === 'true') {

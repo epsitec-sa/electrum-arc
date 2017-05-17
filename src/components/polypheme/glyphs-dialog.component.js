@@ -3,6 +3,7 @@ import {DialogModal, Container, Button, Label, DragCab} from '../../all-componen
 import * as GlyphHelpers from '../polypheme/glyph-helpers.js';
 import {ColorHelpers} from 'electrum-theme';
 import Enumerable from 'linq';
+import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
@@ -34,12 +35,11 @@ export default class GlyphsDialog extends React.Component {
     }
   }
 
-  renderGlyph (glyph, selected) {
+  renderGlyphButton (glyph, selected) {
     const g = GlyphHelpers.getGlyph (glyph.Glyph);
     const color = ColorHelpers.getMarkColor (this.props.theme, g.color);
     return (
       <Button
-        width           = '200px'
         kind            = 'glyph-item'
         glyph           = {g.glyph}
         glyph-color     = {color}
@@ -50,13 +50,13 @@ export default class GlyphsDialog extends React.Component {
     );
   }
 
-  renderGlyphs () {
+  renderGlyphButtons () {
     const allGlyphs      = this.read ('all-glyphs');
     const selectedGlyphs = this.read ('selected-glyphs');
     const result = [];
     for (var glyph of allGlyphs) {
       const selected = Enumerable.from (selectedGlyphs).where (x => x.id === glyph.id).any ();
-      result.push (this.renderGlyph (glyph, selected));
+      result.push (this.renderGlyphButton (glyph, selected));
     }
     return result;
   }
@@ -72,7 +72,6 @@ export default class GlyphsDialog extends React.Component {
             grow = '1'
             kind = 'title'
             {...this.link ()} />
-            <Label grow='1' {...this.link ()} />
             <Button
               glyph           = 'trash'
               tooltip         = 'Supprime tous les pictogrammes'
@@ -80,7 +79,7 @@ export default class GlyphsDialog extends React.Component {
               {...this.link ()} />
           </Container>
         <div style={glyphsStyle}>
-          {this.renderGlyphs ()}
+          {this.renderGlyphButtons ()}
         </div>
       </div>
     );
@@ -142,9 +141,13 @@ export default class GlyphsDialog extends React.Component {
 
     const footerStyle = this.mergeStyles ('footer');
 
+    const buttonWidth  = Unit.add (this.props.theme.shapes.glyphsDialogButtonWidth, this.props.theme.shapes.glyphsDialogButtonMargin);
+    const buttonsWidth = Unit.multiply (buttonWidth, 3);  // 3 columns of buttons
+    const dialogWidth  = Unit.add (buttonsWidth, '25px');  // add scroller width
+
     return (
       <DialogModal
-        width  = '640px'
+        width  = {dialogWidth}
         center = {center}
         top    = {top}
         bottom = {bottom}
