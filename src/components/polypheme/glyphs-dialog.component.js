@@ -93,19 +93,35 @@ export default class GlyphsDialog extends React.Component {
     );
   }
 
-  renderGlyphSample (glyph, index) {
+  renderGlyphSample (glyph, dndEnable, index) {
     const g = GlyphHelpers.getGlyph (glyph.Glyph);
-    return (
-      <DragCab
-        drag-controller = 'glyph-sample'
-        direction       = 'horizontal'
-        drag-owner-id   = {glyph.id}
-        color           = {this.props.theme.palette.dragAndDropHover}
-        thickness       = {this.props.theme.shapes.dragAndDropTicketThickness}
-        radius          = {this.props.theme.shapes.dragAndDropTicketThickness}
-        do-drag-ending  = {this.onDragEnding}
-        {...this.link ()}>
-        <DragLabel
+    if (dndEnable) {
+      return (
+        <DragCab
+          drag-controller = 'glyph-sample'
+          direction       = 'horizontal'
+          drag-owner-id   = {glyph.id}
+          color           = {this.props.theme.palette.dragAndDropHover}
+          thickness       = {this.props.theme.shapes.dragAndDropTicketThickness}
+          radius          = {this.props.theme.shapes.dragAndDropTicketThickness}
+          do-drag-ending  = {this.onDragEnding}
+          {...this.link ()}>
+          <DragLabel
+            width       = '70px'
+            height      = '80px'
+            index       = {index}
+            glyph       = {g.glyph}
+            glyph-color = {g.color}
+            glyph-size  = '300%'
+            spacing     = 'compact'
+            justify     = 'center'
+            cursor      = 'ew-resize'
+            {...this.link ()} />
+        </DragCab>
+      );
+    } else {
+      return (
+        <Label
           width       = '70px'
           height      = '80px'
           index       = {index}
@@ -114,18 +130,18 @@ export default class GlyphsDialog extends React.Component {
           glyph-size  = '300%'
           spacing     = 'compact'
           justify     = 'center'
-          cursor      = 'ew-resize'
           {...this.link ()} />
-      </DragCab>
-    );
+      );
+    }
   }
 
   renderGlyphSamples () {
     const selectedGlyphs = this.read ('selected-glyphs');
     const result = [];
     let index = 0;
+    const dndEnable = selectedGlyphs.length > 1;
     for (var glyph of selectedGlyphs) {
-      result.push (this.renderGlyphSample (glyph, index++));
+      result.push (this.renderGlyphSample (glyph, dndEnable, index++));
     }
     return result;
   }
