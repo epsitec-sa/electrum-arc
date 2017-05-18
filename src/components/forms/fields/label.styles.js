@@ -21,6 +21,7 @@ export default function styles (theme, props) {
   const inputFontSize      = props.fontSize;
   const inputBottomSpacing = props.bottomSpacing;
   const inputZIndex        = props.zIndex;
+  const inputOpacity       = props.opacity;
 
   let boxWidth           = inputWidth;
   let boxHeight          = inputHeight;
@@ -46,6 +47,7 @@ export default function styles (theme, props) {
   let flexGrow           = inputGrow;
   let flexShrink         = null;
   let flexBasis          = null;
+  let opacity            = inputOpacity;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -243,6 +245,7 @@ export default function styles (theme, props) {
     flexShrink:      flexShrink,
     flexBasis:       flexBasis,
     backgroundColor: backgroundColor,
+    opacity:         opacity,
     zIndex:          inputZIndex,
     userSelect:      'none',
   };

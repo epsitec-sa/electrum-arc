@@ -1,5 +1,5 @@
 import {React} from 'electrum';
-import {DialogModal, Container, Button, Label, DragCab} from '../../all-components.js';
+import {DialogModal, Container, Button, Label, DragCab, DragLabel} from '../../all-components.js';
 import * as GlyphHelpers from '../polypheme/glyph-helpers.js';
 import {ColorHelpers} from 'electrum-theme';
 import Enumerable from 'linq';
@@ -95,7 +95,7 @@ export default class GlyphsDialog extends React.Component {
         color           = {this.props.theme.palette.dragAndDropHover}
         thickness       = {this.props.theme.shapes.dragAndDropTicketThickness}
         {...this.link ()}>
-        <Label
+        <DragLabel
           width       = '70px'
           index       = {index}
           glyph       = {g.glyph}

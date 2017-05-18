@@ -30,6 +30,7 @@ export default class Label extends React.Component {
       fontSize:      this.read ('font-size'),
       bottomSpacing: this.read ('bottom-spacing'),
       zIndex:        this.read ('z-index'),
+      opacity:       this.read ('opacity'),
     };
   }
 

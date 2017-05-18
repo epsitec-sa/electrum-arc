@@ -20,6 +20,7 @@ import _Ticket$styles from './components/containers/ticket.styles.js';
 import _Repeat from './components/control-flow/repeat.component.js';
 import _DragCab from './components/drag-and-drop/drag-cab.component.js';
 import _DragCarrier from './components/drag-and-drop/drag-carrier.component.js';
+import _DragLabel from './components/drag-and-drop/drag-label.component.js';
 import _ChronoBar from './components/events/chrono-bar.component.js';
 import _ChronoBar$styles from './components/events/chrono-bar.styles.js';
 import _ChronoEvent from './components/events/chrono-event.component.js';
@@ -127,6 +128,7 @@ export const Ticket = Electrum.wrap ('Ticket', _Ticket, {styles: _Ticket$styles}
 export const Repeat = Electrum.wrap ('Repeat', _Repeat);
 export const DragCab = Electrum.wrap ('DragCab', _DragCab);
 export const DragCarrier = Electrum.wrap ('DragCarrier', _DragCarrier);
+export const DragLabel = Electrum.wrap ('DragLabel', _DragLabel);
 export const ChronoBar = Electrum.wrap ('ChronoBar', _ChronoBar, {styles: _ChronoBar$styles});
 export const ChronoEvent = Electrum.wrap ('ChronoEvent', _ChronoEvent, {styles: _ChronoEvent$styles});
 export const ChronoLabel = Electrum.wrap ('ChronoLabel', _ChronoLabel, {styles: _ChronoLabel$styles});
