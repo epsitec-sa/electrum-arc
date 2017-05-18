@@ -108,11 +108,10 @@ export default class DragCarrier extends React.Component {
     this.lastDragStarted = false;
     this.selectedIds     = [];
 
-    if (window.document.flyingDialogs.length > 0) {
+    if (window.document.flyingDialogs && window.document.flyingDialogs.length > 0) {
       const flyingDialog = window.document.flyingDialogs[window.document.flyingDialogs.length - 1];
       const node = ReactDOM.findDOMNode (flyingDialog);
       this.flyingDialogRect = node.getBoundingClientRect ();
-      console.log (`DragCarrier ${this.flyingDialogRect}`);
     }
   }
 
@@ -512,25 +511,12 @@ export default class DragCarrier extends React.Component {
         this.selectMulti (false);
         const dest = this.dest;
         if (dest) {
-          this.reduce (dest.id, dest.ownerId, dest.ownerKind);
+          const doDragEnding = this.read ('do-drag-ending');
+          if (doDragEnding) {
+            doDragEnding (this.selectedIds, dest.id, dest.ownerId, dest.ownerKind);
+          }
         }
       }
-    }
-  }
-
-  // Modify the state according to drag & drop action.
-  // fromId    -> id to item to move.
-  // toId      -> id before which it is necessary to insert. If it was null, insert after the last item.
-  // toOwnerId -> owner where it is necessary to insert. Useful when toId is null.
-  reduce (toId, ownerId, ownerKind) {
-    const data = this.read ('data');
-    if (data) {
-      // Inject electrum state (needed for electrumDispatch).
-      data.state = this.read ('state');
-
-      ReducerData.reducer (data,
-        ReducerData.dropAction ((ownerKind === 'roadbooks') ? 'roadbook' : 'ticket',
-        this.selectedIds, toId, ownerId, ownerKind));
     }
   }
 

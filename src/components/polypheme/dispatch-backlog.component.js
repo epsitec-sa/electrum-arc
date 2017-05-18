@@ -123,6 +123,12 @@ export default class DispatchBacklog extends React.Component {
     }
   }
 
+  onDragEnding (selectedIds, toId, ownerId, ownerKind) {
+    const data = this.read ('data');
+    ReducerData.reducer (data,
+      ReducerData.dropAction ('ticket', selectedIds, toId, ownerId, ownerKind));
+  }
+
   getItem (item, current, action) {
     return {
       text:   item.value.description,
@@ -328,6 +334,7 @@ export default class DispatchBacklog extends React.Component {
             drag-mode       = 'all'
             drag-owner-id   = {data.Backlog.id}
             view-parent-id  = 'view-backlog'
+            do-drag-ending  = {this.onDragEnding}
             {...this.link ()} />
         </Container>
         {this.renderHoverButton ()}

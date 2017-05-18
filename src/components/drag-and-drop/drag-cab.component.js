@@ -173,6 +173,7 @@ export default class DragCab extends React.Component {
     const data           = this.read ('data');
     const dragOwnerId    = this.read ('drag-owner-id');
     const dragController = this.read ('drag-controller');
+    const doDragEnding   = this.read ('do-drag-ending');
     return (
       <DragCarrier
         direction         = {direction}
@@ -182,6 +183,7 @@ export default class DragCab extends React.Component {
         over-spacing      = {overSpacing}
         mode              = {mode}
         data              = {data}
+        do-drag-ending    = {doDragEnding}
         drag-ending       = {this.onDragEnding}
         drag-height       = {this.dragHeight}
         drag-controller   = {dragController}

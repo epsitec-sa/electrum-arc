@@ -54,6 +54,13 @@ export default class DispatchRoadbooks extends React.Component {
     }
   }
 
+  onDragEnding (selectedIds, toId, ownerId, ownerKind) {
+    const data = this.read ('data');
+    ReducerData.reducer (data,
+      ReducerData.dropAction ((ownerKind === 'roadbooks') ? 'roadbook' : 'ticket',
+      selectedIds, toId, ownerId, ownerKind));
+  }
+
   onCycleViewType () {
     switch (this.viewType) {
       case 'tickets':
@@ -159,6 +166,7 @@ export default class DispatchRoadbooks extends React.Component {
       <DragCab
         key             = {index}
         drag-controller = 'roadbook'
+        drag-owner-id   = {roadbook.id}
         direction       = 'horizontal'
         color           = {this.props.theme.palette.roadbookDragAndDropHover}
         thickness       = {this.props.theme.shapes.dragAndDropRoadbookThickness}
@@ -166,7 +174,7 @@ export default class DispatchRoadbooks extends React.Component {
         radius          = '0px'
         data            = {data}
         do-click-action = {e => this.onClickAction (roadbook, e)}
-        drag-owner-id   = {roadbook.id}
+        do-drag-ending  = {this.onDragEnding}
         {...this.link ()}>
         <Roadbook
           key      = {index}
@@ -221,6 +229,7 @@ export default class DispatchRoadbooks extends React.Component {
             drag-controller = 'ticket'
             drag-source     = 'roadbooks'
             drag-owner-id   = {this.getLastRoadbookId (data)}
+            do-drag-ending  = {this.onDragEnding}
             {...this.link ()} />
         </Container>
         {this.renderHoverButton ()}

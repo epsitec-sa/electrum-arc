@@ -123,6 +123,12 @@ export default class DispatchTicket extends React.Component {
     }
   }
 
+  onDragEnding (selectedIds, toId, ownerId, ownerKind) {
+    const data = this.read ('data');
+    ReducerData.reducer (data,
+      ReducerData.dropAction ('ticket', selectedIds, toId, ownerId, ownerKind));
+  }
+
   onCloseCombo () {
     this.showCombo = false;
   }
@@ -263,6 +269,7 @@ export default class DispatchTicket extends React.Component {
         mouse-down       = {this.onMyMouseDown}
         mouse-up         = {this.onMyMouseUp}
         do-click-action  = {this.onClickAction}
+        do-drag-ending   = {this.onDragEnding}
         {...this.link ()} >
         <DispatchDragTicket
           kind             = {kind}
@@ -318,6 +325,7 @@ export default class DispatchTicket extends React.Component {
         mouse-down       = {this.onMyMouseDown}
         mouse-up         = {this.onMyMouseUp}
         do-click-action  = {this.onClickAction}
+        do-drag-ending   = {this.onDragEnding}
         {...this.link ()} >
         <DispatchDragTicket
           kind               = {kind}

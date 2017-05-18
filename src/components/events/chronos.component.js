@@ -181,6 +181,13 @@ export default class Chronos extends React.Component {
     // Trace.log ('ChronoLine.onClickAction');
   }
 
+  onDragEnding (selectedIds, toId, ownerId, ownerKind) {
+    const doDragEnding = this.read ('do-drag-ending');
+    if (doDragEnding) {
+      doDragEnding (selectedIds, toId, ownerId, ownerKind);
+    }
+  }
+
   /******************************************************************************/
 
   updateFilter (filters) {
@@ -414,6 +421,7 @@ export default class Chronos extends React.Component {
         mouse-down       = {this.onMyMouseDown}
         mouse-up         = {this.onMyMouseUp}
         do-click-action  = {this.onClickAction}
+        do-drag-ending   = {this.onDragEnding}
         {...this.link ()} >
         <ChronoLine
           index      = {index}
