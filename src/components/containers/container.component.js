@@ -79,6 +79,13 @@ export default class Container extends React.Component {
       }
       window.document.dragParentControllers.push (this);
     }
+    const kind = this.read ('kind');
+    if (kind === 'flying-dialog') {
+      if (!window.document.flyingDialogs) {
+        window.document.flyingDialogs = [];
+      }
+      window.document.flyingDialogs.push (this);
+    }
   }
 
   componentWillUnmount () {
@@ -101,6 +108,13 @@ export default class Container extends React.Component {
       const index = window.document.dragParentControllers.indexOf (this);
       if (index !== -1) {
         window.document.dragParentControllers.splice (index, 1);
+      }
+    }
+    const kind = this.read ('kind');
+    if (kind === 'flying-dialog') {
+      const index = window.document.flyingDialogs.indexOf (this);
+      if (index !== -1) {
+        window.document.flyingDialogs.splice (index, 1);
       }
     }
   }

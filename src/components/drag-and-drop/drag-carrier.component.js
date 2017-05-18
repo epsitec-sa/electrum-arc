@@ -107,6 +107,13 @@ export default class DragCarrier extends React.Component {
     this.rectOrigin      = null;
     this.lastDragStarted = false;
     this.selectedIds     = [];
+
+    if (window.document.flyingDialogs.length > 0) {
+      const flyingDialog = window.document.flyingDialogs[window.document.flyingDialogs.length - 1];
+      const node = ReactDOM.findDOMNode (flyingDialog);
+      this.flyingDialogRect = node.getBoundingClientRect ();
+      console.log (`DragCarrier ${this.flyingDialogRect}`);
+    }
   }
 
   get x () {
@@ -582,6 +589,9 @@ export default class DragCarrier extends React.Component {
       // backgroundColor: 'rgba(100, 0, 0, 0.2)',
     };
 
+    const ox = this.flyingDialogRect ? this.flyingDialogRect.left : 0;
+    const oy = this.flyingDialogRect ? this.flyingDialogRect.top  : 0;
+
     const dest = this.dest;
     let hilitedStyle;
     if (dest && this.isDragStarted ()) {
@@ -589,9 +599,9 @@ export default class DragCarrier extends React.Component {
       hilitedStyle = {
         visibility:      'visible',
         position:        'absolute',
-        left:            rect.left,
+        left:            rect.left - ox,
         width:           rect.width,
-        top:             rect.top,
+        top:             rect.top - oy,
         height:          rect.height,
         borderRadius:    dest.radius ? dest.radius : radius,
         transition:      'all 0.2s ease-out',
@@ -617,8 +627,8 @@ export default class DragCarrier extends React.Component {
       display:       'flex',
       flexDirection: 'column',
       height:        dragHeight,
-      left:          this.x,
-      top:           this.y,
+      left:          this.x - ox,
+      top:           this.y - oy,
       opacity:       0.9,
       userSelect:    'none',
     };
