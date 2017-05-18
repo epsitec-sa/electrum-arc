@@ -107,7 +107,9 @@ export default class DragCarrier extends React.Component {
     this.rectOrigin      = null;
     this.lastDragStarted = false;
     this.selectedIds     = [];
+  }
 
+  componentDidMount () {
     if (window.document.flyingDialogs && window.document.flyingDialogs.length > 0) {
       const flyingDialog = window.document.flyingDialogs[window.document.flyingDialogs.length - 1];
       const node = ReactDOM.findDOMNode (flyingDialog);
