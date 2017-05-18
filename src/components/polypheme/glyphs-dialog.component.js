@@ -35,6 +35,14 @@ export default class GlyphsDialog extends React.Component {
     }
   }
 
+  onDragEnding (selectedIds, toId) {
+    // console.log (`GlyphsDialog.onDragEnding ${selectedIds} ${toId} ${ownerId} ${ownerKind}`);
+    const x = this.read ('glyph-dragged');
+    if (x) {
+      x (selectedIds[0], toId);
+    }
+  }
+
   renderGlyphButton (glyph, selected) {
     const g = GlyphHelpers.getGlyph (glyph.Glyph);
     const color = ColorHelpers.getMarkColor (this.props.theme, g.color);
@@ -94,15 +102,19 @@ export default class GlyphsDialog extends React.Component {
         drag-owner-id   = {glyph.id}
         color           = {this.props.theme.palette.dragAndDropHover}
         thickness       = {this.props.theme.shapes.dragAndDropTicketThickness}
+        radius          = {this.props.theme.shapes.dragAndDropTicketThickness}
+        do-drag-ending  = {this.onDragEnding}
         {...this.link ()}>
         <DragLabel
           width       = '70px'
+          height      = '80px'
           index       = {index}
           glyph       = {g.glyph}
           glyph-color = {g.color}
           glyph-size  = '300%'
           spacing     = 'compact'
           justify     = 'center'
+          cursor      = 'ew-resize'
           {...this.link ()} />
       </DragCab>
     );

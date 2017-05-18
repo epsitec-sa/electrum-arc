@@ -115,6 +115,15 @@ export default class Note extends React.Component {
     this.forceUpdate ();
   }
 
+  onGlyphDragged (selectedId, toId) {
+    const newGlyphs = ReducerGlyphs.reducer (this.glyphs,
+      ReducerGlyphs.dragAction (selectedId, toId));
+    this.internalStore.select ('Glyphs').set ('value', newGlyphs);
+    this.notifyParent ('change');
+    this.updateInfo ();
+    this.forceUpdate ();
+  }
+
   onOpenGlyphsDialog () {
     this.showGlyphsDialog = true;
     const node = ReactDOM.findDOMNode (this.glyphDialogButton);
@@ -139,6 +148,7 @@ export default class Note extends React.Component {
           selected-glyphs = {this.glyphs}
           glyph-clicked   = {this.onGlyphClicked}
           clear-glyphs    = {this.onClearGlyphs}
+          glyph-dragged   = {this.onGlyphDragged}
           close-dialog    = {this.onCloseGlyphsDialog}
           {...this.link ()} />
       );

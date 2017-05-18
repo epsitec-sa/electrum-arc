@@ -31,6 +31,7 @@ export default class Label extends React.Component {
       bottomSpacing: this.read ('bottom-spacing'),
       zIndex:        this.read ('z-index'),
       opacity:       this.read ('opacity'),
+      cursor:        this.read ('cursor'),
     };
   }
 

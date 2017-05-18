@@ -22,6 +22,7 @@ export default function styles (theme, props) {
   const inputBottomSpacing = props.bottomSpacing;
   const inputZIndex        = props.zIndex;
   const inputOpacity       = props.opacity;
+  const inputCursor        = props.cursor;
 
   let boxWidth           = inputWidth;
   let boxHeight          = inputHeight;
@@ -48,6 +49,7 @@ export default function styles (theme, props) {
   let flexShrink         = null;
   let flexBasis          = null;
   let opacity            = inputOpacity;
+  let cursor             = inputCursor;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -248,6 +250,7 @@ export default function styles (theme, props) {
     opacity:         opacity,
     zIndex:          inputZIndex,
     userSelect:      'none',
+    cursor:          cursor,
   };
 
   const glyphStyle = {
