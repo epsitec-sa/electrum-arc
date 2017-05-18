@@ -227,18 +227,18 @@ export default class Note extends React.Component {
           rows                = {extended ? 4 : null}
           {...this.linkContent ()} />
         <Button
-          kind            = 'combo'
-          text            = 'Pictogrammes'
-          active          = {this.showGlyphsDialog ? 'true' : 'false'}
-          grow            = '0.2'
-          custom-on-click = {this.onOpenGlyphsDialog}
-          spacing         = 'large'
-          ref             = {x => this.glyphDialogButton = x}
+          kind     = 'combo'
+          text     = 'Pictogrammes'
+          active   = {this.showGlyphsDialog ? 'true' : 'false'}
+          grow     = '0.2'
+          on-click = {this.onOpenGlyphsDialog}
+          spacing  = 'large'
+          ref      = {x => this.glyphDialogButton = x}
           {...this.link ()} />
         <Button
-          glyph           = {buttonGlyph}
-          tooltip         = {buttonTooltip}
-          custom-on-click = {buttonAction}
+          glyph    = {buttonGlyph}
+          tooltip  = {buttonTooltip}
+          on-click = {buttonAction}
           {...this.link ()} />
       </div>
     );
@@ -253,10 +253,10 @@ export default class Note extends React.Component {
     return (
       <div style={editStyle}>
         <Button
-          glyph           = {buttonGlyph}
-          text            = 'Créer une nouvelle note'
-          glyph-position  = 'right'
-          custom-on-click = {buttonAction}
+          glyph          = {buttonGlyph}
+          text           = 'Créer une nouvelle note'
+          glyph-position = 'right'
+          on-click       = {buttonAction}
           {...this.link ()} />
       </div>
     );

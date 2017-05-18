@@ -64,9 +64,9 @@ export default class Button extends React.Component {
   }
 
   onClicked (e) {
-    const customOnClick = this.read ('custom-on-click');
-    if (customOnClick) {
-      customOnClick (e);
+    const x = this.read ('on-click');
+    if (x) {
+      x (e);
     } else {
       this.onClick (e);
     }

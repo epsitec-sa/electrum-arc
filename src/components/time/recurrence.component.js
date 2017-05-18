@@ -331,9 +331,9 @@ export default class Recurrence extends React.Component {
     } else {
       return (
         <Button
-          glyph           = 'eraser'
-          tooltip         = 'Supprime toutes les exceptions'
-          custom-on-click = {this.onEraseEvents}
+          glyph    = 'eraser'
+          tooltip  = 'Supprime toutes les exceptions'
+          on-click = {this.onEraseEvents}
           {...this.link ()} />
       );
     }
@@ -388,9 +388,9 @@ export default class Recurrence extends React.Component {
           {...this.linkMonths ()} />
         {this.renderEditorEraser (create)}
         <Button
-          glyph           = {buttonGlyph}
-          tooltip         = {buttonTooltip}
-          custom-on-click = {buttonAction}
+          glyph    = {buttonGlyph}
+          tooltip  = {buttonTooltip}
+          on-click = {buttonAction}
           {...this.link ()} />
       </div>
     );
@@ -405,10 +405,10 @@ export default class Recurrence extends React.Component {
     return (
       <div style={editStyle}>
         <Button
-          glyph           = {buttonGlyph}
-          text            = 'Créer une nouvelle récurrence'
-          glyph-position  = 'right'
-          custom-on-click = {buttonAction}
+          glyph          = {buttonGlyph}
+          text           = 'Créer une nouvelle récurrence'
+          glyph-position = 'right'
+          on-click       = {buttonAction}
           {...this.link ()} />
       </div>
     );

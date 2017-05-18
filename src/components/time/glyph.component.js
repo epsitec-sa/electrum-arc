@@ -219,9 +219,9 @@ export default class Glyph extends React.Component {
           rows                = {extended ? 3 : null}
           {...this.linkDescription ()} />
         <Button
-          glyph           = {buttonGlyph}
-          tooltip         = {buttonTooltip}
-          custom-on-click = {buttonAction}
+          glyph    = {buttonGlyph}
+          tooltip  = {buttonTooltip}
+          on-click = {buttonAction}
           {...this.link ()} />
       </div>
     );
@@ -236,10 +236,10 @@ export default class Glyph extends React.Component {
     return (
       <div style={editStyle}>
         <Button
-          glyph           = {buttonGlyph}
-          text            = 'Créer un nouveau pictogramme'
-          glyph-position  = 'right'
-          custom-on-click = {buttonAction}
+          glyph          = {buttonGlyph}
+          text           = 'Créer un nouveau pictogramme'
+          glyph-position = 'right'
+          on-click       = {buttonAction}
           {...this.link ()} />
       </div>
     );

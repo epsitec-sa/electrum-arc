@@ -177,9 +177,9 @@ export default class LabelTextField extends React.Component {
       const actionGlyph = this.read ('action-glyph');
       return (
         <Button
-          kind            = 'combo'
-          glyph           = {actionGlyph}
-          custom-on-click = {this.onActionClicked}
+          kind     = 'combo'
+          glyph    = {actionGlyph}
+          on-click = {this.onActionClicked}
           {...this.link ()}
         />
       );

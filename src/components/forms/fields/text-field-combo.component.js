@@ -177,11 +177,11 @@ export default class TextFieldCombo extends React.Component {
 
     return (
       <Button
-        kind            = 'combo'
-        glyph           = {glyph}
-        shape           = {buttonShape}
-        active          = {isComboVisible}
-        custom-on-click = {this.onButtonClicked}
+        kind     = 'combo'
+        glyph    = {glyph}
+        shape    = {buttonShape}
+        active   = {isComboVisible}
+        on-click = {this.onButtonClicked}
         {...this.link ()}
         />
     );

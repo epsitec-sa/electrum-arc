@@ -185,9 +185,9 @@ export default class DispatchBacklog extends React.Component {
     return (
       <div style={style}>
         <Button
-          kind            = 'hover'
-          glyph           = {this.getViewTypeGlyph ()}
-          custom-on-click = {this.onCycleViewType}
+          kind     = 'hover'
+          glyph    = {this.getViewTypeGlyph ()}
+          on-click = {this.onCycleViewType}
           {...this.link ()} />
       </div>
     );

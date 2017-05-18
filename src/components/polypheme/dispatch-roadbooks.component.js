@@ -101,10 +101,10 @@ export default class DispatchRoadbooks extends React.Component {
     return (
       <div style={style}>
         <Button
-          kind            = 'hover'
-          glyph           = {glyph.glyph}
-          rotate          = {glyph.rotate}
-          custom-on-click = {this.onCycleViewType}
+          kind     = 'hover'
+          glyph    = {glyph.glyph}
+          rotate   = {glyph.rotate}
+          on-click = {this.onCycleViewType}
           {...this.link ()} />
       </div>
     );

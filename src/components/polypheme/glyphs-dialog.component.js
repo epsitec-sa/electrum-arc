@@ -48,12 +48,12 @@ export default class GlyphsDialog extends React.Component {
     const color = ColorHelpers.getMarkColor (this.props.theme, g.color);
     return (
       <Button
-        kind            = 'glyph-item'
-        glyph           = {g.glyph}
-        glyph-color     = {color}
-        text            = {glyph.Name}
-        active          = {selected ? 'true' : 'false'}
-        custom-on-click = {() => this.onToggleGlyph (glyph)}
+        kind        = 'glyph-item'
+        glyph       = {g.glyph}
+        glyph-color = {color}
+        text        = {glyph.Name}
+        active      = {selected ? 'true' : 'false'}
+        on-click    = {() => this.onToggleGlyph (glyph)}
         {...this.link ()}/>
     );
   }
@@ -81,9 +81,9 @@ export default class GlyphsDialog extends React.Component {
             kind = 'title'
             {...this.link ()} />
             <Button
-              glyph           = 'trash'
-              tooltip         = 'Supprime tous les pictogrammes'
-              custom-on-click = {this.onClearGlyphs}
+              glyph    = 'trash'
+              tooltip  = 'Supprime tous les pictogrammes'
+              on-click = {this.onClearGlyphs}
               {...this.link ()} />
           </Container>
         <div style={glyphsStyle}>
@@ -177,12 +177,12 @@ export default class GlyphsDialog extends React.Component {
           </Container>
           <Label grow='1' {...this.link ()} />
           <Button
-            glyph           = 'check'
-            text            = 'Fermer'
-            kind            = 'action'
-            width           = '150px'
-            place           = '1/1'
-            custom-on-click = {this.onClose}
+            glyph    = 'check'
+            text     = 'Fermer'
+            kind     = 'action'
+            width    = '150px'
+            place    = '1/1'
+            on-click = {this.onClose}
             {...this.link ()} />
         </div>
       </DialogModal>

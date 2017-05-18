@@ -38,20 +38,20 @@ export default class TripPredispatch extends React.Component {
     return (
       <Container kind='row' {...this.link ()} >
         <Button
-          glyph           = 'check'
-          text            = 'Oui'
-          kind            = 'action'
-          grow            = '1'
-          place           = 'left'
-          custom-on-click = {this.onAccept}
+          glyph    = 'check'
+          text     = 'Oui'
+          kind     = 'action'
+          grow     = '1'
+          place    = 'left'
+          on-click = {this.onAccept}
           {...this.link ()} />
         <Button
-          glyph           = 'close'
-          text            = 'Non'
-          kind            = 'action'
-          grow            = '1'
-          place           = 'right'
-          custom-on-click = {this.onCancel}
+          glyph    = 'close'
+          text     = 'Non'
+          kind     = 'action'
+          grow     = '1'
+          place    = 'right'
+          on-click = {this.onCancel}
           {...this.link ()} />
       </Container>
     );

@@ -134,20 +134,20 @@ export default class TripModify extends React.Component {
     return (
       <Container kind='row' {...this.link ()} >
         <Button
-          glyph           = 'check'
-          text            = 'Modifier'
-          kind            = 'action'
-          grow            = '1'
-          place           = 'left'
-          custom-on-click = {this.onAccept}
+          glyph    = 'check'
+          text     = 'Modifier'
+          kind     = 'action'
+          grow     = '1'
+          place    = 'left'
+          on-click = {this.onAccept}
           {...this.link ()} />
         <Button
-          glyph           = 'close'
-          text            = 'Annuler'
-          kind            = 'action'
-          grow            = '1'
-          place           = 'right'
-          custom-on-click = {this.onCancel }
+          glyph    = 'close'
+          text     = 'Annuler'
+          kind     = 'action'
+          grow     = '1'
+          place    = 'right'
+          on-click = {this.onCancel }
           {...this.link ()} />
       </Container>
     );

@@ -256,16 +256,16 @@ export default class Chronos extends React.Component {
     if (count) {
       return (
         <Button
-          index           = {index}
-          kind            = 'chronos-navigator'
-          subkind         = 'with-badge'
-          glyph           = {glyph}
-          text            = {text}
-          tooltip         = {tooltip}
-          border          = 'none'
-          disabled        = {disabled ? 'true' : 'false'}
-          active          = {active ? 'true' : 'false'}
-          custom-on-click = {onAction}
+          index    = {index}
+          kind     = 'chronos-navigator'
+          subkind  = 'with-badge'
+          glyph    = {glyph}
+          text     = {text}
+          tooltip  = {tooltip}
+          border   = 'none'
+          disabled = {disabled ? 'true' : 'false'}
+          active   = {active ? 'true' : 'false'}
+          on-click = {onAction}
           {...this.link ()}>
           <Badge value={count} kind='chronos-count' {...this.link ()} />
         </Button>
@@ -273,15 +273,15 @@ export default class Chronos extends React.Component {
     } else {
       return (
         <Button
-          index           = {index}
-          kind            = 'chronos-navigator'
-          glyph           = {glyph}
-          text            = {text}
-          tooltip         = {tooltip}
-          border          = 'none'
-          disabled        = {disabled ? 'true' : 'false'}
-          active          = {active ? 'true' : 'false'}
-          custom-on-click = {onAction}
+          index    = {index}
+          kind     = 'chronos-navigator'
+          glyph    = {glyph}
+          text     = {text}
+          tooltip  = {tooltip}
+          border   = 'none'
+          disabled = {disabled ? 'true' : 'false'}
+          active   = {active ? 'true' : 'false'}
+          on-click = {onAction}
           {...this.link ()}/>
       );
     }

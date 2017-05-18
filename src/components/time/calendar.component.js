@@ -106,14 +106,14 @@ export default class Calendar extends React.Component {
     const tooltip = Converters.getDisplayedDate (date, 'Wdmy');
     return (
       <Button
-        key             = {index}
-        text            = {Converters.getDay (date)}  // 1..31
-        tooltip         = {tooltip}
-        kind            = 'calendar'
-        active          = {active}
-        dimmed          = {dimmed}
-        weekend         = {weekend}
-        custom-on-click = {() => this.onDateClicked (date)}
+        key      = {index}
+        text     = {Converters.getDay (date)}  // 1..31
+        tooltip  = {tooltip}
+        kind     = 'calendar'
+        active   = {active}
+        dimmed   = {dimmed}
+        weekend  = {weekend}
+        on-click = {() => this.onDateClicked (date)}
         {...this.link ()}
       />
     );
@@ -164,10 +164,10 @@ export default class Calendar extends React.Component {
     if (showing) {
       return (
         <Button
-          glyph           = 'chevron-left'
-          kind            = 'calendar-navigation'
-          key             = 'prevMonth'
-          custom-on-click = {this.onPrevMonth}
+          glyph    = 'chevron-left'
+          kind     = 'calendar-navigation'
+          key      = 'prevMonth'
+          on-click = {this.onPrevMonth}
           {...this.link ()} />
       );
     } else {
@@ -179,10 +179,10 @@ export default class Calendar extends React.Component {
     if (showing) {
       return (
         <Button
-          glyph           = 'chevron-right'
-          kind            = 'calendar-navigation'
-          key             = 'nextMonth'
-          custom-on-click = {this.onNextMonth}
+          glyph    = 'chevron-right'
+          kind     = 'calendar-navigation'
+          key      = 'nextMonth'
+          on-click = {this.onNextMonth}
           {...this.link ()} />
       );
     } else {
