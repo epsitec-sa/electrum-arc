@@ -449,6 +449,11 @@ export default function styles (theme, props) {
         leftPadding     = Unit.sub (leftPadding, theme.shapes.markWidth);
       }
       padding = topPadding + ' ' + rightPadding + ' ' + bottomPadding + ' ' + leftPadding;
+    } else if (inputSubkind === 'light-box') {
+      rightMargin       = Unit.multiply (m, -1);
+      leftMargin        = Unit.multiply (m, -1);
+      topMargin         = Unit.multiply (halfMargin, -1);
+      bottomMargin      = Unit.sub (Unit.multiply (halfMargin, -1), '1px');
     } else if (inputSubkind === 'large-box') {
       rightMargin       = Unit.multiply (m, -1);
       leftMargin        = Unit.multiply (m, -1);
@@ -830,6 +835,7 @@ export default function styles (theme, props) {
     flexWrap        = 'wrap';
     padding         = Unit.add (fbp, '1px') + ' ' + fbp + ' ' + fbp + ' ' + fbp;
     backgroundColor = theme.palette.flyingBalloonBackground;
+    color           = theme.palette.text;
     position        = 'relative';
     boxShadow       = theme.shapes.flyingShadow;
     borderRadius    = theme.shapes.flyingBalloonRadius;
@@ -841,6 +847,7 @@ export default function styles (theme, props) {
     flexWrap        = 'wrap';
     padding         = theme.shapes.floatingPadding;
     backgroundColor = theme.palette.flyingDialogBackground;
+    color           = theme.palette.text;
     position        = 'relative';
     boxShadow       = theme.shapes.flyingShadow;
     borderRadius    = theme.shapes.flyingDialogRadius;

@@ -14,16 +14,17 @@ export default class CodispatchTicket extends React.Component {
 
     return (
       <DragCab
-        key              = '1'
-        drag-controller  = 'codispo-ticket'
-        drag-owner-id    = {ticketId}
-        direction        = 'vertical'
-        mode             = 'corner-top-left'
-        color            = {this.props.theme.palette.roadbookDragAndDropHover}
-        thickness        = {this.props.theme.shapes.dragAndDropTicketThickness}
-        over-spacing     = '0px'
-        vertical-spacing = '0px'
-        radius           = '0px'
+        key               = '1'
+        drag-controller   = 'codispo-ticket'
+        drag-width-detect = {this.props.theme.shapes.containerMargin}
+        drag-owner-id     = {ticketId}
+        direction         = 'vertical'
+        mode              = 'corner-top-left'
+        color             = {this.props.theme.palette.roadbookDragAndDropHover}
+        thickness         = {this.props.theme.shapes.dragAndDropTicketThickness}
+        over-spacing      = '0px'
+        vertical-spacing  = '0px'
+        radius            = '0px'
         {...this.link ()}>
         <CodispatchDragTicket
           children = {this.props.children}

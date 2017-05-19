@@ -1,6 +1,6 @@
 import {React, Store} from 'electrum';
 import E from 'electrum';
-import {Note} from 'electrum-arc';
+import {Note, Container, Label, Button} from 'electrum-arc';
 import * as ReducerNotes from './reducer-notes.js';
 
 /******************************************************************************/
@@ -50,14 +50,6 @@ export default class Notes extends React.Component {
         bus.notify (this.props, source, newNotes);
         // console.dir (newNotes);
       }
-    } else if (source.type === 'create') {
-      const newNote = this.internalStore.select ('newNote').get ('value');
-      const newNotes = ReducerNotes.reducer (notes,
-        ReducerNotes.addAction (newNote));
-      bus.notify (this.props, {type: 'change'}, newNotes);
-      this.internalStore.select ('notes').set ('value', newNotes);
-      this.extendedIndex = newNotes.length - 1;  // extend created note
-      this.forceUpdate ();
     } else if (source.type === 'delete') {
       const newNotes = ReducerNotes.reducer (notes,
         ReducerNotes.deleteAction (props.field));
@@ -72,6 +64,19 @@ export default class Notes extends React.Component {
     return {...this.link (), bus: this.localBus};
   }
 
+  onCreate () {
+    const notes = this.internalStore.select ('notes').get ('value');
+    const bus = this.props.bus || E.bus;
+
+    const newNote = this.internalStore.select ('newNote').get ('value');
+    const newNotes = ReducerNotes.reducer (notes,
+      ReducerNotes.addAction (newNote));
+    bus.notify (this.props, {type: 'change'}, newNotes);
+    this.internalStore.select ('notes').set ('value', newNotes);
+    this.extendedIndex = newNotes.length - 1;  // extend created note
+    this.forceUpdate ();
+  }
+
   onSwapExtended (index) {
     if (index === this.extendedIndex) {  // if panel extended ?
       index = -1;  // compact the panel
@@ -80,7 +85,26 @@ export default class Notes extends React.Component {
     this.forceUpdate ();
   }
 
-  renderRow (note, create, extended, index) {
+  renderHeader () {
+    const style = this.mergeStyles ('header');
+    return (
+      <div style={style}>
+        <Label
+          text = 'Notes'
+          grow = '1'
+          kind = 'title'
+          {...this.link ()} />
+        <Button
+          glyph          = 'plus'
+          text           = 'Ajouter'
+          glyph-position = 'right'
+          on-click       = {this.onCreate}
+          {...this.link ()} />
+      </div>
+    );
+  }
+
+  renderRow (note, extended, index) {
     const glyphs = this.read ('glyphs');
     return (
       <Note
@@ -88,7 +112,6 @@ export default class Notes extends React.Component {
         field            = {index}
         value            = {note}
         glyphs           = {glyphs}
-        create           = {create   ? 'true' : 'false'}
         extended         = {extended ? 'true' : 'false'}
         do-swap-extended = {this.onSwapExtended}
         {...this.linkNote ()} />
@@ -102,22 +125,24 @@ export default class Notes extends React.Component {
     const extendedIndex = this.extendedIndex;
     for (var note of notes) {
       const extended = (extendedIndex === index);
-      result.push (this.renderRow (note, false, extended, index++));
+      result.push (this.renderRow (note, extended, index++));
     }
     return result;
-  }
-
-  renderEditor () {
-    const newNote = this.internalStore.select ('newNote').get ('value');
-    return this.renderRow (newNote, true, false, -1);  // last line (for create)
   }
 
   render () {
     const boxStyle = this.mergeStyles ('box');
     return (
       <div style={boxStyle}>
-        {this.renderRows ()}
-        {this.renderEditor ()}
+        {this.renderHeader ()}
+        <Container
+          kind            = 'column'
+          drag-controller = 'note'
+          drag-source     = 'notes'
+          drag-owner-id   = 'notes'
+          {...this.link ()} >
+          {this.renderRows ()}
+        </Container>
       </div>
     );
   }

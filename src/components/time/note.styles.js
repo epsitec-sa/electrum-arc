@@ -3,77 +3,72 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 export default function styles (theme, _props) {
-  const s = theme.shapes.lineSpacing;
-  const editorHeight = Unit.add (theme.shapes.lineHeight, '2px');
+  const m = theme.shapes.containerMargin;
+  const halfMargin = Unit.multiply (m, 0.5);
 
-  const mainStyle = {
-    display:       'flex',
-    flexDirection: 'column',
-    cursor:        'default',
-    userSelect:    'none',
-  };
-
-  const headerInfoCompactedStyle = {
+  const mainCompactedStyle = {
     display:         'flex',
-    flexDirection:   'row',
-    backgroundColor: theme.palette.recurrenceHeaderInfoCompactedBackground,
+    flexDirection:   'column',
+    flexGrow:        '1',
+    padding:         halfMargin + ' ' + m,
+    borderTopColor:  theme.palette.paneNavigatorInactiveBorder,
+    borderTopWidth:  '1px',
+    borderTopStyle:  'solid',
+    backgroundColor: 'transparent',
     color:           theme.palette.recurrenceHeaderInfoCompactedText,
     transition:      theme.transitions.easeOut (500, 'background-color', 0),
+    cursor:          'default',
+    userSelect:      'none',
   };
 
-  const headerInfoExtendedStyle = {
+  const mainExtendedStyle = {
     display:         'flex',
-    flexDirection:   'row',
-    backgroundColor: theme.palette.recurrenceHeaderInfoExtendedBackground,
+    flexDirection:   'column',
+    flexGrow:        '1',
+    padding:         halfMargin + ' ' + m,
+    borderTopColor:  theme.palette.paneNavigatorInactiveBorder,
+    borderTopWidth:  '1px',
+    borderTopStyle:  'solid',
+    backgroundColor: theme.palette.recurrenceExtendedBoxBackground,
     color:           theme.palette.recurrenceHeaderInfoExtendedText,
     transition:      theme.transitions.easeOut (500, 'background-color', 0),
+    cursor:          'default',
+    userSelect:      'none',
   };
 
-  const headerEditorStyle = {
-    display:       'flex',
-    flexDirection: 'row-reverse',
-  };
-
-  const compactedBoxStyle = {
-    display:         'flex',
-    flexDirection:   'column',
-    height:          '0px',
-    overflowY:       'hidden',
-    margin:          '0px 0px ' + s + ' 0px',
-    backgroundColor: 'transparent',
-    transition:      theme.transitions.easeOut (500),
-  };
-
-  const extendedBoxStyle = {
-    display:         'flex',
-    flexDirection:   'column',
-    // height:          extendedBoxHeight,
-    overflowY:       'hidden',
-    margin:          '0px 0px ' + s + ' 0px',
-    backgroundColor: theme.palette.recurrenceExtendedBoxBackground,
-    transition:      theme.transitions.easeOut (500),
-  };
-
-  const editorStyle = {
-    minHeight:     editorHeight,
-    padding:       s,
+  const headerInfoStyle = {
     display:       'flex',
     flexDirection: 'row',
   };
 
+  const headerDragStyle = {
+    display:       'flex',
+    flexDirection: 'row',
+    flexGrow:      '1',
+    cursor:        'ns-resize',
+  };
+
+  const editorStyle = {
+    display:       'flex',
+    flexDirection: 'row',
+    overflowY:     'hidden',
+    padding:       halfMargin + ' 0px',
+  };
+
   const glyphsStyle = {
-    padding: '0px ' + '54px' + ' ' + s + ' ' + s,
+    display:       'flex',
+    flexDirection: 'row',
+    overflowY:     'hidden',
+    margin:        '0px ' + m,
   };
 
   return {
-    main:                mainStyle,
-    headerInfoCompacted: headerInfoCompactedStyle,
-    headerInfoExtended:  headerInfoExtendedStyle,
-    headerEditor:        headerEditorStyle,
-    compactedBox:        compactedBoxStyle,
-    extendedBox:         extendedBoxStyle,
-    editor:              editorStyle,
-    glyphs:              glyphsStyle,
+    mainCompacted: mainCompactedStyle,
+    mainExtended:  mainExtendedStyle,
+    headerInfo:    headerInfoStyle,
+    headerDrag:    headerDragStyle,
+    editor:        editorStyle,
+    glyphs:        glyphsStyle,
   };
 }
 

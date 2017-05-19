@@ -19,21 +19,7 @@ function isInside (rect, x, y) {
 
 function getBoundingRect (theme, container) {
   const node = ReactDOM.findDOMNode (container);
-  const rect = node.getBoundingClientRect ();
-  const dragLeftDetect = container.props['drag-left-detect'];
-  if (dragLeftDetect) {
-    const x = theme.shapes[dragLeftDetect];
-    const dld = Unit.parse (x).value;
-    return {
-      left:   rect.left,
-      right:  rect.left + dld,
-      top:    rect.top,
-      bottom: rect.bottom,
-      width:  dld,
-      height: rect.height,
-    };
-  }
-  return rect;
+  return node.getBoundingClientRect ();
 }
 
 // Return the property 'drag-controller' of the rectangle targeted by the
@@ -106,7 +92,6 @@ export default class DragCab extends React.Component {
   }
 
   onMyMouseDown (e) {
-    // Trace.log ('DragCab.mouseDown');
     if (this.hasCombo) {  // does a child have an open combo-menu ?
       return;
     }
@@ -128,6 +113,22 @@ export default class DragCab extends React.Component {
       return;
     }
     const node = ReactDOM.findDOMNode (this);
+    const dragWidthtDetect = this.read ('drag-width-detect');
+    if (dragWidthtDetect) {
+      const w = Unit.parse (dragWidthtDetect).value;
+      const rect = node.getBoundingClientRect ();
+      if (e.clientX > rect.left + w) {
+        return;
+      }
+    }
+    const dragHeightDetect = this.read ('drag-height-detect');
+    if (dragHeightDetect) {
+      const h = Unit.parse (dragHeightDetect).value;
+      const rect = node.getBoundingClientRect ();
+      if (e.clientY > rect.top + h) {
+        return;
+      }
+    }
     this.dragHeight = node.clientHeight;
     this.dragInProcess = true;
   }

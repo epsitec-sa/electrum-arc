@@ -1,9 +1,10 @@
 import {React, Store} from 'electrum';
 import {ReactDOM} from 'electrum';
-import {LabelTextField, Glyphs, Button, Label, Container, GlyphsDialog} from 'electrum-arc';
+import {LabelTextField, Button, Label, GlyphsDialog, DragCab} from 'electrum-arc';
 import * as GlyphHelpers from '../polypheme/glyph-helpers.js';
 import * as ReducerGlyphs from './reducer-glyphs.js';
 import * as ComboHelpers from '../combo/combo-helpers.js';
+import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
@@ -77,12 +78,6 @@ export default class Note extends React.Component {
     this.glyphs  = this.internalStore.select ('Glyphs' ).get ('value');
   }
 
-  onCreateNote () {
-    this.notifyParent ('create');
-    this.updateInfo ();
-    this.forceUpdate ();
-  }
-
   onDeleteNote () {
     this.notifyParent ('delete');
     this.updateInfo ();
@@ -136,6 +131,12 @@ export default class Note extends React.Component {
     this.forceUpdate ();
   }
 
+  onClickAction (e) {
+  }
+
+  onDragEnding (selectedIds, toId, ownerId, ownerKind) {
+  }
+
   renderGlyphsDialog () {
     if (this.showGlyphsDialog) {
       const allGlyphs = this.read ('glyphs');
@@ -162,9 +163,12 @@ export default class Note extends React.Component {
     return (
       <Label
         index       = {index}
+        width       = '28px'
         glyph       = {g.glyph}
         glyph-color = {g.color}
+        glyph-size  = '150%'
         spacing     = 'compact'
+        justify     = 'center'
         {...this.link ()} />
     );
   }
@@ -178,130 +182,106 @@ export default class Note extends React.Component {
     return result;
   }
 
-  renderInfo (extended) {
-    const style = this.mergeStyles (extended ? 'headerInfoExtended' : 'headerInfoCompacted');
+  renderInfo (extended, opacity) {
+    const headerInfoStyle = this.mergeStyles ('headerInfo');
+    const headerDragStyle = this.mergeStyles ('headerDrag');
+    const glyphsStyle = this.mergeStyles ('glyphs');
+    headerInfoStyle.opacity = opacity;
     return (
-      <div
-        style       = {style}
-        onMouseDown = {this.onSwapExtended}
-        >
-        <Label
-          text        = {this.content}
-          kind        = 'title-recurrence'
-          wrap        = 'no'
-          single-line = 'true'
-          grow        = '3'
-          {...this.link ()} />
-        <Container
-          kind = 'row'
-          grow = '1'
-          {...this.link ()} >
-          {this.renderInfoGlyphs (this.glyphs)}
-        </Container>
+      <div style={headerInfoStyle}>
+        <div style={headerDragStyle}>
+          <Label
+            text        = {this.content}
+            wrap        = 'no'
+            single-line = 'true'
+            grow        = '1'
+            {...this.link ()} />
+          <div style={glyphsStyle}>
+            {this.renderInfoGlyphs (this.glyphs)}
+          </div>
+        </div>
         <Button
-          kind    = 'recurrence'
-          glyph   = {extended ? 'caret-up' : 'caret-down'}
-          tooltip = {extended ? 'Compacte la note' : 'Etend la note pour la modifier'}
-          active  = {extended ? 'true' : 'false'}
+          kind         = 'recurrence'
+          glyph        = {extended ? 'caret-up' : 'caret-down'}
+          tooltip      = {extended ? 'Compacte la note' : 'Etend la note pour la modifier'}
+          active       = {extended ? 'true' : 'false'}
+          active-color = {this.props.theme.palette.recurrenceExtendedBoxBackground}
           {...this.link ()} />
       </div>
     );
   }
 
-  renderEditor (create, extended) {
-    const editStyle = this.mergeStyles (create ? 'headerEditor' : 'editor');
-
-    const buttonGlyph   = create ? 'plus' : 'trash';
-    const buttonTooltip = create ? 'Crée une nouvelle note' : 'Supprime la note';
-    const buttonAction  = create ? this.onCreateNote : this.onDeleteNote;
-
-    return (
-      <div style={editStyle}>
-        <LabelTextField
-          field               = 'Content'
-          select-all-on-focus = 'true'
-          hint-text           = 'Texte de la note'
-          label-glyph         = 'pencil'
-          grow                = '3'
-          spacing             = 'large'
-          rows                = {extended ? 4 : null}
-          {...this.linkContent ()} />
-        <Button
-          kind     = 'combo'
-          text     = 'Pictogrammes'
-          active   = {this.showGlyphsDialog ? 'true' : 'false'}
-          grow     = '0.2'
-          on-click = {this.onOpenGlyphsDialog}
-          spacing  = 'large'
-          ref      = {x => this.glyphDialogButton = x}
-          {...this.link ()} />
-        <Button
-          glyph    = {buttonGlyph}
-          tooltip  = {buttonTooltip}
-          on-click = {buttonAction}
-          {...this.link ()} />
-      </div>
-    );
-  }
-
-  renderCreateEditor () {
-    const editStyle = this.mergeStyles ('headerEditor');
-
-    const buttonGlyph  = 'plus';
-    const buttonAction = this.onCreateNote;
-
-    return (
-      <div style={editStyle}>
-        <Button
-          glyph          = {buttonGlyph}
-          text           = 'Créer une nouvelle note'
-          glyph-position = 'right'
-          on-click       = {buttonAction}
-          {...this.link ()} />
-      </div>
-    );
-  }
-
-  renderGlyphs () {
-    const glyphs = this.read ('glyphs');
-    const style = this.mergeStyles ('glyphs');
-    return (
-      <div style={style}>
-        <Glyphs
-          field  = 'Glyphs'
-          glyphs = {glyphs}
-          darken = '0.1'
-          {...this.linkGlyphs ()} />
-      </div>
-    );
+  renderEditor (extended, opacity) {
+    if (extended) {
+      const style = this.mergeStyles ('editor');
+      style.opacity = opacity;
+      return (
+        <div style={style}>
+          <LabelTextField
+            field               = 'Content'
+            select-all-on-focus = 'true'
+            hint-text           = 'Texte de la note'
+            label-glyph         = 'pencil'
+            grow                = '3'
+            spacing             = 'large'
+            rows                = '4'
+            {...this.linkContent ()} />
+          <Button
+            kind     = 'combo'
+            text     = 'Pictogrammes'
+            active   = {this.showGlyphsDialog ? 'true' : 'false'}
+            grow     = '0.2'
+            on-click = {this.onOpenGlyphsDialog}
+            spacing  = 'large'
+            ref      = {x => this.glyphDialogButton = x}
+            {...this.link ()} />
+          <Button
+            glyph    = 'trash'
+            tooltip  = 'Supprime la note'
+            on-click = {this.onDeleteNote}
+            {...this.link ()} />
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 
   render () {
     this.updateComponent ();
 
-    const create   = this.read ('create') === 'true';
     const extended = this.read ('extended') === 'true';
 
-    const mainStyle = this.mergeStyles ('main');
+    // const isDragged = this.props.isDragged;
+    // const hasHeLeft = this.props.hasHeLeft;
+    const isDragged = this.read ('isDragged');
+    const hasHeLeft = this.read ('hasHeLeft');
 
-    if (create) {
-      return (
+    const opacity = (!isDragged && hasHeLeft) ? 0.1 : 1.0;
+    console.log (`Note.render ${this.noteId} ${opacity}`);
+
+    const mainStyle = this.mergeStyles (extended ? 'mainExtended' : 'mainCompacted');
+    const dhd = Unit.add (this.props.theme.shapes.lineHeight, this.props.theme.shapes.containerMargin);
+
+    return (
+      <DragCab
+        drag-controller    = 'note'
+        drag-height-detect = {dhd}
+        direction          = 'vertical'
+        color              = {this.props.theme.palette.dragAndDropHover}
+        thickness          = {this.props.theme.shapes.dragAndDropTicketThickness}
+        mode               = 'corner-top-left'
+        drag-owner-id      = {this.noteId}
+        do-click-action    = {this.onSwapExtended}
+        do-drag-ending     = {this.onDragEnding}
+        {...this.link ()} >
         <div style={mainStyle}>
-          {this.renderCreateEditor ()}
-        </div>
-      );
-    } else {
-      const boxStyle = this.mergeStyles (extended ? 'extendedBox' : 'compactedBox');
-      return (
-        <div style={mainStyle}>
-          {this.renderInfo (extended)}
-          <div style={boxStyle}>
-            {this.renderEditor (create, extended)}
-          </div>
+          {this.renderInfo (extended, opacity)}
+          {this.renderEditor (extended, opacity)}
           {this.renderGlyphsDialog ()}
         </div>
-      );
-    }
+      </DragCab>
+    );
   }
 }
 
