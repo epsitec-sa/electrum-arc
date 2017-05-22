@@ -86,6 +86,26 @@ export default class Notes extends React.Component {
     this.forceUpdate ();
   }
 
+  onDragEnding (selectedIds, toId) {
+    // console.log (`Notes.onDragEnding ${selectedIds} ${toId} ${ownerId} ${ownerKind}`);
+    const notes = this.internalStore.select ('notes').get ('value');
+    const bus = this.props.bus || E.bus;
+
+    const initialId = this.extendedIndex === -1 ? null : notes[this.extendedIndex].id;
+    const newNotes = ReducerNotes.reducer (notes,
+      ReducerNotes.dragAction (selectedIds[0], toId));
+    bus.notify (this.props, {type: 'change'}, newNotes);
+    this.internalStore.select ('notes').set ('value', newNotes);
+    if (initialId) {
+      for (let i = 0; i < newNotes.length; i++) {
+        if (newNotes[i].id === initialId) {
+          this.extendedIndex = i;
+        }
+      }
+    }
+    this.forceUpdate ();
+  }
+
   renderHeader () {
     const style = this.mergeStyles ('header');
     return (

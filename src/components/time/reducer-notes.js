@@ -16,6 +16,12 @@ export const deleteAction = index => ({
   index: index,
 });
 
+export const dragAction = (selectedId, toId) => ({
+  type:       'DRAG',
+  selectedId: selectedId,
+  toId:       toId,
+});
+
 /******************************************************************************/
 
 function updateNote (state, index, note) {
@@ -37,6 +43,28 @@ function deleteNote (state, index) {
   return mutableState;
 }
 
+function indexOf (state, note) {
+  let id = note.id;
+  if (typeof note === 'string') {
+    id = note;
+  }
+  for (var i = 0; i < state.length; i++) {
+    if (state[i].id === id) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+function dragNote (state, selectedId, toId) {
+  const mutableState = [ ...state ];  // shallow copy of state
+  const si = indexOf (mutableState, selectedId);
+  const x = mutableState.splice (si, 1);
+  const ti = toId ? indexOf (mutableState, toId) : mutableState.length;
+  mutableState.splice (ti, 0, x[0]);
+  return mutableState;
+}
+
 /******************************************************************************/
 
 export function reducer (state, action) {
@@ -47,6 +75,8 @@ export function reducer (state, action) {
       return addNote (state, action.note);
     case 'DELETE':
       return deleteNote (state, action.index);
+    case 'DRAG':
+      return dragNote (state, action.selectedId, action.toId);
   }
   return state;
 }
