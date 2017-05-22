@@ -2,80 +2,112 @@ import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
-export default function styles (theme, _props) {
-  const s = theme.shapes.lineSpacing;
-  const editorHeight = Unit.add (theme.shapes.lineHeight, '2px');
-  const calendarHeight = Unit.multiply (theme.shapes.calendarButtonHeight, 8);
-  const extendedBoxHeight = Unit.add (Unit.add (editorHeight, calendarHeight), Unit.multiply (Unit.add (s, '2px'), 3));
+export default function styles (theme, props) {
+  const extended  = props.extended === 'true';
+  const isDragged = props.isDragged;
+  const hasHeLeft = props.hasHeLeft;
+
+  const m = theme.shapes.containerMargin;
+  const halfMargin = Unit.multiply (m, 0.5);
+
+  let width              = null;
+  let backgroundColor    = 'transparent';
+  let color              = theme.palette.recurrenceHeaderInfoCompactedText;
+  let opacity            = 1.0;
+  let borderTopColor     = theme.palette.paneNavigatorInactiveBorder;
+  let borderTopWidth     = '1px';
+  let borderTopStyle     = 'solid';
+  let borderBottomColor  = null;
+  let borderBottomWidth  = null;
+  let borderBottomStyle  = null;
+  let borderLeftColor    = null;
+  let borderLeftWidth    = null;
+  let borderLeftStyle    = null;
+  let borderRightColor   = null;
+  let borderRightWidth   = null;
+  let borderRightStyle   = null;
+
+  if (extended) {
+    backgroundColor = theme.palette.recurrenceExtendedBoxBackground;
+    color           = theme.palette.recurrenceHeaderInfoExtendedText;
+  }
+  if (!isDragged && hasHeLeft) {
+    backgroundColor = theme.palette.paneBackground;
+    opacity         = 0.0;
+  }
+  if (isDragged) {
+    width             = '500px';
+    borderBottomColor = theme.palette.paneNavigatorInactiveBorder;
+    borderBottomWidth = '1px';
+    borderBottomStyle = 'solid';
+    borderLeftColor   = theme.palette.paneNavigatorInactiveBorder;
+    borderLeftWidth   = '1px';
+    borderLeftStyle   = 'solid';
+    borderRightColor  = theme.palette.paneNavigatorInactiveBorder;
+    borderRightWidth  = '1px';
+    borderRightStyle  = 'solid';
+    if (!extended) {
+      backgroundColor = theme.palette.paneBackground;
+    }
+  }
 
   const mainStyle = {
+    width:             width,
+    display:           'flex',
+    flexDirection:     'column',
+    flexGrow:          '1',
+    padding:           halfMargin + ' ' + m,
+    borderTopColor:    borderTopColor,
+    borderTopWidth:    borderTopWidth,
+    borderTopStyle:    borderTopStyle,
+    borderBottomColor: borderBottomColor,
+    borderBottomWidth: borderBottomWidth,
+    borderBottomStyle: borderBottomStyle,
+    borderLeftColor:   borderLeftColor,
+    borderLeftWidth:   borderLeftWidth,
+    borderLeftStyle:   borderLeftStyle,
+    borderRightColor:  borderRightColor,
+    borderRightWidth:  borderRightWidth,
+    borderRightStyle:  borderRightStyle,
+    backgroundColor:   backgroundColor,
+    color:             color,
+    transition:        theme.transitions.easeOut (500, 'background-color', 0),
+    cursor:            'default',
+    userSelect:        'none',
+  };
+
+  const headerInfoStyle = {
     display:       'flex',
-    flexDirection: 'column',
-    cursor:        'default',
-    userSelect:    'none',
+    flexDirection: 'row',
+    opacity:       opacity,
   };
 
-  const headerInfoCompactedStyle = {
-    display:         'flex',
-    flexDirection:   'row',
-    backgroundColor: theme.palette.recurrenceHeaderInfoCompactedBackground,
-    color:           theme.palette.recurrenceHeaderInfoCompactedText,
-    transition:      theme.transitions.easeOut (500, 'background-color', 0),
-  };
-
-  const headerInfoExtendedStyle = {
-    display:         'flex',
-    flexDirection:   'row',
-    backgroundColor: theme.palette.recurrenceHeaderInfoExtendedBackground,
-    color:           theme.palette.recurrenceHeaderInfoExtendedText,
-    transition:      theme.transitions.easeOut (500, 'background-color', 0),
-  };
-
-  const headerEditorStyle = {
+  const headerDragStyle = {
     display:       'flex',
-    flexDirection: 'row-reverse',
-  };
-
-  const compactedBoxStyle = {
-    display:         'flex',
-    flexDirection:   'column',
-    height:          '0px',
-    overflowY:       'hidden',
-    margin:          '0px 0px ' + s + ' 0px',
-    backgroundColor: 'transparent',
-    transition:      theme.transitions.easeOut (500),
-  };
-
-  const extendedBoxStyle = {
-    display:         'flex',
-    flexDirection:   'column',
-    height:          extendedBoxHeight,
-    overflowY:       'hidden',
-    margin:          '0px 0px ' + s + ' 0px',
-    backgroundColor: theme.palette.recurrenceExtendedBoxBackground,
-    transition:      theme.transitions.easeOut (500),
+    flexDirection: 'row',
+    flexGrow:      '1',
+    cursor:        'ns-resize',
   };
 
   const editorStyle = {
-    minHeight:     editorHeight,
-    padding:       s,
     display:       'flex',
     flexDirection: 'row',
+    overflowY:     'hidden',
+    padding:       halfMargin + ' 0px',
+    opacity:       opacity,
   };
 
   const calendarStyle = {
-    padding: '0px ' + s + ' ' + s + ' ' + s,
+    padding: '0px 0px ' + halfMargin + ' 0px',
+    opacity: opacity,
   };
 
   return {
-    main:                mainStyle,
-    headerInfoCompacted: headerInfoCompactedStyle,
-    headerInfoExtended:  headerInfoExtendedStyle,
-    headerEditor:        headerEditorStyle,
-    compactedBox:        compactedBoxStyle,
-    extendedBox:         extendedBoxStyle,
-    editor:              editorStyle,
-    calendar:            calendarStyle,
+    main:       mainStyle,
+    headerInfo: headerInfoStyle,
+    headerDrag: headerDragStyle,
+    editor:     editorStyle,
+    calendar:   calendarStyle,
   };
 }
 

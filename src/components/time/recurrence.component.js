@@ -90,6 +90,14 @@ export default class Recurrence extends React.Component {
     this.localBus = this;  // for access to property notify
   }
 
+  get styleProps () {
+    return {
+      extended:  this.read ('extended'),
+      isDragged: this.read ('isDragged'),
+      hasHeLeft: this.read ('hasHeLeft'),
+    };
+  }
+
   // LocalBus.notify
   notify (props, source, value) {
     // console.log (`Recurrence.notify field=${props.field} type=${source.type}`);
@@ -290,173 +298,128 @@ export default class Recurrence extends React.Component {
     this.forceUpdate ();
   }
 
-  onSwapExtended () {
-    const x = this.read ('do-swap-extended');
-    if (x) {
-      const index = this.read ('index');
-      x (index);
-    }
-  }
-
   renderInfo (extended) {
-    const style = this.mergeStyles (extended ? 'headerInfoExtended' : 'headerInfoCompacted');
+    const headerInfoStyle = this.mergeStyles ('headerInfo');
+    const headerDragStyle = this.mergeStyles ('headerDrag');
     return (
-      <div
-        style       = {style}
-        onMouseDown = {this.onSwapExtended}
-        >
-        <Label
-          text = {this.periodInfo}
-          kind = 'title-recurrence'
-          grow = '2'
-          {...this.link ()} />
-        <Label
-          text = {this.cronInfo}
-          kind = 'title-recurrence'
-          grow = '2'
-          {...this.link ()} />
+      <div style={headerInfoStyle}>
+        <div style={headerDragStyle}>
+          <Label
+            text = {this.periodInfo}
+            kind = 'title-recurrence'
+            grow = '2'
+            {...this.link ()} />
+          <Label
+            text = {this.cronInfo}
+            kind = 'title-recurrence'
+            grow = '2'
+            {...this.link ()} />
+        </div>
         <Button
-          kind    = 'recurrence'
-          glyph   = {extended ? 'caret-up' : 'caret-down'}
-          tooltip = {extended ? 'Compacte la récurrence' : 'Etend la récurrence pour la modifier'}
-          active  = {extended ? 'true' : 'false'}
+          kind         = 'recurrence'
+          glyph        = {extended ? 'caret-up' : 'caret-down'}
+          tooltip      = {extended ? 'Compacte la récurrence' : 'Etend la récurrence pour la modifier'}
+          active       = {extended ? 'true' : 'false'}
+          active-color = {this.props.theme.palette.recurrenceExtendedBoxBackground}
           {...this.link ()} />
       </div>
     );
   }
 
-  renderEditorEraser (create) {
-    if (create) {
-      return null;
-    } else {
+  renderEditor (extended) {
+    if (extended) {
+      const style = this.mergeStyles ('editor');
       return (
-        <Button
-          glyph    = 'eraser'
-          tooltip  = 'Supprime toutes les exceptions'
-          on-click = {this.onEraseEvents}
-          {...this.link ()} />
+        <div style={style}>
+          <TextFieldTyped
+            type                = 'date'
+            field               = 'StartDate'
+            select-all-on-focus = 'true'
+            hint-text           = 'Date de début'
+            tooltip             = 'Date de début'
+            label-glyph         = 'forward'
+            grow                = '1'
+            spacing             = 'large'
+            {...this.linkStartDate ()} />
+          <TextFieldTyped
+            type                = 'date'
+            field               = 'EndDate'
+            select-all-on-focus = 'true'
+            hint-text           = 'Date de fin'
+            tooltip             = 'Date de fin'
+            label-glyph         = 'backward'
+            grow                = '1'
+            spacing             = 'large'
+            {...this.linkEndDate ()} />
+          <LabelTextField
+            field               = 'Days'
+            select-all-on-focus = 'true'
+            hint-text           = 'Jours de la semaine'
+            tooltip             = '1..7 = lundi..dimanche   - = à   , = et'
+            label-glyph         = 'calendar'
+            grow                = '1'
+            spacing             = 'large'
+            {...this.linkDays ()} />
+          <LabelTextField
+            field               = 'Months'
+            select-all-on-focus = 'true'
+            hint-text           = 'Mois de l´année'
+            tooltip             = '1..12 = janvier..décembre   - = à   , = et'
+            label-glyph         = 'calendar-o'
+            grow                = '1'
+            spacing             = 'large'
+            {...this.linkMonths ()} />
+          <Button
+            glyph    = 'eraser'
+            tooltip  = 'Supprime toutes les exceptions'
+            on-click = {this.onEraseEvents}
+            {...this.link ()} />
+          <Button
+            glyph    = 'trash'
+            tooltip  = 'Supprime la récurrence'
+            on-click = {this.onDeleteRecurrence}
+            {...this.link ()} />
+        </div>
       );
+    } else {
+      return null;
     }
   }
 
-  renderEditor (create) {
-    const editStyle = this.mergeStyles (create ? 'headerEditor' : 'editor');
-
-    const buttonGlyph   = create ? 'plus' : 'trash';
-    const buttonTooltip = create ? 'Crée une nouvelle récurrence' : 'Supprime la récurrence';
-    const buttonAction  = create ? this.onCreateRecurrence : this.onDeleteRecurrence;
-
-    return (
-      <div style={editStyle}>
-        <TextFieldTyped
-          type                = 'date'
-          field               = 'StartDate'
-          select-all-on-focus = 'true'
-          hint-text           = 'Date de début'
-          tooltip             = 'Date de début'
-          label-glyph         = 'forward'
-          grow                = '1'
-          spacing             = 'large'
-          {...this.linkStartDate ()} />
-        <TextFieldTyped
-          type                = 'date'
-          field               = 'EndDate'
-          select-all-on-focus = 'true'
-          hint-text           = 'Date de fin'
-          tooltip             = 'Date de fin'
-          label-glyph         = 'backward'
-          grow                = '1'
-          spacing             = 'large'
-          {...this.linkEndDate ()} />
-        <LabelTextField
-          field               = 'Days'
-          select-all-on-focus = 'true'
-          hint-text           = 'Jours de la semaine'
-          tooltip             = '1..7 = lundi..dimanche   - = à   , = et'
-          label-glyph         = 'calendar'
-          grow                = '1'
-          spacing             = 'large'
-          {...this.linkDays ()} />
-        <LabelTextField
-          field               = 'Months'
-          select-all-on-focus = 'true'
-          hint-text           = 'Mois de l´année'
-          tooltip             = '1..12 = janvier..décembre   - = à   , = et'
-          label-glyph         = 'calendar-o'
-          grow                = '1'
-          spacing             = 'large'
-          {...this.linkMonths ()} />
-        {this.renderEditorEraser (create)}
-        <Button
-          glyph    = {buttonGlyph}
-          tooltip  = {buttonTooltip}
-          on-click = {buttonAction}
-          {...this.link ()} />
-      </div>
-    );
-  }
-
-  renderCreateEditor () {
-    const editStyle = this.mergeStyles ('headerEditor');
-
-    const buttonGlyph  = 'plus';
-    const buttonAction = this.onCreateRecurrence;
-
-    return (
-      <div style={editStyle}>
-        <Button
-          glyph          = {buttonGlyph}
-          text           = 'Créer une nouvelle récurrence'
-          glyph-position = 'right'
-          on-click       = {buttonAction}
-          {...this.link ()} />
-      </div>
-    );
-  }
-
-  renderCalendar () {
-    const editStyle = this.mergeStyles ('calendar');
-    return (
-      <div style={editStyle}>
-        <Calendar
-          month-count          = {monthCount ()}
-          visible-date         = {this.visibleDate}
-          dates                = {this.dates}
-          start-date           = {this.getStartDate ()}
-          end-date             = {this.getEndDate ()}
-          date-clicked         = {this.onDateClicked}
-          visible-date-changed = {this.onVisibleDateChanged}
-          {...this.link ()} />
-      </div>
-    );
+  renderCalendar (extended) {
+    if (extended) {
+      const editStyle = this.mergeStyles ('calendar');
+      return (
+        <div style={editStyle}>
+          <Calendar
+            month-count          = {monthCount ()}
+            visible-date         = {this.visibleDate}
+            dates                = {this.dates}
+            start-date           = {this.getStartDate ()}
+            end-date             = {this.getEndDate ()}
+            date-clicked         = {this.onDateClicked}
+            visible-date-changed = {this.onVisibleDateChanged}
+            {...this.link ()} />
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 
   render () {
     this.updateComponent ();
 
-    const create   = this.read ('create') === 'true';
     const extended = this.read ('extended') === 'true';
-
     const mainStyle = this.mergeStyles ('main');
 
-    if (create) {
-      return (
-        <div style={mainStyle}>
-          {this.renderCreateEditor ()}
-        </div>
-      );
-    } else {
-      const boxStyle = this.mergeStyles (extended ? 'extendedBox' : 'compactedBox');
-      return (
-        <div style={mainStyle}>
-          {this.renderInfo (extended)}
-          <div style={boxStyle}>
-            {this.renderEditor (create)}
-            {this.renderCalendar ()}
-          </div>
-        </div>
-      );
-    }
+    return (
+      <div style={mainStyle}>
+        {this.renderInfo (extended)}
+        {this.renderEditor (extended)}
+        {this.renderCalendar (extended)}
+      </div>
+    );
   }
 }
 

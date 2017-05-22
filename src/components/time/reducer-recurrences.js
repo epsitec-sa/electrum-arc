@@ -16,6 +16,12 @@ export const deleteAction = index => ({
   index: index,
 });
 
+export const dragAction = (selectedId, toId) => ({
+  type:       'DRAG',
+  selectedId: selectedId,
+  toId:       toId,
+});
+
 /******************************************************************************/
 
 function updateRecurrence (state, index, recurrence) {
@@ -25,15 +31,51 @@ function updateRecurrence (state, index, recurrence) {
   return mutableState;
 }
 
+// Return a new random guid.
+// See http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+function getNewId () {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace (/[xy]/g, function (c) {
+    /* eslint no-bitwise: 0 */
+    var r = Math.random () * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString (16);
+  });
+}
+
 function addRecurrence (state, recurrence) {
   const mutableState = [ ...state ];  // shallow copy of state
-  mutableState.push (recurrence);
+  const mutableRecurrence = {...recurrence};
+  if (!mutableRecurrence.id) {
+    mutableRecurrence.id = getNewId ();
+  }
+  mutableState.push (mutableRecurrence);
   return mutableState;
 }
 
 function deleteRecurrence (state, index) {
   const mutableState = [ ...state ];  // shallow copy of state
   mutableState.splice (index, 1);
+  return mutableState;
+}
+
+function indexOf (state, recurrence) {
+  let id = recurrence.id;
+  if (typeof recurrence === 'string') {
+    id = recurrence;
+  }
+  for (var i = 0; i < state.length; i++) {
+    if (state[i].id === id) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+function dragRecurrence (state, selectedId, toId) {
+  const mutableState = [ ...state ];  // shallow copy of state
+  const si = indexOf (mutableState, selectedId);
+  const x = mutableState.splice (si, 1);
+  const ti = toId ? indexOf (mutableState, toId) : mutableState.length;
+  mutableState.splice (ti, 0, x[0]);
   return mutableState;
 }
 
@@ -47,6 +89,8 @@ export function reducer (state, action) {
       return addRecurrence (state, action.recurrence);
     case 'DELETE':
       return deleteRecurrence (state, action.index);
+    case 'DRAG':
+      return dragRecurrence (state, action.selectedId, action.toId);
   }
   return state;
 }

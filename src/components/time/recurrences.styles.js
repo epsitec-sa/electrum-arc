@@ -1,12 +1,27 @@
+import {Unit} from 'electrum-theme';
+
 /******************************************************************************/
 
-export default function styles (_theme, _props) {
+export default function styles (theme, _props) {
+  const m = theme.shapes.containerMargin;
+  const halfMargin = Unit.multiply (m, 0.5);
+
   const boxStyle = {
     flexGrow: '1',
   };
 
+  const headerStyle = {
+    display:       'flex',
+    flexDirection: 'row',
+    flexGrow:      '1',
+    padding:       halfMargin + ' ' + m,
+    cursor:        'default',
+    userSelect:    'none',
+  };
+
   return {
-    box: boxStyle,
+    box:    boxStyle,
+    header: headerStyle,
   };
 }
 
