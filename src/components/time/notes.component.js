@@ -1,7 +1,8 @@
 import {React, Store} from 'electrum';
 import E from 'electrum';
-import {Note, Container, Label, Button} from 'electrum-arc';
+import {Note, Container, Label, Button, DragCab} from 'electrum-arc';
 import * as ReducerNotes from './reducer-notes.js';
+import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
@@ -106,15 +107,27 @@ export default class Notes extends React.Component {
 
   renderRow (note, extended, index) {
     const glyphs = this.read ('glyphs');
+    const dhd = Unit.add (this.props.theme.shapes.lineHeight, this.props.theme.shapes.containerMargin);
     return (
-      <Note
-        index            = {index}
-        field            = {index}
-        value            = {note}
-        glyphs           = {glyphs}
-        extended         = {extended ? 'true' : 'false'}
-        do-swap-extended = {this.onSwapExtended}
-        {...this.linkNote ()} />
+      <DragCab
+        drag-controller    = 'note'
+        drag-height-detect = {dhd}
+        direction          = 'vertical'
+        color              = {this.props.theme.palette.dragAndDropHover}
+        thickness          = {this.props.theme.shapes.dragAndDropTicketThickness}
+        mode               = 'corner-top-left'
+        drag-owner-id      = {note.id}
+        do-click-action    = {() => this.onSwapExtended (index)}
+        do-drag-ending     = {this.onDragEnding}
+        {...this.link ()} >
+        <Note
+          index    = {index}
+          field    = {index}
+          value    = {note}
+          glyphs   = {glyphs}
+          extended = {extended ? 'true' : 'false'}
+          {...this.linkNote ()} />
+      </DragCab>
     );
   }
 

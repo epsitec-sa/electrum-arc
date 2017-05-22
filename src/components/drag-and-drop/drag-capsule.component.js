@@ -6,6 +6,8 @@ import {
   Roadbook,
   DispatchTicket,
   Note,
+  Recurrence,
+  Glyph,
 } from '../../all-components.js';
 
 /******************************************************************************/
@@ -65,6 +67,22 @@ export default class DragCapsule extends React.Component {
       case 'Note':
         return (
           <Note
+            {...this.props}
+            isDragged = {isDragged}
+            hasHeLeft = {hasHeLeft}
+            {...this.link ()} />
+        );
+      case 'Recurrence':
+        return (
+          <Recurrence
+            {...this.props}
+            isDragged = {isDragged}
+            hasHeLeft = {hasHeLeft}
+            {...this.link ()} />
+        );
+      case 'Glyph':
+        return (
+          <Glyph
             {...this.props}
             isDragged = {isDragged}
             hasHeLeft = {hasHeLeft}
