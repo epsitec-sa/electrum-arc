@@ -43,14 +43,10 @@ export default class Notes extends React.Component {
     const bus = this.props.bus || E.bus;
 
     if (source.type === 'change') {
-      if (props.field === -1) {  // last line (for create) ?
-        this.internalStore.select ('newNote').set ('value', value);
-      } else {
-        const newNotes = ReducerNotes.reducer (notes,
-          ReducerNotes.updateAction (props.field, value));
-        bus.notify (this.props, source, newNotes);
-        // console.dir (newNotes);
-      }
+      const newNotes = ReducerNotes.reducer (notes,
+        ReducerNotes.updateAction (props.field, value));
+      bus.notify (this.props, source, newNotes);
+      this.internalStore.select ('notes').set ('value', newNotes);
     } else if (source.type === 'delete') {
       const newNotes = ReducerNotes.reducer (notes,
         ReducerNotes.deleteAction (props.field));

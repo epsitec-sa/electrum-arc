@@ -31,9 +31,23 @@ function updateNote (state, index, note) {
   return mutableState;
 }
 
+// Return a new random guid.
+// See http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+function getNewId () {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace (/[xy]/g, function (c) {
+    /* eslint no-bitwise: 0 */
+    var r = Math.random () * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString (16);
+  });
+}
+
 function addNote (state, note) {
   const mutableState = [ ...state ];  // shallow copy of state
-  mutableState.push (note);
+  const mutableNote = {...note};
+  if (!mutableNote.id) {
+    mutableNote.id = getNewId ();
+  }
+  mutableState.push (mutableNote);
   return mutableState;
 }
 

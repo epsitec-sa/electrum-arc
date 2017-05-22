@@ -32,14 +32,6 @@ export default class DragCapsule extends React.Component {
             hasHeLeft = {hasHeLeft}
             {...this.link ()} />
         );
-      case 'ChronoLine':
-        return (
-          <ChronoLine
-            {...this.props}
-            isDragged = {isDragged}
-            hasHeLeft = {hasHeLeft}
-            {...this.link ()} />
-        );
       case 'CodispatchTicket':
         return (
           <CodispatchTicket
@@ -59,30 +51,6 @@ export default class DragCapsule extends React.Component {
       case 'DispatchTicket':
         return (
           <DispatchTicket
-            {...this.props}
-            isDragged = {isDragged}
-            hasHeLeft = {hasHeLeft}
-            {...this.link ()} />
-        );
-      case 'Note':
-        return (
-          <Note
-            {...this.props}
-            isDragged = {isDragged}
-            hasHeLeft = {hasHeLeft}
-            {...this.link ()} />
-        );
-      case 'Recurrence':
-        return (
-          <Recurrence
-            {...this.props}
-            isDragged = {isDragged}
-            hasHeLeft = {hasHeLeft}
-            {...this.link ()} />
-        );
-      case 'Glyph':
-        return (
-          <Glyph
             {...this.props}
             isDragged = {isDragged}
             hasHeLeft = {hasHeLeft}
