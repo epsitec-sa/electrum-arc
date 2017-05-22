@@ -21,7 +21,8 @@ export default function styles (theme, props) {
   const inputFontSize      = props.fontSize;
   const inputBottomSpacing = props.bottomSpacing;
   const inputZIndex        = props.zIndex;
-  const inputOpacity       = props.opacity;
+  const inputIsDragged     = props.isDragged;
+  const inputHasHeLeft     = props.hasHeLeft;
   const inputCursor        = props.cursor;
 
   let boxWidth           = inputWidth;
@@ -48,7 +49,7 @@ export default function styles (theme, props) {
   let flexGrow           = inputGrow;
   let flexShrink         = null;
   let flexBasis          = null;
-  let opacity            = inputOpacity;
+  let opacity            = (!inputIsDragged && inputHasHeLeft) ? 0.1 : 1.0;
   let cursor             = inputCursor;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
