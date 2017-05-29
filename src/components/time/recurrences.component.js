@@ -21,13 +21,6 @@ export default class Recurrences extends React.Component {
     const data = this.read ('value');
     this.recurrencesId = data.id;
     this.internalStore.select ('recurrences').set ('value', data.recurrences);
-
-    const newRecurrence = {
-      Cron:   '0 0 0 * * *',
-      Add:    [],
-      Delete: [],
-    };
-    this.internalStore.select ('newRecurrence').set ('value', newRecurrence);
   }
 
   get extendedIndex () {
@@ -67,9 +60,8 @@ export default class Recurrences extends React.Component {
     const recurrences = this.internalStore.select ('recurrences').get ('value');
     const bus = this.props.bus || E.bus;
 
-    const newRecurrence = this.internalStore.select ('newRecurrence').get ('value');
     const newRecurrences = ReducerRecurrences.reducer (recurrences,
-      ReducerRecurrences.addAction (newRecurrence));
+      ReducerRecurrences.addAction ());
     bus.notify (this.props, {type: 'change'}, newRecurrences);
     this.internalStore.select ('recurrences').set ('value', newRecurrences);
     this.extendedIndex = newRecurrences.length - 1;  // extend created recurrence

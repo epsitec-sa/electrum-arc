@@ -21,12 +21,6 @@ export default class Notes extends React.Component {
     const data = this.read ('value');
     this.notesId = data.id;
     this.internalStore.select ('notes').set ('value', data.notes);
-
-    const newNote = {
-      Content: '',
-      Glyphs:  [],
-    };
-    this.internalStore.select ('newNote').set ('value', newNote);
   }
 
   get extendedIndex () {
@@ -66,9 +60,8 @@ export default class Notes extends React.Component {
     const notes = this.internalStore.select ('notes').get ('value');
     const bus = this.props.bus || E.bus;
 
-    const newNote = this.internalStore.select ('newNote').get ('value');
     const newNotes = ReducerNotes.reducer (notes,
-      ReducerNotes.addAction (newNote));
+      ReducerNotes.addAction ());
     bus.notify (this.props, {type: 'change'}, newNotes);
     this.internalStore.select ('notes').set ('value', newNotes);
     this.extendedIndex = newNotes.length - 1;  // extend created note

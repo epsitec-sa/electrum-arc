@@ -6,9 +6,8 @@ export const updateAction = (index, recurrence) => ({
   recurrence: recurrence,
 });
 
-export const addAction = recurrence => ({
-  type:       'ADD',
-  recurrence: recurrence,
+export const addAction = () => ({
+  type: 'ADD',
 });
 
 export const deleteAction = index => ({
@@ -41,9 +40,15 @@ function getNewId () {
   });
 }
 
-function addRecurrence (state, recurrence) {
+const newRecurrence = {
+  Cron:   '0 0 0 * * *',
+  Add:    [],
+  Delete: [],
+};
+
+function addRecurrence (state) {
   const mutableState = [ ...state ];  // shallow copy of state
-  const mutableRecurrence = {...recurrence};
+  const mutableRecurrence = {...newRecurrence};
   if (!mutableRecurrence.id) {
     mutableRecurrence.id = getNewId ();
   }
@@ -86,7 +91,7 @@ export function reducer (state, action) {
     case 'UPDATE':
       return updateRecurrence (state, action.index, action.recurrence);
     case 'ADD':
-      return addRecurrence (state, action.recurrence);
+      return addRecurrence (state);
     case 'DELETE':
       return deleteRecurrence (state, action.index);
     case 'DRAG':

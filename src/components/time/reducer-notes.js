@@ -6,9 +6,8 @@ export const updateAction = (index, note) => ({
   note:  note,
 });
 
-export const addAction = note => ({
+export const addAction = () => ({
   type: 'ADD',
-  note: note,
 });
 
 export const deleteAction = index => ({
@@ -41,9 +40,15 @@ function getNewId () {
   });
 }
 
-function addNote (state, note) {
+const newNote = {
+  Content: '',
+  Glyphs:  [],
+};
+
+
+function addNote (state) {
   const mutableState = [ ...state ];  // shallow copy of state
-  const mutableNote = {...note};
+  const mutableNote = {...newNote};
   if (!mutableNote.id) {
     mutableNote.id = getNewId ();
   }
@@ -86,7 +91,7 @@ export function reducer (state, action) {
     case 'UPDATE':
       return updateNote (state, action.index, action.note);
     case 'ADD':
-      return addNote (state, action.note);
+      return addNote (state);
     case 'DELETE':
       return deleteNote (state, action.index);
     case 'DRAG':
