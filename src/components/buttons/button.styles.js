@@ -34,6 +34,7 @@ export default function styles (theme, props) {
   const inputCursor          = props.cursor;
   const inputPosition        = props.position;
   const inputDisabled        = props.disabled === 'true';
+  const inputJustify         = props.justify;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -43,7 +44,7 @@ export default function styles (theme, props) {
   let boxMinHeight         = null;
   let boxGrow              = inputGrow;
   let boxDirection         = 'row';
-  let boxJustifyContent    = 'center';
+  let boxJustifyContent    = inputJustify ? inputJustify : 'center';
   let boxAlignItems        = 'center';
   let boxMargin            = '0px';
   let boxPadding           = '0px';

@@ -388,7 +388,8 @@ export default class Recurrence extends React.Component {
 
   renderCalendar (extended) {
     if (extended) {
-      const style = this.mergeStyles ('calendar');
+      const style        = this.mergeStyles ('calendar');
+      const buttonsStyle = this.mergeStyles ('calendarButtons');
       return (
         <div style={style}>
           <Calendar
@@ -400,6 +401,15 @@ export default class Recurrence extends React.Component {
             date-clicked         = {this.onDateClicked}
             visible-date-changed = {this.onVisibleDateChanged}
             {...this.link ()} />
+          <div style={buttonsStyle}>
+            <Button glyph='sun-o'         text='aujourd´hui' justify='flex-start' grow='1' {...this.link ()} />
+            <Button glyph='chevron-left'  text='deux mois'   justify='flex-start' grow='1' {...this.link ()} />
+            <Button glyph='chevron-right' text='deux mois'   justify='flex-start' grow='1' {...this.link ()} />
+            <Button glyph='chevron-left'  text='six mois'    justify='flex-start' grow='1' {...this.link ()} />
+            <Button glyph='chevron-right' text='six mois'    justify='flex-start' grow='1' {...this.link ()} />
+            <Button glyph='step-backward' text='année préc.' justify='flex-start' grow='1' {...this.link ()} />
+            <Button glyph='step-forward'  text='année suiv.' justify='flex-start' grow='1' {...this.link ()} />
+          </div>
         </div>
       );
     } else {

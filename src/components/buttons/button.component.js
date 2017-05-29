@@ -54,6 +54,7 @@ export default class Button extends React.Component {
       cursor:          this.read ('cursor'),
       position:        this.read ('position'),
       disabled:        this.read ('disabled'),
+      justify:         this.read ('justify'),
     };
   }
 

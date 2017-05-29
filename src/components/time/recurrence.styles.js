@@ -97,16 +97,27 @@ export default function styles (theme, props) {
   };
 
   const calendarStyle = {
-    padding: '0px 0px ' + halfMargin + ' 0px',
-    opacity: opacity,
+    display:       'flex',
+    flexDirection: 'row',
+    padding:       '0px 0px ' + halfMargin + ' 0px',
+    opacity:       opacity,
+  };
+
+  const calendarButtonsStyle = {
+    display:       'flex',
+    flexDirection: 'column',
+    flexGrow:      '1',
+    padding:       '0px 0px 0px ' + halfMargin,
+    opacity:       opacity,
   };
 
   return {
-    main:       mainStyle,
-    headerInfo: headerInfoStyle,
-    headerDrag: headerDragStyle,
-    editor:     editorStyle,
-    calendar:   calendarStyle,
+    main:            mainStyle,
+    headerInfo:      headerInfoStyle,
+    headerDrag:      headerDragStyle,
+    editor:          editorStyle,
+    calendar:        calendarStyle,
+    calendarButtons: calendarButtonsStyle,
   };
 }
 
