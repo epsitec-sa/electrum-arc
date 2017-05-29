@@ -46,7 +46,7 @@ export default class Calendar extends React.Component {
     };
   }
 
-  getMonthCount () {
+  get monthCount () {
     const monthCount = this.read ('month-count');
     return monthCount ? monthCount : 1;
   }
@@ -101,8 +101,7 @@ export default class Calendar extends React.Component {
 
   onVisibleDateNextYear () {
     const s = Converters.splitDate (this.visibleDate);
-    const year = s.month === 12 ? s.year + 1 : s.year;
-    const date = Converters.getDate (year, 1, 1);
+    const date = Converters.getDate (s.year + 1, 1, 1);
     this.changeDate (date);
   }
 
@@ -309,7 +308,7 @@ export default class Calendar extends React.Component {
     }
 
     const result = [];
-    const monthCount = this.getMonthCount ();
+    const monthCount = this.monthCount;
     for (var m = 0; m < monthCount; m++) {
       const year  = Converters.getYear  (visibleDate);
       const month = Converters.getMonth (visibleDate);
