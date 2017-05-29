@@ -92,7 +92,6 @@ export default function styles (theme, props) {
   const editorStyle = {
     display:       'flex',
     flexDirection: 'row',
-    overflowY:     'hidden',
     padding:       halfMargin + ' 0px',
     opacity:       opacity,
   };
