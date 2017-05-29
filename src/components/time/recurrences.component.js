@@ -44,14 +44,10 @@ export default class Recurrences extends React.Component {
     const bus = this.props.bus || E.bus;
 
     if (source.type === 'change') {
-      if (props.field === -1) {  // last line (for create) ?
-        this.internalStore.select ('newRecurrence').set ('value', value);
-      } else {
-        const newRecurrences = ReducerRecurrences.reducer (recurrences,
-          ReducerRecurrences.updateAction (props.field, value));
-        bus.notify (this.props, source, newRecurrences);
-        this.internalStore.select ('recurrences').set ('value', newRecurrences);
-      }
+      const newRecurrences = ReducerRecurrences.reducer (recurrences,
+        ReducerRecurrences.updateAction (props.field, value));
+      bus.notify (this.props, source, newRecurrences);
+      this.internalStore.select ('recurrences').set ('value', newRecurrences);
     } else if (source.type === 'delete') {
       const newRecurrences = ReducerRecurrences.reducer (recurrences,
         ReducerRecurrences.deleteAction (props.field));

@@ -388,9 +388,9 @@ export default class Recurrence extends React.Component {
 
   renderCalendar (extended) {
     if (extended) {
-      const editStyle = this.mergeStyles ('calendar');
+      const style = this.mergeStyles ('calendar');
       return (
-        <div style={editStyle}>
+        <div style={style}>
           <Calendar
             month-count          = {monthCount ()}
             visible-date         = {this.visibleDate}
