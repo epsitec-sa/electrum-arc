@@ -17,8 +17,9 @@ export default class Glyphs extends React.Component {
   }
 
   componentWillMount () {
-    const glyphs = this.read ('value');
-    this.internalStore.select ('glyphs').set ('value', glyphs);
+    const data = this.read ('value');
+    this.glyphsId = data.id;
+    this.internalStore.select ('glyphs').set ('value', data.glyphs);
 
     const newGlyph = {
       Name:        '',

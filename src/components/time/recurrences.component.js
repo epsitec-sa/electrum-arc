@@ -18,8 +18,9 @@ export default class Recurrences extends React.Component {
   }
 
   componentWillMount () {
-    const recurrences = this.read ('value');
-    this.internalStore.select ('recurrences').set ('value', recurrences);
+    const data = this.read ('value');
+    this.recurrencesId = data.id;
+    this.internalStore.select ('recurrences').set ('value', data.recurrences);
 
     const newRecurrence = {
       Cron:   '0 0 0 * * *',
@@ -167,7 +168,7 @@ export default class Recurrences extends React.Component {
           kind            = 'column'
           drag-controller = 'recurrence'
           drag-source     = 'recurrences'
-          drag-owner-id   = 'recurrences'
+          drag-owner-id   = {this.recurrencesId}
           {...this.link ()} >
           {this.renderRows ()}
         </Container>

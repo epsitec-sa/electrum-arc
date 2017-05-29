@@ -62,7 +62,7 @@ export default class GlyphsDialog extends React.Component {
     const allGlyphs      = this.read ('all-glyphs');
     const selectedGlyphs = this.read ('selected-glyphs');
     const result = [];
-    for (var glyph of allGlyphs) {
+    for (var glyph of allGlyphs.glyphs) {
       const selected = Enumerable.from (selectedGlyphs).where (x => x.id === glyph.id).any ();
       result.push (this.renderGlyphButton (glyph, selected));
     }

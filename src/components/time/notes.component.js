@@ -18,8 +18,9 @@ export default class Notes extends React.Component {
   }
 
   componentWillMount () {
-    const notes = this.read ('value');
-    this.internalStore.select ('notes').set ('value', notes);
+    const data = this.read ('value');
+    this.notesId = data.id;
+    this.internalStore.select ('notes').set ('value', data.notes);
 
     const newNote = {
       Content: '',
@@ -168,7 +169,7 @@ export default class Notes extends React.Component {
           kind            = 'column'
           drag-controller = 'note'
           drag-source     = 'notes'
-          drag-owner-id   = 'notes'
+          drag-owner-id   = {this.notesId}
           {...this.link ()} >
           {this.renderRows ()}
         </Container>
