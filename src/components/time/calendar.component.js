@@ -13,11 +13,11 @@ export default class Calendar extends React.Component {
     };
   }
 
-  getVisibleDate () {
+  get visibleDate () {
     return this.state.visibleDate;
   }
 
-  setVisibleDate (value) {
+  set visibleDate (value) {
     this.setState ( {
       visibleDate: value
     });
@@ -32,7 +32,7 @@ export default class Calendar extends React.Component {
       const month = Converters.getMonth (now);
       date = Converters.getDate (year, month, 1);
     }
-    this.setVisibleDate (date);
+    this.visibleDate = date;
   }
 
   /******************************************************************************/
@@ -55,30 +55,55 @@ export default class Calendar extends React.Component {
     return Converters.getDOWDescription (dow).substring (0, 3);
   }
 
+  changeDate (date) {
+    this.visibleDate = date;
+    var x = this.read ('visible-date-changed');
+    if (x) {
+      x (date);
+    }
+  }
+
   // Called when the '<' button is clicked.
   // Modify internalState.visibleDate (fix visible year and month).
   onPrevMonth () {
-    const m = this.getMonthCount ();
-    const visibleDate = this.getVisibleDate ();
-    const newDate = Converters.addMonths (visibleDate, -m);
-    this.setVisibleDate (newDate);
-    var x = this.read ('visible-date-changed');
-    if (x) {
-      x (newDate);
-    }
+    const visibleDate = this.visibleDate;
+    const newDate = Converters.addMonths (visibleDate, -1);
+    this.changeDate (newDate);
   }
 
   // Called when the '>' button is clicked.
   // Modify internalState.visibleDate (fix visible year and month).
   onNextMonth () {
-    const m = this.getMonthCount ();
-    const visibleDate = this.getVisibleDate ();
-    const newDate = Converters.addMonths (visibleDate, m);
-    this.setVisibleDate (newDate);
-    var x = this.read ('visible-date-changed');
-    if (x) {
-      x (newDate);
-    }
+    const visibleDate = this.visibleDate;
+    const newDate = Converters.addMonths (visibleDate, 1);
+    this.changeDate (newDate);
+  }
+
+  onVisibleDateNow () {
+    const now = Converters.getNowCanonicalDate ();
+    const year  = Converters.getYear  (now);
+    const month = Converters.getMonth (now);
+    const date = Converters.getDate (year, month, 1);
+    this.changeDate (date);
+  }
+
+  onVisibleDateAddMonths (months) {
+    const date = Converters.addMonths (this.visibleDate, months);
+    this.changeDate (date);
+  }
+
+  onVisibleDatePrevYear () {
+    const s = Converters.splitDate (this.visibleDate);
+    const year = s.month === 1 ? s.year - 1 : s.year;
+    const date = Converters.getDate (year, 1, 1);
+    this.changeDate (date);
+  }
+
+  onVisibleDateNextYear () {
+    const s = Converters.splitDate (this.visibleDate);
+    const year = s.month === 12 ? s.year + 1 : s.year;
+    const date = Converters.getDate (year, 1, 1);
+    this.changeDate (date);
   }
 
   // Called when a [1]..[31] button is clicked.
@@ -278,7 +303,7 @@ export default class Calendar extends React.Component {
     const selectedDate  = this.read ('date');
     const selectedDates = this.read ('dates');
 
-    const visibleDate = this.getVisibleDate ();
+    const visibleDate = this.visibleDate;
     if (!visibleDate) {
       return null;
     }
@@ -297,11 +322,74 @@ export default class Calendar extends React.Component {
     return result;
   }
 
+  renderNavigator () {
+    const navigator = this.read ('navigator');
+    if (navigator === 'standard') {
+      const style = this.mergeStyles ('navigator');
+      return (
+      <div style={style}>
+        <Button
+          glyph    = 'sun-o'
+          text     = 'aujourd´hui'
+          justify  = 'flex-start'
+          grow     = '1'
+          on-click = {this.onVisibleDateNow}
+          {...this.link ()} />
+        <Button
+          glyph    = 'chevron-left'
+          text     = 'deux mois'
+          justify  = 'flex-start'
+          grow     = '1'
+          on-click = {() => this.onVisibleDateAddMonths (-2)}
+          {...this.link ()} />
+        <Button
+          glyph    = 'chevron-right'
+          text     = 'deux mois'
+          justify  = 'flex-start'
+          grow     = '1'
+          on-click = {() => this.onVisibleDateAddMonths (2)}
+          {...this.link ()} />
+        <Button
+          glyph    = 'chevron-left'
+          text     = 'six mois'
+          justify  = 'flex-start'
+          grow     = '1'
+          on-click = {() => this.onVisibleDateAddMonths (-6)}
+          {...this.link ()} />
+        <Button
+          glyph    = 'chevron-right'
+          text     = 'six mois'
+          justify  = 'flex-start'
+          grow     = '1'
+          on-click = {() => this.onVisibleDateAddMonths (6)}
+          {...this.link ()} />
+        <Button
+          glyph    = 'step-backward'
+          text     = 'année'
+          justify  = 'flex-start'
+          grow     = '1'
+          on-click = {this.onVisibleDatePrevYear}
+          {...this.link ()} />
+        <Button
+          glyph   = 'step-forward'
+          text    = 'année'
+          justify = 'flex-start'
+          grow    = '1'
+          on-click = {this.onVisibleDateNextYear}
+          {...this.link ()} />
+      </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   render () {
-    const boxStyle = this.mergeStyles ('box');
+    const style = this.mergeStyles ('box');
     return (
-      <div style={boxStyle}>
+      <div style={style}>
         {this.renderMonths ()}
+        {this.renderNavigator ()}
       </div>
     );
   }

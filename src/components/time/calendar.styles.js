@@ -3,6 +3,9 @@ import {Unit} from 'electrum-theme';
 /******************************************************************************/
 
 export default function styles (theme, _props) {
+  const m = theme.shapes.containerMargin;
+  const halfMargin = Unit.multiply (m, 0.5);
+
   const boxStyle = {
     display:       'flex',
     flexDirection: 'row',
@@ -64,6 +67,13 @@ export default function styles (theme, _props) {
     flexDirection: 'column',
   };
 
+  const navigatorStyle = {
+    display:       'flex',
+    flexDirection: 'column',
+    flexGrow:      '1',
+    padding:       '0px 0px 0px ' + halfMargin,
+  };
+
   return {
     box:         boxStyle,
     month:       monthStyle,
@@ -74,6 +84,7 @@ export default function styles (theme, _props) {
     dowLine:     dowLineStyle,
     line:        lineStyle,
     column:      columnStyle,
+    navigator:   navigatorStyle,
   };
 }
 

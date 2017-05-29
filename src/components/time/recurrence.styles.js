@@ -103,21 +103,12 @@ export default function styles (theme, props) {
     opacity:       opacity,
   };
 
-  const calendarButtonsStyle = {
-    display:       'flex',
-    flexDirection: 'column',
-    flexGrow:      '1',
-    padding:       '0px 0px 0px ' + halfMargin,
-    opacity:       opacity,
-  };
-
   return {
-    main:            mainStyle,
-    headerInfo:      headerInfoStyle,
-    headerDrag:      headerDragStyle,
-    editor:          editorStyle,
-    calendar:        calendarStyle,
-    calendarButtons: calendarButtonsStyle,
+    main:       mainStyle,
+    headerInfo: headerInfoStyle,
+    headerDrag: headerDragStyle,
+    editor:     editorStyle,
+    calendar:   calendarStyle,
   };
 }
 
