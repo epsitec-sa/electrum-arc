@@ -217,6 +217,7 @@ export default class Note extends React.Component {
             rows                = '4'
             {...this.linkContent ()} />
           <Button
+            height   = 'auto'
             kind     = 'combo'
             text     = 'Pictogrammes'
             active   = {this.showGlyphsDialog ? 'true' : 'false'}
