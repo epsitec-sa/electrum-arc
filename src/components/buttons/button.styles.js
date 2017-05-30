@@ -7,6 +7,7 @@ export default function styles (theme, props) {
   const inputGlyph           = props.glyph;
   const inputGlyphColor      = props.glyphColor;
   const inputText            = props.text;
+  const inputTextColor       = props.textColor;
   const inputShortcut        = props.shortcut;
   const inputBorder          = props.border;
   const inputGlyphPosition   = props.glyphPosition;
@@ -66,7 +67,7 @@ export default function styles (theme, props) {
   let glyphMargin          = null;
   let textWidth            = null;
   let textGrow             = null;
-  let textColor            = null;
+  let textColor            = inputTextColor;
   let textMargin           = '0px ' + m + ' 0px ' + m;
   let textWeight           = null;
   let textTransform        = inputTextTransform;
@@ -609,10 +610,10 @@ export default function styles (theme, props) {
   if (!backgroundHoverColor) {
     backgroundHoverColor = ColorManipulator.emphasize (buttonBackgroundColor, 0.2);
   }
-  if (!glyphColor) {
+  if (!glyphColor && glyphColor !== 'none') {
     glyphColor = ColorManipulator.emphasize (buttonBackgroundColor, 0.8);
   }
-  if (!textColor) {
+  if (!textColor && textColor !== 'none') {
     textColor = ColorManipulator.emphasize (buttonBackgroundColor, 0.9);
   }
 
