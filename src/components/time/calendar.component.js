@@ -270,8 +270,7 @@ export default class Calendar extends React.Component {
     let column = [];
     column.push (this.renderHeader (header, firstMonth, lastMonth));
     column.push (this.renderLineOfDOWs ());
-    let i = 0;
-    for (i = 0; i < 6; ++i) {
+    for (let i = 0; i < 6; ++i) {
       const line = this.renderLineOfButtons (firstDate, visibleDate, selectedDate, selectedDates, i);
       column.push (line);
       firstDate = Converters.addDays (firstDate, 7);
@@ -324,23 +323,32 @@ export default class Calendar extends React.Component {
     return result;
   }
 
-  renderDoubleMonths (leftMonth, rightMonth, leftAction, rightAction) {
+  renderDoubleMonths (month, visibleMonth) {
+    const leftMonth  = month + 0;
+    const rightMonth = month + 1;
+    const firstVisibleMonth = visibleMonth;
+    const lastVisibleMonth =  visibleMonth + this.monthCount;
+    const leftActive  = leftMonth  >= firstVisibleMonth && leftMonth  < lastVisibleMonth;
+    const rightActive = rightMonth >= firstVisibleMonth && rightMonth < lastVisibleMonth;
     const style = this.mergeStyles ('double');
     return (
       <div style={style}>
         <Button
-          text       = {leftMonth}
+          text       = {Converters.getMonthDescription (leftMonth - 1, '3').toUpperCase ()}
           border     = 'none'
           text-color = 'none'
           grow       = '1'
-          on-click   = {leftAction}
+          on-click   = {() => this.onVisibleDateMonth (leftMonth)}
+          active     = {leftActive ? 'true' : 'false'}
+          spacing    = 'tiny'
           {...this.link ()} />
         <Button
-          text       = {rightMonth}
+          text       = {Converters.getMonthDescription (rightMonth - 1, '3').toUpperCase ()}
           border     = 'none'
           text-color = 'none'
           grow       = '1'
-          on-click   = {rightAction}
+          on-click   = {() => this.onVisibleDateMonth (rightMonth)}
+          active     = {rightActive ? 'true' : 'false'}
           {...this.link ()} />
       </div>
     );
@@ -348,13 +356,9 @@ export default class Calendar extends React.Component {
 
   renderMonthsOfYear () {
     const result = [];
-    for (var m = 0; m < 12; m += 2) {
-      const month = m;
-      const leftMonth   = Converters.getMonthDescription (month + 0, '3').toUpperCase ();
-      const rightMonth  = Converters.getMonthDescription (month + 1, '3').toUpperCase ();
-      const leftAction  = () => this.onVisibleDateMonth (month + 1);
-      const rightAction = () => this.onVisibleDateMonth (month + 2);
-      result.push (this.renderDoubleMonths (leftMonth, rightMonth, leftAction, rightAction));
+    const visibleMonth = Converters.splitDate (this.visibleDate).month;
+    for (let month = 1; month <= 12; month += 2) {
+      result.push (this.renderDoubleMonths (month, visibleMonth));
     }
     return result;
   }
