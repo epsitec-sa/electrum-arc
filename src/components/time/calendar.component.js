@@ -1,5 +1,5 @@
 import {React} from 'electrum';
-import {Button, Label} from 'electrum-arc';
+import {Button, Label, Separator} from 'electrum-arc';
 import * as Converters from './converters';
 
 /******************************************************************************/
@@ -323,33 +323,32 @@ export default class Calendar extends React.Component {
     return result;
   }
 
-  renderDoubleMonths (month, visibleMonth) {
-    const leftMonth  = month + 0;
-    const rightMonth = month + 1;
+  renderQuickMonth (month, visibleMonth) {
     const firstVisibleMonth = visibleMonth;
-    const lastVisibleMonth =  visibleMonth + this.monthCount;
-    const leftActive  = leftMonth  >= firstVisibleMonth && leftMonth  < lastVisibleMonth;
-    const rightActive = rightMonth >= firstVisibleMonth && rightMonth < lastVisibleMonth;
+    const lastVisibleMonth = visibleMonth + this.monthCount;
+    const active = month >= firstVisibleMonth && month < lastVisibleMonth;
+    return (
+      <Button
+        text       = {Converters.getMonthDescription (month - 1, '1').toUpperCase ()}
+        tooltip    = {Converters.getMonthDescription (month - 1)}
+        border     = 'none'
+        text-color = 'none'
+        grow       = '1'
+        on-click   = {() => this.onVisibleDateMonth (month)}
+        active     = {active ? 'true' : 'false'}
+        spacing    = 'tiny'
+        {...this.link ()} />
+    );
+  }
+
+  renderLineOfMonths (month, visibleMonth) {
     const style = this.mergeStyles ('double');
     return (
       <div style={style}>
-        <Button
-          text       = {Converters.getMonthDescription (leftMonth - 1, '3').toUpperCase ()}
-          border     = 'none'
-          text-color = 'none'
-          grow       = '1'
-          on-click   = {() => this.onVisibleDateMonth (leftMonth)}
-          active     = {leftActive ? 'true' : 'false'}
-          spacing    = 'tiny'
-          {...this.link ()} />
-        <Button
-          text       = {Converters.getMonthDescription (rightMonth - 1, '3').toUpperCase ()}
-          border     = 'none'
-          text-color = 'none'
-          grow       = '1'
-          on-click   = {() => this.onVisibleDateMonth (rightMonth)}
-          active     = {rightActive ? 'true' : 'false'}
-          {...this.link ()} />
+        {this.renderQuickMonth (month + 0, visibleMonth)}
+        {this.renderQuickMonth (month + 1, visibleMonth)}
+        {this.renderQuickMonth (month + 2, visibleMonth)}
+        {this.renderQuickMonth (month + 3, visibleMonth)}
       </div>
     );
   }
@@ -357,8 +356,8 @@ export default class Calendar extends React.Component {
   renderMonthsOfYear () {
     const result = [];
     const visibleMonth = Converters.splitDate (this.visibleDate).month;
-    for (let month = 1; month <= 12; month += 2) {
-      result.push (this.renderDoubleMonths (month, visibleMonth));
+    for (let month = 1; month <= 12; month += 4) {
+      result.push (this.renderLineOfMonths (month, visibleMonth));
     }
     return result;
   }
@@ -396,7 +395,15 @@ export default class Calendar extends React.Component {
       <div style={style}>
         {this.renderPrevNext ('2 mois', 'chevron-left', 'chevron-right',
           () => this.onVisibleDateAddMonths (-2), () => this.onVisibleDateAddMonths (2))}
+        <Separator
+          kind   = 'space'
+          height = '20px'
+          {...this.link ()} />
         {this.renderMonthsOfYear ()}
+        <Separator
+          kind   = 'space'
+          height = '20px'
+          {...this.link ()} />
         {this.renderPrevNext ('année', 'step-backward', 'step-forward',
           this.onVisibleDatePrevYear, this.onVisibleDateNextYear)}
       </div>
