@@ -232,6 +232,12 @@ export default class Recurrence extends React.Component {
     this.dates = dates;
   }
 
+  get hasExceptions () {
+    const deleteList = this.internalStore.select ('Delete'   ).get ('value');
+    const addList    = this.internalStore.select ('Add'      ).get ('value');
+    return deleteList.length > 0 || addList.length > 0;
+  }
+
   onDateClicked (date) {
     const item = getRecurrenceItem (date, this.recurrenceDates);
     if (item.Type === 'default') {
@@ -370,9 +376,11 @@ export default class Recurrence extends React.Component {
             spacing             = 'large'
             {...this.linkMonths ()} />
           <Button
-            glyph    = 'eraser'
-            tooltip  = 'Supprime toutes les exceptions'
-            on-click = {this.onEraseEvents}
+            glyph      = 'eraser'
+            tooltip    = 'Supprime toutes les exceptions'
+            spacing    = 'overlap'
+            visibility = {this.hasExceptions ? 'true' : 'false'}
+            on-click   = {this.onEraseEvents}
             {...this.link ()} />
           <Button
             glyph    = 'trash'
