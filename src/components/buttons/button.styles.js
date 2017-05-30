@@ -43,8 +43,10 @@ export default function styles (theme, props) {
   let boxWidth             = inputWidth;
   let boxHeight            = inputHeight ? inputHeight : theme.shapes.lineHeight;
   let boxMinHeight         = null;
-  let boxGrow              = inputGrow;
-  let boxDirection         = 'row';
+  let boxFlexDirection     = 'row';
+  let boxFlexGrow          = inputGrow;
+  let boxFlexShrink        = null;
+  let boxFlexBasis         = null;
   let boxJustifyContent    = inputJustify ? inputJustify : 'center';
   let boxAlignItems        = 'center';
   let boxMargin            = '0px';
@@ -119,10 +121,10 @@ export default function styles (theme, props) {
 
   // task-logo button (usual parent container with kind='task-bar').
   if (inputKind === 'task-logo') {
-    boxHeight       = theme.shapes.taskButtonHeight;
-    boxDirection    = 'column';
-    boxMargin       = '0px';
-    borderStyle     = 'none';
+    boxHeight        = theme.shapes.taskButtonHeight;
+    boxFlexDirection = 'column';
+    boxMargin        = '0px';
+    borderStyle      = 'none';
     if (inputActive === 'true') {
       backgroundColor = theme.palette.taskTabActiveBackground;
       textColor       = theme.palette.taskTabActiveText;
@@ -138,15 +140,15 @@ export default function styles (theme, props) {
 
   // Task button (usual parent is container with kind='task-bar').
   if (inputKind === 'task-bar') {
-    boxHeight       = theme.shapes.taskButtonHeight;
-    boxDirection    = 'column';
-    boxMargin       = '0px';
-    borderStyle     = 'none none solid none';
-    borderColor     = theme.palette.taskButtonBorder;
-    backgroundColor = theme.palette.taskButtonBackground;
-    textMargin      = '0px';
-    textSize        = theme.shapes.taskTextSize;
-    glyphSize       = theme.shapes.taskGlyphSize;
+    boxHeight        = theme.shapes.taskButtonHeight;
+    boxFlexDirection = 'column';
+    boxMargin        = '0px';
+    borderStyle      = 'none none solid none';
+    borderColor      = theme.palette.taskButtonBorder;
+    backgroundColor  = theme.palette.taskButtonBackground;
+    textMargin       = '0px';
+    textSize         = theme.shapes.taskTextSize;
+    glyphSize        = theme.shapes.taskGlyphSize;
   }
 
   // main-tab button (usual parent is container with kind='main-tab').
@@ -635,6 +637,11 @@ export default function styles (theme, props) {
     boxWidth = Unit.sub (boxWidth, Unit.multiply (borderWidth, 2));
   }
 
+  if (boxFlexGrow) {
+    boxFlexShrink = '1';
+    boxFlexBasis  = '0%';
+  }
+
   const boxStyle = {
     opacity:         boxOpacity,
     width:           boxWidth,
@@ -645,8 +652,10 @@ export default function styles (theme, props) {
     top:             inputTop,
     bottom:          inputBottom,
     display:         'flex',
-    flexDirection:   boxDirection,
-    flexGrow:        boxGrow,
+    flexDirection:   boxFlexDirection,
+    flexGrow:        boxFlexGrow,
+    flexShrink:      boxFlexShrink,
+    flexBasis:       boxFlexBasis,
     justifyContent:  boxJustifyContent,
     alignItems:      boxAlignItems,
     borderWidth:     borderWidth,
