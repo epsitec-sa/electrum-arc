@@ -99,6 +99,7 @@ export default function styles (theme, props) {
   const calendarStyle = {
     display:       'flex',
     flexDirection: 'row',
+    flexGrow:      '1',
     padding:       '0px 0px ' + halfMargin + ' 0px',
     opacity:       opacity,
   };

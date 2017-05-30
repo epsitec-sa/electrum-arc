@@ -17,7 +17,9 @@ export function getMonthDescription (month, format) {
     'Novembre',
     'Décembre',
   ];
-  if (format === '4') {
+  if (format === '3') {
+    return array[month].substring (0, 3);
+  } else if (format === '4') {
     return array[month].substring (0, 4);
   } else {
     return array[month];

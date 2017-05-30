@@ -1,5 +1,5 @@
 import {React} from 'electrum';
-import {Button} from 'electrum-arc';
+import {Button, Label} from 'electrum-arc';
 import * as Converters from './converters';
 
 /******************************************************************************/
@@ -39,10 +39,7 @@ export default class Calendar extends React.Component {
 
   get styleProps () {
     return {
-      width:   this.read ('width'),
-      height:  this.read ('height'),
-      kind:    this.read ('kind'),
-      spacing: this.read ('spacing'),
+      navigator: this.read ('navigator'),
     };
   }
 
@@ -84,6 +81,12 @@ export default class Calendar extends React.Component {
     const year  = Converters.getYear  (now);
     const month = Converters.getMonth (now);
     const date = Converters.getDate (year, month, 1);
+    this.changeDate (date);
+  }
+
+  onVisibleDateMonth (month) {
+    const s = Converters.splitDate (this.visibleDate);
+    const date = Converters.getDate (s.year, month, 1);
     this.changeDate (date);
   }
 
@@ -321,61 +324,77 @@ export default class Calendar extends React.Component {
     return result;
   }
 
+  renderDoubleMonths (leftMonth, rightMonth, leftAction, rightAction) {
+    const style = this.mergeStyles ('double');
+    return (
+      <div style={style}>
+        <Button
+          text       = {leftMonth}
+          border     = 'none'
+          text-color = 'none'
+          grow       = '1'
+          on-click   = {leftAction}
+          {...this.link ()} />
+        <Button
+          text       = {rightMonth}
+          border     = 'none'
+          text-color = 'none'
+          grow       = '1'
+          on-click   = {rightAction}
+          {...this.link ()} />
+      </div>
+    );
+  }
+
+  renderMonthsOfYear () {
+    const result = [];
+    for (var m = 0; m < 12; m += 2) {
+      const month = m;
+      const leftMonth   = Converters.getMonthDescription (month + 0, '3').toUpperCase ();
+      const rightMonth  = Converters.getMonthDescription (month + 1, '3').toUpperCase ();
+      const leftAction  = () => this.onVisibleDateMonth (month + 1);
+      const rightAction = () => this.onVisibleDateMonth (month + 2);
+      result.push (this.renderDoubleMonths (leftMonth, rightMonth, leftAction, rightAction));
+    }
+    return result;
+  }
+
+  renderPrevNext (title, leftGlyph, rightGlyph, leftAction, rightAction) {
+    const style = this.mergeStyles ('double');
+    return (
+      <div style={style}>
+        <Button
+          glyph       = {leftGlyph}
+          border      = 'none'
+          glyph-color = 'none'
+          on-click    = {leftAction}
+          {...this.link ()} />
+        <Label
+          text    = {title}
+          grow    = '1'
+          justify = 'center'
+          {...this.link ()} />
+        <Button
+          glyph       = {rightGlyph}
+          border      = 'none'
+          glyph-color = 'none'
+          on-click    = {rightAction}
+          {...this.link ()} />
+      </div>
+    );
+  }
+
   renderNavigator () {
     const navigator = this.read ('navigator');
     if (navigator === 'standard') {
       const style = this.mergeStyles ('navigator');
       return (
       <div style={style}>
-        <Button
-          glyph    = 'sun-o'
-          text     = 'aujourd´hui'
-          justify  = 'flex-start'
-          grow     = '1'
-          on-click = {this.onVisibleDateNow}
-          {...this.link ()} />
-        <Button
-          glyph    = 'chevron-left'
-          text     = 'deux mois'
-          justify  = 'flex-start'
-          grow     = '1'
-          on-click = {() => this.onVisibleDateAddMonths (-2)}
-          {...this.link ()} />
-        <Button
-          glyph    = 'chevron-right'
-          text     = 'deux mois'
-          justify  = 'flex-start'
-          grow     = '1'
-          on-click = {() => this.onVisibleDateAddMonths (2)}
-          {...this.link ()} />
-        <Button
-          glyph    = 'chevron-left'
-          text     = 'six mois'
-          justify  = 'flex-start'
-          grow     = '1'
-          on-click = {() => this.onVisibleDateAddMonths (-6)}
-          {...this.link ()} />
-        <Button
-          glyph    = 'chevron-right'
-          text     = 'six mois'
-          justify  = 'flex-start'
-          grow     = '1'
-          on-click = {() => this.onVisibleDateAddMonths (6)}
-          {...this.link ()} />
-        <Button
-          glyph    = 'step-backward'
-          text     = 'année'
-          justify  = 'flex-start'
-          grow     = '1'
-          on-click = {this.onVisibleDatePrevYear}
-          {...this.link ()} />
-        <Button
-          glyph   = 'step-forward'
-          text    = 'année'
-          justify = 'flex-start'
-          grow    = '1'
-          on-click = {this.onVisibleDateNextYear}
-          {...this.link ()} />
+        {this.renderPrevNext ('2 mois', 'chevron-left', 'chevron-right',
+          () => this.onVisibleDateAddMonths (-2), () => this.onVisibleDateAddMonths (2))}
+        {this.renderMonthsOfYear ()}
+        {this.renderPrevNext ('année', 'step-backward', 'step-forward',
+          this.onVisibleDatePrevYear, this.onVisibleDateNextYear)}
       </div>
       );
     } else {

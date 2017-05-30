@@ -2,13 +2,18 @@ import {Unit} from 'electrum-theme';
 
 /******************************************************************************/
 
-export default function styles (theme, _props) {
+export default function styles (theme, props) {
+  const navigator = props.navigator;
+
   const m = theme.shapes.containerMargin;
   const halfMargin = Unit.multiply (m, 0.5);
+
+  const boxGrow = navigator ? '1' : null;
 
   const boxStyle = {
     display:       'flex',
     flexDirection: 'row',
+    flexGrow:      boxGrow,
   };
 
   const monthStyle = {
@@ -74,6 +79,11 @@ export default function styles (theme, _props) {
     padding:       '0px 0px 0px ' + halfMargin,
   };
 
+  const doubleStyle = {
+    display:       'flex',
+    flexDirection: 'row',
+  };
+
   return {
     box:         boxStyle,
     month:       monthStyle,
@@ -85,6 +95,7 @@ export default function styles (theme, _props) {
     line:        lineStyle,
     column:      columnStyle,
     navigator:   navigatorStyle,
+    double:      doubleStyle,
   };
 }
 
