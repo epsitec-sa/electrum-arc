@@ -36,6 +36,7 @@ export default function styles (theme, props) {
   const inputPosition        = props.position;
   const inputDisabled        = props.disabled === 'true';
   const inputJustify         = props.justify;
+  const inputVisibility      = props.visibility;
 
   const m = Unit.multiply (theme.shapes.containerMargin, 0.5);
 
@@ -52,7 +53,7 @@ export default function styles (theme, props) {
   let boxMargin            = '0px';
   let boxPadding           = '0px';
   let boxZIndex            = inputZIndex;
-  let boxOpacity           = null;
+  let boxOpacity           = inputVisibility === 'false' ? 0 : null;
   let borderWidth          = '1px';
   let borderColor          = theme.palette.buttonBorder;
   let borderStyle          = 'solid';
@@ -727,7 +728,7 @@ export default function styles (theme, props) {
     wordWrap:     'break-word',
   };
 
-  if (!inputDisabled && actif) {
+  if (!inputDisabled && actif && boxOpacity !== 0) {
     boxStyle[':hover'] = {
       color:           textHoverColor,  // (*)
       borderColor:     borderHoverColor,

@@ -56,6 +56,7 @@ export default class Button extends React.Component {
       position:        this.read ('position'),
       disabled:        this.read ('disabled'),
       justify:         this.read ('justify'),
+      visibility:      this.read ('visibility'),
     };
   }
 
