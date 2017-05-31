@@ -119,10 +119,13 @@ export default class Calendar extends React.Component {
   }
 
   onDateClicked (date) {
-    // this.setDate (date);
-    const x = this.read ('date-clicked');
-    if (x) {
-      x (date);
+    const startDate = this.read ('start-date');
+    const endDate   = this.read ('end-date');
+    if ((!startDate || date >= startDate) && (!endDate || date <= endDate)) {
+      const x = this.read ('date-clicked');
+      if (x) {
+        x (date);
+      }
     }
   }
 
